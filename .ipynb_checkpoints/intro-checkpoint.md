@@ -1,6 +1,12 @@
 # ENC2045 Computational Linguistics
 
 
+```{warning}
+These lecture notes are still work-in-progress. There will always be last-minute changes to the files and notebooks. Please ALWAYS download the most recent version of the notebooks before the class of each week.
+
+```
+
+
 ## Introduction
 
 Computational Linguistics (CL) is now a very active sub-discipline in applied linguistics. Its main focus is on the computational text analytics, which is essentially about leveraging computational tools, techniques, and algorithms to process and understand natural language data (in spoken or textual formats). Therefore, this course aims to introduce useful strategies and common workflows that have been widely adopted by data scientists to extract useful insights from natural language data. In this course, we will focus on textual data.
@@ -148,9 +154,13 @@ In addition to books, there are many wonderful on-line resources, esp. professio
     - Install the python with [Anaconda](https://www.anaconda.com/products/individual)
     - Create a conda environment named `python-notes` with `python 3.7`
     - Run the notebooks provided in the course materials in this self-defined conda environment
-2. We will use `jupyter notebook` for python scripting in this course. All the assignments have to be submitted in the format of jupyter notebooks.
-3. We assume you have created a conda virtual environment, named, `python-notes`, for all the scripting.
-4. You can also run the notebooks directly in Google Colab, or alternatively save the notebook files in your own Google Drive for further adaptation of the notebook files.
+2. We will use `jupyter notebook` for python scripting in this course. All the assignments have to be submitted in the format of jupyter notebooks. (See [Jupyter Notebook installation documentation](https://jupyter.org/install)).
+3. We assume you have created a conda virtual environment, named, `python-notes`, for all the scripting, and you are able to run the notebooks in the conda environment kernel in Jupyter. 
+4. You can also run the notebooks directly in Google Colab, or alternatively download the `.ipynb` notebook files onto your hard drive or Google Drive for further changes.
+
+```{tip}
+If you cannot find the conda environment kernal in your Jupyter Notebook. Please instal the module `ipykernel`. For more details on how to use specific conda environments in Jupyter, please see [this article](https://medium.com/@nrk25693/how-to-add-your-conda-environment-to-your-jupyter-notebook-in-just-4-steps-abeab8b8d084).
+```
 
 
 
