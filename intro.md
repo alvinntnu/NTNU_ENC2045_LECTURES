@@ -164,6 +164,19 @@ If you cannot find the conda environment kernal in your Jupyter Notebook. Please
 
 
 
+## Coding Assignments Reminders
+
+
+1. You have to submit your assignments via Moodle.
+2. Please name your files in the following format: `Assignment-X-NAME.ipynb` and `Assignment-X-NAME.html`.
+3. Please always submit both the Jupyter notebook file and its HTML version.
+
+
+```{warning}
+Unless otherwise specified in class, all assignments will be due on the date/time given on Moodle. Late work within **7 calendar days** of the original due date will be accepted by the instructor at the instructor's discretion. After that, no late work will not be accepted. 
+```
+
+
 ## References
 
 ```{bibliography}

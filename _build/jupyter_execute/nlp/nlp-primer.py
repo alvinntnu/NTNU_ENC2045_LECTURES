@@ -16,9 +16,16 @@
 ## NLP Challenges
 
 - Ambiguity
+    - I made her duck.
+    - He is as good as John Doe.
+    - The trophy doesn't fit into the brown suitcase because it's too [small/large]. What is too [small/large]?
 - Creativity
 - Diversity
 - Common Knowledge (Context)
+
+```{note}
+Please check the examples from [Winograd Schema Challenge](https://cs.nyu.edu/faculty/davise/papers/WinogradSchemas/WS.html). These examples include sentences that differ in only a few words, but these minor differences often lead to drastic meaning changes.
+```
 
 ## Artificial Intelligence, Machine Learning, Deep Learning and NLP
 
@@ -63,10 +70,17 @@ Strengths:
 
 ### Deep Learning for NLP
 
+- Convolutional Neural Network (CNN)
 - Sequence Models
     - Recurrent Neural Network (RNN)
     - Long-Term Short-Term Memory (LSTM)
-- Convolutional Neural Network (CNN)
+
+![rnn](../images/s2s-rnn.png)
+
+- Strengths of Sequence Models
+    - It reflects the fact that a sentence in language flows from one direction to another.
+    - The model can progressively read an input text from one end to another.
+    - The model have neural units capable of remembering what it has processed so far.
 
 - Transformers
     - The state-of-the-art model in major NLP tasks
@@ -84,11 +98,12 @@ Strengths:
 
 - Challenges
     - Overfitting on small datasets
-        - Occam's razor
-        - Data accessibility
-    - Domain adaptation
+        - Occam's razor (model complexity vs. model generalizability)
+        - Data accessibility (few-shot learning)
+    - Domain adaptation (genres)
     - Interpretable models
-    - Cost
+    - Common sense and world knowledge
+    - High cost of DL
         - Data guzzler
         - Specialized hardware (GPUs)
         - Deployment and maintenance
@@ -98,8 +113,9 @@ Strengths:
 ## Conclusion
 
 - Deep learning is not always the go-to solution for all industrial NLP applications.
-
 - Many deep learning models are not interpretable enough to indicate the sources of empirical gains.
+- Always try the traditional machine learning methods first with the target tasks to check the baseline performance of the to-be-developed system.
+- How to incorporate linguistic knowledge into the computational modeling is something we (linguists) can do.
 
 ## References
 
