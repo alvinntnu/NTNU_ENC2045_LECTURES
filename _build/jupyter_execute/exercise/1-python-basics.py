@@ -21,16 +21,6 @@ Answers may vary.
 ## 
 Assuming that you have not installed the modulel `numpy` in your system. How to install the module?
 
-```{admonition} Ans
-:class: tip
-
-`pip install numpy`
-
-`conda install numpy`
-```
-
-
-
 ## 
 In Jupyter Notebook, how to get the documentation for the python objects you are working with?
 
