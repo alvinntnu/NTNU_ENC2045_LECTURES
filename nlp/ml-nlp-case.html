@@ -1,0 +1,1004 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Machine Learning: NLP Tasks &#8212; ENC2045 Computational Linguistics</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Classification Models" href="ml-algorithm.html" />
+    <link rel="prev" title="Machine Learning: A Simple Example" href="ml-simple-case.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/ntnu-word-2.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">ENC2045 Computational Linguistics</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <p class="caption collapsible-parent">
+ <span class="caption-text">
+  INTRODUCTION
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="nlp-primer.html">
+   Natural Language Processing: A Primer
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="nlp-pipeline.html">
+   NLP Pipeline
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Preprocessing
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="text-preprocessing.html">
+   Text Preprocessing
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="text-normalization-eng.html">
+     Text Normalization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="text-tokenization.html">
+     Text Tokenization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="text-enrichment.html">
+     Text Enrichment
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chinese-word-seg.html">
+   Chinese Word Segmentation
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Text Vectorization
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-vec-traditional.html">
+   Text Vectorization Using Traditional Methods
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-vec-embedding.html">
+   Word Embeddings
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-vec-embedding-keras.html">
+   Word Embedding Using Keras
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine Learning Basics
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-overview.html">
+   Machine Learning: Overview
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-simple-case.html">
+   Machine Learning: A Simple Example
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Machine Learning: NLP Tasks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-algorithm.html">
+   Classification Models
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/ml-sklearn-classification.html">
+   Machine Learning Using Sci-Kit Learn
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  NLP Tasks
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="text-classification.html">
+   Text Classification
+  </a>
+  <ul class="simple collapse-ul">
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/topic-modeling-naive.html">
+   Topic Modeling: A Naive Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/topic-modeling-complex.html">
+   Topic Modeling: A Real Example
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="sentiment-analysis.html">
+   Sentiment Analysis
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../temp/sentiment-analysis-ml.html">
+     Sentiment Analysis with Traditional Machine Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../temp/sentiment-analysis-dl.html">
+     Sentiment Analysis based on Embeddings
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Deep Learning NLP
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-neural-network-from-scratch.html">
+   Neural Network From Scratch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-statistical-language-model.html">
+   Statistical Language Model
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Exercises
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/1-python-basics.html">
+   1. Assignment I: Python Basics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/2-journal-review.html">
+   2. Assignment II: Journal Articles Review
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  <div style="text-align:center">
+<i class="fas fa-chalkboard-teacher fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinntnu.github.io/NTNU_ENC2045/" target='_blank'>ENC2045 Course Website</a><br>
+<i class="fas fa-home fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinchen.myftp.org/" target='_blank'>Alvin Chen's Homepage</a>
+</div>
+
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/nlp/ml-nlp-case.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alvinntnu/NTNU_ENC2045_LECTURES/main?urlpath=tree/nlp/ml-nlp-case.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alvinntnu/NTNU_ENC2045_LECTURES/blob/main/nlp/ml-nlp-case.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#document-sentiment-classification">
+   Document Sentiment Classification
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#parts-of-speech-tagging">
+   Parts-of-Speech Tagging
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sentence-boundary">
+   Sentence Boundary
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dialogue-act-classification">
+   Dialogue Act Classification
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="machine-learning-nlp-tasks">
+<h1>Machine Learning: NLP Tasks<a class="headerlink" href="#machine-learning-nlp-tasks" title="Permalink to this headline">¶</a></h1>
+<p>Let’s take a look at a few more  classification tasks in NLP.</p>
+<ul class="simple">
+<li><p>Document Sentiment/Topic Classification</p>
+<ul>
+<li><p>Unit: Document</p></li>
+<li><p>Label: Document’s sentiment</p></li>
+</ul>
+</li>
+<li><p>POS Classification</p>
+<ul>
+<li><p>Unit: Word</p></li>
+<li><p>Label: Word’s POS</p></li>
+</ul>
+</li>
+<li><p>Sentence Segmentation</p>
+<ul>
+<li><p>Unit: Word</p></li>
+<li><p>Label: Whether the word is sentence boundary or not</p></li>
+</ul>
+</li>
+<li><p>Dialogue Act Classification</p>
+<ul>
+<li><p>Unit: Utterance</p></li>
+<li><p>Label: The dialogue act of the utterance</p></li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>For NLP classification tasks, it is very important to determine the base units on which the classification is being made.</p>
+<p>This should always be made explicit when we come up with the research questions.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nltk</span><span class="o">,</span> <span class="nn">random</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="document-sentiment-classification">
+<h2>Document Sentiment Classification<a class="headerlink" href="#document-sentiment-classification" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">movie_reviews</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">list</span><span class="p">(</span><span class="n">movie_reviews</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="n">fileid</span><span class="p">)),</span> <span class="n">category</span><span class="p">)</span>
+             <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">movie_reviews</span><span class="o">.</span><span class="n">categories</span><span class="p">()</span>
+             <span class="k">for</span> <span class="n">fileid</span> <span class="ow">in</span> <span class="n">movie_reviews</span><span class="o">.</span><span class="n">fileids</span><span class="p">(</span><span class="n">category</span><span class="p">)]</span>
+<span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Find the top 2000 words in the entire corpus</p></li>
+<li><p>Use these words as the document features</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_words</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">FreqDist</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">movie_reviews</span><span class="o">.</span><span class="n">words</span><span class="p">())</span>
+<span class="n">word_features</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">all_words</span><span class="p">)[:</span><span class="mi">2000</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">document_features</span><span class="p">(</span><span class="n">document</span><span class="p">):</span>
+    <span class="n">document_words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">document</span><span class="p">)</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">word_features</span><span class="p">:</span>
+        <span class="n">features</span><span class="p">[</span><span class="s1">&#39;contains(</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">word</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">word</span> <span class="ow">in</span> <span class="n">document_words</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">features</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">document_features</span><span class="p">(</span><span class="n">movie_reviews</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s1">&#39;pos/cv957_8737.txt&#39;</span><span class="p">)))</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;contains(,)&#39;: True, &#39;contains(the)&#39;: True, &#39;contains(.)&#39;: True, &#39;contains(a)&#39;: True, &#39;contains(and)&#39;: True, &#39;contains(of)&#39;: True, &#39;contains(to)&#39;: True, &quot;contains(&#39;)&quot;: True, &#39;contains(is)&#39;: True, &#39;contains(in)&#39;: True, &#39;contains(s)&#39;: True, &#39;contains(&quot;)&#39;: True, &#39;contains(it)&#39;: True, &#39;contains(that)&#39;: True, &#39;contains(-)&#39;: True, &#39;contains())&#39;: True, &#39;contains(()&#39;: True, &#39;contains(as)&#39;: True, &#39;contains(with)&#39;: True, &#39;contains(for)&#39;: True, &#39;contains(his)&#39;: True, &#39;contains(this)&#39;: True, &#39;contains(film)&#39;: False, &#39;contains(i)&#39;: False, &#39;contains(he)&#39;: True, &#39;contains(but)&#39;: True, &#39;contains(on)&#39;: True, &#39;contains(are)&#39;: True, &#39;contains(t)&#39;: False, &#39;contains(by)&#39;: True, &#39;contains(be)&#39;: True, &#39;contains(one)&#39;: True, &#39;contains(movie)&#39;: True, &#39;contains(an)&#39;: True, &#39;contains(who)&#39;: True, &#39;contains(not)&#39;: True, &#39;contains(you)&#39;: True, &#39;contains(from)&#39;: True, &#39;contains(at)&#39;: False, &#39;contains(was)&#39;: False, &#39;contains(have)&#39;: True, &#39;contains(they)&#39;: True, &#39;contains(has)&#39;: True, &#39;contains(her)&#39;: False, &#39;contains(all)&#39;: True, &#39;contains(?)&#39;: False, &#39;contains(there)&#39;: True, &#39;contains(like)&#39;: True, &#39;contains(so)&#39;: False, &#39;contains(out)&#39;: True, &#39;contains(about)&#39;: True, &#39;contains(up)&#39;: False, &#39;contains(more)&#39;: False, &#39;contains(what)&#39;: True, &#39;contains(when)&#39;: True, &#39;contains(which)&#39;: True, &#39;contains(or)&#39;: False, &#39;contains(she)&#39;: True, &#39;contains(their)&#39;: False, &#39;contains(:)&#39;: True, &#39;contains(some)&#39;: False, &#39;contains(just)&#39;: True, &#39;contains(can)&#39;: False, &#39;contains(if)&#39;: True, &#39;contains(we)&#39;: False, &#39;contains(him)&#39;: True, &#39;contains(into)&#39;: True, &#39;contains(even)&#39;: False, &#39;contains(only)&#39;: True, &#39;contains(than)&#39;: False, &#39;contains(no)&#39;: False, &#39;contains(good)&#39;: False, &#39;contains(time)&#39;: False, &#39;contains(most)&#39;: True, &#39;contains(its)&#39;: False, &#39;contains(will)&#39;: True, &#39;contains(story)&#39;: False, &#39;contains(would)&#39;: False, &#39;contains(been)&#39;: False, &#39;contains(much)&#39;: False, &#39;contains(character)&#39;: False, &#39;contains(also)&#39;: True, &#39;contains(get)&#39;: True, &#39;contains(other)&#39;: True, &#39;contains(do)&#39;: True, &#39;contains(two)&#39;: True, &#39;contains(well)&#39;: True, &#39;contains(them)&#39;: True, &#39;contains(very)&#39;: True, &#39;contains(characters)&#39;: False, &#39;contains(;)&#39;: False, &#39;contains(first)&#39;: False, &#39;contains(--)&#39;: True, &#39;contains(after)&#39;: False, &#39;contains(see)&#39;: False, &#39;contains(!)&#39;: True, &#39;contains(way)&#39;: True, &#39;contains(because)&#39;: False, &#39;contains(make)&#39;: True, &#39;contains(life)&#39;: False, &#39;contains(off)&#39;: False, &#39;contains(too)&#39;: False, &#39;contains(any)&#39;: False, &#39;contains(does)&#39;: False, &#39;contains(really)&#39;: False, &#39;contains(had)&#39;: False, &#39;contains(while)&#39;: True, &#39;contains(films)&#39;: False, &#39;contains(how)&#39;: True, &#39;contains(plot)&#39;: True, &#39;contains(little)&#39;: True, &#39;contains(where)&#39;: True, &#39;contains(people)&#39;: False, &#39;contains(over)&#39;: False, &#39;contains(could)&#39;: False, &#39;contains(then)&#39;: True, &#39;contains(me)&#39;: True, &#39;contains(scene)&#39;: True, &#39;contains(man)&#39;: False, &#39;contains(bad)&#39;: False, &#39;contains(my)&#39;: False, &#39;contains(never)&#39;: True, &#39;contains(being)&#39;: False, &#39;contains(best)&#39;: True, &#39;contains(these)&#39;: False, &#39;contains(don)&#39;: False, &#39;contains(new)&#39;: False, &#39;contains(doesn)&#39;: False, &#39;contains(scenes)&#39;: False, &#39;contains(many)&#39;: True, &#39;contains(director)&#39;: False, &#39;contains(such)&#39;: False, &#39;contains(know)&#39;: False, &#39;contains(were)&#39;: False, &#39;contains(movies)&#39;: True, &#39;contains(through)&#39;: False, &#39;contains(here)&#39;: True, &#39;contains(action)&#39;: True, &#39;contains(great)&#39;: True, &#39;contains(re)&#39;: True, &#39;contains(another)&#39;: False, &#39;contains(love)&#39;: False, &#39;contains(go)&#39;: False, &#39;contains(made)&#39;: False, &#39;contains(us)&#39;: True, &#39;contains(big)&#39;: False, &#39;contains(end)&#39;: False, &#39;contains(something)&#39;: False, &#39;contains(back)&#39;: False, &#39;contains(*)&#39;: True, &#39;contains(still)&#39;: False, &#39;contains(world)&#39;: True, &#39;contains(seems)&#39;: False, &#39;contains(work)&#39;: False, &#39;contains(those)&#39;: False, &#39;contains(makes)&#39;: False, &#39;contains(now)&#39;: False, &#39;contains(before)&#39;: False, &#39;contains(however)&#39;: True, &#39;contains(between)&#39;: True, &#39;contains(few)&#39;: False, &#39;contains(/)&#39;: False, &#39;contains(down)&#39;: False, &#39;contains(every)&#39;: False, &#39;contains(though)&#39;: False, &#39;contains(better)&#39;: False, &#39;contains(real)&#39;: False, &#39;contains(audience)&#39;: False, &#39;contains(enough)&#39;: False, &#39;contains(seen)&#39;: False, &#39;contains(take)&#39;: False, &#39;contains(around)&#39;: False, &#39;contains(both)&#39;: False, &#39;contains(going)&#39;: False, &#39;contains(year)&#39;: False, &#39;contains(performance)&#39;: False, &#39;contains(why)&#39;: False, &#39;contains(should)&#39;: False, &#39;contains(role)&#39;: False, &#39;contains(isn)&#39;: False, &#39;contains(same)&#39;: True, &#39;contains(old)&#39;: False, &#39;contains(gets)&#39;: True, &#39;contains(your)&#39;: False, &#39;contains(may)&#39;: False, &#39;contains(things)&#39;: True, &#39;contains(think)&#39;: False, &#39;contains(years)&#39;: False, &#39;contains(last)&#39;: False, &#39;contains(comedy)&#39;: True, &#39;contains(funny)&#39;: True, &#39;contains(actually)&#39;: True, &#39;contains(ve)&#39;: False, &#39;contains(long)&#39;: False, &#39;contains(look)&#39;: True, &#39;contains(almost)&#39;: False, &#39;contains(own)&#39;: True, &#39;contains(thing)&#39;: False, &#39;contains(fact)&#39;: False, &#39;contains(nothing)&#39;: False, &#39;contains(say)&#39;: False, &#39;contains(right)&#39;: False, &#39;contains(john)&#39;: False, &#39;contains(although)&#39;: False, &#39;contains(played)&#39;: True, &#39;contains(find)&#39;: False, &#39;contains(script)&#39;: False, &#39;contains(come)&#39;: False, &#39;contains(ever)&#39;: True, &#39;contains(cast)&#39;: False, &#39;contains(since)&#39;: False, &#39;contains(did)&#39;: False, &#39;contains(star)&#39;: False, &#39;contains(plays)&#39;: False, &#39;contains(young)&#39;: False, &#39;contains(show)&#39;: False, &#39;contains(comes)&#39;: False, &#39;contains(m)&#39;: False, &#39;contains(part)&#39;: False, &#39;contains(original)&#39;: False, &#39;contains(actors)&#39;: False, &#39;contains(screen)&#39;: True, &#39;contains(without)&#39;: False, &#39;contains(again)&#39;: False, &#39;contains(acting)&#39;: False, &#39;contains(three)&#39;: False, &#39;contains(day)&#39;: True, &#39;contains(each)&#39;: True, &#39;contains(point)&#39;: False, &#39;contains(lot)&#39;: False, &#39;contains(least)&#39;: True, &#39;contains(takes)&#39;: False, &#39;contains(guy)&#39;: True, &#39;contains(quite)&#39;: False, &#39;contains(himself)&#39;: False, &#39;contains(away)&#39;: False, &#39;contains(during)&#39;: False, &#39;contains(family)&#39;: False, &#39;contains(effects)&#39;: False, &#39;contains(course)&#39;: True, &#39;contains(goes)&#39;: False, &#39;contains(minutes)&#39;: False, &#39;contains(interesting)&#39;: False, &#39;contains(might)&#39;: False, &#39;contains(far)&#39;: False, &#39;contains(high)&#39;: False, &#39;contains(rather)&#39;: False, &#39;contains(once)&#39;: True, &#39;contains(must)&#39;: False, &#39;contains(anything)&#39;: False, &#39;contains(place)&#39;: True, &#39;contains(set)&#39;: False, &#39;contains(yet)&#39;: False, &#39;contains(watch)&#39;: True, &#39;contains(d)&#39;: False, &#39;contains(making)&#39;: True, &#39;contains(our)&#39;: False, &#39;contains(wife)&#39;: True, &#39;contains(hard)&#39;: False, &#39;contains(always)&#39;: False, &#39;contains(fun)&#39;: True, &#39;contains(didn)&#39;: False, &#39;contains(ll)&#39;: False, &#39;contains(seem)&#39;: False, &#39;contains(special)&#39;: False, &#39;contains(bit)&#39;: False, &#39;contains(times)&#39;: False, &#39;contains(trying)&#39;: False, &#39;contains(hollywood)&#39;: False, &#39;contains(instead)&#39;: False, &#39;contains(give)&#39;: False, &#39;contains(want)&#39;: False, &#39;contains(picture)&#39;: False, &#39;contains(kind)&#39;: True, &#39;contains(american)&#39;: False, &#39;contains(job)&#39;: False, &#39;contains(sense)&#39;: False, &#39;contains(woman)&#39;: True, &#39;contains(home)&#39;: False, &#39;contains(having)&#39;: False, &#39;contains(series)&#39;: True, &#39;contains(actor)&#39;: False, &#39;contains(probably)&#39;: False, &#39;contains(help)&#39;: True, &#39;contains(half)&#39;: False, &#39;contains(along)&#39;: True, &#39;contains(men)&#39;: False, &#39;contains(everything)&#39;: True, &#39;contains(pretty)&#39;: False, &#39;contains(becomes)&#39;: False, &#39;contains(sure)&#39;: False, &#39;contains(black)&#39;: False, &#39;contains(together)&#39;: False, &#39;contains(dialogue)&#39;: False, &#39;contains(money)&#39;: False, &#39;contains(become)&#39;: False, &#39;contains(gives)&#39;: False, &#39;contains(given)&#39;: False, &#39;contains(looking)&#39;: False, &#39;contains(whole)&#39;: False, &#39;contains(watching)&#39;: False, &#39;contains(father)&#39;: False, &#39;contains(`)&#39;: False, &#39;contains(feel)&#39;: False, &#39;contains(everyone)&#39;: False, &#39;contains(music)&#39;: False, &#39;contains(wants)&#39;: False, &#39;contains(sex)&#39;: False, &#39;contains(less)&#39;: False, &#39;contains(done)&#39;: False, &#39;contains(horror)&#39;: False, &#39;contains(got)&#39;: True, &#39;contains(death)&#39;: False, &#39;contains(perhaps)&#39;: False, &#39;contains(city)&#39;: False, &#39;contains(next)&#39;: False, &#39;contains(especially)&#39;: True, &#39;contains(play)&#39;: False, &#39;contains(girl)&#39;: False, &#39;contains(mind)&#39;: False, &#39;contains(10)&#39;: False, &#39;contains(moments)&#39;: False, &#39;contains(looks)&#39;: True, &#39;contains(completely)&#39;: False, &#39;contains(2)&#39;: False, &#39;contains(reason)&#39;: False, &#39;contains(mother)&#39;: False, &#39;contains(whose)&#39;: False, &#39;contains(line)&#39;: False, &#39;contains(night)&#39;: False, &#39;contains(human)&#39;: False, &#39;contains(until)&#39;: False, &#39;contains(rest)&#39;: False, &#39;contains(performances)&#39;: False, &#39;contains(different)&#39;: False, &#39;contains(evil)&#39;: False, &#39;contains(small)&#39;: False, &#39;contains(james)&#39;: False, &#39;contains(simply)&#39;: False, &#39;contains(couple)&#39;: False, &#39;contains(put)&#39;: False, &#39;contains(let)&#39;: False, &#39;contains(anyone)&#39;: False, &#39;contains(ending)&#39;: False, &#39;contains(case)&#39;: False, &#39;contains(several)&#39;: False, &#39;contains(dead)&#39;: False, &#39;contains(michael)&#39;: False, &#39;contains(left)&#39;: False, &#39;contains(thought)&#39;: False, &#39;contains(school)&#39;: False, &#39;contains(shows)&#39;: False, &#39;contains(humor)&#39;: False, &#39;contains(true)&#39;: False, &#39;contains(lost)&#39;: False, &#39;contains(written)&#39;: False, &#39;contains(itself)&#39;: False, &#39;contains(friend)&#39;: False, &#39;contains(entire)&#39;: False, &#39;contains(getting)&#39;: True, &#39;contains(town)&#39;: False, &#39;contains(turns)&#39;: False, &#39;contains(soon)&#39;: False, &#39;contains(someone)&#39;: False, &#39;contains(second)&#39;: False, &#39;contains(main)&#39;: False, &#39;contains(stars)&#39;: False, &#39;contains(found)&#39;: False, &#39;contains(use)&#39;: False, &#39;contains(problem)&#39;: False, &#39;contains(friends)&#39;: True, &#39;contains(tv)&#39;: False, &#39;contains(top)&#39;: True, &#39;contains(name)&#39;: False, &#39;contains(begins)&#39;: False, &#39;contains(called)&#39;: False, &#39;contains(based)&#39;: False, &#39;contains(comic)&#39;: False, &#39;contains(david)&#39;: False, &#39;contains(head)&#39;: False, &#39;contains(else)&#39;: False, &#39;contains(idea)&#39;: True, &#39;contains(either)&#39;: False, &#39;contains(wrong)&#39;: True, &#39;contains(unfortunately)&#39;: False, &#39;contains(later)&#39;: False, &#39;contains(final)&#39;: False, &#39;contains(hand)&#39;: False, &#39;contains(alien)&#39;: False, &#39;contains(house)&#39;: False, &#39;contains(group)&#39;: False, &#39;contains(full)&#39;: False, &#39;contains(used)&#39;: True, &#39;contains(tries)&#39;: True, &#39;contains(often)&#39;: True, &#39;contains(against)&#39;: False, &#39;contains(war)&#39;: False, &#39;contains(sequence)&#39;: False, &#39;contains(keep)&#39;: False, &#39;contains(turn)&#39;: False, &#39;contains(playing)&#39;: True, &#39;contains(boy)&#39;: False, &#39;contains(behind)&#39;: False, &#39;contains(named)&#39;: False, &#39;contains(certainly)&#39;: False, &#39;contains(live)&#39;: False, &#39;contains(believe)&#39;: False, &#39;contains(under)&#39;: False, &#39;contains(works)&#39;: False, &#39;contains(relationship)&#39;: False, &#39;contains(face)&#39;: False, &#39;contains(hour)&#39;: False, &#39;contains(run)&#39;: False, &#39;contains(style)&#39;: False, &#39;contains(said)&#39;: False, &#39;contains(despite)&#39;: False, &#39;contains(person)&#39;: False, &#39;contains(finally)&#39;: False, &#39;contains(shot)&#39;: False, &#39;contains(book)&#39;: False, &#39;contains(doing)&#39;: False, &#39;contains(tell)&#39;: False, &#39;contains(maybe)&#39;: False, &#39;contains(nice)&#39;: False, &#39;contains(son)&#39;: False, &#39;contains(perfect)&#39;: False, &#39;contains(side)&#39;: False, &#39;contains(seeing)&#39;: True, &#39;contains(able)&#39;: False, &#39;contains(finds)&#39;: False, &#39;contains(children)&#39;: False, &#39;contains(days)&#39;: False, &#39;contains(past)&#39;: False, &#39;contains(summer)&#39;: False, &#39;contains(camera)&#39;: False, &#39;contains(won)&#39;: False, &#39;contains(including)&#39;: False, &#39;contains(mr)&#39;: False, &#39;contains(kids)&#39;: False, &#39;contains(lives)&#39;: False, &#39;contains(directed)&#39;: False, &#39;contains(moment)&#39;: False, &#39;contains(game)&#39;: False, &#39;contains(running)&#39;: False, &#39;contains(fight)&#39;: True, &#39;contains(supposed)&#39;: False, &#39;contains(video)&#39;: False, &#39;contains(car)&#39;: False, &#39;contains(matter)&#39;: False, &#39;contains(kevin)&#39;: True, &#39;contains(joe)&#39;: False, &#39;contains(lines)&#39;: False, &#39;contains(worth)&#39;: True, &#39;contains(=)&#39;: False, &#39;contains(daughter)&#39;: False, &#39;contains(earth)&#39;: False, &#39;contains(starts)&#39;: False, &#39;contains(need)&#39;: False, &#39;contains(entertaining)&#39;: False, &#39;contains(white)&#39;: False, &#39;contains(start)&#39;: True, &#39;contains(writer)&#39;: False, &#39;contains(dark)&#39;: False, &#39;contains(short)&#39;: False, &#39;contains(self)&#39;: False, &#39;contains(worst)&#39;: False, &#39;contains(nearly)&#39;: False, &#39;contains(opening)&#39;: False, &#39;contains(try)&#39;: False, &#39;contains(upon)&#39;: False, &#39;contains(care)&#39;: False, &#39;contains(early)&#39;: True, &#39;contains(violence)&#39;: False, &#39;contains(throughout)&#39;: False, &#39;contains(team)&#39;: False, &#39;contains(production)&#39;: False, &#39;contains(example)&#39;: False, &#39;contains(beautiful)&#39;: False, &#39;contains(title)&#39;: False, &#39;contains(exactly)&#39;: False, &#39;contains(jack)&#39;: False, &#39;contains(review)&#39;: False, &#39;contains(major)&#39;: False, &#39;contains(drama)&#39;: False, &#39;contains(&amp;)&#39;: False, &#39;contains(problems)&#39;: True, &#39;contains(sequences)&#39;: False, &#39;contains(obvious)&#39;: False, &#39;contains(version)&#39;: False, &#39;contains(screenplay)&#39;: False, &#39;contains(known)&#39;: True, &#39;contains(killer)&#39;: False, &#39;contains(wasn)&#39;: False, &#39;contains(robert)&#39;: False, &#39;contains(disney)&#39;: False, &#39;contains(already)&#39;: False, &#39;contains(close)&#39;: False, &#39;contains(classic)&#39;: False, &#39;contains(others)&#39;: True, &#39;contains(hit)&#39;: False, &#39;contains(kill)&#39;: False, &#39;contains(deep)&#39;: True, &#39;contains(five)&#39;: False, &#39;contains(order)&#39;: False, &#39;contains(act)&#39;: False, &#39;contains(simple)&#39;: False, &#39;contains(fine)&#39;: False, &#39;contains(themselves)&#39;: False, &#39;contains(heart)&#39;: False, &#39;contains(roles)&#39;: False, &#39;contains(jackie)&#39;: True, &#39;contains(direction)&#39;: False, &#39;contains(eyes)&#39;: False, &#39;contains(four)&#39;: False, &#39;contains(question)&#39;: False, &#39;contains(sort)&#39;: False, &#39;contains(sometimes)&#39;: False, &#39;contains(knows)&#39;: False, &#39;contains(supporting)&#39;: False, &#39;contains(coming)&#39;: False, &#39;contains(voice)&#39;: False, &#39;contains(women)&#39;: False, &#39;contains(truly)&#39;: False, &#39;contains(save)&#39;: False, &#39;contains(jokes)&#39;: False, &#39;contains(computer)&#39;: False, &#39;contains(child)&#39;: False, &#39;contains(o)&#39;: False, &#39;contains(boring)&#39;: False, &#39;contains(tom)&#39;: False, &#39;contains(level)&#39;: False, &#39;contains(1)&#39;: False, &#39;contains(body)&#39;: False, &#39;contains(guys)&#39;: False, &#39;contains(genre)&#39;: False, &#39;contains(brother)&#39;: False, &#39;contains(strong)&#39;: False, &#39;contains(stop)&#39;: True, &#39;contains(room)&#39;: False, &#39;contains(space)&#39;: False, &#39;contains(lee)&#39;: False, &#39;contains(ends)&#39;: False, &#39;contains(beginning)&#39;: False, &#39;contains(ship)&#39;: False, &#39;contains(york)&#39;: False, &#39;contains(attempt)&#39;: False, &#39;contains(thriller)&#39;: False, &#39;contains(scream)&#39;: True, &#39;contains(peter)&#39;: False, &#39;contains(aren)&#39;: False, &#39;contains(husband)&#39;: False, &#39;contains(fiction)&#39;: False, &#39;contains(happens)&#39;: False, &#39;contains(hero)&#39;: False, &#39;contains(novel)&#39;: False, &#39;contains(note)&#39;: False, &#39;contains(hope)&#39;: False, &#39;contains(king)&#39;: False, &#39;contains(yes)&#39;: False, &#39;contains(says)&#39;: False, &#39;contains(tells)&#39;: False, &#39;contains(quickly)&#39;: False, &#39;contains(romantic)&#39;: False, &#39;contains(dog)&#39;: False, &#39;contains(oscar)&#39;: False, &#39;contains(stupid)&#39;: False, &#39;contains(possible)&#39;: False, &#39;contains(saw)&#39;: False, &#39;contains(lead)&#39;: True, &#39;contains(career)&#39;: False, &#39;contains(murder)&#39;: False, &#39;contains(extremely)&#39;: False, &#39;contains(manages)&#39;: False, &#39;contains(god)&#39;: False, &#39;contains(mostly)&#39;: False, &#39;contains(wonder)&#39;: False, &#39;contains(particularly)&#39;: False, &#39;contains(future)&#39;: False, &#39;contains(fans)&#39;: False, &#39;contains(sound)&#39;: False, &#39;contains(worse)&#39;: False, &#39;contains(piece)&#39;: False, &#39;contains(involving)&#39;: False, &#39;contains(de)&#39;: False, &#39;contains(appears)&#39;: False, &#39;contains(planet)&#39;: False, &#39;contains(paul)&#39;: False, &#39;contains(involved)&#39;: False, &#39;contains(mean)&#39;: False, &#39;contains(none)&#39;: False, &#39;contains(taking)&#39;: False, &#39;contains(hours)&#39;: False, &#39;contains(laugh)&#39;: True, &#39;contains(police)&#39;: False, &#39;contains(sets)&#39;: False, &#39;contains(attention)&#39;: False, &#39;contains(co)&#39;: False, &#39;contains(hell)&#39;: False, &#39;contains(eventually)&#39;: False, &#39;contains(single)&#39;: False, &#39;contains(fall)&#39;: False, &#39;contains(falls)&#39;: False, &#39;contains(material)&#39;: False, &#39;contains(emotional)&#39;: False, &#39;contains(power)&#39;: False, &#39;contains(late)&#39;: False, &#39;contains(lack)&#39;: False, &#39;contains(dr)&#39;: False, &#39;contains(van)&#39;: False, &#39;contains(result)&#39;: False, &#39;contains(elements)&#39;: False, &#39;contains(meet)&#39;: False, &#39;contains(smith)&#39;: False, &#39;contains(science)&#39;: False, &#39;contains(experience)&#39;: False, &#39;contains(bring)&#39;: False, &#39;contains(wild)&#39;: False, &#39;contains(living)&#39;: False, &#39;contains(theater)&#39;: False, &#39;contains(interest)&#39;: False, &#39;contains(leads)&#39;: False, &#39;contains(word)&#39;: False, &#39;contains(feature)&#39;: False, &#39;contains(battle)&#39;: False, &#39;contains(girls)&#39;: False, &#39;contains(alone)&#39;: False, &#39;contains(obviously)&#39;: False, &#39;contains(george)&#39;: False, &#39;contains(within)&#39;: False, &#39;contains(usually)&#39;: False, &#39;contains(enjoy)&#39;: False, &#39;contains(guess)&#39;: False, &#39;contains(among)&#39;: True, &#39;contains(taken)&#39;: False, &#39;contains(feeling)&#39;: False, &#39;contains(laughs)&#39;: False, &#39;contains(aliens)&#39;: False, &#39;contains(talk)&#39;: True, &#39;contains(chance)&#39;: False, &#39;contains(talent)&#39;: False, &#39;contains(3)&#39;: False, &#39;contains(middle)&#39;: False, &#39;contains(number)&#39;: False, &#39;contains(easy)&#39;: False, &#39;contains(across)&#39;: False, &#39;contains(needs)&#39;: False, &#39;contains(attempts)&#39;: False, &#39;contains(happen)&#39;: False, &#39;contains(television)&#39;: False, &#39;contains(chris)&#39;: False, &#39;contains(deal)&#39;: False, &#39;contains(poor)&#39;: False, &#39;contains(form)&#39;: False, &#39;contains(girlfriend)&#39;: True, &#39;contains(viewer)&#39;: False, &#39;contains(release)&#39;: False, &#39;contains(killed)&#39;: False, &#39;contains(forced)&#39;: False, &#39;contains(whether)&#39;: False, &#39;contains(wonderful)&#39;: False, &#39;contains(feels)&#39;: False, &#39;contains(oh)&#39;: False, &#39;contains(tale)&#39;: False, &#39;contains(serious)&#39;: False, &#39;contains(expect)&#39;: False, &#39;contains(except)&#39;: False, &#39;contains(light)&#39;: False, &#39;contains(success)&#39;: False, &#39;contains(features)&#39;: True, &#39;contains(premise)&#39;: False, &#39;contains(happy)&#39;: False, &#39;contains(words)&#39;: False, &#39;contains(leave)&#39;: False, &#39;contains(important)&#39;: False, &#39;contains(meets)&#39;: False, &#39;contains(history)&#39;: False, &#39;contains(giving)&#39;: False, &#39;contains(crew)&#39;: False, &#39;contains(type)&#39;: False, &#39;contains(call)&#39;: False, &#39;contains(turned)&#39;: False, &#39;contains(released)&#39;: False, &#39;contains(parents)&#39;: False, &#39;contains(art)&#39;: False, &#39;contains(impressive)&#39;: False, &#39;contains(mission)&#39;: False, &#39;contains(working)&#39;: False, &#39;contains(seemed)&#39;: False, &#39;contains(score)&#39;: False, &#39;contains(told)&#39;: False, &#39;contains(recent)&#39;: False, &#39;contains(robin)&#39;: False, &#39;contains(basically)&#39;: False, &#39;contains(entertainment)&#39;: False, &#39;contains(america)&#39;: False, &#39;contains($)&#39;: False, &#39;contains(surprise)&#39;: False, &#39;contains(apparently)&#39;: False, &#39;contains(easily)&#39;: False, &#39;contains(ryan)&#39;: False, &#39;contains(cool)&#39;: False, &#39;contains(stuff)&#39;: False, &#39;contains(cop)&#39;: False, &#39;contains(change)&#39;: False, &#39;contains(williams)&#39;: False, &#39;contains(crime)&#39;: False, &#39;contains(office)&#39;: False, &#39;contains(parts)&#39;: False, &#39;contains(somehow)&#39;: False, &#39;contains(sequel)&#39;: False, &#39;contains(william)&#39;: False, &#39;contains(cut)&#39;: False, &#39;contains(die)&#39;: False, &#39;contains(jones)&#39;: False, &#39;contains(credits)&#39;: False, &#39;contains(batman)&#39;: False, &#39;contains(suspense)&#39;: False, &#39;contains(brings)&#39;: False, &#39;contains(events)&#39;: False, &#39;contains(reality)&#39;: False, &#39;contains(whom)&#39;: False, &#39;contains(local)&#39;: False, &#39;contains(talking)&#39;: False, &#39;contains(difficult)&#39;: True, &#39;contains(using)&#39;: False, &#39;contains(went)&#39;: False, &#39;contains(writing)&#39;: False, &#39;contains(remember)&#39;: False, &#39;contains(near)&#39;: False, &#39;contains(straight)&#39;: False, &#39;contains(hilarious)&#39;: True, &#39;contains(ago)&#39;: False, &#39;contains(certain)&#39;: False, &#39;contains(ben)&#39;: False, &#39;contains(kid)&#39;: False, &#39;contains(wouldn)&#39;: False, &#39;contains(slow)&#39;: True, &#39;contains(blood)&#39;: False, &#39;contains(mystery)&#39;: False, &#39;contains(complete)&#39;: False, &#39;contains(red)&#39;: False, &#39;contains(popular)&#39;: False, &#39;contains(effective)&#39;: False, &#39;contains(am)&#39;: False, &#39;contains(fast)&#39;: True, &#39;contains(flick)&#39;: False, &#39;contains(due)&#39;: False, &#39;contains(runs)&#39;: False, &#39;contains(gone)&#39;: False, &#39;contains(return)&#39;: False, &#39;contains(presence)&#39;: False, &#39;contains(quality)&#39;: False, &#39;contains(dramatic)&#39;: False, &#39;contains(filmmakers)&#39;: False, &#39;contains(age)&#39;: False, &#39;contains(brothers)&#39;: False, &#39;contains(business)&#39;: False, &#39;contains(general)&#39;: False, &#39;contains(rock)&#39;: False, &#39;contains(sexual)&#39;: False, &#39;contains(present)&#39;: False, &#39;contains(surprisingly)&#39;: False, &#39;contains(anyway)&#39;: False, &#39;contains(uses)&#39;: False, &#39;contains(4)&#39;: False, &#39;contains(personal)&#39;: False, &#39;contains(figure)&#39;: False, &#39;contains(smart)&#39;: False, &#39;contains(ways)&#39;: False, &#39;contains(decides)&#39;: False, &#39;contains(annoying)&#39;: False, &#39;contains(begin)&#39;: False, &#39;contains(couldn)&#39;: False, &#39;contains(somewhat)&#39;: False, &#39;contains(shots)&#39;: False, &#39;contains(rich)&#39;: False, &#39;contains(minute)&#39;: False, &#39;contains(law)&#39;: False, &#39;contains(previous)&#39;: False, &#39;contains(jim)&#39;: False, &#39;contains(successful)&#39;: False, &#39;contains(harry)&#39;: False, &#39;contains(water)&#39;: False, &#39;contains(similar)&#39;: False, &#39;contains(absolutely)&#39;: False, &#39;contains(motion)&#39;: False, &#39;contains(former)&#39;: False, &#39;contains(strange)&#39;: False, &#39;contains(came)&#39;: False, &#39;contains(follow)&#39;: False, &#39;contains(read)&#39;: False, &#39;contains(project)&#39;: False, &#39;contains(million)&#39;: True, &#39;contains(secret)&#39;: False, &#39;contains(starring)&#39;: False, &#39;contains(clear)&#39;: False, &#39;contains(familiar)&#39;: False, &#39;contains(romance)&#39;: False, &#39;contains(intelligent)&#39;: False, &#39;contains(third)&#39;: True, &#39;contains(excellent)&#39;: False, &#39;contains(amazing)&#39;: False, &#39;contains(party)&#39;: False, &#39;contains(budget)&#39;: False, &#39;contains(eye)&#39;: False, &#39;contains(actress)&#39;: False, &#39;contains(prison)&#39;: False, &#39;contains(latest)&#39;: False, &#39;contains(means)&#39;: True, &#39;contains(company)&#39;: False, &#39;contains(towards)&#39;: False, &#39;contains(predictable)&#39;: False, &#39;contains(powerful)&#39;: False, &#39;contains(nor)&#39;: False, &#39;contains(bob)&#39;: False, &#39;contains(beyond)&#39;: False, &#39;contains(visual)&#39;: False, &#39;contains(leaves)&#39;: False, &#39;contains(r)&#39;: False, &#39;contains(nature)&#39;: False, &#39;contains(following)&#39;: False, &#39;contains(villain)&#39;: False, &#39;contains(leaving)&#39;: False, &#39;contains(animated)&#39;: False, &#39;contains(low)&#39;: False, &#39;contains(myself)&#39;: False, &#39;contains(b)&#39;: False, &#39;contains(bill)&#39;: False, &#39;contains(sam)&#39;: False, &#39;contains(filled)&#39;: False, &#39;contains(wars)&#39;: False, &#39;contains(questions)&#39;: False, &#39;contains(cinema)&#39;: False, &#39;contains(message)&#39;: False, &#39;contains(box)&#39;: False, &#39;contains(moving)&#39;: True, &#39;contains(herself)&#39;: False, &#39;contains(country)&#39;: False, &#39;contains(usual)&#39;: False, &#39;contains(martin)&#39;: False, &#39;contains(definitely)&#39;: False, &#39;contains(add)&#39;: False, &#39;contains(large)&#39;: False, &#39;contains(clever)&#39;: False, &#39;contains(create)&#39;: False, &#39;contains(felt)&#39;: False, &#39;contains(stories)&#39;: False, &#39;contains(brilliant)&#39;: False, &#39;contains(ones)&#39;: False, &#39;contains(giant)&#39;: False, &#39;contains(situation)&#39;: False, &#39;contains(murphy)&#39;: False, &#39;contains(break)&#39;: False, &#39;contains(opens)&#39;: False, &#39;contains(scary)&#39;: False, &#39;contains(doubt)&#39;: False, &#39;contains(drug)&#39;: True, &#39;contains(bunch)&#39;: False, &#39;contains(thinking)&#39;: False, &#39;contains(solid)&#39;: False, &#39;contains(effect)&#39;: False, &#39;contains(learn)&#39;: False, &#39;contains(move)&#39;: False, &#39;contains(force)&#39;: False, &#39;contains(potential)&#39;: False, &#39;contains(seriously)&#39;: False, &#39;contains(follows)&#39;: False, &#39;contains(above)&#39;: False, &#39;contains(saying)&#39;: False, &#39;contains(huge)&#39;: False, &#39;contains(class)&#39;: False, &#39;contains(plan)&#39;: False, &#39;contains(agent)&#39;: False, &#39;contains(created)&#39;: False, &#39;contains(unlike)&#39;: False, &#39;contains(pay)&#39;: False, &#39;contains(non)&#39;: True, &#39;contains(married)&#39;: False, &#39;contains(mark)&#39;: False, &#39;contains(sweet)&#39;: False, &#39;contains(perfectly)&#39;: False, &#39;contains(ex)&#39;: False, &#39;contains(realize)&#39;: False, &#39;contains(audiences)&#39;: False, &#39;contains(took)&#39;: False, &#39;contains(decent)&#39;: False, &#39;contains(likely)&#39;: False, &#39;contains(dream)&#39;: False, &#39;contains(view)&#39;: False, &#39;contains(scott)&#39;: False, &#39;contains(subject)&#39;: False, &#39;contains(understand)&#39;: False, &#39;contains(happened)&#39;: False, &#39;contains(enjoyable)&#39;: True, &#39;contains(studio)&#39;: False, &#39;contains(immediately)&#39;: False, &#39;contains(open)&#39;: False, &#39;contains(e)&#39;: False, &#39;contains(points)&#39;: False, &#39;contains(heard)&#39;: False, &#39;contains(viewers)&#39;: False, &#39;contains(cameron)&#39;: False, &#39;contains(truman)&#39;: False, &#39;contains(bruce)&#39;: False, &#39;contains(frank)&#39;: False, &#39;contains(private)&#39;: False, &#39;contains(stay)&#39;: False, &#39;contains(fails)&#39;: False, &#39;contains(impossible)&#39;: False, &#39;contains(cold)&#39;: False, &#39;contains(richard)&#39;: False, &#39;contains(overall)&#39;: False, &#39;contains(merely)&#39;: False, &#39;contains(exciting)&#39;: False, &#39;contains(mess)&#39;: False, &#39;contains(chase)&#39;: True, &#39;contains(free)&#39;: False, &#39;contains(ten)&#39;: False, &#39;contains(neither)&#39;: False, &#39;contains(wanted)&#39;: False, &#39;contains(gun)&#39;: True, &#39;contains(appear)&#39;: False, &#39;contains(carter)&#39;: False, &#39;contains(escape)&#39;: False, &#39;contains(ultimately)&#39;: False, &#39;contains(+)&#39;: False, &#39;contains(fan)&#39;: False, &#39;contains(inside)&#39;: False, &#39;contains(favorite)&#39;: False, &#39;contains(haven)&#39;: False, &#39;contains(modern)&#39;: False, &#39;contains(l)&#39;: False, &#39;contains(wedding)&#39;: False, &#39;contains(stone)&#39;: False, &#39;contains(trek)&#39;: False, &#39;contains(brought)&#39;: False, &#39;contains(trouble)&#39;: True, &#39;contains(otherwise)&#39;: False, &#39;contains(tim)&#39;: False, &#39;contains(5)&#39;: False, &#39;contains(allen)&#39;: False, &#39;contains(bond)&#39;: False, &#39;contains(society)&#39;: False, &#39;contains(liked)&#39;: False, &#39;contains(dumb)&#39;: False, &#39;contains(musical)&#39;: False, &#39;contains(stand)&#39;: False, &#39;contains(political)&#39;: False, &#39;contains(various)&#39;: False, &#39;contains(talented)&#39;: False, &#39;contains(particular)&#39;: False, &#39;contains(west)&#39;: False, &#39;contains(state)&#39;: False, &#39;contains(keeps)&#39;: True, &#39;contains(english)&#39;: False, &#39;contains(silly)&#39;: False, &#39;contains(u)&#39;: False, &#39;contains(situations)&#39;: False, &#39;contains(park)&#39;: False, &#39;contains(teen)&#39;: False, &#39;contains(rating)&#39;: False, &#39;contains(slightly)&#39;: False, &#39;contains(steve)&#39;: False, &#39;contains(truth)&#39;: False, &#39;contains(air)&#39;: False, &#39;contains(element)&#39;: False, &#39;contains(joke)&#39;: False, &#39;contains(spend)&#39;: False, &#39;contains(key)&#39;: True, &#39;contains(biggest)&#39;: False, &#39;contains(members)&#39;: False, &#39;contains(effort)&#39;: False, &#39;contains(government)&#39;: False, &#39;contains(focus)&#39;: False, &#39;contains(eddie)&#39;: False, &#39;contains(soundtrack)&#39;: False, &#39;contains(hands)&#39;: False, &#39;contains(earlier)&#39;: False, &#39;contains(chan)&#39;: True, &#39;contains(purpose)&#39;: False, &#39;contains(today)&#39;: True, &#39;contains(showing)&#39;: False, &#39;contains(memorable)&#39;: False, &#39;contains(six)&#39;: False, &#39;contains(cannot)&#39;: False, &#39;contains(max)&#39;: False, &#39;contains(offers)&#39;: False, &#39;contains(rated)&#39;: False, &#39;contains(mars)&#39;: False, &#39;contains(heavy)&#39;: False, &#39;contains(totally)&#39;: False, &#39;contains(control)&#39;: False, &#39;contains(credit)&#39;: False, &#39;contains(fi)&#39;: False, &#39;contains(woody)&#39;: False, &#39;contains(ideas)&#39;: False, &#39;contains(sci)&#39;: False, &#39;contains(wait)&#39;: False, &#39;contains(sit)&#39;: False, &#39;contains(female)&#39;: False, &#39;contains(ask)&#39;: False, &#39;contains(waste)&#39;: False, &#39;contains(terrible)&#39;: False, &#39;contains(depth)&#39;: False, &#39;contains(simon)&#39;: False, &#39;contains(aspect)&#39;: False, &#39;contains(list)&#39;: False, &#39;contains(mary)&#39;: False, &#39;contains(sister)&#39;: False, &#39;contains(animation)&#39;: False, &#39;contains(entirely)&#39;: False, &#39;contains(fear)&#39;: False, &#39;contains(steven)&#39;: False, &#39;contains(moves)&#39;: False, &#39;contains(actual)&#39;: False, &#39;contains(army)&#39;: False, &#39;contains(british)&#39;: False, &#39;contains(constantly)&#39;: False, &#39;contains(fire)&#39;: False, &#39;contains(convincing)&#39;: False, &#39;contains(setting)&#39;: False, &#39;contains(gave)&#39;: False, &#39;contains(tension)&#39;: False, &#39;contains(street)&#39;: False, &#39;contains(8)&#39;: False, &#39;contains(brief)&#39;: True, &#39;contains(ridiculous)&#39;: False, &#39;contains(cinematography)&#39;: False, &#39;contains(typical)&#39;: False, &#39;contains(nick)&#39;: False, &#39;contains(screenwriter)&#39;: False, &#39;contains(ability)&#39;: False, &#39;contains(spent)&#39;: False, &#39;contains(quick)&#39;: True, &#39;contains(violent)&#39;: False, &#39;contains(atmosphere)&#39;: False, &#39;contains(subtle)&#39;: False, &#39;contains(expected)&#39;: False, &#39;contains(fairly)&#39;: True, &#39;contains(seven)&#39;: False, &#39;contains(killing)&#39;: False, &#39;contains(tone)&#39;: False, &#39;contains(master)&#39;: False, &#39;contains(disaster)&#39;: False, &#39;contains(lots)&#39;: False, &#39;contains(thinks)&#39;: False, &#39;contains(song)&#39;: False, &#39;contains(cheap)&#39;: False, &#39;contains(suddenly)&#39;: False, &#39;contains(background)&#39;: False, &#39;contains(club)&#39;: False, &#39;contains(willis)&#39;: False, &#39;contains(whatever)&#39;: False, &#39;contains(highly)&#39;: False, &#39;contains(sees)&#39;: True, &#39;contains(complex)&#39;: False, &#39;contains(greatest)&#39;: False, &#39;contains(impact)&#39;: False, &#39;contains(beauty)&#39;: False, &#39;contains(front)&#39;: False, &#39;contains(humans)&#39;: False, &#39;contains(indeed)&#39;: False, &#39;contains(flat)&#39;: False, &#39;contains(grace)&#39;: False, &#39;contains(wrote)&#39;: False, &#39;contains(amusing)&#39;: False, &#39;contains(ii)&#39;: False, &#39;contains(mike)&#39;: False, &#39;contains(further)&#39;: False, &#39;contains(cute)&#39;: False, &#39;contains(dull)&#39;: False, &#39;contains(minor)&#39;: False, &#39;contains(recently)&#39;: False, &#39;contains(hate)&#39;: False, &#39;contains(outside)&#39;: False, &#39;contains(plenty)&#39;: False, &#39;contains(wish)&#39;: False, &#39;contains(godzilla)&#39;: False, &#39;contains(college)&#39;: False, &#39;contains(titanic)&#39;: False, &#39;contains(sounds)&#39;: False, &#39;contains(telling)&#39;: False, &#39;contains(sight)&#39;: False, &#39;contains(double)&#39;: False, &#39;contains(cinematic)&#39;: False, &#39;contains(queen)&#39;: False, &#39;contains(hold)&#39;: False, &#39;contains(meanwhile)&#39;: False, &#39;contains(awful)&#39;: False, &#39;contains(clearly)&#39;: False, &#39;contains(theme)&#39;: False, &#39;contains(hear)&#39;: False, &#39;contains(x)&#39;: False, &#39;contains(amount)&#39;: False, &#39;contains(baby)&#39;: False, &#39;contains(approach)&#39;: False, &#39;contains(dreams)&#39;: False, &#39;contains(shown)&#39;: False, &#39;contains(island)&#39;: False, &#39;contains(reasons)&#39;: False, &#39;contains(charm)&#39;: False, &#39;contains(miss)&#39;: True, &#39;contains(longer)&#39;: False, &#39;contains(common)&#39;: False, &#39;contains(sean)&#39;: False, &#39;contains(carry)&#39;: False, &#39;contains(believable)&#39;: False, &#39;contains(realistic)&#39;: False, &#39;contains(chemistry)&#39;: True, &#39;contains(possibly)&#39;: False, &#39;contains(casting)&#39;: False, &#39;contains(carrey)&#39;: False, &#39;contains(french)&#39;: False, &#39;contains(trailer)&#39;: False, &#39;contains(tough)&#39;: False, &#39;contains(produced)&#39;: False, &#39;contains(imagine)&#39;: False, &#39;contains(choice)&#39;: False, &#39;contains(ride)&#39;: False, &#39;contains(somewhere)&#39;: False, &#39;contains(hot)&#39;: False, &#39;contains(race)&#39;: False, &#39;contains(road)&#39;: False, &#39;contains(leader)&#39;: False, &#39;contains(thin)&#39;: False, &#39;contains(jerry)&#39;: False, &#39;contains(slowly)&#39;: False, &#39;contains(delivers)&#39;: False, &#39;contains(detective)&#39;: False, &#39;contains(brown)&#39;: False, &#39;contains(jackson)&#39;: False, &#39;contains(member)&#39;: False, &#39;contains(provide)&#39;: False, &#39;contains(president)&#39;: False, &#39;contains(puts)&#39;: False, &#39;contains(asks)&#39;: False, &#39;contains(critics)&#39;: False, &#39;contains(appearance)&#39;: False, &#39;contains(famous)&#39;: False, &#39;contains(okay)&#39;: False, &#39;contains(intelligence)&#39;: False, &#39;contains(energy)&#39;: False, &#39;contains(sent)&#39;: False, &#39;contains(spielberg)&#39;: False, &#39;contains(development)&#39;: False, &#39;contains(etc)&#39;: False, &#39;contains(language)&#39;: False, &#39;contains(blue)&#39;: False, &#39;contains(proves)&#39;: False, &#39;contains(vampire)&#39;: False, &#39;contains(seemingly)&#39;: False, &#39;contains(basic)&#39;: False, &#39;contains(caught)&#39;: False, &#39;contains(decide)&#39;: False, &#39;contains(opportunity)&#39;: False, &#39;contains(incredibly)&#39;: False, &#39;contains(images)&#39;: False, &#39;contains(band)&#39;: False, &#39;contains(j)&#39;: False, &#39;contains(writers)&#39;: False, &#39;contains(knew)&#39;: False, &#39;contains(interested)&#39;: False, &#39;contains(considering)&#39;: False, &#39;contains(boys)&#39;: False, &#39;contains(thanks)&#39;: False, &#39;contains(remains)&#39;: False, &#39;contains(climax)&#39;: True, &#39;contains(event)&#39;: False, &#39;contains(directing)&#39;: False, &#39;contains(conclusion)&#39;: False, &#39;contains(leading)&#39;: False, &#39;contains(ground)&#39;: False, &#39;contains(lies)&#39;: False, &#39;contains(forget)&#39;: False, &#39;contains(alive)&#39;: False, &#39;contains(tarzan)&#39;: False, &#39;contains(century)&#39;: False, &#39;contains(provides)&#39;: False, &#39;contains(trip)&#39;: False, &#39;contains(partner)&#39;: False, &#39;contains(central)&#39;: False, &#39;contains(tarantino)&#39;: False, &#39;contains(period)&#39;: False, &#39;contains(pace)&#39;: False, &#39;contains(yourself)&#39;: False, &#39;contains(worked)&#39;: False, &#39;contains(ready)&#39;: False, &#39;contains(date)&#39;: False, &#39;contains(thus)&#39;: False, &#39;contains(1998)&#39;: False, &#39;contains(terrific)&#39;: False, &#39;contains(write)&#39;: False, &#39;contains(average)&#39;: False, &#39;contains(onto)&#39;: False, &#39;contains(songs)&#39;: False, &#39;contains(occasionally)&#39;: False, &#39;contains(doctor)&#39;: False, &#39;contains(stands)&#39;: False, &#39;contains(hardly)&#39;: False, &#39;contains(monster)&#39;: False, &#39;contains(led)&#39;: False, &#39;contains(mysterious)&#39;: False, &#39;contains(details)&#39;: False, &#39;contains(wasted)&#39;: False, &#39;contains(apart)&#39;: False, &#39;contains(aside)&#39;: False, &#39;contains(store)&#39;: False, &#39;contains(billy)&#39;: False, &#39;contains(boss)&#39;: True, &#39;contains(travolta)&#39;: False, &#39;contains(producer)&#39;: False, &#39;contains(pull)&#39;: False, &#39;contains(consider)&#39;: False, &#39;contains(pictures)&#39;: False, &#39;contains(becoming)&#39;: False, &#39;contains(cage)&#39;: False, &#39;contains(loud)&#39;: False, &#39;contains(looked)&#39;: False, &#39;contains(officer)&#39;: False, &#39;contains(twenty)&#39;: False, &#39;contains(system)&#39;: False, &#39;contains(contains)&#39;: False, &#39;contains(julia)&#39;: False, &#39;contains(subplot)&#39;: False, &#39;contains(missing)&#39;: False, &#39;contains(personality)&#39;: False, &#39;contains(building)&#39;: False, &#39;contains(learns)&#39;: False, &#39;contains(hong)&#39;: True, &#39;contains(la)&#39;: False, &#39;contains(apartment)&#39;: False, &#39;contains(7)&#39;: False, &#39;contains(bizarre)&#39;: False, &#39;contains(powers)&#39;: False, &#39;contains(flaws)&#39;: False, &#39;contains(catch)&#39;: False, &#39;contains(lawyer)&#39;: False, &#39;contains(shoot)&#39;: False, &#39;contains(student)&#39;: False, &#39;contains(unique)&#39;: True, &#39;contains(000)&#39;: False, &#39;contains(admit)&#39;: False, &#39;contains(concept)&#39;: False, &#39;contains(needed)&#39;: False, &#39;contains(thrown)&#39;: False, &#39;contains(christopher)&#39;: False, &#39;contains(laughing)&#39;: False, &#39;contains(green)&#39;: False, &#39;contains(twists)&#39;: False, &#39;contains(matthew)&#39;: False, &#39;contains(touch)&#39;: False, &#39;contains(waiting)&#39;: False, &#39;contains(victim)&#39;: False, &#39;contains(cover)&#39;: False, &#39;contains(machine)&#39;: False, &#39;contains(danny)&#39;: False, &#39;contains(mention)&#39;: False, &#39;contains(search)&#39;: False, &#39;contains(1997)&#39;: False, &#39;contains(win)&#39;: False, &#39;contains(door)&#39;: False, &#39;contains(manner)&#39;: False, &#39;contains(train)&#39;: True, &#39;contains(saving)&#39;: False, &#39;contains(share)&#39;: False, &#39;contains(image)&#39;: False, &#39;contains(discovers)&#39;: False, &#39;contains(normal)&#39;: False, &#39;contains(cross)&#39;: False, &#39;contains(fox)&#39;: False, &#39;contains(returns)&#39;: False, &#39;contains(adult)&#39;: False, &#39;contains(adds)&#39;: False, &#39;contains(answer)&#39;: False, &#39;contains(adventure)&#39;: False, &#39;contains(lame)&#39;: False, &#39;contains(male)&#39;: False, &#39;contains(odd)&#39;: False, &#39;contains(singer)&#39;: False, &#39;contains(deserves)&#39;: False, &#39;contains(gore)&#39;: False, &#39;contains(states)&#39;: False, &#39;contains(include)&#39;: False, &#39;contains(equally)&#39;: False, &#39;contains(months)&#39;: False, &#39;contains(barely)&#39;: False, &#39;contains(directors)&#39;: False, &#39;contains(introduced)&#39;: False, &#39;contains(fashion)&#39;: False, &#39;contains(social)&#39;: False, &#39;contains(1999)&#39;: False, &#39;contains(news)&#39;: False, &#39;contains(hair)&#39;: False, &#39;contains(dance)&#39;: False, &#39;contains(innocent)&#39;: False, &#39;contains(camp)&#39;: False, &#39;contains(teacher)&#39;: False, &#39;contains(became)&#39;: False, &#39;contains(sad)&#39;: False, &#39;contains(witch)&#39;: False, &#39;contains(includes)&#39;: False, &#39;contains(nights)&#39;: False, &#39;contains(jason)&#39;: False, &#39;contains(julie)&#39;: False, &#39;contains(latter)&#39;: False, &#39;contains(food)&#39;: True, &#39;contains(jennifer)&#39;: False, &#39;contains(land)&#39;: False, &#39;contains(menace)&#39;: False, &#39;contains(rate)&#39;: False, &#39;contains(storyline)&#39;: False, &#39;contains(contact)&#39;: False, &#39;contains(jean)&#39;: False, &#39;contains(elizabeth)&#39;: False, &#39;contains(fellow)&#39;: False, &#39;contains(changes)&#39;: False, &#39;contains(henry)&#39;: False, &#39;contains(hill)&#39;: False, &#39;contains(pulp)&#39;: False, &#39;contains(gay)&#39;: False, &#39;contains(tried)&#39;: False, &#39;contains(surprised)&#39;: False, &#39;contains(literally)&#39;: False, &#39;contains(walk)&#39;: False, &#39;contains(standard)&#39;: False, &#39;contains(90)&#39;: False, &#39;contains(forward)&#39;: False, &#39;contains(wise)&#39;: False, &#39;contains(enjoyed)&#39;: False, &#39;contains(discover)&#39;: False, &#39;contains(pop)&#39;: False, &#39;contains(anderson)&#39;: False, &#39;contains(offer)&#39;: False, &#39;contains(recommend)&#39;: False, &#39;contains(public)&#39;: False, &#39;contains(drive)&#39;: False, &#39;contains(c)&#39;: False, &#39;contains(toy)&#39;: False, &#39;contains(charming)&#39;: False, &#39;contains(fair)&#39;: False, &#39;contains(chinese)&#39;: True, &#39;contains(rescue)&#39;: False, &#39;contains(terms)&#39;: False, &#39;contains(mouth)&#39;: False, &#39;contains(lucas)&#39;: False, &#39;contains(accident)&#39;: False, &#39;contains(dies)&#39;: False, &#39;contains(decided)&#39;: False, &#39;contains(edge)&#39;: False, &#39;contains(footage)&#39;: False, &#39;contains(culture)&#39;: False, &#39;contains(weak)&#39;: False, &#39;contains(presented)&#39;: False, &#39;contains(blade)&#39;: False, &#39;contains(younger)&#39;: False, &#39;contains(douglas)&#39;: False, &#39;contains(natural)&#39;: False, &#39;contains(born)&#39;: False, &#39;contains(generally)&#39;: False, &#39;contains(teenage)&#39;: False, &#39;contains(older)&#39;: False, &#39;contains(horrible)&#39;: False, &#39;contains(addition)&#39;: False, &#39;contains(sadly)&#39;: False, &#39;contains(creates)&#39;: False, &#39;contains(disturbing)&#39;: False, &#39;contains(roger)&#39;: False, &#39;contains(detail)&#39;: False, &#39;contains(devil)&#39;: False, &#39;contains(debut)&#39;: False, &#39;contains(track)&#39;: False, &#39;contains(developed)&#39;: False, &#39;contains(week)&#39;: False, &#39;contains(russell)&#39;: False, &#39;contains(attack)&#39;: False, &#39;contains(explain)&#39;: False, &#39;contains(rarely)&#39;: False, &#39;contains(fully)&#39;: False, &#39;contains(prove)&#39;: False, &#39;contains(exception)&#39;: False, &#39;contains(jeff)&#39;: False, &#39;contains(twist)&#39;: False, &#39;contains(gang)&#39;: False, &#39;contains(winning)&#39;: False, &#39;contains(jr)&#39;: False, &#39;contains(species)&#39;: False, &#39;contains(issues)&#39;: False, &#39;contains(fresh)&#39;: False, &#39;contains(rules)&#39;: False, &#39;contains(meaning)&#39;: False, &#39;contains(inspired)&#39;: False, &#39;contains(heroes)&#39;: False, &#39;contains(desperate)&#39;: False, &#39;contains(fighting)&#39;: False, &#39;contains(filmed)&#39;: False, &#39;contains(faces)&#39;: False, &#39;contains(alan)&#39;: False, &#39;contains(bright)&#39;: False, &#39;contains(ass)&#39;: True, &#39;contains(flying)&#39;: False, &#39;contains(kong)&#39;: True, &#39;contains(rush)&#39;: False, &#39;contains(forces)&#39;: False, &#39;contains(charles)&#39;: False, &#39;contains(numerous)&#39;: False, &#39;contains(emotions)&#39;: False, &#39;contains(involves)&#39;: True, &#39;contains(patrick)&#39;: False, &#39;contains(weird)&#39;: False, &#39;contains(apparent)&#39;: False, &#39;contains(information)&#39;: False, &#39;contains(revenge)&#39;: False, &#39;contains(jay)&#39;: False, &#39;contains(toward)&#39;: False, &#39;contains(surprising)&#39;: False, &#39;contains(twice)&#39;: False, &#39;contains(editing)&#39;: False, &#39;contains(calls)&#39;: False, &#39;contains(lose)&#39;: False, &#39;contains(vegas)&#39;: False, &#39;contains(stage)&#39;: False, &#39;contains(intended)&#39;: False, &#39;contains(gags)&#39;: False, &#39;contains(opinion)&#39;: False, &#39;contains(likes)&#39;: False, &#39;contains(crazy)&#39;: False, &#39;contains(owner)&#39;: False, &#39;contains(places)&#39;: False, &#39;contains(pair)&#39;: False, &#39;contains(genuine)&#39;: False, &#39;contains(epic)&#39;: False, &#39;contains(speak)&#39;: False, &#39;contains(throw)&#39;: False, &#39;contains(appeal)&#39;: False, &#39;contains(gibson)&#39;: False, &#39;contains(captain)&#39;: False, &#39;contains(military)&#39;: False, &#39;contains(20)&#39;: False, &#39;contains(blair)&#39;: False, &#39;contains(nowhere)&#39;: False, &#39;contains(length)&#39;: False, &#39;contains(nicely)&#39;: False, &#39;contains(cause)&#39;: False, &#39;contains(pass)&#39;: False, &#39;contains(episode)&#39;: False, &#39;contains(kiss)&#39;: False, &#39;contains(arnold)&#39;: True, &#39;contains(please)&#39;: False, &#39;contains(hasn)&#39;: False, &#39;contains(phone)&#39;: False, &#39;contains(filmmaking)&#39;: False, &#39;contains(formula)&#39;: False, &#39;contains(boyfriend)&#39;: False, &#39;contains(talents)&#39;: False, &#39;contains(creating)&#39;: False, &#39;contains(kelly)&#39;: False, &#39;contains(buy)&#39;: False, &#39;contains(wide)&#39;: False, &#39;contains(fantasy)&#39;: False, &#39;contains(mood)&#39;: False, &#39;contains(heads)&#39;: False, &#39;contains(pathetic)&#39;: False, &#39;contains(lacks)&#39;: False, &#39;contains(loved)&#39;: False, &#39;contains(asked)&#39;: False, &#39;contains(mrs)&#39;: False, &#39;contains(witty)&#39;: False, &#39;contains(shakespeare)&#39;: False, &#39;contains(mulan)&#39;: False, &#39;contains(generation)&#39;: False, &#39;contains(affair)&#39;: False, &#39;contains(pieces)&#39;: False, &#39;contains(task)&#39;: False, &#39;contains(rare)&#39;: False, &#39;contains(kept)&#39;: False, &#39;contains(cameo)&#39;: False, &#39;contains(fascinating)&#39;: False, &#39;contains(ed)&#39;: False, &#39;contains(fbi)&#39;: False, &#39;contains(burton)&#39;: False, &#39;contains(incredible)&#39;: False, &#39;contains(accent)&#39;: False, &#39;contains(artist)&#39;: False, &#39;contains(superior)&#39;: False, &#39;contains(academy)&#39;: False, &#39;contains(thomas)&#39;: False, &#39;contains(spirit)&#39;: False, &#39;contains(technical)&#39;: False, &#39;contains(confusing)&#39;: False, &#39;contains(poorly)&#39;: False, &#39;contains(target)&#39;: False, &#39;contains(lover)&#39;: False, &#39;contains(woo)&#39;: False, &#39;contains(mentioned)&#39;: False, &#39;contains(theaters)&#39;: False, &#39;contains(plane)&#39;: False, &#39;contains(confused)&#39;: False, &#39;contains(dennis)&#39;: False, &#39;contains(rob)&#39;: False, &#39;contains(appropriate)&#39;: False, &#39;contains(christmas)&#39;: False, &#39;contains(considered)&#39;: False, &#39;contains(legend)&#39;: False, &#39;contains(shame)&#39;: False, &#39;contains(soul)&#39;: False, &#39;contains(matt)&#39;: False, &#39;contains(campbell)&#39;: False, &#39;contains(process)&#39;: False, &#39;contains(bottom)&#39;: False, &#39;contains(sitting)&#39;: False, &#39;contains(brain)&#39;: False, &#39;contains(creepy)&#39;: False, &#39;contains(13)&#39;: False, &#39;contains(forever)&#39;: False, &#39;contains(dude)&#39;: False, &#39;contains(crap)&#39;: False, &#39;contains(superb)&#39;: False, &#39;contains(speech)&#39;: False, &#39;contains(ice)&#39;: False, &#39;contains(journey)&#39;: False, &#39;contains(masterpiece)&#39;: False, &#39;contains(intriguing)&#39;: False, &#39;contains(names)&#39;: False, &#39;contains(pick)&#39;: False, &#39;contains(speaking)&#39;: False, &#39;contains(virtually)&#39;: False, &#39;contains(award)&#39;: False, &#39;contains(worthy)&#39;: False, &#39;contains(marriage)&#39;: False, &#39;contains(deliver)&#39;: False, &#39;contains(cash)&#39;: False, &#39;contains(magic)&#39;: False, &#39;contains(respect)&#39;: False, &#39;contains(product)&#39;: False, &#39;contains(necessary)&#39;: False, &#39;contains(suppose)&#39;: False, &#39;contains(silent)&#39;: False, &#39;contains(pointless)&#39;: False, &#39;contains(station)&#39;: False, &#39;contains(affleck)&#39;: False, &#39;contains(dimensional)&#39;: False, &#39;contains(charlie)&#39;: False, &#39;contains(allows)&#39;: False, &#39;contains(avoid)&#39;: False, &#39;contains(meant)&#39;: False, &#39;contains(cops)&#39;: False, &#39;contains(attitude)&#39;: False, &#39;contains(relationships)&#39;: False, &#39;contains(hits)&#39;: False, &#39;contains(stephen)&#39;: False, &#39;contains(spends)&#39;: False, &#39;contains(relief)&#39;: False, &#39;contains(physical)&#39;: True, &#39;contains(count)&#39;: False, &#39;contains(reviews)&#39;: False, &#39;contains(appreciate)&#39;: False, &#39;contains(cliches)&#39;: False, &#39;contains(holds)&#39;: False, &#39;contains(pure)&#39;: False, &#39;contains(plans)&#39;: False, &#39;contains(limited)&#39;: False, &#39;contains(failed)&#39;: False, &#39;contains(pain)&#39;: False, &#39;contains(impression)&#39;: False, &#39;contains(unless)&#39;: False, &#39;contains(sub)&#39;: False, &#39;contains([)&#39;: False, &#39;contains(total)&#39;: False, &#39;contains(creature)&#39;: False, &#39;contains(viewing)&#39;: False, &#39;contains(loves)&#39;: False, &#39;contains(princess)&#39;: False, &#39;contains(kate)&#39;: False, &#39;contains(rising)&#39;: False, &#39;contains(woods)&#39;: False, &#39;contains(baldwin)&#39;: False, &#39;contains(angry)&#39;: False, &#39;contains(drawn)&#39;: False, &#39;contains(step)&#39;: False, &#39;contains(matrix)&#39;: False, &#39;contains(themes)&#39;: False, &#39;contains(satire)&#39;: False, &#39;contains(arts)&#39;: False, &#39;contains(])&#39;: False, &#39;contains(remake)&#39;: False, &#39;contains(wall)&#39;: False, &#39;contains(moral)&#39;: False, &#39;contains(color)&#39;: False, &#39;contains(ray)&#39;: False, &#39;contains(stuck)&#39;: False, &#39;contains(touching)&#39;: False, &#39;contains(wit)&#39;: False, &#39;contains(tony)&#39;: False, &#39;contains(hanks)&#39;: False, &#39;contains(continues)&#39;: False, &#39;contains(damn)&#39;: False, &#39;contains(nobody)&#39;: False, &#39;contains(cartoon)&#39;: False, &#39;contains(keeping)&#39;: False, &#39;contains(realized)&#39;: False, &#39;contains(criminal)&#39;: False, &#39;contains(unfunny)&#39;: False, &#39;contains(comedic)&#39;: False, &#39;contains(martial)&#39;: False, &#39;contains(disappointing)&#39;: False, &#39;contains(anti)&#39;: False, &#39;contains(graphic)&#39;: False, &#39;contains(stunning)&#39;: False, &#39;contains(actions)&#39;: False, &#39;contains(floor)&#39;: False, &#39;contains(emotion)&#39;: False, &#39;contains(soldiers)&#39;: False, &#39;contains(edward)&#39;: False, &#39;contains(comedies)&#39;: False, &#39;contains(driver)&#39;: False, &#39;contains(expectations)&#39;: False, &#39;contains(added)&#39;: False, &#39;contains(mad)&#39;: False, &#39;contains(angels)&#39;: False, &#39;contains(shallow)&#39;: False, &#39;contains(suspect)&#39;: False, &#39;contains(humorous)&#39;: False, &#39;contains(phantom)&#39;: False, &#39;contains(appealing)&#39;: False, &#39;contains(device)&#39;: False, &#39;contains(design)&#39;: False, &#39;contains(industry)&#39;: False, &#39;contains(reach)&#39;: False, &#39;contains(fat)&#39;: False, &#39;contains(blame)&#39;: False, &#39;contains(united)&#39;: False, &#39;contains(sign)&#39;: False, &#39;contains(portrayal)&#39;: False, &#39;contains(rocky)&#39;: False, &#39;contains(finale)&#39;: False, &#39;contains(grand)&#39;: False, &#39;contains(opposite)&#39;: False, &#39;contains(hotel)&#39;: False, &#39;contains(match)&#39;: False, &#39;contains(damme)&#39;: False, &#39;contains(speed)&#39;: False, &#39;contains(ok)&#39;: False, &#39;contains(loving)&#39;: False, &#39;contains(field)&#39;: True, &#39;contains(larry)&#39;: False, &#39;contains(urban)&#39;: False, &#39;contains(troopers)&#39;: False, &#39;contains(compared)&#39;: False, &#39;contains(apes)&#39;: False, &#39;contains(rose)&#39;: False, &#39;contains(falling)&#39;: False, &#39;contains(era)&#39;: False, &#39;contains(loses)&#39;: False, &#39;contains(adults)&#39;: False, &#39;contains(managed)&#39;: False, &#39;contains(dad)&#39;: False, &#39;contains(therefore)&#39;: False, &#39;contains(pg)&#39;: False, &#39;contains(results)&#39;: False, &#39;contains(guns)&#39;: False, &#39;contains(radio)&#39;: False, &#39;contains(lady)&#39;: False, &#39;contains(manage)&#39;: False, &#39;contains(spice)&#39;: False, &#39;contains(naked)&#39;: False, &#39;contains(started)&#39;: False, &#39;contains(intense)&#39;: False, &#39;contains(humanity)&#39;: False, &#39;contains(wonderfully)&#39;: False, &#39;contains(slasher)&#39;: False, &#39;contains(bland)&#39;: False, &#39;contains(imagination)&#39;: False, &#39;contains(walking)&#39;: False, &#39;contains(willing)&#39;: False, &#39;contains(horse)&#39;: False, &#39;contains(rent)&#39;: False, &#39;contains(mix)&#39;: False, &#39;contains(generated)&#39;: False, &#39;contains(g)&#39;: False, &#39;contains(utterly)&#39;: False, &#39;contains(scientist)&#39;: False, &#39;contains(washington)&#39;: False, &#39;contains(notice)&#39;: False, &#39;contains(players)&#39;: False, &#39;contains(teenagers)&#39;: False, &#39;contains(moore)&#39;: False, &#39;contains(board)&#39;: False, &#39;contains(price)&#39;: False, &#39;contains(frightening)&#39;: False, &#39;contains(tommy)&#39;: False, &#39;contains(spectacular)&#39;: False, &#39;contains(bored)&#39;: False, &#39;contains(jane)&#39;: False, &#39;contains(join)&#39;: False, &#39;contains(producers)&#39;: False, &#39;contains(johnny)&#39;: False, &#39;contains(zero)&#39;: False, &#39;contains(vampires)&#39;: False, &#39;contains(adaptation)&#39;: False, &#39;contains(dollars)&#39;: False, &#39;contains(parody)&#39;: False, &#39;contains(documentary)&#39;: False, &#39;contains(dvd)&#39;: False, &#39;contains(wayne)&#39;: False, &#39;contains(post)&#39;: False, &#39;contains(exist)&#39;: False, &#39;contains(matters)&#39;: False, &#39;contains(chosen)&#39;: False, &#39;contains(mel)&#39;: False, &#39;contains(attractive)&#39;: True, &#39;contains(plain)&#39;: False, &#39;contains(trust)&#39;: False, &#39;contains(safe)&#39;: False, &#39;contains(reading)&#39;: False, &#39;contains(hoping)&#39;: False, &#39;contains(protagonist)&#39;: False, &#39;contains(feelings)&#39;: False, &#39;contains(fate)&#39;: False, &#39;contains(finding)&#39;: False, &#39;contains(feet)&#39;: False, &#39;contains(visuals)&#39;: False, &#39;contains(spawn)&#39;: False, &#39;contains(compelling)&#39;: False, &#39;contains(hall)&#39;: False, &#39;contains(sympathetic)&#39;: False, &#39;contains(featuring)&#39;: False, &#39;contains(difference)&#39;: False, &#39;contains(professional)&#39;: False, &#39;contains(drugs)&#39;: False, &#39;contains(ford)&#39;: False, &#39;contains(shooting)&#39;: False, &#39;contains(gold)&#39;: False, &#39;contains(patch)&#39;: False, &#39;contains(build)&#39;: False, &#39;contains(boat)&#39;: False, &#39;contains(cruise)&#39;: False, &#39;contains(honest)&#39;: False, &#39;contains(media)&#39;: False, &#39;contains(flicks)&#39;: False, &#39;contains(bug)&#39;: False, &#39;contains(bringing)&#39;: False, &#39;contains(dangerous)&#39;: True, &#39;contains(watched)&#39;: False, &#39;contains(grant)&#39;: False, &#39;contains(smile)&#39;: False, &#39;contains(plus)&#39;: False, &#39;contains(shouldn)&#39;: False, &#39;contains(decision)&#39;: False, &#39;contains(visually)&#39;: False, &#39;contains(allow)&#39;: False, &#39;contains(starship)&#39;: False, &#39;contains(roberts)&#39;: False, &#39;contains(dying)&#39;: False, &#39;contains(portrayed)&#39;: False, &#39;contains(turning)&#39;: False, &#39;contains(believes)&#39;: False, &#39;contains(changed)&#39;: False, &#39;contains(shock)&#39;: False, &#39;contains(destroy)&#39;: False, &#39;contains(30)&#39;: False, &#39;contains(crowd)&#39;: False, &#39;contains(broken)&#39;: False, &#39;contains(tired)&#39;: False, &#39;contains(fail)&#39;: False, &#39;contains(south)&#39;: False, &#39;contains(died)&#39;: False, &#39;contains(cult)&#39;: False, &#39;contains(fake)&#39;: False, &#39;contains(vincent)&#39;: False, &#39;contains(identity)&#39;: False, &#39;contains(sexy)&#39;: False, &#39;contains(hunt)&#39;: False, &#39;contains(jedi)&#39;: False, &#39;contains(flynt)&#39;: False, &#39;contains(alex)&#39;: False, &#39;contains(engaging)&#39;: False, &#39;contains(serve)&#39;: False, &#39;contains(snake)&#39;: False, &#39;contains(yeah)&#39;: False, &#39;contains(expecting)&#39;: False, &#39;contains(100)&#39;: False, &#39;contains(decade)&#39;: False, &#39;contains(ups)&#39;: False, &#39;contains(constant)&#39;: False, &#39;contains(current)&#39;: False, &#39;contains(survive)&#39;: False, &#39;contains(jimmy)&#39;: False, &#39;contains(buddy)&#39;: False, &#39;contains(send)&#39;: False, &#39;contains(brooks)&#39;: False, &#39;contains(goofy)&#39;: False, &#39;contains(likable)&#39;: False, &#39;contains(humour)&#39;: False, &#39;contains(technology)&#39;: False, &#39;contains(files)&#39;: False, &#39;contains(babe)&#39;: False, &#39;contains(aspects)&#39;: False, &#39;contains(presents)&#39;: False, &#39;contains(kills)&#39;: False, &#39;contains(supposedly)&#39;: False, &#39;contains(eight)&#39;: True, &#39;contains(sandler)&#39;: False, &#39;contains(hospital)&#39;: False, &#39;contains(test)&#39;: False, &#39;contains(hidden)&#39;: False, &#39;contains(brian)&#39;: False, &#39;contains(books)&#39;: False, &#39;contains(promise)&#39;: False, &#39;contains(determined)&#39;: False, &#39;contains(professor)&#39;: False, &#39;contains(welcome)&#39;: False, &#39;contains(pleasure)&#39;: False, &#39;contains(succeeds)&#39;: False, &#39;contains(individual)&#39;: False, &#39;contains(annie)&#39;: False, &#39;contains(mob)&#39;: False, &#39;contains(ted)&#39;: False, &#39;contains(virus)&#39;: False, &#39;contains(content)&#39;: False, &#39;contains(gary)&#39;: False, &#39;contains(direct)&#39;: False, &#39;contains(contrived)&#39;: False, &#39;contains(carpenter)&#39;: False, &#39;contains(scale)&#39;: False, &#39;contains(sick)&#39;: False, &#39;contains(nasty)&#39;: False, &#39;contains(conflict)&#39;: False, &#39;contains(haunting)&#39;: False, &#39;contains(ghost)&#39;: False, &#39;contains(filmmaker)&#39;: False, &#39;contains(japanese)&#39;: False, &#39;contains(helps)&#39;: False, &#39;contains(fare)&#39;: False, &#39;contains(lucky)&#39;: False, &#39;contains(ultimate)&#39;: False, &#39;contains(window)&#39;: False, &#39;contains(support)&#39;: False, &#39;contains(goal)&#39;: False, &#39;contains(provided)&#39;: False, &#39;contains(genius)&#39;: False, &#39;contains(winner)&#39;: False, &#39;contains(taylor)&#39;: False, &#39;contains(fantastic)&#39;: False, &#39;contains(faith)&#39;: False, &#39;contains(lynch)&#39;: False, &#39;contains(fit)&#39;: False, &#39;contains(catherine)&#39;: False, &#39;contains(ms)&#39;: False, &#39;contains(paced)&#39;: False, &#39;contains(breaks)&#39;: False, &#39;contains(al)&#39;: False, &#39;contains(frame)&#39;: False, &#39;contains(travel)&#39;: False, &#39;contains(badly)&#39;: False, &#39;contains(available)&#39;: False, &#39;contains(cares)&#39;: False, &#39;contains(reeves)&#39;: False, &#39;contains(crash)&#39;: False, &#39;contains(driving)&#39;: False, &#39;contains(press)&#39;: False, &#39;contains(seagal)&#39;: False, &#39;contains(amy)&#39;: False, &#39;contains(9)&#39;: False, &#39;contains(headed)&#39;: False, &#39;contains(instance)&#39;: False, &#39;contains(excuse)&#39;: False, &#39;contains(offensive)&#39;: False, &#39;contains(narrative)&#39;: False, &#39;contains(fault)&#39;: False, &#39;contains(bus)&#39;: False, &#39;contains(f)&#39;: False, &#39;contains(extreme)&#39;: False, &#39;contains(miller)&#39;: False, &#39;contains(guilty)&#39;: False, &#39;contains(grows)&#39;: False, &#39;contains(overly)&#39;: False, &#39;contains(liners)&#39;: False, &#39;contains(forgotten)&#39;: False, &#39;contains(ahead)&#39;: False, &#39;contains(accept)&#39;: False, &#39;contains(porn)&#39;: False, &#39;contains(directly)&#39;: False, &#39;contains(helen)&#39;: False, &#39;contains(began)&#39;: False, &#39;contains(lord)&#39;: False, &#39;contains(folks)&#39;: False, &#39;contains(mediocre)&#39;: False, &#39;contains(bar)&#39;: False, &#39;contains(surface)&#39;: False, &#39;contains(super)&#39;: False, &#39;contains(failure)&#39;: False, &#39;contains(6)&#39;: False, &#39;contains(acted)&#39;: False, &#39;contains(quiet)&#39;: False, &#39;contains(laughable)&#39;: False, &#39;contains(sheer)&#39;: False, &#39;contains(security)&#39;: True, &#39;contains(emotionally)&#39;: False, &#39;contains(season)&#39;: False, &#39;contains(stuart)&#39;: False, &#39;contains(jail)&#39;: True, &#39;contains(deals)&#39;: False, &#39;contains(cheesy)&#39;: False, &#39;contains(court)&#39;: False, &#39;contains(beach)&#39;: False, &#39;contains(austin)&#39;: False, &#39;contains(model)&#39;: False, &#39;contains(outstanding)&#39;: False, &#39;contains(substance)&#39;: False, &#39;contains(nudity)&#39;: False, &#39;contains(slapstick)&#39;: False, &#39;contains(joan)&#39;: False, &#39;contains(reveal)&#39;: False, &#39;contains(placed)&#39;: False, &#39;contains(check)&#39;: False, &#39;contains(beast)&#39;: False, &#39;contains(hurt)&#39;: False, &#39;contains(bloody)&#39;: False, &#39;contains(acts)&#39;: False, &#39;contains(fame)&#39;: False, &#39;contains(meeting)&#39;: False, &#39;contains(nuclear)&#39;: False, &#39;contains(1996)&#39;: False, &#39;contains(strength)&#39;: False, &#39;contains(center)&#39;: False, &#39;contains(funniest)&#39;: False, &#39;contains(standing)&#39;: True, &#39;contains(damon)&#39;: False, &#39;contains(clich)&#39;: False, &#39;contains(position)&#39;: False, &#39;contains(desire)&#39;: False, &#39;contains(driven)&#39;: False, &#39;contains(seat)&#39;: False, &#39;contains(stock)&#39;: False, &#39;contains(wondering)&#39;: True, &#39;contains(realizes)&#39;: False, &#39;contains(dealing)&#39;: False, &#39;contains(taste)&#39;: False, &#39;contains(routine)&#39;: False, &#39;contains(comparison)&#39;: False, &#39;contains(cinematographer)&#39;: False, &#39;contains(seconds)&#39;: False, &#39;contains(singing)&#39;: False, &#39;contains(gangster)&#39;: True, &#39;contains(responsible)&#39;: False, &#39;contains(football)&#39;: False, &#39;contains(remarkable)&#39;: False, &#39;contains(hunting)&#39;: False, &#39;contains(adams)&#39;: False, &#39;contains(fly)&#39;: False, &#39;contains(suspects)&#39;: False, &#39;contains(treat)&#39;: False, &#39;contains(hopes)&#39;: False, &#39;contains(heaven)&#39;: False, &#39;contains(myers)&#39;: False, &#39;contains(struggle)&#39;: False, &#39;contains(costumes)&#39;: False, &#39;contains(beat)&#39;: False, &#39;contains(happening)&#39;: False, &#39;contains(skills)&#39;: False, &#39;contains(ugly)&#39;: False, &#39;contains(figures)&#39;: False, &#39;contains(thoroughly)&#39;: False, &#39;contains(ill)&#39;: False, &#39;contains(surprises)&#39;: False, &#39;contains(player)&#39;: False, &#39;contains(rival)&#39;: False, &#39;contains(guard)&#39;: True, &#39;contains(anthony)&#39;: False, &#39;contains(strike)&#39;: False, &#39;contains(community)&#39;: False, &#39;contains(streets)&#39;: False, &#39;contains(hopkins)&#39;: False, &#39;contains(ended)&#39;: False, &#39;contains(originally)&#39;: False, &#39;contains(sarah)&#39;: False, &#39;contains(creative)&#39;: False, &#39;contains(characterization)&#39;: False, &#39;contains(thankfully)&#39;: False, &#39;contains(growing)&#39;: False, &#39;contains(sharp)&#39;: False, &#39;contains(williamson)&#39;: False, &#39;contains(eccentric)&#39;: False, &#39;contains(explained)&#39;: False, &#39;contains(hey)&#39;: False, &#39;contains(claire)&#39;: False, &#39;contains(steal)&#39;: False, &#39;contains(inevitable)&#39;: False, &#39;contains(joel)&#39;: False, &#39;contains(core)&#39;: False, &#39;contains(weren)&#39;: False, &#39;contains(sorry)&#39;: False, &#39;contains(built)&#39;: False, &#39;contains(anne)&#39;: False, &#39;contains(breaking)&#39;: False, &#39;contains(villains)&#39;: False, &#39;contains(critic)&#39;: False, &#39;contains(lets)&#39;: False, &#39;contains(visit)&#39;: False, &#39;contains(followed)&#39;: False}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">featuresets</span> <span class="o">=</span> <span class="p">[(</span><span class="n">document_features</span><span class="p">(</span><span class="n">d</span><span class="p">),</span> <span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">c</span><span class="p">)</span> <span class="ow">in</span> <span class="n">documents</span><span class="p">]</span>
+<span class="n">train_set</span><span class="p">,</span> <span class="n">test_set</span> <span class="o">=</span> <span class="n">featuresets</span><span class="p">[</span><span class="mi">100</span><span class="p">:],</span> <span class="n">featuresets</span><span class="p">[:</span><span class="mi">100</span><span class="p">]</span>
+<span class="n">classifier</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">NaiveBayesClassifier</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">train_set</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">nltk</span><span class="o">.</span><span class="n">classify</span><span class="o">.</span><span class="n">accuracy</span><span class="p">(</span><span class="n">classifier</span><span class="p">,</span> <span class="n">test_set</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">classifier</span><span class="o">.</span><span class="n">show_most_informative_features</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Most Informative Features
+   contains(outstanding) = True              pos : neg    =     13.4 : 1.0
+         contains(mulan) = True              pos : neg    =      9.0 : 1.0
+        contains(seagal) = True              neg : pos    =      8.2 : 1.0
+   contains(wonderfully) = True              pos : neg    =      7.1 : 1.0
+         contains(damon) = True              pos : neg    =      6.3 : 1.0
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="parts-of-speech-tagging">
+<h2>Parts-of-Speech Tagging<a class="headerlink" href="#parts-of-speech-tagging" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">brown</span>
+<span class="n">suffix_fdist</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">FreqDist</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">brown</span><span class="o">.</span><span class="n">words</span><span class="p">():</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">suffix_fdist</span><span class="p">[</span><span class="n">word</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:]]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">suffix_fdist</span><span class="p">[</span><span class="n">word</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">suffix_fdist</span><span class="p">[</span><span class="n">word</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:]]</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">common_suffixes</span> <span class="o">=</span> <span class="p">[</span><span class="n">suffix</span> <span class="k">for</span> <span class="p">(</span><span class="n">suffix</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span> <span class="ow">in</span> 
+                   <span class="n">suffix_fdist</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">100</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">common_suffixes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;e&#39;, &#39;,&#39;, &#39;.&#39;, &#39;s&#39;, &#39;d&#39;, &#39;t&#39;, &#39;he&#39;, &#39;n&#39;, &#39;a&#39;, &#39;of&#39;, &#39;the&#39;, &#39;y&#39;, &#39;r&#39;, &#39;to&#39;, &#39;in&#39;, &#39;f&#39;, &#39;o&#39;, &#39;ed&#39;, &#39;nd&#39;, &#39;is&#39;, &#39;on&#39;, &#39;l&#39;, &#39;g&#39;, &#39;and&#39;, &#39;ng&#39;, &#39;er&#39;, &#39;as&#39;, &#39;ing&#39;, &#39;h&#39;, &#39;at&#39;, &#39;es&#39;, &#39;or&#39;, &#39;re&#39;, &#39;it&#39;, &#39;``&#39;, &#39;an&#39;, &quot;&#39;&#39;&quot;, &#39;m&#39;, &#39;;&#39;, &#39;i&#39;, &#39;ly&#39;, &#39;ion&#39;, &#39;en&#39;, &#39;al&#39;, &#39;?&#39;, &#39;nt&#39;, &#39;be&#39;, &#39;hat&#39;, &#39;st&#39;, &#39;his&#39;, &#39;th&#39;, &#39;ll&#39;, &#39;le&#39;, &#39;ce&#39;, &#39;by&#39;, &#39;ts&#39;, &#39;me&#39;, &#39;ve&#39;, &quot;&#39;&quot;, &#39;se&#39;, &#39;ut&#39;, &#39;was&#39;, &#39;for&#39;, &#39;ent&#39;, &#39;ch&#39;, &#39;k&#39;, &#39;w&#39;, &#39;ld&#39;, &#39;`&#39;, &#39;rs&#39;, &#39;ted&#39;, &#39;ere&#39;, &#39;her&#39;, &#39;ne&#39;, &#39;ns&#39;, &#39;ith&#39;, &#39;ad&#39;, &#39;ry&#39;, &#39;)&#39;, &#39;(&#39;, &#39;te&#39;, &#39;--&#39;, &#39;ay&#39;, &#39;ty&#39;, &#39;ot&#39;, &#39;p&#39;, &#39;nce&#39;, &quot;&#39;s&quot;, &#39;ter&#39;, &#39;om&#39;, &#39;ss&#39;, &#39;:&#39;, &#39;we&#39;, &#39;are&#39;, &#39;c&#39;, &#39;ers&#39;, &#39;uld&#39;, &#39;had&#39;, &#39;so&#39;, &#39;ey&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">pos_features</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="n">common_suffixes</span><span class="p">:</span>
+        <span class="n">features</span><span class="p">[</span><span class="s1">&#39;endswith(</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">suffix</span><span class="p">)]</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">suffix</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">features</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tagged_words</span> <span class="o">=</span> <span class="n">brown</span><span class="o">.</span><span class="n">tagged_words</span><span class="p">(</span><span class="n">categories</span><span class="o">=</span><span class="s1">&#39;news&#39;</span><span class="p">)</span>
+<span class="n">featuresets</span> <span class="o">=</span> <span class="p">[(</span><span class="n">pos_features</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">g</span><span class="p">)</span> <span class="ow">in</span> <span class="n">tagged_words</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">featuresets</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_set</span><span class="p">,</span> <span class="n">test_set</span> <span class="o">=</span> <span class="n">featuresets</span><span class="p">[</span><span class="n">size</span><span class="p">:],</span> <span class="n">featuresets</span><span class="p">[:</span><span class="n">size</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">classifier</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">DecisionTreeClassifier</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">train_set</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nltk</span><span class="o">.</span><span class="n">classify</span><span class="o">.</span><span class="n">accuracy</span><span class="p">(</span><span class="n">classifier</span><span class="p">,</span> <span class="n">test_set</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.17135753356539035
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">classifier</span><span class="o">.</span><span class="n">classify</span><span class="p">(</span><span class="n">pos_features</span><span class="p">(</span><span class="s1">&#39;cats&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;IN&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="sentence-boundary">
+<h2>Sentence Boundary<a class="headerlink" href="#sentence-boundary" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sents</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">corpus</span><span class="o">.</span><span class="n">treebank_raw</span><span class="o">.</span><span class="n">sents</span><span class="p">()</span>
+<span class="n">tokens</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">boundaries</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">sents</span><span class="p">:</span>
+    <span class="n">tokens</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">sent</span><span class="p">)</span> <span class="c1"># append tokens of each sent to `tokens`</span>
+    <span class="n">offset</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sent</span><span class="p">)</span> <span class="c1"># update the index of each word token</span>
+    <span class="n">boundaries</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">offset</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># record the index of sent boundary token</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">punct_features</span><span class="p">(</span><span class="n">tokens</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;next-word-capitalized&#39;</span><span class="p">:</span> <span class="n">tokens</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isupper</span><span class="p">(),</span>
+            <span class="s1">&#39;prev-word&#39;</span><span class="p">:</span> <span class="n">tokens</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
+            <span class="s1">&#39;punct&#39;</span><span class="p">:</span> <span class="n">tokens</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+            <span class="s1">&#39;prev-word-is-one-char&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create featuresets</span>
+<span class="c1"># by selecting only sentence boundary tokens</span>
+<span class="n">featuresets</span> <span class="o">=</span> <span class="p">[(</span><span class="n">punct_features</span><span class="p">(</span><span class="n">tokens</span><span class="p">,</span> <span class="n">i</span><span class="p">),</span> <span class="p">(</span><span class="n">i</span> <span class="ow">in</span> <span class="n">boundaries</span><span class="p">))</span>
+               <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> 
+               <span class="k">if</span> <span class="n">tokens</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">in</span> <span class="s1">&#39;.?!&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">featuresets</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_set</span><span class="p">,</span> <span class="n">test_set</span> <span class="o">=</span> <span class="n">featuresets</span><span class="p">[</span><span class="n">size</span><span class="p">:],</span> <span class="n">featuresets</span><span class="p">[:</span><span class="n">size</span><span class="p">]</span>
+<span class="n">classifier</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">NaiveBayesClassifier</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">train_set</span><span class="p">)</span>
+<span class="n">nltk</span><span class="o">.</span><span class="n">classify</span><span class="o">.</span><span class="n">accuracy</span><span class="p">(</span><span class="n">classifier</span><span class="p">,</span> <span class="n">test_set</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.936026936026936
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">classifier</span><span class="o">.</span><span class="n">classify</span><span class="p">(</span><span class="n">punct_features</span><span class="p">(</span><span class="n">tokens</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;.&#39;, &#39;START&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">segment_sentences</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">sents</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1">#for i, word in enumerate(words): ## modified</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="s1">&#39;.?!&#39;</span> <span class="ow">and</span> <span class="n">classifier</span><span class="o">.</span><span class="n">classify</span><span class="p">(</span><span class="n">punct_features</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">sents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+    <span class="k">if</span> <span class="n">start</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
+        <span class="n">sents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="n">start</span><span class="p">:])</span>
+    <span class="k">return</span> <span class="n">sents</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Python is an interpreted, high-level and general-purpose programming language. Python&#39;s design philosophy emphasizes code readability with its notable use of significant indentation. Its language constructs and object-oriented approach aim to help programmers write clear, logical code for small and large-scale projects.&quot;</span>
+<span class="n">nltk</span><span class="o">.</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)[:</span><span class="mi">20</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Python&#39;,
+ &#39;is&#39;,
+ &#39;an&#39;,
+ &#39;interpreted&#39;,
+ &#39;,&#39;,
+ &#39;high-level&#39;,
+ &#39;and&#39;,
+ &#39;general-purpose&#39;,
+ &#39;programming&#39;,
+ &#39;language&#39;,
+ &#39;.&#39;,
+ &#39;Python&#39;,
+ &quot;&#39;s&quot;,
+ &#39;design&#39;,
+ &#39;philosophy&#39;,
+ &#39;emphasizes&#39;,
+ &#39;code&#39;,
+ &#39;readability&#39;,
+ &#39;with&#39;,
+ &#39;its&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">segment_sentences</span><span class="p">(</span><span class="n">nltk</span><span class="o">.</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[&#39;Python&#39;,
+  &#39;is&#39;,
+  &#39;an&#39;,
+  &#39;interpreted&#39;,
+  &#39;,&#39;,
+  &#39;high-level&#39;,
+  &#39;and&#39;,
+  &#39;general-purpose&#39;,
+  &#39;programming&#39;,
+  &#39;language&#39;,
+  &#39;.&#39;],
+ [&#39;Python&#39;,
+  &quot;&#39;s&quot;,
+  &#39;design&#39;,
+  &#39;philosophy&#39;,
+  &#39;emphasizes&#39;,
+  &#39;code&#39;,
+  &#39;readability&#39;,
+  &#39;with&#39;,
+  &#39;its&#39;,
+  &#39;notable&#39;,
+  &#39;use&#39;,
+  &#39;of&#39;,
+  &#39;significant&#39;,
+  &#39;indentation&#39;,
+  &#39;.&#39;],
+ [&#39;Its&#39;,
+  &#39;language&#39;,
+  &#39;constructs&#39;,
+  &#39;and&#39;,
+  &#39;object-oriented&#39;,
+  &#39;approach&#39;,
+  &#39;aim&#39;,
+  &#39;to&#39;,
+  &#39;help&#39;,
+  &#39;programmers&#39;,
+  &#39;write&#39;,
+  &#39;clear&#39;,
+  &#39;,&#39;,
+  &#39;logical&#39;,
+  &#39;code&#39;,
+  &#39;for&#39;,
+  &#39;small&#39;,
+  &#39;and&#39;,
+  &#39;large-scale&#39;,
+  &#39;projects&#39;,
+  &#39;.&#39;]]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="dialogue-act-classification">
+<h2>Dialogue Act Classification<a class="headerlink" href="#dialogue-act-classification" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>NPS Chat Corpus consists of over 10,000 posts from instant messaging sessions.</p></li>
+<li><p>Thse poasts have been labeled with one of  15 dialogue act types.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">posts</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">corpus</span><span class="o">.</span><span class="n">nps_chat</span><span class="o">.</span><span class="n">xml_posts</span><span class="p">()[:</span><span class="mi">10000</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">posts</span><span class="p">[:</span><span class="mi">10</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;now im left with this gay name&#39;,
+ &#39;:P&#39;,
+ &#39;PART&#39;,
+ &#39;hey everyone  &#39;,
+ &#39;ah well&#39;,
+ &#39;NICK :10-19-20sUser7&#39;,
+ &#39;10-19-20sUser7 is a gay name.&#39;,
+ &#39;.ACTION gives 10-19-20sUser121 a golf clap.&#39;,
+ &#39;:)&#39;,
+ &#39;JOIN&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># bag-of-words</span>
+<span class="k">def</span> <span class="nf">dialogue_act_features</span><span class="p">(</span><span class="n">post</span><span class="p">):</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">nltk</span><span class="o">.</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">post</span><span class="p">):</span>
+        <span class="n">features</span><span class="p">[</span><span class="s1">&#39;contains(</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">())]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">features</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">featuresets</span> <span class="o">=</span> <span class="p">[(</span><span class="n">dialogue_act_features</span><span class="p">(</span><span class="n">post</span><span class="o">.</span><span class="n">text</span><span class="p">),</span> <span class="n">post</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">))</span>
+               <span class="k">for</span> <span class="n">post</span> <span class="ow">in</span> <span class="n">posts</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">featuresets</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">)</span>
+
+<span class="n">train_set</span><span class="p">,</span> <span class="n">test_set</span> <span class="o">=</span> <span class="n">featuresets</span><span class="p">[</span><span class="n">size</span><span class="p">:],</span> <span class="n">featuresets</span><span class="p">[:</span><span class="n">size</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">classifier</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">NaiveBayesClassifier</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">train_set</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Accuracy: </span><span class="si">{:4.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nltk</span><span class="o">.</span><span class="n">classify</span><span class="o">.</span><span class="n">accuracy</span><span class="p">(</span><span class="n">classifier</span><span class="p">,</span> <span class="n">test_set</span><span class="p">)))</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.75
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_featureset</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span> <span class="ow">in</span> <span class="n">test_set</span><span class="p">]</span>
+<span class="n">test_label</span> <span class="o">=</span> <span class="p">[</span><span class="n">l</span> <span class="k">for</span> <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span> <span class="ow">in</span> <span class="n">test_set</span><span class="p">]</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_label_predicted</span> <span class="o">=</span> <span class="p">[</span><span class="n">classifier</span><span class="o">.</span><span class="n">classify</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">test_featureset</span><span class="p">]</span>
+
+<span class="n">cm</span><span class="o">=</span><span class="n">nltk</span><span class="o">.</span><span class="n">ConfusionMatrix</span><span class="p">(</span><span class="n">test_label</span><span class="p">,</span> <span class="n">test_label_predicted</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm</span><span class="o">.</span><span class="n">pretty_format</span><span class="p">(</span><span class="n">sort_by_count</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_percents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">truncate</span><span class="o">=</span><span class="mi">9</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>           |                                  w      y                      |
+           |      S                           h      n                    C |
+           |      t                           Q      Q             E      o |
+           |      a             E             u      u             m      n |
+           |      t      S      m             e      e      A      p      t |
+           |      e      y      o      G      s      s      c      h      i |
+           |      m      s      t      r      t      t      c      a      n |
+           |      e      t      i      e      i      i      e      s      u |
+           |      n      e      o      e      o      o      p      i      e |
+           |      t      m      n      t      n      n      t      s      r |
+-----------+----------------------------------------------------------------+
+ Statement | &lt;27.7%&gt;  0.1%   0.6%   0.2%   0.2%   0.9%   0.3%   0.2%   0.8% |
+    System |   0.1% &lt;20.8%&gt;     .      .      .      .      .      .      . |
+   Emotion |   3.7%      .  &lt;9.6%&gt;     .      .      .      .      .      . |
+     Greet |   0.3%      .   0.1%  &lt;5.9%&gt;  0.2%      .      .      .      . |
+whQuestion |   1.8%      .   0.2%   0.1%  &lt;3.7%&gt;     .      .      .      . |
+ynQuestion |   2.6%      .      .   0.3%   0.1%  &lt;2.6%&gt;  0.1%      .   0.1% |
+    Accept |   2.2%      .      .      .   0.1%      .  &lt;1.2%&gt;     .      . |
+  Emphasis |   2.9%      .   0.1%      .   0.1%      .      .  &lt;0.1%&gt;  0.1% |
+ Continuer |   1.4%      .      .      .   0.1%   0.1%      .      .  &lt;0.6%&gt;|
+-----------+----------------------------------------------------------------+
+(row = reference; col = test)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.nltk.org/book/ch06.html">NLTK Book Chapter 6: Learning to Classify Text</a></p></li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python-notes",
+            path: "./nlp"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python-notes'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="ml-simple-case.html" title="previous page">Machine Learning: A Simple Example</a>
+    <a class='right-next' id="next-link" href="ml-algorithm.html" title="next page">Classification Models</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Alvin Chen<br/>
+        
+            &copy; Copyright 2020 Alvin Chen.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

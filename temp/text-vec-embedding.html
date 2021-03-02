@@ -1,0 +1,3448 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Word Embeddings &#8212; ENC2045 Computational Linguistics</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Word Embedding Using Keras" href="text-vec-embedding-keras.html" />
+    <link rel="prev" title="Text Vectorization Using Traditional Methods" href="text-vec-traditional.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/ntnu-word-2.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">ENC2045 Computational Linguistics</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <p class="caption collapsible-parent">
+ <span class="caption-text">
+  INTRODUCTION
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/nlp-primer.html">
+   Natural Language Processing: A Primer
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/nlp-pipeline.html">
+   NLP Pipeline
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Preprocessing
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../nlp/text-preprocessing.html">
+   Text Preprocessing
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../nlp/text-normalization-eng.html">
+     Text Normalization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../nlp/text-tokenization.html">
+     Text Tokenization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../nlp/text-enrichment.html">
+     Text Enrichment
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/chinese-word-seg.html">
+   Chinese Word Segmentation
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Text Vectorization
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="text-vec-traditional.html">
+   Text Vectorization Using Traditional Methods
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Word Embeddings
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="text-vec-embedding-keras.html">
+   Word Embedding Using Keras
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine Learning Basics
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-overview.html">
+   Machine Learning: Overview
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-simple-case.html">
+   Machine Learning: A Simple Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-nlp-case.html">
+   Machine Learning: NLP Tasks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-algorithm.html">
+   Classification Models
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-sklearn-classification.html">
+   Machine Learning Using Sci-Kit Learn
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  NLP Tasks
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../nlp/text-classification.html">
+   Text Classification
+  </a>
+  <ul class="simple collapse-ul">
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="topic-modeling-naive.html">
+   Topic Modeling: A Naive Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="topic-modeling-complex.html">
+   Topic Modeling: A Real Example
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../nlp/sentiment-analysis.html">
+   Sentiment Analysis
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="sentiment-analysis-ml.html">
+     Sentiment Analysis with Traditional Machine Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sentiment-analysis-dl.html">
+     Sentiment Analysis based on Embeddings
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Deep Learning NLP
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl-neural-network-from-scratch.html">
+   Neural Network From Scratch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl-statistical-language-model.html">
+   Statistical Language Model
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Exercises
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/1-python-basics.html">
+   1. Assignment I: Python Basics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/2-journal-review.html">
+   2. Assignment II: Journal Articles Review
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  <div style="text-align:center">
+<i class="fas fa-chalkboard-teacher fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinntnu.github.io/NTNU_ENC2045/" target='_blank'>ENC2045 Course Website</a><br>
+<i class="fas fa-home fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinchen.myftp.org/" target='_blank'>Alvin Chen's Homepage</a>
+</div>
+
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/temp/text-vec-embedding.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alvinntnu/NTNU_ENC2045_LECTURES/main?urlpath=tree/temp/text-vec-embedding.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alvinntnu/NTNU_ENC2045_LECTURES/blob/main/temp/text-vec-embedding.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#overview">
+   Overview
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-is-word-embeddings">
+     What is
+     <strong>
+      Word Embeddings
+     </strong>
+     ?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#main-training-algorithms">
+     Main training algorithms
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-necessary-dependencies-and-settings">
+   Import necessary dependencies and settings
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sample-corpus-of-text-documents">
+   Sample corpus of text documents
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#simple-text-pre-processing">
+   Simple text pre-processing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-up-sample-corpus-bible">
+   Load up sample corpus - Bible
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#leveraging-genism-for-building-a-word2vec-skip-gram-model">
+   Leveraging
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     genism
+    </span>
+   </code>
+   for building a
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     word2vec
+    </span>
+   </code>
+   skip-gram model
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#visualizing-word-embeddings">
+     Visualizing word embeddings
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#applying-the-word2vec-model-on-our-sample-corpus">
+     Applying the word2vec model on our sample corpus
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#visualize-word-embeddings">
+     Visualize word embeddings
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sample-word-embedding">
+     Sample word embedding
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#build-framework-for-getting-document-level-embeddings">
+     Build framework for getting document level embeddings
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#clustering-with-word-embeddings">
+     Clustering with word embeddings
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#leveraging-spacy-for-pre-trained-glove-embeddings">
+   Leveraging
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     spacy
+    </span>
+   </code>
+   for Pre-trained GloVe Embeddings
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#visualize-glove-word-embeddings">
+     Visualize GloVe word embeddings
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cluster-documents-with-glove-embeddings">
+     Cluster documents with GloVe Embeddings
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#leveraging-gensim-for-building-a-fasttext-model">
+   Leveraging
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     gensim
+    </span>
+   </code>
+   for building a FastText model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="word-embeddings">
+<h1>Word Embeddings<a class="headerlink" href="#word-embeddings" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>The state-of-art way of vectorizing texts is to learn the numeric representations of words based on deep learning methods.</p></li>
+<li><p>These deep-learning based numeric representations of linguistic units are commonly referred to as <strong>embeddings</strong>.</p></li>
+</ul>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="what-is-word-embeddings">
+<h3>What is <strong>Word Embeddings</strong>?<a class="headerlink" href="#what-is-word-embeddings" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Word2vec</span></code> is one of the most popular techniques to learn word embeddings using a two-layer neural network.</p></li>
+<li><p>The input is a text corpus and the output is a set of word vectors.</p></li>
+<li><p>Different from the bag-of-words method, these embeddings are learned by training the model to optimize general language modeling tasks.</p></li>
+<li><p>Reseach has shown that these embeddings include more semantic information of words, which allow us to perform interesting semantic computation.</p></li>
+</ul>
+</div>
+<div class="section" id="main-training-algorithms">
+<h3>Main training algorithms<a class="headerlink" href="#main-training-algorithms" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Continuous bag-of-words (<strong>CBOW</strong>): The general language modeling task for embeddings training is to learn a model that is capable of using the context words to predict a target word.</p></li>
+<li><p><strong>Skip-gram</strong>: The general language modeling task for embeddings training is to learn a model that is capable of using a word to predict its target context words.</p></li>
+<li><p>Other variants of embeddings training:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">fasttext</span></code> from Facebook</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GloVe</span></code> from Stanford NLP Group (?)</p></li>
+</ul>
+</li>
+<li><p>There are many ways to train work embeddings.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">gensim</span></code></p></li>
+<li><p>Training based on deep learning packages (e.g., <code class="docutils literal notranslate"><span class="pre">keras</span></code>, <code class="docutils literal notranslate"><span class="pre">tensorflow</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">spacy</span></code> (It comes with many pre-trained embeddings models.)</p></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="import-necessary-dependencies-and-settings">
+<h2>Import necessary dependencies and settings<a class="headerlink" href="#import-necessary-dependencies-and-settings" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">nltk</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">max_colwidth</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Google Colab Adhoc Setting</span>
+<span class="o">!</span>nvidia-smi
+<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">([</span><span class="s1">&#39;gutenberg&#39;</span><span class="p">,</span><span class="s1">&#39;punkt&#39;</span><span class="p">,</span><span class="s1">&#39;stopwords&#39;</span><span class="p">])</span>
+<span class="o">!</span>pip show spacy
+<span class="o">!</span>pip install --upgrade spacy
+<span class="c1">#!python -m spacy download en_core_web_trf</span>
+<span class="o">!</span>python -m spacy download en_core_web_lg
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mon Mar  1 00:20:09 2021       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 460.39       Driver Version: 460.32.03    CUDA Version: 11.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  Tesla T4            Off  | 00000000:00:04.0 Off |                    0 |
+| N/A   64C    P8    11W /  70W |      0MiB / 15109MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+[nltk_data] Downloading package gutenberg to /root/nltk_data...
+[nltk_data]   Package gutenberg is already up-to-date!
+[nltk_data] Downloading package punkt to /root/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+[nltk_data] Downloading package stopwords to /root/nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!
+Name: spacy
+Version: 3.0.3
+Summary: Industrial-strength Natural Language Processing (NLP) in Python
+Home-page: https://spacy.io
+Author: Explosion
+Author-email: contact@explosion.ai
+License: MIT
+Location: /usr/local/lib/python3.7/dist-packages
+Requires: setuptools, cymem, importlib-metadata, typer, spacy-legacy, numpy, jinja2, srsly, typing-extensions, catalogue, blis, thinc, wasabi, pydantic, murmurhash, preshed, pathy, packaging, requests, tqdm
+Required-by: fastai, en-core-web-sm
+Requirement already up-to-date: spacy in /usr/local/lib/python3.7/dist-packages (3.0.3)
+Requirement already satisfied, skipping upgrade: setuptools in /usr/local/lib/python3.7/dist-packages (from spacy) (53.0.0)
+Requirement already satisfied, skipping upgrade: typing-extensions&gt;=3.7.4; python_version &lt; &quot;3.8&quot; in /usr/local/lib/python3.7/dist-packages (from spacy) (3.7.4.3)
+Requirement already satisfied, skipping upgrade: pathy in /usr/local/lib/python3.7/dist-packages (from spacy) (0.4.0)
+Requirement already satisfied, skipping upgrade: importlib-metadata&gt;=0.20; python_version &lt; &quot;3.8&quot; in /usr/local/lib/python3.7/dist-packages (from spacy) (3.7.0)
+Requirement already satisfied, skipping upgrade: srsly&lt;3.0.0,&gt;=2.4.0 in /usr/local/lib/python3.7/dist-packages (from spacy) (2.4.0)
+Requirement already satisfied, skipping upgrade: cymem&lt;2.1.0,&gt;=2.0.2 in /usr/local/lib/python3.7/dist-packages (from spacy) (2.0.5)
+Requirement already satisfied, skipping upgrade: pydantic&lt;1.8.0,&gt;=1.7.1 in /usr/local/lib/python3.7/dist-packages (from spacy) (1.7.3)
+Requirement already satisfied, skipping upgrade: typer&lt;0.4.0,&gt;=0.3.0 in /usr/local/lib/python3.7/dist-packages (from spacy) (0.3.2)
+Requirement already satisfied, skipping upgrade: tqdm&lt;5.0.0,&gt;=4.38.0 in /usr/local/lib/python3.7/dist-packages (from spacy) (4.41.1)
+Requirement already satisfied, skipping upgrade: murmurhash&lt;1.1.0,&gt;=0.28.0 in /usr/local/lib/python3.7/dist-packages (from spacy) (1.0.5)
+Requirement already satisfied, skipping upgrade: thinc&lt;8.1.0,&gt;=8.0.0 in /usr/local/lib/python3.7/dist-packages (from spacy) (8.0.1)
+Requirement already satisfied, skipping upgrade: catalogue&lt;2.1.0,&gt;=2.0.1 in /usr/local/lib/python3.7/dist-packages (from spacy) (2.0.1)
+Requirement already satisfied, skipping upgrade: packaging&gt;=20.0 in /usr/local/lib/python3.7/dist-packages (from spacy) (20.9)
+Requirement already satisfied, skipping upgrade: blis&lt;0.8.0,&gt;=0.4.0 in /usr/local/lib/python3.7/dist-packages (from spacy) (0.4.1)
+Requirement already satisfied, skipping upgrade: wasabi&lt;1.1.0,&gt;=0.8.1 in /usr/local/lib/python3.7/dist-packages (from spacy) (0.8.2)
+Requirement already satisfied, skipping upgrade: preshed&lt;3.1.0,&gt;=3.0.2 in /usr/local/lib/python3.7/dist-packages (from spacy) (3.0.5)
+Requirement already satisfied, skipping upgrade: spacy-legacy&lt;3.1.0,&gt;=3.0.0 in /usr/local/lib/python3.7/dist-packages (from spacy) (3.0.1)
+Requirement already satisfied, skipping upgrade: jinja2 in /usr/local/lib/python3.7/dist-packages (from spacy) (2.11.3)
+Requirement already satisfied, skipping upgrade: numpy&gt;=1.15.0 in /usr/local/lib/python3.7/dist-packages (from spacy) (1.19.5)
+Requirement already satisfied, skipping upgrade: requests&lt;3.0.0,&gt;=2.13.0 in /usr/local/lib/python3.7/dist-packages (from spacy) (2.23.0)
+Requirement already satisfied, skipping upgrade: smart-open&lt;4.0.0,&gt;=2.2.0 in /usr/local/lib/python3.7/dist-packages (from pathy-&gt;spacy) (3.0.0)
+Requirement already satisfied, skipping upgrade: zipp&gt;=0.5 in /usr/local/lib/python3.7/dist-packages (from importlib-metadata&gt;=0.20; python_version &lt; &quot;3.8&quot;-&gt;spacy) (3.4.0)
+Requirement already satisfied, skipping upgrade: click&lt;7.2.0,&gt;=7.1.1 in /usr/local/lib/python3.7/dist-packages (from typer&lt;0.4.0,&gt;=0.3.0-&gt;spacy) (7.1.2)
+Requirement already satisfied, skipping upgrade: pyparsing&gt;=2.0.2 in /usr/local/lib/python3.7/dist-packages (from packaging&gt;=20.0-&gt;spacy) (2.4.7)
+Requirement already satisfied, skipping upgrade: MarkupSafe&gt;=0.23 in /usr/local/lib/python3.7/dist-packages (from jinja2-&gt;spacy) (1.1.1)
+Requirement already satisfied, skipping upgrade: urllib3!=1.25.0,!=1.25.1,&lt;1.26,&gt;=1.21.1 in /usr/local/lib/python3.7/dist-packages (from requests&lt;3.0.0,&gt;=2.13.0-&gt;spacy) (1.24.3)
+Requirement already satisfied, skipping upgrade: certifi&gt;=2017.4.17 in /usr/local/lib/python3.7/dist-packages (from requests&lt;3.0.0,&gt;=2.13.0-&gt;spacy) (2020.12.5)
+Requirement already satisfied, skipping upgrade: idna&lt;3,&gt;=2.5 in /usr/local/lib/python3.7/dist-packages (from requests&lt;3.0.0,&gt;=2.13.0-&gt;spacy) (2.10)
+Requirement already satisfied, skipping upgrade: chardet&lt;4,&gt;=3.0.2 in /usr/local/lib/python3.7/dist-packages (from requests&lt;3.0.0,&gt;=2.13.0-&gt;spacy) (3.0.4)
+2021-03-01 00:20:14.904018: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudart.so.10.1
+Collecting en-core-web-trf==3.0.0
+?25l  Downloading https://github.com/explosion/spacy-models/releases/download/en_core_web_trf-3.0.0/en_core_web_trf-3.0.0-py3-none-any.whl (459.7MB)
+     |████████████████████████████████| 459.7MB 37kB/s 
+?25hRequirement already satisfied: spacy&lt;3.1.0,&gt;=3.0.0 in /usr/local/lib/python3.7/dist-packages (from en-core-web-trf==3.0.0) (3.0.3)
+Collecting spacy-transformers&lt;1.1.0,&gt;=1.0.0rc4
+  Downloading https://files.pythonhosted.org/packages/5b/22/51e9e59ebb0d914cf162201ca76f497a2fb1730e9fcf6cf5f5de3a2fbfc0/spacy_transformers-1.0.1-py2.py3-none-any.whl
+Requirement already satisfied: typer&lt;0.4.0,&gt;=0.3.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (0.3.2)
+Requirement already satisfied: srsly&lt;3.0.0,&gt;=2.4.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (2.4.0)
+Requirement already satisfied: importlib-metadata&gt;=0.20; python_version &lt; &quot;3.8&quot; in /usr/local/lib/python3.7/dist-packages (from spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (3.7.0)
+Requirement already satisfied: pathy in /usr/local/lib/python3.7/dist-packages (from spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (0.4.0)
+Requirement already satisfied: preshed&lt;3.1.0,&gt;=3.0.2 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (3.0.5)
+Requirement already satisfied: requests&lt;3.0.0,&gt;=2.13.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (2.23.0)
+Requirement already satisfied: catalogue&lt;2.1.0,&gt;=2.0.1 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (2.0.1)
+Requirement already satisfied: jinja2 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (2.11.3)
+Requirement already satisfied: murmurhash&lt;1.1.0,&gt;=0.28.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (1.0.5)
+Requirement already satisfied: typing-extensions&gt;=3.7.4; python_version &lt; &quot;3.8&quot; in /usr/local/lib/python3.7/dist-packages (from spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (3.7.4.3)
+Requirement already satisfied: tqdm&lt;5.0.0,&gt;=4.38.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (4.41.1)
+Requirement already satisfied: setuptools in /usr/local/lib/python3.7/dist-packages (from spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (53.0.0)
+Requirement already satisfied: wasabi&lt;1.1.0,&gt;=0.8.1 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (0.8.2)
+Requirement already satisfied: blis&lt;0.8.0,&gt;=0.4.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (0.4.1)
+Requirement already satisfied: pydantic&lt;1.8.0,&gt;=1.7.1 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (1.7.3)
+Requirement already satisfied: packaging&gt;=20.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (20.9)
+Requirement already satisfied: numpy&gt;=1.15.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (1.19.5)
+Requirement already satisfied: thinc&lt;8.1.0,&gt;=8.0.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (8.0.1)
+Requirement already satisfied: spacy-legacy&lt;3.1.0,&gt;=3.0.0 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (3.0.1)
+Requirement already satisfied: cymem&lt;2.1.0,&gt;=2.0.2 in /usr/local/lib/python3.7/dist-packages (from spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (2.0.5)
+Collecting torchcontrib&lt;0.1.0,&gt;=0.0.2
+  Downloading https://files.pythonhosted.org/packages/72/36/45d475035ab35353911e72a03c1c1210eba63b71e5a6917a9e78a046aa10/torchcontrib-0.0.2.tar.gz
+Collecting ftfy&lt;6.0.0,&gt;=5.0.0
+?25l  Downloading https://files.pythonhosted.org/packages/04/06/e5c80e2e0f979628d47345efba51f7ba386fe95963b11c594209085f5a9b/ftfy-5.9.tar.gz (66kB)
+     |████████████████████████████████| 71kB 4.7MB/s 
+?25hCollecting spacy-alignments&lt;1.0.0,&gt;=0.7.2
+?25l  Downloading https://files.pythonhosted.org/packages/42/86/1a428af2429609f5a238e96503fc4367efda4caf2b28734903dc9eb1d92c/spacy_alignments-0.7.2-cp37-cp37m-manylinux2014_x86_64.whl (977kB)
+     |████████████████████████████████| 983kB 9.1MB/s 
+?25hRequirement already satisfied: torch&gt;=1.5.0 in /usr/local/lib/python3.7/dist-packages (from spacy-transformers&lt;1.1.0,&gt;=1.0.0rc4-&gt;en-core-web-trf==3.0.0) (1.7.1+cu101)
+Collecting transformers&lt;4.3.0,&gt;=3.1.0
+?25l  Downloading https://files.pythonhosted.org/packages/88/b1/41130a228dd656a1a31ba281598a968320283f48d42782845f6ba567f00b/transformers-4.2.2-py3-none-any.whl (1.8MB)
+     |████████████████████████████████| 1.8MB 22.3MB/s 
+?25hRequirement already satisfied: click&lt;7.2.0,&gt;=7.1.1 in /usr/local/lib/python3.7/dist-packages (from typer&lt;0.4.0,&gt;=0.3.0-&gt;spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (7.1.2)
+Requirement already satisfied: zipp&gt;=0.5 in /usr/local/lib/python3.7/dist-packages (from importlib-metadata&gt;=0.20; python_version &lt; &quot;3.8&quot;-&gt;spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (3.4.0)
+Requirement already satisfied: smart-open&lt;4.0.0,&gt;=2.2.0 in /usr/local/lib/python3.7/dist-packages (from pathy-&gt;spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (3.0.0)
+Requirement already satisfied: urllib3!=1.25.0,!=1.25.1,&lt;1.26,&gt;=1.21.1 in /usr/local/lib/python3.7/dist-packages (from requests&lt;3.0.0,&gt;=2.13.0-&gt;spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (1.24.3)
+Requirement already satisfied: idna&lt;3,&gt;=2.5 in /usr/local/lib/python3.7/dist-packages (from requests&lt;3.0.0,&gt;=2.13.0-&gt;spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (2.10)
+Requirement already satisfied: chardet&lt;4,&gt;=3.0.2 in /usr/local/lib/python3.7/dist-packages (from requests&lt;3.0.0,&gt;=2.13.0-&gt;spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (3.0.4)
+Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.7/dist-packages (from requests&lt;3.0.0,&gt;=2.13.0-&gt;spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (2020.12.5)
+Requirement already satisfied: MarkupSafe&gt;=0.23 in /usr/local/lib/python3.7/dist-packages (from jinja2-&gt;spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (1.1.1)
+Requirement already satisfied: pyparsing&gt;=2.0.2 in /usr/local/lib/python3.7/dist-packages (from packaging&gt;=20.0-&gt;spacy&lt;3.1.0,&gt;=3.0.0-&gt;en-core-web-trf==3.0.0) (2.4.7)
+Requirement already satisfied: wcwidth in /usr/local/lib/python3.7/dist-packages (from ftfy&lt;6.0.0,&gt;=5.0.0-&gt;spacy-transformers&lt;1.1.0,&gt;=1.0.0rc4-&gt;en-core-web-trf==3.0.0) (0.2.5)
+Requirement already satisfied: filelock in /usr/local/lib/python3.7/dist-packages (from transformers&lt;4.3.0,&gt;=3.1.0-&gt;spacy-transformers&lt;1.1.0,&gt;=1.0.0rc4-&gt;en-core-web-trf==3.0.0) (3.0.12)
+Requirement already satisfied: regex!=2019.12.17 in /usr/local/lib/python3.7/dist-packages (from transformers&lt;4.3.0,&gt;=3.1.0-&gt;spacy-transformers&lt;1.1.0,&gt;=1.0.0rc4-&gt;en-core-web-trf==3.0.0) (2019.12.20)
+Collecting sacremoses
+?25l  Downloading https://files.pythonhosted.org/packages/7d/34/09d19aff26edcc8eb2a01bed8e98f13a1537005d31e95233fd48216eed10/sacremoses-0.0.43.tar.gz (883kB)
+     |████████████████████████████████| 890kB 46.7MB/s 
+?25hCollecting tokenizers==0.9.4
+?25l  Downloading https://files.pythonhosted.org/packages/fb/36/59e4a62254c5fcb43894c6b0e9403ec6f4238cc2422a003ed2e6279a1784/tokenizers-0.9.4-cp37-cp37m-manylinux2010_x86_64.whl (2.9MB)
+     |████████████████████████████████| 2.9MB 54.3MB/s 
+?25hRequirement already satisfied: six in /usr/local/lib/python3.7/dist-packages (from sacremoses-&gt;transformers&lt;4.3.0,&gt;=3.1.0-&gt;spacy-transformers&lt;1.1.0,&gt;=1.0.0rc4-&gt;en-core-web-trf==3.0.0) (1.15.0)
+Requirement already satisfied: joblib in /usr/local/lib/python3.7/dist-packages (from sacremoses-&gt;transformers&lt;4.3.0,&gt;=3.1.0-&gt;spacy-transformers&lt;1.1.0,&gt;=1.0.0rc4-&gt;en-core-web-trf==3.0.0) (1.0.1)
+Building wheels for collected packages: torchcontrib, ftfy, sacremoses
+  Building wheel for torchcontrib (setup.py) ... ?25l?25hdone
+  Created wheel for torchcontrib: filename=torchcontrib-0.0.2-cp37-none-any.whl size=7532 sha256=27362f2689663edd2d79d441f00d8241eb6f01937d4180b2a6409cbac41ce59f
+  Stored in directory: /root/.cache/pip/wheels/06/06/7b/a5f5920bbf4f12a2c927e438fac17d4cd9560f8336b00e9a99
+  Building wheel for ftfy (setup.py) ... ?25l?25hdone
+  Created wheel for ftfy: filename=ftfy-5.9-cp37-none-any.whl size=46451 sha256=9f9e879b9fbf7cc232e9287af5a94fb60a95f7d0a0d1764701ceeeb0a6dcaa34
+  Stored in directory: /root/.cache/pip/wheels/5e/2e/f0/b07196e8c929114998f0316894a61c752b63bfa3fdd50d2fc3
+  Building wheel for sacremoses (setup.py) ... ?25l?25hdone
+  Created wheel for sacremoses: filename=sacremoses-0.0.43-cp37-none-any.whl size=893262 sha256=e2a97c010425bf0272a68e954d3655eb5e4cad4a96c9425aeb105114994915ac
+  Stored in directory: /root/.cache/pip/wheels/29/3c/fd/7ce5c3f0666dab31a50123635e6fb5e19ceb42ce38d4e58f45
+Successfully built torchcontrib ftfy sacremoses
+Installing collected packages: torchcontrib, ftfy, spacy-alignments, sacremoses, tokenizers, transformers, spacy-transformers, en-core-web-trf
+Successfully installed en-core-web-trf-3.0.0 ftfy-5.9 sacremoses-0.0.43 spacy-alignments-0.7.2 spacy-transformers-1.0.1 tokenizers-0.9.4 torchcontrib-0.0.2 transformers-4.2.2
+<span class=" -Color -Color-C2">✔ Download and installation successful</span>
+You can now load the package via spacy.load(&#39;en_core_web_trf&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="sample-corpus-of-text-documents">
+<h2>Sample corpus of text documents<a class="headerlink" href="#sample-corpus-of-text-documents" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corpus</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;The sky is blue and beautiful.&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;Love this blue and beautiful sky!&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;The quick brown fox jumps over the lazy dog.&#39;</span><span class="p">,</span>
+          <span class="s2">&quot;A king&#39;s breakfast has sausages, ham, bacon, eggs, toast and beans&quot;</span><span class="p">,</span>
+          <span class="s1">&#39;I love green eggs, ham, sausages and bacon!&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;The brown fox is quick and the blue dog is lazy!&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;The sky is very blue and the sky is very beautiful today&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;The dog is lazy but the brown fox is quick!&#39;</span>    
+<span class="p">]</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;weather&#39;</span><span class="p">,</span> <span class="s1">&#39;weather&#39;</span><span class="p">,</span> <span class="s1">&#39;animals&#39;</span><span class="p">,</span> <span class="s1">&#39;food&#39;</span><span class="p">,</span> <span class="s1">&#39;food&#39;</span><span class="p">,</span> <span class="s1">&#39;animals&#39;</span><span class="p">,</span> <span class="s1">&#39;weather&#39;</span><span class="p">,</span> <span class="s1">&#39;animals&#39;</span><span class="p">]</span>
+
+<span class="n">corpus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
+<span class="n">corpus_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Document&#39;</span><span class="p">:</span> <span class="n">corpus</span><span class="p">,</span> 
+                          <span class="s1">&#39;Category&#39;</span><span class="p">:</span> <span class="n">labels</span><span class="p">})</span>
+<span class="n">corpus_df</span> <span class="o">=</span> <span class="n">corpus_df</span><span class="p">[[</span><span class="s1">&#39;Document&#39;</span><span class="p">,</span> <span class="s1">&#39;Category&#39;</span><span class="p">]]</span>
+<span class="n">corpus_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Document</th>
+      <th>Category</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>The sky is blue and beautiful.</td>
+      <td>weather</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Love this blue and beautiful sky!</td>
+      <td>weather</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>The quick brown fox jumps over the lazy dog.</td>
+      <td>animals</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>A king's breakfast has sausages, ham, bacon, eggs, toast and beans</td>
+      <td>food</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>I love green eggs, ham, sausages and bacon!</td>
+      <td>food</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>The brown fox is quick and the blue dog is lazy!</td>
+      <td>animals</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>The sky is very blue and the sky is very beautiful today</td>
+      <td>weather</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>The dog is lazy but the brown fox is quick!</td>
+      <td>animals</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="simple-text-pre-processing">
+<h2>Simple text pre-processing<a class="headerlink" href="#simple-text-pre-processing" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wpt</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">WordPunctTokenizer</span><span class="p">()</span>
+<span class="n">stop_words</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">corpus</span><span class="o">.</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s1">&#39;english&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">normalize_document</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+    <span class="c1"># lower case and remove special characters\whitespaces</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[^a-zA-Z\s]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">doc</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span><span class="o">|</span><span class="n">re</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="c1"># tokenize document</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">wpt</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+    <span class="c1"># filter stopwords out of document</span>
+    <span class="n">filtered_tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">token</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span> <span class="k">if</span> <span class="n">token</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stop_words</span><span class="p">]</span>
+    <span class="c1"># re-create document from filtered tokens</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filtered_tokens</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">doc</span>
+
+<span class="n">normalize_corpus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="n">normalize_document</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">norm_corpus</span> <span class="o">=</span> <span class="n">normalize_corpus</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
+<span class="n">norm_corpus</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;sky blue beautiful&#39;, &#39;love blue beautiful sky&#39;,
+       &#39;quick brown fox jumps lazy dog&#39;,
+       &#39;kings breakfast sausages ham bacon eggs toast beans&#39;,
+       &#39;love green eggs ham sausages bacon&#39;,
+       &#39;brown fox quick blue dog lazy&#39;, &#39;sky blue sky beautiful today&#39;,
+       &#39;dog lazy brown fox quick&#39;], dtype=&#39;&lt;U51&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="load-up-sample-corpus-bible">
+<h2>Load up sample corpus - Bible<a class="headerlink" href="#load-up-sample-corpus-bible" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">gutenberg</span>
+<span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">punctuation</span>
+
+<span class="n">bible</span> <span class="o">=</span> <span class="n">gutenberg</span><span class="o">.</span><span class="n">sents</span><span class="p">(</span><span class="s1">&#39;bible-kjv.txt&#39;</span><span class="p">)</span> 
+<span class="n">remove_terms</span> <span class="o">=</span> <span class="n">punctuation</span> <span class="o">+</span> <span class="s1">&#39;0123456789&#39;</span>
+
+<span class="n">norm_bible</span> <span class="o">=</span> <span class="p">[[</span><span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">sent</span> <span class="k">if</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">remove_terms</span><span class="p">]</span> <span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">bible</span><span class="p">]</span>
+<span class="n">norm_bible</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tok_sent</span><span class="p">)</span> <span class="k">for</span> <span class="n">tok_sent</span> <span class="ow">in</span> <span class="n">norm_bible</span><span class="p">]</span>
+<span class="n">norm_bible</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize_corpus</span><span class="p">(</span><span class="n">norm_bible</span><span class="p">))</span>
+<span class="n">norm_bible</span> <span class="o">=</span> <span class="p">[</span><span class="n">tok_sent</span> <span class="k">for</span> <span class="n">tok_sent</span> <span class="ow">in</span> <span class="n">norm_bible</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tok_sent</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total lines:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">bible</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Sample line:&#39;</span><span class="p">,</span> <span class="n">bible</span><span class="p">[</span><span class="mi">10</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Processed line:&#39;</span><span class="p">,</span> <span class="n">norm_bible</span><span class="p">[</span><span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total lines: 30103
+
+Sample line: [&#39;1&#39;, &#39;:&#39;, &#39;6&#39;, &#39;And&#39;, &#39;God&#39;, &#39;said&#39;, &#39;,&#39;, &#39;Let&#39;, &#39;there&#39;, &#39;be&#39;, &#39;a&#39;, &#39;firmament&#39;, &#39;in&#39;, &#39;the&#39;, &#39;midst&#39;, &#39;of&#39;, &#39;the&#39;, &#39;waters&#39;, &#39;,&#39;, &#39;and&#39;, &#39;let&#39;, &#39;it&#39;, &#39;divide&#39;, &#39;the&#39;, &#39;waters&#39;, &#39;from&#39;, &#39;the&#39;, &#39;waters&#39;, &#39;.&#39;]
+
+Processed line: god said let firmament midst waters let divide waters waters
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="leveraging-genism-for-building-a-word2vec-skip-gram-model">
+<h2>Leveraging <code class="docutils literal notranslate"><span class="pre">genism</span></code> for building a <code class="docutils literal notranslate"><span class="pre">word2vec</span></code> skip-gram model<a class="headerlink" href="#leveraging-genism-for-building-a-word2vec-skip-gram-model" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="kn">from</span> <span class="nn">gensim.models</span> <span class="kn">import</span> <span class="n">word2vec</span>
+
+<span class="c1"># tokenize sentences in corpus</span>
+<span class="n">wpt</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">WordPunctTokenizer</span><span class="p">()</span>
+<span class="n">tokenized_corpus</span> <span class="o">=</span> <span class="p">[</span><span class="n">wpt</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">document</span><span class="p">)</span> <span class="k">for</span> <span class="n">document</span> <span class="ow">in</span> <span class="n">norm_bible</span><span class="p">]</span>
+
+<span class="c1"># Set values for various parameters</span>
+<span class="n">feature_size</span> <span class="o">=</span> <span class="mi">100</span>    <span class="c1"># Word vector dimensionality  </span>
+<span class="n">window_context</span> <span class="o">=</span> <span class="mi">30</span>          <span class="c1"># Context window size                                                                                    </span>
+<span class="n">min_word_count</span> <span class="o">=</span> <span class="mi">1</span>   <span class="c1"># Minimum word count                        </span>
+<span class="n">sample</span> <span class="o">=</span> <span class="mf">1e-3</span>   <span class="c1"># Downsample setting for frequent words</span>
+
+<span class="n">w2v_model</span> <span class="o">=</span> <span class="n">word2vec</span><span class="o">.</span><span class="n">Word2Vec</span><span class="p">(</span><span class="n">tokenized_corpus</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">feature_size</span><span class="p">,</span> 
+                          <span class="n">window</span><span class="o">=</span><span class="n">window_context</span><span class="p">,</span> <span class="n">min_count</span><span class="o">=</span><span class="n">min_word_count</span><span class="p">,</span>
+                          <span class="n">sample</span><span class="o">=</span><span class="n">sample</span><span class="p">,</span> <span class="nb">iter</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">sg</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># `sg=1` for skip-gram; `sg=0` for CBOW</span>
+
+<span class="c1"># view similar words based on gensim&#39;s model</span>
+<span class="n">similar_words</span> <span class="o">=</span> <span class="p">{</span><span class="n">search_term</span><span class="p">:</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">w2v_model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">most_similar</span><span class="p">([</span><span class="n">search_term</span><span class="p">],</span> <span class="n">topn</span><span class="o">=</span><span class="mi">5</span><span class="p">)]</span>
+                  <span class="k">for</span> <span class="n">search_term</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;god&#39;</span><span class="p">,</span> <span class="s1">&#39;jesus&#39;</span><span class="p">,</span> <span class="s1">&#39;noah&#39;</span><span class="p">,</span> <span class="s1">&#39;egypt&#39;</span><span class="p">,</span> <span class="s1">&#39;john&#39;</span><span class="p">,</span> <span class="s1">&#39;gospel&#39;</span><span class="p">,</span> <span class="s1">&#39;moses&#39;</span><span class="p">,</span><span class="s1">&#39;famine&#39;</span><span class="p">]}</span>
+<span class="n">similar_words</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 4min 29s, sys: 476 ms, total: 4min 29s
+Wall time: 2min 18s
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="visualizing-word-embeddings">
+<h3>Visualizing word embeddings<a class="headerlink" href="#visualizing-word-embeddings" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.manifold</span> <span class="kn">import</span> <span class="n">TSNE</span>
+
+<span class="n">words</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([[</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">similar_words</span><span class="o">.</span><span class="n">items</span><span class="p">()],</span> <span class="p">[])</span>
+<span class="n">wvs</span> <span class="o">=</span> <span class="n">w2v_model</span><span class="o">.</span><span class="n">wv</span><span class="p">[</span><span class="n">words</span><span class="p">]</span>
+
+<span class="n">tsne</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">perplexity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">suppress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">tsne</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">wvs</span><span class="p">)</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">words</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">T</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">T</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">textcoords</span><span class="o">=</span><span class="s1">&#39;offset points&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/text-vec-embedding_17_0.png" src="../_images/text-vec-embedding_17_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="applying-the-word2vec-model-on-our-sample-corpus">
+<h3>Applying the word2vec model on our sample corpus<a class="headerlink" href="#applying-the-word2vec-model-on-our-sample-corpus" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wpt</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">WordPunctTokenizer</span><span class="p">()</span>
+<span class="n">tokenized_corpus</span> <span class="o">=</span> <span class="p">[</span><span class="n">wpt</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">document</span><span class="p">)</span> <span class="k">for</span> <span class="n">document</span> <span class="ow">in</span> <span class="n">norm_corpus</span><span class="p">]</span>
+
+<span class="c1"># Set values for various parameters</span>
+<span class="n">feature_size</span> <span class="o">=</span> <span class="mi">10</span>    <span class="c1"># Word vector dimensionality  </span>
+<span class="n">window_context</span> <span class="o">=</span> <span class="mi">10</span>          <span class="c1"># Context window size                                                                                    </span>
+<span class="n">min_word_count</span> <span class="o">=</span> <span class="mi">1</span>   <span class="c1"># Minimum word count                        </span>
+<span class="n">sample</span> <span class="o">=</span> <span class="mf">1e-3</span>   <span class="c1"># Downsample setting for frequent words</span>
+
+<span class="n">w2v_model</span> <span class="o">=</span> <span class="n">word2vec</span><span class="o">.</span><span class="n">Word2Vec</span><span class="p">(</span><span class="n">tokenized_corpus</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">feature_size</span><span class="p">,</span> 
+                              <span class="n">window</span><span class="o">=</span><span class="n">window_context</span><span class="p">,</span> <span class="n">min_count</span> <span class="o">=</span> <span class="n">min_word_count</span><span class="p">,</span>
+                              <span class="n">sample</span><span class="o">=</span><span class="n">sample</span><span class="p">,</span> <span class="nb">iter</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="visualize-word-embeddings">
+<h3>Visualize word embeddings<a class="headerlink" href="#visualize-word-embeddings" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.manifold</span> <span class="kn">import</span> <span class="n">TSNE</span>
+
+<span class="n">words</span> <span class="o">=</span> <span class="n">w2v_model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">index2word</span>
+<span class="n">wvs</span> <span class="o">=</span> <span class="n">w2v_model</span><span class="o">.</span><span class="n">wv</span><span class="p">[</span><span class="n">words</span><span class="p">]</span>
+
+<span class="n">tsne</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">perplexity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">suppress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">tsne</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">wvs</span><span class="p">)</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">words</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">T</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">T</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">textcoords</span><span class="o">=</span><span class="s1">&#39;offset points&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/text-vec-embedding_21_0.png" src="../_images/text-vec-embedding_21_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="sample-word-embedding">
+<h3>Sample word embedding<a class="headerlink" href="#sample-word-embedding" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w2v_model</span><span class="o">.</span><span class="n">wv</span><span class="p">[</span><span class="s1">&#39;sky&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-0.04863533,  0.01926509,  0.03851043,  0.04266324,  0.02200821,
+        0.0139389 , -0.00343255,  0.01205156,  0.04465897,  0.04750963],
+      dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="build-framework-for-getting-document-level-embeddings">
+<h3>Build framework for getting document level embeddings<a class="headerlink" href="#build-framework-for-getting-document-level-embeddings" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">average_word_vectors</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">vocabulary</span><span class="p">,</span> <span class="n">num_features</span><span class="p">):</span>
+    
+    <span class="n">feature_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_features</span><span class="p">,),</span><span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float64&quot;</span><span class="p">)</span>
+    <span class="n">nwords</span> <span class="o">=</span> <span class="mf">0.</span>
+    
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">vocabulary</span><span class="p">:</span> 
+            <span class="n">nwords</span> <span class="o">=</span> <span class="n">nwords</span> <span class="o">+</span> <span class="mf">1.</span>
+            <span class="n">feature_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feature_vector</span><span class="p">,</span> <span class="n">model</span><span class="p">[</span><span class="n">word</span><span class="p">])</span>
+    
+    <span class="k">if</span> <span class="n">nwords</span><span class="p">:</span>
+        <span class="n">feature_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">feature_vector</span><span class="p">,</span> <span class="n">nwords</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">feature_vector</span>
+    
+   
+<span class="k">def</span> <span class="nf">averaged_word_vectorizer</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">num_features</span><span class="p">):</span>
+    <span class="n">vocabulary</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">index2word</span><span class="p">)</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="n">average_word_vectors</span><span class="p">(</span><span class="n">tokenized_sentence</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">vocabulary</span><span class="p">,</span> <span class="n">num_features</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">tokenized_sentence</span> <span class="ow">in</span> <span class="n">corpus</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w2v_feature_array</span> <span class="o">=</span> <span class="n">averaged_word_vectorizer</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">tokenized_corpus</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">w2v_model</span><span class="p">,</span>
+                                             <span class="n">num_features</span><span class="o">=</span><span class="n">feature_size</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">w2v_feature_array</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/lib/python3.7/dist-packages/ipykernel_launcher.py:9: DeprecationWarning: Call to deprecated `__getitem__` (Method will be removed in 4.0.0, use self.wv.__getitem__() instead).
+  if __name__ == &#39;__main__&#39;:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-0.020722</td>
+      <td>-0.012895</td>
+      <td>0.000867</td>
+      <td>0.038041</td>
+      <td>-0.011488</td>
+      <td>-0.007021</td>
+      <td>-0.018208</td>
+      <td>0.011283</td>
+      <td>0.021614</td>
+      <td>0.046976</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-0.008103</td>
+      <td>-0.005894</td>
+      <td>0.002931</td>
+      <td>0.038980</td>
+      <td>0.002077</td>
+      <td>-0.015994</td>
+      <td>-0.003397</td>
+      <td>0.000140</td>
+      <td>0.019617</td>
+      <td>0.039639</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.011011</td>
+      <td>-0.027501</td>
+      <td>-0.014630</td>
+      <td>0.007998</td>
+      <td>-0.013818</td>
+      <td>0.002774</td>
+      <td>0.008962</td>
+      <td>-0.002900</td>
+      <td>0.026240</td>
+      <td>0.002660</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.007562</td>
+      <td>-0.005414</td>
+      <td>0.003374</td>
+      <td>0.017749</td>
+      <td>-0.005837</td>
+      <td>-0.014872</td>
+      <td>-0.007558</td>
+      <td>-0.006800</td>
+      <td>-0.008314</td>
+      <td>0.002462</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.017229</td>
+      <td>-0.018270</td>
+      <td>0.008158</td>
+      <td>0.013537</td>
+      <td>0.007110</td>
+      <td>-0.020442</td>
+      <td>0.007767</td>
+      <td>-0.017325</td>
+      <td>0.003271</td>
+      <td>0.003144</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0.015855</td>
+      <td>-0.024324</td>
+      <td>-0.008383</td>
+      <td>0.020297</td>
+      <td>-0.019622</td>
+      <td>0.008106</td>
+      <td>0.000906</td>
+      <td>-0.005909</td>
+      <td>0.021341</td>
+      <td>0.006865</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>-0.024971</td>
+      <td>-0.003779</td>
+      <td>-0.000594</td>
+      <td>0.029257</td>
+      <td>-0.011523</td>
+      <td>-0.000702</td>
+      <td>-0.014243</td>
+      <td>0.004398</td>
+      <td>0.027949</td>
+      <td>0.035934</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.017188</td>
+      <td>-0.022781</td>
+      <td>-0.010718</td>
+      <td>0.019301</td>
+      <td>-0.018644</td>
+      <td>0.008432</td>
+      <td>0.010752</td>
+      <td>-0.004320</td>
+      <td>0.024858</td>
+      <td>-0.000484</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="clustering-with-word-embeddings">
+<h3>Clustering with word embeddings<a class="headerlink" href="#clustering-with-word-embeddings" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">AffinityPropagation</span>
+
+<span class="n">ap</span> <span class="o">=</span> <span class="n">AffinityPropagation</span><span class="p">()</span>
+<span class="n">ap</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">w2v_feature_array</span><span class="p">)</span>
+<span class="n">cluster_labels</span> <span class="o">=</span> <span class="n">ap</span><span class="o">.</span><span class="n">labels_</span>
+<span class="n">cluster_labels</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cluster_labels</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ClusterLabel&#39;</span><span class="p">])</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">corpus_df</span><span class="p">,</span> <span class="n">cluster_labels</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Document</th>
+      <th>Category</th>
+      <th>ClusterLabel</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>The sky is blue and beautiful.</td>
+      <td>weather</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Love this blue and beautiful sky!</td>
+      <td>weather</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>The quick brown fox jumps over the lazy dog.</td>
+      <td>animals</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>A king's breakfast has sausages, ham, bacon, eggs, toast and beans</td>
+      <td>food</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>I love green eggs, ham, sausages and bacon!</td>
+      <td>food</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>The brown fox is quick and the blue dog is lazy!</td>
+      <td>animals</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>The sky is very blue and the sky is very beautiful today</td>
+      <td>weather</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>The dog is lazy but the brown fox is quick!</td>
+      <td>animals</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+
+<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">pcs</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">w2v_feature_array</span><span class="p">)</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">ap</span><span class="o">.</span><span class="n">labels_</span>
+<span class="n">categories</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">corpus_df</span><span class="p">[</span><span class="s1">&#39;Category&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)):</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;orange&#39;</span> <span class="k">if</span> <span class="n">label</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;blue&#39;</span> <span class="k">if</span> <span class="n">label</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="s1">&#39;green&#39;</span>
+    <span class="n">annotation_label</span> <span class="o">=</span> <span class="n">categories</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">pcs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">annotation_label</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">y</span><span class="o">+</span><span class="mf">1e-3</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">textcoords</span><span class="o">=</span><span class="s1">&#39;offset points&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/text-vec-embedding_29_0.png" src="../_images/text-vec-embedding_29_0.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="leveraging-spacy-for-pre-trained-glove-embeddings">
+<h2>Leveraging <code class="docutils literal notranslate"><span class="pre">spacy</span></code> for Pre-trained GloVe Embeddings<a class="headerlink" href="#leveraging-spacy-for-pre-trained-glove-embeddings" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
+
+<span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;en_core_web_lg&#39;</span><span class="p">)</span>
+
+<span class="n">total_vectors</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nlp</span><span class="o">.</span><span class="n">vocab</span><span class="o">.</span><span class="n">vectors</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total word vectors:&#39;</span><span class="p">,</span> <span class="n">total_vectors</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total word vectors: 684830
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="visualize-glove-word-embeddings">
+<h3>Visualize GloVe word embeddings<a class="headerlink" href="#visualize-glove-word-embeddings" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unique_words</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">word</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="p">[</span><span class="n">doc</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">norm_corpus</span><span class="p">]</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]))</span>
+
+<span class="n">word_glove_vectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">nlp</span><span class="p">(</span><span class="n">word</span><span class="p">)</span><span class="o">.</span><span class="n">vector</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">unique_words</span><span class="p">])</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">word_glove_vectors</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">unique_words</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>10</th>
+      <th>11</th>
+      <th>12</th>
+      <th>13</th>
+      <th>14</th>
+      <th>15</th>
+      <th>16</th>
+      <th>17</th>
+      <th>18</th>
+      <th>19</th>
+      <th>20</th>
+      <th>21</th>
+      <th>22</th>
+      <th>23</th>
+      <th>24</th>
+      <th>25</th>
+      <th>26</th>
+      <th>27</th>
+      <th>28</th>
+      <th>29</th>
+      <th>30</th>
+      <th>31</th>
+      <th>32</th>
+      <th>33</th>
+      <th>34</th>
+      <th>35</th>
+      <th>36</th>
+      <th>37</th>
+      <th>38</th>
+      <th>39</th>
+      <th>...</th>
+      <th>260</th>
+      <th>261</th>
+      <th>262</th>
+      <th>263</th>
+      <th>264</th>
+      <th>265</th>
+      <th>266</th>
+      <th>267</th>
+      <th>268</th>
+      <th>269</th>
+      <th>270</th>
+      <th>271</th>
+      <th>272</th>
+      <th>273</th>
+      <th>274</th>
+      <th>275</th>
+      <th>276</th>
+      <th>277</th>
+      <th>278</th>
+      <th>279</th>
+      <th>280</th>
+      <th>281</th>
+      <th>282</th>
+      <th>283</th>
+      <th>284</th>
+      <th>285</th>
+      <th>286</th>
+      <th>287</th>
+      <th>288</th>
+      <th>289</th>
+      <th>290</th>
+      <th>291</th>
+      <th>292</th>
+      <th>293</th>
+      <th>294</th>
+      <th>295</th>
+      <th>296</th>
+      <th>297</th>
+      <th>298</th>
+      <th>299</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>lazy</th>
+      <td>-0.353320</td>
+      <td>-0.299710</td>
+      <td>-0.176230</td>
+      <td>-0.321940</td>
+      <td>-0.385640</td>
+      <td>0.586110</td>
+      <td>0.411160</td>
+      <td>-0.418680</td>
+      <td>0.073093</td>
+      <td>1.48650</td>
+      <td>0.178510</td>
+      <td>-0.364790</td>
+      <td>-0.318890</td>
+      <td>-0.186660</td>
+      <td>-0.176970</td>
+      <td>-0.185470</td>
+      <td>-0.287790</td>
+      <td>0.57963</td>
+      <td>0.413430</td>
+      <td>-0.142170</td>
+      <td>-0.122250</td>
+      <td>0.093341</td>
+      <td>-0.117550</td>
+      <td>-0.436210</td>
+      <td>0.416610</td>
+      <td>-0.172810</td>
+      <td>0.080734</td>
+      <td>-0.534250</td>
+      <td>0.790970</td>
+      <td>-0.175410</td>
+      <td>-0.503800</td>
+      <td>0.092905</td>
+      <td>0.000162</td>
+      <td>-0.636440</td>
+      <td>0.064689</td>
+      <td>0.262830</td>
+      <td>0.266300</td>
+      <td>0.183250</td>
+      <td>-0.397460</td>
+      <td>0.109490</td>
+      <td>...</td>
+      <td>-0.185390</td>
+      <td>0.121400</td>
+      <td>-0.077576</td>
+      <td>-0.188900</td>
+      <td>0.394630</td>
+      <td>-0.383130</td>
+      <td>-0.288160</td>
+      <td>-0.359380</td>
+      <td>0.64202</td>
+      <td>0.084683</td>
+      <td>-0.288520</td>
+      <td>-0.443680</td>
+      <td>-0.141780</td>
+      <td>-0.207710</td>
+      <td>0.006349</td>
+      <td>-0.368950</td>
+      <td>-0.082058</td>
+      <td>-0.195290</td>
+      <td>-0.067179</td>
+      <td>0.001303</td>
+      <td>0.468360</td>
+      <td>-0.175710</td>
+      <td>0.198760</td>
+      <td>0.467780</td>
+      <td>0.593930</td>
+      <td>-0.335560</td>
+      <td>-0.072169</td>
+      <td>-0.369840</td>
+      <td>0.114630</td>
+      <td>0.430670</td>
+      <td>0.402310</td>
+      <td>-0.038554</td>
+      <td>-0.288670</td>
+      <td>-0.244130</td>
+      <td>0.460990</td>
+      <td>0.514170</td>
+      <td>0.136260</td>
+      <td>0.344190</td>
+      <td>-0.845300</td>
+      <td>-0.077383</td>
+    </tr>
+    <tr>
+      <th>love</th>
+      <td>0.139490</td>
+      <td>0.534530</td>
+      <td>-0.252470</td>
+      <td>-0.125650</td>
+      <td>0.048748</td>
+      <td>0.152440</td>
+      <td>0.199060</td>
+      <td>-0.065970</td>
+      <td>0.128830</td>
+      <td>2.05590</td>
+      <td>-0.443390</td>
+      <td>-0.101740</td>
+      <td>0.271180</td>
+      <td>-0.124290</td>
+      <td>-0.457530</td>
+      <td>0.055878</td>
+      <td>-0.303950</td>
+      <td>0.79543</td>
+      <td>-0.290600</td>
+      <td>0.519080</td>
+      <td>0.169090</td>
+      <td>-0.327430</td>
+      <td>0.206060</td>
+      <td>-0.083885</td>
+      <td>0.196960</td>
+      <td>0.328470</td>
+      <td>0.087838</td>
+      <td>-0.127840</td>
+      <td>0.309790</td>
+      <td>0.206920</td>
+      <td>-0.085855</td>
+      <td>0.547900</td>
+      <td>-0.423440</td>
+      <td>0.345730</td>
+      <td>0.229210</td>
+      <td>-0.215380</td>
+      <td>0.091481</td>
+      <td>-0.278010</td>
+      <td>-0.341830</td>
+      <td>-0.130670</td>
+      <td>...</td>
+      <td>0.055732</td>
+      <td>0.319250</td>
+      <td>-0.262930</td>
+      <td>0.306830</td>
+      <td>0.094407</td>
+      <td>0.344400</td>
+      <td>0.303240</td>
+      <td>0.417650</td>
+      <td>-0.10427</td>
+      <td>0.418500</td>
+      <td>-0.678930</td>
+      <td>-0.160720</td>
+      <td>-0.820230</td>
+      <td>-0.014762</td>
+      <td>-0.091018</td>
+      <td>-0.008955</td>
+      <td>-0.026122</td>
+      <td>-0.134550</td>
+      <td>0.192630</td>
+      <td>0.331130</td>
+      <td>-0.152970</td>
+      <td>-0.368220</td>
+      <td>-0.146490</td>
+      <td>-0.315470</td>
+      <td>0.139630</td>
+      <td>0.298850</td>
+      <td>0.671980</td>
+      <td>0.220490</td>
+      <td>-0.182790</td>
+      <td>-0.248110</td>
+      <td>-0.124380</td>
+      <td>0.178440</td>
+      <td>-0.099469</td>
+      <td>0.008682</td>
+      <td>0.089213</td>
+      <td>-0.075513</td>
+      <td>-0.049069</td>
+      <td>-0.015228</td>
+      <td>0.088408</td>
+      <td>0.302170</td>
+    </tr>
+    <tr>
+      <th>quick</th>
+      <td>-0.445630</td>
+      <td>0.191510</td>
+      <td>-0.249210</td>
+      <td>0.465900</td>
+      <td>0.161950</td>
+      <td>0.212780</td>
+      <td>-0.046480</td>
+      <td>0.021170</td>
+      <td>0.417660</td>
+      <td>1.68690</td>
+      <td>-0.451860</td>
+      <td>-0.011807</td>
+      <td>0.072409</td>
+      <td>-0.114820</td>
+      <td>-0.534210</td>
+      <td>-0.150700</td>
+      <td>-0.352960</td>
+      <td>1.71150</td>
+      <td>-0.211920</td>
+      <td>-0.400470</td>
+      <td>-0.420410</td>
+      <td>0.076042</td>
+      <td>0.023444</td>
+      <td>-0.744810</td>
+      <td>0.006499</td>
+      <td>0.443510</td>
+      <td>0.484180</td>
+      <td>-0.541020</td>
+      <td>0.375070</td>
+      <td>-0.595550</td>
+      <td>0.097029</td>
+      <td>0.119870</td>
+      <td>-0.079122</td>
+      <td>-0.053397</td>
+      <td>-0.028888</td>
+      <td>0.157510</td>
+      <td>0.164100</td>
+      <td>0.288250</td>
+      <td>-0.065758</td>
+      <td>-0.240000</td>
+      <td>...</td>
+      <td>-0.185420</td>
+      <td>-0.064913</td>
+      <td>0.242120</td>
+      <td>-0.674920</td>
+      <td>0.394260</td>
+      <td>-0.304280</td>
+      <td>0.103000</td>
+      <td>0.336920</td>
+      <td>0.30043</td>
+      <td>0.349690</td>
+      <td>0.353660</td>
+      <td>0.017008</td>
+      <td>-0.170840</td>
+      <td>-0.286230</td>
+      <td>-0.106920</td>
+      <td>0.313400</td>
+      <td>0.307010</td>
+      <td>-0.103920</td>
+      <td>0.231590</td>
+      <td>0.027126</td>
+      <td>0.169710</td>
+      <td>0.010259</td>
+      <td>-0.171380</td>
+      <td>0.448950</td>
+      <td>-0.293820</td>
+      <td>-0.312280</td>
+      <td>-0.054189</td>
+      <td>0.069783</td>
+      <td>-0.104720</td>
+      <td>-0.124150</td>
+      <td>-0.329460</td>
+      <td>0.421860</td>
+      <td>-0.039543</td>
+      <td>0.150180</td>
+      <td>0.338220</td>
+      <td>0.049554</td>
+      <td>0.149420</td>
+      <td>-0.038789</td>
+      <td>-0.019069</td>
+      <td>0.348650</td>
+    </tr>
+    <tr>
+      <th>brown</th>
+      <td>-0.374120</td>
+      <td>-0.076264</td>
+      <td>0.109260</td>
+      <td>0.186620</td>
+      <td>0.029943</td>
+      <td>0.182700</td>
+      <td>-0.631980</td>
+      <td>0.133060</td>
+      <td>-0.128980</td>
+      <td>0.60343</td>
+      <td>-0.680410</td>
+      <td>-0.142220</td>
+      <td>-0.133570</td>
+      <td>-0.659430</td>
+      <td>0.052402</td>
+      <td>0.167450</td>
+      <td>0.639230</td>
+      <td>1.76800</td>
+      <td>0.346190</td>
+      <td>-0.624800</td>
+      <td>-0.128670</td>
+      <td>-0.197030</td>
+      <td>-0.374500</td>
+      <td>0.330640</td>
+      <td>0.046832</td>
+      <td>-0.653510</td>
+      <td>-0.561360</td>
+      <td>0.227370</td>
+      <td>0.229230</td>
+      <td>-0.415810</td>
+      <td>-0.167670</td>
+      <td>0.335430</td>
+      <td>0.097227</td>
+      <td>-0.467030</td>
+      <td>-0.026857</td>
+      <td>-0.067665</td>
+      <td>-0.192110</td>
+      <td>-0.133740</td>
+      <td>0.016268</td>
+      <td>-0.208270</td>
+      <td>...</td>
+      <td>0.117450</td>
+      <td>0.055016</td>
+      <td>0.236820</td>
+      <td>0.898190</td>
+      <td>-0.409690</td>
+      <td>0.075218</td>
+      <td>-0.110300</td>
+      <td>-0.409910</td>
+      <td>-0.95718</td>
+      <td>0.527490</td>
+      <td>-0.042655</td>
+      <td>0.266180</td>
+      <td>0.305260</td>
+      <td>-0.519010</td>
+      <td>-0.460440</td>
+      <td>-0.093834</td>
+      <td>0.130060</td>
+      <td>0.019268</td>
+      <td>0.010198</td>
+      <td>0.007583</td>
+      <td>0.295510</td>
+      <td>0.231560</td>
+      <td>-0.034880</td>
+      <td>-0.116940</td>
+      <td>-0.327330</td>
+      <td>0.204910</td>
+      <td>0.475000</td>
+      <td>0.513100</td>
+      <td>-0.145760</td>
+      <td>-0.185080</td>
+      <td>-0.015404</td>
+      <td>0.392890</td>
+      <td>-0.034826</td>
+      <td>-0.720300</td>
+      <td>-0.365320</td>
+      <td>0.740510</td>
+      <td>0.108390</td>
+      <td>-0.365760</td>
+      <td>-0.288190</td>
+      <td>0.114630</td>
+    </tr>
+    <tr>
+      <th>today</th>
+      <td>-0.156570</td>
+      <td>0.594890</td>
+      <td>-0.031445</td>
+      <td>-0.077586</td>
+      <td>0.278630</td>
+      <td>-0.509210</td>
+      <td>-0.066350</td>
+      <td>-0.081890</td>
+      <td>-0.047986</td>
+      <td>2.80360</td>
+      <td>-0.131820</td>
+      <td>-0.627100</td>
+      <td>0.253880</td>
+      <td>-0.472910</td>
+      <td>-0.428750</td>
+      <td>0.143520</td>
+      <td>-0.118180</td>
+      <td>0.67974</td>
+      <td>-0.006229</td>
+      <td>-0.001527</td>
+      <td>-0.163790</td>
+      <td>-0.034067</td>
+      <td>0.271020</td>
+      <td>0.054245</td>
+      <td>-0.011752</td>
+      <td>0.324470</td>
+      <td>-0.321400</td>
+      <td>-0.003704</td>
+      <td>-0.205390</td>
+      <td>0.057008</td>
+      <td>0.177460</td>
+      <td>-0.166030</td>
+      <td>0.505320</td>
+      <td>-0.215200</td>
+      <td>0.010503</td>
+      <td>0.598390</td>
+      <td>0.021347</td>
+      <td>0.103650</td>
+      <td>0.023387</td>
+      <td>0.097183</td>
+      <td>...</td>
+      <td>0.553160</td>
+      <td>0.100970</td>
+      <td>-0.386630</td>
+      <td>0.012178</td>
+      <td>-0.181380</td>
+      <td>-0.381290</td>
+      <td>-0.200480</td>
+      <td>-0.347470</td>
+      <td>0.70278</td>
+      <td>0.299910</td>
+      <td>-0.198150</td>
+      <td>0.041330</td>
+      <td>-0.169990</td>
+      <td>0.346500</td>
+      <td>-0.135520</td>
+      <td>0.162350</td>
+      <td>-0.145150</td>
+      <td>0.289770</td>
+      <td>0.095377</td>
+      <td>-0.113840</td>
+      <td>0.372630</td>
+      <td>-0.116170</td>
+      <td>0.091593</td>
+      <td>0.126660</td>
+      <td>-0.035243</td>
+      <td>0.261140</td>
+      <td>0.235310</td>
+      <td>-0.323920</td>
+      <td>-0.338050</td>
+      <td>0.134510</td>
+      <td>-0.326580</td>
+      <td>-0.413380</td>
+      <td>0.367910</td>
+      <td>-0.262630</td>
+      <td>-0.203690</td>
+      <td>-0.296560</td>
+      <td>-0.014873</td>
+      <td>-0.250060</td>
+      <td>-0.115940</td>
+      <td>0.083741</td>
+    </tr>
+    <tr>
+      <th>jumps</th>
+      <td>-0.334840</td>
+      <td>0.215990</td>
+      <td>-0.350440</td>
+      <td>-0.260020</td>
+      <td>0.411070</td>
+      <td>0.154010</td>
+      <td>-0.386110</td>
+      <td>0.206380</td>
+      <td>0.386700</td>
+      <td>1.46050</td>
+      <td>0.355940</td>
+      <td>-0.057770</td>
+      <td>-0.310030</td>
+      <td>0.533790</td>
+      <td>-0.016381</td>
+      <td>0.366800</td>
+      <td>0.360580</td>
+      <td>0.36234</td>
+      <td>-0.101930</td>
+      <td>-0.365060</td>
+      <td>-0.546650</td>
+      <td>0.563370</td>
+      <td>0.229860</td>
+      <td>-0.757940</td>
+      <td>0.320240</td>
+      <td>0.132530</td>
+      <td>0.343050</td>
+      <td>-0.240840</td>
+      <td>0.044138</td>
+      <td>-0.535110</td>
+      <td>-0.257930</td>
+      <td>0.346190</td>
+      <td>-0.071962</td>
+      <td>-0.213440</td>
+      <td>0.332550</td>
+      <td>-0.404350</td>
+      <td>0.107330</td>
+      <td>-0.027624</td>
+      <td>0.289630</td>
+      <td>-0.225150</td>
+      <td>...</td>
+      <td>0.134910</td>
+      <td>0.343390</td>
+      <td>0.048773</td>
+      <td>-0.517680</td>
+      <td>0.212040</td>
+      <td>0.051897</td>
+      <td>0.142010</td>
+      <td>0.225710</td>
+      <td>0.35202</td>
+      <td>0.398190</td>
+      <td>-0.202120</td>
+      <td>-0.097922</td>
+      <td>-0.024712</td>
+      <td>-0.100950</td>
+      <td>0.000120</td>
+      <td>-0.443560</td>
+      <td>0.097503</td>
+      <td>-0.128980</td>
+      <td>0.123670</td>
+      <td>-0.291170</td>
+      <td>-0.302130</td>
+      <td>-0.337530</td>
+      <td>-0.372290</td>
+      <td>0.201640</td>
+      <td>0.419570</td>
+      <td>0.020038</td>
+      <td>-0.171160</td>
+      <td>0.433560</td>
+      <td>0.179710</td>
+      <td>0.089282</td>
+      <td>-0.107030</td>
+      <td>-0.279480</td>
+      <td>-0.186200</td>
+      <td>-0.543140</td>
+      <td>-0.479980</td>
+      <td>-0.284680</td>
+      <td>0.036022</td>
+      <td>0.190290</td>
+      <td>0.692290</td>
+      <td>-0.071501</td>
+    </tr>
+    <tr>
+      <th>eggs</th>
+      <td>-0.417810</td>
+      <td>-0.035192</td>
+      <td>-0.126150</td>
+      <td>-0.215930</td>
+      <td>-0.669740</td>
+      <td>0.513250</td>
+      <td>-0.797090</td>
+      <td>-0.068611</td>
+      <td>0.634660</td>
+      <td>1.25630</td>
+      <td>-0.809100</td>
+      <td>0.012227</td>
+      <td>-0.261690</td>
+      <td>0.260560</td>
+      <td>0.260520</td>
+      <td>-0.185840</td>
+      <td>-0.285730</td>
+      <td>1.35990</td>
+      <td>-0.115380</td>
+      <td>-0.019430</td>
+      <td>-0.033052</td>
+      <td>0.386340</td>
+      <td>-0.520640</td>
+      <td>-0.325880</td>
+      <td>-0.255210</td>
+      <td>-0.614430</td>
+      <td>-0.366000</td>
+      <td>0.133900</td>
+      <td>0.049880</td>
+      <td>-1.093600</td>
+      <td>-0.436250</td>
+      <td>-0.279800</td>
+      <td>0.525020</td>
+      <td>-0.450040</td>
+      <td>0.196330</td>
+      <td>0.611860</td>
+      <td>0.004073</td>
+      <td>-0.381950</td>
+      <td>0.357830</td>
+      <td>0.753130</td>
+      <td>...</td>
+      <td>-0.016694</td>
+      <td>0.168550</td>
+      <td>-0.135030</td>
+      <td>0.072960</td>
+      <td>-0.065344</td>
+      <td>0.768680</td>
+      <td>-0.194850</td>
+      <td>-0.313310</td>
+      <td>-0.55265</td>
+      <td>-0.488490</td>
+      <td>0.470120</td>
+      <td>-0.396550</td>
+      <td>0.688490</td>
+      <td>-0.017080</td>
+      <td>-1.037700</td>
+      <td>0.081078</td>
+      <td>-0.414330</td>
+      <td>0.188600</td>
+      <td>0.216510</td>
+      <td>0.603600</td>
+      <td>0.943960</td>
+      <td>-0.288970</td>
+      <td>-0.023022</td>
+      <td>-0.616510</td>
+      <td>-0.180130</td>
+      <td>0.405020</td>
+      <td>0.043301</td>
+      <td>-0.438280</td>
+      <td>-0.684250</td>
+      <td>0.209900</td>
+      <td>-0.232860</td>
+      <td>-0.139740</td>
+      <td>-0.681080</td>
+      <td>-0.370920</td>
+      <td>-0.545510</td>
+      <td>0.073728</td>
+      <td>0.111620</td>
+      <td>-0.324700</td>
+      <td>0.059721</td>
+      <td>0.159160</td>
+    </tr>
+    <tr>
+      <th>kings</th>
+      <td>0.259230</td>
+      <td>-0.854690</td>
+      <td>0.360010</td>
+      <td>-0.642000</td>
+      <td>0.568530</td>
+      <td>-0.321420</td>
+      <td>0.173250</td>
+      <td>0.133030</td>
+      <td>-0.089720</td>
+      <td>1.52860</td>
+      <td>-0.289030</td>
+      <td>-0.658740</td>
+      <td>0.179310</td>
+      <td>-0.077445</td>
+      <td>0.086629</td>
+      <td>-0.132770</td>
+      <td>0.189590</td>
+      <td>0.24327</td>
+      <td>0.194470</td>
+      <td>0.256190</td>
+      <td>0.115750</td>
+      <td>0.441050</td>
+      <td>-0.328350</td>
+      <td>0.151940</td>
+      <td>-0.868790</td>
+      <td>0.175560</td>
+      <td>-0.190540</td>
+      <td>0.382940</td>
+      <td>-0.124040</td>
+      <td>0.784500</td>
+      <td>0.111830</td>
+      <td>0.642220</td>
+      <td>-0.268260</td>
+      <td>0.053329</td>
+      <td>-0.055495</td>
+      <td>0.750070</td>
+      <td>-0.644130</td>
+      <td>-0.276970</td>
+      <td>-0.108700</td>
+      <td>0.445280</td>
+      <td>...</td>
+      <td>0.756250</td>
+      <td>0.262880</td>
+      <td>-0.039965</td>
+      <td>0.037196</td>
+      <td>-0.183640</td>
+      <td>-0.360540</td>
+      <td>0.515670</td>
+      <td>0.445350</td>
+      <td>-0.23557</td>
+      <td>0.452830</td>
+      <td>-0.297770</td>
+      <td>0.626260</td>
+      <td>-0.544090</td>
+      <td>-0.003886</td>
+      <td>-0.076988</td>
+      <td>-0.623640</td>
+      <td>0.102650</td>
+      <td>0.178460</td>
+      <td>-0.097651</td>
+      <td>-0.290180</td>
+      <td>0.530120</td>
+      <td>0.071785</td>
+      <td>-0.056542</td>
+      <td>-0.011450</td>
+      <td>0.053002</td>
+      <td>0.323720</td>
+      <td>0.379260</td>
+      <td>-0.312000</td>
+      <td>0.007405</td>
+      <td>-0.572380</td>
+      <td>-0.470090</td>
+      <td>0.063743</td>
+      <td>-0.545210</td>
+      <td>-0.192310</td>
+      <td>-0.301020</td>
+      <td>1.068500</td>
+      <td>0.231160</td>
+      <td>-0.147330</td>
+      <td>0.662490</td>
+      <td>-0.577420</td>
+    </tr>
+    <tr>
+      <th>toast</th>
+      <td>0.130740</td>
+      <td>-0.193730</td>
+      <td>0.253270</td>
+      <td>0.090102</td>
+      <td>-0.272580</td>
+      <td>-0.030571</td>
+      <td>0.096945</td>
+      <td>-0.115060</td>
+      <td>0.484000</td>
+      <td>0.84838</td>
+      <td>-0.076659</td>
+      <td>0.018191</td>
+      <td>-0.241220</td>
+      <td>0.283660</td>
+      <td>-0.104840</td>
+      <td>0.246110</td>
+      <td>-0.143910</td>
+      <td>0.66509</td>
+      <td>-0.140930</td>
+      <td>-0.278840</td>
+      <td>-0.205080</td>
+      <td>-0.419600</td>
+      <td>-0.690090</td>
+      <td>-0.053260</td>
+      <td>-0.144340</td>
+      <td>-0.039000</td>
+      <td>0.298490</td>
+      <td>-0.279020</td>
+      <td>-0.355020</td>
+      <td>-0.702110</td>
+      <td>-0.238980</td>
+      <td>0.428790</td>
+      <td>0.333940</td>
+      <td>0.089014</td>
+      <td>0.005472</td>
+      <td>0.178270</td>
+      <td>0.014409</td>
+      <td>-0.317270</td>
+      <td>0.134030</td>
+      <td>0.863840</td>
+      <td>...</td>
+      <td>-0.284800</td>
+      <td>0.227920</td>
+      <td>0.139690</td>
+      <td>0.382060</td>
+      <td>-0.355480</td>
+      <td>0.238640</td>
+      <td>-0.201450</td>
+      <td>0.166890</td>
+      <td>-0.69686</td>
+      <td>0.601810</td>
+      <td>0.053797</td>
+      <td>-0.024351</td>
+      <td>0.917220</td>
+      <td>0.472390</td>
+      <td>-0.595590</td>
+      <td>0.690710</td>
+      <td>-0.247270</td>
+      <td>0.163100</td>
+      <td>0.335320</td>
+      <td>0.524700</td>
+      <td>0.196020</td>
+      <td>-0.398660</td>
+      <td>0.400470</td>
+      <td>0.066376</td>
+      <td>-0.183670</td>
+      <td>0.483620</td>
+      <td>0.701590</td>
+      <td>0.019826</td>
+      <td>-0.162880</td>
+      <td>0.915870</td>
+      <td>0.142080</td>
+      <td>0.481910</td>
+      <td>0.045167</td>
+      <td>0.057151</td>
+      <td>-0.149520</td>
+      <td>-0.495130</td>
+      <td>-0.086677</td>
+      <td>-0.569040</td>
+      <td>-0.359290</td>
+      <td>0.097443</td>
+    </tr>
+    <tr>
+      <th>blue</th>
+      <td>0.129450</td>
+      <td>0.036518</td>
+      <td>0.032298</td>
+      <td>-0.060034</td>
+      <td>0.399840</td>
+      <td>-0.103020</td>
+      <td>-0.507880</td>
+      <td>0.076630</td>
+      <td>-0.422920</td>
+      <td>0.81573</td>
+      <td>-0.182540</td>
+      <td>-0.072278</td>
+      <td>-0.358110</td>
+      <td>-0.428660</td>
+      <td>0.108800</td>
+      <td>0.151030</td>
+      <td>0.240360</td>
+      <td>2.11510</td>
+      <td>-0.116390</td>
+      <td>-1.058300</td>
+      <td>-0.053679</td>
+      <td>-0.340660</td>
+      <td>-0.387930</td>
+      <td>0.220610</td>
+      <td>-0.345300</td>
+      <td>-0.294830</td>
+      <td>-0.377170</td>
+      <td>0.040785</td>
+      <td>0.155960</td>
+      <td>0.378200</td>
+      <td>-0.230140</td>
+      <td>0.106140</td>
+      <td>-0.083818</td>
+      <td>-0.121110</td>
+      <td>-0.498090</td>
+      <td>-0.311230</td>
+      <td>0.168420</td>
+      <td>0.005281</td>
+      <td>-0.281660</td>
+      <td>-0.335470</td>
+      <td>...</td>
+      <td>0.158920</td>
+      <td>0.486020</td>
+      <td>-0.087139</td>
+      <td>0.601080</td>
+      <td>-0.000770</td>
+      <td>-0.082692</td>
+      <td>-0.120790</td>
+      <td>0.113970</td>
+      <td>-0.49213</td>
+      <td>-0.134840</td>
+      <td>-0.493600</td>
+      <td>0.351470</td>
+      <td>-0.019813</td>
+      <td>-0.075597</td>
+      <td>0.369570</td>
+      <td>-0.309500</td>
+      <td>-0.218600</td>
+      <td>0.335340</td>
+      <td>0.106540</td>
+      <td>-0.123870</td>
+      <td>-0.140150</td>
+      <td>-0.312630</td>
+      <td>-0.524710</td>
+      <td>-0.285340</td>
+      <td>-0.277620</td>
+      <td>0.080487</td>
+      <td>0.060031</td>
+      <td>0.539010</td>
+      <td>0.554740</td>
+      <td>-0.147810</td>
+      <td>-0.501280</td>
+      <td>0.169010</td>
+      <td>0.548250</td>
+      <td>-0.319380</td>
+      <td>-0.072887</td>
+      <td>0.382950</td>
+      <td>0.237410</td>
+      <td>0.052289</td>
+      <td>0.182060</td>
+      <td>0.412640</td>
+    </tr>
+    <tr>
+      <th>ham</th>
+      <td>-0.773320</td>
+      <td>-0.282540</td>
+      <td>0.580760</td>
+      <td>0.841480</td>
+      <td>0.258540</td>
+      <td>0.585210</td>
+      <td>-0.021890</td>
+      <td>-0.463680</td>
+      <td>0.139070</td>
+      <td>0.65872</td>
+      <td>-0.168670</td>
+      <td>0.192260</td>
+      <td>-0.398010</td>
+      <td>-0.600910</td>
+      <td>-0.241560</td>
+      <td>-0.088710</td>
+      <td>0.099011</td>
+      <td>0.83868</td>
+      <td>0.397170</td>
+      <td>0.288050</td>
+      <td>0.477210</td>
+      <td>-0.160270</td>
+      <td>-0.011555</td>
+      <td>0.400100</td>
+      <td>-0.178950</td>
+      <td>-0.941120</td>
+      <td>-0.538650</td>
+      <td>0.284690</td>
+      <td>0.204900</td>
+      <td>-0.603190</td>
+      <td>-0.767880</td>
+      <td>0.331020</td>
+      <td>0.508820</td>
+      <td>-0.166050</td>
+      <td>0.729980</td>
+      <td>0.247200</td>
+      <td>-0.409570</td>
+      <td>-0.030922</td>
+      <td>-0.147350</td>
+      <td>1.449700</td>
+      <td>...</td>
+      <td>-0.083141</td>
+      <td>-0.412700</td>
+      <td>0.057152</td>
+      <td>0.079565</td>
+      <td>-0.370370</td>
+      <td>0.430860</td>
+      <td>-0.237530</td>
+      <td>-0.541830</td>
+      <td>-0.92691</td>
+      <td>0.089818</td>
+      <td>0.516110</td>
+      <td>-0.174690</td>
+      <td>0.482730</td>
+      <td>0.580170</td>
+      <td>-0.693060</td>
+      <td>0.632340</td>
+      <td>-0.079333</td>
+      <td>-0.008798</td>
+      <td>0.058371</td>
+      <td>0.006332</td>
+      <td>-0.053509</td>
+      <td>-0.074803</td>
+      <td>0.139680</td>
+      <td>0.391960</td>
+      <td>0.584610</td>
+      <td>0.275520</td>
+      <td>0.755370</td>
+      <td>0.418950</td>
+      <td>-0.183280</td>
+      <td>0.452320</td>
+      <td>0.464470</td>
+      <td>0.481400</td>
+      <td>-0.829200</td>
+      <td>0.354910</td>
+      <td>0.224530</td>
+      <td>-0.493920</td>
+      <td>0.456930</td>
+      <td>-0.649100</td>
+      <td>-0.131930</td>
+      <td>0.372040</td>
+    </tr>
+    <tr>
+      <th>beans</th>
+      <td>-0.423290</td>
+      <td>-0.264500</td>
+      <td>0.200870</td>
+      <td>0.082187</td>
+      <td>0.066944</td>
+      <td>1.027600</td>
+      <td>-0.989140</td>
+      <td>-0.259950</td>
+      <td>0.145960</td>
+      <td>0.76645</td>
+      <td>-0.581010</td>
+      <td>0.317560</td>
+      <td>-0.043719</td>
+      <td>-0.847330</td>
+      <td>0.188070</td>
+      <td>-0.716880</td>
+      <td>0.009522</td>
+      <td>1.12410</td>
+      <td>0.437220</td>
+      <td>0.371400</td>
+      <td>-0.208100</td>
+      <td>-0.380830</td>
+      <td>-0.282530</td>
+      <td>0.159310</td>
+      <td>-0.096079</td>
+      <td>-0.959680</td>
+      <td>-0.222080</td>
+      <td>0.299910</td>
+      <td>0.163690</td>
+      <td>-0.710410</td>
+      <td>0.242250</td>
+      <td>-0.072045</td>
+      <td>0.802380</td>
+      <td>-0.477040</td>
+      <td>-0.313830</td>
+      <td>0.332220</td>
+      <td>0.277570</td>
+      <td>0.260040</td>
+      <td>0.278750</td>
+      <td>0.600180</td>
+      <td>...</td>
+      <td>-0.157950</td>
+      <td>-0.233430</td>
+      <td>0.009833</td>
+      <td>0.106710</td>
+      <td>-0.324040</td>
+      <td>0.290390</td>
+      <td>-0.099283</td>
+      <td>-0.294040</td>
+      <td>-0.56455</td>
+      <td>0.230860</td>
+      <td>0.647260</td>
+      <td>-0.244820</td>
+      <td>0.223060</td>
+      <td>-0.353680</td>
+      <td>-0.633440</td>
+      <td>0.286330</td>
+      <td>-0.448500</td>
+      <td>0.002610</td>
+      <td>0.687900</td>
+      <td>0.707310</td>
+      <td>0.353040</td>
+      <td>-0.451420</td>
+      <td>0.177150</td>
+      <td>-0.599130</td>
+      <td>0.276450</td>
+      <td>0.776900</td>
+      <td>0.776190</td>
+      <td>0.449290</td>
+      <td>0.172610</td>
+      <td>-0.184870</td>
+      <td>0.048760</td>
+      <td>0.351680</td>
+      <td>-0.786260</td>
+      <td>-0.368790</td>
+      <td>-0.528640</td>
+      <td>0.287650</td>
+      <td>-0.273120</td>
+      <td>-1.114000</td>
+      <td>0.064322</td>
+      <td>0.223620</td>
+    </tr>
+    <tr>
+      <th>bacon</th>
+      <td>-0.430730</td>
+      <td>-0.016025</td>
+      <td>0.484620</td>
+      <td>0.101390</td>
+      <td>-0.299200</td>
+      <td>0.761820</td>
+      <td>-0.353130</td>
+      <td>-0.325290</td>
+      <td>0.156730</td>
+      <td>0.87321</td>
+      <td>-0.078280</td>
+      <td>0.277670</td>
+      <td>-0.524210</td>
+      <td>0.103800</td>
+      <td>-0.018345</td>
+      <td>-0.397500</td>
+      <td>0.230810</td>
+      <td>0.94014</td>
+      <td>0.275650</td>
+      <td>0.314490</td>
+      <td>0.157910</td>
+      <td>0.219310</td>
+      <td>-0.328710</td>
+      <td>-0.187760</td>
+      <td>-0.209180</td>
+      <td>-0.528110</td>
+      <td>-0.425460</td>
+      <td>0.020278</td>
+      <td>0.124110</td>
+      <td>-0.553420</td>
+      <td>-0.566570</td>
+      <td>0.768710</td>
+      <td>0.329540</td>
+      <td>-0.153310</td>
+      <td>0.631360</td>
+      <td>0.108580</td>
+      <td>-0.126160</td>
+      <td>0.102500</td>
+      <td>0.291810</td>
+      <td>1.129400</td>
+      <td>...</td>
+      <td>0.011195</td>
+      <td>-0.129620</td>
+      <td>-0.518830</td>
+      <td>0.015317</td>
+      <td>0.249340</td>
+      <td>0.594640</td>
+      <td>-0.209520</td>
+      <td>-0.364450</td>
+      <td>-0.85338</td>
+      <td>-0.196230</td>
+      <td>0.425870</td>
+      <td>-0.343410</td>
+      <td>0.622890</td>
+      <td>0.374680</td>
+      <td>-0.768440</td>
+      <td>0.632930</td>
+      <td>0.026989</td>
+      <td>-0.281060</td>
+      <td>-0.010866</td>
+      <td>0.182310</td>
+      <td>0.437670</td>
+      <td>-0.278490</td>
+      <td>0.109020</td>
+      <td>-0.177370</td>
+      <td>0.025408</td>
+      <td>0.480750</td>
+      <td>0.586230</td>
+      <td>0.424540</td>
+      <td>-0.247770</td>
+      <td>0.165690</td>
+      <td>0.304240</td>
+      <td>0.413440</td>
+      <td>-0.540730</td>
+      <td>-0.035930</td>
+      <td>-0.429450</td>
+      <td>-0.246590</td>
+      <td>0.161490</td>
+      <td>-1.065400</td>
+      <td>-0.244940</td>
+      <td>0.269540</td>
+    </tr>
+    <tr>
+      <th>fox</th>
+      <td>-0.348680</td>
+      <td>-0.077720</td>
+      <td>0.177750</td>
+      <td>-0.094953</td>
+      <td>-0.452890</td>
+      <td>0.237790</td>
+      <td>0.209440</td>
+      <td>0.037886</td>
+      <td>0.035064</td>
+      <td>0.89901</td>
+      <td>-0.517950</td>
+      <td>-0.547580</td>
+      <td>-0.673110</td>
+      <td>-0.131650</td>
+      <td>-0.585420</td>
+      <td>0.312030</td>
+      <td>-0.094121</td>
+      <td>0.14005</td>
+      <td>0.028915</td>
+      <td>-0.242290</td>
+      <td>-0.091525</td>
+      <td>0.133210</td>
+      <td>0.114760</td>
+      <td>-0.545550</td>
+      <td>-0.046149</td>
+      <td>-0.022279</td>
+      <td>-0.994870</td>
+      <td>0.240050</td>
+      <td>-0.113700</td>
+      <td>-0.117760</td>
+      <td>-0.478400</td>
+      <td>0.278980</td>
+      <td>0.659960</td>
+      <td>-0.082358</td>
+      <td>0.075643</td>
+      <td>-0.308380</td>
+      <td>0.134520</td>
+      <td>-0.122870</td>
+      <td>-0.243410</td>
+      <td>-0.010298</td>
+      <td>...</td>
+      <td>0.520700</td>
+      <td>0.152850</td>
+      <td>0.196420</td>
+      <td>-0.176430</td>
+      <td>0.433690</td>
+      <td>-0.492050</td>
+      <td>0.044667</td>
+      <td>0.195000</td>
+      <td>-0.43139</td>
+      <td>0.167560</td>
+      <td>-0.896450</td>
+      <td>0.551010</td>
+      <td>0.004203</td>
+      <td>0.328360</td>
+      <td>0.343580</td>
+      <td>0.185590</td>
+      <td>-0.146440</td>
+      <td>0.156990</td>
+      <td>-0.507790</td>
+      <td>0.071018</td>
+      <td>0.156870</td>
+      <td>0.230150</td>
+      <td>0.087828</td>
+      <td>0.270050</td>
+      <td>0.266410</td>
+      <td>0.291140</td>
+      <td>-0.132860</td>
+      <td>-0.254160</td>
+      <td>-0.095441</td>
+      <td>-0.174040</td>
+      <td>-0.283050</td>
+      <td>0.270240</td>
+      <td>-0.654800</td>
+      <td>0.105300</td>
+      <td>-0.068738</td>
+      <td>-0.534750</td>
+      <td>0.061783</td>
+      <td>0.123610</td>
+      <td>-0.553700</td>
+      <td>-0.544790</td>
+    </tr>
+    <tr>
+      <th>beautiful</th>
+      <td>0.171200</td>
+      <td>0.534390</td>
+      <td>-0.348540</td>
+      <td>-0.097234</td>
+      <td>0.101800</td>
+      <td>-0.170860</td>
+      <td>0.295650</td>
+      <td>-0.041816</td>
+      <td>-0.516550</td>
+      <td>2.11720</td>
+      <td>0.179450</td>
+      <td>0.264130</td>
+      <td>-0.231180</td>
+      <td>-0.328040</td>
+      <td>-0.219140</td>
+      <td>-0.043589</td>
+      <td>-0.492380</td>
+      <td>1.64250</td>
+      <td>0.243910</td>
+      <td>-0.196320</td>
+      <td>-0.257400</td>
+      <td>0.071950</td>
+      <td>-0.027151</td>
+      <td>-0.065426</td>
+      <td>-0.224650</td>
+      <td>0.159030</td>
+      <td>0.545230</td>
+      <td>-0.178430</td>
+      <td>-0.233200</td>
+      <td>0.475470</td>
+      <td>-0.073868</td>
+      <td>0.261460</td>
+      <td>-0.195230</td>
+      <td>-0.084660</td>
+      <td>0.128970</td>
+      <td>-0.460530</td>
+      <td>0.164740</td>
+      <td>-0.450340</td>
+      <td>-0.340450</td>
+      <td>-0.214240</td>
+      <td>...</td>
+      <td>0.527940</td>
+      <td>0.122210</td>
+      <td>0.367880</td>
+      <td>0.142500</td>
+      <td>0.039286</td>
+      <td>-0.418430</td>
+      <td>0.020668</td>
+      <td>-0.153280</td>
+      <td>-0.85245</td>
+      <td>0.400710</td>
+      <td>-1.663700</td>
+      <td>-0.472610</td>
+      <td>-0.488350</td>
+      <td>-0.506310</td>
+      <td>-0.205750</td>
+      <td>0.100800</td>
+      <td>0.075323</td>
+      <td>-0.022721</td>
+      <td>0.207690</td>
+      <td>-0.112650</td>
+      <td>0.589970</td>
+      <td>-0.206480</td>
+      <td>-0.314750</td>
+      <td>-0.220790</td>
+      <td>-0.126200</td>
+      <td>-0.028778</td>
+      <td>-0.176830</td>
+      <td>0.180990</td>
+      <td>0.232540</td>
+      <td>-0.199140</td>
+      <td>-0.285540</td>
+      <td>0.104670</td>
+      <td>0.126310</td>
+      <td>0.120040</td>
+      <td>0.254380</td>
+      <td>0.247400</td>
+      <td>0.207670</td>
+      <td>0.172580</td>
+      <td>0.063875</td>
+      <td>0.350990</td>
+    </tr>
+    <tr>
+      <th>breakfast</th>
+      <td>0.073378</td>
+      <td>0.227670</td>
+      <td>0.208420</td>
+      <td>-0.456790</td>
+      <td>-0.078219</td>
+      <td>0.601960</td>
+      <td>-0.024494</td>
+      <td>-0.467980</td>
+      <td>0.054627</td>
+      <td>2.28370</td>
+      <td>-0.681900</td>
+      <td>-0.037457</td>
+      <td>-0.324390</td>
+      <td>0.442410</td>
+      <td>0.197600</td>
+      <td>-0.508460</td>
+      <td>-0.196110</td>
+      <td>1.31340</td>
+      <td>0.190610</td>
+      <td>-0.050723</td>
+      <td>-0.458790</td>
+      <td>0.169650</td>
+      <td>-0.265080</td>
+      <td>-0.439940</td>
+      <td>0.294480</td>
+      <td>-0.395270</td>
+      <td>-0.476240</td>
+      <td>-0.436840</td>
+      <td>-0.561440</td>
+      <td>-0.191850</td>
+      <td>0.183180</td>
+      <td>0.157190</td>
+      <td>0.281240</td>
+      <td>0.033112</td>
+      <td>0.064599</td>
+      <td>0.271460</td>
+      <td>-0.337520</td>
+      <td>-0.229610</td>
+      <td>-0.539340</td>
+      <td>0.577800</td>
+      <td>...</td>
+      <td>-0.199320</td>
+      <td>-0.344430</td>
+      <td>0.108090</td>
+      <td>-0.078482</td>
+      <td>-0.140850</td>
+      <td>0.065754</td>
+      <td>-0.335080</td>
+      <td>0.058111</td>
+      <td>-1.53040</td>
+      <td>0.123050</td>
+      <td>-0.637070</td>
+      <td>-0.152480</td>
+      <td>0.308960</td>
+      <td>-0.317620</td>
+      <td>-0.101160</td>
+      <td>0.791200</td>
+      <td>0.111700</td>
+      <td>-0.449060</td>
+      <td>0.336830</td>
+      <td>0.906860</td>
+      <td>0.409920</td>
+      <td>-0.610050</td>
+      <td>-0.246430</td>
+      <td>0.067408</td>
+      <td>0.344840</td>
+      <td>0.285870</td>
+      <td>0.543030</td>
+      <td>0.127340</td>
+      <td>-0.486970</td>
+      <td>0.968110</td>
+      <td>0.647710</td>
+      <td>0.373820</td>
+      <td>0.019931</td>
+      <td>-0.033672</td>
+      <td>-0.073184</td>
+      <td>0.296830</td>
+      <td>0.340420</td>
+      <td>-0.599390</td>
+      <td>-0.061114</td>
+      <td>0.232200</td>
+    </tr>
+    <tr>
+      <th>dog</th>
+      <td>-0.401760</td>
+      <td>0.370570</td>
+      <td>0.021281</td>
+      <td>-0.341250</td>
+      <td>0.049538</td>
+      <td>0.294400</td>
+      <td>-0.173760</td>
+      <td>-0.279820</td>
+      <td>0.067622</td>
+      <td>2.16930</td>
+      <td>-0.626910</td>
+      <td>0.291060</td>
+      <td>-0.672700</td>
+      <td>0.233190</td>
+      <td>-0.342640</td>
+      <td>0.183110</td>
+      <td>0.502260</td>
+      <td>1.06890</td>
+      <td>0.146980</td>
+      <td>-0.452300</td>
+      <td>-0.418270</td>
+      <td>-0.159670</td>
+      <td>0.267480</td>
+      <td>-0.488670</td>
+      <td>0.364620</td>
+      <td>-0.043403</td>
+      <td>-0.244740</td>
+      <td>-0.417520</td>
+      <td>0.089088</td>
+      <td>-0.255520</td>
+      <td>-0.556950</td>
+      <td>0.122430</td>
+      <td>-0.083526</td>
+      <td>0.550950</td>
+      <td>0.364100</td>
+      <td>0.153610</td>
+      <td>0.557380</td>
+      <td>-0.907020</td>
+      <td>-0.049098</td>
+      <td>0.385800</td>
+      <td>...</td>
+      <td>0.037766</td>
+      <td>-0.376080</td>
+      <td>-0.116810</td>
+      <td>-0.670200</td>
+      <td>-0.046265</td>
+      <td>0.387840</td>
+      <td>-0.032295</td>
+      <td>-0.054291</td>
+      <td>-0.45384</td>
+      <td>0.195520</td>
+      <td>-0.294700</td>
+      <td>0.850090</td>
+      <td>0.103450</td>
+      <td>0.097010</td>
+      <td>0.113390</td>
+      <td>0.395020</td>
+      <td>0.059043</td>
+      <td>0.219780</td>
+      <td>0.188450</td>
+      <td>-0.158910</td>
+      <td>-0.103010</td>
+      <td>0.331640</td>
+      <td>0.061477</td>
+      <td>-0.298480</td>
+      <td>0.445100</td>
+      <td>0.473290</td>
+      <td>0.263120</td>
+      <td>-0.184950</td>
+      <td>0.146520</td>
+      <td>-0.031510</td>
+      <td>0.022908</td>
+      <td>-0.259290</td>
+      <td>-0.308620</td>
+      <td>0.001754</td>
+      <td>-0.189620</td>
+      <td>0.547890</td>
+      <td>0.311940</td>
+      <td>0.246930</td>
+      <td>0.299290</td>
+      <td>-0.074861</td>
+    </tr>
+    <tr>
+      <th>sausages</th>
+      <td>-0.174290</td>
+      <td>-0.064869</td>
+      <td>-0.046976</td>
+      <td>0.287420</td>
+      <td>-0.128150</td>
+      <td>0.647630</td>
+      <td>0.056315</td>
+      <td>-0.240440</td>
+      <td>-0.025094</td>
+      <td>0.50222</td>
+      <td>0.029936</td>
+      <td>0.871290</td>
+      <td>-0.270070</td>
+      <td>-0.854380</td>
+      <td>0.241580</td>
+      <td>-0.278750</td>
+      <td>0.479100</td>
+      <td>0.13268</td>
+      <td>0.284740</td>
+      <td>0.323430</td>
+      <td>-0.171420</td>
+      <td>0.324220</td>
+      <td>0.137840</td>
+      <td>-0.357310</td>
+      <td>0.288720</td>
+      <td>-0.357420</td>
+      <td>-0.602930</td>
+      <td>-0.186040</td>
+      <td>-0.271860</td>
+      <td>-0.829750</td>
+      <td>0.270550</td>
+      <td>0.225760</td>
+      <td>0.352370</td>
+      <td>-0.196700</td>
+      <td>1.051100</td>
+      <td>0.210840</td>
+      <td>0.115040</td>
+      <td>0.283120</td>
+      <td>0.700670</td>
+      <td>1.452400</td>
+      <td>...</td>
+      <td>0.145720</td>
+      <td>-0.327310</td>
+      <td>-0.594870</td>
+      <td>0.679110</td>
+      <td>0.213380</td>
+      <td>1.053200</td>
+      <td>-0.032428</td>
+      <td>0.105010</td>
+      <td>-0.62231</td>
+      <td>-0.151530</td>
+      <td>0.418720</td>
+      <td>-0.380260</td>
+      <td>0.401980</td>
+      <td>-0.007394</td>
+      <td>-0.399710</td>
+      <td>0.896790</td>
+      <td>-0.081613</td>
+      <td>-0.019213</td>
+      <td>0.360840</td>
+      <td>0.013679</td>
+      <td>0.437120</td>
+      <td>-0.148730</td>
+      <td>-0.078819</td>
+      <td>-0.435240</td>
+      <td>0.249950</td>
+      <td>0.663400</td>
+      <td>0.297820</td>
+      <td>-0.332740</td>
+      <td>-0.254690</td>
+      <td>-0.018595</td>
+      <td>0.302240</td>
+      <td>0.195470</td>
+      <td>-0.653980</td>
+      <td>-0.291150</td>
+      <td>-0.684290</td>
+      <td>-0.266370</td>
+      <td>0.304310</td>
+      <td>-0.806830</td>
+      <td>0.619540</td>
+      <td>0.201200</td>
+    </tr>
+    <tr>
+      <th>sky</th>
+      <td>0.312550</td>
+      <td>-0.303080</td>
+      <td>0.019587</td>
+      <td>-0.354940</td>
+      <td>0.100180</td>
+      <td>-0.141530</td>
+      <td>-0.514270</td>
+      <td>0.886110</td>
+      <td>-0.530540</td>
+      <td>1.55660</td>
+      <td>-0.001385</td>
+      <td>-0.214260</td>
+      <td>-0.524280</td>
+      <td>0.104250</td>
+      <td>-0.339810</td>
+      <td>0.186400</td>
+      <td>0.022981</td>
+      <td>1.18660</td>
+      <td>-0.180270</td>
+      <td>-0.891930</td>
+      <td>0.084658</td>
+      <td>0.173110</td>
+      <td>-0.380410</td>
+      <td>0.311870</td>
+      <td>-0.259610</td>
+      <td>-0.097019</td>
+      <td>-0.014994</td>
+      <td>0.051264</td>
+      <td>0.068153</td>
+      <td>0.035770</td>
+      <td>-0.123790</td>
+      <td>0.201050</td>
+      <td>-0.246020</td>
+      <td>-0.070083</td>
+      <td>-0.265050</td>
+      <td>-0.012957</td>
+      <td>-0.184630</td>
+      <td>-0.129890</td>
+      <td>0.084696</td>
+      <td>-0.021024</td>
+      <td>...</td>
+      <td>0.263900</td>
+      <td>0.108530</td>
+      <td>0.030066</td>
+      <td>-0.175170</td>
+      <td>0.155300</td>
+      <td>-0.880140</td>
+      <td>-0.195720</td>
+      <td>0.157680</td>
+      <td>-0.55713</td>
+      <td>0.342250</td>
+      <td>-0.722380</td>
+      <td>0.326730</td>
+      <td>-0.051512</td>
+      <td>0.090080</td>
+      <td>0.378730</td>
+      <td>0.013059</td>
+      <td>-0.239590</td>
+      <td>-0.368900</td>
+      <td>0.010188</td>
+      <td>-0.158160</td>
+      <td>0.291280</td>
+      <td>-0.962140</td>
+      <td>-0.925610</td>
+      <td>-0.122720</td>
+      <td>-0.022322</td>
+      <td>-0.152050</td>
+      <td>0.595670</td>
+      <td>0.397470</td>
+      <td>0.487380</td>
+      <td>-0.147080</td>
+      <td>-0.667050</td>
+      <td>0.279110</td>
+      <td>0.500970</td>
+      <td>-0.277580</td>
+      <td>-0.143720</td>
+      <td>0.342710</td>
+      <td>0.287580</td>
+      <td>0.537740</td>
+      <td>0.363490</td>
+      <td>0.496920</td>
+    </tr>
+    <tr>
+      <th>green</th>
+      <td>-0.072368</td>
+      <td>0.233200</td>
+      <td>0.137260</td>
+      <td>-0.156630</td>
+      <td>0.248440</td>
+      <td>0.349870</td>
+      <td>-0.241700</td>
+      <td>-0.091426</td>
+      <td>-0.530150</td>
+      <td>1.34130</td>
+      <td>-0.867850</td>
+      <td>-0.131830</td>
+      <td>-0.596790</td>
+      <td>-0.344150</td>
+      <td>-0.161210</td>
+      <td>-0.000925</td>
+      <td>0.532670</td>
+      <td>2.13290</td>
+      <td>0.021933</td>
+      <td>-0.519330</td>
+      <td>0.365570</td>
+      <td>-0.012978</td>
+      <td>-0.271540</td>
+      <td>0.004896</td>
+      <td>-0.118490</td>
+      <td>-0.383380</td>
+      <td>-0.489440</td>
+      <td>0.491470</td>
+      <td>0.136640</td>
+      <td>-0.096163</td>
+      <td>-0.028429</td>
+      <td>0.003963</td>
+      <td>0.155420</td>
+      <td>-0.296800</td>
+      <td>-0.148950</td>
+      <td>-0.055311</td>
+      <td>0.300030</td>
+      <td>0.163760</td>
+      <td>-0.169410</td>
+      <td>-0.101660</td>
+      <td>...</td>
+      <td>-0.063701</td>
+      <td>0.268550</td>
+      <td>0.125370</td>
+      <td>0.603330</td>
+      <td>0.340680</td>
+      <td>-0.364250</td>
+      <td>-0.353150</td>
+      <td>-0.432980</td>
+      <td>-0.42086</td>
+      <td>0.157040</td>
+      <td>-0.255520</td>
+      <td>0.168950</td>
+      <td>0.079552</td>
+      <td>-0.315130</td>
+      <td>0.085769</td>
+      <td>-0.079049</td>
+      <td>0.000499</td>
+      <td>0.415510</td>
+      <td>0.130620</td>
+      <td>0.218690</td>
+      <td>0.170560</td>
+      <td>-0.236900</td>
+      <td>-0.390740</td>
+      <td>0.059123</td>
+      <td>-0.080229</td>
+      <td>0.119570</td>
+      <td>0.372940</td>
+      <td>0.389800</td>
+      <td>0.427670</td>
+      <td>-0.112340</td>
+      <td>-0.405170</td>
+      <td>0.243570</td>
+      <td>0.437300</td>
+      <td>-0.461520</td>
+      <td>-0.352710</td>
+      <td>0.336250</td>
+      <td>0.069899</td>
+      <td>-0.111550</td>
+      <td>0.532930</td>
+      <td>0.712680</td>
+    </tr>
+  </tbody>
+</table>
+<p>20 rows × 300 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.manifold</span> <span class="kn">import</span> <span class="n">TSNE</span>
+
+<span class="n">tsne</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">perplexity</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">suppress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">tsne</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">word_glove_vectors</span><span class="p">)</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">unique_words</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">T</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">T</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">textcoords</span><span class="o">=</span><span class="s1">&#39;offset points&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/text-vec-embedding_34_0.png" src="../_images/text-vec-embedding_34_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="cluster-documents-with-glove-embeddings">
+<h3>Cluster documents with GloVe Embeddings<a class="headerlink" href="#cluster-documents-with-glove-embeddings" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc_glove_vectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">nlp</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">doc</span><span class="p">))</span><span class="o">.</span><span class="n">vector</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">norm_corpus</span><span class="p">])</span>
+
+<span class="kn">import</span> <span class="nn">sklearn</span>
+<span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+<span class="n">km</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">km</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">doc_glove_vectors</span><span class="p">)</span>
+<span class="n">cluster_labels</span> <span class="o">=</span> <span class="n">km</span><span class="o">.</span><span class="n">labels_</span>
+<span class="n">cluster_labels</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cluster_labels</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ClusterLabel&#39;</span><span class="p">])</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">corpus_df</span><span class="p">,</span> <span class="n">cluster_labels</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Document</th>
+      <th>Category</th>
+      <th>ClusterLabel</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>The sky is blue and beautiful.</td>
+      <td>weather</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Love this blue and beautiful sky!</td>
+      <td>weather</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>The quick brown fox jumps over the lazy dog.</td>
+      <td>animals</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>A king's breakfast has sausages, ham, bacon, eggs, toast and beans</td>
+      <td>food</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>I love green eggs, ham, sausages and bacon!</td>
+      <td>food</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>The brown fox is quick and the blue dog is lazy!</td>
+      <td>animals</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>The sky is very blue and the sky is very beautiful today</td>
+      <td>weather</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>The dog is lazy but the brown fox is quick!</td>
+      <td>animals</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="leveraging-gensim-for-building-a-fasttext-model">
+<h2>Leveraging <code class="docutils literal notranslate"><span class="pre">gensim</span></code> for building a FastText model<a class="headerlink" href="#leveraging-gensim-for-building-a-fasttext-model" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="kn">from</span> <span class="nn">gensim.models.fasttext</span> <span class="kn">import</span> <span class="n">FastText</span>
+
+<span class="n">wpt</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">WordPunctTokenizer</span><span class="p">()</span>
+<span class="n">tokenized_corpus</span> <span class="o">=</span> <span class="p">[</span><span class="n">wpt</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">document</span><span class="p">)</span> <span class="k">for</span> <span class="n">document</span> <span class="ow">in</span> <span class="n">norm_bible</span><span class="p">]</span>
+
+<span class="c1"># Set values for various parameters</span>
+<span class="n">feature_size</span> <span class="o">=</span> <span class="mi">100</span>    <span class="c1"># Word vector dimensionality  </span>
+<span class="n">window_context</span> <span class="o">=</span> <span class="mi">50</span>          <span class="c1"># Context window size                                                                                    </span>
+<span class="n">min_word_count</span> <span class="o">=</span> <span class="mi">5</span>   <span class="c1"># Minimum word count                        </span>
+<span class="n">sample</span> <span class="o">=</span> <span class="mf">1e-3</span>   <span class="c1"># Downsample setting for frequent words</span>
+
+
+<span class="n">ft_model</span> <span class="o">=</span> <span class="n">FastText</span><span class="p">(</span><span class="n">tokenized_corpus</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">feature_size</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">window_context</span><span class="p">,</span> 
+                    <span class="n">min_count</span><span class="o">=</span><span class="n">min_word_count</span><span class="p">,</span><span class="n">sample</span><span class="o">=</span><span class="n">sample</span><span class="p">,</span> <span class="n">sg</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">iter</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># view similar words based on gensim&#39;s model</span>
+<span class="n">similar_words</span> <span class="o">=</span> <span class="p">{</span><span class="n">search_term</span><span class="p">:</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">ft_model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">most_similar</span><span class="p">([</span><span class="n">search_term</span><span class="p">],</span> <span class="n">topn</span><span class="o">=</span><span class="mi">5</span><span class="p">)]</span>
+                  <span class="k">for</span> <span class="n">search_term</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;god&#39;</span><span class="p">,</span> <span class="s1">&#39;jesus&#39;</span><span class="p">,</span> <span class="s1">&#39;noah&#39;</span><span class="p">,</span> <span class="s1">&#39;egypt&#39;</span><span class="p">,</span> <span class="s1">&#39;john&#39;</span><span class="p">,</span> <span class="s1">&#39;gospel&#39;</span><span class="p">,</span> <span class="s1">&#39;moses&#39;</span><span class="p">,</span><span class="s1">&#39;famine&#39;</span><span class="p">]}</span>
+<span class="n">similar_words</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;egypt&#39;: [&#39;land&#39;, &#39;pharaoh&#39;, &#39;egyptians&#39;, &#39;israel&#39;, &#39;pathros&#39;],
+ &#39;famine&#39;: [&#39;pestilence&#39;, &#39;sword&#39;, &#39;blasted&#39;, &#39;shephatiah&#39;, &#39;mildew&#39;],
+ &#39;god&#39;: [&#39;lord&#39;, &#39;therefore&#39;, &#39;unto&#39;, &#39;christ&#39;, &#39;also&#39;],
+ &#39;gospel&#39;: [&#39;preach&#39;, &#39;preached&#39;, &#39;christ&#39;, &#39;preaching&#39;, &#39;grace&#39;],
+ &#39;jesus&#39;: [&#39;christ&#39;, &#39;god&#39;, &#39;faith&#39;, &#39;disciples&#39;, &#39;grace&#39;],
+ &#39;john&#39;: [&#39;baptist&#39;, &#39;peter&#39;, &#39;baptize&#39;, &#39;baptized&#39;, &#39;philip&#39;],
+ &#39;moses&#39;: [&#39;aaron&#39;, &#39;commanded&#39;, &#39;congregation&#39;, &#39;spake&#39;, &#39;israel&#39;],
+ &#39;noah&#39;: [&#39;shem&#39;, &#39;methuselah&#39;, &#39;flood&#39;, &#39;japheth&#39;, &#39;creepeth&#39;]}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+
+<span class="n">words</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([[</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">similar_words</span><span class="o">.</span><span class="n">items</span><span class="p">()],</span> <span class="p">[])</span>
+<span class="n">wvs</span> <span class="o">=</span> <span class="n">ft_model</span><span class="o">.</span><span class="n">wv</span><span class="p">[</span><span class="n">words</span><span class="p">]</span>
+
+<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">suppress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">wvs</span><span class="p">)</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">words</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">P</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">P</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;lightgreen&#39;</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">P</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">P</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mf">0.06</span><span class="p">,</span> <span class="n">y</span><span class="o">+</span><span class="mf">0.03</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">textcoords</span><span class="o">=</span><span class="s1">&#39;offset points&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/text-vec-embedding_40_0.png" src="../_images/text-vec-embedding_40_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ft_model</span><span class="o">.</span><span class="n">wv</span><span class="p">[</span><span class="s1">&#39;jesus&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-0.31373277,  0.24986652, -0.00367668,  0.21423288,  0.04567473,
+       -0.04502545, -0.07046528, -0.5637045 , -0.42696762,  0.29426795,
+        0.18720292, -0.6424968 ,  0.10201346, -0.24982215,  0.02858064,
+        0.3755699 ,  0.28008053,  0.012965  ,  0.33426148, -0.07878435,
+       -0.01983238,  0.17766935,  0.02893843,  0.32203683,  0.28054443,
+       -0.09005316,  0.0987089 , -0.22138645, -0.31606898,  0.22938365,
+       -0.01445512, -0.17707585,  0.20032842,  0.15179242, -0.16822553,
+       -0.13566902,  0.0005343 ,  0.0721856 , -0.69524443,  0.43080416,
+       -0.21818122,  0.23006764, -0.33329317,  0.07751293,  0.27338496,
+       -0.35498056,  0.1503952 ,  0.28976926,  0.02623105,  0.03571241,
+        0.00480933,  0.1433095 , -0.05732399, -0.09378115, -0.07803533,
+        0.42912427,  0.11038725,  0.00930797, -0.16667941,  0.06490608,
+       -0.07404152, -0.64138204,  0.3414193 , -0.3284135 ,  0.58562374,
+       -0.11382494,  0.01709049, -0.11023157,  0.4026227 ,  0.17072818,
+       -0.0650255 , -0.44137776, -0.03623284,  0.4484094 ,  0.29651195,
+        0.14004126,  0.15762329, -0.01747944,  0.15575938,  0.13364369,
+       -0.05310826,  0.07627185, -0.10911354,  0.48459134,  0.13467856,
+        0.19604929,  0.32799283,  0.06714032,  0.31861877,  0.01227738,
+        0.34695995, -0.48641637,  0.02905562, -0.24903801,  0.07797852,
+        0.1565198 ,  0.4196216 , -0.06553897, -0.17988557, -0.4600772 ],
+      dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">ft_model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">similarity</span><span class="p">(</span><span class="n">w1</span><span class="o">=</span><span class="s1">&#39;god&#39;</span><span class="p">,</span> <span class="n">w2</span><span class="o">=</span><span class="s1">&#39;satan&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ft_model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">similarity</span><span class="p">(</span><span class="n">w1</span><span class="o">=</span><span class="s1">&#39;god&#39;</span><span class="p">,</span> <span class="n">w2</span><span class="o">=</span><span class="s1">&#39;jesus&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.26208106
+0.6369799
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">st1</span> <span class="o">=</span> <span class="s2">&quot;god jesus satan john&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Odd one out for [&#39;</span><span class="p">,</span><span class="n">st1</span><span class="p">,</span> <span class="s1">&#39;]:&#39;</span><span class="p">,</span> <span class="n">ft_model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">doesnt_match</span><span class="p">(</span><span class="n">st1</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span>
+
+<span class="n">st2</span> <span class="o">=</span> <span class="s2">&quot;john peter james judas&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Odd one out for [&#39;</span><span class="p">,</span><span class="n">st2</span><span class="p">,</span> <span class="s1">&#39;]:&#39;</span><span class="p">,</span> <span class="n">ft_model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">doesnt_match</span><span class="p">(</span><span class="n">st2</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Odd one out for [ god jesus satan john ]: satan
+Odd one out for [ john peter james judas ]: judas
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/lib/python3.7/dist-packages/gensim/models/keyedvectors.py:895: FutureWarning: arrays to stack must be passed as a &quot;sequence&quot; type such as list or tuple. Support for non-sequence iterables such as generators is deprecated as of NumPy 1.16 and will raise an error in the future.
+  vectors = vstack(self.word_vec(word, use_norm=True) for word in used_words).astype(REAL)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Sarkar (2020) Ch 4 Feature Engineering for Text Representation</p></li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python-notes",
+            path: "./temp"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python-notes'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="text-vec-traditional.html" title="previous page">Text Vectorization Using Traditional Methods</a>
+    <a class='right-next' id="next-link" href="text-vec-embedding-keras.html" title="next page">Word Embedding Using Keras</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Alvin Chen<br/>
+        
+            &copy; Copyright 2020 Alvin Chen.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

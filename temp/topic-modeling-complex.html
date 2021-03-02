@@ -1,0 +1,1679 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Topic Modeling: A Real Example &#8212; ENC2045 Computational Linguistics</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Sentiment Analysis" href="../nlp/sentiment-analysis.html" />
+    <link rel="prev" title="Topic Modeling: A Naive Example" href="topic-modeling-naive.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/ntnu-word-2.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">ENC2045 Computational Linguistics</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <p class="caption collapsible-parent">
+ <span class="caption-text">
+  INTRODUCTION
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/nlp-primer.html">
+   Natural Language Processing: A Primer
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/nlp-pipeline.html">
+   NLP Pipeline
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Preprocessing
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../nlp/text-preprocessing.html">
+   Text Preprocessing
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../nlp/text-normalization-eng.html">
+     Text Normalization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../nlp/text-tokenization.html">
+     Text Tokenization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../nlp/text-enrichment.html">
+     Text Enrichment
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/chinese-word-seg.html">
+   Chinese Word Segmentation
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Text Vectorization
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="text-vec-traditional.html">
+   Text Vectorization Using Traditional Methods
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="text-vec-embedding.html">
+   Word Embeddings
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="text-vec-embedding-keras.html">
+   Word Embedding Using Keras
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine Learning Basics
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-overview.html">
+   Machine Learning: Overview
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-simple-case.html">
+   Machine Learning: A Simple Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-nlp-case.html">
+   Machine Learning: NLP Tasks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-algorithm.html">
+   Classification Models
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-sklearn-classification.html">
+   Machine Learning Using Sci-Kit Learn
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  NLP Tasks
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../nlp/text-classification.html">
+   Text Classification
+  </a>
+  <ul class="simple collapse-ul">
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="topic-modeling-naive.html">
+   Topic Modeling: A Naive Example
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Topic Modeling: A Real Example
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../nlp/sentiment-analysis.html">
+   Sentiment Analysis
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="sentiment-analysis-ml.html">
+     Sentiment Analysis with Traditional Machine Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sentiment-analysis-dl.html">
+     Sentiment Analysis based on Embeddings
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Deep Learning NLP
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl-neural-network-from-scratch.html">
+   Neural Network From Scratch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl-statistical-language-model.html">
+   Statistical Language Model
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Exercises
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/1-python-basics.html">
+   1. Assignment I: Python Basics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/2-journal-review.html">
+   2. Assignment II: Journal Articles Review
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  <div style="text-align:center">
+<i class="fas fa-chalkboard-teacher fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinntnu.github.io/NTNU_ENC2045/" target='_blank'>ENC2045 Course Website</a><br>
+<i class="fas fa-home fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinchen.myftp.org/" target='_blank'>Alvin Chen's Homepage</a>
+</div>
+
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/temp/topic-modeling-complex.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alvinntnu/NTNU_ENC2045_LECTURES/main?urlpath=tree/temp/topic-modeling-complex.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alvinntnu/NTNU_ENC2045_LECTURES/blob/main/temp/topic-modeling-complex.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-necessary-dependencies-and-settings">
+   Import necessary dependencies and settings
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sample-corpus-of-text-documents">
+   Sample corpus of text documents
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#simple-text-pre-processing">
+   Simple text pre-processing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bag-of-words-model">
+   Bag of Words Model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#latent-dirichlet-allocation">
+   Latent Dirichlet Allocation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#show-topics-and-their-weights">
+   Show topics and their weights
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#clustering-documents-using-topic-model-features">
+   Clustering documents using topic model features
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="topic-modeling-a-real-example">
+<h1>Topic Modeling: A Real Example<a class="headerlink" href="#topic-modeling-a-real-example" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="import-necessary-dependencies-and-settings">
+<h2>Import necessary dependencies and settings<a class="headerlink" href="#import-necessary-dependencies-and-settings" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">nltk</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">nltk</span><span class="o">,</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">movie_reviews</span>
+<span class="kn">from</span> <span class="nn">nltk.stem</span> <span class="kn">import</span> <span class="n">PorterStemmer</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">max_colwidth</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="sample-corpus-of-text-documents">
+<h2>Sample corpus of text documents<a class="headerlink" href="#sample-corpus-of-text-documents" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corpus</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">movie_reviews</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="n">f</span><span class="p">))</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">movie_reviews</span><span class="o">.</span><span class="n">fileids</span><span class="p">()]</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">movie_reviews</span><span class="o">.</span><span class="n">fileids</span><span class="p">()]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">corpus</span><span class="p">[</span><span class="mi">0</span><span class="p">][:</span><span class="mi">200</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">labels</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>plot : two teen couples go to a church party , drink and then drive . they get into an accident . one of the guys dies , but his girlfriend continues to see him in her life , and has nightmares . what
+[&#39;neg&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;neg&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corpus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
+<span class="n">corpus_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Document&#39;</span><span class="p">:</span> <span class="n">corpus</span><span class="p">,</span> 
+                          <span class="s1">&#39;Category&#39;</span><span class="p">:</span> <span class="n">labels</span><span class="p">})</span>
+<span class="n">corpus_df</span> <span class="o">=</span> <span class="n">corpus_df</span><span class="p">[[</span><span class="s1">&#39;Document&#39;</span><span class="p">,</span> <span class="s1">&#39;Category&#39;</span><span class="p">]]</span>
+<span class="n">corpus_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Document</th>
+      <th>Category</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>plot : two teen couples go to a church party , drink and then drive . they get into an accident . one of the guys dies , but his girlfriend continues to see him in her life , and has nightmares . ...</td>
+      <td>neg</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>the happy bastard ' s quick movie review damn that y2k bug . it ' s got a head start in this movie starring jamie lee curtis and another baldwin brother ( william this time ) in a story regarding ...</td>
+      <td>neg</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>it is movies like these that make a jaded movie viewer thankful for the invention of the timex indiglo watch . based on the late 1960 ' s television show by the same name , the mod squad tells the...</td>
+      <td>neg</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>" quest for camelot " is warner bros . ' first feature - length , fully - animated attempt to steal clout from disney ' s cartoon empire , but the mouse has no reason to be worried . the only othe...</td>
+      <td>neg</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>synopsis : a mentally unstable man undergoing psychotherapy saves a boy from a potentially fatal accident and then falls in love with the boy ' s mother , a fledgling restauranteur . unsuccessfull...</td>
+      <td>neg</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1995</th>
+      <td>wow ! what a movie . it ' s everything a movie can be : funny , dramatic , interesting , weird , funny , weird and strikingly original . yep that pretty much describes this movie . it starts out l...</td>
+      <td>pos</td>
+    </tr>
+    <tr>
+      <th>1996</th>
+      <td>richard gere can be a commanding actor , but he ' s not always in great films . everything comes together here . gere is a big time chicago defense attorney who takes on a seemingly unwinable case...</td>
+      <td>pos</td>
+    </tr>
+    <tr>
+      <th>1997</th>
+      <td>glory -- starring matthew broderick , denzel washington , and morgan freeman -- is the true story of the 54th regiment of massachusetts , the first black fighting unit recruited by the north durin...</td>
+      <td>pos</td>
+    </tr>
+    <tr>
+      <th>1998</th>
+      <td>steven spielberg ' s second epic film on world war ii is an unquestioned masterpiece of film . spielberg , ever the student on film , has managed to resurrect the war genre by producing one of its...</td>
+      <td>pos</td>
+    </tr>
+    <tr>
+      <th>1999</th>
+      <td>truman ( " true - man " ) burbank is the perfect name for jim carrey ' s character in this film . president truman was an unassuming man who became known worldwide , in spite of ( or was it becaus...</td>
+      <td>pos</td>
+    </tr>
+  </tbody>
+</table>
+<p>2000 rows × 2 columns</p>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="simple-text-pre-processing">
+<h2>Simple text pre-processing<a class="headerlink" href="#simple-text-pre-processing" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wpt</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">WordPunctTokenizer</span><span class="p">()</span>
+<span class="n">stop_words</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">corpus</span><span class="o">.</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s1">&#39;english&#39;</span><span class="p">)</span>
+<span class="n">stemmer</span> <span class="o">=</span> <span class="n">PorterStemmer</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">normalize_document</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+    <span class="c1"># lower case and remove special characters\whitespaces</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[^a-zA-Z\s]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">doc</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span><span class="o">|</span><span class="n">re</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="c1"># tokenize document</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">wpt</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+    <span class="c1"># filter stopwords out of document</span>
+    <span class="n">filtered_tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">stemmer</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span> <span class="k">if</span> <span class="n">token</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stop_words</span><span class="p">]</span>
+    <span class="c1"># re-create document from filtered tokens</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filtered_tokens</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">doc</span>
+
+<span class="n">normalize_corpus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="n">normalize_document</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">norm_corpus</span> <span class="o">=</span> <span class="n">normalize_corpus</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
+<span class="n">norm_corpus</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;plot two teen coupl go church parti drink drive get accid one guy die girlfriend continu see life nightmar deal watch movi sorta find critiqu mind fuck movi teen gener touch cool idea present bad packag make review even harder one write sinc gener applaud film attempt break mold mess head lost highway memento good bad way make type film folk snag one correctli seem taken pretti neat concept execut terribl problem movi well main problem simpli jumbl start normal downshift fantasi world audienc member idea go dream charact come back dead other look like dead strang apparit disappear looooot chase scene ton weird thing happen simpli explain person mind tri unravel film everi give clue get kind fed film biggest problem obvious got big secret hide seem want hide complet final five minut make thing entertain thrill even engag meantim realli sad part arrow dig flick like actual figur half way point strang start make littl bit sens still make film entertain guess bottom line movi like alway make sure audienc even given secret password enter world understand mean show melissa sagemil run away vision minut throughout movi plain lazi okay get peopl chase know realli need see give us differ scene offer insight strang go movi appar studio took film away director chop show might pretti decent teen mind fuck movi somewher guess suit decid turn music video littl edg would make sens actor pretti good part although we bentley seem play exact charact american beauti new neighborhood biggest kudo go sagemil hold throughout entir film actual feel charact unravel overal film stick entertain confus rare excit feel pretti redund runtim despit pretti cool end explan crazi came oh way horror teen slasher flick packag look way someon appar assum genr still hot kid also wrap product two year ago sit shelv ever sinc whatev skip joblo come nightmar elm street blair witch crow crow salvat lost highway memento other stir echo&#39;,
+       &#39;happi bastard quick movi review damn yk bug got head start movi star jami lee curti anoth baldwin brother william time stori regard crew tugboat come across desert russian tech ship strang kick power back littl know power within go gore bring action sequenc viru still feel empti like movi go flash substanc know crew realli middl nowher know origin took ship big pink flashi thing hit mir cours know donald sutherland stumbl around drunkenli throughout hey let chase peopl around robot act averag even like curti like get kick work halloween h sutherland wast baldwin well act like baldwin cours real star stan winston robot design schnazzi cgi occasion good gore shot like pick someon brain robot bodi part realli turn movi otherwis pretti much sunken ship movi&#39;,
+       &#39;movi like make jade movi viewer thank invent timex indiglo watch base late televis show name mod squad tell tale three reform crimin employ polic go undercov howev thing go wrong evid get stolen immedi suspicion cours ad make seem like much quick cut cool music clair dane nice hair cute outfit car chase stuff blow like sound like cool movi first fifteen minut quickli becom appar mod squad certainli slick look product complet nice hair costum simpli enough film best describ cross hour long cop show music video stretch span hour half come everi singl clich realli matter film base televis show plot element recycl everyth alreadi seen charact act noth spectacular sometim even border wooden clair dane omar epp deliv line bore realli transfer onto audienc one escap rel unscath giovanni ribisi play resid crazi man ultim thing worth watch unfortun even enough save convolut mess charact much apart occupi screen time young cast cool cloth nice hair hip soundtrack appear film gear toward teenag mindset despit american r rate content justifi film way juvenil older mindset inform charact liter spoon fed audienc would hard show us instead tell us dialogu poorli written plot extrem predict way film progress like even care hero jeopardi know base show televis show nobodi rememb question wisdom especi one consid target audienc fact number memor film base televis show count one hand even one miss finger two number time check watch six clear indic film one clear film noth attempt cash teenag spend dollar judg rash realli aw teen flick see late avoid film cost&#39;,
+       ...,
+       &#39;glori star matthew broderick denzel washington morgan freeman true stori th regiment massachusett first black fight unit recruit north civil war broderick play robert gould shaw young white offic led black soldier battl shaw son well abolitionist hail boston high societi letter wrote home parent war display harvard evid inspir glori film begin shaw captain northern forc like privat eriksson michael j fox casualti war shaw initi naiv idealist war compani attack enemi forc shaw experi first hand horror chao battl wit mass slaughter receiv minor wound bullet graze neck soon recoveri shaw promot colonel assign enlist train black war effort glori stori colonel shaw also black soldier laid live free brother slaveri film period jump shaw point view perspect black soldier movi introduc us hand black recruit follow enlist basic train final action larg black cast uniformli outstand especi washington electrifi runaway slave big mouth brash pushi alway get troubl alway look fight bitter tough guy facad realli mask loneli vulner washington provid much film intens emot power one heartbreak scene whip allegedli desert armi remov shirt receiv punish cring sight back riddl ugli scar day slave make blood boil humili beat far traumat actual physic pain bring tear roll washington cheek probabl run cheek well episod becom even tragic learn washington desert armi left camp look shoe feet cover ooz sore freeman usual strong presenc even small support role play grave digger buri white soldier care rememb quickli becom leader among black soldier hold group togeth serv liaison white offic colonel shaw recogn freeman leadership abil promot sergeant major make first black offic armi andr braugher make impress film debut role thoma searl free black one shaw close childhood friend searl educ refin like white man prompt washington nicknam snow flake burn question whether searl tough enough surviv basic train kill combat road march drill battl action bumpi one black regiment soldier suffer innumer hardship somehow never lose moral armi treat black soldier like second class citizen subject racism discrimin paid month wherea white counterpart earn thirteen long time go without shoe gun uniform make matter wors white militari hierarchi extrem reluct allow black action prefer instead use manual labor eventu howev regiment receiv boot uniform rifl right fight thank stubborn resolv colonel shaw shaw absolut faith soldier fight tooth nail get deserv even mean threaten gener blackmail broderick fact convinc scene shaw stand regiment unfortun howev broderick uneven perform mani respect weak link movi effort look matur broderick sport mustach goate throughout film slip phoni boston accent never altogeth convinc shaw sinc much time emot seem forc film place much weight broderick charact enough black soldier intrigu glori regain lost ground harrow depict war movi show devast war without resort unnecessarili graphic gore mar born fourth juli glori tri rattl nauseat blood gut except bullet wound one explod head film part leav gore imagin say battl scene glori timid contrari chaotic horrifi director edward zwick co creator thirtysometh film far subtleti restraint oliv stone could ever muster key glori group dynam among black soldier movi depict enough custom ritual one scene exampl soldier motiv sing prayer around campfir man chanc relay word inspir coupl movi touch moment involv young black children look black soldier awe disbelief pride regiment greatest triumph come soldier distinguish battl therebi earn respect white peer earn honor lead climact assault fort wagner like war film glori share gloom despair ultim prove truli uplift experi import histori lesson valuabl remind despit histori book say precis say black play critic import role north victori south forev chang evolut america&#39;,
+       &#39;steven spielberg second epic film world war ii unquest masterpiec film spielberg ever student film manag resurrect war genr produc one grittiest power entri also manag cast era greatest answer jimmi stewart tom hank deliv perform noth short astonish miracl minut save privat ryan flawless liter plot simpl enough epic day invas whose sequenc noth short spectacular capt john miller hank team forc search pvt jame ryan damon whose brother die battl find bring back immedi discharg go home accompani miller crew play astonish perfect group charact actor simpli sensat barri pepper adam goldberg vin diesel giovanni ribisi davi burn team sent find one man bring home battl sequenc bookend film extraordinari liter noth film ever record prepar sheer onslaught terror violenc film first minut spielberg film almost entir movi without music leav charact gener emot perfect sequenc franc begin battl end battl fabul especi dialogu men walk hill countrysid tri save privat ryan word use describ true horror power sequenc coppola look apocalyps creat sheer horror sequenc condemn war perform hank leader gang also extraordinari head shoulder rest actor world comic time dramat flair quiet emot stir entir nation tear hank countri finest actor prove howev spielberg almost destroy masterpiec chanc make one greatest film time spielberg creat minut pure worthless film sequenc involv armi chief stafff georg marshal mr ryan decent hold rest film reli wartim clich power forgiv bookend film cemetari sequenc first one quit good decent introduct live men last sequenc atroci forc emot accompani ridicul piec music simpli horribl compar rest magic film flaw downgrad ryan greatest film era greatest war film era spielberg trust materi trust hank deliv chill line movi end masterpiec right use flag though patriot contrast movi theme power bulk film howev astonish spielberg truli made wondrou work art persist even first view film extraordinari film year&#39;,
+       &#39;truman true man burbank perfect name jim carrey charact film presid truman unassum man becam known worldwid spite statur truman also recal era plenti follow grim war era plan commun built govern scientist promis idyl life american burbank california bring mind tonight show home nbc hollywood center film world burbank center tv world world protagonist live combin name concept truman burbank get someth well describ artifici world truman lead perfect life town car wife pictur perfect idea realiti come attack one day studio light fall sky radio explain overfli airplan start come apart would airplan carri studio light next day drive work radio jam start pick voic exactli describ movement distract nearli hit pedestrian radio come back normal announc warn listen drive care suspicion arous wander around town squar look odditi world appear function properli enter offic build tri take elev elev door open small loung peopl coffe break grip see truman quickli move panel door made look like back elev place two secur guard grab throw truman realli suspici get even wors next day wife nurs describ elev accid build saw loung best think say tri vainli chang truman memori truman becom determin see behind appar elabor hoax expens everi turn stop amaz coincid happen keep littl town last hope quell fear ocean sail edg world know truman life subject televis program action real everyth els care script death father choic wife truman determin find big hoax meanwhil christof see creator truman world best keep unawar happi sort like westworld told robot point view jurass park dinosaur point view root captiv cage world protagonist count chao theori help escap elabor trap stori written andrew niccol writer director gattaca introduc interest question ethic subject person type life psycholog impact learn entir life fake although question came mind think film ask certainli address tri answer particularli disappoint film deal trauma learn one life tv show carrey perform end show smidgen truman pain almost felt got easili sake film pace earlier movi found wonder would better truman find truth whether root well two seem exclus one anoth weir niccol see way perhap fair critic movi seem like miss opportun term movi well made sight sound pace handl compet much first part movi truman show scene appar shot hidden camera snoot obstruct cover corner screen one hidden camera appar car radio green led number obscur lower part screen music well chosen score film open sound like famili drama theme music truman world still beauti perfect movi end score sound like frantic driven tangerin dream opu still keep timbr philip glass epic music powaqqatsi permeat truman scene suspicion awaken glass small cameo keyboardist show pace stori brisk unnecessarili long setup explain concept behind truman show quick titl card interview right show movi one first scene studio light fall token scene truman idyl life fall apart necessari pick stori first sign troubl sooner also point movi plot slow quick straight shot movi end term overal qualiti would compar truman show niccol gattaca film well made interest stori set interest world neither film realli felt like capit great idea neither film click becam instant classic nevertheless look forward niccol next film whatev may&#39;],
+      dtype=&#39;&lt;U9391&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="bag-of-words-model">
+<h2>Bag of Words Model<a class="headerlink" href="#bag-of-words-model" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Bag-of-words model is the simplest way to vectorize texts into numeric representations.</p></li>
+<li><p>In short, it is a method to represent a text using its word frequency list.</p></li>
+<li><p>The sequential order of words in the text is therefore naively ignored.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">CountVectorizer</span>
+<span class="c1"># get bag of words features in sparse format</span>
+<span class="n">cv</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">(</span><span class="n">min_df</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">max_df</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">cv_matrix</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">norm_corpus</span><span class="p">)</span>
+<span class="n">cv_matrix</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;2000x190 sparse matrix of type &#39;&lt;class &#39;numpy.int64&#39;&gt;&#39;
+	with 123821 stored elements in Compressed Sparse Row format&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># view non-zero feature positions in the sparse matrix</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cv_matrix</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  (0, 134)	1
+  (0, 175)	2
+  (0, 67)	4
+  (0, 64)	3
+  (0, 71)	1
+  (0, 151)	2
+  (0, 98)	1
+  (0, 179)	1
+  (0, 56)	1
+  (0, 113)	3
+  (0, 63)	2
+  (0, 17)	2
+  (0, 45)	3
+  (0, 158)	2
+  (0, 13)	1
+  (0, 75)	1
+  (0, 69)	2
+  (0, 180)	4
+  (0, 152)	3
+  (0, 137)	3
+  (0, 181)	1
+  (0, 161)	2
+  (0, 185)	2
+  (0, 14)	2
+  (0, 28)	2
+  :	:
+  (1999, 58)	1
+  (1999, 76)	1
+  (1999, 159)	1
+  (1999, 84)	3
+  (1999, 165)	1
+  (1999, 131)	1
+  (1999, 109)	1
+  (1999, 156)	1
+  (1999, 125)	2
+  (1999, 94)	1
+  (1999, 78)	1
+  (1999, 132)	1
+  (1999, 144)	1
+  (1999, 106)	3
+  (1999, 4)	1
+  (1999, 168)	2
+  (1999, 70)	1
+  (1999, 22)	1
+  (1999, 147)	1
+  (1999, 34)	3
+  (1999, 129)	1
+  (1999, 183)	1
+  (1999, 79)	1
+  (1999, 116)	1
+  (1999, 150)	1
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># view dense representation </span>
+<span class="c1"># warning might give a memory error if data is too big</span>
+<span class="n">cv_matrix</span> <span class="o">=</span> <span class="n">cv_matrix</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="n">cv_matrix</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0, 0, 1, ..., 1, 0, 0],
+       [2, 1, 0, ..., 0, 0, 0],
+       [1, 0, 0, ..., 0, 0, 1],
+       ...,
+       [0, 3, 0, ..., 0, 0, 2],
+       [0, 0, 3, ..., 1, 0, 0],
+       [0, 1, 0, ..., 0, 0, 0]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get all unique words in the corpus</span>
+<span class="n">vocab</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">())</span>
+<span class="c1"># show document feature vectors</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cv_matrix</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">vocab</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>act</th>
+      <th>action</th>
+      <th>actor</th>
+      <th>actual</th>
+      <th>almost</th>
+      <th>along</th>
+      <th>also</th>
+      <th>although</th>
+      <th>alway</th>
+      <th>anoth</th>
+      <th>...</th>
+      <th>way</th>
+      <th>well</th>
+      <th>without</th>
+      <th>wonder</th>
+      <th>work</th>
+      <th>world</th>
+      <th>would</th>
+      <th>year</th>
+      <th>yet</th>
+      <th>young</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>...</td>
+      <td>4</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>...</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>...</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>3</td>
+      <td>...</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1995</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>4</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>4</td>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1996</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1997</th>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>1998</th>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1999</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>...</td>
+      <td>1</td>
+      <td>5</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>10</td>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>2000 rows × 190 columns</p>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="latent-dirichlet-allocation">
+<h2>Latent Dirichlet Allocation<a class="headerlink" href="#latent-dirichlet-allocation" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">LatentDirichletAllocation</span>
+
+<span class="n">lda</span> <span class="o">=</span> <span class="n">LatentDirichletAllocation</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                               <span class="n">max_doc_update_iter</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">learning_method</span><span class="o">=</span><span class="s1">&#39;online&#39;</span><span class="p">,</span>
+                               <span class="n">batch_size</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">learning_offset</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">n_jobs</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">dt_matrix</span> <span class="o">=</span> <span class="n">lda</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">cv_matrix</span><span class="p">)</span> <span class="c1"># document matrix</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 10min 58s, sys: 46.2 s, total: 11min 44s
+Wall time: 27min 2s
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">features</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dt_matrix</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;T&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">9</span><span class="p">)])</span>
+<span class="n">features</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>T1</th>
+      <th>T2</th>
+      <th>T3</th>
+      <th>T4</th>
+      <th>T5</th>
+      <th>T6</th>
+      <th>T7</th>
+      <th>T8</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.083654</td>
+      <td>0.001050</td>
+      <td>0.455340</td>
+      <td>0.001052</td>
+      <td>0.282282</td>
+      <td>0.001052</td>
+      <td>0.001052</td>
+      <td>0.174516</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.415890</td>
+      <td>0.002907</td>
+      <td>0.338549</td>
+      <td>0.002910</td>
+      <td>0.002912</td>
+      <td>0.231007</td>
+      <td>0.002912</td>
+      <td>0.002914</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.001648</td>
+      <td>0.001645</td>
+      <td>0.512473</td>
+      <td>0.001647</td>
+      <td>0.267217</td>
+      <td>0.212076</td>
+      <td>0.001648</td>
+      <td>0.001648</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.001927</td>
+      <td>0.001923</td>
+      <td>0.447879</td>
+      <td>0.064384</td>
+      <td>0.141645</td>
+      <td>0.001927</td>
+      <td>0.189688</td>
+      <td>0.150628</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.190102</td>
+      <td>0.001147</td>
+      <td>0.001149</td>
+      <td>0.001148</td>
+      <td>0.001149</td>
+      <td>0.235257</td>
+      <td>0.212642</td>
+      <td>0.357406</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1995</th>
+      <td>0.000798</td>
+      <td>0.000796</td>
+      <td>0.341987</td>
+      <td>0.083066</td>
+      <td>0.000797</td>
+      <td>0.000798</td>
+      <td>0.384830</td>
+      <td>0.186928</td>
+    </tr>
+    <tr>
+      <th>1996</th>
+      <td>0.002363</td>
+      <td>0.002358</td>
+      <td>0.002363</td>
+      <td>0.301929</td>
+      <td>0.156067</td>
+      <td>0.002362</td>
+      <td>0.002363</td>
+      <td>0.530194</td>
+    </tr>
+    <tr>
+      <th>1997</th>
+      <td>0.112431</td>
+      <td>0.001147</td>
+      <td>0.001149</td>
+      <td>0.001148</td>
+      <td>0.189951</td>
+      <td>0.440785</td>
+      <td>0.252240</td>
+      <td>0.001149</td>
+    </tr>
+    <tr>
+      <th>1998</th>
+      <td>0.001605</td>
+      <td>0.001603</td>
+      <td>0.001605</td>
+      <td>0.001604</td>
+      <td>0.143683</td>
+      <td>0.688255</td>
+      <td>0.160040</td>
+      <td>0.001605</td>
+    </tr>
+    <tr>
+      <th>1999</th>
+      <td>0.000783</td>
+      <td>0.000781</td>
+      <td>0.000783</td>
+      <td>0.000782</td>
+      <td>0.576804</td>
+      <td>0.035332</td>
+      <td>0.153488</td>
+      <td>0.231247</td>
+    </tr>
+  </tbody>
+</table>
+<p>2000 rows × 8 columns</p>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="show-topics-and-their-weights">
+<h2>Show topics and their weights<a class="headerlink" href="#show-topics-and-their-weights" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># tt_matrix = lda.components_ # topic matrix</span>
+<span class="c1"># for topic_weights in tt_matrix:</span>
+<span class="c1">#     topic = [(token, weight) for token, weight in zip(vocab, topic_weights)]</span>
+<span class="c1">#     topic = sorted(topic, key=lambda x: -x[1])</span>
+<span class="c1">#     topic = [item for item in topic if item[1] &gt; 0.6]</span>
+<span class="c1">#     print(topic)</span>
+<span class="c1">#     print()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">topic_terms</span> <span class="o">=</span> <span class="n">lda</span><span class="o">.</span><span class="n">components_</span>
+<span class="n">top_terms</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">topic_keywords_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">topic_terms</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,:</span><span class="n">top_terms</span><span class="p">]</span>
+<span class="n">topic_keywords</span> <span class="o">=</span> <span class="n">vocab</span><span class="p">[</span><span class="n">topic_keywords_idxs</span><span class="p">]</span>
+<span class="n">topics</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">topic_keywords</span><span class="p">]</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_colwidth&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">topics_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">topics</span><span class="p">,</span>
+                        <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Keywords per Topic&#39;</span><span class="p">],</span>
+                        <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Topic&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">9</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">topics_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Keywords per Topic</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Topic1</th>
+      <td>good, bad, play, guy, get, realli, act, actor, scene, well, littl, kill, great, know, lot, tri, even, also, role, big</td>
+    </tr>
+    <tr>
+      <th>Topic2</th>
+      <td>thought, hour, keep, star, let, put, director, rather, head, hard, stori, run, call, long, happen, pictur, attempt, hope, leav, goe</td>
+    </tr>
+    <tr>
+      <th>Topic3</th>
+      <td>get, go, thing, even, see, look, plot, know, minut, think, end, bad, would, realli, say, much, watch, want, come, someth</td>
+    </tr>
+    <tr>
+      <th>Topic4</th>
+      <td>comedi, funni, laugh, get, big, play, high, star, friend, best, go, seem, enjoy, fun, bit, work, would, back, involv, noth</td>
+    </tr>
+    <tr>
+      <th>Topic5</th>
+      <td>world, life, live, peopl, show, year, us, would, first, know, see, even, take, new, use, way, look, go, two, say</td>
+    </tr>
+    <tr>
+      <th>Topic6</th>
+      <td>action, scene, star, effect, plot, first, origin, even, sequenc, director, much, new, look, use, play, set, also, cast, gener, would</td>
+    </tr>
+    <tr>
+      <th>Topic7</th>
+      <td>love, play, perform, man, life, stori, two, year, work, best, director, role, becom, john, take, find, turn, young, also, get</td>
+    </tr>
+    <tr>
+      <th>Topic8</th>
+      <td>stori, seem, well, see, much, scene, also, mani, end, great, howev, good, would, realli, even, may, feel, never, although, work</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">float_format</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:,.5f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_colwidth&#39;</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+
+
+<span class="n">dt_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dt_matrix</span><span class="p">,</span>
+                    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Topic&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">9</span><span class="p">)])</span>
+
+<span class="n">max_contrib_topics</span> <span class="o">=</span> <span class="n">dt_df</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">dominant_topics</span> <span class="o">=</span> <span class="n">max_contrib_topics</span><span class="o">.</span><span class="n">index</span>
+<span class="n">contrib_perc</span> <span class="o">=</span> <span class="n">max_contrib_topics</span><span class="o">.</span><span class="n">values</span>
+<span class="n">document_numbers</span> <span class="o">=</span> <span class="p">[</span><span class="n">dt_df</span><span class="p">[</span><span class="n">dt_df</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">==</span><span class="n">max_contrib_topics</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">t</span><span class="p">]]</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">dominant_topics</span><span class="p">]</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="p">[</span><span class="n">norm_corpus</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">document_numbers</span><span class="p">]</span>
+
+<span class="n">documents_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Dominant Topic&#39;</span><span class="p">:</span> <span class="n">dominant_topics</span><span class="p">,</span>
+                            <span class="s1">&#39;Contribution%&#39;</span><span class="p">:</span> <span class="n">contrib_perc</span><span class="p">,</span>
+                            <span class="s1">&#39;DOCID&#39;</span><span class="p">:</span> <span class="n">document_numbers</span><span class="p">,</span>
+                            <span class="s1">&#39;Topic&#39;</span><span class="p">:</span> <span class="n">topics_df</span><span class="p">[</span><span class="s1">&#39;Keywords per Topic&#39;</span><span class="p">],</span>
+                            <span class="s1">&#39;Text&#39;</span><span class="p">:</span> <span class="n">documents</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">documents_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Dominant Topic</th>
+      <th>Contribution%</th>
+      <th>DOCID</th>
+      <th>Topic</th>
+      <th>Text</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Topic1</th>
+      <td>Topic1</td>
+      <td>0.70858</td>
+      <td>380</td>
+      <td>good, bad, play, guy, get, realli, act, actor, scene, well, littl, kill, great, know, lot, tri, even, also, role, big</td>
+      <td>want involv show busi one day refus sequel movi may make believ get wors movi prove littl worri last batman film thought joel schumacc take tim burton would screw also assum val kilmer would screw...</td>
+    </tr>
+    <tr>
+      <th>Topic2</th>
+      <td>Topic2</td>
+      <td>0.06250</td>
+      <td>506</td>
+      <td>thought, hour, keep, star, let, put, director, rather, head, hard, stori, run, call, long, happen, pictur, attempt, hope, leav, goe</td>
+      <td>film extraordinarili horrend go wast word</td>
+    </tr>
+    <tr>
+      <th>Topic3</th>
+      <td>Topic3</td>
+      <td>0.98730</td>
+      <td>398</td>
+      <td>get, go, thing, even, see, look, plot, know, minut, think, end, bad, would, realli, say, much, watch, want, come, someth</td>
+      <td>robert forster found famou appear jacki brown immedi sign littl film call american perfekt almost two year ago wait patient film releas never final forgot day though perus select local video store...</td>
+    </tr>
+    <tr>
+      <th>Topic4</th>
+      <td>Topic4</td>
+      <td>0.71782</td>
+      <td>1718</td>
+      <td>comedi, funni, laugh, get, big, play, high, star, friend, best, go, seem, enjoy, fun, bit, work, would, back, involv, noth</td>
+      <td>usual movi someth soil rug big lebowski new offer creator critic hit fargo say least wildli entertain origin alway strong trait coen brother movi big lebowski insan origin begin oddli enough jeff ...</td>
+    </tr>
+    <tr>
+      <th>Topic5</th>
+      <td>Topic5</td>
+      <td>0.92710</td>
+      <td>1178</td>
+      <td>world, life, live, peopl, show, year, us, would, first, know, see, even, take, new, use, way, look, go, two, say</td>
+      <td>know mani peopl idea cross mind life could ongo televis show watch anoth world peopl someth use wonder younger decid first thought watch lot tv brother hit head basebal bat pretti sure andrew nicc...</td>
+    </tr>
+    <tr>
+      <th>Topic6</th>
+      <td>Topic6</td>
+      <td>0.97566</td>
+      <td>93</td>
+      <td>action, scene, star, effect, plot, first, origin, even, sequenc, director, much, new, look, use, play, set, also, cast, gener, would</td>
+      <td>numer comparison made movi past sci fi suspens thriller soldier multi crossbre like termin alien offspr problem mix gene final product real mongrel well made put product got ground besid action me...</td>
+    </tr>
+    <tr>
+      <th>Topic7</th>
+      <td>Topic7</td>
+      <td>0.96630</td>
+      <td>1471</td>
+      <td>love, play, perform, man, life, stori, two, year, work, best, director, role, becom, john, take, find, turn, young, also, get</td>
+      <td>costum drama set england elizabeth lush romant polit masterpiec upset cross protest queen respect cathol one court countri whole pass queen royal famili speak upset protest crowen anoth cathol plu...</td>
+    </tr>
+    <tr>
+      <th>Topic8</th>
+      <td>Topic8</td>
+      <td>0.93637</td>
+      <td>727</td>
+      <td>stori, seem, well, see, much, scene, also, mani, end, great, howev, good, would, realli, even, may, feel, never, although, work</td>
+      <td>girl word mess never abl determin spike lee tri accomplish film sens film go kind coher narr point film miss girl way way theresa randl charact address phone sex workplac girl known number plot th...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyLDAvis</span>
+<span class="kn">import</span> <span class="nn">pyLDAvis.sklearn</span>
+<span class="kn">import</span> <span class="nn">dill</span>
+<span class="c1">#import warnings</span>
+
+<span class="c1">#warnings.filterwanrings(&#39;ignore&#39;)</span>
+<span class="n">pyLDAvis</span><span class="o">.</span><span class="n">enable_notebook</span><span class="p">()</span>
+<span class="n">cv_matrix2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">cv_matrix</span><span class="p">)</span>
+<span class="n">pyLDAvis</span><span class="o">.</span><span class="n">sklearn</span><span class="o">.</span><span class="n">prepare</span><span class="p">(</span><span class="n">lda</span><span class="p">,</span> <span class="n">cv_matrix2</span><span class="p">,</span> <span class="n">cv</span><span class="p">,</span> <span class="n">mds</span><span class="o">=</span><span class="s2">&quot;mmds&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.2.2/pyLDAvis/js/ldavis.v1.0.0.css">
+
+
+<div id="ldavis_el5328140668863476504142997306"></div>
+<script type="text/javascript">
+
+var ldavis_el5328140668863476504142997306_data = {"mdsDat": {"x": [-0.01835520708509716, 0.07215727043609907, 0.1012123254760547, 0.021458992041811623, 0.14462386530306467, -0.12632988678040402, -0.21990430128551805, 0.025136941893989167], "y": [0.13224556326839645, 0.09427792282083303, -0.08150908867302521, -0.09670146398997309, 0.03840678247842126, 0.07020207635629643, -0.154655113734457, -0.002266678526491876], "topics": [1, 2, 3, 4, 5, 6, 7, 8], "cluster": [1, 1, 1, 1, 1, 1, 1, 1], "Freq": [18.706869031634408, 17.403250320922375, 17.39975363690731, 16.397602972503066, 14.827058303924229, 11.375693674391485, 3.760855651039347, 0.12891640867778617]}, "tinfo": {"Term": ["comedi", "funni", "get", "bad", "action", "stori", "laugh", "good", "guy", "life", "play", "star", "realli", "big", "world", "love", "perform", "live", "effect", "actor", "act", "go", "man", "plot", "friend", "know", "great", "high", "see", "best", "minut", "thing", "call", "start", "go", "think", "least", "get", "cours", "someth", "happen", "say", "point", "three", "watch", "run", "goe", "want", "thought", "hard", "bad", "head", "ever", "everyth", "hope", "noth", "know", "might", "dialogu", "plot", "look", "see", "realli", "even", "end", "around", "give", "could", "would", "much", "come", "tri", "way", "first", "never", "good", "stori", "quit", "rather", "although", "howev", "mani", "may", "bit", "sens", "seem", "great", "feel", "well", "seen", "begin", "interest", "fact", "actual", "creat", "though", "audienc", "happen", "much", "see", "also", "mind", "alway", "believ", "complet", "end", "never", "effect", "realli", "scene", "could", "would", "good", "work", "even", "way", "peopl", "get", "action", "sequenc", "origin", "effect", "gener", "star", "appear", "includ", "given", "entertain", "plot", "cast", "dialogu", "set", "screen", "although", "involv", "director", "use", "first", "forc", "script", "new", "scene", "final", "last", "entir", "made", "howev", "high", "role", "much", "look", "even", "also", "mani", "year", "would", "play", "perform", "two", "come", "meet", "love", "man", "john", "perform", "hand", "young", "home", "life", "wonder", "fall", "togeth", "pictur", "job", "lead", "friend", "role", "becom", "turn", "high", "cast", "best", "play", "attempt", "director", "two", "old", "find", "year", "hope", "stori", "work", "actor", "take", "new", "also", "give", "come", "get", "end", "world", "live", "us", "person", "show", "peopl", "mean", "life", "tell", "bring", "place", "forc", "differ", "old", "use", "face", "real", "day", "new", "year", "gener", "follow", "home", "know", "without", "made", "let", "everyth", "say", "instead", "first", "back", "find", "take", "would", "want", "see", "way", "even", "look", "man", "go", "two", "come", "seem", "guy", "bad", "kill", "good", "act", "actor", "lot", "realli", "play", "script", "fun", "great", "problem", "kind", "littl", "real", "role", "big", "tri", "get", "know", "direct", "well", "line", "need", "friend", "job", "think", "best", "star", "scene", "peopl", "also", "perform", "love", "even", "look", "see", "comedi", "funni", "laugh", "high", "big", "fun", "enjoy", "friend", "bit", "involv", "entertain", "keep", "star", "noth", "includ", "job", "problem", "togeth", "entir", "best", "goe", "moment", "script", "back", "get", "along", "attempt", "cast", "far", "play", "seem", "go", "work", "find", "would", "show", "even", "given", "hope", "thought", "bring", "togeth", "dialogu", "forc", "everyth", "along", "meet", "mean", "let", "probabl", "face", "creat", "entir", "mind", "move", "expect", "fall", "instead", "home", "attempt", "leav", "differ", "sure", "fun", "head", "alway", "hard", "hour", "keep", "star", "put", "director", "rather", "stori", "run", "call", "long", "happen", "pictur", "goe", "watch", "direct", "origin", "plot", "anoth", "go", "name"], "Freq": [945.0, 853.0, 3219.0, 1405.0, 1262.0, 2341.0, 646.0, 2473.0, 933.0, 1585.0, 2380.0, 1379.0, 1564.0, 1067.0, 1059.0, 1449.0, 1526.0, 1007.0, 1088.0, 1251.0, 1125.0, 2014.0, 1407.0, 1616.0, 807.0, 1555.0, 1186.0, 637.0, 2221.0, 1336.0, 533.5510264809149, 933.858586669424, 364.18519670931107, 376.1526470642213, 962.8064111375315, 530.7845274836849, 301.1975501198423, 1382.9300027742563, 268.4974805218696, 428.20911612965716, 286.7540342009702, 487.5511419701213, 357.10489262566483, 271.44831174772895, 461.76256505338597, 328.8181975667713, 242.37415626102637, 456.6669246368409, 184.7011826305896, 215.22071550615203, 503.550905557214, 210.18451904013781, 278.00109855430776, 188.43550080568386, 179.958032904722, 282.27817037056684, 541.313289777835, 217.92582504866033, 179.78085715174336, 552.9604582966512, 623.6371229919613, 693.3283920292887, 488.77499999165957, 729.6409576980496, 509.6420705531058, 288.7954627773813, 369.4133112792102, 385.6214220288373, 492.0066669090447, 475.3024705133937, 434.3291769096122, 360.836250740001, 411.1696275896032, 405.46926455566165, 352.99407493964816, 340.4723072038238, 1322.7981994211418, 376.4419827022459, 333.5270291394209, 384.708301445481, 476.5376433935672, 603.0201937231645, 403.5836042130554, 282.3541940196232, 270.96789173556635, 755.1555574171515, 485.17032803097356, 390.32382877287756, 718.7825094882112, 338.3584177288094, 308.52775605868914, 363.81266117211015, 296.39925130136, 342.4991599898097, 183.62926497410632, 315.9000053701, 358.16927090787493, 235.2427693847628, 662.9046667575778, 702.5370109650853, 620.7145667471419, 174.55712043467545, 183.86959900912655, 213.3238459464882, 203.0494977600282, 552.2347828613874, 385.6405226577495, 312.9051353537063, 423.9258875153032, 651.9696097139418, 370.4237064598474, 461.63060366112677, 464.6813439993706, 379.8093796717132, 411.11167139609216, 361.3306243612861, 325.16991050823253, 329.8668791877863, 1101.2538708834288, 499.5150692683795, 551.7332746949357, 661.1909685096688, 372.1087724636746, 772.0762589051448, 329.19613063984, 295.88344565585487, 217.9203255152898, 253.3518645982892, 652.9355230637474, 373.6237331685847, 205.04221075147663, 381.1624888953527, 295.7400845969859, 286.6565317538197, 229.69325270013383, 478.65724866548493, 412.59972975724855, 637.3709420867458, 174.73875571968614, 274.56102972600235, 419.6594392919866, 783.3006652703385, 237.98732220441792, 253.70440786901, 156.66723026676647, 306.65591297367337, 276.83700986630714, 173.34690956159474, 306.1485036764641, 449.42059323965987, 415.7047083403008, 505.1422647655628, 375.9409242059129, 301.84675497975593, 343.96213505024616, 371.36286736740766, 387.9904200827463, 315.8428847850688, 314.2086569546307, 288.76426898235553, 318.25816731558825, 840.4436944377451, 720.2692233597955, 409.0925686353861, 729.8525609877643, 297.9266480687431, 351.34834743028085, 270.76764188007013, 711.966078924686, 293.9523630721789, 238.07157889810347, 220.78696126130413, 276.2005749953942, 244.05078394969857, 239.05894702931377, 307.8793332667704, 423.8294613371691, 414.35286078120015, 378.81463908263976, 227.63863212066457, 330.7005582992262, 468.4559237698112, 830.2296315953223, 198.03253381227057, 447.08289852689705, 631.6768816576467, 287.0164266266937, 382.8523333778156, 546.4346637260616, 157.4410265172715, 661.9022134064332, 493.23656019843486, 331.32375106005395, 397.6189603588822, 335.96901688007085, 348.3113938176456, 305.7227217273942, 327.4410684440268, 343.4558822395417, 301.59970434523643, 714.774131354642, 631.8016271394882, 541.4562864478582, 341.2424081307335, 602.7164123009811, 622.9709964520763, 226.3501843462656, 659.8247569774242, 289.8732306260848, 201.1915763864781, 299.25504722921426, 196.96831944363964, 215.79486638054055, 315.85970810843156, 417.20703687523917, 188.1369207404644, 312.76304119291586, 342.94863946985436, 424.6376417029961, 567.504583315892, 202.48446716704925, 189.409357746696, 175.40194601522427, 475.19195476630864, 206.11167118442015, 317.85929234394706, 154.17053495132208, 150.48197325988943, 345.25474125058923, 158.72707704585295, 482.58011737486794, 290.48610253153277, 317.31418537844075, 452.27124646941024, 486.78994598158584, 319.09802683362193, 465.87754596508603, 406.18156390973604, 459.26732568211213, 383.73211644180975, 321.9885852958786, 374.0629584096464, 354.4688342306505, 343.9319527197202, 314.24049575168203, 698.5579561574009, 788.089729358289, 361.89610009156, 1131.8153721204396, 491.57317383225995, 472.9770306921484, 306.2662042181351, 557.5005520265147, 708.5526432545316, 247.02868520970222, 167.59532778333255, 334.06162532488486, 184.89533443560796, 155.81421647011683, 380.18570382063257, 226.63391649902195, 281.7256625632333, 254.31941402958807, 299.32478573359253, 690.9238514728314, 333.4316124022421, 177.56193051372247, 400.39049234466955, 154.6863063495174, 129.656965237872, 155.9541567810386, 114.98738909499919, 214.94591691955932, 239.49908818372438, 240.3325113639923, 437.32323590017336, 250.04317359489949, 282.6394305463427, 231.8412863535557, 222.4895288441645, 283.39193242496657, 236.36737183967938, 241.4340409261399, 943.2611661063675, 716.5532446926916, 499.84588247180415, 136.59813951273088, 199.52314789031448, 97.67516858628042, 100.82027028664355, 126.04470519719582, 96.72876745260487, 81.82903808968433, 75.46021182306626, 58.655681350131275, 132.23584362706117, 76.04761410068129, 58.229327067877634, 56.278436396839325, 63.2392508164576, 47.38150449393831, 48.14032561439876, 113.15259107817452, 53.11660660277528, 62.737076116688684, 66.27042363628122, 85.58970299621038, 220.1881429938817, 35.147155146626424, 35.225210602398704, 56.4810681769206, 38.657760048850506, 141.5652391149237, 102.73710498431271, 111.67367657751907, 96.31236150134346, 65.85710054432235, 91.50753625789733, 65.90681502339022, 71.05730762074847, 1.2985328422948381, 1.2985364554852559, 1.298539614158122, 1.2985343173418153, 1.2985350568021274, 1.2985331035616026, 1.2985358938555243, 1.2985325056494328, 1.2985358082996872, 1.298535137989993, 1.2985358394592192, 1.2985379034037492, 1.2985333732158317, 1.2985339106405287, 1.2985295396509426, 1.2985322082482058, 1.2985347193493895, 1.2985360198465488, 1.29853499063648, 1.298535950212282, 1.2985327551315895, 1.2985353263687194, 1.298536536413072, 1.2985364336475018, 1.2985342120497574, 1.2985339727812673, 1.298529686446537, 1.2985371671659056, 1.2985335679294145, 1.2985371013164406, 1.2985390720644654, 1.2985383453931258, 1.2985383315368508, 1.2985376091999543, 1.2985374386174764, 1.2985372359292844, 1.2985370582239235, 1.2985369300371168, 1.2985366455925818, 1.2985366170750199, 1.2985365521551366, 1.298536548672056, 1.298536390891518, 1.298536371004784, 1.2985363167560635, 1.2985362142101877, 1.2985361877381887, 1.2985359441498894, 1.2985359250784902, 1.298535887835748], "Total": [945.0, 853.0, 3219.0, 1405.0, 1262.0, 2341.0, 646.0, 2473.0, 933.0, 1585.0, 2380.0, 1379.0, 1564.0, 1067.0, 1059.0, 1449.0, 1526.0, 1007.0, 1088.0, 1251.0, 1125.0, 2014.0, 1407.0, 1616.0, 807.0, 1555.0, 1186.0, 637.0, 2221.0, 1336.0, 831.9246723797501, 1660.3261787342906, 742.3401512712987, 774.9479374183683, 2014.374267755232, 1160.579385482013, 677.3838821220565, 3219.7550551345485, 650.8066136067692, 1065.3550346591958, 721.5905439633401, 1229.584219645765, 900.7801911556043, 695.7624891314922, 1211.8439570160665, 875.5913712646309, 647.4573826129837, 1235.1821146744348, 508.07486239501543, 595.5653816215607, 1405.2672449386923, 587.4298313990192, 777.1389311584304, 531.1067799607989, 507.69919246943806, 805.1804327966927, 1555.6149165841107, 635.8893954140077, 525.5158014576989, 1616.881714954737, 1893.595200498852, 2221.1917016808916, 1564.8999171290777, 2607.166542722919, 1851.5039033167475, 902.6710840791557, 1281.13859336031, 1425.1759831138897, 2107.602931800242, 2047.7746025373278, 1787.567053720945, 1354.8797581376366, 1879.7161063511771, 1831.6360622642842, 1375.1124493374405, 2473.886846121412, 2341.1996386441897, 696.860367939782, 621.3426026001417, 794.6583431782839, 988.4893424469537, 1267.8775120639614, 856.7279001708196, 619.5362469958959, 603.5036726950467, 1838.104940069692, 1186.8210502605307, 1007.9651407216535, 1966.0070373858118, 927.0200486320184, 849.6333868555483, 1013.3561559696439, 854.157253710997, 993.5615576641691, 545.3261926338816, 939.9139056437795, 1078.2453848665873, 721.5905439633401, 2047.7746025373278, 2221.1917016808916, 1964.9136295634587, 554.5578347765289, 587.9926099085538, 685.2303918570625, 668.4429387172048, 1851.5039033167475, 1375.1124493374405, 1088.9522727567253, 1564.8999171290777, 2665.575146781178, 1425.1759831138897, 2107.602931800242, 2473.886846121412, 1719.9041759114123, 2607.166542722919, 1879.7161063511771, 1471.3495213279805, 3219.7550551345485, 1262.7907587819755, 658.3834061935233, 871.3448877268407, 1088.9522727567253, 630.6342767178626, 1379.8663428254763, 661.8818467620664, 617.9337308416344, 502.3406318780345, 616.5951756740924, 1616.881714954737, 927.8829772215282, 525.5158014576989, 1013.5259775108492, 800.19350858845, 794.6583431782839, 640.4330549584844, 1348.227904992557, 1173.8668704311647, 1831.6360622642842, 527.3223212253577, 838.902639212745, 1289.8642928235006, 2665.575146781178, 820.5500964399565, 885.1400353915624, 552.2957339658055, 1082.5305913174877, 988.4893424469537, 637.4693891411385, 1154.5197757019553, 2047.7746025373278, 1893.595200498852, 2607.166542722919, 1964.9136295634587, 1267.8775120639614, 1728.5463859444353, 2107.602931800242, 2380.6394367952284, 1526.4047453512449, 1908.9363855396812, 1787.567053720945, 535.4650749166169, 1449.3676141458473, 1407.693353775532, 803.2625507892775, 1526.4047453512449, 624.0926434071843, 742.4419286960145, 573.2895326392636, 1585.7911567731144, 697.1006401436459, 564.9916101057033, 524.6191116497967, 680.8505112035526, 610.7655193910562, 604.641396887646, 807.2799628381388, 1154.5197757019553, 1153.014194797567, 1058.6213049300445, 637.4693891411385, 927.8829772215282, 1336.485096808285, 2380.6394367952284, 575.7562354687515, 1348.227904992557, 1908.9363855396812, 887.9091012619524, 1203.5025885341997, 1728.5463859444353, 507.69919246943806, 2341.1996386441897, 1719.9041759114123, 1251.150865227393, 1819.2628330262921, 1289.8642928235006, 1964.9136295634587, 1281.13859336031, 1787.567053720945, 3219.7550551345485, 1851.5039033167475, 1059.5427615799463, 1007.954118468183, 1071.580229657265, 757.4825903979214, 1359.225111006248, 1471.3495213279805, 539.2615646872542, 1585.7911567731144, 734.1263462511296, 518.5436347539891, 798.8362712240634, 527.3223212253577, 581.6237534373682, 887.9091012619524, 1173.8668704311647, 544.8350017901439, 920.7596311414411, 1023.7504955805197, 1289.8642928235006, 1728.5463859444353, 630.6342767178626, 618.0962937127565, 573.2895326392636, 1555.6149165841107, 697.1774990526508, 1082.5305913174877, 540.9946198274428, 531.1067799607989, 1229.584219645765, 565.3991108710767, 1831.6360622642842, 1091.3034385880164, 1203.5025885341997, 1819.2628330262921, 2107.602931800242, 1235.1821146744348, 2221.1917016808916, 1879.7161063511771, 2607.166542722919, 1893.595200498852, 1407.693353775532, 2014.374267755232, 1908.9363855396812, 1787.567053720945, 1838.104940069692, 933.6776154662216, 1405.2672449386923, 737.6549034145331, 2473.886846121412, 1125.764938254231, 1251.150865227393, 816.2610746283218, 1564.8999171290777, 2380.6394367952284, 838.902639212745, 586.7400221012241, 1186.8210502605307, 690.7366834169555, 608.0403856289875, 1504.9252222734608, 920.7596311414411, 1154.5197757019553, 1067.0179499686103, 1354.8797581376366, 3219.7550551345485, 1555.6149165841107, 870.0814758405191, 1966.0070373858118, 763.4627719738278, 661.8394108396302, 807.2799628381388, 610.7655193910562, 1160.579385482013, 1336.485096808285, 1379.8663428254763, 2665.575146781178, 1471.3495213279805, 1964.9136295634587, 1526.4047453512449, 1449.3676141458473, 2607.166542722919, 1893.595200498852, 2221.1917016808916, 945.3082743137012, 853.6444222313365, 646.8803444146018, 637.4693891411385, 1067.0179499686103, 586.7400221012241, 616.4439533638006, 807.2799628381388, 619.5362469958959, 640.4330549584844, 616.5951756740924, 606.292517090655, 1379.8663428254763, 805.1804327966927, 617.9337308416344, 610.7655193910562, 690.7366834169555, 524.6191116497967, 552.2957339658055, 1336.485096808285, 647.4573826129837, 781.1067712667974, 838.902639212745, 1091.3034385880164, 3219.7550551345485, 534.2941559177644, 575.7562354687515, 927.8829772215282, 635.8307509299017, 2380.6394367952284, 1838.104940069692, 2014.374267755232, 1719.9041759114123, 1203.5025885341997, 2107.602931800242, 1359.225111006248, 2607.166542722919, 502.3406318780345, 507.69919246943806, 508.07486239501543, 518.5436347539891, 524.6191116497967, 525.5158014576989, 527.3223212253577, 531.1067799607989, 534.2941559177644, 535.4650749166169, 539.2615646872542, 540.9946198274428, 544.7066433384288, 544.8350017901439, 545.3261926338816, 552.2957339658055, 554.5578347765289, 556.512072704474, 561.0894826265521, 564.9916101057033, 565.3991108710767, 573.2895326392636, 575.7562354687515, 577.3222706112307, 581.6237534373682, 582.9071405848579, 586.7400221012241, 587.4298313990192, 587.9926099085538, 595.5653816215607, 597.4010598912377, 606.292517090655, 1379.8663428254763, 618.1379595645218, 1348.227904992557, 621.3426026001417, 2341.1996386441897, 875.5913712646309, 742.3401512712987, 861.3994955574353, 721.5905439633401, 680.8505112035526, 647.4573826129837, 1211.8439570160665, 870.0814758405191, 871.3448877268407, 1616.881714954737, 1120.0970035189232, 2014.374267755232, 881.3403554292963], "Category": ["Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic5", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic6", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic7", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8", "Topic8"], "logprob": [30.0, 29.0, 28.0, 27.0, 26.0, 25.0, 24.0, 23.0, 22.0, 21.0, 20.0, 19.0, 18.0, 17.0, 16.0, 15.0, 14.0, 13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, -4.2062, -3.6464, -4.5881, -4.5557, -3.6159, -4.2114, -4.778, -3.2538, -4.8929, -4.4261, -4.8271, -4.2963, -4.6077, -4.882, -4.3507, -4.6902, -4.9953, -4.3618, -5.267, -5.1141, -4.2641, -5.1378, -4.8581, -5.247, -5.293, -4.8428, -4.1917, -5.1016, -5.294, -4.1705, -4.0502, -3.9442, -4.2938, -3.8932, -4.252, -4.82, -4.5738, -4.5309, -4.2872, -4.3218, -4.4119, -4.5973, -4.4667, -4.4807, -4.6193, -4.6554, -3.226, -4.4827, -4.6038, -4.461, -4.247, -4.0116, -4.4131, -4.7703, -4.8115, -3.7866, -4.229, -4.4465, -3.8359, -4.5894, -4.6817, -4.5169, -4.7218, -4.5772, -5.2006, -4.6581, -4.5325, -4.9529, -3.9169, -3.8588, -3.9826, -5.2513, -5.1993, -5.0507, -5.1001, -4.0995, -4.4586, -4.6676, -4.3639, -3.9335, -4.4989, -4.2787, -4.2722, -4.4738, -4.3946, -4.5237, -4.6292, -4.6148, -3.4091, -4.1997, -4.1002, -3.9193, -4.4941, -3.7642, -4.6167, -4.7233, -5.0292, -4.8785, -3.9318, -4.4901, -5.0901, -4.4701, -4.7238, -4.755, -4.9766, -4.2423, -4.3908, -3.956, -5.25, -4.7981, -4.3739, -3.7498, -4.9411, -4.8771, -5.3592, -4.6876, -4.7899, -5.258, -4.6892, -4.3053, -4.3833, -4.1885, -4.4839, -4.7034, -4.5728, -4.4961, -4.4523, -4.6581, -4.6633, -4.7477, -4.5911, -3.6201, -3.7744, -4.34, -3.7611, -4.6571, -4.4922, -4.7527, -3.786, -4.6706, -4.8814, -4.9568, -4.7329, -4.8566, -4.8773, -4.6243, -4.3047, -4.3273, -4.4169, -4.9262, -4.5528, -4.2045, -3.6323, -5.0656, -4.2512, -3.9056, -4.6944, -4.4063, -4.0506, -5.2949, -3.8589, -4.153, -4.5509, -4.3685, -4.537, -4.5009, -4.6313, -4.5627, -4.5149, -4.6449, -3.6813, -3.8047, -3.959, -4.4207, -3.8519, -3.8188, -4.8312, -3.7613, -4.5839, -4.949, -4.552, -4.9703, -4.879, -4.498, -4.2197, -5.0161, -4.5079, -4.4157, -4.2021, -3.9121, -4.9426, -5.0094, -5.0862, -4.0896, -4.9249, -4.4917, -5.2152, -5.2395, -4.409, -5.1861, -4.0742, -4.5817, -4.4934, -4.139, -4.0655, -4.4878, -4.1094, -4.2465, -4.1237, -4.3034, -4.4788, -4.3289, -4.3827, -4.4129, -4.5031, -3.4393, -3.3187, -4.097, -2.9568, -3.7907, -3.8293, -4.2639, -3.6649, -3.4251, -4.4788, -4.8668, -4.177, -4.7685, -4.9397, -4.0477, -4.565, -4.3474, -4.4497, -4.2868, -3.4503, -4.1789, -4.809, -3.9959, -4.9469, -5.1234, -4.9388, -5.2435, -4.6179, -4.5098, -4.5063, -3.9077, -4.4667, -4.3442, -4.5423, -4.5835, -4.3415, -4.5229, -4.5017, -2.0322, -2.307, -2.6672, -3.9645, -3.5856, -4.2999, -4.2682, -4.0449, -4.3096, -4.4769, -4.5579, -4.8098, -3.9969, -4.5501, -4.8171, -4.8512, -4.7346, -5.0233, -5.0074, -4.1528, -4.909, -4.7425, -4.6878, -4.4319, -3.487, -5.322, -5.3197, -4.8476, -5.2268, -3.9287, -4.2493, -4.1659, -4.3139, -4.694, -4.3651, -4.6933, -4.618, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247, -5.247], "loglift": [30.0, 29.0, 28.0, 27.0, 26.0, 25.0, 24.0, 23.0, 22.0, 21.0, 20.0, 19.0, 18.0, 17.0, 16.0, 15.0, 14.0, 13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 1.2321, 1.1008, 0.9641, 0.9535, 0.9381, 0.894, 0.8658, 0.8312, 0.7909, 0.7648, 0.7534, 0.7512, 0.751, 0.735, 0.7114, 0.6969, 0.6937, 0.6813, 0.6644, 0.6584, 0.65, 0.6485, 0.6483, 0.6401, 0.6391, 0.6281, 0.6207, 0.6054, 0.6036, 0.6033, 0.5656, 0.512, 0.5126, 0.4028, 0.3862, 0.5366, 0.4327, 0.3691, 0.2215, 0.2157, 0.2615, 0.3532, 0.1564, 0.1684, 0.3164, -0.3069, 1.1776, 1.1327, 1.1264, 1.0231, 1.0189, 1.0054, 0.9958, 0.9627, 0.9478, 0.8589, 0.854, 0.7998, 0.7423, 0.7406, 0.7355, 0.7241, 0.6901, 0.6835, 0.66, 0.6582, 0.6464, 0.6277, 0.6206, 0.5974, 0.5962, 0.5926, 0.586, 0.5816, 0.557, 0.5387, 0.4771, 0.5014, 0.4425, 0.3403, 0.4011, 0.23, 0.0763, 0.2382, -0.0986, 0.0994, 0.2389, -0.5299, 1.6118, 1.4726, 1.2917, 1.2498, 1.2212, 1.1681, 1.0503, 1.0123, 0.9136, 0.8593, 0.8419, 0.8391, 0.8075, 0.7707, 0.7533, 0.7291, 0.7233, 0.7132, 0.7031, 0.6931, 0.6442, 0.6318, 0.6259, 0.5241, 0.511, 0.4991, 0.4888, 0.4874, 0.476, 0.4465, 0.4213, 0.2322, 0.2325, 0.1075, 0.0949, 0.3135, 0.1342, 0.0126, -0.0654, 0.1733, -0.0555, -0.0743, 1.2878, 1.2631, 1.138, 1.1333, 1.0702, 1.0686, 1.0599, 1.0579, 1.0072, 0.9445, 0.9438, 0.9426, 0.9058, 0.8907, 0.8801, 0.8441, 0.8059, 0.7846, 0.7804, 0.7783, 0.7763, 0.7597, 0.7546, 0.7408, 0.7042, 0.7021, 0.6787, 0.6627, 0.6564, 0.6372, 0.5447, 0.559, 0.4793, 0.2873, 0.4628, 0.0779, 0.3752, 0.1107, -0.43, -0.0066, 1.5151, 1.4416, 1.2261, 1.1113, 1.0955, 1.0493, 1.0406, 1.0319, 0.9795, 0.9619, 0.9269, 0.9239, 0.9172, 0.8751, 0.8742, 0.8454, 0.829, 0.8151, 0.7977, 0.7949, 0.7727, 0.726, 0.7244, 0.7228, 0.6901, 0.6833, 0.6534, 0.6476, 0.6386, 0.6384, 0.5749, 0.5851, 0.5756, 0.5168, 0.4432, 0.5552, 0.3468, 0.3766, 0.1723, 0.3124, 0.4335, 0.2251, 0.225, 0.2605, 0.1424, 1.8836, 1.5953, 1.4616, 1.3917, 1.3451, 1.2009, 1.1934, 1.1416, 0.9618, 0.9511, 0.9207, 0.906, 0.8557, 0.8121, 0.7979, 0.7718, 0.7632, 0.7397, 0.6638, 0.6347, 0.6335, 0.5844, 0.5824, 0.5772, 0.5436, 0.5296, 0.5038, 0.4874, 0.4544, 0.426, 0.3662, 0.4014, 0.2347, 0.2891, 0.2997, -0.0455, 0.0928, -0.0455, 3.2784, 3.1055, 3.0227, 1.7401, 1.6038, 1.4876, 1.4699, 1.4235, 1.4235, 1.223, 1.1799, 0.9448, 0.9354, 0.9208, 0.9185, 0.8961, 0.8897, 0.8761, 0.8406, 0.8115, 0.78, 0.7588, 0.7422, 0.735, 0.5979, 0.5591, 0.4866, 0.4815, 0.4803, 0.4582, 0.3962, 0.388, 0.3981, 0.375, 0.1436, 0.2541, -0.322, 0.6957, 0.6851, 0.6844, 0.664, 0.6523, 0.6506, 0.6472, 0.64, 0.6341, 0.6319, 0.6248, 0.6216, 0.6147, 0.6145, 0.6136, 0.6009, 0.5968, 0.5933, 0.5851, 0.5782, 0.5775, 0.5636, 0.5593, 0.5566, 0.5492, 0.547, 0.5404, 0.5392, 0.5383, 0.5255, 0.5224, 0.5076, -0.3147, 0.4883, -0.2915, 0.4831, -0.8434, 0.1401, 0.3052, 0.1564, 0.3335, 0.3917, 0.4419, -0.1849, 0.1464, 0.145, -0.4733, -0.1062, -0.6931, 0.1336]}, "token.table": {"Topic": [1, 2, 3, 4, 6, 8, 1, 3, 4, 6, 8, 2, 3, 4, 6, 8, 1, 2, 3, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 6, 8, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 3, 4, 5, 7, 8, 1, 2, 3, 4, 5, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 3, 6, 8, 1, 2, 3, 4, 5, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 5, 6, 8, 2, 3, 4, 5, 6, 7, 8, 1, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 3, 4, 6, 8, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 5, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 6, 7, 8, 1, 2, 3, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 4, 5, 7, 8, 1, 2, 3, 4, 5, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 8, 1, 2, 3, 4, 5, 7, 8, 2, 3, 4, 5, 7, 8, 4, 5, 6, 7, 8, 1, 3, 6, 7, 8, 6, 7, 8, 2, 3, 5, 6, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 5, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 6, 7, 8, 1, 6, 8, 1, 3, 4, 5, 6, 8, 1, 2, 4, 5, 6, 8, 1, 2, 3, 4, 5, 6, 8, 1, 3, 4, 5, 7, 8, 1, 3, 4, 7, 8, 1, 4, 5, 6, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 6, 7, 8, 2, 3, 4, 6, 7, 8, 1, 2, 3, 4, 5, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 6, 7, 8, 1, 2, 4, 6, 7, 8, 1, 3, 4, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 3, 5, 6, 8, 1, 2, 5, 6, 8, 1, 2, 3, 5, 6, 8, 1, 3, 4, 5, 6, 8, 1, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 2, 4, 5, 8, 1, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 7, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 5, 6, 7, 8, 2, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 5, 7, 8, 2, 3, 4, 5, 7, 8, 1, 2, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 8, 1, 3, 4, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 6, 8, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 6, 7, 8, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 5, 6, 8, 2, 3, 4, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 5, 8, 1, 2, 3, 4, 6, 7, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 5, 6, 8, 1, 2, 3, 4, 5, 8, 1, 2, 3, 4, 5, 8, 1, 2, 3, 4, 5, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 4, 5, 6, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 8, 1, 2, 3, 4, 5, 7, 8, 1, 2, 4, 5, 6, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 4, 5, 8, 1, 2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 8], "Freq": [0.0026648547117235862, 0.1430138695291658, 0.21318837693788692, 0.20341724299490044, 0.43703617272266815, 0.0008882849039078621, 0.026924492251427855, 0.8718784108477079, 0.0015837936618486974, 0.09898710386554359, 0.0007918968309243487, 0.13747342928843317, 0.21819910578919915, 0.26455642496785686, 0.3780519305431912, 0.0007992641237699603, 0.30798293033739754, 0.3442162162594443, 0.10568041727263643, 0.07447953217309615, 0.1298359412206676, 0.03522680575754547, 0.0010064801645012992, 0.26202794556028797, 0.18716281825734857, 0.0898381527635273, 0.28074422738602284, 0.05989210184235154, 0.052405589112057595, 0.06550698639007199, 0.0018716281825734856, 0.05699996087099403, 0.3160444259007794, 0.19135701149547996, 0.17710702127773145, 0.08549994130649104, 0.1440266868436724, 0.028499980435497015, 0.0005089282220624466, 0.48448494035835493, 0.36116150099441, 0.10444740272660638, 0.02139284152231697, 0.027684853734763138, 0.0012584024424892337, 0.31292910301817595, 0.1734715679774671, 0.1853764795053325, 0.12415122021916764, 0.16836946303695338, 0.034014032936758254, 0.0017007016468379129, 0.21873105564098663, 0.12320361501410676, 0.1999826794431878, 0.17587762433173212, 0.12856029392776358, 0.14730867012556242, 0.004463899094714013, 0.0008927798189428026, 0.15410605457603221, 0.11029158807892502, 0.4970675681913196, 0.18734461536694114, 0.027195186101652745, 0.02266265508471062, 0.0015108436723140415, 0.32016091475314995, 0.09305715169295707, 0.158418722524915, 0.1429091972427555, 0.17392824780707453, 0.10635103050623666, 0.0033234697033198957, 0.0011078232344399652, 0.2952638452306029, 0.22578999929399046, 0.34389553738623163, 0.06947384593661245, 0.06078961519453589, 0.0017368461484153113, 0.146534362416538, 0.33202089712101646, 0.2439147931363892, 0.1354051703342693, 0.11314678616973187, 0.028750412879194165, 0.0009274326735223924, 0.23916354587656666, 0.048565777515164874, 0.2180878311058347, 0.11179292182736066, 0.2657372731961852, 0.036653416992577265, 0.07880484653404111, 0.0009163354248144316, 0.3586506422997058, 0.07970014273326796, 0.560747432801921, 0.0007116084172613211, 0.049435644640964206, 0.22202675487871645, 0.24023988711486116, 0.35905889265542423, 0.12662463364176796, 0.0008672920112449861, 0.13888343116636723, 0.3636862731390464, 0.14006040939659067, 0.25069636303759507, 0.07885754142497121, 0.025893521064915923, 0.001176978230223451, 0.16928612825479775, 0.3108443561919993, 0.1386395015879809, 0.12258650666726734, 0.20431084444544556, 0.052537074285971715, 0.0014593631746103253, 0.16910027694264596, 0.16461088905921287, 0.35017225490778014, 0.05013149803166938, 0.17882728402341763, 0.08455013847132298, 0.000748231313905513, 0.11246296278664307, 0.2211771601470647, 0.019681018487662537, 0.219302777433954, 0.23804660456506116, 0.1874382713110718, 0.0009371913565553589, 0.07263497530322564, 0.45517917856688067, 0.08231963867698906, 0.07263497530322564, 0.03389632180817197, 0.12428651329663054, 0.1565687245425086, 0.001614110562293903, 0.15234976327012423, 0.10220933485210866, 0.25841605415438795, 0.38762408123158193, 0.0964239008038761, 0.0019284780160775219, 0.4903412530989059, 0.004041274064001972, 0.1791631501707541, 0.10507312566405126, 0.14279168359473635, 0.05523074554136028, 0.02155346167467718, 0.0013470913546673239, 0.003233166329856876, 0.05711927182747148, 0.40306806912215726, 0.3567260183942087, 0.11854943209475213, 0.06035243815732836, 0.0010777221099522922, 0.2427880951915056, 0.1538403828978434, 0.16167225693627907, 0.18293020075489017, 0.19244033351584774, 0.03915937019217832, 0.026292719986176872, 0.0005594195741739761, 0.9975581782404507, 0.0010578559684416232, 0.18999377904077064, 0.303690843663594, 0.24534629734398727, 0.03740035020487611, 0.134641260737554, 0.067320630368777, 0.019448182106535577, 0.0014960140081950444, 0.27084374461364585, 0.2596170608990906, 0.19997530366551572, 0.09191847291292125, 0.0813934569305257, 0.09542681157371978, 0.0007016677321597043, 0.41179667568948697, 0.11677816176269033, 0.1521189212435045, 0.10755883320247793, 0.038413869000884976, 0.1521189212435045, 0.01843865712042479, 0.001536554760035399, 0.3374127311055697, 0.2713971967588278, 0.15036871712313432, 0.23838942958545684, 0.0018337648429650527, 0.1474968760961382, 0.012698406551323158, 0.04884002519739676, 0.27936494412910945, 0.33504257285414174, 0.14554327508824233, 0.029304015118438054, 0.0009768005039479351, 0.3425206235487269, 0.39009293237493897, 0.1427169264786362, 0.12368800294815138, 0.0019028923530484828, 0.2750919285094664, 0.16505515710567983, 0.1323879905951807, 0.3713741034877796, 0.027509192850946638, 0.027509192850946638, 0.0017193245531841649, 0.02528498837278139, 0.21377308351533358, 0.2517005660745057, 0.2528498837278139, 0.02528498837278139, 0.20457854228886763, 0.024135670719473146, 0.0011493176533082451, 0.062304006384190466, 0.10161486755516778, 0.35528117926222896, 0.33154631968729925, 0.07491315053337187, 0.07268800744822221, 0.0007417143617165532, 0.013774708382789737, 0.28743224825421254, 0.6070054827349344, 0.04867063628585707, 0.04224243904055519, 0.0009183138921859825, 0.2754517552387527, 0.29813601743488527, 0.07507410583958163, 0.16311064721981045, 0.08533603397592732, 0.1020791798825966, 0.0005401014808602995, 0.19790931411407725, 0.2368422939397974, 0.20277593659229226, 0.10057686454977696, 0.09733244956430029, 0.16384295676657215, 0.0016222074927383383, 0.1200139133737132, 0.18164267970075512, 0.41031783896688434, 0.11352667481297195, 0.05027609884574472, 0.12163572301389852, 0.0016218096401853135, 0.15209242953377713, 0.1575243020171263, 0.2842679932952739, 0.11406932215033284, 0.15209242953377713, 0.05069747651125905, 0.08690995973358694, 0.0018106241611163944, 0.27999745625670297, 0.15764240345411631, 0.1936968704241575, 0.05599949125134059, 0.17605319509839268, 0.10854695906937936, 0.02723262930715878, 0.00038355815925575744, 0.3577223953838003, 0.16599348562773467, 0.1724273416598174, 0.11709617978390585, 0.14926545994431956, 0.019301568096248216, 0.015441254476998574, 0.0012867712064165478, 0.3539777820457805, 0.20711465970763754, 0.11673735365339571, 0.28242908141950573, 0.035774350313137394, 0.001882860542796705, 0.28159501272484383, 0.26733703739700365, 0.19426491384182265, 0.17644244468202241, 0.021386962991760294, 0.0588141482273408, 0.0017822469159800244, 0.22208558481454907, 0.014683344450548698, 0.2330980931524606, 0.1284792639423011, 0.34505859458789445, 0.0036708361126371746, 0.051391705576920445, 0.0018354180563185873, 0.24585636788498577, 0.34654040425693233, 0.12644041776942125, 0.04448829514109266, 0.09131807950013757, 0.1440015869040631, 0.0011707446089761226, 0.12035576950829056, 0.15221464967224982, 0.015929440081979634, 0.421245193279017, 0.1026563916394243, 0.1433649607378167, 0.0407085690983924, 0.001769937786886626, 0.16828377652938717, 0.23591183625615023, 0.2610757654568062, 0.15570181192905916, 0.1022284623776651, 0.014154710175369014, 0.06133707742659906, 0.0015727455750410015, 0.14980676801173046, 0.3869181425468535, 0.16071984382715454, 0.17956970205379613, 0.10913075815424074, 0.011905173616826262, 0.0009920978014021885, 0.22180242350787147, 0.19742853081469877, 0.29004932304875497, 0.18158550056413653, 0.07921515125281123, 0.02802997659714859, 0.0012186946346586344, 0.09555442680024785, 0.15454889899866175, 0.08558353009065678, 0.31823778664778196, 0.263397854745031, 0.02658905789224288, 0.054839931902750945, 0.00083090805913259, 0.2211137945708142, 0.05186619872648728, 0.3477765114607621, 0.11410563719827202, 0.2636986735251932, 0.0005459599865946029, 0.2475342459683193, 0.038828901328363814, 0.24915211685700112, 0.1536977344247734, 0.305777597960865, 0.003235741777363651, 0.0016178708886818256, 0.10998965464845739, 0.33186533730138007, 0.16688085532869396, 0.3735855511335535, 0.013274613492055201, 0.001896373356007886, 0.38152811190453717, 0.2675651693875975, 0.19324151122437597, 0.15607968214276519, 0.001238727636053692, 0.29144083164400053, 0.2539455199705034, 0.28632783459761457, 0.16702457018194183, 0.0017043323487953247, 0.1581454719133808, 0.8399281730510668, 0.001171447940099117, 0.03805692282523565, 0.5898823037911526, 0.3203124337790667, 0.04757115353154456, 0.001585705117718152, 0.4295357803055632, 0.1024922686195487, 0.007453983172330815, 0.10652984283789457, 0.07050225750496229, 0.2146125988366914, 0.06832817907969914, 0.0003105826321804506, 0.288025044216447, 0.21855558910733103, 0.018733336209199803, 0.23885003666729748, 0.08195834591524914, 0.15298891237513174, 0.0007805556753833252, 0.19309606638300175, 0.21101219625358955, 0.43396847908757097, 0.14133835786797036, 0.017916129870587792, 0.001990681096731977, 0.4780640893874915, 0.1295687718900678, 0.043189590630022597, 0.03574310948691525, 0.18566559650147646, 0.0714862189738305, 0.05560039253520151, 0.0004964320762071562, 0.37376977465813377, 0.05096860563520006, 0.05714661843946673, 0.13900528809600016, 0.19460740333440021, 0.09884820486826677, 0.08185866965653342, 0.0015445032010666683, 0.1374355502690254, 0.18796332610322591, 0.10388510711511625, 0.057803775554325386, 0.04163488728738122, 0.45757953795451983, 0.013339332820228936, 0.0004042222066736041, 0.4086546997911209, 0.042971937503808594, 0.22160038359807177, 0.0016851740197571996, 0.28142406129945235, 0.042971937503808594, 0.0008425870098785998, 0.24955080441085012, 0.7486524132325504, 0.001071033495325537, 0.222723343190108, 0.17305123068008393, 0.4774932105802316, 0.051274438720024865, 0.07210467945003497, 0.001602326210000777, 0.3977324847186202, 0.3256694561284869, 0.02771654945774357, 0.139968574761605, 0.10670871541231274, 0.0013858274728871783, 0.361001506525806, 0.15951229358117008, 0.16119137035570874, 0.20316828971917456, 0.0016790767745386325, 0.11249814389408838, 0.0016790767745386325, 0.357489505597401, 0.22811235119072254, 0.19747039356808815, 0.19406573161001767, 0.01872564076938767, 0.0017023309790352428, 0.1537328719925442, 0.27138558015010356, 0.3576642327989804, 0.21491228023447506, 0.0015687027754341246, 0.17443193065051818, 0.47271053206290425, 0.3052558786384068, 0.043607982662629545, 0.0017443193065051817, 0.35454064664645973, 0.10045318321649693, 0.07090812932929196, 0.3092382306860788, 0.10439252373479092, 0.05712043751526296, 0.0019696702591469988, 0.32641388355672074, 0.061934942008198296, 0.25778327214223073, 0.1489786442899905, 0.08202195022707341, 0.12052204931325074, 0.0016739173515729268, 0.04754730069588202, 0.4825545198284196, 0.28022558069700676, 0.13859532330501778, 0.032372630261026054, 0.018209604521827155, 0.0010116446956570642, 0.20714195327331006, 0.4790157669445295, 0.2039053602534146, 0.012946372079581879, 0.09386119757696862, 0.0016182965099477348, 0.2935979148326811, 0.15741093024161817, 0.14856761955388684, 0.11496303894050766, 0.28121727986985723, 0.0017686621375462717, 0.13519432352873967, 0.3592024362369433, 0.18650895727687442, 0.12236566509170597, 0.0749983108626585, 0.12039202533216233, 0.0009868198797718223, 0.07026495533232134, 0.22016352670794018, 0.3591319939207535, 0.2061105356414759, 0.014052991066464267, 0.12803836305000776, 0.001561443451829363, 0.09005092503394094, 0.22758324690395984, 0.39949864924148343, 0.18828829779824016, 0.0916882145800126, 0.0016372895460716535, 0.23529044123156315, 0.2539642857737507, 0.5091734945169806, 0.00124492296947917, 0.17318373069133564, 0.13030014023443348, 0.17648246841878965, 0.21276858342078378, 0.1995736325109677, 0.009896213182362036, 0.09731276295989336, 0.001649368863727006, 0.07320496312034154, 0.23859395387370577, 0.19521323498757745, 0.49074438239932666, 0.00135564746519151, 0.2960329679644535, 0.2351817467717603, 0.2105123327747225, 0.25656190556919306, 0.0016446275998025196, 0.34777244305933513, 0.061711930746203646, 0.0694259220894791, 0.3053454906713201, 0.21406325977589388, 0.0006428326119396213, 0.31181506763266553, 0.2869602434010763, 0.20335765280391233, 0.17398376962112497, 0.02259529475599026, 0.0011297647377995128, 0.22415273744515857, 0.7729404739488227, 0.0015458809478976455, 0.024808092990674418, 0.1885415067291256, 0.19846474392539534, 0.3952756149847457, 0.0595394231776186, 0.09261688049851782, 0.03969294878507907, 0.0016538728660449612, 0.44435660183860615, 0.1195776901957711, 0.2583468615340733, 0.14319797467888637, 0.005905071120778819, 0.025096552263309983, 0.0014762677801947047, 0.2269096597664695, 0.1160530320943012, 0.14896359343447618, 0.28060583879517603, 0.21651685092220374, 0.005196404422132889, 0.00346426961475526, 0.00173213480737763, 0.32347826315873257, 0.08502857203029542, 0.12199751639129341, 0.04251428601514771, 0.28466087157968467, 0.11460372751909381, 0.025878261052698606, 0.0018484472180499002, 0.13368721290601301, 0.44898724334472295, 0.4161960401790971, 0.0006306000608774199, 0.29209020817539566, 0.23576788103843596, 0.16110805204293124, 0.0798991152408033, 0.20302234200531988, 0.026196431226492886, 0.0013098215613246444, 0.11761381720522272, 0.19735199836130593, 0.15814739262623168, 0.12891005953566784, 0.12891005953566784, 0.25250424032759683, 0.01594763623121664, 0.00066448484296736, 0.027779042207350082, 0.05853441036548768, 0.26092457501903826, 0.6270126669659019, 0.02381060760630007, 0.000992108650262503, 0.19503145853513945, 0.025539833855792074, 0.1845833446850427, 0.2762945662581142, 0.22173219392983118, 0.09635482772867009, 0.0011609015388996397, 0.32953188719300325, 0.01742716711116844, 0.2196879247953355, 0.10509109864007635, 0.20278885365723276, 0.12463064964350763, 0.0005280959730657103, 0.15436237732807867, 0.2266431730610679, 0.14578668969874098, 0.0588047151726014, 0.3748800592253339, 0.037978045215638405, 0.0012250982327625293, 0.15937985487286793, 0.5795631086286107, 0.08969429062109452, 0.15317025013756141, 0.01655894596081745, 0.0006899560817007271, 0.2540343914579936, 0.09884247231274661, 0.28359475700946923, 0.05173063971508234, 0.293756132667789, 0.01755146704618865, 0.0009237614234836132, 0.1328414313376226, 0.026284133473219444, 0.004262291914576126, 0.5114750297491352, 0.22874299941558543, 0.09519118609220015, 0.0007103819857626877, 0.042590865037186516, 0.47559799291524946, 0.23819335631908015, 0.11594179926789663, 0.10174484425550112, 0.024450311410236705, 0.0007887197229108614, 0.47156162408093405, 0.24044973901156538, 0.08754238070809418, 0.18208815187283592, 0.017508476141618837, 0.0011672317427745891, 0.13907907574220757, 0.22808968421722042, 0.011126326059376605, 0.41909161490318547, 0.15947734018439802, 0.04079652888438089, 0.0018543876765627677, 0.31561348800632205, 0.059761133823682276, 0.0074701417279602845, 0.5938762673728426, 0.01680781888791064, 0.0037350708639801423, 0.0018675354319900711, 0.34282691545448246, 0.2877858969182124, 0.0707670238323473, 0.07863002648038589, 0.15411485190155635, 0.029879410062546637, 0.034597211651369794, 0.0015726005296077179, 0.2542566188012094, 0.315566725462494, 0.1442590744971401, 0.11540725959771209, 0.16770117410292537, 0.0018032384312142513, 0.6418850380677784, 0.18871900931955285, 0.15265805212473382, 0.0012020319064939672, 0.014424382877927607, 0.0012020319064939672, 0.1677107468772092, 0.29189351364888316, 0.09601760317397473, 0.2624481153421976, 0.04992915365046686, 0.04992915365046686, 0.08065478666613878, 0.0012802347089863298, 0.17609680868871497, 0.24437924471086978, 0.14015868446652824, 0.3036771496774779, 0.0682824360221548, 0.06468862359993612, 0.0017969062111093364, 0.23195912255745513, 0.3237661015907216, 0.21926241269115232, 0.07862193417210585, 0.08741196407954625, 0.042973479547486426, 0.014650049845734009, 0.0004883349948578003, 0.31429401626012543, 0.19402265985733377, 0.2530237026209674, 0.11573281465174294, 0.06467421995244459, 0.0555971364503471, 0.0011346354377621858, 0.2523270709856014, 0.12842994631003665, 0.061948562337782384, 0.09972207595838141, 0.23721766553736182, 0.1964222708271149, 0.02266410817235941, 0.0015109405448239606, 0.2567062789447388, 0.2807043163531705, 0.0887200170857171, 0.13526166539297851, 0.10908198822014396, 0.11344526774894972, 0.015271478350820156, 0.0007272132548009598, 0.04419069534456803, 0.0100785796399892, 0.3256156499073434, 0.2604925199258747, 0.3294920266919546, 0.029460463563045353, 0.0007752753569222461, 0.35023205795067397, 0.19250343610763992, 0.18629364784610317, 0.006209788261536772, 0.15897057949534135, 0.009935661218458835, 0.09438878157535893, 0.0012419576523073543, 0.12388655532831128, 0.32323128526568484, 0.355892286215876, 0.157673797690578, 0.03716596659849338, 0.001126241412075557, 0.09525504902717671, 0.16181881822689057, 0.63350345859038, 0.021805372668871777, 0.05049665249633464, 0.03557718698605395, 0.0011476511930985146, 0.11961807677155427, 0.22088565312929057, 0.010194722452121103, 0.026506278375514867, 0.42342080584476316, 0.16991204086868505, 0.027865574702464348, 0.0006796481634747402, 0.16181815521227444, 0.20702241719465073, 0.4782479890889083, 0.15199114173784484, 0.0006551342316286415, 0.1584194825348547, 0.1003323389387413, 0.16237996959822606, 0.45017536286987875, 0.07788957891297023, 0.04884600711491353, 0.0013201623544571224, 0.019093765497832482, 0.20709391809187536, 0.24381269789539936, 0.40537532903090495, 0.05434379410921552, 0.06756255483848417, 0.00146875119214096, 0.025036419502276527, 0.20780228186889516, 0.14896669603854532, 0.10390114093444758, 0.37429447155903406, 0.13895212823763473, 0.0012518209751138263, 0.0869514285954447, 0.02604342305757281, 0.16298142171513308, 0.34864582480299083, 0.01764231884545255, 0.2978191443196633, 0.05964783990605385, 0.00042005521060601306, 0.3420163608044023, 0.17069894318628395, 0.4038638039878385, 0.0018554232955030863, 0.05133337784225206, 0.02968677272804938, 0.0006184744318343621, 0.39632310246743696, 0.2675458478841801, 0.11878591586559036, 0.14987008076499717, 0.01887252868892557, 0.04662624734911023, 0.0011101487464073865, 0.27354173447711305, 0.23498887257094275, 0.21479451633437735, 0.0036717011339209805, 0.1670624015934046, 0.10280763174978745, 0.0018358505669604903, 0.06370010606985511, 0.2519049649126089, 0.11437064498905805, 0.06949102480347831, 0.1404297792903624, 0.26782999143007263, 0.09120697005456528, 0.0014477296834057981, 0.186042611071835, 0.20869127676753665, 0.12294989949095182, 0.08250585360577031, 0.186042611071835, 0.16662946904694786, 0.04367956955599604, 0.0016177618354072608, 0.07605540857014256, 0.539562898535351, 0.16646089422899127, 0.0990155319120724, 0.08323044711449563, 0.033005177304024136, 0.0014350077088706144, 0.5375456287759848, 0.1850830757761624, 0.10300275521455995, 0.13519111621910992, 0.03701661515523248, 0.0016094180502274993, 0.0010860597773604895, 0.20417923814377203, 0.04778663020386154, 0.10860597773604895, 0.3399367103138332, 0.24653556946083113, 0.04995874975858252, 0.0010860597773604895, 0.31248004722059536, 0.2709438446248107, 0.05942872063704575, 0.3565723238222745, 0.0006390185014736101, 0.08661609970188633, 0.26504526508777215, 0.36725226273599804, 0.24425740115931946, 0.035512600877773394, 0.0008661609970188633, 0.37574605095162134, 0.00913668209000903, 0.17017070392641817, 0.19758075019644528, 0.08108805354883014, 0.11192435560261062, 0.052535922017551924, 0.0011420852612511287, 0.396882126659522, 0.09515411643271326, 0.0626227945753754, 0.022771925300136508, 0.2805826510195391, 0.12199245696501701, 0.018705510067969274, 0.0008132830464334468, 0.12004913850821906, 0.24460011971049636, 0.29374523578729855, 0.09228777522819341, 0.08440955051359153, 0.16394210477528667, 0.0003751535578381846, 0.09372732869615602, 0.14246553961815717, 0.3699105239208291, 0.16620979622118334, 0.22619528658672322, 0.001249697715948747, 0.04529727077227996, 0.0035761003241273656, 0.3278091963783418, 0.24794295580616402, 0.29443226001981976, 0.07867420713080205, 0.0011920334413757885, 0.3119946826181508, 0.31649677039041846, 0.006753131658401532, 0.04547108649990365, 0.20979729018767426, 0.10850031531165127, 0.0004502087772267688, 0.06256443660699794, 0.41074912728942126, 0.15178676359436893, 0.04787539496883321, 0.17082811386606395, 0.09955905999200543, 0.05603597365670251, 0.0005440385791912865, 0.2869409355197117, 0.36460915866790433, 0.10355763086425686, 0.1499428196888719, 0.0927703776492301, 0.0010787253215026756, 0.21540879680062797, 0.4490444917920783, 0.13753023180347784, 0.10770439840031398, 0.0878205094648714, 0.001656990744620215, 0.013669846346878563, 0.17163251524414194, 0.7594359081599201, 0.04556615448959521, 0.009113230897919041, 0.0015188718163198403, 0.007893236263807914, 0.20719745192495775, 0.3759153770638519, 0.2535702149748293, 0.14503821634747044, 0.007893236263807914, 0.0009866545329759893, 0.005885706447902158, 0.16185692731730933, 0.15523550756341942, 0.07136419068081366, 0.4436351235106252, 0.11329984912211653, 0.0485570781951928, 0.0007357133059877698, 0.4017440065291624, 0.2806576120378962, 0.03473020617191357, 0.051625982147439096, 0.145491404233692, 0.04411674838053886, 0.04036213149708875, 0.000938654220862529, 0.028988314852360413, 0.007247078713090103, 0.5594744766505559, 0.11667796728075067, 0.016668281040107237, 0.1739298891141625, 0.09566143901278937, 0.0007247078713090103, 0.4851938844467306, 0.10710396917308149, 0.11742724331024597, 0.17936688813323287, 0.09936151357020813, 0.009032864870018921, 0.0012904092671455602, 0.0025627887092425214, 0.5650949103879759, 0.1055014685304838, 0.2827610209197582, 0.0380146991870974, 0.005552708870025462, 0.0004271314515404202, 0.3328145882813355, 0.161260676796111, 0.21787346758623508, 0.027448625837635913, 0.14753636387729305, 0.07891479928320326, 0.030879704067340405, 0.0017155391148522446, 0.15335881926191577, 0.09619280778077155, 0.15280914607459709, 0.21876992855284044, 0.24845228066804995, 0.11378234977496977, 0.015940522432242143, 0.0005496731873186945, 0.20841099189711118, 0.18661637836538714, 0.1471136413391373, 0.3950273702624983, 0.05993518721224112, 0.0013621633457327528, 0.5625400671041713, 0.17105072704238183, 0.03312602108215141, 0.06805891604151108, 0.09817348066164873, 0.06564975087190007, 0.0006022912924027529, 0.45753009802036465, 0.12062940437448408, 0.19817687861522384, 0.18525229957510056, 0.03618882131234522, 0.0008616386026748863, 0.193634756233702, 0.33620100532884517, 0.165972648200316, 0.06809134285141169, 0.07234705177962492, 0.16065301204004945, 0.0010639272320533077, 0.0010639272320533077, 0.3641195691672838, 0.23618566648688677, 0.11612461935605266, 0.03739606386042374, 0.13580675822995988, 0.09053783881997327, 0.01968213887390723, 0.001968213887390723, 0.3895007337033711, 0.06323997152379457, 0.16959810545017637, 0.30182713681811046, 0.014372720800862404, 0.05749088320344962, 0.0014372720800862404, 0.09340109597972363, 0.11818097858658907, 0.017155303343214544, 0.4212580043167127, 0.10293182005928726, 0.15439773008893087, 0.08958880634789816, 0.001906144815912727, 0.2664443083098504, 0.11661551444032234, 0.05461739283913831, 0.17492327166048352, 0.12916275333580007, 0.22068378998516697, 0.036903643810228585, 0.0007380728762045718, 0.1832572224803466, 0.03495111975140631, 0.24938096255057474, 0.35801282123737815, 0.09446248581461164, 0.07651461350983543, 0.001889249716292233, 0.0009446248581461165, 0.1267721658160879, 0.08957867915103733, 0.16448950440599838, 0.3310744165114362, 0.18544358140039308, 0.07333926948038144, 0.028288003942432843, 0.0005238519248598675, 0.14557939357456712, 0.0662572881012453, 0.13904698488852887, 0.12131616131213928, 0.5048618713066719, 0.021463628539840025, 0.0009332012408626098, 0.013630165739427635, 0.2223420786244133, 0.3518286531489758, 0.014482051098141862, 0.35523619458383277, 0.04174238257699713, 0.0008518853587142272, 0.3699859272334546, 0.08015012428033261, 0.14167951261674958, 0.25826151156996063, 0.14896588755132525, 0.0008095972149528547, 0.38123720246754084, 0.1138760474903044, 0.14440803123770488, 0.08004330874318498, 0.15265991873700227, 0.08747000749255265, 0.03960905999662762, 0.000825188749929742, 0.2186500390198897, 0.1920502775819469, 0.10427106483673572, 0.13885075470606134, 0.2159900628760954, 0.11331498372563627, 0.016491852091524525, 0.0005319952287588557, 0.12919587527913548, 0.365715883172041, 0.14140335955747899, 0.10681548743550572, 0.04425213050899523, 0.20345807130572519, 0.00864696803049332, 0.000508645178264313, 0.18359743418846833, 0.13482936573215643, 0.05163677836550672, 0.2581838918275336, 0.2954771206470662, 0.06884903782067563, 0.004303064863792227, 0.0014343549545974088, 0.27399200201658425, 0.1534929016532697, 0.4217468512716009, 0.14775484925501664, 0.0014345130995632683, 0.13547266368867822, 0.22094254163818763, 0.15175264044096573, 0.2866438763884908, 0.05174706896262816, 0.09651700503141881, 0.055817063150700036, 0.0005814277411531253, 0.11986302450938635, 0.10098695765751449, 0.10381836768529526, 0.6748193899544193, 0.0009438033425935934, 0.23344055589244722, 0.21920637565510287, 0.1760293622684917, 0.0540898849019085, 0.2310681925195565, 0.04222806803745488, 0.043651486061189314, 0.00047447267457814473, 0.1018196569274234, 0.020248227229885334, 0.199011147630873, 0.31587234478621123, 0.32859980190213917, 0.013305977893924648, 0.020248227229885334, 0.0005785207779967238, 0.10236490836863477, 0.0659984277639882, 0.20877053680445248, 0.47276424786040533, 0.14815973579670821, 0.0013469066890609838], "Term": ["act", "act", "act", "act", "act", "act", "action", "action", "action", "action", "action", "actor", "actor", "actor", "actor", "actor", "actual", "actual", "actual", "actual", "actual", "actual", "actual", "along", "along", "along", "along", "along", "along", "along", "along", "also", "also", "also", "also", "also", "also", "also", "also", "although", "although", "although", "although", "although", "although", "alway", "alway", "alway", "alway", "alway", "alway", "alway", "anoth", "anoth", "anoth", "anoth", "anoth", "anoth", "anoth", "anoth", "appear", "appear", "appear", "appear", "appear", "appear", "appear", "around", "around", "around", "around", "around", "around", "around", "around", "attempt", "attempt", "attempt", "attempt", "attempt", "attempt", "audienc", "audienc", "audienc", "audienc", "audienc", "audienc", "audienc", "back", "back", "back", "back", "back", "back", "back", "back", "bad", "bad", "bad", "bad", "becom", "becom", "becom", "becom", "becom", "becom", "begin", "begin", "begin", "begin", "begin", "begin", "begin", "believ", "believ", "believ", "believ", "believ", "believ", "believ", "best", "best", "best", "best", "best", "best", "best", "big", "big", "big", "big", "big", "big", "big", "bit", "bit", "bit", "bit", "bit", "bit", "bit", "bit", "bring", "bring", "bring", "bring", "bring", "bring", "call", "call", "call", "call", "call", "call", "call", "call", "cast", "cast", "cast", "cast", "cast", "cast", "cast", "come", "come", "come", "come", "come", "come", "come", "come", "comedi", "comedi", "complet", "complet", "complet", "complet", "complet", "complet", "complet", "complet", "could", "could", "could", "could", "could", "could", "could", "cours", "cours", "cours", "cours", "cours", "cours", "cours", "cours", "creat", "creat", "creat", "creat", "creat", "day", "day", "day", "day", "day", "day", "day", "day", "dialogu", "dialogu", "dialogu", "dialogu", "dialogu", "differ", "differ", "differ", "differ", "differ", "differ", "differ", "direct", "direct", "direct", "direct", "direct", "direct", "direct", "direct", "director", "director", "director", "director", "director", "director", "director", "effect", "effect", "effect", "effect", "effect", "effect", "end", "end", "end", "end", "end", "end", "end", "enjoy", "enjoy", "enjoy", "enjoy", "enjoy", "enjoy", "enjoy", "entertain", "entertain", "entertain", "entertain", "entertain", "entertain", "entertain", "entir", "entir", "entir", "entir", "entir", "entir", "entir", "entir", "even", "even", "even", "even", "even", "even", "even", "even", "ever", "ever", "ever", "ever", "ever", "ever", "ever", "ever", "everyth", "everyth", "everyth", "everyth", "everyth", "everyth", "expect", "expect", "expect", "expect", "expect", "expect", "expect", "face", "face", "face", "face", "face", "face", "face", "face", "fact", "fact", "fact", "fact", "fact", "fact", "fact", "fall", "fall", "fall", "fall", "fall", "fall", "fall", "fall", "far", "far", "far", "far", "far", "far", "far", "far", "feel", "feel", "feel", "feel", "feel", "feel", "feel", "final", "final", "final", "final", "final", "final", "final", "find", "find", "find", "find", "find", "find", "find", "find", "first", "first", "first", "first", "first", "first", "follow", "follow", "follow", "follow", "follow", "follow", "follow", "forc", "forc", "forc", "forc", "forc", "forc", "friend", "friend", "friend", "friend", "friend", "fun", "fun", "fun", "fun", "fun", "funni", "funni", "funni", "gener", "gener", "gener", "gener", "gener", "get", "get", "get", "get", "get", "get", "get", "get", "give", "give", "give", "give", "give", "give", "give", "given", "given", "given", "given", "given", "given", "go", "go", "go", "go", "go", "go", "go", "go", "goe", "goe", "goe", "goe", "goe", "goe", "goe", "goe", "good", "good", "good", "good", "good", "good", "good", "good", "great", "great", "great", "great", "great", "great", "great", "guy", "guy", "guy", "hand", "hand", "hand", "hand", "hand", "hand", "happen", "happen", "happen", "happen", "happen", "happen", "hard", "hard", "hard", "hard", "hard", "hard", "hard", "head", "head", "head", "head", "head", "head", "high", "high", "high", "high", "high", "home", "home", "home", "home", "home", "hope", "hope", "hope", "hope", "hope", "hope", "hope", "hour", "hour", "hour", "hour", "hour", "hour", "hour", "howev", "howev", "howev", "howev", "howev", "howev", "howev", "includ", "includ", "includ", "includ", "includ", "includ", "instead", "instead", "instead", "instead", "instead", "instead", "interest", "interest", "interest", "interest", "interest", "interest", "interest", "involv", "involv", "involv", "involv", "involv", "involv", "involv", "job", "job", "job", "job", "job", "job", "john", "john", "john", "john", "keep", "keep", "keep", "keep", "keep", "keep", "keep", "keep", "kill", "kill", "kill", "kill", "kill", "kind", "kind", "kind", "kind", "kind", "know", "know", "know", "know", "know", "know", "last", "last", "last", "last", "last", "last", "laugh", "laugh", "laugh", "lead", "lead", "lead", "lead", "lead", "lead", "lead", "lead", "least", "least", "least", "least", "least", "least", "least", "leav", "leav", "leav", "leav", "leav", "leav", "leav", "leav", "let", "let", "let", "let", "let", "let", "let", "let", "life", "life", "life", "life", "line", "line", "line", "line", "line", "line", "line", "littl", "littl", "littl", "littl", "littl", "littl", "littl", "littl", "live", "live", "live", "live", "live", "live", "long", "long", "long", "long", "long", "long", "long", "look", "look", "look", "look", "look", "look", "look", "lot", "lot", "lot", "lot", "lot", "lot", "lot", "love", "love", "love", "love", "love", "love", "made", "made", "made", "made", "made", "made", "made", "man", "man", "man", "man", "man", "man", "man", "mani", "mani", "mani", "mani", "mani", "mani", "mani", "may", "may", "may", "may", "may", "may", "mean", "mean", "mean", "mean", "mean", "mean", "mean", "meet", "meet", "meet", "meet", "meet", "meet", "meet", "might", "might", "might", "might", "might", "might", "might", "might", "mind", "mind", "mind", "mind", "mind", "mind", "minut", "minut", "minut", "minut", "minut", "minut", "moment", "moment", "moment", "moment", "moment", "moment", "moment", "moment", "move", "move", "move", "move", "move", "move", "move", "much", "much", "much", "much", "much", "much", "much", "much", "name", "name", "name", "name", "name", "name", "name", "need", "need", "need", "need", "need", "need", "need", "need", "never", "never", "never", "never", "never", "never", "never", "never", "new", "new", "new", "new", "new", "new", "new", "noth", "noth", "noth", "noth", "noth", "noth", "noth", "noth", "old", "old", "old", "old", "old", "old", "origin", "origin", "origin", "origin", "origin", "origin", "origin", "peopl", "peopl", "peopl", "peopl", "peopl", "peopl", "peopl", "peopl", "perform", "perform", "perform", "perform", "perform", "person", "person", "person", "person", "person", "person", "person", "pictur", "pictur", "pictur", "pictur", "pictur", "pictur", "pictur", "place", "place", "place", "place", "place", "place", "place", "play", "play", "play", "play", "play", "play", "play", "play", "plot", "plot", "plot", "plot", "plot", "plot", "plot", "point", "point", "point", "point", "point", "point", "point", "probabl", "probabl", "probabl", "probabl", "probabl", "probabl", "probabl", "problem", "problem", "problem", "problem", "problem", "problem", "problem", "problem", "put", "put", "put", "put", "put", "put", "put", "put", "quit", "quit", "quit", "quit", "quit", "quit", "quit", "rather", "rather", "rather", "rather", "rather", "rather", "real", "real", "real", "real", "real", "real", "real", "real", "realli", "realli", "realli", "realli", "realli", "role", "role", "role", "role", "role", "role", "run", "run", "run", "run", "run", "run", "run", "run", "say", "say", "say", "say", "say", "say", "say", "say", "scene", "scene", "scene", "scene", "scene", "scene", "scene", "screen", "screen", "screen", "screen", "screen", "screen", "script", "script", "script", "script", "script", "script", "script", "see", "see", "see", "see", "see", "see", "see", "seem", "seem", "seem", "seem", "seem", "seem", "seem", "seem", "seen", "seen", "seen", "seen", "seen", "seen", "sens", "sens", "sens", "sens", "sens", "sens", "sequenc", "sequenc", "sequenc", "sequenc", "sequenc", "sequenc", "set", "set", "set", "set", "set", "set", "set", "show", "show", "show", "show", "show", "show", "show", "show", "someth", "someth", "someth", "someth", "someth", "someth", "someth", "someth", "star", "star", "star", "star", "star", "star", "star", "star", "start", "start", "start", "start", "start", "start", "start", "stori", "stori", "stori", "stori", "stori", "stori", "stori", "sure", "sure", "sure", "sure", "sure", "sure", "sure", "sure", "take", "take", "take", "take", "take", "take", "take", "take", "tell", "tell", "tell", "tell", "tell", "tell", "thing", "thing", "thing", "thing", "thing", "thing", "thing", "think", "think", "think", "think", "think", "think", "though", "though", "though", "though", "though", "though", "though", "though", "thought", "thought", "thought", "thought", "thought", "thought", "thought", "thought", "three", "three", "three", "three", "three", "three", "three", "togeth", "togeth", "togeth", "togeth", "togeth", "togeth", "togeth", "togeth", "tri", "tri", "tri", "tri", "tri", "tri", "tri", "tri", "turn", "turn", "turn", "turn", "turn", "turn", "turn", "turn", "two", "two", "two", "two", "two", "two", "two", "two", "us", "us", "us", "us", "us", "us", "us", "use", "use", "use", "use", "use", "use", "use", "want", "want", "want", "want", "want", "want", "watch", "watch", "watch", "watch", "watch", "watch", "watch", "watch", "way", "way", "way", "way", "way", "way", "way", "way", "well", "well", "well", "well", "well", "well", "well", "well", "without", "without", "without", "without", "without", "without", "without", "without", "wonder", "wonder", "wonder", "wonder", "wonder", "work", "work", "work", "work", "work", "work", "work", "work", "world", "world", "world", "world", "world", "would", "would", "would", "would", "would", "would", "would", "would", "year", "year", "year", "year", "year", "year", "year", "year", "young", "young", "young", "young", "young", "young"]}, "R": 30, "lambda.step": 0.01, "plot.opts": {"xlab": "PC1", "ylab": "PC2"}, "topic.order": [3, 8, 6, 7, 5, 1, 4, 2]};
+
+function LDAvis_load_lib(url, callback){
+  var s = document.createElement('script');
+  s.src = url;
+  s.async = true;
+  s.onreadystatechange = s.onload = callback;
+  s.onerror = function(){console.warn("failed to load library " + url);};
+  document.getElementsByTagName("head")[0].appendChild(s);
+}
+
+if(typeof(LDAvis) !== "undefined"){
+   // already loaded: just create the visualization
+   !function(LDAvis){
+       new LDAvis("#" + "ldavis_el5328140668863476504142997306", ldavis_el5328140668863476504142997306_data);
+   }(LDAvis);
+}else if(typeof define === "function" && define.amd){
+   // require.js is available: use it to load d3/LDAvis
+   require.config({paths: {d3: "https://d3js.org/d3.v5"}});
+   require(["d3"], function(d3){
+      window.d3 = d3;
+      LDAvis_load_lib("https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.2.2/pyLDAvis/js/ldavis.v3.0.0.js", function(){
+        new LDAvis("#" + "ldavis_el5328140668863476504142997306", ldavis_el5328140668863476504142997306_data);
+      });
+    });
+}else{
+    // require.js not available: dynamically load d3 & LDAvis
+    LDAvis_load_lib("https://d3js.org/d3.v5.js", function(){
+         LDAvis_load_lib("https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.2.2/pyLDAvis/js/ldavis.v3.0.0.js", function(){
+                 new LDAvis("#" + "ldavis_el5328140668863476504142997306", ldavis_el5328140668863476504142997306_data);
+            })
+         });
+}
+</script></div></div>
+</div>
+</div>
+<div class="section" id="clustering-documents-using-topic-model-features">
+<h2>Clustering documents using topic model features<a class="headerlink" href="#clustering-documents-using-topic-model-features" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+
+<span class="n">km</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">km</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+<span class="n">cluster_labels</span> <span class="o">=</span> <span class="n">km</span><span class="o">.</span><span class="n">labels_</span>
+<span class="n">cluster_labels</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cluster_labels</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ClusterLabel&#39;</span><span class="p">])</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">corpus_df</span><span class="p">,</span> <span class="n">cluster_labels</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/alvinchen/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/ipykernel/ipkernel.py:287: DeprecationWarning: `should_run_async` will not call `transform_cell` automatically in the future. Please pass the result to `transformed_cell` argument and any exception that happen during thetransform in `preprocessing_exc_tuple` in IPython 7.17 and above.
+  and should_run_async(code)
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Document</th>
+      <th>Category</th>
+      <th>ClusterLabel</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>plot : two teen couples go to a church party , drink and then drive . they get into an accident . one of the guys dies , but his girlfriend continues to see him in her life , and has nightmares . ...</td>
+      <td>neg</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>the happy bastard ' s quick movie review damn that y2k bug . it ' s got a head start in this movie starring jamie lee curtis and another baldwin brother ( william this time ) in a story regarding ...</td>
+      <td>neg</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>it is movies like these that make a jaded movie viewer thankful for the invention of the timex indiglo watch . based on the late 1960 ' s television show by the same name , the mod squad tells the...</td>
+      <td>neg</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>" quest for camelot " is warner bros . ' first feature - length , fully - animated attempt to steal clout from disney ' s cartoon empire , but the mouse has no reason to be worried . the only othe...</td>
+      <td>neg</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>synopsis : a mentally unstable man undergoing psychotherapy saves a boy from a potentially fatal accident and then falls in love with the boy ' s mother , a fledgling restauranteur . unsuccessfull...</td>
+      <td>neg</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1995</th>
+      <td>wow ! what a movie . it ' s everything a movie can be : funny , dramatic , interesting , weird , funny , weird and strikingly original . yep that pretty much describes this movie . it starts out l...</td>
+      <td>pos</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1996</th>
+      <td>richard gere can be a commanding actor , but he ' s not always in great films . everything comes together here . gere is a big time chicago defense attorney who takes on a seemingly unwinable case...</td>
+      <td>pos</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>1997</th>
+      <td>glory -- starring matthew broderick , denzel washington , and morgan freeman -- is the true story of the 54th regiment of massachusetts , the first black fighting unit recruited by the north durin...</td>
+      <td>pos</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1998</th>
+      <td>steven spielberg ' s second epic film on world war ii is an unquestioned masterpiece of film . spielberg , ever the student on film , has managed to resurrect the war genre by producing one of its...</td>
+      <td>pos</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1999</th>
+      <td>truman ( " true - man " ) burbank is the perfect name for jim carrey ' s character in this film . president truman was an unassuming man who became known worldwide , in spite of ( or was it becaus...</td>
+      <td>pos</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+<p>2000 rows × 3 columns</p>
+</div></div></div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python-notes",
+            path: "./temp"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python-notes'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="topic-modeling-naive.html" title="previous page">Topic Modeling: A Naive Example</a>
+    <a class='right-next' id="next-link" href="../nlp/sentiment-analysis.html" title="next page">Sentiment Analysis</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Alvin Chen<br/>
+        
+            &copy; Copyright 2020 Alvin Chen.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

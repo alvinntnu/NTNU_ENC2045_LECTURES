@@ -1,0 +1,3773 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Text Classification based on Bag-of-Words (Sarkar Version) &#8212; ENC2045 Computational Linguistics</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/ntnu-word-2.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">ENC2045 Computational Linguistics</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <p class="caption collapsible-parent">
+ <span class="caption-text">
+  INTRODUCTION
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/nlp-primer.html">
+   Natural Language Processing: A Primer
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/nlp-pipeline.html">
+   NLP Pipeline
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Preprocessing
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../nlp/text-preprocessing.html">
+   Text Preprocessing
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../nlp/text-normalization-eng.html">
+     Text Normalization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../nlp/text-tokenization.html">
+     Text Tokenization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../nlp/text-enrichment.html">
+     Text Enrichment
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/chinese-word-seg.html">
+   Chinese Word Segmentation
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Text Vectorization
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="text-vec-traditional.html">
+   Text Vectorization Using Traditional Methods
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="text-vec-embedding.html">
+   Word Embeddings
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="text-vec-embedding-keras.html">
+   Word Embedding Using Keras
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine Learning Basics
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-overview.html">
+   Machine Learning: Overview
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-simple-case.html">
+   Machine Learning: A Simple Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-nlp-case.html">
+   Machine Learning: NLP Tasks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-algorithm.html">
+   Classification Models
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-sklearn-classification.html">
+   Machine Learning Using Sci-Kit Learn
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  NLP Tasks
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../nlp/text-classification.html">
+   Text Classification
+  </a>
+  <ul class="simple collapse-ul">
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="topic-modeling-naive.html">
+   Topic Modeling: A Naive Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="topic-modeling-complex.html">
+   Topic Modeling: A Real Example
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../nlp/sentiment-analysis.html">
+   Sentiment Analysis
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="sentiment-analysis-ml.html">
+     Sentiment Analysis with Traditional Machine Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sentiment-analysis-dl.html">
+     Sentiment Analysis based on Embeddings
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Deep Learning NLP
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl-neural-network-from-scratch.html">
+   Neural Network From Scratch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl-statistical-language-model.html">
+   Statistical Language Model
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Exercises
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/1-python-basics.html">
+   1. Assignment I: Python Basics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/2-journal-review.html">
+   2. Assignment II: Journal Articles Review
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  <div style="text-align:center">
+<i class="fas fa-chalkboard-teacher fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinntnu.github.io/NTNU_ENC2045/" target='_blank'>ENC2045 Course Website</a><br>
+<i class="fas fa-home fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinchen.myftp.org/" target='_blank'>Alvin Chen's Homepage</a>
+</div>
+
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/temp/text-classification-ml_Sarkar.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alvinntnu/NTNU_ENC2045_LECTURES/main?urlpath=tree/temp/text-classification-ml_Sarkar.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alvinntnu/NTNU_ENC2045_LECTURES/blob/main/temp/text-classification-ml_Sarkar.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="text-classification-based-on-bag-of-words-sarkar-version">
+<h1>Text Classification based on Bag-of-Words (Sarkar Version)<a class="headerlink" href="#text-classification-based-on-bag-of-words-sarkar-version" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_20newsgroups</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="c1">#import text_normalizer as tn</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">fetch_20newsgroups</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                          <span class="n">remove</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">,</span> <span class="s1">&#39;footers&#39;</span><span class="p">,</span> <span class="s1">&#39;quotes&#39;</span><span class="p">))</span>
+<span class="n">data_labels_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">target_names</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corpus</span><span class="p">,</span> <span class="n">target_labels</span><span class="p">,</span> <span class="n">target_names</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> 
+                                       <span class="p">[</span><span class="n">data_labels_map</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">target</span><span class="p">])</span>
+<span class="n">data_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Article&#39;</span><span class="p">:</span> <span class="n">corpus</span><span class="p">,</span> <span class="s1">&#39;Target Label&#39;</span><span class="p">:</span> <span class="n">target_labels</span><span class="p">,</span> <span class="s1">&#39;Target Name&#39;</span><span class="p">:</span> <span class="n">target_names</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">data_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(18846, 3)
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Article</th>
+      <th>Target Label</th>
+      <th>Target Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>\n\nI am sure some bashers of Pens fans are pr...</td>
+      <td>10</td>
+      <td>rec.sport.hockey</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>My brother is in the market for a high-perform...</td>
+      <td>3</td>
+      <td>comp.sys.ibm.pc.hardware</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>\n\n\n\n\tFinally you said what you dream abou...</td>
+      <td>17</td>
+      <td>talk.politics.mideast</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>\nThink!\n\nIt's the SCSI card doing the DMA t...</td>
+      <td>3</td>
+      <td>comp.sys.ibm.pc.hardware</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1)    I have an old Jasmine drive which I cann...</td>
+      <td>4</td>
+      <td>comp.sys.mac.hardware</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>\n\nBack in high school I worked as a lab assi...</td>
+      <td>12</td>
+      <td>sci.electronics</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>\n\nAE is in Dallas...try 214/241-6060 or 214/...</td>
+      <td>4</td>
+      <td>comp.sys.mac.hardware</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>\n[stuff deleted]\n\nOk, here's the solution t...</td>
+      <td>10</td>
+      <td>rec.sport.hockey</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>\n\n\nYeah, it's the second one.  And I believ...</td>
+      <td>10</td>
+      <td>rec.sport.hockey</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>\nIf a Christian means someone who believes in...</td>
+      <td>19</td>
+      <td>talk.religion.misc</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">total_nulls</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="n">data_df</span><span class="o">.</span><span class="n">Article</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Empty documents:&quot;</span><span class="p">,</span> <span class="n">total_nulls</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Empty documents: 515
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_df</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="o">~</span><span class="p">(</span><span class="n">data_df</span><span class="o">.</span><span class="n">Article</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">)]</span>
+<span class="n">data_df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(18331, 3)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nltk</span>
+<span class="n">stopword_list</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">corpus</span><span class="o">.</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s1">&#39;english&#39;</span><span class="p">)</span>
+<span class="c1"># just to keep negation if any in bi-grams</span>
+<span class="n">stopword_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;no&#39;</span><span class="p">)</span>
+<span class="n">stopword_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;not&#39;</span><span class="p">)</span>
+
+<span class="c1"># normalize our corpus</span>
+<span class="n">norm_corpus</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">normalize_corpus</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">data_df</span><span class="p">[</span><span class="s1">&#39;Article&#39;</span><span class="p">],</span> <span class="n">html_stripping</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">contraction_expansion</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                                  <span class="n">accented_char_removal</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text_lower_case</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text_lemmatization</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                                  <span class="n">text_stemming</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">special_char_removal</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">remove_digits</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                  <span class="n">stopword_removal</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">stopwords</span><span class="o">=</span><span class="n">stopword_list</span><span class="p">)</span>
+<span class="n">data_df</span><span class="p">[</span><span class="s1">&#39;Clean Article&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm_corpus</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_df</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[[</span><span class="s1">&#39;Article&#39;</span><span class="p">,</span> <span class="s1">&#39;Clean Article&#39;</span><span class="p">,</span> <span class="s1">&#39;Target Label&#39;</span><span class="p">,</span> <span class="s1">&#39;Target Name&#39;</span><span class="p">]]</span>
+<span class="n">data_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Article</th>
+      <th>Clean Article</th>
+      <th>Target Label</th>
+      <th>Target Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>\n\nI am sure some bashers of Pens fans are pr...</td>
+      <td>sure basher pen fan pretty confused lack kind ...</td>
+      <td>10</td>
+      <td>rec.sport.hockey</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>My brother is in the market for a high-perform...</td>
+      <td>brother market high performance video card sup...</td>
+      <td>3</td>
+      <td>comp.sys.ibm.pc.hardware</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>\n\n\n\n\tFinally you said what you dream abou...</td>
+      <td>finally say dream mediterranean new area great...</td>
+      <td>17</td>
+      <td>talk.politics.mideast</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>\nThink!\n\nIt's the SCSI card doing the DMA t...</td>
+      <td>think scsi card dma transfer not disk scsi car...</td>
+      <td>3</td>
+      <td>comp.sys.ibm.pc.hardware</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1)    I have an old Jasmine drive which I cann...</td>
+      <td>old jasmine drive not use new system understan...</td>
+      <td>4</td>
+      <td>comp.sys.mac.hardware</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>\n\nBack in high school I worked as a lab assi...</td>
+      <td>back high school work lab assistant bunch expe...</td>
+      <td>12</td>
+      <td>sci.electronics</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>\n\nAE is in Dallas...try 214/241-6060 or 214/...</td>
+      <td>ae dallas try tech support may line one get start</td>
+      <td>4</td>
+      <td>comp.sys.mac.hardware</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>\n[stuff deleted]\n\nOk, here's the solution t...</td>
+      <td>stuff delete ok solution problem move canada y...</td>
+      <td>10</td>
+      <td>rec.sport.hockey</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>\n\n\nYeah, it's the second one.  And I believ...</td>
+      <td>yeah second one believe price try get good loo...</td>
+      <td>10</td>
+      <td>rec.sport.hockey</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>\nIf a Christian means someone who believes in...</td>
+      <td>christian mean someone believe divinity jesus ...</td>
+      <td>19</td>
+      <td>talk.religion.misc</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_df</span> <span class="o">=</span> <span class="n">data_df</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^(\s?)+$&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">data_df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Int64Index: 18331 entries, 0 to 18845
+Data columns (total 4 columns):
+Article          18331 non-null object
+Clean Article    18304 non-null object
+Target Label     18331 non-null int64
+Target Name      18331 non-null object
+dtypes: int64(1), object(3)
+memory usage: 1.3+ MB
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_df</span> <span class="o">=</span> <span class="n">data_df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">data_df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 18304 entries, 0 to 18303
+Data columns (total 4 columns):
+Article          18304 non-null object
+Clean Article    18304 non-null object
+Target Label     18304 non-null int64
+Target Name      18304 non-null object
+dtypes: int64(1), object(3)
+memory usage: 572.1+ KB
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;clean_newsgroups.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;clean_newsgroups.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">train_corpus</span><span class="p">,</span> <span class="n">test_corpus</span><span class="p">,</span> <span class="n">train_label_nums</span><span class="p">,</span> <span class="n">test_label_nums</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">,</span> <span class="n">test_label_names</span> <span class="o">=</span>\
+                                 <span class="n">train_test_split</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_df</span><span class="p">[</span><span class="s1">&#39;Clean Article&#39;</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_df</span><span class="p">[</span><span class="s1">&#39;Target Label&#39;</span><span class="p">]),</span>
+                                                       <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_df</span><span class="p">[</span><span class="s1">&#39;Target Name&#39;</span><span class="p">]),</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">train_corpus</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">test_corpus</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>((12263,), (6041,))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="n">trd</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">train_label_names</span><span class="p">))</span>
+<span class="n">tsd</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">test_label_names</span><span class="p">))</span>
+
+<span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="n">key</span><span class="p">,</span> <span class="n">trd</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">tsd</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">trd</span><span class="p">],</span> 
+             <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Target Label&#39;</span><span class="p">,</span> <span class="s1">&#39;Train Count&#39;</span><span class="p">,</span> <span class="s1">&#39;Test Count&#39;</span><span class="p">])</span>
+<span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Train Count&#39;</span><span class="p">,</span> <span class="s1">&#39;Test Count&#39;</span><span class="p">],</span>
+             <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Target Label</th>
+      <th>Train Count</th>
+      <th>Test Count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>19</th>
+      <td>comp.windows.x</td>
+      <td>693</td>
+      <td>287</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>rec.sport.hockey</td>
+      <td>666</td>
+      <td>308</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>comp.graphics</td>
+      <td>664</td>
+      <td>289</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>sci.crypt</td>
+      <td>660</td>
+      <td>302</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>soc.religion.christian</td>
+      <td>653</td>
+      <td>321</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>sci.electronics</td>
+      <td>649</td>
+      <td>307</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>misc.forsale</td>
+      <td>645</td>
+      <td>314</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>comp.sys.ibm.pc.hardware</td>
+      <td>639</td>
+      <td>324</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>sci.med</td>
+      <td>638</td>
+      <td>322</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>comp.sys.mac.hardware</td>
+      <td>632</td>
+      <td>295</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>comp.os.ms-windows.misc</td>
+      <td>631</td>
+      <td>315</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>sci.space</td>
+      <td>629</td>
+      <td>324</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>rec.motorcycles</td>
+      <td>618</td>
+      <td>351</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>rec.sport.baseball</td>
+      <td>615</td>
+      <td>336</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>rec.autos</td>
+      <td>606</td>
+      <td>328</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>talk.politics.guns</td>
+      <td>604</td>
+      <td>281</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>talk.politics.mideast</td>
+      <td>592</td>
+      <td>326</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>talk.politics.misc</td>
+      <td>512</td>
+      <td>244</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>alt.atheism</td>
+      <td>511</td>
+      <td>268</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>talk.religion.misc</td>
+      <td>406</td>
+      <td>199</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">CountVectorizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+
+<span class="c1"># build BOW features on train articles</span>
+<span class="n">cv</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">(</span><span class="n">binary</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_df</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">max_df</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">cv_train_features</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">train_corpus</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># transform test articles into features</span>
+<span class="n">cv_test_features</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test_corpus</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;BOW model:&gt; Train features shape:&#39;</span><span class="p">,</span> <span class="n">cv_train_features</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="s1">&#39; Test features shape:&#39;</span><span class="p">,</span> <span class="n">cv_test_features</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BOW model:&gt; Train features shape: (12263, 66865)  Test features shape: (6041, 66865)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">MultinomialNB</span>
+
+<span class="n">mnb</span> <span class="o">=</span> <span class="n">MultinomialNB</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">mnb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cv_train_features</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">)</span>
+<span class="n">mnb_bow_cv_scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">mnb</span><span class="p">,</span> <span class="n">cv_train_features</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">mnb_bow_cv_mean_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">mnb_bow_cv_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;CV Accuracy (5-fold):&#39;</span><span class="p">,</span> <span class="n">mnb_bow_cv_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean CV Accuracy:&#39;</span><span class="p">,</span> <span class="n">mnb_bow_cv_mean_score</span><span class="p">)</span>
+<span class="n">mnb_bow_test_score</span> <span class="o">=</span> <span class="n">mnb</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">cv_test_features</span><span class="p">,</span> <span class="n">test_label_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test Accuracy:&#39;</span><span class="p">,</span> <span class="n">mnb_bow_test_score</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CV Accuracy (5-fold): [ 0.68468102  0.68241042  0.67835304  0.67741935  0.6792144 ]
+Mean CV Accuracy: 0.680415648396
+Test Accuracy: 0.680185399768
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+
+<span class="n">lr</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">penalty</span><span class="o">=</span><span class="s1">&#39;l2&#39;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cv_train_features</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">)</span>
+<span class="n">lr_bow_cv_scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">lr</span><span class="p">,</span> <span class="n">cv_train_features</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">lr_bow_cv_mean_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lr_bow_cv_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;CV Accuracy (5-fold):&#39;</span><span class="p">,</span> <span class="n">lr_bow_cv_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean CV Accuracy:&#39;</span><span class="p">,</span> <span class="n">lr_bow_cv_mean_score</span><span class="p">)</span>
+<span class="n">lr_bow_test_score</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">cv_test_features</span><span class="p">,</span> <span class="n">test_label_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test Accuracy:&#39;</span><span class="p">,</span> <span class="n">lr_bow_test_score</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CV Accuracy (5-fold): [ 0.70418529  0.69788274  0.69384427  0.6998775   0.69599018]
+Mean CV Accuracy: 0.698355996012
+Test Accuracy: 0.703856977322
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">LinearSVC</span>
+
+<span class="n">svm</span> <span class="o">=</span> <span class="n">LinearSVC</span><span class="p">(</span><span class="n">penalty</span><span class="o">=</span><span class="s1">&#39;l2&#39;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">svm</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cv_train_features</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">)</span>
+<span class="n">svm_bow_cv_scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">svm</span><span class="p">,</span> <span class="n">cv_train_features</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">svm_bow_cv_mean_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">svm_bow_cv_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;CV Accuracy (5-fold):&#39;</span><span class="p">,</span> <span class="n">svm_bow_cv_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean CV Accuracy:&#39;</span><span class="p">,</span> <span class="n">svm_bow_cv_mean_score</span><span class="p">)</span>
+<span class="n">svm_bow_test_score</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">cv_test_features</span><span class="p">,</span> <span class="n">test_label_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test Accuracy:&#39;</span><span class="p">,</span> <span class="n">svm_bow_test_score</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CV Accuracy (5-fold): [ 0.64120276  0.64169381  0.64900122  0.64107799  0.63993453]
+Mean CV Accuracy: 0.642582064348
+Test Accuracy: 0.656679357722
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">SGDClassifier</span>
+
+<span class="n">svm_sgd</span> <span class="o">=</span> <span class="n">SGDClassifier</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;hinge&#39;</span><span class="p">,</span> <span class="n">penalty</span><span class="o">=</span><span class="s1">&#39;l2&#39;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">svm_sgd</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cv_train_features</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">)</span>
+<span class="n">svmsgd_bow_cv_scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">svm_sgd</span><span class="p">,</span> <span class="n">cv_train_features</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">svmsgd_bow_cv_mean_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">svmsgd_bow_cv_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;CV Accuracy (5-fold):&#39;</span><span class="p">,</span> <span class="n">svmsgd_bow_cv_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean CV Accuracy:&#39;</span><span class="p">,</span> <span class="n">svmsgd_bow_cv_mean_score</span><span class="p">)</span>
+<span class="n">svmsgd_bow_test_score</span> <span class="o">=</span> <span class="n">svm_sgd</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">cv_test_features</span><span class="p">,</span> <span class="n">test_label_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test Accuracy:&#39;</span><span class="p">,</span> <span class="n">svmsgd_bow_test_score</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CV Accuracy (5-fold): [ 0.66030069  0.62459283  0.65185487  0.63209473  0.64157119]
+Mean CV Accuracy: 0.642082864709
+Test Accuracy: 0.633007780169
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+
+<span class="n">rfc</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">rfc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cv_train_features</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">)</span>
+<span class="n">rfc_bow_cv_scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">rfc</span><span class="p">,</span> <span class="n">cv_train_features</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">rfc_bow_cv_mean_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">rfc_bow_cv_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;CV Accuracy (5-fold):&#39;</span><span class="p">,</span> <span class="n">rfc_bow_cv_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean CV Accuracy:&#39;</span><span class="p">,</span> <span class="n">rfc_bow_cv_mean_score</span><span class="p">)</span>
+<span class="n">rfc_bow_test_score</span> <span class="o">=</span> <span class="n">rfc</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">cv_test_features</span><span class="p">,</span> <span class="n">test_label_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test Accuracy:&#39;</span><span class="p">,</span> <span class="n">rfc_bow_test_score</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CV Accuracy (5-fold): [ 0.52052011  0.51669381  0.53485528  0.51327072  0.5212766 ]
+Mean CV Accuracy: 0.521323304518
+Test Accuracy: 0.52987915908
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">GradientBoostingClassifier</span>
+
+<span class="n">gbc</span> <span class="o">=</span> <span class="n">GradientBoostingClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">gbc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cv_train_features</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">)</span>
+<span class="n">gbc_bow_cv_scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">gbc</span><span class="p">,</span> <span class="n">cv_train_features</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">gbc_bow_cv_mean_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">gbc_bow_cv_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;CV Accuracy (5-fold):&#39;</span><span class="p">,</span> <span class="n">gbc_bow_cv_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean CV Accuracy:&#39;</span><span class="p">,</span> <span class="n">gbc_bow_cv_mean_score</span><span class="p">)</span>
+<span class="n">gbc_bow_test_score</span> <span class="o">=</span> <span class="n">gbc</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">cv_test_features</span><span class="p">,</span> <span class="n">test_label_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test Accuracy:&#39;</span><span class="p">,</span> <span class="n">gbc_bow_test_score</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CV Accuracy (5-fold): [ 0.55424624  0.53827362  0.54219323  0.55206207  0.55441899]
+Mean CV Accuracy: 0.548238828239
+Test Accuracy: 0.547922529383
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
+
+<span class="c1"># build BOW features on train articles</span>
+<span class="n">tv</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">use_idf</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_df</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">max_df</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">tv_train_features</span> <span class="o">=</span> <span class="n">tv</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">train_corpus</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># transform test articles into features</span>
+<span class="n">tv_test_features</span> <span class="o">=</span> <span class="n">tv</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test_corpus</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;TFIDF model:&gt; Train features shape:&#39;</span><span class="p">,</span> <span class="n">tv_train_features</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="s1">&#39; Test features shape:&#39;</span><span class="p">,</span> <span class="n">tv_test_features</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TFIDF model:&gt; Train features shape: (12263, 66865)  Test features shape: (6041, 66865)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mnb</span> <span class="o">=</span> <span class="n">MultinomialNB</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">mnb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">tv_train_features</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">)</span>
+<span class="n">mnb_tfidf_cv_scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">mnb</span><span class="p">,</span> <span class="n">tv_train_features</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">mnb_tfidf_cv_mean_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">mnb_tfidf_cv_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;CV Accuracy (5-fold):&#39;</span><span class="p">,</span> <span class="n">mnb_tfidf_cv_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean CV Accuracy:&#39;</span><span class="p">,</span> <span class="n">mnb_tfidf_cv_mean_score</span><span class="p">)</span>
+<span class="n">mnb_tfidf_test_score</span> <span class="o">=</span> <span class="n">mnb</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">tv_test_features</span><span class="p">,</span> <span class="n">test_label_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test Accuracy:&#39;</span><span class="p">,</span> <span class="n">mnb_tfidf_test_score</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CV Accuracy (5-fold): [ 0.71759447  0.70969055  0.71585813  0.7121274   0.7111293 ]
+Mean CV Accuracy: 0.713279971122
+Test Accuracy: 0.713954643271
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lr</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">penalty</span><span class="o">=</span><span class="s1">&#39;l2&#39;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">tv_train_features</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">)</span>
+<span class="n">lr_tfidf_cv_scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">lr</span><span class="p">,</span> <span class="n">tv_train_features</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">lr_tfidf_cv_mean_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lr_tfidf_cv_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;CV Accuracy (5-fold):&#39;</span><span class="p">,</span> <span class="n">lr_tfidf_cv_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean CV Accuracy:&#39;</span><span class="p">,</span> <span class="n">lr_tfidf_cv_mean_score</span><span class="p">)</span>
+<span class="n">lr_tfidf_test_score</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">tv_test_features</span><span class="p">,</span> <span class="n">test_label_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test Accuracy:&#39;</span><span class="p">,</span> <span class="n">lr_tfidf_test_score</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CV Accuracy (5-fold): [ 0.74725721  0.73493485  0.73257236  0.74520212  0.73076923]
+Mean CV Accuracy: 0.738147156079
+Test Accuracy: 0.745240854163
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svm</span> <span class="o">=</span> <span class="n">LinearSVC</span><span class="p">(</span><span class="n">penalty</span><span class="o">=</span><span class="s1">&#39;l2&#39;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">svm</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">tv_train_features</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">)</span>
+<span class="n">svm_tfidf_cv_scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">svm</span><span class="p">,</span> <span class="n">tv_train_features</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">svm_tfidf_cv_mean_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">svm_tfidf_cv_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;CV Accuracy (5-fold):&#39;</span><span class="p">,</span> <span class="n">svm_tfidf_cv_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean CV Accuracy:&#39;</span><span class="p">,</span> <span class="n">svm_tfidf_cv_mean_score</span><span class="p">)</span>
+<span class="n">svm_tfidf_test_score</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">tv_test_features</span><span class="p">,</span> <span class="n">test_label_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test Accuracy:&#39;</span><span class="p">,</span> <span class="n">svm_tfidf_test_score</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CV Accuracy (5-fold): [ 0.76635514  0.7536645   0.75743987  0.76439363  0.75695581]
+Mean CV Accuracy: 0.75976178901
+Test Accuracy: 0.762456546929
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svm_sgd</span> <span class="o">=</span> <span class="n">SGDClassifier</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;hinge&#39;</span><span class="p">,</span> <span class="n">penalty</span><span class="o">=</span><span class="s1">&#39;l2&#39;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">svm_sgd</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">tv_train_features</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">)</span>
+<span class="n">svmsgd_tfidf_cv_scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">svm_sgd</span><span class="p">,</span> <span class="n">tv_train_features</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">svmsgd_tfidf_cv_mean_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">svmsgd_tfidf_cv_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;CV Accuracy (5-fold):&#39;</span><span class="p">,</span> <span class="n">svmsgd_tfidf_cv_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean CV Accuracy:&#39;</span><span class="p">,</span> <span class="n">svmsgd_tfidf_cv_mean_score</span><span class="p">)</span>
+<span class="n">svmsgd_tfidf_test_score</span> <span class="o">=</span> <span class="n">svm_sgd</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">tv_test_features</span><span class="p">,</span> <span class="n">test_label_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test Accuracy:&#39;</span><span class="p">,</span> <span class="n">svmsgd_tfidf_test_score</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CV Accuracy (5-fold): [ 0.76513612  0.75570033  0.75377089  0.76112699  0.75695581]
+Mean CV Accuracy: 0.75853802856
+Test Accuracy: 0.765767257077
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rfc</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">rfc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">tv_train_features</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">)</span>
+<span class="n">rfc_tfidf_cv_scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">rfc</span><span class="p">,</span> <span class="n">tv_train_features</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">rfc_tfidf_cv_mean_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">rfc_tfidf_cv_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;CV Accuracy (5-fold):&#39;</span><span class="p">,</span> <span class="n">rfc_tfidf_cv_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean CV Accuracy:&#39;</span><span class="p">,</span> <span class="n">rfc_tfidf_cv_mean_score</span><span class="p">)</span>
+<span class="n">rfc_tfidf_test_score</span> <span class="o">=</span> <span class="n">rfc</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">tv_test_features</span><span class="p">,</span> <span class="n">test_label_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test Accuracy:&#39;</span><span class="p">,</span> <span class="n">rfc_tfidf_test_score</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CV Accuracy (5-fold): [ 0.53596099  0.5252443   0.53852426  0.51204573  0.54296236]
+Mean CV Accuracy: 0.53094752738
+Test Accuracy: 0.545936103294
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gbc</span> <span class="o">=</span> <span class="n">GradientBoostingClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">gbc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">tv_train_features</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">)</span>
+<span class="n">gbc_tfidf_cv_scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">gbc</span><span class="p">,</span> <span class="n">tv_train_features</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">gbc_tfidf_cv_mean_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">gbc_tfidf_cv_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;CV Accuracy (5-fold):&#39;</span><span class="p">,</span> <span class="n">gbc_tfidf_cv_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean CV Accuracy:&#39;</span><span class="p">,</span> <span class="n">gbc_tfidf_cv_mean_score</span><span class="p">)</span>
+<span class="n">gbc_tfidf_test_score</span> <span class="o">=</span> <span class="n">gbc</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">tv_test_features</span><span class="p">,</span> <span class="n">test_label_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test Accuracy:&#39;</span><span class="p">,</span> <span class="n">gbc_tfidf_test_score</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CV Accuracy (5-fold): [ 0.55790329  0.53827362  0.55768447  0.55859535  0.54541735]
+Mean CV Accuracy: 0.551574813725
+Test Accuracy: 0.548584671412
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="s1">&#39;Naive Bayes&#39;</span><span class="p">,</span> <span class="n">mnb_bow_cv_mean_score</span><span class="p">,</span> <span class="n">mnb_bow_test_score</span><span class="p">,</span> 
+               <span class="n">mnb_tfidf_cv_mean_score</span><span class="p">,</span> <span class="n">mnb_tfidf_test_score</span><span class="p">],</span>
+              <span class="p">[</span><span class="s1">&#39;Logistic Regression&#39;</span><span class="p">,</span> <span class="n">lr_bow_cv_mean_score</span><span class="p">,</span> <span class="n">lr_bow_test_score</span><span class="p">,</span> 
+               <span class="n">lr_tfidf_cv_mean_score</span><span class="p">,</span> <span class="n">lr_tfidf_test_score</span><span class="p">],</span>
+              <span class="p">[</span><span class="s1">&#39;Linear SVM&#39;</span><span class="p">,</span> <span class="n">svm_bow_cv_mean_score</span><span class="p">,</span> <span class="n">svm_bow_test_score</span><span class="p">,</span> 
+               <span class="n">svm_tfidf_cv_mean_score</span><span class="p">,</span> <span class="n">svm_tfidf_test_score</span><span class="p">],</span>
+              <span class="p">[</span><span class="s1">&#39;Linear SVM (SGD)&#39;</span><span class="p">,</span> <span class="n">svmsgd_bow_cv_mean_score</span><span class="p">,</span> <span class="n">svmsgd_bow_test_score</span><span class="p">,</span> 
+               <span class="n">svmsgd_tfidf_cv_mean_score</span><span class="p">,</span> <span class="n">svmsgd_tfidf_test_score</span><span class="p">],</span>
+              <span class="p">[</span><span class="s1">&#39;Random Forest&#39;</span><span class="p">,</span> <span class="n">rfc_bow_cv_mean_score</span><span class="p">,</span> <span class="n">rfc_bow_test_score</span><span class="p">,</span> 
+               <span class="n">rfc_tfidf_cv_mean_score</span><span class="p">,</span> <span class="n">rfc_tfidf_test_score</span><span class="p">],</span>
+              <span class="p">[</span><span class="s1">&#39;Gradient Boosted Machines&#39;</span><span class="p">,</span> <span class="n">gbc_bow_cv_mean_score</span><span class="p">,</span> <span class="n">gbc_bow_test_score</span><span class="p">,</span> 
+               <span class="n">gbc_tfidf_cv_mean_score</span><span class="p">,</span> <span class="n">gbc_tfidf_test_score</span><span class="p">]],</span>
+             <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Model&#39;</span><span class="p">,</span> <span class="s1">&#39;CV Score (TF)&#39;</span><span class="p">,</span> <span class="s1">&#39;Test Score (TF)&#39;</span><span class="p">,</span> <span class="s1">&#39;CV Score (TF-IDF)&#39;</span><span class="p">,</span> <span class="s1">&#39;Test Score (TF-IDF)&#39;</span><span class="p">],</span>
+             <span class="p">)</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Model</th>
+      <td>Naive Bayes</td>
+      <td>Logistic Regression</td>
+      <td>Linear SVM</td>
+      <td>Linear SVM (SGD)</td>
+      <td>Random Forest</td>
+      <td>Gradient Boosted Machines</td>
+    </tr>
+    <tr>
+      <th>CV Score (TF)</th>
+      <td>0.680416</td>
+      <td>0.698356</td>
+      <td>0.642582</td>
+      <td>0.642083</td>
+      <td>0.521323</td>
+      <td>0.548239</td>
+    </tr>
+    <tr>
+      <th>Test Score (TF)</th>
+      <td>0.680185</td>
+      <td>0.703857</td>
+      <td>0.656679</td>
+      <td>0.633008</td>
+      <td>0.529879</td>
+      <td>0.547923</td>
+    </tr>
+    <tr>
+      <th>CV Score (TF-IDF)</th>
+      <td>0.71328</td>
+      <td>0.738147</td>
+      <td>0.759762</td>
+      <td>0.758538</td>
+      <td>0.530948</td>
+      <td>0.551575</td>
+    </tr>
+    <tr>
+      <th>Test Score (TF-IDF)</th>
+      <td>0.713955</td>
+      <td>0.745241</td>
+      <td>0.762457</td>
+      <td>0.765767</td>
+      <td>0.545936</td>
+      <td>0.548585</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">MultinomialNB</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
+
+<span class="n">mnb_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s1">&#39;tfidf&#39;</span><span class="p">,</span> <span class="n">TfidfVectorizer</span><span class="p">()),</span>
+                        <span class="p">(</span><span class="s1">&#39;mnb&#39;</span><span class="p">,</span> <span class="n">MultinomialNB</span><span class="p">())</span>
+                       <span class="p">])</span>
+
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tfidf__ngram_range&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)],</span>
+              <span class="s1">&#39;mnb__alpha&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="mf">1e-1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">gs_mnb</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">mnb_pipeline</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">gs_mnb</span> <span class="o">=</span> <span class="n">gs_mnb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_corpus</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fitting 5 folds for each of 10 candidates, totalling 50 fits
+[CV] mnb__alpha=1e-05, tfidf__ngram_range=(1, 1) .....................
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Parallel(n_jobs=1)]: Using backend SequentialBackend with 1 concurrent workers.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CV] ...... mnb__alpha=1e-05, tfidf__ngram_range=(1, 1), total=   1.5s
+[CV] mnb__alpha=1e-05, tfidf__ngram_range=(1, 1) .....................
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Parallel(n_jobs=1)]: Done   1 out of   1 | elapsed:    2.4s remaining:    0.0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CV] ...... mnb__alpha=1e-05, tfidf__ngram_range=(1, 1), total=   1.5s
+[CV] mnb__alpha=1e-05, tfidf__ngram_range=(1, 1) .....................
+[CV] ...... mnb__alpha=1e-05, tfidf__ngram_range=(1, 1), total=   1.4s
+[CV] mnb__alpha=1e-05, tfidf__ngram_range=(1, 1) .....................
+[CV] ...... mnb__alpha=1e-05, tfidf__ngram_range=(1, 1), total=   1.4s
+[CV] mnb__alpha=1e-05, tfidf__ngram_range=(1, 1) .....................
+[CV] ...... mnb__alpha=1e-05, tfidf__ngram_range=(1, 1), total=   1.5s
+[CV] mnb__alpha=1e-05, tfidf__ngram_range=(1, 2) .....................
+[CV] ...... mnb__alpha=1e-05, tfidf__ngram_range=(1, 2), total=   6.3s
+[CV] mnb__alpha=1e-05, tfidf__ngram_range=(1, 2) .....................
+[CV] ...... mnb__alpha=1e-05, tfidf__ngram_range=(1, 2), total=   6.4s
+[CV] mnb__alpha=1e-05, tfidf__ngram_range=(1, 2) .....................
+[CV] ...... mnb__alpha=1e-05, tfidf__ngram_range=(1, 2), total=   6.6s
+[CV] mnb__alpha=1e-05, tfidf__ngram_range=(1, 2) .....................
+[CV] ...... mnb__alpha=1e-05, tfidf__ngram_range=(1, 2), total=   6.6s
+[CV] mnb__alpha=1e-05, tfidf__ngram_range=(1, 2) .....................
+[CV] ...... mnb__alpha=1e-05, tfidf__ngram_range=(1, 2), total=   8.7s
+[CV] mnb__alpha=0.0001, tfidf__ngram_range=(1, 1) ....................
+[CV] ..... mnb__alpha=0.0001, tfidf__ngram_range=(1, 1), total=   1.3s
+[CV] mnb__alpha=0.0001, tfidf__ngram_range=(1, 1) ....................
+[CV] ..... mnb__alpha=0.0001, tfidf__ngram_range=(1, 1), total=   1.3s
+[CV] mnb__alpha=0.0001, tfidf__ngram_range=(1, 1) ....................
+[CV] ..... mnb__alpha=0.0001, tfidf__ngram_range=(1, 1), total=   1.3s
+[CV] mnb__alpha=0.0001, tfidf__ngram_range=(1, 1) ....................
+[CV] ..... mnb__alpha=0.0001, tfidf__ngram_range=(1, 1), total=   1.3s
+[CV] mnb__alpha=0.0001, tfidf__ngram_range=(1, 1) ....................
+[CV] ..... mnb__alpha=0.0001, tfidf__ngram_range=(1, 1), total=   1.3s
+[CV] mnb__alpha=0.0001, tfidf__ngram_range=(1, 2) ....................
+[CV] ..... mnb__alpha=0.0001, tfidf__ngram_range=(1, 2), total=   6.0s
+[CV] mnb__alpha=0.0001, tfidf__ngram_range=(1, 2) ....................
+[CV] ..... mnb__alpha=0.0001, tfidf__ngram_range=(1, 2), total=   6.1s
+[CV] mnb__alpha=0.0001, tfidf__ngram_range=(1, 2) ....................
+[CV] ..... mnb__alpha=0.0001, tfidf__ngram_range=(1, 2), total=   6.3s
+[CV] mnb__alpha=0.0001, tfidf__ngram_range=(1, 2) ....................
+[CV] ..... mnb__alpha=0.0001, tfidf__ngram_range=(1, 2), total=   6.3s
+[CV] mnb__alpha=0.0001, tfidf__ngram_range=(1, 2) ....................
+[CV] ..... mnb__alpha=0.0001, tfidf__ngram_range=(1, 2), total=   6.3s
+[CV] mnb__alpha=0.01, tfidf__ngram_range=(1, 1) ......................
+[CV] ....... mnb__alpha=0.01, tfidf__ngram_range=(1, 1), total=   1.4s
+[CV] mnb__alpha=0.01, tfidf__ngram_range=(1, 1) ......................
+[CV] ....... mnb__alpha=0.01, tfidf__ngram_range=(1, 1), total=   1.5s
+[CV] mnb__alpha=0.01, tfidf__ngram_range=(1, 1) ......................
+[CV] ....... mnb__alpha=0.01, tfidf__ngram_range=(1, 1), total=   1.5s
+[CV] mnb__alpha=0.01, tfidf__ngram_range=(1, 1) ......................
+[CV] ....... mnb__alpha=0.01, tfidf__ngram_range=(1, 1), total=   1.5s
+[CV] mnb__alpha=0.01, tfidf__ngram_range=(1, 1) ......................
+[CV] ....... mnb__alpha=0.01, tfidf__ngram_range=(1, 1), total=   1.5s
+[CV] mnb__alpha=0.01, tfidf__ngram_range=(1, 2) ......................
+[CV] ....... mnb__alpha=0.01, tfidf__ngram_range=(1, 2), total=   6.4s
+[CV] mnb__alpha=0.01, tfidf__ngram_range=(1, 2) ......................
+[CV] ....... mnb__alpha=0.01, tfidf__ngram_range=(1, 2), total=   6.1s
+[CV] mnb__alpha=0.01, tfidf__ngram_range=(1, 2) ......................
+[CV] ....... mnb__alpha=0.01, tfidf__ngram_range=(1, 2), total=   6.0s
+[CV] mnb__alpha=0.01, tfidf__ngram_range=(1, 2) ......................
+[CV] ....... mnb__alpha=0.01, tfidf__ngram_range=(1, 2), total=   6.0s
+[CV] mnb__alpha=0.01, tfidf__ngram_range=(1, 2) ......................
+[CV] ....... mnb__alpha=0.01, tfidf__ngram_range=(1, 2), total=   5.9s
+[CV] mnb__alpha=0.1, tfidf__ngram_range=(1, 1) .......................
+[CV] ........ mnb__alpha=0.1, tfidf__ngram_range=(1, 1), total=   1.3s
+[CV] mnb__alpha=0.1, tfidf__ngram_range=(1, 1) .......................
+[CV] ........ mnb__alpha=0.1, tfidf__ngram_range=(1, 1), total=   1.3s
+[CV] mnb__alpha=0.1, tfidf__ngram_range=(1, 1) .......................
+[CV] ........ mnb__alpha=0.1, tfidf__ngram_range=(1, 1), total=   1.3s
+[CV] mnb__alpha=0.1, tfidf__ngram_range=(1, 1) .......................
+[CV] ........ mnb__alpha=0.1, tfidf__ngram_range=(1, 1), total=   1.3s
+[CV] mnb__alpha=0.1, tfidf__ngram_range=(1, 1) .......................
+[CV] ........ mnb__alpha=0.1, tfidf__ngram_range=(1, 1), total=   1.3s
+[CV] mnb__alpha=0.1, tfidf__ngram_range=(1, 2) .......................
+[CV] ........ mnb__alpha=0.1, tfidf__ngram_range=(1, 2), total=   6.1s
+[CV] mnb__alpha=0.1, tfidf__ngram_range=(1, 2) .......................
+[CV] ........ mnb__alpha=0.1, tfidf__ngram_range=(1, 2), total=   6.1s
+[CV] mnb__alpha=0.1, tfidf__ngram_range=(1, 2) .......................
+[CV] ........ mnb__alpha=0.1, tfidf__ngram_range=(1, 2), total=   6.0s
+[CV] mnb__alpha=0.1, tfidf__ngram_range=(1, 2) .......................
+[CV] ........ mnb__alpha=0.1, tfidf__ngram_range=(1, 2), total=   7.0s
+[CV] mnb__alpha=0.1, tfidf__ngram_range=(1, 2) .......................
+[CV] ........ mnb__alpha=0.1, tfidf__ngram_range=(1, 2), total=   6.3s
+[CV] mnb__alpha=1, tfidf__ngram_range=(1, 1) .........................
+[CV] .......... mnb__alpha=1, tfidf__ngram_range=(1, 1), total=   1.6s
+[CV] mnb__alpha=1, tfidf__ngram_range=(1, 1) .........................
+[CV] .......... mnb__alpha=1, tfidf__ngram_range=(1, 1), total=   1.6s
+[CV] mnb__alpha=1, tfidf__ngram_range=(1, 1) .........................
+[CV] .......... mnb__alpha=1, tfidf__ngram_range=(1, 1), total=   1.4s
+[CV] mnb__alpha=1, tfidf__ngram_range=(1, 1) .........................
+[CV] .......... mnb__alpha=1, tfidf__ngram_range=(1, 1), total=   1.5s
+[CV] mnb__alpha=1, tfidf__ngram_range=(1, 1) .........................
+[CV] .......... mnb__alpha=1, tfidf__ngram_range=(1, 1), total=   1.4s
+[CV] mnb__alpha=1, tfidf__ngram_range=(1, 2) .........................
+[CV] .......... mnb__alpha=1, tfidf__ngram_range=(1, 2), total=   6.9s
+[CV] mnb__alpha=1, tfidf__ngram_range=(1, 2) .........................
+[CV] .......... mnb__alpha=1, tfidf__ngram_range=(1, 2), total=   6.5s
+[CV] mnb__alpha=1, tfidf__ngram_range=(1, 2) .........................
+[CV] .......... mnb__alpha=1, tfidf__ngram_range=(1, 2), total=   6.3s
+[CV] mnb__alpha=1, tfidf__ngram_range=(1, 2) .........................
+[CV] .......... mnb__alpha=1, tfidf__ngram_range=(1, 2), total=   6.3s
+[CV] mnb__alpha=1, tfidf__ngram_range=(1, 2) .........................
+[CV] .......... mnb__alpha=1, tfidf__ngram_range=(1, 2), total=   6.2s
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Parallel(n_jobs=1)]: Done  50 out of  50 | elapsed:  4.7min finished
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gs_mnb</span><span class="o">.</span><span class="n">best_estimator_</span><span class="o">.</span><span class="n">get_params</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;memory&#39;: None,
+ &#39;steps&#39;: [(&#39;tfidf&#39;,
+   TfidfVectorizer(analyzer=&#39;word&#39;, binary=False, decode_error=&#39;strict&#39;,
+           dtype=&lt;class &#39;numpy.float64&#39;&gt;, encoding=&#39;utf-8&#39;, input=&#39;content&#39;,
+           lowercase=True, max_df=1.0, max_features=None, min_df=1,
+           ngram_range=(1, 2), norm=&#39;l2&#39;, preprocessor=None, smooth_idf=True,
+           stop_words=None, strip_accents=None, sublinear_tf=False,
+           token_pattern=&#39;(?u)\\b\\w\\w+\\b&#39;, tokenizer=None, use_idf=True,
+           vocabulary=None)),
+  (&#39;mnb&#39;, MultinomialNB(alpha=0.01, class_prior=None, fit_prior=True))],
+ &#39;tfidf&#39;: TfidfVectorizer(analyzer=&#39;word&#39;, binary=False, decode_error=&#39;strict&#39;,
+         dtype=&lt;class &#39;numpy.float64&#39;&gt;, encoding=&#39;utf-8&#39;, input=&#39;content&#39;,
+         lowercase=True, max_df=1.0, max_features=None, min_df=1,
+         ngram_range=(1, 2), norm=&#39;l2&#39;, preprocessor=None, smooth_idf=True,
+         stop_words=None, strip_accents=None, sublinear_tf=False,
+         token_pattern=&#39;(?u)\\b\\w\\w+\\b&#39;, tokenizer=None, use_idf=True,
+         vocabulary=None),
+ &#39;mnb&#39;: MultinomialNB(alpha=0.01, class_prior=None, fit_prior=True),
+ &#39;tfidf__analyzer&#39;: &#39;word&#39;,
+ &#39;tfidf__binary&#39;: False,
+ &#39;tfidf__decode_error&#39;: &#39;strict&#39;,
+ &#39;tfidf__dtype&#39;: numpy.float64,
+ &#39;tfidf__encoding&#39;: &#39;utf-8&#39;,
+ &#39;tfidf__input&#39;: &#39;content&#39;,
+ &#39;tfidf__lowercase&#39;: True,
+ &#39;tfidf__max_df&#39;: 1.0,
+ &#39;tfidf__max_features&#39;: None,
+ &#39;tfidf__min_df&#39;: 1,
+ &#39;tfidf__ngram_range&#39;: (1, 2),
+ &#39;tfidf__norm&#39;: &#39;l2&#39;,
+ &#39;tfidf__preprocessor&#39;: None,
+ &#39;tfidf__smooth_idf&#39;: True,
+ &#39;tfidf__stop_words&#39;: None,
+ &#39;tfidf__strip_accents&#39;: None,
+ &#39;tfidf__sublinear_tf&#39;: False,
+ &#39;tfidf__token_pattern&#39;: &#39;(?u)\\b\\w\\w+\\b&#39;,
+ &#39;tfidf__tokenizer&#39;: None,
+ &#39;tfidf__use_idf&#39;: True,
+ &#39;tfidf__vocabulary&#39;: None,
+ &#39;mnb__alpha&#39;: 0.01,
+ &#39;mnb__class_prior&#39;: None,
+ &#39;mnb__fit_prior&#39;: True}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cv_results</span> <span class="o">=</span> <span class="n">gs_mnb</span><span class="o">.</span><span class="n">cv_results_</span>
+<span class="n">results_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;rank&#39;</span><span class="p">:</span> <span class="n">cv_results</span><span class="p">[</span><span class="s1">&#39;rank_test_score&#39;</span><span class="p">],</span>
+                           <span class="s1">&#39;params&#39;</span><span class="p">:</span> <span class="n">cv_results</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">],</span> 
+                           <span class="s1">&#39;cv score (mean)&#39;</span><span class="p">:</span> <span class="n">cv_results</span><span class="p">[</span><span class="s1">&#39;mean_test_score&#39;</span><span class="p">],</span> 
+                           <span class="s1">&#39;cv score (std)&#39;</span><span class="p">:</span> <span class="n">cv_results</span><span class="p">[</span><span class="s1">&#39;std_test_score&#39;</span><span class="p">]}</span> 
+              <span class="p">)</span>
+<span class="n">results_df</span> <span class="o">=</span> <span class="n">results_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;rank&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_colwidth&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">results_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>cv score (mean)</th>
+      <th>cv score (std)</th>
+      <th>params</th>
+      <th>rank</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>5</th>
+      <td>0.773710</td>
+      <td>0.007229</td>
+      <td>{'mnb__alpha': 0.01, 'tfidf__ngram_range': (1, 2)}</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.768654</td>
+      <td>0.003437</td>
+      <td>{'mnb__alpha': 0.01, 'tfidf__ngram_range': (1, 1)}</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0.762945</td>
+      <td>0.003709</td>
+      <td>{'mnb__alpha': 0.1, 'tfidf__ngram_range': (1, 1)}</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.757400</td>
+      <td>0.006856</td>
+      <td>{'mnb__alpha': 0.0001, 'tfidf__ngram_range': (1, 2)}</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.754383</td>
+      <td>0.006655</td>
+      <td>{'mnb__alpha': 0.1, 'tfidf__ngram_range': (1, 2)}</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.749246</td>
+      <td>0.006356</td>
+      <td>{'mnb__alpha': 1e-05, 'tfidf__ngram_range': (1, 2)}</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.742233</td>
+      <td>0.006627</td>
+      <td>{'mnb__alpha': 0.0001, 'tfidf__ngram_range': (1, 1)}</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>0.730816</td>
+      <td>0.007727</td>
+      <td>{'mnb__alpha': 1e-05, 'tfidf__ngram_range': (1, 1)}</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0.714996</td>
+      <td>0.002637</td>
+      <td>{'mnb__alpha': 1, 'tfidf__ngram_range': (1, 1)}</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>0.704314</td>
+      <td>0.003039</td>
+      <td>{'mnb__alpha': 1, 'tfidf__ngram_range': (1, 2)}</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_mnb_test_score</span> <span class="o">=</span> <span class="n">gs_mnb</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">test_corpus</span><span class="p">,</span> <span class="n">test_label_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test Accuracy :&#39;</span><span class="p">,</span> <span class="n">best_mnb_test_score</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Test Accuracy : 0.7735474259228604
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span><span class="p">,</span> <span class="n">SGDClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">LinearSVC</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+
+<span class="n">lr_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s1">&#39;tfidf&#39;</span><span class="p">,</span> <span class="n">TfidfVectorizer</span><span class="p">()),</span>
+                        <span class="p">(</span><span class="s1">&#39;lr&#39;</span><span class="p">,</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">penalty</span><span class="o">=</span><span class="s1">&#39;l2&#39;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">))</span>
+                       <span class="p">])</span>
+
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tfidf__ngram_range&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)],</span>
+              <span class="s1">&#39;lr__C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">gs_lr</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">lr_pipeline</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">gs_lr</span> <span class="o">=</span> <span class="n">gs_lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_corpus</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fitting 5 folds for each of 6 candidates, totalling 30 fits
+[CV] lr__C=1, tfidf__ngram_range=(1, 1) ..............................
+[CV] ............... lr__C=1, tfidf__ngram_range=(1, 1), total=   5.9s
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Parallel(n_jobs=1)]: Done   1 out of   1 | elapsed:    7.1s remaining:    0.0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CV] lr__C=1, tfidf__ngram_range=(1, 1) ..............................
+[CV] ............... lr__C=1, tfidf__ngram_range=(1, 1), total=   6.5s
+[CV] lr__C=1, tfidf__ngram_range=(1, 1) ..............................
+[CV] ............... lr__C=1, tfidf__ngram_range=(1, 1), total=   5.9s
+[CV] lr__C=1, tfidf__ngram_range=(1, 1) ..............................
+[CV] ............... lr__C=1, tfidf__ngram_range=(1, 1), total=   6.2s
+[CV] lr__C=1, tfidf__ngram_range=(1, 1) ..............................
+[CV] ............... lr__C=1, tfidf__ngram_range=(1, 1), total=   6.1s
+[CV] lr__C=1, tfidf__ngram_range=(1, 2) ..............................
+[CV] ............... lr__C=1, tfidf__ngram_range=(1, 2), total=  27.4s
+[CV] lr__C=1, tfidf__ngram_range=(1, 2) ..............................
+[CV] ............... lr__C=1, tfidf__ngram_range=(1, 2), total=  27.7s
+[CV] lr__C=1, tfidf__ngram_range=(1, 2) ..............................
+[CV] ............... lr__C=1, tfidf__ngram_range=(1, 2), total=  28.2s
+[CV] lr__C=1, tfidf__ngram_range=(1, 2) ..............................
+[CV] ............... lr__C=1, tfidf__ngram_range=(1, 2), total=  28.8s
+[CV] lr__C=1, tfidf__ngram_range=(1, 2) ..............................
+[CV] ............... lr__C=1, tfidf__ngram_range=(1, 2), total=  35.5s
+[CV] lr__C=5, tfidf__ngram_range=(1, 1) ..............................
+[CV] ............... lr__C=5, tfidf__ngram_range=(1, 1), total=   8.8s
+[CV] lr__C=5, tfidf__ngram_range=(1, 1) ..............................
+[CV] ............... lr__C=5, tfidf__ngram_range=(1, 1), total=   9.4s
+[CV] lr__C=5, tfidf__ngram_range=(1, 1) ..............................
+[CV] ............... lr__C=5, tfidf__ngram_range=(1, 1), total=   9.1s
+[CV] lr__C=5, tfidf__ngram_range=(1, 1) ..............................
+[CV] ............... lr__C=5, tfidf__ngram_range=(1, 1), total=   9.9s
+[CV] lr__C=5, tfidf__ngram_range=(1, 1) ..............................
+[CV] ............... lr__C=5, tfidf__ngram_range=(1, 1), total=   8.4s
+[CV] lr__C=5, tfidf__ngram_range=(1, 2) ..............................
+[CV] ............... lr__C=5, tfidf__ngram_range=(1, 2), total=  38.7s
+[CV] lr__C=5, tfidf__ngram_range=(1, 2) ..............................
+[CV] ............... lr__C=5, tfidf__ngram_range=(1, 2), total=  39.7s
+[CV] lr__C=5, tfidf__ngram_range=(1, 2) ..............................
+[CV] ............... lr__C=5, tfidf__ngram_range=(1, 2), total=  40.6s
+[CV] lr__C=5, tfidf__ngram_range=(1, 2) ..............................
+[CV] ............... lr__C=5, tfidf__ngram_range=(1, 2), total=  36.4s
+[CV] lr__C=5, tfidf__ngram_range=(1, 2) ..............................
+[CV] ............... lr__C=5, tfidf__ngram_range=(1, 2), total=  39.2s
+[CV] lr__C=10, tfidf__ngram_range=(1, 1) .............................
+[CV] .............. lr__C=10, tfidf__ngram_range=(1, 1), total=   9.2s
+[CV] lr__C=10, tfidf__ngram_range=(1, 1) .............................
+[CV] .............. lr__C=10, tfidf__ngram_range=(1, 1), total=   9.1s
+[CV] lr__C=10, tfidf__ngram_range=(1, 1) .............................
+[CV] .............. lr__C=10, tfidf__ngram_range=(1, 1), total=  11.1s
+[CV] lr__C=10, tfidf__ngram_range=(1, 1) .............................
+[CV] .............. lr__C=10, tfidf__ngram_range=(1, 1), total=   9.1s
+[CV] lr__C=10, tfidf__ngram_range=(1, 1) .............................
+[CV] .............. lr__C=10, tfidf__ngram_range=(1, 1), total=   9.1s
+[CV] lr__C=10, tfidf__ngram_range=(1, 2) .............................
+[CV] .............. lr__C=10, tfidf__ngram_range=(1, 2), total=  42.1s
+[CV] lr__C=10, tfidf__ngram_range=(1, 2) .............................
+[CV] .............. lr__C=10, tfidf__ngram_range=(1, 2), total=  49.5s
+[CV] lr__C=10, tfidf__ngram_range=(1, 2) .............................
+[CV] .............. lr__C=10, tfidf__ngram_range=(1, 2), total=  47.7s
+[CV] lr__C=10, tfidf__ngram_range=(1, 2) .............................
+[CV] .............. lr__C=10, tfidf__ngram_range=(1, 2), total=  42.0s
+[CV] lr__C=10, tfidf__ngram_range=(1, 2) .............................
+[CV] .............. lr__C=10, tfidf__ngram_range=(1, 2), total=  47.8s
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Parallel(n_jobs=1)]: Done  30 out of  30 | elapsed: 13.0min finished
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gs_lr</span><span class="o">.</span><span class="n">best_estimator_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pipeline(memory=None,
+     steps=[(&#39;tfidf&#39;, TfidfVectorizer(analyzer=&#39;word&#39;, binary=False, decode_error=&#39;strict&#39;,
+        dtype=&lt;class &#39;numpy.int64&#39;&gt;, encoding=&#39;utf-8&#39;, input=&#39;content&#39;,
+        lowercase=True, max_df=1.0, max_features=None, min_df=1,
+        ngram_range=(1, 2), norm=&#39;l2&#39;, preprocessor=None, smooth_idf=True,
+ ...alty=&#39;l2&#39;, random_state=42, solver=&#39;liblinear&#39;, tol=0.0001,
+          verbose=0, warm_start=False))])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_lr_test_score</span> <span class="o">=</span> <span class="n">gs_lr</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">test_corpus</span><span class="p">,</span> <span class="n">test_label_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test Accuracy :&#39;</span><span class="p">,</span> <span class="n">best_lr_test_score</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Test Accuracy : 0.766926005628
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+
+<span class="n">svm_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s1">&#39;tfidf&#39;</span><span class="p">,</span> <span class="n">TfidfVectorizer</span><span class="p">()),</span>
+                        <span class="p">(</span><span class="s1">&#39;svm&#39;</span><span class="p">,</span> <span class="n">LinearSVC</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">))</span>
+                       <span class="p">])</span>
+
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tfidf__ngram_range&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)],</span>
+              <span class="s1">&#39;svm__C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">gs_svm</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">svm_pipeline</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">gs_svm</span> <span class="o">=</span> <span class="n">gs_svm</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_corpus</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fitting 5 folds for each of 8 candidates, totalling 40 fits
+[CV] tfidf__ngram_range=(1, 1), svm__C=0.01 ..........................
+[CV] ........... tfidf__ngram_range=(1, 1), svm__C=0.01, total=   2.7s
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Parallel(n_jobs=1)]: Done   1 out of   1 | elapsed:    4.0s remaining:    0.0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CV] tfidf__ngram_range=(1, 1), svm__C=0.01 ..........................
+[CV] ........... tfidf__ngram_range=(1, 1), svm__C=0.01, total=   3.1s
+[CV] tfidf__ngram_range=(1, 1), svm__C=0.01 ..........................
+[CV] ........... tfidf__ngram_range=(1, 1), svm__C=0.01, total=   3.0s
+[CV] tfidf__ngram_range=(1, 1), svm__C=0.01 ..........................
+[CV] ........... tfidf__ngram_range=(1, 1), svm__C=0.01, total=   2.9s
+[CV] tfidf__ngram_range=(1, 1), svm__C=0.01 ..........................
+[CV] ........... tfidf__ngram_range=(1, 1), svm__C=0.01, total=   3.3s
+[CV] tfidf__ngram_range=(1, 2), svm__C=0.01 ..........................
+[CV] ........... tfidf__ngram_range=(1, 2), svm__C=0.01, total=  11.6s
+[CV] tfidf__ngram_range=(1, 2), svm__C=0.01 ..........................
+[CV] ........... tfidf__ngram_range=(1, 2), svm__C=0.01, total=  12.5s
+[CV] tfidf__ngram_range=(1, 2), svm__C=0.01 ..........................
+[CV] ........... tfidf__ngram_range=(1, 2), svm__C=0.01, total=  11.3s
+[CV] tfidf__ngram_range=(1, 2), svm__C=0.01 ..........................
+[CV] ........... tfidf__ngram_range=(1, 2), svm__C=0.01, total=  13.8s
+[CV] tfidf__ngram_range=(1, 2), svm__C=0.01 ..........................
+[CV] ........... tfidf__ngram_range=(1, 2), svm__C=0.01, total=  10.5s
+[CV] tfidf__ngram_range=(1, 1), svm__C=0.1 ...........................
+[CV] ............ tfidf__ngram_range=(1, 1), svm__C=0.1, total=   2.7s
+[CV] tfidf__ngram_range=(1, 1), svm__C=0.1 ...........................
+[CV] ............ tfidf__ngram_range=(1, 1), svm__C=0.1, total=   2.5s
+[CV] tfidf__ngram_range=(1, 1), svm__C=0.1 ...........................
+[CV] ............ tfidf__ngram_range=(1, 1), svm__C=0.1, total=   2.5s
+[CV] tfidf__ngram_range=(1, 1), svm__C=0.1 ...........................
+[CV] ............ tfidf__ngram_range=(1, 1), svm__C=0.1, total=   2.5s
+[CV] tfidf__ngram_range=(1, 1), svm__C=0.1 ...........................
+[CV] ............ tfidf__ngram_range=(1, 1), svm__C=0.1, total=   2.4s
+[CV] tfidf__ngram_range=(1, 2), svm__C=0.1 ...........................
+[CV] ............ tfidf__ngram_range=(1, 2), svm__C=0.1, total=  11.5s
+[CV] tfidf__ngram_range=(1, 2), svm__C=0.1 ...........................
+[CV] ............ tfidf__ngram_range=(1, 2), svm__C=0.1, total=  11.3s
+[CV] tfidf__ngram_range=(1, 2), svm__C=0.1 ...........................
+[CV] ............ tfidf__ngram_range=(1, 2), svm__C=0.1, total=  11.2s
+[CV] tfidf__ngram_range=(1, 2), svm__C=0.1 ...........................
+[CV] ............ tfidf__ngram_range=(1, 2), svm__C=0.1, total=  11.2s
+[CV] tfidf__ngram_range=(1, 2), svm__C=0.1 ...........................
+[CV] ............ tfidf__ngram_range=(1, 2), svm__C=0.1, total=  10.9s
+[CV] tfidf__ngram_range=(1, 1), svm__C=1 .............................
+[CV] .............. tfidf__ngram_range=(1, 1), svm__C=1, total=   2.9s
+[CV] tfidf__ngram_range=(1, 1), svm__C=1 .............................
+[CV] .............. tfidf__ngram_range=(1, 1), svm__C=1, total=   2.9s
+[CV] tfidf__ngram_range=(1, 1), svm__C=1 .............................
+[CV] .............. tfidf__ngram_range=(1, 1), svm__C=1, total=   2.9s
+[CV] tfidf__ngram_range=(1, 1), svm__C=1 .............................
+[CV] .............. tfidf__ngram_range=(1, 1), svm__C=1, total=   2.9s
+[CV] tfidf__ngram_range=(1, 1), svm__C=1 .............................
+[CV] .............. tfidf__ngram_range=(1, 1), svm__C=1, total=   2.9s
+[CV] tfidf__ngram_range=(1, 2), svm__C=1 .............................
+[CV] .............. tfidf__ngram_range=(1, 2), svm__C=1, total=  14.5s
+[CV] tfidf__ngram_range=(1, 2), svm__C=1 .............................
+[CV] .............. tfidf__ngram_range=(1, 2), svm__C=1, total=  14.4s
+[CV] tfidf__ngram_range=(1, 2), svm__C=1 .............................
+[CV] .............. tfidf__ngram_range=(1, 2), svm__C=1, total=  14.7s
+[CV] tfidf__ngram_range=(1, 2), svm__C=1 .............................
+[CV] .............. tfidf__ngram_range=(1, 2), svm__C=1, total=  14.4s
+[CV] tfidf__ngram_range=(1, 2), svm__C=1 .............................
+[CV] .............. tfidf__ngram_range=(1, 2), svm__C=1, total=  13.8s
+[CV] tfidf__ngram_range=(1, 1), svm__C=5 .............................
+[CV] .............. tfidf__ngram_range=(1, 1), svm__C=5, total=   4.8s
+[CV] tfidf__ngram_range=(1, 1), svm__C=5 .............................
+[CV] .............. tfidf__ngram_range=(1, 1), svm__C=5, total=   4.5s
+[CV] tfidf__ngram_range=(1, 1), svm__C=5 .............................
+[CV] .............. tfidf__ngram_range=(1, 1), svm__C=5, total=   4.8s
+[CV] tfidf__ngram_range=(1, 1), svm__C=5 .............................
+[CV] .............. tfidf__ngram_range=(1, 1), svm__C=5, total=   5.1s
+[CV] tfidf__ngram_range=(1, 1), svm__C=5 .............................
+[CV] .............. tfidf__ngram_range=(1, 1), svm__C=5, total=   4.7s
+[CV] tfidf__ngram_range=(1, 2), svm__C=5 .............................
+[CV] .............. tfidf__ngram_range=(1, 2), svm__C=5, total=  30.4s
+[CV] tfidf__ngram_range=(1, 2), svm__C=5 .............................
+[CV] .............. tfidf__ngram_range=(1, 2), svm__C=5, total=  26.4s
+[CV] tfidf__ngram_range=(1, 2), svm__C=5 .............................
+[CV] .............. tfidf__ngram_range=(1, 2), svm__C=5, total=  28.3s
+[CV] tfidf__ngram_range=(1, 2), svm__C=5 .............................
+[CV] .............. tfidf__ngram_range=(1, 2), svm__C=5, total=  33.5s
+[CV] tfidf__ngram_range=(1, 2), svm__C=5 .............................
+[CV] .............. tfidf__ngram_range=(1, 2), svm__C=5, total=  31.4s
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Parallel(n_jobs=1)]: Done  40 out of  40 | elapsed:  8.3min finished
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gs_svm</span><span class="o">.</span><span class="n">best_estimator_</span><span class="o">.</span><span class="n">get_params</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;memory&#39;: None,
+ &#39;steps&#39;: [(&#39;tfidf&#39;,
+   TfidfVectorizer(analyzer=&#39;word&#39;, binary=False, decode_error=&#39;strict&#39;,
+           dtype=&lt;class &#39;numpy.int64&#39;&gt;, encoding=&#39;utf-8&#39;, input=&#39;content&#39;,
+           lowercase=True, max_df=1.0, max_features=None, min_df=1,
+           ngram_range=(1, 2), norm=&#39;l2&#39;, preprocessor=None, smooth_idf=True,
+           stop_words=None, strip_accents=None, sublinear_tf=False,
+           token_pattern=&#39;(?u)\\b\\w\\w+\\b&#39;, tokenizer=None, use_idf=True,
+           vocabulary=None)),
+  (&#39;svm&#39;, LinearSVC(C=5, class_weight=None, dual=True, fit_intercept=True,
+        intercept_scaling=1, loss=&#39;squared_hinge&#39;, max_iter=1000,
+        multi_class=&#39;ovr&#39;, penalty=&#39;l2&#39;, random_state=42, tol=0.0001,
+        verbose=0))],
+ &#39;svm&#39;: LinearSVC(C=5, class_weight=None, dual=True, fit_intercept=True,
+      intercept_scaling=1, loss=&#39;squared_hinge&#39;, max_iter=1000,
+      multi_class=&#39;ovr&#39;, penalty=&#39;l2&#39;, random_state=42, tol=0.0001,
+      verbose=0),
+ &#39;svm__C&#39;: 5,
+ &#39;svm__class_weight&#39;: None,
+ &#39;svm__dual&#39;: True,
+ &#39;svm__fit_intercept&#39;: True,
+ &#39;svm__intercept_scaling&#39;: 1,
+ &#39;svm__loss&#39;: &#39;squared_hinge&#39;,
+ &#39;svm__max_iter&#39;: 1000,
+ &#39;svm__multi_class&#39;: &#39;ovr&#39;,
+ &#39;svm__penalty&#39;: &#39;l2&#39;,
+ &#39;svm__random_state&#39;: 42,
+ &#39;svm__tol&#39;: 0.0001,
+ &#39;svm__verbose&#39;: 0,
+ &#39;tfidf&#39;: TfidfVectorizer(analyzer=&#39;word&#39;, binary=False, decode_error=&#39;strict&#39;,
+         dtype=&lt;class &#39;numpy.int64&#39;&gt;, encoding=&#39;utf-8&#39;, input=&#39;content&#39;,
+         lowercase=True, max_df=1.0, max_features=None, min_df=1,
+         ngram_range=(1, 2), norm=&#39;l2&#39;, preprocessor=None, smooth_idf=True,
+         stop_words=None, strip_accents=None, sublinear_tf=False,
+         token_pattern=&#39;(?u)\\b\\w\\w+\\b&#39;, tokenizer=None, use_idf=True,
+         vocabulary=None),
+ &#39;tfidf__analyzer&#39;: &#39;word&#39;,
+ &#39;tfidf__binary&#39;: False,
+ &#39;tfidf__decode_error&#39;: &#39;strict&#39;,
+ &#39;tfidf__dtype&#39;: numpy.int64,
+ &#39;tfidf__encoding&#39;: &#39;utf-8&#39;,
+ &#39;tfidf__input&#39;: &#39;content&#39;,
+ &#39;tfidf__lowercase&#39;: True,
+ &#39;tfidf__max_df&#39;: 1.0,
+ &#39;tfidf__max_features&#39;: None,
+ &#39;tfidf__min_df&#39;: 1,
+ &#39;tfidf__ngram_range&#39;: (1, 2),
+ &#39;tfidf__norm&#39;: &#39;l2&#39;,
+ &#39;tfidf__preprocessor&#39;: None,
+ &#39;tfidf__smooth_idf&#39;: True,
+ &#39;tfidf__stop_words&#39;: None,
+ &#39;tfidf__strip_accents&#39;: None,
+ &#39;tfidf__sublinear_tf&#39;: False,
+ &#39;tfidf__token_pattern&#39;: &#39;(?u)\\b\\w\\w+\\b&#39;,
+ &#39;tfidf__tokenizer&#39;: None,
+ &#39;tfidf__use_idf&#39;: True,
+ &#39;tfidf__vocabulary&#39;: None}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_svm_test_score</span> <span class="o">=</span> <span class="n">gs_svm</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">test_corpus</span><span class="p">,</span> <span class="n">test_label_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test Accuracy :&#39;</span><span class="p">,</span> <span class="n">best_svm_test_score</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Test Accuracy : 0.77685813607
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+
+<span class="n">sgd_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s1">&#39;tfidf&#39;</span><span class="p">,</span> <span class="n">TfidfVectorizer</span><span class="p">()),</span>
+                        <span class="p">(</span><span class="s1">&#39;sgd&#39;</span><span class="p">,</span> <span class="n">SGDClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">))</span>
+                       <span class="p">])</span>
+
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tfidf__ngram_range&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)],</span>
+              <span class="s1">&#39;sgd__alpha&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1e-7</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">,</span> <span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1e-4</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">gs_sgd</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">sgd_pipeline</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">gs_sgd</span> <span class="o">=</span> <span class="n">gs_sgd</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_corpus</span><span class="p">,</span> <span class="n">train_label_names</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fitting 5 folds for each of 8 candidates, totalling 40 fits
+[CV] tfidf__ngram_range=(1, 1), sgd__alpha=1e-07 .....................
+[CV] ...... tfidf__ngram_range=(1, 1), sgd__alpha=1e-07, total=   2.0s
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Parallel(n_jobs=1)]: Done   1 out of   1 | elapsed:    3.2s remaining:    0.0s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CV] tfidf__ngram_range=(1, 1), sgd__alpha=1e-07 .....................
+[CV] ...... tfidf__ngram_range=(1, 1), sgd__alpha=1e-07, total=   2.3s
+[CV] tfidf__ngram_range=(1, 1), sgd__alpha=1e-07 .....................
+[CV] ...... tfidf__ngram_range=(1, 1), sgd__alpha=1e-07, total=   3.4s
+[CV] tfidf__ngram_range=(1, 1), sgd__alpha=1e-07 .....................
+[CV] ...... tfidf__ngram_range=(1, 1), sgd__alpha=1e-07, total=   3.0s
+[CV] tfidf__ngram_range=(1, 1), sgd__alpha=1e-07 .....................
+[CV] ...... tfidf__ngram_range=(1, 1), sgd__alpha=1e-07, total=   2.3s
+[CV] tfidf__ngram_range=(1, 2), sgd__alpha=1e-07 .....................
+[CV] ...... tfidf__ngram_range=(1, 2), sgd__alpha=1e-07, total=   9.0s
+[CV] tfidf__ngram_range=(1, 2), sgd__alpha=1e-07 .....................
+[CV] ...... tfidf__ngram_range=(1, 2), sgd__alpha=1e-07, total=  10.2s
+[CV] tfidf__ngram_range=(1, 2), sgd__alpha=1e-07 .....................
+[CV] ...... tfidf__ngram_range=(1, 2), sgd__alpha=1e-07, total=   9.8s
+[CV] tfidf__ngram_range=(1, 2), sgd__alpha=1e-07 .....................
+[CV] ...... tfidf__ngram_range=(1, 2), sgd__alpha=1e-07, total=  11.0s
+[CV] tfidf__ngram_range=(1, 2), sgd__alpha=1e-07 .....................
+[CV] ...... tfidf__ngram_range=(1, 2), sgd__alpha=1e-07, total=  10.7s
+[CV] tfidf__ngram_range=(1, 1), sgd__alpha=1e-06 .....................
+[CV] ...... tfidf__ngram_range=(1, 1), sgd__alpha=1e-06, total=   2.2s
+[CV] tfidf__ngram_range=(1, 1), sgd__alpha=1e-06 .....................
+[CV] ...... tfidf__ngram_range=(1, 1), sgd__alpha=1e-06, total=   2.1s
+[CV] tfidf__ngram_range=(1, 1), sgd__alpha=1e-06 .....................
+[CV] ...... tfidf__ngram_range=(1, 1), sgd__alpha=1e-06, total=   2.1s
+[CV] tfidf__ngram_range=(1, 1), sgd__alpha=1e-06 .....................
+[CV] ...... tfidf__ngram_range=(1, 1), sgd__alpha=1e-06, total=   2.1s
+[CV] tfidf__ngram_range=(1, 1), sgd__alpha=1e-06 .....................
+[CV] ...... tfidf__ngram_range=(1, 1), sgd__alpha=1e-06, total=   2.0s
+[CV] tfidf__ngram_range=(1, 2), sgd__alpha=1e-06 .....................
+[CV] ...... tfidf__ngram_range=(1, 2), sgd__alpha=1e-06, total=   9.7s
+[CV] tfidf__ngram_range=(1, 2), sgd__alpha=1e-06 .....................
+[CV] ...... tfidf__ngram_range=(1, 2), sgd__alpha=1e-06, total=  13.4s
+[CV] tfidf__ngram_range=(1, 2), sgd__alpha=1e-06 .....................
+[CV] ...... tfidf__ngram_range=(1, 2), sgd__alpha=1e-06, total=  10.1s
+[CV] tfidf__ngram_range=(1, 2), sgd__alpha=1e-06 .....................
+[CV] ...... tfidf__ngram_range=(1, 2), sgd__alpha=1e-06, total=  11.8s
+[CV] tfidf__ngram_range=(1, 2), sgd__alpha=1e-06 .....................
+[CV] ...... tfidf__ngram_range=(1, 2), sgd__alpha=1e-06, total=  13.6s
+[CV] tfidf__ngram_range=(1, 1), sgd__alpha=1e-05 .....................
+[CV] ...... tfidf__ngram_range=(1, 1), sgd__alpha=1e-05, total=   2.8s
+[CV] tfidf__ngram_range=(1, 1), sgd__alpha=1e-05 .....................
+[CV] ...... tfidf__ngram_range=(1, 1), sgd__alpha=1e-05, total=   2.9s
+[CV] tfidf__ngram_range=(1, 1), sgd__alpha=1e-05 .....................
+[CV] ...... tfidf__ngram_range=(1, 1), sgd__alpha=1e-05, total=   3.6s
+[CV] tfidf__ngram_range=(1, 1), sgd__alpha=1e-05 .....................
+[CV] ...... tfidf__ngram_range=(1, 1), sgd__alpha=1e-05, total=   3.0s
+[CV] tfidf__ngram_range=(1, 1), sgd__alpha=1e-05 .....................
+[CV] ...... tfidf__ngram_range=(1, 1), sgd__alpha=1e-05, total=   2.8s
+[CV] tfidf__ngram_range=(1, 2), sgd__alpha=1e-05 .....................
+[CV] ...... tfidf__ngram_range=(1, 2), sgd__alpha=1e-05, total=  13.4s
+[CV] tfidf__ngram_range=(1, 2), sgd__alpha=1e-05 .....................
+[CV] ...... tfidf__ngram_range=(1, 2), sgd__alpha=1e-05, total=  13.9s
+[CV] tfidf__ngram_range=(1, 2), sgd__alpha=1e-05 .....................
+[CV] ...... tfidf__ngram_range=(1, 2), sgd__alpha=1e-05, total=  11.3s
+[CV] tfidf__ngram_range=(1, 2), sgd__alpha=1e-05 .....................
+[CV] ...... tfidf__ngram_range=(1, 2), sgd__alpha=1e-05, total=  11.0s
+[CV] tfidf__ngram_range=(1, 2), sgd__alpha=1e-05 .....................
+[CV] ...... tfidf__ngram_range=(1, 2), sgd__alpha=1e-05, total=  11.0s
+[CV] tfidf__ngram_range=(1, 1), sgd__alpha=0.0001 ....................
+[CV] ..... tfidf__ngram_range=(1, 1), sgd__alpha=0.0001, total=   2.3s
+[CV] tfidf__ngram_range=(1, 1), sgd__alpha=0.0001 ....................
+[CV] ..... tfidf__ngram_range=(1, 1), sgd__alpha=0.0001, total=   2.3s
+[CV] tfidf__ngram_range=(1, 1), sgd__alpha=0.0001 ....................
+[CV] ..... tfidf__ngram_range=(1, 1), sgd__alpha=0.0001, total=   2.3s
+[CV] tfidf__ngram_range=(1, 1), sgd__alpha=0.0001 ....................
+[CV] ..... tfidf__ngram_range=(1, 1), sgd__alpha=0.0001, total=   2.4s
+[CV] tfidf__ngram_range=(1, 1), sgd__alpha=0.0001 ....................
+[CV] ..... tfidf__ngram_range=(1, 1), sgd__alpha=0.0001, total=   2.3s
+[CV] tfidf__ngram_range=(1, 2), sgd__alpha=0.0001 ....................
+[CV] ..... tfidf__ngram_range=(1, 2), sgd__alpha=0.0001, total=  10.8s
+[CV] tfidf__ngram_range=(1, 2), sgd__alpha=0.0001 ....................
+[CV] ..... tfidf__ngram_range=(1, 2), sgd__alpha=0.0001, total=  10.7s
+[CV] tfidf__ngram_range=(1, 2), sgd__alpha=0.0001 ....................
+[CV] ..... tfidf__ngram_range=(1, 2), sgd__alpha=0.0001, total=  11.6s
+[CV] tfidf__ngram_range=(1, 2), sgd__alpha=0.0001 ....................
+[CV] ..... tfidf__ngram_range=(1, 2), sgd__alpha=0.0001, total=  11.3s
+[CV] tfidf__ngram_range=(1, 2), sgd__alpha=0.0001 ....................
+[CV] ..... tfidf__ngram_range=(1, 2), sgd__alpha=0.0001, total=  13.1s
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Parallel(n_jobs=1)]: Done  40 out of  40 | elapsed:  6.6min finished
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gs_sgd</span><span class="o">.</span><span class="n">best_estimator_</span><span class="o">.</span><span class="n">get_params</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;memory&#39;: None,
+ &#39;sgd&#39;: SGDClassifier(alpha=0.0001, average=False, class_weight=None, epsilon=0.1,
+        eta0=0.0, fit_intercept=True, l1_ratio=0.15,
+        learning_rate=&#39;optimal&#39;, loss=&#39;hinge&#39;, max_iter=None, n_iter=None,
+        n_jobs=1, penalty=&#39;l2&#39;, power_t=0.5, random_state=42, shuffle=True,
+        tol=None, verbose=0, warm_start=False),
+ &#39;sgd__alpha&#39;: 0.0001,
+ &#39;sgd__average&#39;: False,
+ &#39;sgd__class_weight&#39;: None,
+ &#39;sgd__epsilon&#39;: 0.1,
+ &#39;sgd__eta0&#39;: 0.0,
+ &#39;sgd__fit_intercept&#39;: True,
+ &#39;sgd__l1_ratio&#39;: 0.15,
+ &#39;sgd__learning_rate&#39;: &#39;optimal&#39;,
+ &#39;sgd__loss&#39;: &#39;hinge&#39;,
+ &#39;sgd__max_iter&#39;: None,
+ &#39;sgd__n_iter&#39;: None,
+ &#39;sgd__n_jobs&#39;: 1,
+ &#39;sgd__penalty&#39;: &#39;l2&#39;,
+ &#39;sgd__power_t&#39;: 0.5,
+ &#39;sgd__random_state&#39;: 42,
+ &#39;sgd__shuffle&#39;: True,
+ &#39;sgd__tol&#39;: None,
+ &#39;sgd__verbose&#39;: 0,
+ &#39;sgd__warm_start&#39;: False,
+ &#39;steps&#39;: [(&#39;tfidf&#39;,
+   TfidfVectorizer(analyzer=&#39;word&#39;, binary=False, decode_error=&#39;strict&#39;,
+           dtype=&lt;class &#39;numpy.int64&#39;&gt;, encoding=&#39;utf-8&#39;, input=&#39;content&#39;,
+           lowercase=True, max_df=1.0, max_features=None, min_df=1,
+           ngram_range=(1, 2), norm=&#39;l2&#39;, preprocessor=None, smooth_idf=True,
+           stop_words=None, strip_accents=None, sublinear_tf=False,
+           token_pattern=&#39;(?u)\\b\\w\\w+\\b&#39;, tokenizer=None, use_idf=True,
+           vocabulary=None)),
+  (&#39;sgd&#39;,
+   SGDClassifier(alpha=0.0001, average=False, class_weight=None, epsilon=0.1,
+          eta0=0.0, fit_intercept=True, l1_ratio=0.15,
+          learning_rate=&#39;optimal&#39;, loss=&#39;hinge&#39;, max_iter=None, n_iter=None,
+          n_jobs=1, penalty=&#39;l2&#39;, power_t=0.5, random_state=42, shuffle=True,
+          tol=None, verbose=0, warm_start=False))],
+ &#39;tfidf&#39;: TfidfVectorizer(analyzer=&#39;word&#39;, binary=False, decode_error=&#39;strict&#39;,
+         dtype=&lt;class &#39;numpy.int64&#39;&gt;, encoding=&#39;utf-8&#39;, input=&#39;content&#39;,
+         lowercase=True, max_df=1.0, max_features=None, min_df=1,
+         ngram_range=(1, 2), norm=&#39;l2&#39;, preprocessor=None, smooth_idf=True,
+         stop_words=None, strip_accents=None, sublinear_tf=False,
+         token_pattern=&#39;(?u)\\b\\w\\w+\\b&#39;, tokenizer=None, use_idf=True,
+         vocabulary=None),
+ &#39;tfidf__analyzer&#39;: &#39;word&#39;,
+ &#39;tfidf__binary&#39;: False,
+ &#39;tfidf__decode_error&#39;: &#39;strict&#39;,
+ &#39;tfidf__dtype&#39;: numpy.int64,
+ &#39;tfidf__encoding&#39;: &#39;utf-8&#39;,
+ &#39;tfidf__input&#39;: &#39;content&#39;,
+ &#39;tfidf__lowercase&#39;: True,
+ &#39;tfidf__max_df&#39;: 1.0,
+ &#39;tfidf__max_features&#39;: None,
+ &#39;tfidf__min_df&#39;: 1,
+ &#39;tfidf__ngram_range&#39;: (1, 2),
+ &#39;tfidf__norm&#39;: &#39;l2&#39;,
+ &#39;tfidf__preprocessor&#39;: None,
+ &#39;tfidf__smooth_idf&#39;: True,
+ &#39;tfidf__stop_words&#39;: None,
+ &#39;tfidf__strip_accents&#39;: None,
+ &#39;tfidf__sublinear_tf&#39;: False,
+ &#39;tfidf__token_pattern&#39;: &#39;(?u)\\b\\w\\w+\\b&#39;,
+ &#39;tfidf__tokenizer&#39;: None,
+ &#39;tfidf__use_idf&#39;: True,
+ &#39;tfidf__vocabulary&#39;: None}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_sgd_test_score</span> <span class="o">=</span> <span class="n">gs_sgd</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">test_corpus</span><span class="p">,</span> <span class="n">test_label_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test Accuracy :&#39;</span><span class="p">,</span> <span class="n">best_sgd_test_score</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Test Accuracy : 0.768415825195
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">model_evaluation_utils</span> <span class="k">as</span> <span class="nn">meu</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mnb_predictions</span> <span class="o">=</span> <span class="n">gs_mnb</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_corpus</span><span class="p">)</span>
+<span class="n">unique_classes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">test_label_names</span><span class="p">))</span>
+<span class="n">meu</span><span class="o">.</span><span class="n">get_metrics</span><span class="p">(</span><span class="n">true_labels</span><span class="o">=</span><span class="n">test_label_names</span><span class="p">,</span> <span class="n">predicted_labels</span><span class="o">=</span><span class="n">mnb_predictions</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.7735
+Precision: 0.7825
+Recall: 0.7735
+F1 Score: 0.7696
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">meu</span><span class="o">.</span><span class="n">display_classification_report</span><span class="p">(</span><span class="n">true_labels</span><span class="o">=</span><span class="n">test_label_names</span><span class="p">,</span> 
+                                  <span class="n">predicted_labels</span><span class="o">=</span><span class="n">mnb_predictions</span><span class="p">,</span> <span class="n">classes</span><span class="o">=</span><span class="n">unique_classes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                          precision    recall  f1-score   support
+
+ comp.os.ms-windows.misc       0.76      0.72      0.74       315
+      talk.politics.misc       0.72      0.68      0.70       244
+           comp.graphics       0.64      0.75      0.69       289
+          comp.windows.x       0.79      0.84      0.81       287
+      talk.religion.misc       0.67      0.21      0.32       199
+comp.sys.ibm.pc.hardware       0.69      0.76      0.72       324
+   comp.sys.mac.hardware       0.78      0.77      0.77       295
+               sci.crypt       0.79      0.85      0.82       302
+   talk.politics.mideast       0.85      0.87      0.86       326
+            misc.forsale       0.83      0.77      0.80       314
+                 sci.med       0.88      0.88      0.88       322
+         rec.motorcycles       0.88      0.74      0.80       351
+         sci.electronics       0.80      0.72      0.76       307
+        rec.sport.hockey       0.88      0.92      0.90       308
+      talk.politics.guns       0.65      0.81      0.72       281
+               sci.space       0.84      0.81      0.83       324
+      rec.sport.baseball       0.94      0.88      0.91       336
+             alt.atheism       0.80      0.57      0.67       268
+               rec.autos       0.82      0.74      0.78       328
+  soc.religion.christian       0.57      0.92      0.70       321
+
+               micro avg       0.77      0.77      0.77      6041
+               macro avg       0.78      0.76      0.76      6041
+            weighted avg       0.78      0.77      0.77      6041
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">label_data_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data_labels_map</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+<span class="n">label_map_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">label_data_map</span><span class="o">.</span><span class="n">items</span><span class="p">()),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Label Name&#39;</span><span class="p">,</span> <span class="s1">&#39;Label Number&#39;</span><span class="p">])</span>
+<span class="n">label_map_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Label Name</th>
+      <th>Label Number</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>alt.atheism</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>comp.graphics</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>comp.os.ms-windows.misc</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>comp.sys.ibm.pc.hardware</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>comp.sys.mac.hardware</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>comp.windows.x</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>misc.forsale</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>rec.autos</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>rec.motorcycles</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>rec.sport.baseball</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>rec.sport.hockey</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>sci.crypt</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>sci.electronics</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>sci.med</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>sci.space</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>soc.religion.christian</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>talk.politics.guns</td>
+      <td>16</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>talk.politics.mideast</td>
+      <td>17</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>talk.politics.misc</td>
+      <td>18</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>talk.religion.misc</td>
+      <td>19</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unique_class_nums</span> <span class="o">=</span> <span class="n">label_map_df</span><span class="p">[</span><span class="s1">&#39;Label Number&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">mnb_prediction_class_nums</span> <span class="o">=</span> <span class="p">[</span><span class="n">label_data_map</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">mnb_predictions</span><span class="p">]</span>
+<span class="n">meu</span><span class="o">.</span><span class="n">display_confusion_matrix_pretty</span><span class="p">(</span><span class="n">true_labels</span><span class="o">=</span><span class="n">test_label_nums</span><span class="p">,</span> 
+                                   <span class="n">predicted_labels</span><span class="o">=</span><span class="n">mnb_prediction_class_nums</span><span class="p">,</span> <span class="n">classes</span><span class="o">=</span><span class="n">unique_class_nums</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th colspan="20" halign="left">Predicted:</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>10</th>
+      <th>11</th>
+      <th>12</th>
+      <th>13</th>
+      <th>14</th>
+      <th>15</th>
+      <th>16</th>
+      <th>17</th>
+      <th>18</th>
+      <th>19</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="20" valign="top">Actual:</th>
+      <th>0</th>
+      <td>153</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>3</td>
+      <td>2</td>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>4</td>
+      <td>57</td>
+      <td>10</td>
+      <td>15</td>
+      <td>5</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>218</td>
+      <td>10</td>
+      <td>11</td>
+      <td>5</td>
+      <td>16</td>
+      <td>4</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2</td>
+      <td>0</td>
+      <td>4</td>
+      <td>2</td>
+      <td>0</td>
+      <td>9</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>22</td>
+      <td>226</td>
+      <td>24</td>
+      <td>6</td>
+      <td>15</td>
+      <td>3</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>4</td>
+      <td>3</td>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>15</td>
+      <td>22</td>
+      <td>245</td>
+      <td>20</td>
+      <td>2</td>
+      <td>9</td>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>7</td>
+      <td>10</td>
+      <td>22</td>
+      <td>227</td>
+      <td>5</td>
+      <td>5</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>9</td>
+      <td>4</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1</td>
+      <td>26</td>
+      <td>10</td>
+      <td>4</td>
+      <td>0</td>
+      <td>241</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0</td>
+      <td>2</td>
+      <td>4</td>
+      <td>17</td>
+      <td>13</td>
+      <td>0</td>
+      <td>242</td>
+      <td>7</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>3</td>
+      <td>8</td>
+      <td>1</td>
+      <td>5</td>
+      <td>4</td>
+      <td>3</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>2</td>
+      <td>9</td>
+      <td>242</td>
+      <td>16</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>9</td>
+      <td>5</td>
+      <td>3</td>
+      <td>4</td>
+      <td>12</td>
+      <td>3</td>
+      <td>3</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>3</td>
+      <td>6</td>
+      <td>25</td>
+      <td>260</td>
+      <td>2</td>
+      <td>7</td>
+      <td>2</td>
+      <td>3</td>
+      <td>6</td>
+      <td>4</td>
+      <td>8</td>
+      <td>10</td>
+      <td>1</td>
+      <td>8</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2</td>
+      <td>4</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>297</td>
+      <td>12</td>
+      <td>6</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>3</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>5</td>
+      <td>282</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>0</td>
+      <td>5</td>
+      <td>4</td>
+      <td>0</td>
+      <td>4</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>3</td>
+      <td>256</td>
+      <td>3</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>13</td>
+      <td>2</td>
+      <td>4</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>0</td>
+      <td>14</td>
+      <td>3</td>
+      <td>22</td>
+      <td>5</td>
+      <td>2</td>
+      <td>7</td>
+      <td>5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>9</td>
+      <td>222</td>
+      <td>5</td>
+      <td>4</td>
+      <td>3</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>1</td>
+      <td>8</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>6</td>
+      <td>284</td>
+      <td>5</td>
+      <td>7</td>
+      <td>2</td>
+      <td>2</td>
+      <td>3</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>2</td>
+      <td>11</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>0</td>
+      <td>4</td>
+      <td>5</td>
+      <td>5</td>
+      <td>264</td>
+      <td>4</td>
+      <td>8</td>
+      <td>2</td>
+      <td>4</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>4</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>295</td>
+      <td>4</td>
+      <td>3</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>4</td>
+      <td>1</td>
+      <td>2</td>
+      <td>9</td>
+      <td>3</td>
+      <td>0</td>
+      <td>2</td>
+      <td>6</td>
+      <td>227</td>
+      <td>6</td>
+      <td>12</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>4</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>9</td>
+      <td>5</td>
+      <td>284</td>
+      <td>11</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>5</td>
+      <td>5</td>
+      <td>0</td>
+      <td>2</td>
+      <td>5</td>
+      <td>14</td>
+      <td>31</td>
+      <td>6</td>
+      <td>166</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>18</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>4</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>4</td>
+      <td>2</td>
+      <td>4</td>
+      <td>1</td>
+      <td>93</td>
+      <td>15</td>
+      <td>4</td>
+      <td>6</td>
+      <td>42</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unique_classes</span> <span class="o">=</span> <span class="n">label_map_df</span><span class="p">[</span><span class="s1">&#39;Label Name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">meu</span><span class="o">.</span><span class="n">display_confusion_matrix_pretty</span><span class="p">(</span><span class="n">true_labels</span><span class="o">=</span><span class="n">test_label_names</span><span class="p">,</span> 
+                                    <span class="n">predicted_labels</span><span class="o">=</span><span class="n">mnb_predictions</span><span class="p">,</span> <span class="n">classes</span><span class="o">=</span><span class="n">unique_classes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th colspan="20" halign="left">Predicted:</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th>alt.atheism</th>
+      <th>comp.graphics</th>
+      <th>comp.os.ms-windows.misc</th>
+      <th>comp.sys.ibm.pc.hardware</th>
+      <th>comp.sys.mac.hardware</th>
+      <th>comp.windows.x</th>
+      <th>misc.forsale</th>
+      <th>rec.autos</th>
+      <th>rec.motorcycles</th>
+      <th>rec.sport.baseball</th>
+      <th>rec.sport.hockey</th>
+      <th>sci.crypt</th>
+      <th>sci.electronics</th>
+      <th>sci.med</th>
+      <th>sci.space</th>
+      <th>soc.religion.christian</th>
+      <th>talk.politics.guns</th>
+      <th>talk.politics.mideast</th>
+      <th>talk.politics.misc</th>
+      <th>talk.religion.misc</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="20" valign="top">Actual:</th>
+      <th>alt.atheism</th>
+      <td>153</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>3</td>
+      <td>2</td>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>4</td>
+      <td>57</td>
+      <td>10</td>
+      <td>15</td>
+      <td>5</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>comp.graphics</th>
+      <td>2</td>
+      <td>218</td>
+      <td>10</td>
+      <td>11</td>
+      <td>5</td>
+      <td>16</td>
+      <td>4</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2</td>
+      <td>0</td>
+      <td>4</td>
+      <td>2</td>
+      <td>0</td>
+      <td>9</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>comp.os.ms-windows.misc</th>
+      <td>1</td>
+      <td>22</td>
+      <td>226</td>
+      <td>24</td>
+      <td>6</td>
+      <td>15</td>
+      <td>3</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>4</td>
+      <td>3</td>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>comp.sys.ibm.pc.hardware</th>
+      <td>1</td>
+      <td>15</td>
+      <td>22</td>
+      <td>245</td>
+      <td>20</td>
+      <td>2</td>
+      <td>9</td>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>comp.sys.mac.hardware</th>
+      <td>0</td>
+      <td>7</td>
+      <td>10</td>
+      <td>22</td>
+      <td>227</td>
+      <td>5</td>
+      <td>5</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>9</td>
+      <td>4</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>comp.windows.x</th>
+      <td>1</td>
+      <td>26</td>
+      <td>10</td>
+      <td>4</td>
+      <td>0</td>
+      <td>241</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>misc.forsale</th>
+      <td>0</td>
+      <td>2</td>
+      <td>4</td>
+      <td>17</td>
+      <td>13</td>
+      <td>0</td>
+      <td>242</td>
+      <td>7</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>3</td>
+      <td>8</td>
+      <td>1</td>
+      <td>5</td>
+      <td>4</td>
+      <td>3</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>rec.autos</th>
+      <td>2</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>2</td>
+      <td>9</td>
+      <td>242</td>
+      <td>16</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>9</td>
+      <td>5</td>
+      <td>3</td>
+      <td>4</td>
+      <td>12</td>
+      <td>3</td>
+      <td>3</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>rec.motorcycles</th>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>3</td>
+      <td>6</td>
+      <td>25</td>
+      <td>260</td>
+      <td>2</td>
+      <td>7</td>
+      <td>2</td>
+      <td>3</td>
+      <td>6</td>
+      <td>4</td>
+      <td>8</td>
+      <td>10</td>
+      <td>1</td>
+      <td>8</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>rec.sport.baseball</th>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2</td>
+      <td>4</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>297</td>
+      <td>12</td>
+      <td>6</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>3</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>rec.sport.hockey</th>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>5</td>
+      <td>282</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>sci.crypt</th>
+      <td>0</td>
+      <td>5</td>
+      <td>4</td>
+      <td>0</td>
+      <td>4</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>3</td>
+      <td>256</td>
+      <td>3</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>13</td>
+      <td>2</td>
+      <td>4</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>sci.electronics</th>
+      <td>0</td>
+      <td>14</td>
+      <td>3</td>
+      <td>22</td>
+      <td>5</td>
+      <td>2</td>
+      <td>7</td>
+      <td>5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>9</td>
+      <td>222</td>
+      <td>5</td>
+      <td>4</td>
+      <td>3</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>sci.med</th>
+      <td>1</td>
+      <td>8</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>6</td>
+      <td>284</td>
+      <td>5</td>
+      <td>7</td>
+      <td>2</td>
+      <td>2</td>
+      <td>3</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>sci.space</th>
+      <td>2</td>
+      <td>11</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>0</td>
+      <td>4</td>
+      <td>5</td>
+      <td>5</td>
+      <td>264</td>
+      <td>4</td>
+      <td>8</td>
+      <td>2</td>
+      <td>4</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>soc.religion.christian</th>
+      <td>4</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>295</td>
+      <td>4</td>
+      <td>3</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>talk.politics.guns</th>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>4</td>
+      <td>1</td>
+      <td>2</td>
+      <td>9</td>
+      <td>3</td>
+      <td>0</td>
+      <td>2</td>
+      <td>6</td>
+      <td>227</td>
+      <td>6</td>
+      <td>12</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>talk.politics.mideast</th>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>4</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>9</td>
+      <td>5</td>
+      <td>284</td>
+      <td>11</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>talk.politics.misc</th>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>5</td>
+      <td>5</td>
+      <td>0</td>
+      <td>2</td>
+      <td>5</td>
+      <td>14</td>
+      <td>31</td>
+      <td>6</td>
+      <td>166</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>talk.religion.misc</th>
+      <td>18</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>4</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>4</td>
+      <td>2</td>
+      <td>4</td>
+      <td>1</td>
+      <td>93</td>
+      <td>15</td>
+      <td>4</td>
+      <td>6</td>
+      <td>42</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">label_map_df</span><span class="p">[</span><span class="n">label_map_df</span><span class="p">[</span><span class="s1">&#39;Label Number&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">19</span><span class="p">])]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Label Name</th>
+      <th>Label Number</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>alt.atheism</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>soc.religion.christian</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>talk.religion.misc</td>
+      <td>19</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data_df</span><span class="p">[</span><span class="s1">&#39;Article&#39;</span><span class="p">]))),</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">test_idx</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 4105, 12650,  7039, ...,  4772,  7803,  9616])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predict_probas</span> <span class="o">=</span> <span class="n">gs_mnb</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">test_corpus</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">test_df</span> <span class="o">=</span> <span class="n">data_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+<span class="n">test_df</span><span class="p">[</span><span class="s1">&#39;Predicted Name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mnb_predictions</span>
+<span class="n">test_df</span><span class="p">[</span><span class="s1">&#39;Predicted Confidence&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">predict_probas</span>
+<span class="n">test_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Article</th>
+      <th>Clean Article</th>
+      <th>Target Label</th>
+      <th>Target Name</th>
+      <th>Predicted Name</th>
+      <th>Predicted Confidence</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>4105</th>
+      <td>Just a little nitpicking. Wasn't it the government that required\r\na standard railway gauge ? D...</td>
+      <td>little nitpicking not government require standard railway gauge not improve thing please not mis...</td>
+      <td>11</td>
+      <td>sci.crypt</td>
+      <td>sci.crypt</td>
+      <td>0.975658</td>
+    </tr>
+    <tr>
+      <th>12650</th>
+      <td>\r\nIt means that the EFF's public stance is complicated with issues irrelevant\r\nto the encryp...</td>
+      <td>mean eff public stance complicate issue irrelevant encryption issue per se may well people care ...</td>
+      <td>11</td>
+      <td>sci.crypt</td>
+      <td>sci.crypt</td>
+      <td>0.988600</td>
+    </tr>
+    <tr>
+      <th>7039</th>
+      <td>\r\n\r\n\r\n\r\n\r\nSo after I've flashed my lights at the chap in front and he doesn't\r\n'pass...</td>
+      <td>flash light chap front not pass next major highway lane direction keep extreme right block folk ...</td>
+      <td>7</td>
+      <td>rec.autos</td>
+      <td>rec.motorcycles</td>
+      <td>0.729504</td>
+    </tr>
+    <tr>
+      <th>3310</th>
+      <td>: I think most of the problems mainly arose from Manager Gene Mauch's\r\n: ineptitude in managin...</td>
+      <td>think problem mainly arise manager gene mauchs ineptitude manage pitching staff stretch abuse ji...</td>
+      <td>9</td>
+      <td>rec.sport.baseball</td>
+      <td>rec.sport.baseball</td>
+      <td>0.999942</td>
+    </tr>
+    <tr>
+      <th>16360</th>
+      <td>OK... quick scenario... you're at home, not bothering anybody... next thing you\r\nknow, somebod...</td>
+      <td>ok quick scenario home not bother anybody next thing know somebody come crash upstairs window he...</td>
+      <td>16</td>
+      <td>talk.politics.guns</td>
+      <td>talk.politics.guns</td>
+      <td>0.998837</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_colwidth&#39;</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">res_df</span> <span class="o">=</span> <span class="p">(</span><span class="n">test_df</span><span class="p">[(</span><span class="n">test_df</span><span class="p">[</span><span class="s1">&#39;Target Name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;talk.religion.misc&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">test_df</span><span class="p">[</span><span class="s1">&#39;Predicted Name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;soc.religion.christian&#39;</span><span class="p">)]</span>
+       <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Predicted Confidence&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">res_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Article</th>
+      <th>Clean Article</th>
+      <th>Target Label</th>
+      <th>Target Name</th>
+      <th>Predicted Name</th>
+      <th>Predicted Confidence</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>8968</th>
+      <td>\r\nZoroaster is far older than Daniel. If anything, one could claim that,\r\nin a sense, Daniel is a descendant of Zoroaster; as Daniel, though being\r\nHebrew, has assimilated into Zoroastrianis...</td>
+      <td>zoroaster far old daniel anything one could claim sense daniel descendant zoroaster daniel though hebrew assimilate zoroastrianism successfully introduce religion tanakh judaism however majority b...</td>
+      <td>19</td>
+      <td>talk.religion.misc</td>
+      <td>soc.religion.christian</td>
+      <td>0.999557</td>
+    </tr>
+    <tr>
+      <th>3299</th>
+      <td>There were some recent developments in the dispute about Masonry among\r\nSouthern Baptists.  I posted a summary over in bit.listserv.christia, and\r\nI suppose that it might be useful here.  Note...</td>
+      <td>recent development dispute masonry among southern baptists post summary bit listserv christia suppose may useful note not necessarily agree disagree follow present information short summary southe...</td>
+      <td>19</td>
+      <td>talk.religion.misc</td>
+      <td>soc.religion.christian</td>
+      <td>0.999384</td>
+    </tr>
+    <tr>
+      <th>4367</th>
+      <td>:\r\n (lots of stuff about the Nicene Creed deleted which can be read in the\r\n  original basenote.  I will also leave it up to other LDS netters to\r\n  take Mr. Weiss to task on using Mormon Do...</td>
+      <td>lot stuff nicene creed delete read original basenote also leave lds netter take mr weiss task use mormon doctrine declare difinitive word lds church teach doctrine hopefully lds netter amiable exp...</td>
+      <td>19</td>
+      <td>talk.religion.misc</td>
+      <td>soc.religion.christian</td>
+      <td>0.999254</td>
+    </tr>
+    <tr>
+      <th>12608</th>
+      <td>: &gt;: &gt;&gt; Gilligan = Sloth\r\n: &gt;: &gt;&gt; Skipper = Anger\r\n: &gt;: &gt;&gt; Thurston Howell III = Greed\r\n: &gt;: &gt;&gt; Lovey Howell = Gluttony\r\n: &gt;: &gt;&gt; Ginger = Lust\r\n: &gt;: &gt;&gt; Professor = Pride\r\n: &gt;: &gt;&gt; Mary ...</td>
+      <td>gilligan sloth skipper anger thurston howell iii greed lovey howell gluttony ginger lust professor pride mary ann envy assorted monkeys secular humanism assorted headhunters godless heathen savage...</td>
+      <td>19</td>
+      <td>talk.religion.misc</td>
+      <td>soc.religion.christian</td>
+      <td>0.998755</td>
+    </tr>
+    <tr>
+      <th>16758</th>
+      <td>\r\n\r\nThere were many injustices in the middle ages.  And this is truely sad.\r\nI would hate to see a day when churches put people to death or torchured\r\nthem for practicing homosexuality, or...</td>
+      <td>many injustice middle age truely sad would hate see day church put people death torchur practice homosexuality crime church not call take government world may homosexual treat cruelly today not me...</td>
+      <td>19</td>
+      <td>talk.religion.misc</td>
+      <td>soc.religion.christian</td>
+      <td>0.998243</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_colwidth&#39;</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">res_df</span> <span class="o">=</span> <span class="p">(</span><span class="n">test_df</span><span class="p">[(</span><span class="n">test_df</span><span class="p">[</span><span class="s1">&#39;Target Name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;talk.religion.misc&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">test_df</span><span class="p">[</span><span class="s1">&#39;Predicted Name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;alt.atheism&#39;</span><span class="p">)]</span>
+       <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Predicted Confidence&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">res_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Article</th>
+      <th>Clean Article</th>
+      <th>Target Label</th>
+      <th>Target Name</th>
+      <th>Predicted Name</th>
+      <th>Predicted Confidence</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>914</th>
+      <td>\r\n\r\nAtoms are not objective.  They aren't even real.  What scientists call\r\nan atom is nothing more than a mathematical model that describes \r\ncertain physical, observable properties of ou...</td>
+      <td>atom not objective not even real scientist call atom nothing mathematical model describe certain physical observable property surrounding subjective objective though approach scientist take discus...</td>
+      <td>19</td>
+      <td>talk.religion.misc</td>
+      <td>alt.atheism</td>
+      <td>0.996075</td>
+    </tr>
+    <tr>
+      <th>2334</th>
+      <td>In &lt;1ren9a$94q@morrow.stanford.edu&gt; salem@pangea.Stanford.EDU (Bruce Salem) \r\n\r\n\r\n\r\nThis brings up another something I have never understood.  I asked this once\r\nbefore and got a few int...</td>
+      <td>renaqmorrow stanford edu salempangea stanford edu bruce salem bring another something never understand ask get interesting response somehow not seem satisfied would nt not consider good source may...</td>
+      <td>19</td>
+      <td>talk.religion.misc</td>
+      <td>alt.atheism</td>
+      <td>0.996051</td>
+    </tr>
+    <tr>
+      <th>11117</th>
+      <td>\r\n\r\n\tUnless God admits that he didn't do it....\r\n\r\n\t=)\r\n\r\n\r\n---  \r\n\r\n  " I'd Cheat on Hillary Too."</td>
+      <td>unless god admit not would cheat hillary</td>
+      <td>19</td>
+      <td>talk.religion.misc</td>
+      <td>alt.atheism</td>
+      <td>0.965725</td>
+    </tr>
+    <tr>
+      <th>12386</th>
+      <td>\r\nAh, you taking everything as literal quotation.  No wonder you're confused.\r\n\r\nFirst, can I ask that we decide on a definition of "objective"?\r\n\r\n\r\nAnd?\r\n\r\n\r\nI'd guess that it ...</td>
+      <td>ah take everything literal quotation no wonder confused first ask decide definition objective would guess may may case people unable evaluate complex moral issue rather leave behave immorally may ...</td>
+      <td>19</td>
+      <td>talk.religion.misc</td>
+      <td>alt.atheism</td>
+      <td>0.772658</td>
+    </tr>
+    <tr>
+      <th>9360</th>
+      <td>\r\nYes, as a philosophy weak atheism is worthless.  This is true in\r\nexactly the same sense that as a philosophy Christians' disbelief in\r\nZeus is worthless.  Atheists construct their persona...</td>
+      <td>yes philosophy weak atheism worthless true exactly sense philosophy christian disbelief zeus worthless atheists construct personal philosophy many different source build non god base idea way chri...</td>
+      <td>19</td>
+      <td>talk.religion.misc</td>
+      <td>alt.atheism</td>
+      <td>0.757788</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./temp"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Alvin Chen<br/>
+        
+            &copy; Copyright 2020 Alvin Chen.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

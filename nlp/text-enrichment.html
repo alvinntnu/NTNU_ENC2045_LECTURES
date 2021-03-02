@@ -1,0 +1,1058 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Text Enrichment &#8212; ENC2045 Computational Linguistics</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chinese Word Segmentation" href="chinese-word-seg.html" />
+    <link rel="prev" title="Text Tokenization" href="text-tokenization.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/ntnu-word-2.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">ENC2045 Computational Linguistics</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <p class="caption collapsible-parent">
+ <span class="caption-text">
+  INTRODUCTION
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="nlp-primer.html">
+   Natural Language Processing: A Primer
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="nlp-pipeline.html">
+   NLP Pipeline
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Preprocessing
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1 current active collapsible-parent">
+  <a class="reference internal" href="text-preprocessing.html">
+   Text Preprocessing
+  </a>
+  <ul class="current collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="text-normalization-eng.html">
+     Text Normalization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="text-tokenization.html">
+     Text Tokenization
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Text Enrichment
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chinese-word-seg.html">
+   Chinese Word Segmentation
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Text Vectorization
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-vec-traditional.html">
+   Text Vectorization Using Traditional Methods
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-vec-embedding.html">
+   Word Embeddings
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-vec-embedding-keras.html">
+   Word Embedding Using Keras
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine Learning Basics
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-overview.html">
+   Machine Learning: Overview
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-simple-case.html">
+   Machine Learning: A Simple Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-nlp-case.html">
+   Machine Learning: NLP Tasks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-algorithm.html">
+   Classification Models
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/ml-sklearn-classification.html">
+   Machine Learning Using Sci-Kit Learn
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  NLP Tasks
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="text-classification.html">
+   Text Classification
+  </a>
+  <ul class="simple collapse-ul">
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/topic-modeling-naive.html">
+   Topic Modeling: A Naive Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/topic-modeling-complex.html">
+   Topic Modeling: A Real Example
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="sentiment-analysis.html">
+   Sentiment Analysis
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../temp/sentiment-analysis-ml.html">
+     Sentiment Analysis with Traditional Machine Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../temp/sentiment-analysis-dl.html">
+     Sentiment Analysis based on Embeddings
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Deep Learning NLP
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-neural-network-from-scratch.html">
+   Neural Network From Scratch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-statistical-language-model.html">
+   Statistical Language Model
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Exercises
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/1-python-basics.html">
+   1. Assignment I: Python Basics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/2-journal-review.html">
+   2. Assignment II: Journal Articles Review
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  <div style="text-align:center">
+<i class="fas fa-chalkboard-teacher fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinntnu.github.io/NTNU_ENC2045/" target='_blank'>ENC2045 Course Website</a><br>
+<i class="fas fa-home fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinchen.myftp.org/" target='_blank'>Alvin Chen's Homepage</a>
+</div>
+
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/nlp/text-enrichment.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alvinntnu/NTNU_ENC2045_LECTURES/main?urlpath=tree/nlp/text-enrichment.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alvinntnu/NTNU_ENC2045_LECTURES/blob/main/nlp/text-enrichment.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#parts-of-speech-pos-tagging">
+   Parts-of-Speech (POS) Tagging
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#nltk">
+     NLTK
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#spacy">
+     spacy
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#chunking">
+   Chunking
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#parsing">
+   Parsing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="text-enrichment">
+<h1>Text Enrichment<a class="headerlink" href="#text-enrichment" title="Permalink to this headline">¶</a></h1>
+<p>The objective of text enrichment is to utilize computational techniques of automatic annotations and extract additional linguistic information from the text.</p>
+<div class="section" id="parts-of-speech-pos-tagging">
+<h2>Parts-of-Speech (POS) Tagging<a class="headerlink" href="#parts-of-speech-pos-tagging" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Every POS tagger needs to first operationlize a tagset, i.e., a complete list of possible tags for the entire corpus.</p></li>
+<li><p>A common tagset for English is <a class="reference external" href="https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html">Penn-treebank tagset</a>.</p></li>
+</ul>
+<div class="section" id="nltk">
+<h3>NLTK<a class="headerlink" href="#nltk" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>NLTK default POS tagger:</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nltk</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;This is a sentence.&quot;</span>
+<span class="n">text_word</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="n">text_pos</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">pos_tag</span><span class="p">(</span><span class="n">text_word</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">text_pos</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(&#39;This&#39;, &#39;DT&#39;), (&#39;is&#39;, &#39;VBZ&#39;), (&#39;a&#39;, &#39;DT&#39;), (&#39;sentence&#39;, &#39;NN&#39;), (&#39;.&#39;, &#39;.&#39;)]
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Using NLTK to Train Taggers</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+<span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">treebank</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">treebank</span><span class="o">.</span><span class="n">tagged_sents</span><span class="p">()))</span> <span class="c1"># total number of sents</span>
+
+<span class="c1"># train-test for training and testing taggers</span>
+<span class="n">test_sents</span> <span class="o">=</span> <span class="n">treebank</span><span class="o">.</span><span class="n">tagged_sents</span><span class="p">()[</span><span class="mi">3000</span><span class="p">:]</span>
+<span class="n">train_sents</span> <span class="o">=</span> <span class="n">treebank</span><span class="o">.</span><span class="n">tagged_sents</span><span class="p">()[:</span><span class="mi">3000</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3914
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">test_sents</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(&#39;In&#39;, &#39;IN&#39;),
+ (&#39;early&#39;, &#39;RB&#39;),
+ (&#39;trading&#39;, &#39;NN&#39;),
+ (&#39;in&#39;, &#39;IN&#39;),
+ (&#39;Tokyo&#39;, &#39;NNP&#39;),
+ (&#39;Thursday&#39;, &#39;NNP&#39;),
+ (&#39;,&#39;, &#39;,&#39;),
+ (&#39;the&#39;, &#39;DT&#39;),
+ (&#39;Nikkei&#39;, &#39;NNP&#39;),
+ (&#39;index&#39;, &#39;NN&#39;),
+ (&#39;fell&#39;, &#39;VBD&#39;),
+ (&#39;63.79&#39;, &#39;CD&#39;),
+ (&#39;points&#39;, &#39;NNS&#39;),
+ (&#39;to&#39;, &#39;TO&#39;),
+ (&#39;35500.64&#39;, &#39;CD&#39;),
+ (&#39;.&#39;, &#39;.&#39;)]
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>NgramTagger</p></li>
+</ul>
+<div class="figure align-default" id="ngram-tagger">
+<a class="reference internal image-reference" href="../_images/nltk-fig-5-1-tag-context.png"><img alt="../_images/nltk-fig-5-1-tag-context.png" src="../_images/nltk-fig-5-1-tag-context.png" style="height: 250px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">From NLTK Book Ch 5. Figure 5-1</span><a class="headerlink" href="#ngram-tagger" title="Permalink to this image">¶</a></p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.tag</span> <span class="kn">import</span> <span class="n">UnigramTagger</span><span class="p">,</span> <span class="n">BigramTagger</span><span class="p">,</span> <span class="n">TrigramTagger</span>
+
+<span class="n">unigram_tagger</span> <span class="o">=</span> <span class="n">UnigramTagger</span><span class="p">(</span><span class="n">train_sents</span><span class="p">)</span>
+<span class="n">bigram_tagger</span> <span class="o">=</span> <span class="n">BigramTagger</span><span class="p">(</span><span class="n">train_sents</span><span class="p">)</span>
+<span class="n">trigram_tagger</span> <span class="o">=</span> <span class="n">TrigramTagger</span><span class="p">(</span><span class="n">train_sents</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">unigram_tagger</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_sents</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8571551910209367
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bigram_tagger</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_sents</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.11318799913662854
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">trigram_tagger</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_sents</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.06902654867256637
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>NLTK Taggers (<code class="docutils literal notranslate"><span class="pre">nltk.tag</span></code>):</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">DefaultTagger</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">UnigramTagger</span></code>, <code class="docutils literal notranslate"><span class="pre">BigramTagger</span></code>, <code class="docutils literal notranslate"><span class="pre">TrigramTagger</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RegexpTagger</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AffixTagger</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ClassifierBasedPOSTagger</span></code></p></li>
+</ul>
+</li>
+</ul>
+<ul class="simple">
+<li><p>Backoff Tagging</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">unigram_tagger</span> <span class="o">=</span> <span class="n">UnigramTagger</span><span class="p">(</span><span class="n">train_sents</span><span class="p">)</span>
+<span class="n">bigram_tagger</span> <span class="o">=</span> <span class="n">BigramTagger</span><span class="p">(</span><span class="n">train_sents</span><span class="p">,</span><span class="n">backoff</span><span class="o">=</span><span class="n">unigram_tagger</span><span class="p">)</span>
+<span class="n">trigram_tagger</span> <span class="o">=</span> <span class="n">TrigramTagger</span><span class="p">(</span><span class="n">train_sents</span><span class="p">,</span> <span class="n">backoff</span><span class="o">=</span><span class="n">bigram_tagger</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">trigram_tagger</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_sents</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8647096913447011
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Sometimes it may take a while to train a tagger. We can pickle a trained tagger for later usage.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pickle</span>
+<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;trigram-backoff-tagger.pickle&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;trigram-backoff-tagger.pickle&#39;</span><span class="p">,</span> <span class="p">;</span><span class="n">rb</span><span class="p">)</span>
+<span class="n">tagger</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Classifier-based Tagger</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.tag.sequential</span> <span class="kn">import</span> <span class="n">ClassifierBasedPOSTagger</span>
+<span class="n">cbtagger</span> <span class="o">=</span> <span class="n">ClassifierBasedPOSTagger</span><span class="p">(</span><span class="n">train</span><span class="o">=</span><span class="n">train_sents</span><span class="p">)</span>
+<span class="n">cbtagger</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_sents</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9309734513274336
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>By default, the <code class="docutils literal notranslate"><span class="pre">ClassifierBasedPOSTagger</span></code> uses a <code class="docutils literal notranslate"><span class="pre">NaiveBayesClassifier</span></code> for training.</p>
+</div>
+<p>To try other classifers, e.g., Maximum Entropy Classifier:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="c1"># warning is not logged here. Perfect for clean unit test output</span>
+<span class="k">with</span> <span class="n">numpy</span><span class="o">.</span><span class="n">errstate</span><span class="p">(</span><span class="n">divide</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">):</span>
+    <span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.classify</span> <span class="kn">import</span> <span class="n">MaxentClassifier</span>
+<span class="n">metagger</span> <span class="o">=</span> <span class="n">ClassifierBasedPOSTagger</span><span class="p">(</span><span class="n">train</span><span class="o">=</span><span class="n">train_sents</span><span class="p">,</span>
+                                   <span class="n">classifier_builder</span><span class="o">=</span><span class="n">MaxentClassifier</span><span class="o">.</span><span class="n">train</span><span class="p">)</span>
+<span class="n">metagger</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_sents</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  ==&gt; Training (100 iterations)
+
+      Iteration    Log Likelihood    Accuracy
+      ---------------------------------------
+             1          -3.82864        0.008
+             2          -0.76859        0.957
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/Alvin/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/nltk/classify/maxent.py:1386: RuntimeWarning: overflow encountered in power
+  exp_nf_delta = 2 ** nf_delta
+/Users/Alvin/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/nltk/classify/maxent.py:1388: RuntimeWarning: invalid value encountered in multiply
+  sum1 = numpy.sum(exp_nf_delta * A, axis=0)
+/Users/Alvin/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/nltk/classify/maxent.py:1389: RuntimeWarning: invalid value encountered in multiply
+  sum2 = numpy.sum(nf_exp_nf_delta * A, axis=0)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>         Final               nan        0.984
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9258363911072739
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Classifier-based with Cut-off Probability</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.tag</span> <span class="kn">import</span> <span class="n">DefaultTagger</span>
+
+<span class="n">default</span> <span class="o">=</span> <span class="n">DefaultTagger</span><span class="p">(</span><span class="s1">&#39;NN&#39;</span><span class="p">)</span>
+<span class="n">cbtagger2</span> <span class="o">=</span> <span class="n">ClassifierBasedPOSTagger</span><span class="p">(</span><span class="n">train</span><span class="o">=</span><span class="n">train_sents</span><span class="p">,</span>
+                                    <span class="n">backoff</span><span class="o">=</span><span class="n">default</span><span class="p">,</span>
+                                    <span class="n">cutoff_prob</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="n">cbtagger2</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_sents</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9311029570472696
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="spacy">
+<h3>spacy<a class="headerlink" href="#spacy" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="chunking">
+<h2>Chunking<a class="headerlink" href="#chunking" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Chunk extraction is the processing of extracting short phrases from a part-of-speech tagged sentence.</p></li>
+<li><p>This is different from parsing in that we are only interested in standalone chunks or phrases, instead of the full parsed syntactic tree.</p></li>
+</ul>
+<ul class="simple">
+<li><p>A <code class="docutils literal notranslate"><span class="pre">ChunkRule</span></code> class specifies what to <em>include</em> in a chunk, while a <code class="docutils literal notranslate"><span class="pre">ChinkRule</span></code> class specifies what to <em>exclude</em> from a chunk.</p></li>
+<li><p>Chunking creates chunks and chinking breaks up those chunks.</p></li>
+</ul>
+<ul class="simple">
+<li><p>For example, we can extract NP chunks.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">150</span> <span class="c1"># default for me was 75</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.chunk</span> <span class="kn">import</span> <span class="n">RegexpParser</span>
+<span class="n">np_chunker</span> <span class="o">=</span> <span class="n">RegexpParser</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">NP:</span>
+<span class="s1">{&lt;DT&gt;&lt;NN.*&gt;&lt;.*&gt;*&lt;NN.*&gt;} # chunk</span>
+<span class="s1">}&lt;VB.*&gt;{ # chink</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;This course has many interesting topics&quot;</span>
+<span class="n">np_chunker</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">nltk</span><span class="o">.</span><span class="n">pos_tag</span><span class="p">(</span><span class="n">nltk</span><span class="o">.</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/text-enrichment_35_0.png" src="../_images/text-enrichment_35_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sub_leaves</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">leaves</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">subtrees</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span><span class="n">s</span><span class="o">.</span><span class="n">label</span><span class="p">()</span><span class="o">==</span><span class="n">label</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s_chunk_tree</span> <span class="o">=</span> <span class="n">np_chunker</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">nltk</span><span class="o">.</span><span class="n">pos_tag</span><span class="p">(</span><span class="n">nltk</span><span class="o">.</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">)))</span>
+<span class="n">sub_leaves</span><span class="p">(</span><span class="n">s_chunk_tree</span><span class="p">,</span> <span class="s2">&quot;NP&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[(&#39;This&#39;, &#39;DT&#39;), (&#39;course&#39;, &#39;NN&#39;)],
+ [(&#39;many&#39;, &#39;JJ&#39;), (&#39;interesting&#39;, &#39;JJ&#39;), (&#39;topics&#39;, &#39;NNS&#39;)]]
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Named Entity Chunker (NLTK)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.chunk</span> <span class="kn">import</span> <span class="n">ne_chunk</span>
+
+<span class="n">ne_chunk</span><span class="p">(</span><span class="n">treebank</span><span class="o">.</span><span class="n">tagged_sents</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/text-enrichment_39_0.png" src="../_images/text-enrichment_39_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ne_chunks</span> <span class="o">=</span> <span class="n">ne_chunk</span><span class="p">(</span><span class="n">treebank</span><span class="o">.</span><span class="n">tagged_sents</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sub_leaves</span><span class="p">(</span><span class="n">ne_chunks</span><span class="p">,</span> <span class="s2">&quot;PERSON&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[(&#39;Pierre&#39;, &#39;NNP&#39;)]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sub_leaves</span><span class="p">(</span><span class="n">ne_chunks</span><span class="p">,</span> <span class="s2">&quot;ORGANIZATION&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[(&#39;Vinken&#39;, &#39;NNP&#39;)]]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="parsing">
+<h2>Parsing<a class="headerlink" href="#parsing" title="Permalink to this headline">¶</a></h2>
+<p>For Parsing, we will use <code class="docutils literal notranslate"><span class="pre">spacy</span></code>, a powerful package for natural language processing.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
+<span class="kn">from</span> <span class="nn">spacy</span> <span class="kn">import</span> <span class="n">displacy</span>
+<span class="c1"># load language model</span>
+<span class="n">nlp_en</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;en_core_web_sm&#39;</span><span class="p">)</span> 
+<span class="c1"># parse text </span>
+<span class="n">doc</span> <span class="o">=</span> <span class="n">nlp_en</span><span class="p">(</span><span class="s1">&#39;This is a sentence&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(((</span><span class="n">token</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> 
+            <span class="n">token</span><span class="o">.</span><span class="n">lemma_</span><span class="p">,</span> 
+            <span class="n">token</span><span class="o">.</span><span class="n">pos_</span><span class="p">,</span> 
+            <span class="n">token</span><span class="o">.</span><span class="n">tag_</span><span class="p">,</span>
+            <span class="n">token</span><span class="o">.</span><span class="n">dep_</span><span class="p">,</span>
+            <span class="n">token</span><span class="o">.</span><span class="n">shape_</span><span class="p">,</span>
+            <span class="n">token</span><span class="o">.</span><span class="n">is_alpha</span><span class="p">,</span>
+            <span class="n">token</span><span class="o">.</span><span class="n">is_stop</span><span class="p">,</span>
+            <span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;This&#39;, &#39;this&#39;, &#39;DET&#39;, &#39;DT&#39;, &#39;nsubj&#39;, &#39;Xxxx&#39;, True, True)
+(&#39;is&#39;, &#39;be&#39;, &#39;AUX&#39;, &#39;VBZ&#39;, &#39;ROOT&#39;, &#39;xx&#39;, True, True)
+(&#39;a&#39;, &#39;a&#39;, &#39;DET&#39;, &#39;DT&#39;, &#39;det&#39;, &#39;x&#39;, True, True)
+(&#39;sentence&#39;, &#39;sentence&#39;, &#39;NOUN&#39;, &#39;NN&#39;, &#39;attr&#39;, &#39;xxxx&#39;, True, False)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Check meaning of a POS tag</span>
+<span class="n">spacy</span><span class="o">.</span><span class="n">explain</span><span class="p">(</span><span class="s1">&#39;VBZ&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;verb, 3rd person singular present&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualize</span>
+<span class="n">displacy</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;dep&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en" id="7fe8733fffcb4b0a9ca0b535f3823765-0" class="displacy" width="750" height="312.0" direction="ltr" style="max-width: none; height: 312.0px; color: #000000; background: #ffffff; font-family: Arial; direction: ltr">
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="222.0">
+    <tspan class="displacy-word" fill="currentColor" x="50">This</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="50">DET</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="222.0">
+    <tspan class="displacy-word" fill="currentColor" x="225">is</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="225">AUX</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="222.0">
+    <tspan class="displacy-word" fill="currentColor" x="400">a</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="400">DET</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="222.0">
+    <tspan class="displacy-word" fill="currentColor" x="575">sentence</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="575">NOUN</tspan>
+</text>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-7fe8733fffcb4b0a9ca0b535f3823765-0-0" stroke-width="2px" d="M70,177.0 C70,89.5 220.0,89.5 220.0,177.0" fill="none" stroke="currentColor"/>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textPath xlink:href="#arrow-7fe8733fffcb4b0a9ca0b535f3823765-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nsubj</textPath>
+    </text>
+    <path class="displacy-arrowhead" d="M70,179.0 L62,167.0 78,167.0" fill="currentColor"/>
+</g>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-7fe8733fffcb4b0a9ca0b535f3823765-0-1" stroke-width="2px" d="M420,177.0 C420,89.5 570.0,89.5 570.0,177.0" fill="none" stroke="currentColor"/>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textPath xlink:href="#arrow-7fe8733fffcb4b0a9ca0b535f3823765-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">det</textPath>
+    </text>
+    <path class="displacy-arrowhead" d="M420,179.0 L412,167.0 428,167.0" fill="currentColor"/>
+</g>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-7fe8733fffcb4b0a9ca0b535f3823765-0-2" stroke-width="2px" d="M245,177.0 C245,2.0 575.0,2.0 575.0,177.0" fill="none" stroke="currentColor"/>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textPath xlink:href="#arrow-7fe8733fffcb4b0a9ca0b535f3823765-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">attr</textPath>
+    </text>
+    <path class="displacy-arrowhead" d="M575.0,179.0 L583.0,167.0 567.0,167.0" fill="currentColor"/>
+</g>
+</svg></span></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;compact&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;bg&quot;</span><span class="p">:</span> <span class="s2">&quot;#09a3d5&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="s2">&quot;font&quot;</span><span class="p">:</span> <span class="s2">&quot;Source Sans Pro&quot;</span><span class="p">}</span>
+<span class="n">displacy</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;dep&quot;</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en" id="fb5946df379d4f59bb6089083655c2ba-0" class="displacy" width="650" height="287.0" direction="ltr" style="max-width: none; height: 287.0px; color: white; background: #09a3d5; font-family: Source Sans Pro; direction: ltr">
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="197.0">
+    <tspan class="displacy-word" fill="currentColor" x="50">This</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="50">DET</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="197.0">
+    <tspan class="displacy-word" fill="currentColor" x="200">is</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="200">AUX</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="197.0">
+    <tspan class="displacy-word" fill="currentColor" x="350">a</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="350">DET</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="197.0">
+    <tspan class="displacy-word" fill="currentColor" x="500">sentence</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="500">NOUN</tspan>
+</text>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-fb5946df379d4f59bb6089083655c2ba-0-0" stroke-width="2px" d="M62,152.0 62,127.0 197.0,127.0 197.0,152.0" fill="none" stroke="currentColor"/>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textPath xlink:href="#arrow-fb5946df379d4f59bb6089083655c2ba-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nsubj</textPath>
+    </text>
+    <path class="displacy-arrowhead" d="M62,154.0 L58,146.0 66,146.0" fill="currentColor"/>
+</g>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-fb5946df379d4f59bb6089083655c2ba-0-1" stroke-width="2px" d="M362,152.0 362,127.0 497.0,127.0 497.0,152.0" fill="none" stroke="currentColor"/>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textPath xlink:href="#arrow-fb5946df379d4f59bb6089083655c2ba-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">det</textPath>
+    </text>
+    <path class="displacy-arrowhead" d="M362,154.0 L358,146.0 366,146.0" fill="currentColor"/>
+</g>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-fb5946df379d4f59bb6089083655c2ba-0-2" stroke-width="2px" d="M212,152.0 212,102.0 500.0,102.0 500.0,152.0" fill="none" stroke="currentColor"/>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textPath xlink:href="#arrow-fb5946df379d4f59bb6089083655c2ba-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">attr</textPath>
+    </text>
+    <path class="displacy-arrowhead" d="M500.0,154.0 L504.0,146.0 496.0,146.0" fill="currentColor"/>
+</g>
+</svg></span></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">doc2</span> <span class="o">=</span> <span class="n">nlp_en</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">treebank</span><span class="o">.</span><span class="n">sents</span><span class="p">()[</span><span class="mi">0</span><span class="p">]))</span>
+
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">doc2</span><span class="o">.</span><span class="n">noun_chunks</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">dep_</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pierre Vinken Vinken nsubj join
+the board board dobj join
+a nonexecutive director director pobj as
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">ent</span> <span class="ow">in</span> <span class="n">doc2</span><span class="o">.</span><span class="n">ents</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">ent</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+         <span class="n">ent</span><span class="o">.</span><span class="n">start_char</span><span class="p">,</span>
+         <span class="n">ent</span><span class="o">.</span><span class="n">end_char</span><span class="p">,</span>
+         <span class="n">ent</span><span class="o">.</span><span class="n">label_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pierre Vinken 0 13 PERSON
+61 years old 16 28 DATE
+Nov. 29 78 85 DATE
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Please check the documentation of <a class="reference external" href="https://universaldependencies.org/docs/u/dep/index.html">Universal Dependency Types</a> proposed by <a class="reference external" href="https://nlp.stanford.edu/pubs/USD_LREC14_paper_camera_ready.pdf">Marneffe et al.</a></p></li>
+</ul>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="http://www.nltk.org/book/ch05.html">NLTK Ch.5 Categorizing and Tagging Words</a></p></li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python-notes",
+            path: "./nlp"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python-notes'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="text-tokenization.html" title="previous page">Text Tokenization</a>
+    <a class='right-next' id="next-link" href="chinese-word-seg.html" title="next page">Chinese Word Segmentation</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Alvin Chen<br/>
+        
+            &copy; Copyright 2020 Alvin Chen.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

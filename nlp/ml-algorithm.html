@@ -1,0 +1,720 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Classification Models &#8212; ENC2045 Computational Linguistics</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Machine Learning Using Sci-Kit Learn" href="../temp/ml-sklearn-classification.html" />
+    <link rel="prev" title="Machine Learning: NLP Tasks" href="ml-nlp-case.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/ntnu-word-2.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">ENC2045 Computational Linguistics</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <p class="caption collapsible-parent">
+ <span class="caption-text">
+  INTRODUCTION
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="nlp-primer.html">
+   Natural Language Processing: A Primer
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="nlp-pipeline.html">
+   NLP Pipeline
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Preprocessing
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="text-preprocessing.html">
+   Text Preprocessing
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="text-normalization-eng.html">
+     Text Normalization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="text-tokenization.html">
+     Text Tokenization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="text-enrichment.html">
+     Text Enrichment
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chinese-word-seg.html">
+   Chinese Word Segmentation
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Text Vectorization
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-vec-traditional.html">
+   Text Vectorization Using Traditional Methods
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-vec-embedding.html">
+   Word Embeddings
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-vec-embedding-keras.html">
+   Word Embedding Using Keras
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine Learning Basics
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-overview.html">
+   Machine Learning: Overview
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-simple-case.html">
+   Machine Learning: A Simple Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-nlp-case.html">
+   Machine Learning: NLP Tasks
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Classification Models
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/ml-sklearn-classification.html">
+   Machine Learning Using Sci-Kit Learn
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  NLP Tasks
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="text-classification.html">
+   Text Classification
+  </a>
+  <ul class="simple collapse-ul">
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/topic-modeling-naive.html">
+   Topic Modeling: A Naive Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/topic-modeling-complex.html">
+   Topic Modeling: A Real Example
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="sentiment-analysis.html">
+   Sentiment Analysis
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../temp/sentiment-analysis-ml.html">
+     Sentiment Analysis with Traditional Machine Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../temp/sentiment-analysis-dl.html">
+     Sentiment Analysis based on Embeddings
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Deep Learning NLP
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-neural-network-from-scratch.html">
+   Neural Network From Scratch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-statistical-language-model.html">
+   Statistical Language Model
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Exercises
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/1-python-basics.html">
+   1. Assignment I: Python Basics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/2-journal-review.html">
+   2. Assignment II: Journal Articles Review
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  <div style="text-align:center">
+<i class="fas fa-chalkboard-teacher fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinntnu.github.io/NTNU_ENC2045/" target='_blank'>ENC2045 Course Website</a><br>
+<i class="fas fa-home fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinchen.myftp.org/" target='_blank'>Alvin Chen's Homepage</a>
+</div>
+
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/nlp/ml-algorithm.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alvinntnu/NTNU_ENC2045_LECTURES/main?urlpath=tree/nlp/ml-algorithm.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alvinntnu/NTNU_ENC2045_LECTURES/blob/main/nlp/ml-algorithm.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#naive-bayes">
+   Naive Bayes
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#logistic-regression">
+   Logistic Regression
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#other-discriminative-models">
+   Other Discriminative Models
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#other-classification-models">
+   Other Classification Models
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#emsemble-methods">
+   Emsemble Methods
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="classification-models">
+<h1>Classification Models<a class="headerlink" href="#classification-models" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Before the era of deep learning, probability-based classifiers are commonly used in many classfic NLP tasks.</p></li>
+<li><p>There are two types of probability-based models:</p>
+<ul>
+<li><p><strong>Generative</strong>:</p>
+<ul>
+<li><p>Training is based on the <strong>joint</strong> probability of the data and the class, i.e., <span class="math notranslate nohighlight">\(P(c,d)\)</span></p></li>
+<li><p>Examples: n-gram models, Naive Bayes, HMM, probablistic context-free grammars.</p></li>
+</ul>
+</li>
+<li><p><strong>Distriminative</strong>:</p>
+<ul>
+<li><p>Training is based on the <strong>conditional</strong> Probablity of the class given the data, i.e., <span class="math notranslate nohighlight">\(P(c|d)\)</span>.</p></li>
+<li><p>Examples: Logistic regression, maximum entropy models, CRF, SVM, perceptron.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Strengths of discriminative models:</p>
+<ul>
+<li><p>They give high accuracy performance.</p></li>
+<li><p>They make it easier to include linguistically relevant features.</p></li>
+</ul>
+</li>
+<li><p>Other classification models:</p>
+<ul>
+<li><p>Tree-based methods (Decision tree)</p></li>
+<li><p>Neural Network</p></li>
+</ul>
+</li>
+</ul>
+<div class="section" id="naive-bayes">
+<h2>Naive Bayes<a class="headerlink" href="#naive-bayes" title="Permalink to this headline">¶</a></h2>
+<p><img alt="" src="../_images/naive-bayes.png" /></p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In Bayes, the <span class="math notranslate nohighlight">\(P(Y)\)</span> is referred to as the <strong>prior probability</strong> of Y and the <span class="math notranslate nohighlight">\(P(Y|X)\)</span> is referred to as the <strong>posterior probability</strong> of Y.</p>
+</div>
+</div>
+<ul class="simple">
+<li><p>Naive Bayes features the Bayes Theorem:</p></li>
+</ul>
+<div class="math notranslate nohighlight" id="equation-naive-bayes1">
+<span class="eqno">(1)<a class="headerlink" href="#equation-naive-bayes1" title="Permalink to this equation">¶</a></span>\[
+P(Y|X) = P(Y) \frac{P(X|Y)}{P(X)} 
+\]</div>
+<ul class="simple">
+<li><p>In naive bayes, given a document <span class="math notranslate nohighlight">\(d\)</span> and a class <span class="math notranslate nohighlight">\(c\)</span>, the goal is to find the maximum joint probability <span class="math notranslate nohighlight">\(P(c,d)\)</span>. And according bayes rule, the goal is simiplied to find the maximum of <span class="math notranslate nohighlight">\(P(c|d)\)</span>:</p></li>
+</ul>
+<div class="math notranslate nohighlight" id="equation-navie-bayes2">
+<span class="eqno">(2)<a class="headerlink" href="#equation-navie-bayes2" title="Permalink to this equation">¶</a></span>\[\begin{split}
+P(c,d) = P(d|c)\times P(c) = P(c|d) \times P(d)\\
+P(c|d) = \frac{P(d|c)\times P(c)}{P(d)}
+\end{split}\]</div>
+<ul class="simple">
+<li><p>Because the <span class="math notranslate nohighlight">\(P(d)\)</span> is a constant for all classes estimation, we can drop the denominator. And now the goal is to find out the class <span class="math notranslate nohighlight">\(c\)</span> that maximizes the <strong>posterior</strong> probability of the class, i.e., <span class="math notranslate nohighlight">\(P(c|d)\)</span>.</p></li>
+</ul>
+<div class="math notranslate nohighlight" id="equation-naive-bayes3">
+<span class="eqno">(3)<a class="headerlink" href="#equation-naive-bayes3" title="Permalink to this equation">¶</a></span>\[\begin{split}
+C_{MAP} = \underset{c \in C}{\arg\max}P(c|d)\\
+C_{MAP}= \underset{c \in C}{\arg\max}\frac{P(d|c)\times P(c)}{P(d)} \\
+= \underset{c \in C}{\arg\max}P(d|c)\times P(c) \\
+\end{split}\]</div>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In naive Bayes, the probabilities <span class="math notranslate nohighlight">\(𝑃(C=c_i)\)</span> and <span class="math notranslate nohighlight">\(𝑃(𝑋𝑖|C=c_i)\)</span> are parameters. The standard, maximum likelihood, approach is to calculate the probabilities using MLE estimators. For example, for <span class="math notranslate nohighlight">\(𝑃(C=c_i)\)</span> we  count the cases where <span class="math notranslate nohighlight">\(C=c_i\)</span> and divide by the sample size, same for conditional probabilities <span class="math notranslate nohighlight">\(𝑃(𝑋𝑖|C=c_i)\)</span>. Bayesian maximum a posteriori estimate <span class="math notranslate nohighlight">\(P(C=c_i|Xi)\)</span> would need from you to assume prior distributions for the parameters.</p>
+</div>
+</div>
+<ul class="simple">
+<li><p>A document needs to be vectorized through feature engineering into a numeric representation, i.e., a set of <strong>n</strong> features from the document, <span class="math notranslate nohighlight">\(\{x_1, x_2, ..., x_n\}\)</span></p></li>
+<li><p>Given a class <span class="math notranslate nohighlight">\(c\)</span> and a set of <strong>n</strong> features from the document, <span class="math notranslate nohighlight">\(\{x_1, x_2, ..., x_n\}\)</span>, we can denote the posterior probability of each class <span class="math notranslate nohighlight">\(c\)</span> as follows:</p></li>
+</ul>
+<div class="math notranslate nohighlight" id="equation-naive-bayes4">
+<span class="eqno">(4)<a class="headerlink" href="#equation-naive-bayes4" title="Permalink to this equation">¶</a></span>\[\begin{split}
+C_{MAP}= \underset{c \in C}{\arg\max}  P(d|c) \times P(c) \\
+= \underset{c \in C}{\arg\max} P(x_1,x_2,...,x_n|c) \times P(c) \\
+\end{split}\]</div>
+<ul class="simple">
+<li><p>Important assumptions in Naive Bayes:</p>
+<ul>
+<li><p>Bag of Words Assumption: Assume position doesn’t matter</p></li>
+<li><p>Conditional Independence: Assume the feature probabilities <span class="math notranslate nohighlight">\(P(x_i|c)\)</span> are independent given the label <span class="math notranslate nohighlight">\(c\)</span>.</p></li>
+</ul>
+</li>
+</ul>
+<div class="math notranslate nohighlight" id="equation-naive-bayes5">
+<span class="eqno">(5)<a class="headerlink" href="#equation-naive-bayes5" title="Permalink to this equation">¶</a></span>\[
+P(x_1,x_2,...,x_n|c)=P(x_1|c)\times P(x_2|c)\times P(x_3|c) \times ... \times P(x_n|c)
+\]</div>
+<ul class="simple">
+<li><p>Then we can simply the equation:</p></li>
+</ul>
+<div class="math notranslate nohighlight" id="equation-naive-bayes6">
+<span class="eqno">(6)<a class="headerlink" href="#equation-naive-bayes6" title="Permalink to this equation">¶</a></span>\[\begin{split}
+C_{MAP} = \underset{c \in C}{\arg\max} P(x_1,x_2,...,x_n|c) \times P(c) \\
+= \underset{c \in C}{\arg\max} P(c) \prod_{x\in X}P(x|c)
+\end{split}\]</div>
+<ul class="simple">
+<li><p>Multinomial Naive Bayes is an extenstion of the Naive Bayes for predicting and classifying data points, where the number of distinct labels or outcomes are more than two.</p></li>
+<li><p>In Naive Bayes, each feature <span class="math notranslate nohighlight">\(x_i\)</span> of the document is in the form of a probability value of an observed event given the class, <span class="math notranslate nohighlight">\(P(x_i|c)\)</span></p></li>
+<li><p>Issues of Smoothing</p>
+<ul>
+<li><p>For unseen features in a new document, e.g., <span class="math notranslate nohighlight">\(P(x|c)\)</span>, this would render the entire posterior probability of the class to be zero.</p></li>
+<li><p>Laplace smoothing (Add-one)</p></li>
+<li><p>Lidstone smooting (Self-defined <span class="math notranslate nohighlight">\(\alpha\)</span> &lt; 1)</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="logistic-regression">
+<h2>Logistic Regression<a class="headerlink" href="#logistic-regression" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Logistic Regression is also a form of probabilistic statistical classification model.</p></li>
+<li><p>The model is trained by maximizing directly the probability of the class given the observed data, i.e., <span class="math notranslate nohighlight">\(P(c|d)\)</span>.</p></li>
+<li><p>Logistic Regression is similar to linear regression, whose predicted values are numeric.</p></li>
+</ul>
+<ul class="simple">
+<li><p>A document needs to be vectorized through feature engineering into a numeric representation, i.e., a set of <strong>n</strong> features from the document, <span class="math notranslate nohighlight">\(\{x_1, x_2, ..., x_n\}\)</span></p></li>
+<li><p>Then the logistic regression models the probability of the class given these observed values:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+y = \beta_0 + \beta_1x_1 + \beta_2 x_2 + ... + \beta_ix_i
+= \sum_{i}\beta_ix_i
+\]</div>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For example, we would hope that our model can give us values between 0 and 1, which represent the probability of the class given the observed data.</p>
+</div>
+</div>
+<ul class="simple">
+<li><p>But the <span class="math notranslate nohighlight">\(y\)</span> is not a probability value yet. It could be any number (<span class="math notranslate nohighlight">\(-\infty\)</span> to <span class="math notranslate nohighlight">\(\infty\)</span>) based on the current model. In order to apply a linear modeling approach, the dependent variable <span class="math notranslate nohighlight">\(y\)</span> often needs to be transformed with a so-called <strong>link function</strong>.</p></li>
+<li><p>Link functions tranform the predicted <span class="math notranslate nohighlight">\(y\)</span> into a range more appropriate for linear modeling.</p></li>
+<li><p>For binary logistic regression, the <strong>inverse logit transformation</strong> is used, transforming y from the range of <span class="math notranslate nohighlight">\(-\infty\)</span> to <span class="math notranslate nohighlight">\(\infty\)</span> to into probabily values ranging from 0 to 1.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\frac{1}{1+e^y}
+\]</div>
+<ul class="simple">
+<li><p>And we can re-formulate the model equation as:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+P(c|d) = P(c|x_1,x_2,...,x_i)\\= \frac{1}{1+e^{\sum_{i}\beta_ix_i}}
+\end{split}\]</div>
+<ul class="simple">
+<li><p>The model will then determine the class of the document by choosing the class that maximizes the conditional probability of <span class="math notranslate nohighlight">\(P(c|d)\)</span>.</p></li>
+<li><p>Each feature <span class="math notranslate nohighlight">\(x_i\)</span> of the document is a function that chracterizes the relevant linguistic properties of the document. These features can be all manually annotated or created automatically.</p></li>
+<li><p>These features are often in simple forms that are of binary values or numeric values within a range:
+$<span class="math notranslate nohighlight">\( 
+  x_i = f_i(c,x_i) = [C = c_i \wedge contains(w_i) ] = \{0, 1\}
+  \)</span>$</p></li>
+</ul>
+</div>
+<div class="section" id="other-discriminative-models">
+<h2>Other Discriminative Models<a class="headerlink" href="#other-discriminative-models" title="Permalink to this headline">¶</a></h2>
+<p>There are many more ways to learn the weights (i.e., <span class="math notranslate nohighlight">\(\beta_i\)</span>) in the discriminative models. Different algorithms may prioritize different link functions to train the model parameters.</p>
+<p>In this course, we will not cover all the details of these variants. Please refer to machine learning courses for more details on these algorithms.</p>
+<ul class="simple">
+<li><p><strong>Maximum Entropy Model (Maxent)</strong></p>
+<ul>
+<li><p>Maxent is very similar to logistic regression, and differs in mainly its way of parameterization (e.g., feature functions, link functions)</p></li>
+<li><p>Maxent uses a <em>softmax</em> function to transform values into probabilities.</p></li>
+</ul>
+</li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+p(c|d,\beta) = \frac{e^{\sum_{i}\beta_ix_i}}{\sum_{c'}{e^{\sum_{i}\beta_ix_i}}}\\
+= \frac{y_c}{\sum_{c'}{y_{c'}}}
+\end{split}\]</div>
+<ul class="simple">
+<li><p><strong>Support Vector Machine (SVM)</strong></p>
+<ul>
+<li><p>finds optimal model parameters that can maximize the margins of the classes on the hyperplane.</p></li>
+<li><p>SVM has a <strong>cost function</strong>, which controls the compromise of the training errors and margins. A smaller cost creates a softer margin, allowing more misclassifcations; a larger cost creates a narrower margin, allowing fewer misclassifications.</p></li>
+</ul>
+</li>
+<li><p><strong>Perceptron</strong></p>
+<ul>
+<li><p>finds a currently misclassified example, and nudge weights in the direction of its correct classification.</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="other-classification-models">
+<h2>Other Classification Models<a class="headerlink" href="#other-classification-models" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>There are other classification models that are not probabilistic</p>
+<ul>
+<li><p><strong>Decision Tree</strong></p>
+<ul>
+<li><p>It uses a split condition to predict class labels based on one or multiple input features.</p></li>
+<li><p>The classification process starts from the root node of the tree; at each node, the classifier will check which input feature will most effectively split the data into sub-groups.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="emsemble-methods">
+<h2>Emsemble Methods<a class="headerlink" href="#emsemble-methods" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Bagging</p>
+<ul>
+<li><p>Take subsets of data (e.g., bootstrap samples) and train a model on each subset in parallel</p></li>
+<li><p>The subsets are allowed to simultaneously vote on the outcome</p></li>
+<li><p>The final outcome is often an average aggregation.</p></li>
+<li><p>Example: <strong>Random Forests</strong></p></li>
+</ul>
+</li>
+<li><p>Boosting</p>
+<ul>
+<li><p>Utilize sequential modeling by improving one model from the errors of the previous model</p></li>
+<li><p>Often use the output of one model as an input into the next in a form of sequential processing</p></li>
+<li><p>Example: <strong>Gradient boosting machines</strong></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Feature engineering is a lot more important than algorithm selection.</p></li>
+<li><p>With good feature representations of the data, usually it does not really mather which machine learning algorithm we choose.</p></li>
+<li><p>Generally, discriminative models out-perform generative models.</p></li>
+<li><p>Maybe one day the optimal algorithm can be determined <em>automatically</em> via machine learning as well!!</p></li>
+<li><p>Please see <a class="reference external" href="https://www.marktechpost.com/2021/02/28/google-ai-introduces-model-search-an-open-source-platform-for-finding-optimal-machine-learning-ml-models/?fbclid=IwAR3FkqJzXGIqG-X25BXslDZ077F9s4onOaQzlosc9u7qeto9LNd7prt_PNE">Google’s AutoML effort: Google AI Introduces Model Search, An Open Source Platform for Finding Optimal Machine Learning Models</a>.</p></li>
+</ul>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>NLTK Book, Chapter 6.</p></li>
+<li><p>Sarkar (2020), Chapter 5.</p></li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python-notes",
+            path: "./nlp"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python-notes'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="ml-nlp-case.html" title="previous page">Machine Learning: NLP Tasks</a>
+    <a class='right-next' id="next-link" href="../temp/ml-sklearn-classification.html" title="next page">Machine Learning Using Sci-Kit Learn</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Alvin Chen<br/>
+        
+            &copy; Copyright 2020 Alvin Chen.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

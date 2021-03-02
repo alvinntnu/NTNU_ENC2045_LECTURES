@@ -1,0 +1,990 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Text Tokenization &#8212; ENC2045 Computational Linguistics</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Text Enrichment" href="text-enrichment.html" />
+    <link rel="prev" title="Text Normalization" href="text-normalization-eng.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/ntnu-word-2.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">ENC2045 Computational Linguistics</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <p class="caption collapsible-parent">
+ <span class="caption-text">
+  INTRODUCTION
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="nlp-primer.html">
+   Natural Language Processing: A Primer
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="nlp-pipeline.html">
+   NLP Pipeline
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Preprocessing
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1 current active collapsible-parent">
+  <a class="reference internal" href="text-preprocessing.html">
+   Text Preprocessing
+  </a>
+  <ul class="current collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="text-normalization-eng.html">
+     Text Normalization
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Text Tokenization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="text-enrichment.html">
+     Text Enrichment
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chinese-word-seg.html">
+   Chinese Word Segmentation
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Text Vectorization
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-vec-traditional.html">
+   Text Vectorization Using Traditional Methods
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-vec-embedding.html">
+   Word Embeddings
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-vec-embedding-keras.html">
+   Word Embedding Using Keras
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine Learning Basics
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-overview.html">
+   Machine Learning: Overview
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-simple-case.html">
+   Machine Learning: A Simple Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-nlp-case.html">
+   Machine Learning: NLP Tasks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-algorithm.html">
+   Classification Models
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/ml-sklearn-classification.html">
+   Machine Learning Using Sci-Kit Learn
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  NLP Tasks
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="text-classification.html">
+   Text Classification
+  </a>
+  <ul class="simple collapse-ul">
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/topic-modeling-naive.html">
+   Topic Modeling: A Naive Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/topic-modeling-complex.html">
+   Topic Modeling: A Real Example
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="sentiment-analysis.html">
+   Sentiment Analysis
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../temp/sentiment-analysis-ml.html">
+     Sentiment Analysis with Traditional Machine Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../temp/sentiment-analysis-dl.html">
+     Sentiment Analysis based on Embeddings
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Deep Learning NLP
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-neural-network-from-scratch.html">
+   Neural Network From Scratch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-statistical-language-model.html">
+   Statistical Language Model
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Exercises
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/1-python-basics.html">
+   1. Assignment I: Python Basics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/2-journal-review.html">
+   2. Assignment II: Journal Articles Review
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  <div style="text-align:center">
+<i class="fas fa-chalkboard-teacher fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinntnu.github.io/NTNU_ENC2045/" target='_blank'>ENC2045 Course Website</a><br>
+<i class="fas fa-home fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinchen.myftp.org/" target='_blank'>Alvin Chen's Homepage</a>
+</div>
+
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/nlp/text-tokenization.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alvinntnu/NTNU_ENC2045_LECTURES/main?urlpath=tree/nlp/text-tokenization.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alvinntnu/NTNU_ENC2045_LECTURES/blob/main/nlp/text-tokenization.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sentence-tokenization">
+   Sentence Tokenization
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#word-tokenization">
+   Word Tokenization
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#comparing-different-word-tokenizers">
+     Comparing different word tokenizers
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tokenization-using-regular-expressions">
+   Tokenization using regular expressions
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="text-tokenization">
+<h1>Text Tokenization<a class="headerlink" href="#text-tokenization" title="Permalink to this headline">¶</a></h1>
+<p>The objective of text tokenization is to break the text into smaller units which are often more linguistically meaningful.</p>
+<p>These smaller linguistic units are usually easier to deal with computationally and semantically.</p>
+<div class="section" id="sentence-tokenization">
+<h2>Sentence Tokenization<a class="headerlink" href="#sentence-tokenization" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="kn">import</span> <span class="n">sent_tokenize</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">para</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;There was nothing so very remarkable in that; nor did Alice think it so very much out of the way to hear the Rabbit say to itself, “Oh dear! Oh dear! I shall be late!” (when she thought it over afterwards, it occurred to her that she ought to have wondered at this, but at the time it all seemed quite natural); but when the Rabbit actually took a watch out of its waistcoat-pocket, and looked at it, and then hurried on, Alice started to her feet, for it flashed across her mind that she had never before seen a rabbit with either a waistcoat-pocket, or a watch to take out of it, and burning with curiosity, she ran across the field after it, and fortunately was just in time to see it pop down a large rabbit-hole under the hedge.&#39;&#39;&#39;</span>
+
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sent_tokenize</span><span class="p">(</span><span class="n">para</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>There was nothing so very remarkable in that; nor did Alice think it so very much out of the way to hear the Rabbit say to itself, “Oh dear!
+
+Oh dear!
+
+I shall be late!” (when she thought it over afterwards, it occurred to her that she ought to have wondered at this, but at the time it all seemed quite natural); but when the Rabbit actually took a watch out of its waistcoat-pocket, and looked at it, and then hurried on, Alice started to her feet, for it flashed across her mind that she had never before seen a rabbit with either a waistcoat-pocket, or a watch to take out of it, and burning with curiosity, she ran across the field after it, and fortunately was just in time to see it pop down a large rabbit-hole under the hedge.
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">sent_tokenize()</span></code> function uses an instance of <code class="docutils literal notranslate"><span class="pre">PunktSentenceTokenizer</span></code> from the <code class="docutils literal notranslate"><span class="pre">ntlk.tokenize.punkt</span></code> module.</p>
+<p>To process large amount of data, it is recommended to load the pre-trained <code class="docutils literal notranslate"><span class="pre">PunktSentenceTokenizer</span></code> once, and call its <code class="docutils literal notranslate"><span class="pre">tokenizer()</span></code> method for the task.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nltk.data</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;tokenizers/punkt/PY3/english.pickle&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tokenizer</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">para</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;There was nothing so very remarkable in that; nor did Alice think it so very much out of the way to hear the Rabbit say to itself, “Oh dear!&#39;,
+ &#39;Oh dear!&#39;,
+ &#39;I shall be late!” (when she thought it over afterwards, it occurred to her that she ought to have wondered at this, but at the time it all seemed quite natural); but when the Rabbit actually took a watch out of its waistcoat-pocket, and looked at it, and then hurried on, Alice started to her feet, for it flashed across her mind that she had never before seen a rabbit with either a waistcoat-pocket, or a watch to take out of it, and burning with curiosity, she ran across the field after it, and fortunately was just in time to see it pop down a large rabbit-hole under the hedge.&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">nltk</span></code> also provides many pre-trained <code class="docutils literal notranslate"><span class="pre">PunktSentenceTokenizer</span></code> for other European languages.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>ls /Users/alvinchen/nltk_data/tokenizers/punkt/PY3
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ls: /Users/alvinchen/nltk_data/tokenizers/punkt/PY3: No such file or directory
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="word-tokenization">
+<h2>Word Tokenization<a class="headerlink" href="#word-tokenization" title="Permalink to this headline">¶</a></h2>
+<p>Similarly, the <code class="docutils literal notranslate"><span class="pre">word_tokenize()</span></code> function is a wrapper function that calls the <code class="docutils literal notranslate"><span class="pre">tokenize()</span></code> method on a instance of <code class="docutils literal notranslate"><span class="pre">TreebankWordTokenizer</span></code> class.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="kn">import</span> <span class="n">word_tokenize</span>
+<span class="n">word_tokenize</span><span class="p">(</span><span class="n">para</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;There&#39;,
+ &#39;was&#39;,
+ &#39;nothing&#39;,
+ &#39;so&#39;,
+ &#39;very&#39;,
+ &#39;remarkable&#39;,
+ &#39;in&#39;,
+ &#39;that&#39;,
+ &#39;;&#39;,
+ &#39;nor&#39;,
+ &#39;did&#39;,
+ &#39;Alice&#39;,
+ &#39;think&#39;,
+ &#39;it&#39;,
+ &#39;so&#39;,
+ &#39;very&#39;,
+ &#39;much&#39;,
+ &#39;out&#39;,
+ &#39;of&#39;,
+ &#39;the&#39;,
+ &#39;way&#39;,
+ &#39;to&#39;,
+ &#39;hear&#39;,
+ &#39;the&#39;,
+ &#39;Rabbit&#39;,
+ &#39;say&#39;,
+ &#39;to&#39;,
+ &#39;itself&#39;,
+ &#39;,&#39;,
+ &#39;“&#39;,
+ &#39;Oh&#39;,
+ &#39;dear&#39;,
+ &#39;!&#39;,
+ &#39;Oh&#39;,
+ &#39;dear&#39;,
+ &#39;!&#39;,
+ &#39;I&#39;,
+ &#39;shall&#39;,
+ &#39;be&#39;,
+ &#39;late&#39;,
+ &#39;!&#39;,
+ &#39;”&#39;,
+ &#39;(&#39;,
+ &#39;when&#39;,
+ &#39;she&#39;,
+ &#39;thought&#39;,
+ &#39;it&#39;,
+ &#39;over&#39;,
+ &#39;afterwards&#39;,
+ &#39;,&#39;,
+ &#39;it&#39;,
+ &#39;occurred&#39;,
+ &#39;to&#39;,
+ &#39;her&#39;,
+ &#39;that&#39;,
+ &#39;she&#39;,
+ &#39;ought&#39;,
+ &#39;to&#39;,
+ &#39;have&#39;,
+ &#39;wondered&#39;,
+ &#39;at&#39;,
+ &#39;this&#39;,
+ &#39;,&#39;,
+ &#39;but&#39;,
+ &#39;at&#39;,
+ &#39;the&#39;,
+ &#39;time&#39;,
+ &#39;it&#39;,
+ &#39;all&#39;,
+ &#39;seemed&#39;,
+ &#39;quite&#39;,
+ &#39;natural&#39;,
+ &#39;)&#39;,
+ &#39;;&#39;,
+ &#39;but&#39;,
+ &#39;when&#39;,
+ &#39;the&#39;,
+ &#39;Rabbit&#39;,
+ &#39;actually&#39;,
+ &#39;took&#39;,
+ &#39;a&#39;,
+ &#39;watch&#39;,
+ &#39;out&#39;,
+ &#39;of&#39;,
+ &#39;its&#39;,
+ &#39;waistcoat-pocket&#39;,
+ &#39;,&#39;,
+ &#39;and&#39;,
+ &#39;looked&#39;,
+ &#39;at&#39;,
+ &#39;it&#39;,
+ &#39;,&#39;,
+ &#39;and&#39;,
+ &#39;then&#39;,
+ &#39;hurried&#39;,
+ &#39;on&#39;,
+ &#39;,&#39;,
+ &#39;Alice&#39;,
+ &#39;started&#39;,
+ &#39;to&#39;,
+ &#39;her&#39;,
+ &#39;feet&#39;,
+ &#39;,&#39;,
+ &#39;for&#39;,
+ &#39;it&#39;,
+ &#39;flashed&#39;,
+ &#39;across&#39;,
+ &#39;her&#39;,
+ &#39;mind&#39;,
+ &#39;that&#39;,
+ &#39;she&#39;,
+ &#39;had&#39;,
+ &#39;never&#39;,
+ &#39;before&#39;,
+ &#39;seen&#39;,
+ &#39;a&#39;,
+ &#39;rabbit&#39;,
+ &#39;with&#39;,
+ &#39;either&#39;,
+ &#39;a&#39;,
+ &#39;waistcoat-pocket&#39;,
+ &#39;,&#39;,
+ &#39;or&#39;,
+ &#39;a&#39;,
+ &#39;watch&#39;,
+ &#39;to&#39;,
+ &#39;take&#39;,
+ &#39;out&#39;,
+ &#39;of&#39;,
+ &#39;it&#39;,
+ &#39;,&#39;,
+ &#39;and&#39;,
+ &#39;burning&#39;,
+ &#39;with&#39;,
+ &#39;curiosity&#39;,
+ &#39;,&#39;,
+ &#39;she&#39;,
+ &#39;ran&#39;,
+ &#39;across&#39;,
+ &#39;the&#39;,
+ &#39;field&#39;,
+ &#39;after&#39;,
+ &#39;it&#39;,
+ &#39;,&#39;,
+ &#39;and&#39;,
+ &#39;fortunately&#39;,
+ &#39;was&#39;,
+ &#39;just&#39;,
+ &#39;in&#39;,
+ &#39;time&#39;,
+ &#39;to&#39;,
+ &#39;see&#39;,
+ &#39;it&#39;,
+ &#39;pop&#39;,
+ &#39;down&#39;,
+ &#39;a&#39;,
+ &#39;large&#39;,
+ &#39;rabbit-hole&#39;,
+ &#39;under&#39;,
+ &#39;the&#39;,
+ &#39;hedge&#39;,
+ &#39;.&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>To process large amount of data, please create an instance of <code class="docutils literal notranslate"><span class="pre">TreebankWordTokenizer</span></code> and call its <code class="docutils literal notranslate"><span class="pre">tokenize()</span></code> method for more efficient processing.</p>
+<p>We will get the same results with the following codes as above.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="kn">import</span> <span class="n">TreebankWordTokenizer</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">TreebankWordTokenizer</span><span class="p">()</span>
+
+<span class="n">tokenizer</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">para</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;There&#39;,
+ &#39;was&#39;,
+ &#39;nothing&#39;,
+ &#39;so&#39;,
+ &#39;very&#39;,
+ &#39;remarkable&#39;,
+ &#39;in&#39;,
+ &#39;that&#39;,
+ &#39;;&#39;,
+ &#39;nor&#39;,
+ &#39;did&#39;,
+ &#39;Alice&#39;,
+ &#39;think&#39;,
+ &#39;it&#39;,
+ &#39;so&#39;,
+ &#39;very&#39;,
+ &#39;much&#39;,
+ &#39;out&#39;,
+ &#39;of&#39;,
+ &#39;the&#39;,
+ &#39;way&#39;,
+ &#39;to&#39;,
+ &#39;hear&#39;,
+ &#39;the&#39;,
+ &#39;Rabbit&#39;,
+ &#39;say&#39;,
+ &#39;to&#39;,
+ &#39;itself&#39;,
+ &#39;,&#39;,
+ &#39;“&#39;,
+ &#39;Oh&#39;,
+ &#39;dear&#39;,
+ &#39;!&#39;,
+ &#39;Oh&#39;,
+ &#39;dear&#39;,
+ &#39;!&#39;,
+ &#39;I&#39;,
+ &#39;shall&#39;,
+ &#39;be&#39;,
+ &#39;late&#39;,
+ &#39;!&#39;,
+ &#39;”&#39;,
+ &#39;(&#39;,
+ &#39;when&#39;,
+ &#39;she&#39;,
+ &#39;thought&#39;,
+ &#39;it&#39;,
+ &#39;over&#39;,
+ &#39;afterwards&#39;,
+ &#39;,&#39;,
+ &#39;it&#39;,
+ &#39;occurred&#39;,
+ &#39;to&#39;,
+ &#39;her&#39;,
+ &#39;that&#39;,
+ &#39;she&#39;,
+ &#39;ought&#39;,
+ &#39;to&#39;,
+ &#39;have&#39;,
+ &#39;wondered&#39;,
+ &#39;at&#39;,
+ &#39;this&#39;,
+ &#39;,&#39;,
+ &#39;but&#39;,
+ &#39;at&#39;,
+ &#39;the&#39;,
+ &#39;time&#39;,
+ &#39;it&#39;,
+ &#39;all&#39;,
+ &#39;seemed&#39;,
+ &#39;quite&#39;,
+ &#39;natural&#39;,
+ &#39;)&#39;,
+ &#39;;&#39;,
+ &#39;but&#39;,
+ &#39;when&#39;,
+ &#39;the&#39;,
+ &#39;Rabbit&#39;,
+ &#39;actually&#39;,
+ &#39;took&#39;,
+ &#39;a&#39;,
+ &#39;watch&#39;,
+ &#39;out&#39;,
+ &#39;of&#39;,
+ &#39;its&#39;,
+ &#39;waistcoat-pocket&#39;,
+ &#39;,&#39;,
+ &#39;and&#39;,
+ &#39;looked&#39;,
+ &#39;at&#39;,
+ &#39;it&#39;,
+ &#39;,&#39;,
+ &#39;and&#39;,
+ &#39;then&#39;,
+ &#39;hurried&#39;,
+ &#39;on&#39;,
+ &#39;,&#39;,
+ &#39;Alice&#39;,
+ &#39;started&#39;,
+ &#39;to&#39;,
+ &#39;her&#39;,
+ &#39;feet&#39;,
+ &#39;,&#39;,
+ &#39;for&#39;,
+ &#39;it&#39;,
+ &#39;flashed&#39;,
+ &#39;across&#39;,
+ &#39;her&#39;,
+ &#39;mind&#39;,
+ &#39;that&#39;,
+ &#39;she&#39;,
+ &#39;had&#39;,
+ &#39;never&#39;,
+ &#39;before&#39;,
+ &#39;seen&#39;,
+ &#39;a&#39;,
+ &#39;rabbit&#39;,
+ &#39;with&#39;,
+ &#39;either&#39;,
+ &#39;a&#39;,
+ &#39;waistcoat-pocket&#39;,
+ &#39;,&#39;,
+ &#39;or&#39;,
+ &#39;a&#39;,
+ &#39;watch&#39;,
+ &#39;to&#39;,
+ &#39;take&#39;,
+ &#39;out&#39;,
+ &#39;of&#39;,
+ &#39;it&#39;,
+ &#39;,&#39;,
+ &#39;and&#39;,
+ &#39;burning&#39;,
+ &#39;with&#39;,
+ &#39;curiosity&#39;,
+ &#39;,&#39;,
+ &#39;she&#39;,
+ &#39;ran&#39;,
+ &#39;across&#39;,
+ &#39;the&#39;,
+ &#39;field&#39;,
+ &#39;after&#39;,
+ &#39;it&#39;,
+ &#39;,&#39;,
+ &#39;and&#39;,
+ &#39;fortunately&#39;,
+ &#39;was&#39;,
+ &#39;just&#39;,
+ &#39;in&#39;,
+ &#39;time&#39;,
+ &#39;to&#39;,
+ &#39;see&#39;,
+ &#39;it&#39;,
+ &#39;pop&#39;,
+ &#39;down&#39;,
+ &#39;a&#39;,
+ &#39;large&#39;,
+ &#39;rabbit-hole&#39;,
+ &#39;under&#39;,
+ &#39;the&#39;,
+ &#39;hedge&#39;,
+ &#39;.&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">nltk</span></code> module has implemented other more task-oriented word tokenizers, which differ in terms of their specific handling of the punctuations and contractions.</p>
+<p><img alt="" src="../_images/nltk-tokenizer-class.png" /></p>
+<div class="section" id="comparing-different-word-tokenizers">
+<h3>Comparing different word tokenizers<a class="headerlink" href="#comparing-different-word-tokenizers" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">TreebankWordTokenizer</span></code> follows the Penn Treebank conventions for word tokenization.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">WordPunctTokenizer</span></code> splits all punctuations into separate tokens.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="kn">import</span> <span class="n">WordPunctTokenizer</span>
+<span class="n">wpt</span> <span class="o">=</span> <span class="n">WordPunctTokenizer</span><span class="p">()</span>
+<span class="n">tbwt</span> <span class="o">=</span> <span class="n">TreebankWordTokenizer</span><span class="p">()</span>
+
+<span class="n">sent</span> <span class="o">=</span> <span class="s2">&quot;Isn&#39;t this great? I can&#39;t tell!&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wpt</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">sent</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Isn&#39;, &quot;&#39;&quot;, &#39;t&#39;, &#39;this&#39;, &#39;great&#39;, &#39;?&#39;, &#39;I&#39;, &#39;can&#39;, &quot;&#39;&quot;, &#39;t&#39;, &#39;tell&#39;, &#39;!&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tbwt</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">sent</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Is&#39;, &quot;n&#39;t&quot;, &#39;this&#39;, &#39;great&#39;, &#39;?&#39;, &#39;I&#39;, &#39;ca&#39;, &quot;n&#39;t&quot;, &#39;tell&#39;, &#39;!&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="tokenization-using-regular-expressions">
+<h2>Tokenization using regular expressions<a class="headerlink" href="#tokenization-using-regular-expressions" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">nltk</span></code> also provides another flexible way for text tokenization based on regular expression.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">RegexTokenizer</span></code> class allows for text tokenization based on the self-defined regular expression patterns.</p>
+<p>The regular expression can be created/defined for either the token or the delimiter.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="kn">import</span> <span class="n">RegexpTokenizer</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">retok1</span> <span class="o">=</span> <span class="n">RegexpTokenizer</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span> <span class="s2">&quot;[a-zA-Z_&#39;-]+&quot;</span><span class="p">)</span>
+<span class="n">retok2</span> <span class="o">=</span> <span class="n">RegexpTokenizer</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span> <span class="s2">&quot;[a-zA-Z_-]+&quot;</span><span class="p">)</span>
+<span class="n">retok3</span> <span class="o">=</span> <span class="n">RegexpTokenizer</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span> <span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="n">gaps</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">retok1</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">sent</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&quot;Isn&#39;t&quot;, &#39;this&#39;, &#39;great&#39;, &#39;I&#39;, &quot;can&#39;t&quot;, &#39;tell&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>See how this tokenizer deals with the apostrophe?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">retok2</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">sent</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Isn&#39;, &#39;t&#39;, &#39;this&#39;, &#39;great&#39;, &#39;I&#39;, &#39;can&#39;, &#39;t&#39;, &#39;tell&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">retok3</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">sent</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&quot;Isn&#39;t&quot;, &#39;this&#39;, &#39;great?&#39;, &#39;I&#39;, &quot;can&#39;t&quot;, &#39;tell!&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python-notes",
+            path: "./nlp"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python-notes'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="text-normalization-eng.html" title="previous page">Text Normalization</a>
+    <a class='right-next' id="next-link" href="text-enrichment.html" title="next page">Text Enrichment</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Alvin Chen<br/>
+        
+            &copy; Copyright 2020 Alvin Chen.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>
