@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Text Normalization (English) &#8212; ENC2045 Computational Linguistics</title>
+    <title>Text Normalization &#8212; ENC2045 Computational Linguistics</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -46,6 +46,8 @@
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -55,8 +57,8 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Machine Learning Overview" href="ml-overview.html" />
-    <link rel="prev" title="NLP Pipeline" href="nlp-pipeline.html" />
+    <link rel="next" title="Text Tokenization" href="text-tokenization.html" />
+    <link rel="prev" title="Text Preprocessing" href="text-preprocessing.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -91,7 +93,7 @@
   INTRODUCTION
  </span>
 </p>
-<ul class="current nav sidenav_l1">
+<ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="nlp-primer.html">
    Natural Language Processing: A Primer
@@ -102,9 +104,62 @@
    NLP Pipeline
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Text Normalization (English)
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Preprocessing
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1 current active collapsible-parent">
+  <a class="reference internal" href="text-preprocessing.html">
+   Text Preprocessing
+  </a>
+  <ul class="current collapse-ul">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Text Normalization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="text-tokenization.html">
+     Text Tokenization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="text-enrichment.html">
+     Text Enrichment
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chinese-word-seg.html">
+   Chinese Word Segmentation
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Text Vectorization
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-vec-traditional.html">
+   Text Vectorization Using Traditional Methods
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-vec-embedding.html">
+   Word Embeddings
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-vec-embedding-keras.html">
+   Word Embedding Using Keras
   </a>
  </li>
 </ul>
@@ -116,22 +171,89 @@
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="ml-overview.html">
-   Machine Learning Overview
+   Machine Learning: Overview
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="ml-sklearn-regression.html">
-   Machine Learning with Sklearn – Regression
+  <a class="reference internal" href="ml-simple-case.html">
+   Machine Learning: A Simple Example
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="ml-sklearn-classification.html">
-   Machine Learning with Sci-Kit Learn
+  <a class="reference internal" href="ml-nlp-case.html">
+   Machine Learning: NLP Tasks
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="naive-bayes.html">
-   Naive Bayes
+  <a class="reference internal" href="ml-algorithm.html">
+   Classification Models
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/ml-sklearn-classification.html">
+   Machine Learning Using Sci-Kit Learn
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  NLP Tasks
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="text-classification.html">
+   Text Classification
+  </a>
+  <ul class="simple collapse-ul">
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/topic-modeling-naive.html">
+   Topic Modeling: A Naive Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/topic-modeling-complex.html">
+   Topic Modeling: A Real Example
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="sentiment-analysis.html">
+   Sentiment Analysis
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../temp/sentiment-analysis-ml.html">
+     Sentiment Analysis with Traditional Machine Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../temp/sentiment-analysis-dl.html">
+     Sentiment Analysis based on Embeddings
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Deep Learning NLP
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-neural-network-from-scratch.html">
+   Neural Network From Scratch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-statistical-language-model.html">
+   Statistical Language Model
   </a>
  </li>
 </ul>
@@ -144,6 +266,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../exercise/1-python-basics.html">
    1. Assignment I: Python Basics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/2-journal-review.html">
+   2. Assignment II: Journal Articles Review
   </a>
  </li>
 </ul>
@@ -299,11 +426,6 @@
    Redundant Whitespaces
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#spelling-checks">
-   Spelling Checks
-  </a>
- </li>
 </ul>
 
         </nav>
@@ -315,45 +437,18 @@
         
               <div>
                 
-  <div class="section" id="text-normalization-english">
-<h1>Text Normalization (English)<a class="headerlink" href="#text-normalization-english" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="text-normalization">
+<h1>Text Normalization<a class="headerlink" href="#text-normalization" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>Before real data analysis and mining, we usually need to preprocess the textual data into more easy-to-interpret formats.</p></li>
-<li><p>This step is tedious but crucial and often involves a wide variety of techniques that convert raw text into well-defined sequences of linguistic components.</p></li>
-<li><p>There are at least two objectives:</p>
-<ul>
-<li><p>Text Cleaning</p>
-<ul>
-<li><p>HTML tags</p></li>
-<li><p>Unnecessary tokens (stopwords, punctuations, symbols, numbers)</p></li>
-<li><p>Contractions</p></li>
-<li><p>Spelling errors</p></li>
-</ul>
-</li>
-<li><p>Text Enrichment</p>
-<ul>
-<li><p>Tokenization</p></li>
-<li><p>Stemming</p></li>
-<li><p>Lemmatization</p></li>
-<li><p>Tagging</p></li>
-<li><p>Chunking</p></li>
-<li><p>Parsing</p></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+<p>The objective of text normalization is to clean up the text by removing unnecessary and irrelevant components.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
 <span class="kn">import</span> <span class="nn">unicodedata</span>
-<span class="c1">#from contractions import CONTRACTION_MAP</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">wordnet</span>
 <span class="kn">import</span> <span class="nn">collections</span>
-<span class="c1">#from textblob import Word</span>
 <span class="kn">from</span> <span class="nn">nltk.tokenize.toktok</span> <span class="kn">import</span> <span class="n">ToktokTokenizer</span>
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
 </pre></div>
@@ -387,7 +482,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>b&#39;&lt;!DOCTYPE html&gt;\n&lt;html class=&quot;client-nojs&quot; lang=&quot;en&quot; dir=&quot;ltr&quot;&gt;\n&lt;head&gt;\n&lt;meta charset=&quot;UTF-8&quot;/&gt;\n&lt;title&gt;Python (programming language) - Wikipedia&lt;/title&gt;\n&lt;script&gt;document.documentElement.className=&quot;client-js&quot;;RLCONF={&quot;wgBreakFrames&quot;:!1,&quot;wgSeparatorTransformTable&quot;:[&quot;&quot;,&quot;&quot;],&quot;wgDigitTransformTable&quot;:[&quot;&quot;,&quot;&quot;],&quot;wgDefaultDateFormat&quot;:&quot;dmy&quot;,&quot;wgMonthNames&quot;:[&quot;&quot;,&quot;January&quot;,&quot;February&quot;,&quot;March&quot;,&quot;April&quot;,&quot;May&quot;,&quot;June&quot;,&quot;July&quot;,&quot;August&quot;,&quot;September&quot;,&quot;October&quot;,&quot;November&quot;,&quot;December&quot;],&quot;wgRequestId&quot;:&quot;YDX4ESV6Exs1NgxcpAdcgwAAAJ&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>b&#39;&lt;!DOCTYPE html&gt;\n&lt;html class=&quot;client-nojs&quot; lang=&quot;en&quot; dir=&quot;ltr&quot;&gt;\n&lt;head&gt;\n&lt;meta charset=&quot;UTF-8&quot;/&gt;\n&lt;title&gt;Python (programming language) - Wikipedia&lt;/title&gt;\n&lt;script&gt;document.documentElement.className=&quot;client-js&quot;;RLCONF={&quot;wgBreakFrames&quot;:!1,&quot;wgSeparatorTransformTable&quot;:[&quot;&quot;,&quot;&quot;],&quot;wgDigitTransformTable&quot;:[&quot;&quot;,&quot;&quot;],&quot;wgDefaultDateFormat&quot;:&quot;dmy&quot;,&quot;wgMonthNames&quot;:[&quot;&quot;,&quot;January&quot;,&quot;February&quot;,&quot;March&quot;,&quot;April&quot;,&quot;May&quot;,&quot;June&quot;,&quot;July&quot;,&quot;August&quot;,&quot;September&quot;,&quot;October&quot;,&quot;November&quot;,&quot;December&quot;],&quot;wgRequestId&quot;:&quot;YDlkqXIcTfOoP3F2avt6@gAAAQ&#39;
 </pre></div>
 </div>
 </div>
@@ -409,10 +504,10 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>General-purpose, high-level programming language
-PythonParadigmMulti-paradigm: functional, imperative, object-oriented, structured, reflectiveDesigned byGuido van RossumDeveloperPython Software FoundationFirst appeared1990; 30 years ago (1990)[1]Stable release3.8.5
-   / 20 July 2020; 2 months ago (2020-07-20)[2]Preview release3.9.0rc1
-   / 11 August 2020; 41 days ago (2020-08-11)[3]
-Typing disciplineDuck, dynamic, gradual (since 3.5)[4]OSLinux, macOS, Windows Vista (and newer) and moreLicensePyt
+PythonParadigmMulti-paradigm: functional, imperative, object-oriented, structured, reflectiveDesigned byGuido van RossumDeveloperPython Software FoundationFirst appeared1991; 30 years ago (1991)[1]Stable release3.9.2[2] 
+   / 19 February 2021; 7 days ago (19 February 2021)Preview release3.10.0a5[3] 
+   / 3 February 2021; 23 days ago (3 February 2021)
+Typing disciplineDuck, dynamic, strong typing;[4] gradual (since 3.5, but ignored in CPython)[5]OS
 </pre></div>
 </div>
 </div>
@@ -456,7 +551,7 @@ Typing disciplineDuck, dynamic, gradual (since 3.5)[4]OSLinux, macOS, Windows Vi
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;jump&#39;, &#39;jump&#39;, &#39;jump&#39;, &#39;bumpi&#39;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;jump&#39;, &#39;jump&#39;, &#39;jump&#39;, &#39;jumpi&#39;]
 </pre></div>
 </div>
 </div>
@@ -468,7 +563,7 @@ Typing disciplineDuck, dynamic, gradual (since 3.5)[4]OSLinux, macOS, Windows Vi
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;jump&#39;, &#39;jump&#39;, &#39;jump&#39;, &#39;bumpy&#39;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;jump&#39;, &#39;jump&#39;, &#39;jump&#39;, &#39;jumpy&#39;]
 </pre></div>
 </div>
 </div>
@@ -480,7 +575,7 @@ Typing disciplineDuck, dynamic, gradual (since 3.5)[4]OSLinux, macOS, Windows Vi
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;jump&#39;, &#39;jump&#39;, &#39;jump&#39;, &#39;bumpi&#39;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;jump&#39;, &#39;jump&#39;, &#39;jump&#39;, &#39;jumpi&#39;]
 </pre></div>
 </div>
 </div>
@@ -659,19 +754,29 @@ daily/daily/ADV
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">contractions</span> <span class="kn">import</span> <span class="n">CONTRACTION_MAP</span>
 <span class="kn">import</span> <span class="nn">re</span>
 
+
 <span class="k">def</span> <span class="nf">expand_contractions</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">contraction_mapping</span><span class="o">=</span><span class="n">CONTRACTION_MAP</span><span class="p">):</span>
-    
-    <span class="n">contractions_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;(</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">contraction_mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">())),</span> 
-                                      <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="o">|</span><span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
+    <span class="c1">## create a regex pattern of all contracted forms</span>
+    <span class="n">contractions_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;(</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">contraction_mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">())),</span>
+                                      <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">expand_match</span><span class="p">(</span><span class="n">contraction</span><span class="p">):</span>
-        <span class="n">match</span> <span class="o">=</span> <span class="n">contraction</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">first_char</span> <span class="o">=</span> <span class="n">match</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">contraction</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># the whole matched contraction</span>
+
+        <span class="c1"># if the matched contraction (=keys) exists in the dict, </span>
+        <span class="c1"># get its corresponding uncontracted form (=values)</span>
         <span class="n">expanded_contraction</span> <span class="o">=</span> <span class="n">contraction_mapping</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">match</span><span class="p">)</span>\
                                 <span class="k">if</span> <span class="n">contraction_mapping</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">match</span><span class="p">)</span>\
-                                <span class="k">else</span> <span class="n">contraction_mapping</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>                       
-        <span class="n">expanded_contraction</span> <span class="o">=</span> <span class="n">first_char</span><span class="o">+</span><span class="n">expanded_contraction</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-        <span class="k">return</span> <span class="n">expanded_contraction</span>
+                                <span class="k">else</span> <span class="n">contraction_mapping</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
         
+        <span class="k">return</span> <span class="n">expanded_contraction</span>
+
+    
+    <span class="c1"># find each contraction in the pattern,</span>
+    <span class="c1"># find it from text,</span>
+    <span class="c1"># and replace it using the output of </span>
+    <span class="c1"># expand_match </span>
     <span class="n">expanded_text</span> <span class="o">=</span> <span class="n">contractions_pattern</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">expand_match</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
     <span class="n">expanded_text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">expanded_text</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">expanded_text</span>
@@ -679,16 +784,49 @@ daily/daily/ADV
 </div>
 </div>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">re.sub(repl,</span> <span class="pre">str)</span></code>, when <code class="docutils literal notranslate"><span class="pre">repl</span></code> is a function like above, the function is called for every non-overlapping occurrence of pattern <code class="docutils literal notranslate"><span class="pre">contractions_pattern</span></code>. The function <code class="docutils literal notranslate"><span class="pre">expand_match</span></code> takes a single matched contraction, and returns the replacement string, i.e., its uncontracted form in the dictionary.</p>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">expand_contractions</span><span class="p">(</span><span class="s2">&quot;Y&#39;all can&#39;t expand contractions I&#39;d think&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">expand_contractions</span><span class="p">(</span><span class="s2">&quot;Y&#39;all can&#39;t expand contractions I&#39;d think&quot;</span><span class="p">))</span>
 
-<span class="n">expand_contractions</span><span class="p">(</span><span class="s2">&quot;I&#39;m very glad he&#39;s here!&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">expand_contractions</span><span class="p">(</span><span class="s2">&quot;I&#39;m very glad he&#39;s here! And it ain&#39;t here!&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;I am very glad he is here!&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>you all cannot expand contractions I would think
+I am very glad he is here! And it is not here!
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">CONTRACTION_MAP</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">CONTRACTION_MAP</span><span class="o">.</span><span class="n">items</span><span class="p">())[:</span><span class="mi">5</span><span class="p">]</span> <span class="c1"># check the first five items</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(&quot;ain&#39;t&quot;, &#39;is not&#39;),
+ (&quot;aren&#39;t&quot;, &#39;are not&#39;),
+ (&quot;can&#39;t&quot;, &#39;cannot&#39;),
+ (&quot;can&#39;t&#39;ve&quot;, &#39;cannot have&#39;),
+ (&quot;&#39;cause&quot;, &#39;because&#39;)]
 </pre></div>
 </div>
 </div>
@@ -697,7 +835,8 @@ daily/daily/ADV
 <div class="section" id="accented-characters-non-ascii">
 <h2>Accented Characters (Non-ASCII)<a class="headerlink" href="#accented-characters-non-ascii" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3/library/unicodedata.html">unicodedata dcoumentation</a></p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">unicodedata</span></code> module handles unicode characters very efficiently. Please check [unicodedata dcoumentation] (<a class="reference external" href="https://docs.python.org/3/library/unicodedata.html">https://docs.python.org/3/library/unicodedata.html</a>) for more details.</p></li>
+<li><p>When dealing with the English data, we may often encounter foreign characters in texts that are not part of the ASCII character set.</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -726,12 +865,133 @@ daily/daily/ADV
 </div>
 </div>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">str.encode()</span></code> returns an encoded version of the string as a bytes object using the specified encoding.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">byes.decode()</span></code> returns a string decoded from the given bytes using the specified encoding.</p></li>
+</ul>
+</div>
+<ul class="simple">
+<li><p>Another common scenario is the case where texts include both English and Chinese characters. What’s worse, the English characters are in full-width.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Chinese characters with full-width English letters and punctuations</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;中英文abc,，。.．ＡＢＣ１２３&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">unicodedata</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s1">&#39;NFKD&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">unicodedata</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s1">&#39;NFKC&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">))</span>  <span class="c1"># recommended method</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">unicodedata</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s1">&#39;NFC&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">unicodedata</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s1">&#39;NFD&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>中英文abc,,。..ABC123
+中英文abc,,。..ABC123
+中英文abc,，。.．ＡＢＣ１２３
+中英文abc,，。.．ＡＢＣ１２３
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Sometimes, we may even want to keep characters of one language only.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;中文ＣＨＩＮＥＳＥ。！＝=.= ＾o＾ 2020/5/20 alvin@gmal.cob@%&amp;*&quot;</span>
+
+<span class="c1"># remove puncs/symbols</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">text</span> <span class="k">if</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">category</span><span class="p">(</span><span class="n">c</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="s2">&quot;S&quot;</span><span class="p">]]))</span>
+
+<span class="c1"># select letters</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">text</span> <span class="k">if</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">category</span><span class="p">(</span><span class="n">c</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;L&quot;</span><span class="p">]]))</span>
+
+<span class="c1"># remove alphabets</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">text</span> <span class="k">if</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">category</span><span class="p">(</span><span class="n">c</span><span class="p">)[:</span><span class="mi">2</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Lu&quot;</span><span class="p">,</span> <span class="s1">&#39;Ll&#39;</span><span class="p">]]))</span>
+
+<span class="c1"># select Chinese chars?</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">text</span> <span class="k">if</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">category</span><span class="p">(</span><span class="n">c</span><span class="p">)[:</span><span class="mi">2</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Lo&quot;</span><span class="p">]]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>中文ＣＨＩＮＥＳＥ o 2020520 alvingmalcob
+中文ＣＨＩＮＥＳＥoalvingmalcob
+中文。！＝=.= ＾＾ 2020/5/20 @.@%&amp;*
+中文
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please check <a class="reference external" href="https://www.fileformat.info/info/unicode/category/index.htm">this page</a> for unicode category names.</p>
+<p>It seems that the unicode catetory <code class="docutils literal notranslate"><span class="pre">Lo</span></code> is good to identify Chinese characters?</p>
+<p>We can also make use of the category names to identify punctuations.</p>
+</div>
 </div>
 <div class="section" id="special-characters">
 <h2>Special Characters<a class="headerlink" href="#special-characters" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Depending on the research questions and the defined tasks, we often need to decide whether to remove irrelevant characters.</p></li>
+<li><p>Common irrelevant (aka. non-informative) characters may include:</p>
+<ul>
+<li><p>punctuation marks</p></li>
+<li><p>digits</p></li>
+<li><p>any other non-alphanumeric characters</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">remove_special_characters</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">remove_digits</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;[^a-zA-Z0-9\s]&#39;</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">remove_digits</span> <span class="k">else</span> <span class="sa">r</span><span class="s1">&#39;[^a-zA-Z\s]&#39;</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">text</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;This is a simple case! Removing 1 or 2 symbols is probably ok...:)&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">remove_special_characters</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">remove_special_characters</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>This is a simple case Removing 1 or 2 symbols is probably ok
+This is a simple case Removing  or  symbols is probably ok
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In the following example, if we use the same <code class="docutils literal notranslate"><span class="pre">remove_special_characters()</span></code> to pre-processing the text, what additional problems will we encounter?</p>
+<p>Any suggestions or better alternative methods?</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;It&#39;s a complex sentences, and I&#39;m not sure if it&#39;s ok to replace all symbols then :( What now!!??)&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">remove_special_characters</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Its a complex sentences and Im not sure if its ok to replace all symbols then  What now
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="stopwords">
 <h2>Stopwords<a class="headerlink" href="#stopwords" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>At the word-token level, there are words that have little semantic information and are usually removed from text in text preprocessing. These words are often referred to as <strong>stopwords</strong>.</p></li>
+<li><p>However, there is no universal stopword list. Whether a word is informative or not depends on your research/project objective. It is a linguistic decision.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">nltk.corpus.stopwords.words()</span></code> provides a standard English language stopwords list.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nltk</span>
@@ -759,12 +1019,72 @@ daily/daily/ADV
 </div>
 </div>
 </div>
+<ul class="simple">
+<li><p>We can check the languages of the stopwords lists provided by <code class="docutils literal notranslate"><span class="pre">nltk</span></code>.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nltk</span><span class="o">.</span><span class="n">corpus</span><span class="o">.</span><span class="n">stopwords</span><span class="o">.</span><span class="n">fileids</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;arabic&#39;,
+ &#39;azerbaijani&#39;,
+ &#39;danish&#39;,
+ &#39;dutch&#39;,
+ &#39;english&#39;,
+ &#39;finnish&#39;,
+ &#39;french&#39;,
+ &#39;german&#39;,
+ &#39;greek&#39;,
+ &#39;hungarian&#39;,
+ &#39;indonesian&#39;,
+ &#39;italian&#39;,
+ &#39;kazakh&#39;,
+ &#39;nepali&#39;,
+ &#39;norwegian&#39;,
+ &#39;portuguese&#39;,
+ &#39;romanian&#39;,
+ &#39;russian&#39;,
+ &#39;slovene&#39;,
+ &#39;spanish&#39;,
+ &#39;swedish&#39;,
+ &#39;tajik&#39;,
+ &#39;turkish&#39;]
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="redundant-whitespaces">
 <h2>Redundant Whitespaces<a class="headerlink" href="#redundant-whitespaces" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Very often we would see redundant duplicate whitespaces in texts.</p></li>
+<li><p>Sometimes, when we remove special characters (punctuations, digits etc.), we may replace those characters with whitespaces (not empty string), which may lead to duplicate whitespaces in texts.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">remove_redundant_whitespaces</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</pre></div>
 </div>
-<div class="section" id="spelling-checks">
-<h2>Spelling Checks<a class="headerlink" href="#spelling-checks" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;We are humans  and we   often have typos.  &quot;</span>
+<span class="n">remove_redundant_whitespaces</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;We are humans and we often have typos.&#39;
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 
@@ -796,8 +1116,8 @@ daily/daily/ADV
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="nlp-pipeline.html" title="previous page">NLP Pipeline</a>
-    <a class='right-next' id="next-link" href="ml-overview.html" title="next page">Machine Learning Overview</a>
+    <a class='left-prev' id="prev-link" href="text-preprocessing.html" title="previous page">Text Preprocessing</a>
+    <a class='right-next' id="next-link" href="text-tokenization.html" title="next page">Text Tokenization</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

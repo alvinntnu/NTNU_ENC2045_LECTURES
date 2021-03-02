@@ -1,4 +1,4 @@
-# Machine Learning Overview
+# Machine Learning: Overview
 
 ## What is Machine Learning?
 
@@ -80,3 +80,40 @@ We can categorize ML into four types according to the amount and type of supervi
 - This type of learning is often used in robots.
 - The learning system, called an Agent, will learn based on its observation of the environment. During the learning process, the agent will select and perform actions, and get rewards or penalties in return. Through this trial-and-error process, it will figure the most optimal strategy (i.e., policy) for the target task.
 - A classific example is DeepMind's AlphaGo.
+
+## Workflow for Building a Machine Learning Classifier
+
+- In NLP, most often we deal with **classification** problems. In particular, we  deal with **supervised classifcation** learning problems.
+
+- Given a dataset of **texts** and their corresponding **labels**, the objectives of the classifier are:
+    - How can we identify particular features of language data that are salient for texts of each label?
+    - How can we construct models of language that can be used to perform the classification automatically?
+    - What can we learn about language from these classifiers?
+
+
+
+
+A common workflow for classifier building as shown as follows:
+
+```{figure} ../images/nltk-fig-6-1-classification-workflow.png
+
+Workflow for Building Classifiers (from NLTK Book Ch 6, Figure 6-1)
+```
+
+```{tip}
+Most classification methods require that features be encoded using simple value types, such as booleans, numbers, and strings. But note that just because a feature has a simple type, this does not necessarily mean that the feature's value is simple to express or compute. Indeed, it is even possible to use very complex and informative values, such as the output of a second supervised classifier, as features.
+```
+
+## Challenges of ML
+
+- Insufficient quantity of training data
+- Non-representative training data
+- Poor quality data
+- Irrelevant features
+- Overfitting the training data
+- Underfitting the training data
+
+## Testing and Validating
+
+- Hyperparameter tuning and model selection
+- Data mismatch

@@ -58,12 +58,13 @@ Strengths:
     - Classification vs. Regression
 
 - Three common steps for machine learning
-    - extracting features from texts
-    - using the feature representation to learn a model
-    - evaluating and improving the model
+    - Extracting features from texts
+    - Using the feature representation to learn a model
+    - Evaluating and improving the model
 
 - Common methods:
    - Naive Bayes
+   - Logistic Regression
    - Support Vector Machine
    - Hidden Markov Model
    - Conditional Random Field

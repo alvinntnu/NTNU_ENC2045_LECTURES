@@ -79,18 +79,22 @@ print(art_texts)
 
 from PIL import Image
 from pytesseract import image_to_string
-
-filename = '../../../RepositoryData/data/pdf-firth-text.png'
+ 
+YOUR_DEMO_DATA_PATH = "../../../RepositoryData/data/"  # please change your file path
+filename = YOUR_DEMO_DATA_PATH+'pdf-firth-text.png'
 text = image_to_string(Image.open(filename))
 print(text)
 
 #### Unicode normalization
 
-text = 'I feel really 😡. GOGOGO!! 💪💪💪  🤣🤣'
+text = 'I feel really 😡. GOGOGO!! 💪💪💪  🤣🤣 ȀÆĎǦƓ'
 print(text)
 text2 = text.encode('utf-8')
 print(text2)
 
+
+import unicodedata
+unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8', 'ignore')
 
 - Other useful libraries
     - Spelling check: pyenchant, Microsoft REST API

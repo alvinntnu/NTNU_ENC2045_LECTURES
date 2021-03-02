@@ -1,31 +1,15 @@
-# Text Normalization (English)
+# Text Normalization
 
 
 ## Overview
 
-- Before real data analysis and mining, we usually need to preprocess the textual data into more easy-to-interpret formats.
-- This step is tedious but crucial and often involves a wide variety of techniques that convert raw text into well-defined sequences of linguistic components.
-- There are at least two objectives:
-    - Text Cleaning
-        - HTML tags
-        - Unnecessary tokens (stopwords, punctuations, symbols, numbers)
-        - Contractions
-        - Spelling errors
-    - Text Enrichment
-        - Tokenization
-        - Stemming
-        - Lemmatization
-        - Tagging
-        - Chunking
-        - Parsing
+The objective of text normalization is to clean up the text by removing unnecessary and irrelevant components.
 
 import spacy
 import unicodedata
-#from contractions import CONTRACTION_MAP
 import re
 from nltk.corpus import wordnet
 import collections
-#from textblob import Word
 from nltk.tokenize.toktok import ToktokTokenizer
 from bs4 import BeautifulSoup
 
@@ -160,30 +144,49 @@ lemmatize_text("My system keeps crashing! his crashed yesterday, ours crashes da
 from contractions import CONTRACTION_MAP
 import re
 
+
 def expand_contractions(text, contraction_mapping=CONTRACTION_MAP):
-    
-    contractions_pattern = re.compile('({})'.format('|'.join(contraction_mapping.keys())), 
-                                      flags=re.IGNORECASE|re.DOTALL)
+    ## create a regex pattern of all contracted forms
+    contractions_pattern = re.compile('({})'.format('|'.join(
+        contraction_mapping.keys())),
+                                      flags=re.IGNORECASE | re.DOTALL)
+
     def expand_match(contraction):
-        match = contraction.group(0)
-        first_char = match[0]
+        match = contraction.group(0) # the whole matched contraction
+
+        # if the matched contraction (=keys) exists in the dict, 
+        # get its corresponding uncontracted form (=values)
         expanded_contraction = contraction_mapping.get(match)\
                                 if contraction_mapping.get(match)\
-                                else contraction_mapping.get(match.lower())                       
-        expanded_contraction = first_char+expanded_contraction[1:]
-        return expanded_contraction
+                                else contraction_mapping.get(match.lower())
         
+        return expanded_contraction
+
+    
+    # find each contraction in the pattern,
+    # find it from text,
+    # and replace it using the output of 
+    # expand_match 
     expanded_text = contractions_pattern.sub(expand_match, text)
     expanded_text = re.sub("'", "", expanded_text)
     return expanded_text
 
-expand_contractions("Y'all can't expand contractions I'd think")
+:::{note}
+In `re.sub(repl, str)`, when `repl` is a function like above, the function is called for every non-overlapping occurrence of pattern `contractions_pattern`. The function `expand_match` takes a single matched contraction, and returns the replacement string, i.e., its uncontracted form in the dictionary. 
+:::
 
-expand_contractions("I'm very glad he's here!")
+print(expand_contractions("Y'all can't expand contractions I'd think"))
+
+print(expand_contractions("I'm very glad he's here! And it ain't here!"))
+
+type(CONTRACTION_MAP)
+
+list(CONTRACTION_MAP.items())[:5] # check the first five items
 
 ## Accented Characters (Non-ASCII)
 
-- [unicodedata dcoumentation](https://docs.python.org/3/library/unicodedata.html)
+- The `unicodedata` module handles unicode characters very efficiently. Please check [unicodedata dcoumentation] (https://docs.python.org/3/library/unicodedata.html) for more details.
+- When dealing with the English data, we may often encounter foreign characters in texts that are not part of the ASCII character set.
 
 import unicodedata
 
@@ -202,9 +205,77 @@ remove_accented_chars('Sómě Áccěntěd těxt')
 # print(unicodedata.normalize('NFKD', 'Sómě Áccěntěd těxt').encode('ascii','ignore'))
 # print(unicodedata.normalize('NFKD', 'Sómě Áccěntěd těxt').encode('ascii','ignore').decode('utf-8', 'ignore'))
 
+:::{note}
+- `str.encode()` returns an encoded version of the string as a bytes object using the specified encoding.
+- `byes.decode()` returns a string decoded from the given bytes using the specified encoding.
+:::
+
+- Another common scenario is the case where texts include both English and Chinese characters. What's worse, the English characters are in full-width.
+
+## Chinese characters with full-width English letters and punctuations
+text = '中英文abc,，。.．ＡＢＣ１２３'
+print(unicodedata.normalize('NFKD', text))
+print(unicodedata.normalize('NFKC', text))  # recommended method
+print(unicodedata.normalize('NFC', text))
+print(unicodedata.normalize('NFD', text))
+
+- Sometimes, we may even want to keep characters of one language only.
+
+text = "中文ＣＨＩＮＥＳＥ。！＝=.= ＾o＾ 2020/5/20 alvin@gmal.cob@%&*"
+
+# remove puncs/symbols
+print(''.join(
+    [c for c in text if unicodedata.category(c)[0] not in ["P", "S"]]))
+
+# select letters
+print(''.join([c for c in text if unicodedata.category(c)[0] in ["L"]]))
+
+# remove alphabets
+print(''.join(
+    [c for c in text if unicodedata.category(c)[:2] not in ["Lu", 'Ll']]))
+
+# select Chinese chars?
+print(''.join([c for c in text if unicodedata.category(c)[:2] in ["Lo"]]))
+
+```{note}
+Please check [this page](https://www.fileformat.info/info/unicode/category/index.htm) for unicode category names.
+
+It seems that the unicode catetory `Lo` is good to identify Chinese characters?
+
+We can also make use of the category names to identify punctuations.
+```
+
 ## Special Characters
 
+- Depending on the research questions and the defined tasks, we often need to decide whether to remove irrelevant characters.
+- Common irrelevant (aka. non-informative) characters may include:
+    - punctuation marks
+    - digits
+    - any other non-alphanumeric characters 
+
+def remove_special_characters(text, remove_digits=False):
+    pattern = r'[^a-zA-Z0-9\s]' if not remove_digits else r'[^a-zA-Z\s]'
+    text = re.sub(pattern, '', text)
+    return text
+
+s = "This is a simple case! Removing 1 or 2 symbols is probably ok...:)"
+print(remove_special_characters(s))
+print(remove_special_characters(s, True))
+
+:::{warning}
+In the following example, if we use the same `remove_special_characters()` to pre-processing the text, what additional problems will we encounter?
+
+Any suggestions or better alternative methods?
+:::
+
+s = "It's a complex sentences, and I'm not sure if it's ok to replace all symbols then :( What now!!??)"
+print(remove_special_characters(s))
+
 ## Stopwords
+
+- At the word-token level, there are words that have little semantic information and are usually removed from text in text preprocessing. These words are often referred to as **stopwords**.
+- However, there is no universal stopword list. Whether a word is informative or not depends on your research/project objective. It is a linguistic decision.
+- The `nltk.corpus.stopwords.words()` provides a standard English language stopwords list.
 
 import nltk
 from nltk.tokenize.toktok import ToktokTokenizer
@@ -223,6 +294,18 @@ def remove_stopwords(text, is_lower_case=False, stopwords=stopword_list):
 
 remove_stopwords("The, and, if are stopwords, computer is not")
 
+- We can check the languages of the stopwords lists provided by `nltk`.
+
+nltk.corpus.stopwords.fileids()
+
 ## Redundant Whitespaces
 
-## Spelling Checks
+- Very often we would see redundant duplicate whitespaces in texts. 
+- Sometimes, when we remove special characters (punctuations, digits etc.), we may replace those characters with whitespaces (not empty string), which may lead to duplicate whitespaces in texts.
+
+def remove_redundant_whitespaces(text):
+    text = re.sub(r'\s+'," ", text)
+    return text.strip()
+
+s = "We are humans  and we   often have typos.  "
+remove_redundant_whitespaces(s)

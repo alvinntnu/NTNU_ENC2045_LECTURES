@@ -158,10 +158,33 @@ In addition to books, there are many wonderful on-line resources, esp. professio
 3. We assume you have created a conda virtual environment, named, `python-notes`, for all the scripting, and you are able to run the notebooks in the conda environment kernel in Jupyter. 
 4. You can also run the notebooks directly in Google Colab, or alternatively download the `.ipynb` notebook files onto your hard drive or Google Drive for further changes.
 
+
 ```{tip}
 If you cannot find the conda environment kernal in your Jupyter Notebook. Please instal the module `ipykernel`. For more details on how to use specific conda environments in Jupyter, please see [this article](https://medium.com/@nrk25693/how-to-add-your-conda-environment-to-your-jupyter-notebook-in-just-4-steps-abeab8b8d084).
 ```
 
+
+:::{tip}
+When you run the installation of the python modules and other packages in the terminal, please remember to change the arguments of the parameters when you follow the instructions provided online.
+
+For example, when you create the conda environment:
+
+`conda create --name XXX`
+
+You need to specify the conda environment name `XXX` on your own.
+
+Similarly, when you add the self-defined conda environment to the notebook kernel list:
+
+`python -m ipykernel install --user --name=XXX`
+
+You need to specify the conda environment name `XXX`.
+
+:::
+
+
+:::{tip}
+For Windows users, it is highly recommended to run the installation of python-related modules in `Anaconda Prompt` instead of `cmd`.
+:::
 
 
 ## Coding Assignments Reminders
