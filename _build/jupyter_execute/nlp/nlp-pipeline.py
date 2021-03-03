@@ -17,13 +17,13 @@
 
 - Ideal Setting: We have everything needed.
 - Labels and Annotations
-- Very often we are dealing with less-than-idea scenarios
+- Very often we are dealing with less-than-ideal scenarios
 
 ### Less-than-ideal Scenarios
 
 - Initial datasets with limited annotations/labels
 - Initial datasets labeled based on regular expressions or heuristics
-- Public datasets (cf. [Google Dataset Search](https://datasetsearch.research.google.com/))
+- Public datasets (cf. [Google Dataset Search](https://datasetsearch.research.google.com/) or [kaggle](https://www.kaggle.com/))
 - Scrape data
 - Product intervention
 - Data augmentation
@@ -79,7 +79,8 @@ print(art_texts)
 
 from PIL import Image
 from pytesseract import image_to_string
- 
+
+
 YOUR_DEMO_DATA_PATH = "../../../RepositoryData/data/"  # please change your file path
 filename = YOUR_DEMO_DATA_PATH+'pdf-firth-text.png'
 text = image_to_string(Image.open(filename))
@@ -89,13 +90,14 @@ print(text)
 
 text = 'I feel really 😡. GOGOGO!! 💪💪💪  🤣🤣 ȀÆĎǦƓ'
 print(text)
-text2 = text.encode('utf-8')
+text2 = text.encode('utf-8') # encode the strings in bytes
 print(text2)
 
 
 import unicodedata
 unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8', 'ignore')
 
+- Please check [unicodedata documentation](https://docs.python.org/3/library/unicodedata.html) for more detail on character normalization.
 - Other useful libraries
     - Spelling check: pyenchant, Microsoft REST API
     - PDF:  PyPDF, PDFMiner
@@ -172,16 +174,16 @@ for w,p in zip(words,poss):
 
 - Task-specific preprocessing
     - Unicode normalization
-    - language detection
-    - code mixing
-    - transliteration
+    - Language detection
+    - Code mixing
+    - Transliteration (e.g., using piyin for Chinese words in English-Chinese code-switching texts)
     
 
 - Automatic annotations
     - POS tagging
     - Parsing
-    - Named entity recognition
-    - coreference resolution
+    - Named Entity Recognition
+    - Coreference resolution
     
 
 ### Important Reminders for Preprocessing
@@ -189,6 +191,10 @@ for w,p in zip(words,poss):
 - Not all steps are necessary
 - These steps are NOT sequential
 - These steps are task-dependent
+- Goals
+    - Text Normalization
+    - Text Tokenization
+    - Text Enrichment/Annotation
 
 ## Feature Engineering
 
@@ -200,17 +206,23 @@ for w,p in zip(words,poss):
 
 ### Feature Engineering for Classical ML
 
-- word-based frequency lists
-- bag-of-words representations
-- domain-specific word frequency lists
-- handcrafted features based on domain-specific knowledge
+- Word-based frequency lists
+- Bag-of-words representations
+- Domain-specific word frequency lists
+- Handcrafted features based on domain-specific knowledge
 
 ### Feature Engineering for DL
 
 - DL directly takes the texts as inputs to the model.
 - The DL model is capable of learning features from the texts (e.g., embeddings)
-- Less interpretable.
+- The price is that the model is often less interpretable.
     
+
+### Strengths and Weakness 
+
+![](../images/feature-engineer-strengths.png)
+
+![](../images/feature-engineer-weakness.png)
 
 ## Modeling
 
@@ -218,9 +230,9 @@ for w,p in zip(words,poss):
 
 - Start with heuristics or rules
 - Experiment with different ML models
-    - from heuristics to features
-    - from manual annotation to automatic extraction
-    - feature importance (weights)
+    - From heuristics to features
+    - From manual annotation to automatic extraction
+    - Feature importance (weights)
 - Find the most optimal model
     - Ensemble and stacking
     - Redo feature engineering
@@ -233,10 +245,10 @@ for w,p in zip(words,poss):
 
 - We need to know how *good* the model we've built is -- "Goodness"
 - Factors relating to the evaluation methods
-    - model building
-    - deployment
-    - production
-- ML metrics vs. business metrics
+    - Model building
+    - Deployment
+    - Production
+- ML metrics vs. Business metrics
 
 
 ### Intrinsic vs. Extrinsic Evaluation

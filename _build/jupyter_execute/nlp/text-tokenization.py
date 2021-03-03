@@ -13,9 +13,9 @@ para = '''There was nothing so very remarkable in that; nor did Alice think it s
 for s in sent_tokenize(para):
     print(s+'\n')
 
-The `sent_tokenize()` function uses an instance of `PunktSentenceTokenizer` from the `ntlk.tokenize.punkt` module. 
+- The `sent_tokenize()` function uses an instance of `PunktSentenceTokenizer` from the `ntlk.tokenize.punkt` module. 
 
-To process large amount of data, it is recommended to load the pre-trained `PunktSentenceTokenizer` once, and call its `tokenizer()` method for the task.
+- To process large amount of data, it is recommended to load the pre-trained `PunktSentenceTokenizer` once, and call its `tokenizer()` method for the task.
 
 import nltk.data
 tokenizer = nltk.data.load('tokenizers/punkt/PY3/english.pickle')
@@ -24,23 +24,23 @@ tokenizer.tokenize(para)
 
 The `nltk` also provides many pre-trained `PunktSentenceTokenizer` for other European languages.
 
-!ls /Users/alvinchen/nltk_data/tokenizers/punkt/PY3
+!ls /Users/Alvin/nltk_data/tokenizers/punkt/PY3
 
 ## Word Tokenization
 
 Similarly, the `word_tokenize()` function is a wrapper function that calls the `tokenize()` method on a instance of `TreebankWordTokenizer` class.
 
 from nltk.tokenize import word_tokenize
-word_tokenize(para)
+print(word_tokenize(para)[:20])
 
-To process large amount of data, please create an instance of `TreebankWordTokenizer` and call its `tokenize()` method for more efficient processing.
+- To process large amount of data, please create an instance of `TreebankWordTokenizer` and call its `tokenize()` method for more efficient processing.
 
-We will get the same results with the following codes as above.
+- We will get the same results with the following codes as above.
 
 from nltk.tokenize import TreebankWordTokenizer
 tokenizer = TreebankWordTokenizer()
 
-tokenizer.tokenize(para)
+print(tokenizer.tokenize(para)[:10])
 
 The `nltk` module has implemented other more task-oriented word tokenizers, which differ in terms of their specific handling of the punctuations and contractions.
 
@@ -85,3 +85,6 @@ print(retok2.tokenize(sent))
 
 print(retok3.tokenize(sent))
 
+## References
+
+- NLTK Book, Ch 1-3

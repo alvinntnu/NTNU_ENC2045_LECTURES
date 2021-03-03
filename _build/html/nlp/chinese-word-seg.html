@@ -454,7 +454,7 @@
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Building prefix dict from the default dictionary ...
 Loading model from cache /var/folders/n7/ltpzwx813c599nfxfb94s_640000gn/T/jieba.cache
-Loading model cost 2.059 seconds.
+Loading model cost 0.981 seconds.
 Prefix dict has been built successfully.
 </pre></div>
 </div>
@@ -463,6 +463,52 @@ Prefix dict has been built successfully.
 </pre></div>
 </div>
 </div>
+</div>
+<ul class="simple">
+<li><p>initialize traditional Chinese dictionary</p>
+<ul>
+<li><p>Download the traditional chinese dictionary from <a class="reference external" href="https://raw.githubusercontent.com/ldkrsi/jieba-zh_TW/master/jieba/dict.txt"><code class="docutils literal notranslate"><span class="pre">jieba-tw</span></code></a></p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">jieba</span><span class="o">.</span><span class="n">set_dictionary</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Add own project-specific dictionary</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">jieba</span><span class="o">.</span><span class="n">load_userdict</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Add add-hoc words to dictionary</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">jieba</span><span class="o">.</span><span class="n">add_word</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Remove words</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">jieba</span><span class="o">.</span><span class="n">del_word</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Word segmentation</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">jieba.cut()</span></code> returns a <code class="docutils literal notranslate"><span class="pre">generator</span></code> object</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">jieba.lcut()</span></code> resuts a <code class="docutils literal notranslate"><span class="pre">List</span></code> object</p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># full</span>
+
+<span class="n">jieba</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">cut_all</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">jieba</span><span class="o">.</span><span class="n">lcut</span><span class="p">(</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">cut_all</span><span class="o">=</span><span class="kc">True</span>
+
+<span class="c1"># default</span>
+<span class="n">jieba</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">cut_all</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">jieba</span><span class="o">.</span><span class="n">lcut</span><span class="p">(</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">cut_all</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 <div class="section" id="segmentation-using-ckip-transformer">
@@ -497,8 +543,8 @@ Prefix dict has been built successfully.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 11.8 s, sys: 956 ms, total: 12.8 s
-Wall time: 1min 36s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 12.1 s, sys: 1.07 s, total: 13.2 s
+Wall time: 1min 40s
 </pre></div>
 </div>
 </div>
@@ -528,12 +574,12 @@ Wall time: 1min 36s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokenization: 100%|██████████| 2/2 [00:00&lt;00:00, 3825.17it/s]
-Inference: 100%|██████████| 1/1 [00:01&lt;00:00,  1.44s/it]
-Tokenization: 100%|██████████| 2/2 [00:00&lt;00:00, 4851.71it/s]
-Inference: 100%|██████████| 1/1 [00:01&lt;00:00,  1.94s/it]
-Tokenization: 100%|██████████| 2/2 [00:00&lt;00:00, 3377.06it/s]
-Inference: 100%|██████████| 1/1 [00:00&lt;00:00,  1.05it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokenization: 100%|██████████| 2/2 [00:00&lt;00:00, 3498.17it/s]
+Inference: 100%|██████████| 1/1 [00:01&lt;00:00,  1.55s/it]
+Tokenization: 100%|██████████| 2/2 [00:00&lt;00:00, 4321.80it/s]
+Inference: 100%|██████████| 1/1 [00:01&lt;00:00,  1.71s/it]
+Tokenization: 100%|██████████| 2/2 [00:00&lt;00:00, 2915.75it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00,  1.18it/s]
 </pre></div>
 </div>
 </div>
@@ -557,10 +603,10 @@ Inference: 100%|██████████| 1/1 [00:00&lt;00:00,  1.05it/s]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokenization: 100%|██████████| 2/2 [00:00&lt;00:00, 869.83it/s]
-Inference: 100%|██████████| 1/1 [00:01&lt;00:00,  1.94s/it]
-Tokenization: 100%|██████████| 2/2 [00:00&lt;00:00, 3669.56it/s]
-Inference: 100%|██████████| 1/1 [00:01&lt;00:00,  1.85s/it]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokenization: 100%|██████████| 2/2 [00:00&lt;00:00, 1597.53it/s]
+Inference: 100%|██████████| 1/1 [00:01&lt;00:00,  1.72s/it]
+Tokenization: 100%|██████████| 2/2 [00:00&lt;00:00, 3517.24it/s]
+Inference: 100%|██████████| 1/1 [00:01&lt;00:00,  1.72s/it]
 </pre></div>
 </div>
 </div>
@@ -576,10 +622,10 @@ Inference: 100%|██████████| 1/1 [00:01&lt;00:00,  1.85s/it]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokenization: 100%|██████████| 2/2 [00:00&lt;00:00, 2680.92it/s]
-Inference: 100%|██████████| 1/1 [00:00&lt;00:00,  1.07it/s]
-Tokenization: 100%|██████████| 2/2 [00:00&lt;00:00, 3095.43it/s]
-Inference: 100%|██████████| 1/1 [00:00&lt;00:00,  1.10it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokenization: 100%|██████████| 2/2 [00:00&lt;00:00, 3012.07it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00,  1.16it/s]
+Tokenization: 100%|██████████| 2/2 [00:00&lt;00:00, 3985.09it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00,  1.18it/s]
 </pre></div>
 </div>
 </div>
@@ -681,12 +727,12 @@ NerToken(word=&#39;國10燕巢-燕巢系統&#39;, ner=&#39;FAC&#39;, idx=(84, 94
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokenization: 100%|██████████| 5/5 [00:00&lt;00:00, 15477.14it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokenization: 100%|██████████| 5/5 [00:00&lt;00:00, 13443.28it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00,  2.04it/s]
+Tokenization: 100%|██████████| 5/5 [00:00&lt;00:00, 16630.86it/s]
 Inference: 100%|██████████| 1/1 [00:00&lt;00:00,  2.03it/s]
-Tokenization: 100%|██████████| 5/5 [00:00&lt;00:00, 16448.25it/s]
-Inference: 100%|██████████| 1/1 [00:00&lt;00:00,  2.03it/s]
-Tokenization: 100%|██████████| 5/5 [00:00&lt;00:00, 18724.57it/s]
-Inference: 100%|██████████| 1/1 [00:00&lt;00:00,  1.93it/s]
+Tokenization: 100%|██████████| 5/5 [00:00&lt;00:00, 22215.59it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00,  1.92it/s]
 </pre></div>
 </div>
 </div>
@@ -841,7 +887,7 @@ $ python -m spacy download en_core_web_sm
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="zh" id="c7460c8574804985a7ab5ce0ff3f2192-0" class="displacy" width="1275" height="399.5" direction="ltr" style="max-width: none; height: 399.5px; color: #000000; background: #ffffff; font-family: Arial; direction: ltr">
+<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="zh" id="237ad2764428453f80ca4b566cef6089-0" class="displacy" width="1275" height="399.5" direction="ltr" style="max-width: none; height: 399.5px; color: #000000; background: #ffffff; font-family: Arial; direction: ltr">
 <text class="displacy-token" fill="currentColor" text-anchor="middle" y="309.5">
     <tspan class="displacy-word" fill="currentColor" x="50">這</tspan>
     <tspan class="displacy-tag" dy="2em" fill="currentColor" x="50">PRON</tspan>
@@ -878,41 +924,41 @@ $ python -m spacy download en_core_web_sm
 </text>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-c7460c8574804985a7ab5ce0ff3f2192-0-0" stroke-width="2px" d="M245,264.5 C245,2.0 1100.0,2.0 1100.0,264.5" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-237ad2764428453f80ca4b566cef6089-0-0" stroke-width="2px" d="M245,264.5 C245,2.0 1100.0,2.0 1100.0,264.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-c7460c8574804985a7ab5ce0ff3f2192-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">cop</textPath>
+        <textPath xlink:href="#arrow-237ad2764428453f80ca4b566cef6089-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">cop</textPath>
     </text>
     <path class="displacy-arrowhead" d="M245,266.5 L237,254.5 253,254.5" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-c7460c8574804985a7ab5ce0ff3f2192-0-1" stroke-width="2px" d="M245,264.5 C245,177.0 390.0,177.0 390.0,264.5" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-237ad2764428453f80ca4b566cef6089-0-1" stroke-width="2px" d="M245,264.5 C245,177.0 390.0,177.0 390.0,264.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-c7460c8574804985a7ab5ce0ff3f2192-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">dep</textPath>
+        <textPath xlink:href="#arrow-237ad2764428453f80ca4b566cef6089-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">dep</textPath>
     </text>
     <path class="displacy-arrowhead" d="M390.0,266.5 L398.0,254.5 382.0,254.5" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-c7460c8574804985a7ab5ce0ff3f2192-0-2" stroke-width="2px" d="M420,264.5 C420,177.0 565.0,177.0 565.0,264.5" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-237ad2764428453f80ca4b566cef6089-0-2" stroke-width="2px" d="M420,264.5 C420,177.0 565.0,177.0 565.0,264.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-c7460c8574804985a7ab5ce0ff3f2192-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">mark:clf</textPath>
+        <textPath xlink:href="#arrow-237ad2764428453f80ca4b566cef6089-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">mark:clf</textPath>
     </text>
     <path class="displacy-arrowhead" d="M565.0,266.5 L573.0,254.5 557.0,254.5" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-c7460c8574804985a7ab5ce0ff3f2192-0-3" stroke-width="2px" d="M770,264.5 C770,89.5 1095.0,89.5 1095.0,264.5" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-237ad2764428453f80ca4b566cef6089-0-3" stroke-width="2px" d="M770,264.5 C770,89.5 1095.0,89.5 1095.0,264.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-c7460c8574804985a7ab5ce0ff3f2192-0-3" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nmod:assmod</textPath>
+        <textPath xlink:href="#arrow-237ad2764428453f80ca4b566cef6089-0-3" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nmod:assmod</textPath>
     </text>
     <path class="displacy-arrowhead" d="M770,266.5 L762,254.5 778,254.5" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-c7460c8574804985a7ab5ce0ff3f2192-0-4" stroke-width="2px" d="M770,264.5 C770,177.0 915.0,177.0 915.0,264.5" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-237ad2764428453f80ca4b566cef6089-0-4" stroke-width="2px" d="M770,264.5 C770,177.0 915.0,177.0 915.0,264.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-c7460c8574804985a7ab5ce0ff3f2192-0-4" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">case</textPath>
+        <textPath xlink:href="#arrow-237ad2764428453f80ca4b566cef6089-0-4" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">case</textPath>
     </text>
     <path class="displacy-arrowhead" d="M915.0,266.5 L923.0,254.5 907.0,254.5" fill="currentColor"/>
 </g>
@@ -928,7 +974,7 @@ $ python -m spacy download en_core_web_sm
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="zh" id="6a00443c625b4431b2693310d266636c-0" class="displacy" width="890" height="317.0" direction="ltr" style="max-width: none; height: 317.0px; color: white; background: #09a3d5; font-family: Source Sans Pro; direction: ltr">
+<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="zh" id="5724c872b4f94bc69c70d1c5c7f5cded-0" class="displacy" width="890" height="317.0" direction="ltr" style="max-width: none; height: 317.0px; color: white; background: #09a3d5; font-family: Source Sans Pro; direction: ltr">
 <text class="displacy-token" fill="currentColor" text-anchor="middle" y="227.0">
     <tspan class="displacy-word" fill="currentColor" x="50">這</tspan>
     <tspan class="displacy-tag" dy="2em" fill="currentColor" x="50">PRON</tspan>
@@ -965,41 +1011,41 @@ $ python -m spacy download en_core_web_sm
 </text>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-6a00443c625b4431b2693310d266636c-0-0" stroke-width="2px" d="M182,182.0 182,122.0 770.0,122.0 770.0,182.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-5724c872b4f94bc69c70d1c5c7f5cded-0-0" stroke-width="2px" d="M182,182.0 182,122.0 770.0,122.0 770.0,182.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-6a00443c625b4431b2693310d266636c-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">cop</textPath>
+        <textPath xlink:href="#arrow-5724c872b4f94bc69c70d1c5c7f5cded-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">cop</textPath>
     </text>
     <path class="displacy-arrowhead" d="M182,184.0 L178,176.0 186,176.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-6a00443c625b4431b2693310d266636c-0-1" stroke-width="2px" d="M182,182.0 182,162.0 284.0,162.0 284.0,182.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-5724c872b4f94bc69c70d1c5c7f5cded-0-1" stroke-width="2px" d="M182,182.0 182,162.0 284.0,162.0 284.0,182.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-6a00443c625b4431b2693310d266636c-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">dep</textPath>
+        <textPath xlink:href="#arrow-5724c872b4f94bc69c70d1c5c7f5cded-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">dep</textPath>
     </text>
     <path class="displacy-arrowhead" d="M284.0,184.0 L288.0,176.0 280.0,176.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-6a00443c625b4431b2693310d266636c-0-2" stroke-width="2px" d="M302,182.0 302,162.0 404.0,162.0 404.0,182.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-5724c872b4f94bc69c70d1c5c7f5cded-0-2" stroke-width="2px" d="M302,182.0 302,162.0 404.0,162.0 404.0,182.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-6a00443c625b4431b2693310d266636c-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">mark:clf</textPath>
+        <textPath xlink:href="#arrow-5724c872b4f94bc69c70d1c5c7f5cded-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">mark:clf</textPath>
     </text>
     <path class="displacy-arrowhead" d="M404.0,184.0 L408.0,176.0 400.0,176.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-6a00443c625b4431b2693310d266636c-0-3" stroke-width="2px" d="M542,182.0 542,142.0 767.0,142.0 767.0,182.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-5724c872b4f94bc69c70d1c5c7f5cded-0-3" stroke-width="2px" d="M542,182.0 542,142.0 767.0,142.0 767.0,182.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-6a00443c625b4431b2693310d266636c-0-3" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nmod:assmod</textPath>
+        <textPath xlink:href="#arrow-5724c872b4f94bc69c70d1c5c7f5cded-0-3" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nmod:assmod</textPath>
     </text>
     <path class="displacy-arrowhead" d="M542,184.0 L538,176.0 546,176.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-6a00443c625b4431b2693310d266636c-0-4" stroke-width="2px" d="M542,182.0 542,162.0 644.0,162.0 644.0,182.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-5724c872b4f94bc69c70d1c5c7f5cded-0-4" stroke-width="2px" d="M542,182.0 542,162.0 644.0,162.0 644.0,182.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-6a00443c625b4431b2693310d266636c-0-4" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">case</textPath>
+        <textPath xlink:href="#arrow-5724c872b4f94bc69c70d1c5c7f5cded-0-4" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">case</textPath>
     </text>
     <path class="displacy-arrowhead" d="M644.0,184.0 L648.0,176.0 640.0,176.0" fill="currentColor"/>
 </g>
@@ -1026,6 +1072,11 @@ $ python -m spacy download en_core_web_sm
 </pre></div>
 </div>
 </div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Please read the <a class="reference external" href="https://spacy.io/usage/linguistic-features">documentation of <code class="docutils literal notranslate"><span class="pre">spacy</span></code></a> very carefully for additional ways to extract other useful linguistic properties.</p>
+<p>You may need that for the assignments.</p>
 </div>
 </div>
 </div>

@@ -29,7 +29,7 @@ Please check the examples from [Winograd Schema Challenge](https://cs.nyu.edu/fa
 
 ## Artificial Intelligence, Machine Learning, Deep Learning and NLP
 
-- **Artificial Intelligence** is a branch of computer sceience that aims to build systems that can perform taskes that require human intelligence.
+- **Artificial Intelligence** is a branch of computer science that aims to build systems that can perform tasks that require human intelligence.
 - **Machine Learning** is a branch of AI that deals with the development of algorithms that can learn to perform tasks automatically based on large number of examples, without requiring handcrafted rules.
 - **Deep Learning** is a branch of machine learning that is based on the artificial neural network architectures. 
 
@@ -43,7 +43,7 @@ Please check the examples from [Winograd Schema Challenge](https://cs.nyu.edu/fa
 Examples:
    - Dictionary-based sentiment analysis
    - WordNet for lexical relations
-   - Common sense world knowledge (Open Mind Common Sense, Ontoloty)
+   - Common sense world knowledge (Open Mind Common Sense, Ontology)
    - Regular Expressions
    - Context-free grammar
 
@@ -85,7 +85,7 @@ Strengths:
 
 - Transformers
     - The state-of-the-art model in major NLP tasks
-    - It models the textual context in a non-sequential mannwer.
+    - It models the textual context in a non-sequential manner.
     - Given a word in the input, the model looks at all the words around it and represent each word with respect to its context. This is referred to as *self-attention*. 
 
 - Transfer Learning
