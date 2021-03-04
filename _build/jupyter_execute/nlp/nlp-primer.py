@@ -1,4 +1,3 @@
-
 # Natural Language Processing: A Primer
 
 - Computational Linguistics is a very active subject in linguistics.
@@ -87,6 +86,12 @@ Strengths:
     - The state-of-the-art model in major NLP tasks
     - It models the textual context in a non-sequential manner.
     - Given a word in the input, the model looks at all the words around it and represent each word with respect to its context. This is referred to as *self-attention*. 
+
+```{tip}
+Simply put, now the deep learning NLP capitalizes on the power of **attention**.
+
+It is a mechanism that allows the network to focus its attention on some parts of the input when it's producing the output.
+```
 
 - Transfer Learning
     - It is a technique in AI where the knowledge gained while solving one problem is applied to a different but related problem.
