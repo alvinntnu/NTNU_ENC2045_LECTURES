@@ -273,6 +273,11 @@
    2. Assignment II: Journal Articles Review
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/3-preprocessing.html">
+   3. Preprocessing
+  </a>
+ </li>
 </ul>
 
 </nav> <!-- To handle the deprecated key -->
@@ -454,7 +459,7 @@
 <p>The objective of text normalization is to clean up the text by removing unnecessary and irrelevant components.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
 <span class="kn">import</span> <span class="nn">unicodedata</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">wordnet</span>
@@ -482,7 +487,7 @@
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
 
 <span class="n">data</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;https://en.wikipedia.org/wiki/Python_(programming_language)&#39;</span><span class="p">)</span>
@@ -499,7 +504,7 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">strip_html_tags</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">strip_html_tags</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
     <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="s2">&quot;html.parser&quot;</span><span class="p">)</span>
     <span class="c1">## Can include more HTML preprocessing here...</span>
     <span class="n">stripped_html_elements</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;div&#39;</span><span class="p">,</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span><span class="s1">&#39;mw-content-text&#39;</span><span class="p">})</span>
@@ -541,7 +546,7 @@ Typing disciplineDuck, dynamic, strong typing;[4] gradual (since 3.5, but ignore
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nltk</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nltk</span>
 <span class="kn">from</span> <span class="nn">nltk.stem</span> <span class="kn">import</span> <span class="n">PorterStemmer</span><span class="p">,</span> <span class="n">LancasterStemmer</span><span class="p">,</span> <span class="n">RegexpStemmer</span><span class="p">,</span> <span class="n">SnowballStemmer</span>
 
 <span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;jumping&#39;</span><span class="p">,</span> <span class="s1">&#39;jumps&#39;</span><span class="p">,</span> <span class="s1">&#39;jumped&#39;</span><span class="p">,</span> <span class="s1">&#39;jumpy&#39;</span><span class="p">]</span>
@@ -556,7 +561,7 @@ Typing disciplineDuck, dynamic, strong typing;[4] gradual (since 3.5, but ignore
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">ps</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">ps</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -568,7 +573,7 @@ Typing disciplineDuck, dynamic, strong typing;[4] gradual (since 3.5, but ignore
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">ls</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">ls</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -580,7 +585,7 @@ Typing disciplineDuck, dynamic, strong typing;[4] gradual (since 3.5, but ignore
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">ss</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">ss</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -592,7 +597,7 @@ Typing disciplineDuck, dynamic, strong typing;[4] gradual (since 3.5, but ignore
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">rs</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">rs</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -631,7 +636,7 @@ Typing disciplineDuck, dynamic, strong typing;[4] gradual (since 3.5, but ignore
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.stem</span> <span class="kn">import</span> <span class="n">WordNetLemmatizer</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.stem</span> <span class="kn">import</span> <span class="n">WordNetLemmatizer</span>
 <span class="n">wnl</span> <span class="o">=</span> <span class="n">WordNetLemmatizer</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -639,7 +644,7 @@ Typing disciplineDuck, dynamic, strong typing;[4] gradual (since 3.5, but ignore
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># nouns</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># nouns</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">wnl</span><span class="o">.</span><span class="n">lemmatize</span><span class="p">(</span><span class="s1">&#39;cars&#39;</span><span class="p">,</span><span class="s1">&#39;n&#39;</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">wnl</span><span class="o">.</span><span class="n">lemmatize</span><span class="p">(</span><span class="s1">&#39;men&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">))</span>
 </pre></div>
@@ -654,7 +659,7 @@ men
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># verbs</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># verbs</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">wnl</span><span class="o">.</span><span class="n">lemmatize</span><span class="p">(</span><span class="s1">&#39;running&#39;</span><span class="p">,</span><span class="s1">&#39;v&#39;</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">wnl</span><span class="o">.</span><span class="n">lemmatize</span><span class="p">(</span><span class="s1">&#39;ate&#39;</span><span class="p">,</span> <span class="s1">&#39;v&#39;</span><span class="p">))</span>
 </pre></div>
@@ -669,7 +674,7 @@ eat
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># adj</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># adj</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">wnl</span><span class="o">.</span><span class="n">lemmatize</span><span class="p">(</span><span class="s1">&#39;saddest&#39;</span><span class="p">,</span><span class="s1">&#39;a&#39;</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">wnl</span><span class="o">.</span><span class="n">lemmatize</span><span class="p">(</span><span class="s1">&#39;fancier&#39;</span><span class="p">,</span><span class="s1">&#39;a&#39;</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">wnl</span><span class="o">.</span><span class="n">lemmatize</span><span class="p">(</span><span class="s1">&#39;jumpy&#39;</span><span class="p">,</span><span class="s1">&#39;a&#39;</span><span class="p">))</span>
@@ -702,7 +707,7 @@ $ python -m spacy download en_core_web_sm
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
 <span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;en_core_web_sm&#39;</span><span class="p">,</span> <span class="n">disable</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;parse&#39;</span><span class="p">,</span><span class="s1">&#39;entity&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -710,7 +715,7 @@ $ python -m spacy download en_core_web_sm
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;My system keeps crashing his crashed yesterday, ours crashes daily&#39;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;My system keeps crashing his crashed yesterday, ours crashes daily&#39;</span>
 <span class="n">text_tagged</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -721,7 +726,7 @@ $ python -m spacy download en_core_web_sm
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">text_tagged</span><span class="p">:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">text_tagged</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">text</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="n">t</span><span class="o">.</span><span class="n">lemma_</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span><span class="o">+</span> <span class="n">t</span><span class="o">.</span><span class="n">pos_</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -744,7 +749,7 @@ daily/daily/ADV
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">lemmatize_text</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">lemmatize_text</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
     <span class="n">text</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
     <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">word</span><span class="o">.</span><span class="n">lemma_</span> <span class="k">if</span> <span class="n">word</span><span class="o">.</span><span class="n">lemma_</span> <span class="o">!=</span> <span class="s1">&#39;-PRON-&#39;</span> <span class="k">else</span> <span class="n">word</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">text</span>
@@ -775,7 +780,7 @@ daily/daily/ADV
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">TAWP</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">TAWP</span>
 <span class="kn">from</span> <span class="nn">TAWP.contractions</span> <span class="kn">import</span> <span class="n">CONTRACTION_MAP</span>
 <span class="kn">import</span> <span class="nn">re</span>
 
@@ -814,7 +819,7 @@ daily/daily/ADV
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">expand_contractions</span><span class="p">(</span><span class="s2">&quot;Y&#39;all can&#39;t expand contractions I&#39;d think&quot;</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">expand_contractions</span><span class="p">(</span><span class="s2">&quot;Y&#39;all can&#39;t expand contractions I&#39;d think&quot;</span><span class="p">))</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">expand_contractions</span><span class="p">(</span><span class="s2">&quot;I&#39;m very glad he&#39;s here! And it ain&#39;t here!&quot;</span><span class="p">))</span>
 </pre></div>
@@ -829,7 +834,7 @@ I am very glad he is here! And it is not here!
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">CONTRACTION_MAP</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">CONTRACTION_MAP</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -841,7 +846,7 @@ I am very glad he is here! And it is not here!
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">CONTRACTION_MAP</span><span class="o">.</span><span class="n">items</span><span class="p">())[:</span><span class="mi">5</span><span class="p">]</span> <span class="c1"># check the first five items</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">CONTRACTION_MAP</span><span class="o">.</span><span class="n">items</span><span class="p">())[:</span><span class="mi">5</span><span class="p">]</span> <span class="c1"># check the first five items</span>
 </pre></div>
 </div>
 </div>
@@ -864,7 +869,7 @@ I am very glad he is here! And it is not here!
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unicodedata</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unicodedata</span>
 
 <span class="k">def</span> <span class="nf">remove_accented_chars</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
 <span class="c1">#     ```</span>
@@ -901,7 +906,7 @@ I am very glad he is here! And it is not here!
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Chinese characters with full-width English letters and punctuations</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Chinese characters with full-width English letters and punctuations</span>
 <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;中英文abc,，。.．ＡＢＣ１２３&#39;</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">unicodedata</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s1">&#39;NFKD&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">unicodedata</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s1">&#39;NFKC&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">))</span>  <span class="c1"># recommended method</span>
@@ -924,7 +929,7 @@ I am very glad he is here! And it is not here!
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;中文ＣＨＩＮＥＳＥ。！＝=.= ＾o＾ 2020/5/20 alvin@gmal.cob@%&amp;*&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;中文ＣＨＩＮＥＳＥ。！＝=.= ＾o＾ 2020/5/20 alvin@gmal.cob@%&amp;*&quot;</span>
 
 <span class="c1"># remove puncs/symbols</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
@@ -972,7 +977,7 @@ I am very glad he is here! And it is not here!
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">remove_special_characters</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">remove_digits</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">remove_special_characters</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">remove_digits</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;[^a-zA-Z0-9\s]&#39;</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">remove_digits</span> <span class="k">else</span> <span class="sa">r</span><span class="s1">&#39;[^a-zA-Z\s]&#39;</span>
     <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">text</span>
@@ -997,7 +1002,7 @@ This is a simple case Removing  or  symbols is probably ok
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;It&#39;s a complex sentences, and I&#39;m not sure if it&#39;s ok to replace all symbols then :( What now!!??)&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;It&#39;s a complex sentences, and I&#39;m not sure if it&#39;s ok to replace all symbols then :( What now!!??)&quot;</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">remove_special_characters</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -1018,7 +1023,7 @@ This is a simple case Removing  or  symbols is probably ok
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nltk</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nltk</span>
 <span class="kn">from</span> <span class="nn">nltk.tokenize.toktok</span> <span class="kn">import</span> <span class="n">ToktokTokenizer</span>
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">ToktokTokenizer</span><span class="p">()</span> <span class="c1"># assuming per line per sentence </span>
     <span class="c1"># for other Tokenizer, maybe sent.tokenize should go first</span>
@@ -1048,7 +1053,7 @@ This is a simple case Removing  or  symbols is probably ok
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nltk</span><span class="o">.</span><span class="n">corpus</span><span class="o">.</span><span class="n">stopwords</span><span class="o">.</span><span class="n">fileids</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nltk</span><span class="o">.</span><span class="n">corpus</span><span class="o">.</span><span class="n">stopwords</span><span class="o">.</span><span class="n">fileids</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1089,7 +1094,7 @@ This is a simple case Removing  or  symbols is probably ok
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">remove_redundant_whitespaces</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">remove_redundant_whitespaces</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
     <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 </pre></div>
@@ -1098,7 +1103,7 @@ This is a simple case Removing  or  symbols is probably ok
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;We are humans  and we   often have typos.  &quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;We are humans  and we   often have typos.  &quot;</span>
 <span class="n">remove_redundant_whitespaces</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 </pre></div>
 </div>
