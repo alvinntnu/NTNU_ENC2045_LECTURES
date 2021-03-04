@@ -13,7 +13,7 @@ text = """
 高速公路局說，目前在國道3號北向水上系統至中埔路段車多壅塞，已回堵約3公里。另外，國道1號北向仁德至永康路段路段，已回堵約有7公里。建議駕駛人提前避開壅塞路段改道行駛，行經車多路段請保持行車安全距離，小心行駛。
 國道車多壅塞路段還有國1內湖-五堵北向路段、楊梅-新竹南向路段；國3三鶯-關西服務區南向路段、快官-霧峰南向路段、水上系統-中埔北向路段；國6霧峰系統-東草屯東向路段、國10燕巢-燕巢系統東向路段。
 """
-text_jb = jieba.cut(text)  
+text_jb = jieba.lcut(text)  
 print(' | '.join(text_jb))
 
 - initialize traditional Chinese dictionary
@@ -150,6 +150,13 @@ for sentence, sentence_ws, sentence_pos, sentence_ner in zip(text2, ws2, pos2, n
    for entity in sentence_ner:
       print(entity)
    print()
+
+```{tip}
+It is still not clear to me how we can include user-defined dictionary in the `ckip-transformers`. However, I know that it is possible to use self-defined dictionary in the `ckiptagger`. 
+
+If you know where and how to incorporate self-defined dictionary in the `ckip-transformers`, please let me know. Thanks!
+
+```
 
 ## Other Modules for Chinese Word Segmentation
 

@@ -1,23 +1,6 @@
----
-jupyter:
-  jupytext:
-    text_representation:
-      extension: .md
-      format_name: pandoc
-      format_version: 2.10.1
-      jupytext_version: 1.8.2
-  kernelspec:
-    display_name: Python 3
-    language: python
-    name: python3
-  nbformat: 4
-  nbformat_minor: 5
----
-
-::: {.cell .markdown}
 # ENC2045 Computational Linguistics
 
-``` {.{.{.{warning}}}}
+```{warning}
 These lecture notes are still work-in-progress. There will always be last-minute changes to the files and notebooks. Please ALWAYS download the most recent version of the notebooks before the class of each week.
 ```
 
@@ -29,29 +12,29 @@ Computational Linguistics (CL) is now a very active sub-discipline in applied li
 
 A selective collection of potential topics may include:
 
-`<i class="fa fa-check fa-1x" style="color:DarkTurquoise;margin-right:5px">`{=html}`</i>`{=html} A Pipeline for Natural Language Processing
+<i class="fa fa-check fa-1x" style="color:DarkTurquoise;margin-right:5px"></i> A Pipeline for Natural Language Processing
 
 -   Text Normalization
 -   Text Tokenization
 -   Parsing and Chunking
 
-`<i class="fa fa-check fa-1x" style="color:DarkTurquoise;margin-right:5px">`{=html}`</i>`{=html} Chinese Processing
+<i class="fa fa-check fa-1x" style="color:DarkTurquoise;margin-right:5px"></i> Chinese Processing
 
 -   Issues for Chinese Language Processing (Word Segmentation)
 
-`<i class="fa fa-check fa-1x" style="color:DarkTurquoise;margin-right:5px">`{=html}`</i>`{=html} Machine Learning Basics
+<i class="fa fa-check fa-1x" style="color:DarkTurquoise;margin-right:5px"></i> Machine Learning Basics
 
 -   Feature Engineering and Text Vectorization
 -   Traditional Machine Learning
 -   Classification Models (Naive Bayes, SVM, Logistic Regression)
 
-`<i class="fa fa-check fa-1x" style="color:DarkTurquoise;margin-right:5px">`{=html}`</i>`{=html}
+<i class="fa fa-check fa-1x" style="color:DarkTurquoise;margin-right:5px"></i>
 Common Computational Tasks
 
 -   Sentiment Analysis
 -   Tex Clustering and Topic Modeling
 
-`<i class="fa fa-check fa-1x" style="color:DarkTurquoise;margin-right:5px">`{=html}`</i>`{=html}
+<i class="fa fa-check fa-1x" style="color:DarkTurquoise;margin-right:5px"></i>
 Deep Learning NLP
 
 -   Neural Language Model
@@ -67,13 +50,7 @@ This course is extremely hands-on and will guide the students through classic ex
 A test on Python Basics will be conducted on the second week of the class to ensure that every enrolled student fulfills the prerequisite. (To be more specific, you are assumed to have already had working knowledge of all the concepts included in the book, Lean Python: Learn Just Enough Python to Build Useful Tools). Those who fail on the Python basics test are NOT advised to take this course.
 
 Please note that this course is designed specifically for linguistics majors in humanities. For computer science majors, this course will not feature a thorough description of the mathematical operations behind the algorithms. We focus more on the practical implementation.
-:::
 
-::: {.cell .markdown}
-:::
-:::
-
-::: {.cell .markdown}
 ## Course Website
 
 All the course materials will be available on the [course website ENC2045](https://alvinntnu.github.io/NTNU_ENC2045/). You may need a password to access the course materials/data. If you are an officially enrolled student, please ask the instructor for the passcode.
@@ -81,9 +58,7 @@ All the course materials will be available on the [course website ENC2045](https
 We will also have a Moodle course site for assignment submission.
 
 Please read the FAQ of the course website before course registration.
-:::
 
-::: {.cell .markdown}
 ## Major Readings
 
 The course materials are mainly based on the following readings.
@@ -97,9 +72,7 @@ The course materials are mainly based on the following readings.
 `{image} images/book-sklearn.jpg :alt: sklearn :width: 200px :align: center`
 
 `{image} images/book-dl.jpg :alt: dl :width: 200px :align: center`
-:::
 
-::: {.cell .markdown}
 ## Recommended Books
 
 Also, there are many other useful reference books, which are listed as follows in terms of three categories:
@@ -108,27 +81,23 @@ Also, there are many other useful reference books, which are listed as follows i
 -   Data Analysis with Python {cite}`mckinney2012python,geron2019hands`
 -   Natural Language Processing with Python {cite}`sarkar2019text,bird2009natural,vajjala2020,perkins2014python,srinivasa2018natural`
 -   Deep Learning {cite}`francois2017deep`
-:::
 
-::: {.cell .markdown}
 ## Online Resources
 
 In addition to books, there are many wonderful on-line resources, esp. professional blogs, providing useful tutorials and intuitive understanding of many complex ideas in NLP and AI development. Among them, here is a list of my favorites:
 
 -   [Toward Data Science](https://towardsdatascience.com/)
 -   [LeeMeng](https://leemeng.tw/)
--   [Dipanzan Sarkar's articles](https://towardsdatascience.com/@dipanzan.sarkar)
+-   [Dipanzan Sarkar’s articles](https://towardsdatascience.com/@dipanzan.sarkar)
 -   [Python Graph Libraries](https://python-graph-gallery.com/)
 -   [KGPTalkie NLP](https://kgptalkie.com/category/natural-language-processing-nlp/)
--   [Jason Brownlee's Blog: Machine Learning Mastery](https://machinelearningmastery.com/)
--   [Jay Alammar's Blog](https://jalammar.github.io/)
--   [Chris McCormich's Blog](https://mccormickml.com/)
+-   [Jason Brownlee’s Blog: Machine Learning Mastery](https://machinelearningmastery.com/)
+-   [Jay Alammar’s Blog](https://jalammar.github.io/)
+-   [Chris McCormich’s Blog](https://mccormickml.com/)
 -   [GLUE: General Language Understanding Evaluation Benchmark](https://gluebenchmark.com/)
 -   [SuperGLUE](https://super.gluebenchmark.com/)
-:::
 
-::: {.cell .markdown}
-## YouTube Channels `<i class="fa fa-youtube">`{=html}`</i>`{=html} {#youtube-channels-}
+## YouTube Channels <i class="fa fa-youtube"></i>
 
 -   [Chris McCormick AI](https://www.youtube.com/channel/UCoRX98PLOsaN8PtekB9kWrw/videos)
 -   [Corey Schafer](https://www.youtube.com/channel/UCCezIgC97PvUuR4_gbFUs5g)
@@ -142,9 +111,7 @@ In addition to books, there are many wonderful on-line resources, esp. professi
 -   [Keith Galli](https://www.youtube.com/channel/UCq6XkhO5SZ66N04IcPbqNcw)
 -   [Data Science Dojo](https://www.youtube.com/c/Datasciencedojo/featured)
 -   [Calculus: Single Variable by Professor Robert Ghrist](https://www.youtube.com/playlist?list=PLKc2XOQp0dMwj9zAXD5LlWpriIXIrGaNb)
-:::
 
-::: {.cell .markdown}
 ## Environment Setup
 
 1.  We assume that you have created and set up your python environment as follows:
@@ -155,7 +122,7 @@ In addition to books, there are many wonderful on-line resources, esp. professi
 3.  We assume you have created a conda virtual environment, named, `python-notes`, for all the scripting, and you are able to run the notebooks in the conda environment kernel in Jupyter.
 4.  You can also run the notebooks directly in Google Colab, or alternatively download the `.ipynb` notebook files onto your hard drive or Google Drive for further changes.
 
-``` {.{.{.{tip}}}}
+``` {.{.{tip}}}
 If you cannot find the conda environment kernal in your Jupyter Notebook. Please instal the module `ipykernel`. For more details on how to use specific conda environments in Jupyter, please see [this article](https://medium.com/@nrk25693/how-to-add-your-conda-environment-to-your-jupyter-notebook-in-just-4-steps-abeab8b8d084).
 ```
 
@@ -174,9 +141,7 @@ Similarly, when you add the self-defined conda environment to the notebook kerne
 You need to specify the conda environment name `XXX`.
 
 For Windows users, it is highly recommended to run the installation of python-related modules in `Anaconda Prompt` instead of `cmd`.
-:::
 
-::: {.cell .markdown}
 ## Module Requirements
 
 Not all modules used in this course come with the default installation of the python environment. Please remember to install these packages in use if you get a module-not-found type of errors.
@@ -202,25 +167,98 @@ The following is a list of packages we will use (non-exhaustive):
 -   `transformers`
 
 Please google these packages for more details on their installation.
-:::
 
-::: {.cell .markdown}
 ## Coding Assignments Reminders
 
 1.  You have to submit your assignments via Moodle.
 2.  Please name your files in the following format: `Assignment-X-NAME.ipynb` and `Assignment-X-NAME.html`.
 3.  Please always submit both the Jupyter notebook file and its HTML version.
 
-``` {.{.{.{warning}}}}
+``` {.{.{warning}}}
 Unless otherwise specified in class, all assignments will be due on the date/time given on Moodle. Late work within **7 calendar days** of the original due date will be accepted by the instructor at the instructor's discretion. After that, no late work will not be accepted.
 ```
-:::
 
-::: {.cell .markdown}
 ## References
 
-``` {.{.{.{bibliography}}}}
+``` {.{.{bibliography}}}
 :filter: docname in docnames
 :style: unsrt
 ```
-:::
+
+
+```{toctree}
+:hidden:
+:titlesonly:
+:caption: INTRODUCTION
+
+nlp/nlp-primer
+nlp/nlp-pipeline
+```
+
+
+```{toctree}
+:hidden:
+:titlesonly:
+:caption: Preprocessing
+
+nlp/text-preprocessing
+nlp/chinese-word-seg
+```
+
+
+```{toctree}
+:hidden:
+:titlesonly:
+:caption: Text Vectorization
+
+temp/text-vec-traditional
+temp/text-vec-embedding
+temp/text-vec-embedding-keras
+```
+
+
+```{toctree}
+:hidden:
+:titlesonly:
+:caption: Machine Learning Basics
+
+nlp/ml-overview
+nlp/ml-simple-case
+nlp/ml-nlp-case
+nlp/ml-algorithm
+temp/ml-sklearn-classification
+```
+
+
+```{toctree}
+:hidden:
+:titlesonly:
+:caption: NLP Tasks
+
+nlp/text-classification
+temp/topic-modeling-naive
+temp/topic-modeling-complex
+nlp/sentiment-analysis
+```
+
+
+```{toctree}
+:hidden:
+:titlesonly:
+:caption: Deep Learning NLP
+
+temp/dl-neural-network-from-scratch
+temp/dl-statistical-language-model
+```
+
+
+```{toctree}
+:hidden:
+:titlesonly:
+:numbered: 2
+:caption: Exercises
+
+exercise/1-python-basics
+exercise/2-journal-review
+exercise/3-preprocessing
+```

@@ -74,7 +74,7 @@ rs = RegexpStemmer('ing$|s$|ed$|y$', min=4) # set the minimum of the string to s
 ## Lemmatization
 
 
-- Lemmatization is similar to stemmarization.
+- Lemmatization is similar to stemmatization.
 - It is a process where we remove word affixes to get the **root word** but not the **root stem**.
 - These root words, i.e., lemmas, are lexicographically correct words and always present in the dictionary.
 
@@ -90,7 +90,8 @@ In terms of Lemmatization and Stemmatization, which one requires more computatio
 ### WordNet Lemmatizer
 
 - WordNetLemmatizer utilizes the dictionary of WordNet.
-- It requires the parts of speech of the word for lemmatization.
+- It requires the **parts of speech** of the word for lemmatization.
+- I think right now only nouns, verbs and adjectives are important in `WordNetLemmatizer`.
 
 from nltk.stem import WordNetLemmatizer
 wnl = WordNetLemmatizer()
@@ -116,8 +117,16 @@ To use `spacy` properly, you need to download/install the language models of the
 Also, please remember to install the language models in the right conda environment.
 ```
 
+- For example, in my Mac:
+
+```
+$ source activate python-notes
+$ pip install spacy
+$ python -m spacy download en_core_web_sm
+```
+
 import spacy
-nlp = spacy.load('en_core_web_sm', parse=False, tag=True, entity=False)
+nlp = spacy.load('en_core_web_sm', disable=['parse','entity'])
 
 text = 'My system keeps crashing his crashed yesterday, ours crashes daily'
 text_tagged = nlp(text)
@@ -141,7 +150,15 @@ lemmatize_text("My system keeps crashing! his crashed yesterday, ours crashes da
 - These may get even more complicated when different tokenizers deal with contractions differently.
 - A good way is to expand all contractions into their original independent word forms.
 
-from contractions import CONTRACTION_MAP
+```{note}
+Please download the `TAWP` directory from the `data_data`. This directory includes code snippets provided in Sarkar's (2020) book.
+
+Also, you need to put this `TAWP` under your working directory for importing.
+
+```
+
+import TAWP
+from TAWP.contractions import CONTRACTION_MAP
 import re
 
 
@@ -152,21 +169,20 @@ def expand_contractions(text, contraction_mapping=CONTRACTION_MAP):
                                       flags=re.IGNORECASE | re.DOTALL)
 
     def expand_match(contraction):
-        match = contraction.group(0) # the whole matched contraction
+        match = contraction.group(0)  # the whole matched contraction
 
-        # if the matched contraction (=keys) exists in the dict, 
+        # if the matched contraction (=keys) exists in the dict,
         # get its corresponding uncontracted form (=values)
         expanded_contraction = contraction_mapping.get(match)\
                                 if contraction_mapping.get(match)\
                                 else contraction_mapping.get(match.lower())
-        
+
         return expanded_contraction
 
-    
     # find each contraction in the pattern,
     # find it from text,
-    # and replace it using the output of 
-    # expand_match 
+    # and replace it using the output of
+    # expand_match
     expanded_text = contractions_pattern.sub(expand_match, text)
     expanded_text = re.sub("'", "", expanded_text)
     return expanded_text
@@ -185,7 +201,7 @@ list(CONTRACTION_MAP.items())[:5] # check the first five items
 
 ## Accented Characters (Non-ASCII)
 
-- The `unicodedata` module handles unicode characters very efficiently. Please check [unicodedata dcoumentation] (https://docs.python.org/3/library/unicodedata.html) for more details.
+- The `unicodedata` module handles unicode characters very efficiently. Please check [unicodedata dcoumentation](https://docs.python.org/3/library/unicodedata.html) for more details.
 - When dealing with the English data, we may often encounter foreign characters in texts that are not part of the ASCII character set.
 
 import unicodedata
@@ -249,9 +265,9 @@ We can also make use of the category names to identify punctuations.
 
 - Depending on the research questions and the defined tasks, we often need to decide whether to remove irrelevant characters.
 - Common irrelevant (aka. non-informative) characters may include:
-    - punctuation marks
-    - digits
-    - any other non-alphanumeric characters 
+    - Punctuation marks and symbols
+    - Digits
+    - Any other non-alphanumeric characters 
 
 def remove_special_characters(text, remove_digits=False):
     pattern = r'[^a-zA-Z0-9\s]' if not remove_digits else r'[^a-zA-Z\s]'
@@ -309,3 +325,25 @@ def remove_redundant_whitespaces(text):
 
 s = "We are humans  and we   often have typos.  "
 remove_redundant_whitespaces(s)
+
+## Packing things together
+
+- Ideally, we can wrap all the relevant steps of text preprocessing in one coherent procedure.
+
+- Please study Sarkar's `text_normalizer.py`
+
+```
+def normalize_corpus(corpus, html_stripping=True, contraction_expansion=True,
+                     accented_char_removal=True, text_lower_case=True, 
+                     text_stemming=False, text_lemmatization=True, 
+                     special_char_removal=True, remove_digits=True,
+                     stopword_removal=True, stopwords=stopword_list):
+                     
+                     ## Your codes here
+    return corpus_normalized
+```
+    
+
+## References
+
+- Sarkar (2020), Chapter 3.

@@ -8,6 +8,11 @@ You may find articles that are of particular interest to your current research p
 
 Please find journal articles that have been published in **SSCI-** or **SCI-indexed** journals within the past **three** years (2019-2021).
 
+
+```{note}
+For this assignment, you can also submit it as a MS-Word file if you prefer a normal document editor :)
+```
+
 ---
 
 
@@ -21,7 +26,7 @@ Please find journal articles that have been published in **SSCI-** or **SCI-inde
 
 
 
-- Research Question of the Study
+- Objectives and Research Question of the Study
 
 
 

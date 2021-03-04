@@ -1,4 +1,4 @@
-# Preprocessing
+# Assignment III: Preprocessing
 
 ## Question 1
 
@@ -32,7 +32,7 @@ Based on the output of the previous question, please create a lemma frequnecy li
 - consisting of only alphabets or hyphens
 - at least 5-character long
 
-The casing is irrelevant.
+The casing is irrelevant (i.e., case normalization is needed).
 
 The expected output is provided as follows.
 
