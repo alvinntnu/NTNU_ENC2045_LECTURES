@@ -151,7 +151,7 @@ lemmatize_text("My system keeps crashing! his crashed yesterday, ours crashes da
 - A good way is to expand all contractions into their original independent word forms.
 
 ```{note}
-Please download the `TAWP` directory from the `data_data`. This directory includes code snippets provided in Sarkar's (2020) book.
+Please download the `TAWP` directory from the `demo_data`. This directory includes code snippets provided in Sarkar's (2020) book.
 
 Also, you need to put this `TAWP` under your working directory for importing.
 
@@ -279,7 +279,7 @@ print(remove_special_characters(s))
 print(remove_special_characters(s, True))
 
 :::{warning}
-In the following example, if we use the same `remove_special_characters()` to pre-processing the text, what additional problems will we encounter?
+In the following example, if we use the same `remove_special_characters()` to pre-process the text, what additional problems will we encounter?
 
 Any suggestions or better alternative methods?
 :::
