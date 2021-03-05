@@ -63,15 +63,35 @@ Please read the FAQ of the course website before course registration.
 
 The course materials are mainly based on the following readings.
 
-`{image} images/book-nltk.jpg :alt: ntlk :width: 200px :align: center`
+```{image} images/book-nltk.jpg 
+:alt: ntlk 
+:width: 200px 
+:align: center
+```
 
-`{image} images/book-pnlp.jpg :alt: ntlk :width: 200px :align: center`
+```{image} images/book-pnlp.jpg 
+:alt: ntlk 
+:width: 200px 
+:align: center
+```
 
-`{image} images/book-text-analytics.jpg :alt: text-analytics :width: 200px :align: center`
+```{image} images/book-text-analytics.jpg 
+:alt: text-analytics 
+:width: 200px 
+:align: center
+```
 
-`{image} images/book-sklearn.jpg :alt: sklearn :width: 200px :align: center`
+```{image} images/book-sklearn.jpg 
+:alt: sklearn 
+:width: 200px 
+:align: center
+```
 
-`{image} images/book-dl.jpg :alt: dl :width: 200px :align: center`
+```{image} images/book-dl.jpg 
+:alt: dl 
+:width: 200px 
+:align: center
+```
 
 ## Recommended Books
 
@@ -180,7 +200,7 @@ Unless otherwise specified in class, all assignments will be due on the date/tim
 
 ## References
 
-``` {.{.{bibliography}}}
+``` {bibliography} ./book.bib
 :filter: docname in docnames
 :style: unsrt
 ```

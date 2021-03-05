@@ -288,8 +288,3 @@ for w,p in zip(words,poss):
 ## References
 
 - Chapter 2 of Practical Natural Language Processing. {cite}`vajjala2020`
-
-```{bibliography} ../book.bib
-:filter: docname in docnames
-:style: unsrt
-```
