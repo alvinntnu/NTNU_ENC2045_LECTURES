@@ -38,4 +38,5 @@ These three preprocessing steps do NOT necessarily proceed in a serial fashion. 
 text-normalization-eng
 text-tokenization
 text-enrichment
+chinese-word-seg
 ```

@@ -284,7 +284,6 @@ nlp/nlp-pipeline
 :caption: Preprocessing
 
 nlp/text-preprocessing
-nlp/chinese-word-seg
 ```
 
 
@@ -294,8 +293,6 @@ nlp/chinese-word-seg
 :caption: Text Vectorization
 
 temp/text-vec-traditional
-temp/text-vec-embedding
-temp/text-vec-embedding-keras
 ```
 
 
@@ -308,19 +305,17 @@ nlp/ml-overview
 nlp/ml-simple-case
 nlp/ml-nlp-case
 nlp/ml-algorithm
-temp/ml-sklearn-classification
 ```
 
 
 ```{toctree}
 :hidden:
 :titlesonly:
-:caption: NLP Tasks
+:caption: Machine-Learning NLP
 
-nlp/text-classification
+temp/ml-sklearn-classification
+temp/text-classification-ml-newsgroups
 temp/topic-modeling-naive
-temp/topic-modeling-complex
-nlp/sentiment-analysis
 ```
 
 
@@ -330,7 +325,10 @@ nlp/sentiment-analysis
 :caption: Deep Learning NLP
 
 temp/dl-neural-network-from-scratch
+temp/text-vec-embedding
+temp/text-vec-embedding-keras
 temp/dl-statistical-language-model
+temp/dl-sequence-models-intuition
 ```
 
 
@@ -343,4 +341,5 @@ temp/dl-statistical-language-model
 exercise/1-python-basics
 exercise/2-journal-review
 exercise/3-preprocessing
+exercise/4-chinese-nlp
 ```

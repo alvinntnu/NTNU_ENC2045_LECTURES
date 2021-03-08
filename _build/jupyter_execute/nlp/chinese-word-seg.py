@@ -6,7 +6,15 @@
 
 ## Segmentation using `jieba`
 
-- [`jieba`](https://github.com/fxsjy/jieba)
+- Before we start, if you haven't installed the module, please install it as follows:
+
+```
+$ conda activate python-notes
+$ pip install jieba
+```
+
+
+- Check the module documentation for more detail: [`jieba`](https://github.com/fxsjy/jieba)
 
 import jieba
 text = """
@@ -184,8 +192,8 @@ $ pip show spacy
 - Installation steps:
 
 ```
-$ pip install -U pip setuptools wheel
-$ pip install -U spacy
+$ conda activate python-notes
+$ conda install -c conda-forge spacy
 $ python -m spacy download zh_core_web_trf
 $ python -m spacy download zh_core_web_sm
 $ python -m spacy download en_core_web_trf
