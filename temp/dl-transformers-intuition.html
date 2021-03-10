@@ -1,0 +1,634 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transformers: Intuition &#8212; ENC2045 Computational Linguistics</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="1. Assignment I: Python Basics" href="../exercise/1-python-basics.html" />
+    <link rel="prev" title="Attention: Intuition" href="dl-seq-to-seq-types.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/ntnu-word-2.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">ENC2045 Computational Linguistics</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <p class="caption collapsible-parent">
+ <span class="caption-text">
+  INTRODUCTION
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/nlp-primer.html">
+   Natural Language Processing: A Primer
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/nlp-pipeline.html">
+   NLP Pipeline
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Preprocessing
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../nlp/text-preprocessing.html">
+   Text Preprocessing
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../nlp/text-normalization-eng.html">
+     Text Normalization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../nlp/text-tokenization.html">
+     Text Tokenization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../nlp/text-enrichment.html">
+     Text Enrichment
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../nlp/chinese-word-seg.html">
+     Chinese Word Segmentation
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Text Vectorization
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="text-vec-traditional.html">
+   Text Vectorization Using Traditional Methods
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine Learning Basics
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-overview.html">
+   Machine Learning: Overview
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-simple-case.html">
+   Machine Learning: A Simple Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-nlp-case.html">
+   Machine Learning: NLP Tasks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-algorithm.html">
+   Classification Models
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine-Learning NLP
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-sklearn-classification.html">
+   Sentiment Analysis Using Bag-of-Words
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="text-classification-ml-newsgroups.html">
+   Text Classification Using Bag-of-Words
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="topic-modeling-naive.html">
+   Topic Modeling: A Naive Example
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Deep Learning NLP
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl-neural-network-from-scratch.html">
+   Neural Network From Scratch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="text-vec-embedding.html">
+   Word Embeddings
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="text-vec-embedding-keras.html">
+   Word Embedding Using Keras
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl-statistical-language-model.html">
+   Statistical Language Model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl-sequence-models-intuition.html">
+   Sequence Models Intuition
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Attention, Transformers, and Transfer Learning
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl-seq-to-seq-types.html">
+   Attention: Intuition
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Transformers: Intuition
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Exercises
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/1-python-basics.html">
+   1. Assignment I: Python Basics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/2-journal-review.html">
+   2. Assignment II: Journal Articles Review
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/3-preprocessing.html">
+   3. Assignment III: Preprocessing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/4-chinese-nlp.html">
+   4. Assignment IV: Chinese Language Processing
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  <div style="text-align:center">
+<i class="fas fa-chalkboard-teacher fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinntnu.github.io/NTNU_ENC2045/" target='_blank'>ENC2045 Course Website</a><br>
+<i class="fas fa-home fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinchen.myftp.org/" target='_blank'>Alvin Chen's Homepage</a>
+</div>
+
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/temp/dl-transformers-intuition.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alvinntnu/NTNU_ENC2045_LECTURES/main?urlpath=tree/temp/dl-transformers-intuition.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alvinntnu/NTNU_ENC2045_LECTURES/blob/main/temp/dl-transformers-intuition.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#self-attention">
+   Self-attention
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#from-self-attention-to-transformers">
+   From Self-Attention to Transformers
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#from-transformers-to-classifiers">
+   From Transformers to Classifiers
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#token-positions">
+   Token Positions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#famous-transformers-based-models">
+   Famous Transformers-based Models
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bert">
+     BERT
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#gpt-2">
+     GPT-2
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#more">
+   More
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="transformers-intuition">
+<h1>Transformers: Intuition<a class="headerlink" href="#transformers-intuition" title="Permalink to this headline">¶</a></h1>
+<p><img alt="" src="../_images/transformers-ex.png" />
+(Source: <a class="reference external" href="http://jalammar.github.io/illustrated-bert/">http://jalammar.github.io/illustrated-bert/</a>)</p>
+<ul class="simple">
+<li><p>Transformers are a very exciting development in deep learning NLP.</p></li>
+<li><p>It can be seen as an important architecture in deep learning that allows the model to learn things from the co-occurring contexts of words.</p></li>
+<li><p>Most importantly, this mechanism enables the model to effectively model the long distance dependency relations in languages, which have long been a difficult task in traditional statistical NLP.</p></li>
+</ul>
+<div class="section" id="self-attention">
+<h2>Self-attention<a class="headerlink" href="#self-attention" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>The fundamental component of a transformer is the <strong>self-attention</strong> mechanism.</p></li>
+<li><p>Self-attention is like a sequence-to-sequence model, where an input sequence goes in and an output sequence comes out.</p></li>
+<li><p>The main characteristics of self-attention is when determining every token of the output sequence, it considers not only one particular token of the input sequence, but all the other input tokens.</p></li>
+</ul>
+<ul class="simple">
+<li><p>In other words, each output token, <span class="math notranslate nohighlight">\(y_i\)</span>, is a weighted average over all the input tokens .</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+y_i = \sum_jw_{ij}x_j
+\]</div>
+<p><img alt="" src="../_images/transformers-self-attention.svg" />
+(Source: <a class="reference external" href="http://peterbloem.nl/blog/transformers">http://peterbloem.nl/blog/transformers</a>)</p>
+</div>
+<div class="section" id="from-self-attention-to-transformers">
+<h2>From Self-Attention to Transformers<a class="headerlink" href="#from-self-attention-to-transformers" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>A <strong>transformer</strong> is an architecture that builds upon self-attention layers.</p></li>
+<li><p>Peter Bloem’s definition of transformers:</p></li>
+</ul>
+<blockquote>
+<div><p>Any architecture designed to process a connected set of units–such as the tokens in a sequence or the pixels in an image–where the only interaction between units is through self-attention.</p>
+</div></blockquote>
+<p><img alt="" src="../_images/transformer-block.svg" />
+(Source: <a class="reference external" href="http://peterbloem.nl/blog/transformers">http://peterbloem.nl/blog/transformers</a>)</p>
+<ul class="simple">
+<li><p>A transformer block combines the self-attention layer with a local feedforward network and add normalization and residual connections.</p></li>
+<li><p>Normalization and residual connections are standard tricks used to help neural network train faster and more accurately.</p></li>
+<li><p>A transformer block can also have <strong>multiheaded attention layers</strong>, which multiple self-attention layers to keep track of different types of long-distance relationships between input tokens.</p></li>
+</ul>
+</div>
+<div class="section" id="from-transformers-to-classifiers">
+<h2>From Transformers to Classifiers<a class="headerlink" href="#from-transformers-to-classifiers" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>With the transformer blocks, the most common way to build a classifier is to have a architecture consisting of a large chain of transformer blocks.</p></li>
+<li><p>All we need to do is work out how to feed the input sequences into the architecture and how to transform the final output sequence into a single classification.</p></li>
+</ul>
+<p><img alt="" src="../_images/transformers-classifier.svg" />
+(Source: <a class="reference external" href="http://peterbloem.nl/blog/transformers">http://peterbloem.nl/blog/transformers</a>)</p>
+<ul class="simple">
+<li><p>The trick in the classifier is to apply global average pooling to the final output sequence, and map the result to a softmaxed class vector.</p>
+<ul>
+<li><p>The output sequence is averaged to produce a single vector.</p></li>
+<li><p>This vector is then projected down to a vector with one element per class and softmaxed into probabilities.</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="token-positions">
+<h2>Token Positions<a class="headerlink" href="#token-positions" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>The above operation of transformers does not take into account the relative positions of tokens in each sequence.</p></li>
+<li><p>The output sequence may therefore be the same no matter how the tokens of the input sequence vary in order. (The model is <strong>permutation invariant</strong>).</p></li>
+<li><p>To fix this, most transformers models create <strong>position embeddings</strong> or <strong>position encodings</strong> for each token of the sequence to:</p>
+<ul>
+<li><p>represent the position of the word/token in the current sequence</p></li>
+<li><p>add this to word/token embedding</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="famous-transformers-based-models">
+<h2>Famous Transformers-based Models<a class="headerlink" href="#famous-transformers-based-models" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="bert">
+<h3>BERT<a class="headerlink" href="#bert" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>The paper: <a class="reference external" href="https://arxiv.org/abs/1810.04805">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</a></p></li>
+<li><p>BERT consists of a simple stacks of transformer blocks.</p></li>
+<li><p>It is pre-trained on a large general-domain corpus consisting of 800M words from English books and 2.5B words of Wikipedia articles.</p></li>
+</ul>
+<ul class="simple">
+<li><p>BERT pretraining features two language tasks:</p>
+<ul>
+<li><p><strong>Masking</strong>: A certain number of words in the input sequences are randomly masked out and the model is to learn to predict which words have been modified and what the original words are for each input sequence.</p></li>
+<li><p><strong>Next Sequence Classification</strong>: Two sequences (around 256 words) are sampled from the corpus which may follow each other directly in the corpus, or are taken from random places. The model needs to learn which case it would be.</p></li>
+</ul>
+</li>
+</ul>
+<ul class="simple">
+<li><p>BERT utilizes <strong>WordPiece</strong> tokenization. Each token is somewhere in between word-level and character level sequences.</p></li>
+</ul>
+<ul class="simple">
+<li><p>With this pretrained BERT, we can add signle task-specific layer after the stach of transformer blocks, which maps the general purpose representation to a task specific output (e.g., binary classification).</p></li>
+<li><p>The model then will be fine-tuned for that particular task at hand. (<strong>transfer learning</strong>!!)</p></li>
+</ul>
+<ul class="simple">
+<li><p>Statistics of the large BERT model:</p>
+<ul>
+<li><p>Transformer blocks: 24</p></li>
+<li><p>Sequence length: 256(?)</p></li>
+<li><p>Embedding dimension: 1024</p></li>
+<li><p>Attention heads: 16</p></li>
+<li><p>Parameter number: 340M</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="gpt-2">
+<h3>GPT-2<a class="headerlink" href="#gpt-2" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>GPT-2 is famous (notorious) in the news media as the “<a class="reference external" href="https://www.bbc.com/news/technology-47249163">malicious writing AI</a>”.</p></li>
+<li><p>Different from BERT, GPT-2 is fundamentally a language <strong>generation</strong> model.</p></li>
+<li><p>GPT-2 features its the linguistic diversity of their training data (e.g., posts and links via the social media site <em>Reddit</em> with a minimum level of social support, i.e., 按讚數).</p></li>
+<li><p>Statistics of GPT-2:</p>
+<ul>
+<li><p>Transformer blocks: 48</p></li>
+<li><p>Sequence length: 1024</p></li>
+<li><p>Ebmedding dimension: 1600</p></li>
+<li><p>Attention heads: 36</p></li>
+<li><p>Parameter number: 1.5B</p></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="more">
+<h2>More<a class="headerlink" href="#more" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://arxiv.org/abs/1901.02860">Transformer-XL</a></p></li>
+<li><p>The current performance limit is purely in the hardware.</p></li>
+<li><p>Transformers are generic, waiting to be exploited in many more fields.</p></li>
+</ul>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>The paper: <a class="reference external" href="https://arxiv.org/abs/1706.03762">Attention is All You Need</a></p></li>
+<li><p>This lecture is Peter Bloem’s blog post: <a class="reference external" href="http://peterbloem.nl/blog/transformers">Transformers from Scratch</a>.</p></li>
+<li><p>Jay Alammar’s blog post: <a class="reference external" href="https://jalammar.github.io/illustrated-transformer/">The Illustrated Transformer</a></p></li>
+<li><p>Jay Alammar’s blog post: <a class="reference external" href="http://jalammar.github.io/illustrated-bert/">The Illustrated BERT, ELMo, and co. (How NLP Cracked Transfer Learning)</a></p></li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python-notes",
+            path: "./temp"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python-notes'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="dl-seq-to-seq-types.html" title="previous page">Attention: Intuition</a>
+    <a class='right-next' id="next-link" href="../exercise/1-python-basics.html" title="next page"><span class="section-number">1. </span>Assignment I: Python Basics</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Alvin Chen<br/>
+        
+            &copy; Copyright 2020 Alvin Chen.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>
