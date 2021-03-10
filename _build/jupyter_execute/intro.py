@@ -335,6 +335,16 @@ temp/dl-sequence-models-intuition
 ```{toctree}
 :hidden:
 :titlesonly:
+:caption: Attention, Transformers, and Transfer Learning
+
+temp/dl-seq-to-seq-types
+temp/dl-transformers-intuition
+```
+
+
+```{toctree}
+:hidden:
+:titlesonly:
 :numbered: 2
 :caption: Exercises
 
