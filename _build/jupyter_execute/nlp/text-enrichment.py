@@ -31,7 +31,7 @@ test_sents[1]
 
 - NgramTagger
 
-![](../images/nltk-fig-5-1-tag-context.png) (From NLTK Book Ch 5. Figure 5-1)
+![](../images/nltk-fig-5-1-tag-context.png) <small>(From NLTK Book Ch 5. Figure 5-1)</small>
 
 
 from nltk.tag import UnigramTagger, BigramTagger, TrigramTagger
@@ -55,6 +55,8 @@ trigram_tagger.evaluate(test_sents)
     - `ClassifierBasedPOSTagger`
 
 - Backoff Tagging
+    - The idea of **backoff** is that for longer sequences, we are more likely to encounter *unseen* n-grams in the test data.
+    - To avoid the zero probability issue due to the unseen **n**-grams, we can backoff the probability estimates using the lower-order (**n-1**)-grams.
 
 unigram_tagger = UnigramTagger(train_sents)
 bigram_tagger = BigramTagger(train_sents,backoff=unigram_tagger)
@@ -69,7 +71,7 @@ Sometimes it may take a while to train a tagger. We can pickle a trained tagger 
 import pickle
 f = open('trigram-backoff-tagger.pickle', 'wb')
 f.close()
-f = open('trigram-backoff-tagger.pickle', ;rb)
+f = open('trigram-backoff-tagger.pickle', 'rb')
 tagger = pickle.load(f)
 ```
 :::
@@ -113,7 +115,7 @@ cbtagger2.evaluate(test_sents)
 
 ## Chunking
 
-- Chunk extraction is the processing of extracting short phrases from a part-of-speech tagged sentence.
+- **Chunk** extraction is the processing of extracting short phrases from a part-of-speech tagged sentence.
 - This is different from parsing in that we are only interested in standalone chunks or phrases, instead of the full parsed syntactic tree.
 
 - In NLTK, A `ChunkRule` class specifies what to *include* in a chunk, while a `ChinkRule` class specifies what to *exclude* from a chunk.
@@ -140,9 +142,13 @@ np_chunker.parse(nltk.pos_tag(nltk.word_tokenize(s)))
 We can define a function to extract chunks from the tree.
 
 def sub_leaves(tree, label):
-    return [t.leaves() for t in tree.subtrees(lambda s:s.label()==label)]
+    return [t.leaves() for t in 
+            tree.subtrees(lambda s:s.label()==label)]
 
-s_chunk_tree = np_chunker.parse(nltk.pos_tag(nltk.word_tokenize(s)))
+s_chunk_tree = np_chunker.parse(
+    nltk.pos_tag(
+        nltk.word_tokenize(s)))
+
 sub_leaves(s_chunk_tree, "NP")
 
 - Named Entity Chunker (NLTK)
@@ -194,7 +200,10 @@ displacy.render(doc, style="dep", options=options)
 doc2 = nlp_en(' '.join(treebank.sents()[0]))
 
 for c in doc2.noun_chunks:
-    print((c.text, c.root.text, c.root.dep_, c.root.head.text))
+    print((c.text, 
+           c.root.text, 
+           c.root.dep_, 
+           c.root.head.text))
 
 Each NP chunk includes several important pieces of information:
 - **Text**: The original noun chunk text.
@@ -207,7 +216,10 @@ displacy.render(doc2, style="dep")
 - Named Entity Extraction
 
 for ent in doc2.ents:
-    print((ent.text,ent.start_char, ent.end_char,ent.label_))
+    print((ent.text,
+           ent.start_char,
+           ent.end_char,
+           ent.label_))
 
 - Please check the documentation of [Universal Dependency Types](https://universaldependencies.org/docs/u/dep/index.html) proposed by [Marneffe et al.](https://nlp.stanford.edu/pubs/USD_LREC14_paper_camera_ready.pdf)
 

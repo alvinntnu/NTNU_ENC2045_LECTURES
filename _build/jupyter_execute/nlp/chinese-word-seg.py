@@ -1,8 +1,8 @@
 # Chinese Word Segmentation
 
 - Natural language processing methods are connected to the characteristics of the target language.
-- To deal with the Chinese language, the most intimidating task is to find out a basic **linguistic unit** to work with.
-- In this tutorial, we talk about a few segmentation methods in python.
+- To deal with the Chinese language, the most intimidating task is to determine a basic **linguistic unit** to work with.
+- In this tutorial, we will talk about a few **word segmentation** methods in python.
 
 ## Segmentation using `jieba`
 
@@ -21,10 +21,10 @@ text = """
 高速公路局說，目前在國道3號北向水上系統至中埔路段車多壅塞，已回堵約3公里。另外，國道1號北向仁德至永康路段路段，已回堵約有7公里。建議駕駛人提前避開壅塞路段改道行駛，行經車多路段請保持行車安全距離，小心行駛。
 國道車多壅塞路段還有國1內湖-五堵北向路段、楊梅-新竹南向路段；國3三鶯-關西服務區南向路段、快官-霧峰南向路段、水上系統-中埔北向路段；國6霧峰系統-東草屯東向路段、國10燕巢-燕巢系統東向路段。
 """
-text_jb = jieba.lcut(text)  
+text_jb = jieba.lcut(text)
 print(' | '.join(text_jb))
 
-- initialize traditional Chinese dictionary
+- Initialize traditional Chinese dictionary
     - Download the traditional chinese dictionary from [`jieba-tw`](https://raw.githubusercontent.com/ldkrsi/jieba-zh_TW/master/jieba/dict.txt)
     
 ```
@@ -37,7 +37,7 @@ jieba.set_dictionary(file_path)
 jieba.load_userdict(file_path)
 ```
 
-- Add add-hoc words to dictionary
+- Add ad-hoc words to dictionary
 
 ```
 jieba.add_word(word, freq=None, tag=None)
@@ -69,7 +69,7 @@ jieba.lcut(TEXT, cut_all=False)
 - For more detail on the installation of `ckip-transformers`, please read their [documentation](https://github.com/ckiplab/ckip-transformers).
 
 ```
-pip install -U transformers
+pip install -U ckip-transformers
 ```
 
 import ckip_transformers
@@ -81,9 +81,15 @@ from ckip_transformers.nlp import CkipWordSegmenter, CkipPosTagger, CkipNerChunk
 %%time
 
 # Initialize drivers
-ws_driver  = CkipWordSegmenter(level=3, device = -1)
-pos_driver = CkipPosTagger(level=3, device = -1)
-ner_driver = CkipNerChunker(level=3, device = -1)
+ws_driver = CkipWordSegmenter(level=3, device=-1)
+pos_driver = CkipPosTagger(level=3, device=-1)
+ner_driver = CkipNerChunker(level=3, device=-1)
+
+- We usually break the texts into smaller chunks for word segmentation.
+- But how we break the texts can be tricky.
+    - Paragraph breaks?
+    - Chunks based on period-like punctuations?
+    - Chunks based on some other delimiters?
 
 # Input text
 text = """
@@ -91,12 +97,12 @@ text = """
 國道車多壅塞路段還有國1內湖-五堵北向路段、楊梅-新竹南向路段；國3三鶯-關西服務區南向路段、快官-霧峰南向路段、水上系統-中埔北向路段；國6霧峰系統-東草屯東向路段、國10燕巢-燕巢系統東向路段。
 """
 
-
 # paragraph breaks
-text = [p for p in text.split('\n') if len(p)!=0]
+text = [p for p in text.split('\n') if len(p) != 0]
+print(text)
 
 # Run pipeline
-ws  = ws_driver(text)
+ws = ws_driver(text)
 pos = pos_driver(ws)
 ner = ner_driver(text)
 
@@ -107,7 +113,7 @@ ner = ner_driver(text)
     - `max_length`
 
 # Enable sentence segmentation
-ws  = ws_driver(text, use_delim=True)
+ws = ws_driver(text, use_delim=True)
 ner = ner_driver(text, use_delim=True)
 
 # Disable sentence segmentation
@@ -120,23 +126,24 @@ pos = pos_driver(ws, delim_set='\n\t')
 
 print(' | '.join(text_jb))
 
-print( '\n\n'.join([' | '.join(p) for p in ws]))
+print('\n\n'.join([' | '.join(p) for p in ws]))
 
 # Pack word segmentation and part-of-speech results
 def pack_ws_pos_sentece(sentence_ws, sentence_pos):
-   assert len(sentence_ws) == len(sentence_pos)
-   res = []
-   for word_ws, word_pos in zip(sentence_ws, sentence_pos):
-      res.append(f'{word_ws}({word_pos})')
-   return '\u3000'.join(res)
+    assert len(sentence_ws) == len(sentence_pos)
+    res = []
+    for word_ws, word_pos in zip(sentence_ws, sentence_pos):
+        res.append(f'{word_ws}({word_pos})')
+    return '\u3000'.join(res)
 
 # Show results
-for sentence, sentence_ws, sentence_pos, sentence_ner in zip(text, ws, pos, ner):
-   print(sentence)
-   print(pack_ws_pos_sentece(sentence_ws, sentence_pos))
-   for entity in sentence_ner:
-      print(entity)
-   print()
+for sentence, sentence_ws, sentence_pos, sentence_ner in zip(
+        text, ws, pos, ner):
+    print(sentence)
+    print(pack_ws_pos_sentece(sentence_ws, sentence_pos))
+    for entity in sentence_ner:
+        print(entity)
+    print()
 
 ## Challenges of Word Segmentation
 
@@ -147,20 +154,23 @@ text2 = [
     "行路人等不得在此大小便",
     "兒的生活好痛苦一點也沒有糧食多病少掙了很多錢",
 ]
-ws2  = ws_driver(text2)
+ws2 = ws_driver(text2)
 pos2 = pos_driver(ws2)
 ner2 = ner_driver(text2)
 
 # Show results
-for sentence, sentence_ws, sentence_pos, sentence_ner in zip(text2, ws2, pos2, ner2):
-   print(sentence)
-   print(pack_ws_pos_sentece(sentence_ws, sentence_pos))
-   for entity in sentence_ner:
-      print(entity)
-   print()
+for sentence, sentence_ws, sentence_pos, sentence_ner in zip(
+        text2, ws2, pos2, ner2):
+    print(sentence)
+    print(pack_ws_pos_sentece(sentence_ws, sentence_pos))
+    for entity in sentence_ner:
+        print(entity)
+    print()
 
 ```{tip}
-It is still not clear to me how we can include user-defined dictionary in the `ckip-transformers`. However, I know that it is possible to use self-defined dictionary in the `ckiptagger`. 
+It is still not clear to me how we can include user-defined dictionary in the `ckip-transformers`. This may be a problem to all deep-learning based segmenters I think. 
+
+However, I know that it is possible to use self-defined dictionary in the `ckiptagger`. 
 
 If you know where and how to incorporate self-defined dictionary in the `ckip-transformers`, please let me know. Thanks!
 
@@ -187,8 +197,8 @@ If you know where and how to incorporate self-defined dictionary in the `ckip-tr
 $ pip show spacy
 ```
 
-
 - Documentation of [`spacy`](https://spacy.io/usage#quickstart)
+
 - Installation steps:
 
 ```
@@ -210,8 +220,8 @@ $ python -m spacy download en_core_web_sm
 import spacy
 from spacy import displacy
 # load language model
-nlp_zh = spacy.load('zh_core_web_trf')## disable=["parser"]
-# parse text 
+nlp_zh = spacy.load('zh_core_web_trf')  ## disable=["parser"]
+# parse text
 doc = nlp_zh('這是一個中文的句子')
 
 ```{note}
@@ -221,33 +231,43 @@ For more information on POS tags, see spaCy [POS tag scheme documentation](https
 
 # parts of speech tagging
 for token in doc:
-    print(((token.text, 
-            token.pos_, 
-            token.tag_,
-            token.dep_,
-            token.is_alpha,
-            token.is_stop,
-            )))
+    print(((
+        token.text,
+        token.pos_,
+        token.tag_,
+        token.dep_,
+        token.is_alpha,
+        token.is_stop,
+    )))
 
-' | '.join([token.text+"_"+token.tag_ for token in doc])
+' | '.join([token.text + "_" + token.tag_ for token in doc])
 
-## Check meaning of a POS tag (Not working??)
-spacy.explain('VC')
+## Check meaning of a POS tag
+spacy.explain('NN')
 
 ### Visualizing linguistic features
 
 # Visualize
 displacy.render(doc, style="dep")
 
-options = {"compact": True, "bg": "#09a3d5",
-           "color": "white", "font": "Source Sans Pro",
-          "distance": 120}
+options = {
+    "compact": True,
+    "bg": "#09a3d5",
+    "color": "white",
+    "font": "Source Sans Pro",
+    "distance": 120
+}
 displacy.render(doc, style="dep", options=options)
+
+- To process multiple documents of a large corpus, it would be more efficient to work on them on batches of texts. 
+- spaCy’s `nlp.pipe()` method takes an `iterable` of texts and yields processed `Doc` objects. (That is, `nlp.pipe()` returns a `generator`.)
+- Use the `disable` keyword argument to disable components we don’t need – either when loading a pipeline, or during processing with `nlp.pipe`. This is more efficient in computing.
+- Please read spaCy's documentation on [preprocessing](https://spacy.io/usage/processing-pipelines#processing).
 
 doc2 = nlp_zh.pipe(text)
 
 for d in doc2:
-    print(' | '.join([token.text+"_"+token.tag_ for token in d])+'\n')
+    print(' | '.join([token.text + "_" + token.tag_ for token in d]) + '\n')
 
 ```{tip}
 Please read the [documentation of `spacy`](https://spacy.io/usage/linguistic-features) very carefully for additional ways to extract other useful linguistic properties.
