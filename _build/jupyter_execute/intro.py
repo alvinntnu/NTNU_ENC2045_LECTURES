@@ -345,7 +345,7 @@ temp/dl-transformers-intuition
 ```{toctree}
 :hidden:
 :titlesonly:
-:numbered: 
+:numbered: 2
 :caption: Exercises
 
 exercise/1-python-basics
