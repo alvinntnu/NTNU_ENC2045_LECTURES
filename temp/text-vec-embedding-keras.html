@@ -501,13 +501,13 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Google Colab Adhoc Setting</span>
-<span class="o">!</span>nvidia-smi
-<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">([</span><span class="s1">&#39;gutenberg&#39;</span><span class="p">,</span><span class="s1">&#39;punkt&#39;</span><span class="p">,</span><span class="s1">&#39;stopwords&#39;</span><span class="p">])</span>
-<span class="o">!</span>pip show spacy
-<span class="o">!</span>pip install --upgrade spacy
-<span class="c1">#!python -m spacy download en_core_web_trf</span>
-<span class="o">!</span>python -m spacy download en_core_web_lg
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># # Google Colab Adhoc Setting</span>
+<span class="c1"># !nvidia-smi</span>
+<span class="c1"># nltk.download([&#39;gutenberg&#39;,&#39;punkt&#39;,&#39;stopwords&#39;])</span>
+<span class="c1"># !pip show spacy</span>
+<span class="c1"># !pip install --upgrade spacy</span>
+<span class="c1"># #!python -m spacy download en_core_web_trf</span>
+<span class="c1"># !python -m spacy download en_core_web_lg</span>
 </pre></div>
 </div>
 </div>
@@ -826,12 +826,14 @@ Processed line: god said let firmament midst waters let divide waters waters
 </div>
 <div class="section" id="implementing-a-word2vec-model-using-a-cbow-continuous-bag-of-words-neural-network-architecture">
 <h2>Implementing a word2vec model using a CBOW (Continuous Bag of Words) neural network architecture<a class="headerlink" href="#implementing-a-word2vec-model-using-a-cbow-continuous-bag-of-words-neural-network-architecture" title="Permalink to this headline">¶</a></h2>
+<p><img alt="" src="../_images/text-tokenization-embedding.gif" /></p>
+<p><img alt="" src="../_images/word2vec-text-to-sequences.gif" /></p>
 <div class="section" id="build-vocabulary">
 <h3>Build Vocabulary<a class="headerlink" href="#build-vocabulary" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">keras.preprocessing</span> <span class="kn">import</span> <span class="n">text</span>
-<span class="kn">from</span> <span class="nn">keras.utils</span> <span class="kn">import</span> <span class="n">np_utils</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">keras</span>
+<span class="kn">from</span> <span class="nn">keras.preprocessing</span> <span class="kn">import</span> <span class="n">text</span>
 <span class="kn">from</span> <span class="nn">keras.preprocessing</span> <span class="kn">import</span> <span class="n">sequence</span>
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">Tokenizer</span><span class="p">()</span>
@@ -840,7 +842,9 @@ Processed line: god said let firmament midst waters let divide waters waters
 
 <span class="n">word2id</span><span class="p">[</span><span class="s1">&#39;PAD&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">id2word</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">word2id</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-<span class="n">wids</span> <span class="o">=</span> <span class="p">[[</span><span class="n">word2id</span><span class="p">[</span><span class="n">w</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">text_to_word_sequence</span><span class="p">(</span><span class="n">doc</span><span class="p">)]</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">norm_bible</span><span class="p">]</span>
+
+<span class="c1"># wids = [[word2id[w] for w in text.text_to_word_sequence(doc)] for doc in norm_bible]</span>
+<span class="n">wids</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">texts_to_sequences</span><span class="p">(</span><span class="n">norm_bible</span><span class="p">)</span>
 
 <span class="n">vocab_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">word2id</span><span class="p">)</span>
 <span class="n">embed_size</span> <span class="o">=</span> <span class="mi">100</span>
@@ -865,8 +869,10 @@ Vocabulary Sample: [(&#39;shall&#39;, 1), (&#39;unto&#39;, 2), (&#39;lord&#39;, 
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">generate_context_word_pairs</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">window_size</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">):</span>
     <span class="n">context_length</span> <span class="o">=</span> <span class="n">window_size</span><span class="o">*</span><span class="mi">2</span>
+    <span class="c1"># go through each unit in the corpus </span>
     <span class="k">for</span> <span class="n">words</span> <span class="ow">in</span> <span class="n">corpus</span><span class="p">:</span>
         <span class="n">sentence_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+        <span class="c1">## extract context-word pairs</span>
         <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">word</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
             <span class="n">context_words</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">label_word</span>   <span class="o">=</span> <span class="p">[]</span>            
@@ -880,7 +886,7 @@ Vocabulary Sample: [(&#39;shall&#39;, 1), (&#39;unto&#39;, 2), (&#39;lord&#39;, 
             <span class="n">label_word</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
 
             <span class="n">x</span> <span class="o">=</span> <span class="n">sequence</span><span class="o">.</span><span class="n">pad_sequences</span><span class="p">(</span><span class="n">context_words</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="n">context_length</span><span class="p">)</span>
-            <span class="n">y</span> <span class="o">=</span> <span class="n">np_utils</span><span class="o">.</span><span class="n">to_categorical</span><span class="p">(</span><span class="n">label_word</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">)</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">to_categorical</span><span class="p">(</span><span class="n">label_word</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">)</span>
             <span class="k">yield</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -918,6 +924,7 @@ Context (X): [&#39;god&#39;, &#39;saw&#39;, &#39;good&#39;, &#39;god&#39;] -&gt;
 </div>
 <div class="section" id="build-cbow-deep-network-model">
 <h3>Build CBOW Deep Network Model<a class="headerlink" href="#build-cbow-deep-network-model" title="Permalink to this headline">¶</a></h3>
+<p><img alt="" src="../_images/word2vec-cbow.gif" /></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">keras.backend</span> <span class="k">as</span> <span class="nn">K</span>
@@ -956,23 +963,22 @@ None
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">SVG</span>
-<span class="kn">from</span> <span class="nn">keras.utils.vis_utils</span> <span class="kn">import</span> <span class="n">model_to_dot</span>
-
-<span class="n">SVG</span><span class="p">(</span><span class="n">model_to_dot</span><span class="p">(</span><span class="n">cbow</span><span class="p">,</span> <span class="n">show_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_layer_names</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
-                 <span class="n">rankdir</span><span class="o">=</span><span class="s1">&#39;TB&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;svg&#39;</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_model</span><span class="p">(</span><span class="n">cbow</span><span class="p">,</span> <span class="n">show_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/text-vec-embedding-keras_19_0.svg" src="../_images/text-vec-embedding-keras_19_0.svg" /></div>
+<img alt="../_images/text-vec-embedding-keras_22_0.png" src="../_images/text-vec-embedding-keras_22_0.png" />
+</div>
 </div>
 </div>
 <div class="section" id="train-model-for-5-epochs">
 <h3>Train model for 5 epochs<a class="headerlink" href="#train-model-for-5-epochs" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span>
     <span class="n">loss</span> <span class="o">=</span> <span class="mf">0.</span>
     <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">generate_context_word_pairs</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">wids</span><span class="p">,</span> <span class="n">window_size</span><span class="o">=</span><span class="n">window_size</span><span class="p">,</span> <span class="n">vocab_size</span><span class="o">=</span><span class="n">vocab_size</span><span class="p">):</span>
@@ -987,72 +993,58 @@ None
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Processed 100000 (context, word) pairs
-Processed 200000 (context, word) pairs
-Processed 300000 (context, word) pairs
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Exception ignored in: &lt;function IteratorResourceDeleter.__del__ at 0x7f0e80e0db00&gt;
-Traceback (most recent call last):
-  File &quot;/usr/local/lib/python3.7/dist-packages/tensorflow/python/data/ops/iterator_ops.py&quot;, line 535, in __del__
-    handle=self._handle, deleter=self._deleter)
-  File &quot;/usr/local/lib/python3.7/dist-packages/tensorflow/python/ops/gen_dataset_ops.py&quot;, line 1264, in delete_iterator
-    _ctx, &quot;DeleteIterator&quot;, name, handle, deleter)
-KeyboardInterrupt: 
-</pre></div>
-</div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="nn">&lt;ipython-input-23-39ae50d217af&gt;</span> in <span class="ni">&lt;module&gt;</span><span class="nt">()</span>
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">16</span><span class="o">-</span><span class="mi">39</span><span class="n">ae50d217af</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
 <span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">generate_context_word_pairs</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">wids</span><span class="p">,</span> <span class="n">window_size</span><span class="o">=</span><span class="n">window_size</span><span class="p">,</span> <span class="n">vocab_size</span><span class="o">=</span><span class="n">vocab_size</span><span class="p">):</span>
 <span class="g g-Whitespace">      </span><span class="mi">5</span>         <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
 <span class="ne">----&gt; </span><span class="mi">6</span>         <span class="n">loss</span> <span class="o">+=</span> <span class="n">cbow</span><span class="o">.</span><span class="n">train_on_batch</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">7</span>         <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">100000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
 <span class="g g-Whitespace">      </span><span class="mi">8</span>             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Processed </span><span class="si">{}</span><span class="s1"> (context, word) pairs&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 
-<span class="nn">/usr/local/lib/python3.7/dist-packages/tensorflow/python/keras/engine/training.py</span> in <span class="ni">train_on_batch</span><span class="nt">(self, x, y, sample_weight, class_weight, reset_metrics, return_dict)</span>
+<span class="nn">~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/tensorflow/python/keras/engine/training.py</span> in <span class="ni">train_on_batch</span><span class="nt">(self, x, y, sample_weight, class_weight, reset_metrics, return_dict)</span>
 <span class="g g-Whitespace">   </span><span class="mi">1725</span>                                                     <span class="n">class_weight</span><span class="p">)</span>
 <span class="g g-Whitespace">   </span><span class="mi">1726</span>       <span class="bp">self</span><span class="o">.</span><span class="n">train_function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_train_function</span><span class="p">()</span>
 <span class="ne">-&gt; </span><span class="mi">1727</span>       <span class="n">logs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_function</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
 <span class="g g-Whitespace">   </span><span class="mi">1728</span> 
 <span class="g g-Whitespace">   </span><span class="mi">1729</span>     <span class="k">if</span> <span class="n">reset_metrics</span><span class="p">:</span>
 
-<span class="nn">/usr/local/lib/python3.7/dist-packages/tensorflow/python/eager/def_function.py</span> in <span class="ni">__call__</span><span class="nt">(self, *args, **kwds)</span>
+<span class="nn">~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/tensorflow/python/eager/def_function.py</span> in <span class="ni">__call__</span><span class="nt">(self, *args, **kwds)</span>
 <span class="g g-Whitespace">    </span><span class="mi">826</span>     <span class="n">tracing_count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experimental_get_tracing_count</span><span class="p">()</span>
 <span class="g g-Whitespace">    </span><span class="mi">827</span>     <span class="k">with</span> <span class="n">trace</span><span class="o">.</span><span class="n">Trace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">)</span> <span class="k">as</span> <span class="n">tm</span><span class="p">:</span>
 <span class="ne">--&gt; </span><span class="mi">828</span>       <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
 <span class="g g-Whitespace">    </span><span class="mi">829</span>       <span class="n">compiler</span> <span class="o">=</span> <span class="s2">&quot;xla&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_experimental_compile</span> <span class="k">else</span> <span class="s2">&quot;nonXla&quot;</span>
 <span class="g g-Whitespace">    </span><span class="mi">830</span>       <span class="n">new_tracing_count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experimental_get_tracing_count</span><span class="p">()</span>
 
-<span class="nn">/usr/local/lib/python3.7/dist-packages/tensorflow/python/eager/def_function.py</span> in <span class="ni">_call</span><span class="nt">(self, *args, **kwds)</span>
+<span class="nn">~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/tensorflow/python/eager/def_function.py</span> in <span class="ni">_call</span><span class="nt">(self, *args, **kwds)</span>
 <span class="g g-Whitespace">    </span><span class="mi">853</span>       <span class="c1"># In this case we have created variables on the first call, so we run the</span>
 <span class="g g-Whitespace">    </span><span class="mi">854</span>       <span class="c1"># defunned version which is guaranteed to never create variables.</span>
 <span class="ne">--&gt; </span><span class="mi">855</span>       <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stateless_fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>  <span class="c1"># pylint: disable=not-callable</span>
 <span class="g g-Whitespace">    </span><span class="mi">856</span>     <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stateful_fn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 <span class="g g-Whitespace">    </span><span class="mi">857</span>       <span class="c1"># Release the lock early so that multiple threads can perform the call</span>
 
-<span class="nn">/usr/local/lib/python3.7/dist-packages/tensorflow/python/eager/function.py</span> in <span class="ni">__call__</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="nn">~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/tensorflow/python/eager/function.py</span> in <span class="ni">__call__</span><span class="nt">(self, *args, **kwargs)</span>
 <span class="g g-Whitespace">   </span><span class="mi">2941</span>        <span class="n">filtered_flat_args</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maybe_define_function</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
 <span class="g g-Whitespace">   </span><span class="mi">2942</span>     <span class="k">return</span> <span class="n">graph_function</span><span class="o">.</span><span class="n">_call_flat</span><span class="p">(</span>
 <span class="ne">-&gt; </span><span class="mi">2943</span>         <span class="n">filtered_flat_args</span><span class="p">,</span> <span class="n">captured_inputs</span><span class="o">=</span><span class="n">graph_function</span><span class="o">.</span><span class="n">captured_inputs</span><span class="p">)</span>  <span class="c1"># pylint: disable=protected-access</span>
 <span class="g g-Whitespace">   </span><span class="mi">2944</span> 
 <span class="g g-Whitespace">   </span><span class="mi">2945</span>   <span class="nd">@property</span>
 
-<span class="nn">/usr/local/lib/python3.7/dist-packages/tensorflow/python/eager/function.py</span> in <span class="ni">_call_flat</span><span class="nt">(self, args, captured_inputs, cancellation_manager)</span>
+<span class="nn">~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/tensorflow/python/eager/function.py</span> in <span class="ni">_call_flat</span><span class="nt">(self, args, captured_inputs, cancellation_manager)</span>
 <span class="g g-Whitespace">   </span><span class="mi">1917</span>       <span class="c1"># No tape is watching; skip to running the function.</span>
 <span class="g g-Whitespace">   </span><span class="mi">1918</span>       <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_call_outputs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_inference_function</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
 <span class="ne">-&gt; </span><span class="mi">1919</span>           <span class="n">ctx</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">cancellation_manager</span><span class="o">=</span><span class="n">cancellation_manager</span><span class="p">))</span>
 <span class="g g-Whitespace">   </span><span class="mi">1920</span>     <span class="n">forward_backward</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_forward_and_backward_functions</span><span class="p">(</span>
 <span class="g g-Whitespace">   </span><span class="mi">1921</span>         <span class="n">args</span><span class="p">,</span>
 
-<span class="nn">/usr/local/lib/python3.7/dist-packages/tensorflow/python/eager/function.py</span> in <span class="ni">call</span><span class="nt">(self, ctx, args, cancellation_manager)</span>
+<span class="nn">~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/tensorflow/python/eager/function.py</span> in <span class="ni">call</span><span class="nt">(self, ctx, args, cancellation_manager)</span>
 <span class="g g-Whitespace">    </span><span class="mi">558</span>               <span class="n">inputs</span><span class="o">=</span><span class="n">args</span><span class="p">,</span>
 <span class="g g-Whitespace">    </span><span class="mi">559</span>               <span class="n">attrs</span><span class="o">=</span><span class="n">attrs</span><span class="p">,</span>
 <span class="ne">--&gt; </span><span class="mi">560</span>               <span class="n">ctx</span><span class="o">=</span><span class="n">ctx</span><span class="p">)</span>
 <span class="g g-Whitespace">    </span><span class="mi">561</span>         <span class="k">else</span><span class="p">:</span>
 <span class="g g-Whitespace">    </span><span class="mi">562</span>           <span class="n">outputs</span> <span class="o">=</span> <span class="n">execute</span><span class="o">.</span><span class="n">execute_with_cancellation</span><span class="p">(</span>
 
-<span class="nn">/usr/local/lib/python3.7/dist-packages/tensorflow/python/eager/execute.py</span> in <span class="ni">quick_execute</span><span class="nt">(op_name, num_outputs, inputs, attrs, ctx, name)</span>
+<span class="nn">~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/tensorflow/python/eager/execute.py</span> in <span class="ni">quick_execute</span><span class="nt">(op_name, num_outputs, inputs, attrs, ctx, name)</span>
 <span class="g g-Whitespace">     </span><span class="mi">58</span>     <span class="n">ctx</span><span class="o">.</span><span class="n">ensure_initialized</span><span class="p">()</span>
 <span class="g g-Whitespace">     </span><span class="mi">59</span>     <span class="n">tensors</span> <span class="o">=</span> <span class="n">pywrap_tfe</span><span class="o">.</span><span class="n">TFE_Py_Execute</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">_handle</span><span class="p">,</span> <span class="n">device_name</span><span class="p">,</span> <span class="n">op_name</span><span class="p">,</span>
 <span class="ne">---&gt; </span><span class="mi">60</span>                                         <span class="n">inputs</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">num_outputs</span><span class="p">)</span>
@@ -1424,7 +1416,7 @@ None
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/text-vec-embedding-keras_33_0.svg" src="../_images/text-vec-embedding-keras_33_0.svg" /></div>
+<img alt="../_images/text-vec-embedding-keras_36_0.svg" src="../_images/text-vec-embedding-keras_36_0.svg" /></div>
 </div>
 </div>
 <div class="section" id="train-the-model-for-5-epochs">
@@ -1717,7 +1709,7 @@ Epoch: 5 Loss: 3718.15081862
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total words: 48 	Word Embedding shapes: (48, 100)
 </pre></div>
 </div>
-<img alt="../_images/text-vec-embedding-keras_41_1.png" src="../_images/text-vec-embedding-keras_41_1.png" />
+<img alt="../_images/text-vec-embedding-keras_44_1.png" src="../_images/text-vec-embedding-keras_44_1.png" />
 </div>
 </div>
 </div>
