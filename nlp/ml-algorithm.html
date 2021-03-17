@@ -58,7 +58,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Sentiment Analysis Using Bag-of-Words" href="../temp/ml-sklearn-classification.html" />
-    <link rel="prev" title="Machine Learning: NLP Tasks" href="ml-nlp-case.html" />
+    <link rel="prev" title="Machine Learning: A Simple Example" href="ml-simple-case.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -148,7 +148,7 @@
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="../temp/text-vec-traditional.html">
+  <a class="reference internal" href="text-vec-traditional.html">
    Text Vectorization Using Traditional Methods
   </a>
  </li>
@@ -167,11 +167,6 @@
  <li class="toctree-l1">
   <a class="reference internal" href="ml-simple-case.html">
    Machine Learning: A Simple Example
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="ml-nlp-case.html">
-   Machine Learning: NLP Tasks
   </a>
  </li>
  <li class="toctree-l1 current active">
@@ -199,6 +194,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../temp/topic-modeling-naive.html">
    Topic Modeling: A Naive Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-nlp-case.html">
+   Machine Learning: NLP Tasks
   </a>
  </li>
 </ul>
@@ -275,6 +275,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../exercise/4-chinese-nlp.html">
    4. Assignment IV: Chinese Language Processing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/5-text-vectorization.html">
+   5. Assignment V: Text Vectorization
   </a>
  </li>
 </ul>
@@ -384,6 +389,11 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#support-vector-machine-svm">
+   Support Vector Machine (SVM)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#other-discriminative-models">
    Other Discriminative Models
   </a>
@@ -422,7 +432,7 @@
   <div class="section" id="classification-models">
 <h1>Classification Models<a class="headerlink" href="#classification-models" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><p>Before the era of deep learning, probability-based classifiers are commonly used in many classfic NLP tasks.</p></li>
+<li><p>Before the era of deep learning, probability-based classifiers are commonly used in many ML NLP tasks.</p></li>
 <li><p>There are two types of probability-based models:</p>
 <ul>
 <li><p><strong>Generative</strong>:</p>
@@ -439,6 +449,8 @@
 </li>
 </ul>
 </li>
+</ul>
+<ul class="simple">
 <li><p>Strengths of discriminative models:</p>
 <ul>
 <li><p>They give high accuracy performance.</p></li>
@@ -470,7 +482,7 @@
 P(Y|X) = P(Y) \frac{P(X|Y)}{P(X)} 
 \]</div>
 <ul class="simple">
-<li><p>In naive bayes, given a document <span class="math notranslate nohighlight">\(d\)</span> and a class <span class="math notranslate nohighlight">\(c\)</span>, the goal is to find the maximum joint probability <span class="math notranslate nohighlight">\(P(c,d)\)</span>. And according bayes rule, the goal is simiplied to find the maximum of <span class="math notranslate nohighlight">\(P(c|d)\)</span>:</p></li>
+<li><p>In naive bayes, given a document <span class="math notranslate nohighlight">\(d\)</span> and a class <span class="math notranslate nohighlight">\(c\)</span>, the goal is to find the <strong>maximum joint probability</strong> <span class="math notranslate nohighlight">\(P(c,d)\)</span>. And according bayes rule, the goal (of finding the maximum joint probability) can be reformulated as finding the maximum of the <strong>posterior probability</strong> of the class, <span class="math notranslate nohighlight">\(P(c|d)\)</span>:</p></li>
 </ul>
 <div class="math notranslate nohighlight" id="equation-navie-bayes2">
 <span class="eqno">(2)<a class="headerlink" href="#equation-navie-bayes2" title="Permalink to this equation">¶</a></span>\[\begin{split}
@@ -478,7 +490,7 @@ P(c,d) = P(d|c)\times P(c) = P(c|d) \times P(d)\\
 P(c|d) = \frac{P(d|c)\times P(c)}{P(d)}
 \end{split}\]</div>
 <ul class="simple">
-<li><p>Because the <span class="math notranslate nohighlight">\(P(d)\)</span> is a constant for all classes estimation, we can drop the denominator. And now the goal is to find out the class <span class="math notranslate nohighlight">\(c\)</span> that maximizes the <strong>posterior</strong> probability of the class, i.e., <span class="math notranslate nohighlight">\(P(c|d)\)</span>.</p></li>
+<li><p>Because the <span class="math notranslate nohighlight">\(P(d)\)</span> is a constant for all classes estimation, we can drop the denominator. And now the goal is to find out the class <span class="math notranslate nohighlight">\(c\)</span> that maximizes the <strong>posterior probability</strong> of the class, i.e., <span class="math notranslate nohighlight">\(P(c|d)\)</span>.</p></li>
 </ul>
 <div class="math notranslate nohighlight" id="equation-naive-bayes3">
 <span class="eqno">(3)<a class="headerlink" href="#equation-naive-bayes3" title="Permalink to this equation">¶</a></span>\[\begin{split}
@@ -486,27 +498,27 @@ C_{MAP} = \underset{c \in C}{\arg\max}P(c|d)\\
 C_{MAP}= \underset{c \in C}{\arg\max}\frac{P(d|c)\times P(c)}{P(d)} \\
 = \underset{c \in C}{\arg\max}P(d|c)\times P(c) \\
 \end{split}\]</div>
-<div class="margin sidebar">
-<p class="sidebar-title"></p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>In naive Bayes, the probabilities <span class="math notranslate nohighlight">\(𝑃(C=c_i)\)</span> and <span class="math notranslate nohighlight">\(𝑃(𝑋𝑖|C=c_i)\)</span> are parameters. The standard, maximum likelihood, approach is to calculate the probabilities using MLE estimators. For example, for <span class="math notranslate nohighlight">\(𝑃(C=c_i)\)</span> we  count the cases where <span class="math notranslate nohighlight">\(C=c_i\)</span> and divide by the sample size, same for conditional probabilities <span class="math notranslate nohighlight">\(𝑃(𝑋𝑖|C=c_i)\)</span>. Bayesian maximum a posteriori estimate <span class="math notranslate nohighlight">\(P(C=c_i|Xi)\)</span> would need from you to assume prior distributions for the parameters.</p>
-</div>
-</div>
+<ul class="simple">
+<li><p>In naive Bayes, the probabilities <span class="math notranslate nohighlight">\(P(C=c_i)\)</span> and <span class="math notranslate nohighlight">\(P(X_i|C=c_i)\)</span> are parameters.</p></li>
+<li><p>The standard, maximum likelihood, approach is to calculate the probabilities using MLE estimators.</p></li>
+<li><p>For example, for <span class="math notranslate nohighlight">\(P(C=c_i)\)</span>, we count the cases where <span class="math notranslate nohighlight">\(C=c_i\)</span> and divide by the sample size, same for conditional probabilities <span class="math notranslate nohighlight">\(P(X_i|C=c_i)\)</span>.</p></li>
+<li><p>To get the Bayesian maximum posterior estimate <span class="math notranslate nohighlight">\(P(C=c_i|X_i)\)</span>, we would need to assume prior distributions for the parameters, i.e., <span class="math notranslate nohighlight">\(P(X_i|C=C_i)\)</span>.</p></li>
+</ul>
 <ul class="simple">
 <li><p>A document needs to be vectorized through feature engineering into a numeric representation, i.e., a set of <strong>n</strong> features from the document, <span class="math notranslate nohighlight">\(\{x_1, x_2, ..., x_n\}\)</span></p></li>
 <li><p>Given a class <span class="math notranslate nohighlight">\(c\)</span> and a set of <strong>n</strong> features from the document, <span class="math notranslate nohighlight">\(\{x_1, x_2, ..., x_n\}\)</span>, we can denote the posterior probability of each class <span class="math notranslate nohighlight">\(c\)</span> as follows:</p></li>
 </ul>
 <div class="math notranslate nohighlight" id="equation-naive-bayes4">
 <span class="eqno">(4)<a class="headerlink" href="#equation-naive-bayes4" title="Permalink to this equation">¶</a></span>\[\begin{split}
-C_{MAP}= \underset{c \in C}{\arg\max}  P(d|c) \times P(c) \\
+C_{MAP}= \underset{c \in C}{\arg\max}P(c|d)\\\\
+\underset{c \in C}{\arg\max}  P(d|c) \times P(c) \\
 = \underset{c \in C}{\arg\max} P(x_1,x_2,...,x_n|c) \times P(c) \\
 \end{split}\]</div>
 <ul class="simple">
 <li><p>Important assumptions in Naive Bayes:</p>
 <ul>
-<li><p>Bag of Words Assumption: Assume position doesn’t matter</p></li>
-<li><p>Conditional Independence: Assume the feature probabilities <span class="math notranslate nohighlight">\(P(x_i|c)\)</span> are independent given the label <span class="math notranslate nohighlight">\(c\)</span>.</p></li>
+<li><p>Independence Assumption: Assume features are independent of each other.</p></li>
+<li><p>Conditional Independence: Assume the feature probabilities <span class="math notranslate nohighlight">\(P(x_i|C=c_i)\)</span> are independent given the label <span class="math notranslate nohighlight">\(c\)</span>.</p></li>
 </ul>
 </li>
 </ul>
@@ -523,8 +535,14 @@ C_{MAP} = \underset{c \in C}{\arg\max} P(x_1,x_2,...,x_n|c) \times P(c) \\
 = \underset{c \in C}{\arg\max} P(c) \prod_{x\in X}P(x|c)
 \end{split}\]</div>
 <ul class="simple">
-<li><p>Multinomial Naive Bayes is an extenstion of the Naive Bayes for predicting and classifying data points, where the number of distinct labels or outcomes are more than two.</p></li>
-<li><p>In Naive Bayes, each feature <span class="math notranslate nohighlight">\(x_i\)</span> of the document is in the form of a probability value of an observed event given the class, <span class="math notranslate nohighlight">\(P(x_i|c)\)</span></p></li>
+<li><p>Multinomial Naive Bayes is an extension of the Naive Bayes for predicting and classifying data points, where the number of distinct labels or outcomes are more than two.</p></li>
+<li><p>In Naive Bayes, each feature <span class="math notranslate nohighlight">\(x_i\)</span> of the document is in the form of a probability value of an observed event given the class, <span class="math notranslate nohighlight">\(P(x_i|C=c_i)\)</span></p>
+<ul>
+<li><p>For example, the probability of observing the word ‘好看’ (<strong><span class="math notranslate nohighlight">\(x_i\)</span></strong>) when the document class is <strong><span class="math notranslate nohighlight">\(c_i\)</span></strong>.</p></li>
+</ul>
+</li>
+</ul>
+<ul class="simple">
 <li><p>Issues of Smoothing</p>
 <ul>
 <li><p>For unseen features in a new document, e.g., <span class="math notranslate nohighlight">\(P(x|c)\)</span>, this would render the entire posterior probability of the class to be zero.</p></li>
@@ -539,7 +557,7 @@ C_{MAP} = \underset{c \in C}{\arg\max} P(x_1,x_2,...,x_n|c) \times P(c) \\
 <ul class="simple">
 <li><p>Logistic Regression is also a form of probabilistic statistical classification model.</p></li>
 <li><p>The model is trained by maximizing directly the probability of the class given the observed data, i.e., <span class="math notranslate nohighlight">\(P(c|d)\)</span>.</p></li>
-<li><p>Logistic Regression is similar to linear regression, whose predicted values are numeric.</p></li>
+<li><p>Logistic Regression is similar to linear regression, whose predicted values are both numeric.</p></li>
 </ul>
 <ul class="simple">
 <li><p>A document needs to be vectorized through feature engineering into a numeric representation, i.e., a set of <strong>n</strong> features from the document, <span class="math notranslate nohighlight">\(\{x_1, x_2, ..., x_n\}\)</span></p></li>
@@ -550,22 +568,33 @@ C_{MAP} = \underset{c \in C}{\arg\max} P(x_1,x_2,...,x_n|c) \times P(c) \\
 y = \beta_0 + \beta_1x_1 + \beta_2 x_2 + ... + \beta_ix_i
 = \sum_{i}\beta_ix_i
 \]</div>
-<div class="margin sidebar">
-<p class="sidebar-title"></p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>For example, we would hope that our model can give us values between 0 and 1, which represent the probability of the class given the observed data.</p>
-</div>
-</div>
 <ul class="simple">
-<li><p>But the <span class="math notranslate nohighlight">\(y\)</span> is not a probability value yet. It could be any number (<span class="math notranslate nohighlight">\(-\infty\)</span> to <span class="math notranslate nohighlight">\(\infty\)</span>) based on the current model. In order to apply a linear modeling approach, the dependent variable <span class="math notranslate nohighlight">\(y\)</span> often needs to be transformed with a so-called <strong>link function</strong>.</p></li>
-<li><p>Link functions tranform the predicted <span class="math notranslate nohighlight">\(y\)</span> into a range more appropriate for linear modeling.</p></li>
-<li><p>For binary logistic regression, the <strong>inverse logit transformation</strong> is used, transforming y from the range of <span class="math notranslate nohighlight">\(-\infty\)</span> to <span class="math notranslate nohighlight">\(\infty\)</span> to into probabily values ranging from 0 to 1.</p></li>
+<li><p>Each feature <span class="math notranslate nohighlight">\(x_i\)</span> of the document is a function that chracterizes the relevant linguistic properties of the document. These features can be all manually annotated or created automatically.</p></li>
+<li><p>These features are often in simple forms that are of binary values or numeric values within a range:
+$<span class="math notranslate nohighlight">\( 
+  x_1 = f_1(x_1) = [Contains('好看') ] = \{0, 1\} \\
+  x_2 = f_2(x_2) = [Contains('絕配') ] = \{0, 1\} \\
+  ...
+  \)</span>$</p></li>
+</ul>
+<ul class="simple">
+<li><p>But so far the <span class="math notranslate nohighlight">\(y\)</span> is not a probability value yet. It could be any number (<span class="math notranslate nohighlight">\(-\infty\)</span> to <span class="math notranslate nohighlight">\(\infty\)</span>) based on the current linear model. In order to make sure the predicted values of the model are within the range of 0 and 1, the dependent variable <span class="math notranslate nohighlight">\(y\)</span> often needs to be transformed with a so-called <strong>link function</strong>.</p></li>
+<li><p>That is, link functions transform the predicted <span class="math notranslate nohighlight">\(y\)</span> into a range more appropriate for linear modeling.</p></li>
+</ul>
+<ul class="simple">
+<li><p>For binary logistic regression, the <strong>inverse logit transformation</strong> is used, transforming y from the range of <span class="math notranslate nohighlight">\(-\infty\)</span> to <span class="math notranslate nohighlight">\(\infty\)</span> to into probability values ranging from 0 to 1.</p></li>
 </ul>
 <div class="math notranslate nohighlight">
 \[
-\frac{1}{1+e^y}
+y = \beta_0 + \beta_1x_1 + \beta_2 x_2 + ... + \beta_ix_i
+= \sum_{i}\beta_ix_i
 \]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+Probability_{class} = P(c|d) = P(c|x_1,x_2,...,x_i)\\
+= \frac{1}{1+e^y}\\
+= \frac{1}{1+e^{\sum_{i}\beta_ix_i}}
+\end{split}\]</div>
 <ul class="simple">
 <li><p>And we can re-formulate the model equation as:</p></li>
 </ul>
@@ -575,11 +604,64 @@ P(c|d) = P(c|x_1,x_2,...,x_i)\\= \frac{1}{1+e^{\sum_{i}\beta_ix_i}}
 \end{split}\]</div>
 <ul class="simple">
 <li><p>The model will then determine the class of the document by choosing the class that maximizes the conditional probability of <span class="math notranslate nohighlight">\(P(c|d)\)</span>.</p></li>
-<li><p>Each feature <span class="math notranslate nohighlight">\(x_i\)</span> of the document is a function that chracterizes the relevant linguistic properties of the document. These features can be all manually annotated or created automatically.</p></li>
-<li><p>These features are often in simple forms that are of binary values or numeric values within a range:
-$<span class="math notranslate nohighlight">\( 
-  x_i = f_i(c,x_i) = [C = c_i \wedge contains(w_i) ] = \{0, 1\}
-  \)</span>$</p></li>
+</ul>
+</div>
+<div class="section" id="support-vector-machine-svm">
+<h2>Support Vector Machine (SVM)<a class="headerlink" href="#support-vector-machine-svm" title="Permalink to this headline">¶</a></h2>
+<p><img alt="" src="../_images/svm.001.png" /></p>
+<ul class="simple">
+<li><p>To understand what SVM is, we probably need to introduce the idea of <strong>support vectors</strong>.</p></li>
+<li><p>Given a linearly separable dataset, it is easy to find a hyperplane (in 2D, that would be a line) that separates data into two distinct sub-groups.</p>
+<ul>
+<li><p>The shortest distance between the observations and the threshold (hyperplane) is called the <strong>margin</strong>.</p></li>
+<li><p>A hyperplane that gives us the largest margin to make classification is referred to as <strong>Maximum Margin Classifier</strong>.</p></li>
+</ul>
+</li>
+</ul>
+<ul class="simple">
+<li><p>Issues with Maximum Margin Classifier:</p>
+<ul>
+<li><p>Maximum Margin Classifier is very sensitive to outliers.</p></li>
+<li><p>The classifier may be too biased toward the class with fewer outliers.</p></li>
+</ul>
+</li>
+</ul>
+<p><img alt="" src="../_images/svm.002.png" /></p>
+<ul class="simple">
+<li><p>If we choose a hyperplane which allows misclassifications, we may be able to find a better classifier.</p>
+<ul>
+<li><p>When we allow misclassifications, the distance between the observations and the hyperplane is called a <strong>soft margin</strong>.</p></li>
+<li><p>A classifier allowing misclassifications (i.e., based on soft margins) is referred to as <strong>soft margin classifier</strong>, or <strong>support vector classifier</strong>.</p></li>
+<li><p>The observations on the edge and within the <strong>soft margin</strong> are called <strong>support vectors</strong>.
+<img alt="" src="../_images/svm.003.png" /></p></li>
+</ul>
+</li>
+</ul>
+<ul class="simple">
+<li><p>Support Vector Classifiers can deal with observations with outliers and the assumption is that the observations are linearly separable.</p></li>
+<li><p>What if the observations are not linearly separable in the first place? This is where <strong>Support Vector Machine</strong> comes in!
+<img alt="" src="../_images/svm.004.png" /></p></li>
+</ul>
+<ul class="simple">
+<li><p>Intuition of Support Vector Machine:</p>
+<ul>
+<li><p>Start with data in a relatively low dimension</p></li>
+<li><p>Move the data into a higher dimension (when no obvious linear classifier found)</p></li>
+<li><p>Find a <strong>Support Vector Classifier</strong> that separates the higher dimensional data into two groups</p></li>
+</ul>
+</li>
+</ul>
+<p><img alt="" src="../_images/svm-kernel.gif" /></p>
+<ul class="simple">
+<li><p>The mathematical tricks of moving data into a higher dimension are the <strong>kernel functions</strong>. This process is called the <strong>Kernel Tricks</strong>. SVM uses these kernel functions to find support vector classifiers in higher dimensions.</p>
+<ul>
+<li><p>Polynomial Kernel</p></li>
+<li><p>Radial Basis Function Kernel (RBF)</p></li>
+</ul>
+</li>
+</ul>
+<ul class="simple">
+<li><p>SVM has a <strong>cost function (C)</strong>, which controls the compromise of the misclassifications and margin sizes. A smaller C creates a softer (larger) margin, allowing more misclassifications; a larger C creates a narrower margin, allowing fewer misclassifications. A model of larger C often has higher generalizability.</p></li>
 </ul>
 </div>
 <div class="section" id="other-discriminative-models">
@@ -600,12 +682,6 @@ p(c|d,\beta) = \frac{e^{\sum_{i}\beta_ix_i}}{\sum_{c'}{e^{\sum_{i}\beta_ix_i}}}\
 = \frac{y_c}{\sum_{c'}{y_{c'}}}
 \end{split}\]</div>
 <ul class="simple">
-<li><p><strong>Support Vector Machine (SVM)</strong></p>
-<ul>
-<li><p>finds optimal model parameters that can maximize the margins of the classes on the hyperplane.</p></li>
-<li><p>SVM has a <strong>cost function</strong>, which controls the compromise of the training errors and margins. A smaller cost creates a softer margin, allowing more misclassifcations; a larger cost creates a narrower margin, allowing fewer misclassifications.</p></li>
-</ul>
-</li>
 <li><p><strong>Perceptron</strong></p>
 <ul>
 <li><p>finds a currently misclassified example, and nudge weights in the direction of its correct classification.</p></li>
@@ -639,6 +715,8 @@ p(c|d,\beta) = \frac{e^{\sum_{i}\beta_ix_i}}{\sum_{c'}{e^{\sum_{i}\beta_ix_i}}}\
 <li><p>Example: <strong>Random Forests</strong></p></li>
 </ul>
 </li>
+</ul>
+<ul class="simple">
 <li><p>Boosting</p>
 <ul>
 <li><p>Utilize sequential modeling by improving one model from the errors of the previous model</p></li>
@@ -695,7 +773,7 @@ p(c|d,\beta) = \frac{e^{\sum_{i}\beta_ix_i}}{\sum_{c'}{e^{\sum_{i}\beta_ix_i}}}\
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="ml-nlp-case.html" title="previous page">Machine Learning: NLP Tasks</a>
+    <a class='left-prev' id="prev-link" href="ml-simple-case.html" title="previous page">Machine Learning: A Simple Example</a>
     <a class='right-next' id="next-link" href="../temp/ml-sklearn-classification.html" title="next page">Sentiment Analysis Using Bag-of-Words</a>
 
     </div>

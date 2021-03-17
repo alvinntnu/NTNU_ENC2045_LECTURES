@@ -170,11 +170,6 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../nlp/ml-nlp-case.html">
-   Machine Learning: NLP Tasks
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="../nlp/ml-algorithm.html">
    Classification Models
   </a>
@@ -199,6 +194,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="topic-modeling-naive.html">
    Topic Modeling: A Naive Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-nlp-case.html">
+   Machine Learning: NLP Tasks
   </a>
  </li>
 </ul>
@@ -392,10 +392,32 @@
   <a class="reference internal nav-link" href="#bag-of-words-model">
    Bag of Words Model
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#countvectorizer-from-sklearn">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       CountVectorizer()
+      </span>
+     </code>
+     from
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       sklearn
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#bag-of-n-grams-model">
-   Bag of N-Grams Model
+  <a class="reference internal nav-link" href="#improving-bag-of-words-text-representation">
+   Improving Bag-of-Words Text Representation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#n-gram-bag-of-words-text-representation">
+   N-gram Bag-of-Words Text Representation
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -407,6 +429,43 @@
   <a class="reference internal nav-link" href="#intuition-of-tf-idf">
    Intuition of TF-IDF
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#create-vocabulary-dictionary-of-the-corpus">
+     Create vocabulary dictionary of the corpus
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#create-document-term-matrix-bag-of-word-frequencies">
+     Create Document-Term Matrix (Bag-of-Word Frequencies)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#compute-document-frequency-of-words">
+     Compute Document Frequency of Words
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#create-inverse-document-frequency-of-words">
+     Create Inverse Document Frequency of Words
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#compute-raw-tf-idf-for-each-document">
+     Compute Raw TF-IDF for Each Document
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#get-l2-norms-of-tf-idf">
+     Get L2 Norms of TF-IDF
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#compute-normalized-tf-idf-for-each-document">
+     Compute Normalized TF-IDF for Each Document
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#document-similarity">
@@ -414,8 +473,35 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#similarity-distance-metrics-and-intuition">
+   Similarity/Distance Metrics and Intuition
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#distance-based-metrics">
+     Distance-based Metrics
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#similarity-based-metrics">
+     Similarity-based Metrics
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#pairwise-similarity-computation">
+   Pairwise Similarity Computation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#clustering-documents-using-similarity-features">
    Clustering documents using similarity features
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#clustering-terms-using-similarity-features">
+   Clustering terms using similarity features
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -438,9 +524,9 @@
 <h1>Text Vectorization Using Traditional Methods<a class="headerlink" href="#text-vectorization-using-traditional-methods" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
 <li><p>There are many ways to vectorize a text into numeric representations.</p></li>
-<li><p>In traditional linguistic studies, linguists may manually annotate a text based on self-defined linguistic properties. These annotations can be easily converted into numeric values, thus in turn, vectorizing the text.</p></li>
+<li><p>In traditional linguistic studies, linguists may <strong>manually</strong> annotate a text based on self-defined linguistic properties. These heuristics-based annotations can be easily converted into numeric values, thus in turn, vectorizing the text.</p></li>
 <li><p>In statistical language processing, it is important to reduce the effort of manual annotation and come up with ways to automatically vectorize a text.</p></li>
-<li><p>In this tutorial, we look at the traditional bag-of-words method for text vectorization.</p></li>
+<li><p>In this tutorial, we will look at the most widely-used method in machine learning NLP, the <strong>bag-of-words</strong> method for text vectorization.</p></li>
 </ul>
 <div class="section" id="import-necessary-dependencies-and-settings">
 <h2>Import necessary dependencies and settings<a class="headerlink" href="#import-necessary-dependencies-and-settings" title="Permalink to this headline">¶</a></h2>
@@ -448,20 +534,17 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">nltk</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">150</span>
+<span class="c1">## Default Style Settings</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">max_colwidth</span> <span class="o">=</span> <span class="mi">200</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="c1">#%matplotlib inline</span>
 </pre></div>
 </div>
 </div>
@@ -469,22 +552,28 @@
 </div>
 <div class="section" id="sample-corpus-of-text-documents">
 <h2>Sample corpus of text documents<a class="headerlink" href="#sample-corpus-of-text-documents" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>To have a quick intuition of how bag-of-words work, we start with a naive corpus, one consisting of eight documents. Each document is in fact a simple sentence.</p></li>
+<li><p>Each document in the corpus has a label (potentially referring to its <strong>topic</strong>).</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corpus</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;The sky is blue and beautiful.&#39;</span><span class="p">,</span>
-          <span class="s1">&#39;Love this blue and beautiful sky!&#39;</span><span class="p">,</span>
-          <span class="s1">&#39;The quick brown fox jumps over the lazy dog.&#39;</span><span class="p">,</span>
-          <span class="s2">&quot;A king&#39;s breakfast has sausages, ham, bacon, eggs, toast and beans&quot;</span><span class="p">,</span>
-          <span class="s1">&#39;I love green eggs, ham, sausages and bacon!&#39;</span><span class="p">,</span>
-          <span class="s1">&#39;The brown fox is quick and the blue dog is lazy!&#39;</span><span class="p">,</span>
-          <span class="s1">&#39;The sky is very blue and the sky is very beautiful today&#39;</span><span class="p">,</span>
-          <span class="s1">&#39;The dog is lazy but the brown fox is quick!&#39;</span>    
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corpus</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;The sky is blue and beautiful.&#39;</span><span class="p">,</span> <span class="s1">&#39;Love this blue and beautiful sky!&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;The quick brown fox jumps over the lazy dog.&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;A king&#39;s breakfast has sausages, ham, bacon, eggs, toast and beans&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;I love green eggs, ham, sausages and bacon!&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;The brown fox is quick and the blue dog is lazy!&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;The sky is very blue and the sky is very beautiful today&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;The dog is lazy but the brown fox is quick!&#39;</span>
 <span class="p">]</span>
-<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;weather&#39;</span><span class="p">,</span> <span class="s1">&#39;weather&#39;</span><span class="p">,</span> <span class="s1">&#39;animals&#39;</span><span class="p">,</span> <span class="s1">&#39;food&#39;</span><span class="p">,</span> <span class="s1">&#39;food&#39;</span><span class="p">,</span> <span class="s1">&#39;animals&#39;</span><span class="p">,</span> <span class="s1">&#39;weather&#39;</span><span class="p">,</span> <span class="s1">&#39;animals&#39;</span><span class="p">]</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;weather&#39;</span><span class="p">,</span> <span class="s1">&#39;weather&#39;</span><span class="p">,</span> <span class="s1">&#39;animals&#39;</span><span class="p">,</span> <span class="s1">&#39;food&#39;</span><span class="p">,</span> <span class="s1">&#39;food&#39;</span><span class="p">,</span> <span class="s1">&#39;animals&#39;</span><span class="p">,</span> <span class="s1">&#39;weather&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;animals&#39;</span>
+<span class="p">]</span>
 
 <span class="n">corpus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
-<span class="n">corpus_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Document&#39;</span><span class="p">:</span> <span class="n">corpus</span><span class="p">,</span> 
-                          <span class="s1">&#39;Category&#39;</span><span class="p">:</span> <span class="n">labels</span><span class="p">})</span>
+<span class="n">corpus_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Document&#39;</span><span class="p">:</span> <span class="n">corpus</span><span class="p">,</span> <span class="s1">&#39;Category&#39;</span><span class="p">:</span> <span class="n">labels</span><span class="p">})</span>
 <span class="n">corpus_df</span> <span class="o">=</span> <span class="n">corpus_df</span><span class="p">[[</span><span class="s1">&#39;Document&#39;</span><span class="p">,</span> <span class="s1">&#39;Category&#39;</span><span class="p">]]</span>
 <span class="n">corpus_df</span>
 </pre></div>
@@ -558,17 +647,35 @@
 </table>
 </div></div></div>
 </div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>In text processing, people often cast <code class="docutils literal notranslate"><span class="pre">list</span></code> into <code class="docutils literal notranslate"><span class="pre">np.array</span></code> for efficiency. A numpy array is a lot faster than the native <code class="docutils literal notranslate"><span class="pre">list</span></code> in python.</p>
+<p>If you are interested, please check this <a class="reference external" href="https://www.youtube.com/watch?v=9JUAPgtkKpI&amp;t=1868s">YouTube Numpy Crash Course</a>.</p>
+</div>
 </div>
 <div class="section" id="simple-text-pre-processing">
 <h2>Simple text pre-processing<a class="headerlink" href="#simple-text-pre-processing" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>A few stesp for text preprocessing</p>
+<ul>
+<li><p>remove special characters</p></li>
+<li><p>normalize letter case</p></li>
+<li><p>remove redundant spaces</p></li>
+<li><p>tokenize each document into word-tokens</p></li>
+<li><p>remove stop words</p></li>
+</ul>
+</li>
+<li><p>All these preprocessing steps are wrapped in one function, <code class="docutils literal notranslate"><span class="pre">normalize_document()</span></code>.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wpt</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">WordPunctTokenizer</span><span class="p">()</span>
 <span class="n">stop_words</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">corpus</span><span class="o">.</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s1">&#39;english&#39;</span><span class="p">)</span>
 
+
 <span class="k">def</span> <span class="nf">normalize_document</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
     <span class="c1"># lower case and remove special characters\whitespaces</span>
-    <span class="n">doc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[^a-zA-Z\s]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">doc</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span><span class="o">|</span><span class="n">re</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[^a-zA-Z\s]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">doc</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
     <span class="n">doc</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="n">doc</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="c1"># tokenize document</span>
@@ -579,6 +686,7 @@
     <span class="n">doc</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filtered_tokens</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">doc</span>
 
+
 <span class="n">normalize_corpus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="n">normalize_document</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -587,17 +695,24 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">norm_corpus</span> <span class="o">=</span> <span class="n">normalize_corpus</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
-<span class="n">norm_corpus</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">norm_corpus</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;sky blue beautiful&#39;, &#39;love blue beautiful sky&#39;,
-       &#39;quick brown fox jumps lazy dog&#39;,
-       &#39;kings breakfast sausages ham bacon eggs toast beans&#39;,
-       &#39;love green eggs ham sausages bacon&#39;,
-       &#39;brown fox quick blue dog lazy&#39;, &#39;sky blue sky beautiful today&#39;,
-       &#39;dog lazy brown fox quick&#39;], dtype=&#39;&lt;U51&#39;)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;The sky is blue and beautiful.&#39; &#39;Love this blue and beautiful sky!&#39;
+ &#39;The quick brown fox jumps over the lazy dog.&#39;
+ &quot;A king&#39;s breakfast has sausages, ham, bacon, eggs, toast and beans&quot;
+ &#39;I love green eggs, ham, sausages and bacon!&#39;
+ &#39;The brown fox is quick and the blue dog is lazy!&#39;
+ &#39;The sky is very blue and the sky is very beautiful today&#39;
+ &#39;The dog is lazy but the brown fox is quick!&#39;]
+[&#39;sky blue beautiful&#39; &#39;love blue beautiful sky&#39;
+ &#39;quick brown fox jumps lazy dog&#39;
+ &#39;kings breakfast sausages ham bacon eggs toast beans&#39;
+ &#39;love green eggs ham sausages bacon&#39; &#39;brown fox quick blue dog lazy&#39;
+ &#39;sky blue sky beautiful today&#39; &#39;dog lazy brown fox quick&#39;]
 </pre></div>
 </div>
 </div>
@@ -606,10 +721,12 @@
 <div class="section" id="bag-of-words-model">
 <h2>Bag of Words Model<a class="headerlink" href="#bag-of-words-model" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Bag-of-words model is the simplest way to vectorize texts into numeric representations.</p></li>
+<li><p>Bag-of-words model is the simplest way (i.e., easy to be automated) to vectorize texts into numeric representations.</p></li>
 <li><p>In short, it is a method to represent a text using its word frequency list.</p></li>
-<li><p>The sequential order of words in the text is therefore naively ignored.</p></li>
 </ul>
+<p><img alt="" src="../_images/text-representation-bow.gif" /></p>
+<div class="section" id="countvectorizer-from-sklearn">
+<h3><code class="docutils literal notranslate"><span class="pre">CountVectorizer()</span></code> from <code class="docutils literal notranslate"><span class="pre">sklearn</span></code><a class="headerlink" href="#countvectorizer-from-sklearn" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">CountVectorizer</span>
@@ -683,7 +800,7 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># view dense representation </span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># view dense representation</span>
 <span class="c1"># warning might give a memory error if data is too big</span>
 <span class="n">cv_matrix</span> <span class="o">=</span> <span class="n">cv_matrix</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
 <span class="n">cv_matrix</span>
@@ -942,13 +1059,48 @@
 </table>
 </div></div></div>
 </div>
+<ul class="simple">
+<li><p>Issues with Bag-of-Words Text Representation</p>
+<ul>
+<li><p>Word order is ignored.</p></li>
+<li><p>Raw absolute frequency counts of words do not necessarily represent the meaning of the text properly.</p></li>
+<li><p>Marginal frequencies play important roles. (Row and Columns)</p></li>
+</ul>
+</li>
+</ul>
 </div>
-<div class="section" id="bag-of-n-grams-model">
-<h2>Bag of N-Grams Model<a class="headerlink" href="#bag-of-n-grams-model" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="improving-bag-of-words-text-representation">
+<h2>Improving Bag-of-Words Text Representation<a class="headerlink" href="#improving-bag-of-words-text-representation" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>In BOW text representation, the most crucial question is to identify words that are indeed <strong>representative</strong> of the semantics of texts.</p></li>
+<li><p>To improve the BOW representation:</p>
+<ul>
+<li><p>We can extend from unigram-based BOW model to <strong>n-gram</strong> based BOW model to consider partially the word order in texts.</p></li>
+<li><p>We can <strong>filter</strong> words based on the distributional criteria (e.g., term frequencies) or morphosyntactic patterns (e.g., morphological endings).</p></li>
+<li><p>We can <strong>weight</strong> the BOW raw frequency counts</p></li>
+</ul>
+</li>
+</ul>
+<p>In <code class="docutils literal notranslate"><span class="pre">CountVectorizer()</span></code>, we can utilize parameters:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">max_df</span></code>: When building the vocabulary ignore terms that have a <strong>document
+frequency</strong> strictly higher than the given threshold (corpus-specific
+stop words). If float, the parameter represents a proportion of documents, integer
+absolute counts.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">min_df</span></code>: When building the vocabulary ignore terms that have a <strong>document
+frequency</strong> strictly lower than the given threshold. If float, the parameter represents a proportion of documents, integer absolute counts.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_features</span></code> : Build a vocabulary that only consider the top <code class="docutils literal notranslate"><span class="pre">max_features</span></code> ordered by term frequency across the corpus.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ngram_range</span></code> : tuple (min_n, max_n), default=(1, 1). The lower and upper boundary of the range of n-values for different word n-grams.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">token_pattern</span></code>: Regular expression denoting what constitutes a “token” in vocabuaryl. The default regexp select tokens of 2 or more alphanumeric characters (Note: <strong>punctuation</strong> is completely ignored and always treated as a token separator).</p></li>
+</ul>
+</div>
+<div class="section" id="n-gram-bag-of-words-text-representation">
+<h2>N-gram Bag-of-Words Text Representation<a class="headerlink" href="#n-gram-bag-of-words-text-representation" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># you can set the n-gram range to 1,2 to get unigrams as well as bigrams</span>
-<span class="n">bv</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">(</span><span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">bv</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">(</span><span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 <span class="n">bv_matrix</span> <span class="o">=</span> <span class="n">bv</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">norm_corpus</span><span class="p">)</span>
 
 <span class="n">bv_matrix</span> <span class="o">=</span> <span class="n">bv_matrix</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
@@ -1201,9 +1353,60 @@
 <div class="section" id="tf-idf-model">
 <h2>TF-IDF Model<a class="headerlink" href="#tf-idf-model" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>TF-IDF model is an extension of the bag-of-words model.</p></li>
-<li><p>It further considers the marginal frequencies of the words as well as the document sizes.</p></li>
+<li><p>TF-IDF model is an extension of the bag-of-words model, whose main objective is to adjust the raw frequency counts by considering the dispersion of the words in the corpus.</p></li>
+<li><p>Disperson refers to how evenly each word/term is distributed across different documents of the corpus.</p></li>
 </ul>
+<ul class="simple">
+<li><p>Interaction between Word Raw Frequency Counts and Dispersion:</p>
+<ul>
+<li><p>Given a <strong>high-frequency</strong> word:</p>
+<ul>
+<li><p>if the word is widely dispersed across different documents of the corpus (i.e., <strong>high dispersion</strong>)</p>
+<ul>
+<li><p>it is more likely to be semantically general.</p></li>
+</ul>
+</li>
+<li><p>if the word is mostly centralized in a limited set of documents in the corpus (i.e., <strong>low dispersion</strong>)</p>
+<ul>
+<li><p>it is more likely to be topic-specific.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Dispersion rates of words can be used as weights for the importance of word frequency counts.</p></li>
+</ul>
+<ul class="simple">
+<li><p>Document Frequency (<strong>DF</strong>) is an intuitive metric for measuring word dispersion across the corpus. DF refers to the number of documents where the word occurs (at least once).</p></li>
+<li><p>The inverse of the DF is referred to as Inverse Document Frequency (<strong>IDF</strong>). IDF is usually computed as follows:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[ 
+\textit{IDF} = 1 + log\frac{N}{1+df}
+\]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All these plus-1’s in the above formula are avoid potential division by zero errors.</p>
+</div>
+<ul class="simple">
+<li><p>The raw absolute frequency counts of words in the BOW model are referred to as Term Frequency (<strong>TF</strong>).</p></li>
+<li><p>The TF-IDF Weighting SCheme:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\textit{TF-IDF}_{normalized} = \frac{tf \times idf}{\sqrt{(tf\times idf)^2}}
+\]</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- The tfidf is normalized using the L2 norm, i.e., the Euclidean norm (taking the square root of the sum of the square of tfidf metrics).
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<ul class="simple">
+<li><p>The L1 norm will drive some weights to 0, inducing sparsity in the weights. This can be beneficial for memory efficiency or when feature selection is needed (ie we want to selct only certain weights).</p></li>
+<li><p>The L2 norm instead will reduce all weights but not all the way to 0. This is less memory efficient but can be useful if we want/need to retain all parameters.</p></li>
+</ul>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfTransformer</span>
@@ -1451,8 +1654,11 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
 
-<span class="n">tv</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">min_df</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">max_df</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;l2&#39;</span><span class="p">,</span>
-                     <span class="n">use_idf</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">smooth_idf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">tv</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">min_df</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
+                     <span class="n">max_df</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span>
+                     <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;l2&#39;</span><span class="p">,</span>
+                     <span class="n">use_idf</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                     <span class="n">smooth_idf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">tv_matrix</span> <span class="o">=</span> <span class="n">tv</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">norm_corpus</span><span class="p">)</span>
 <span class="n">tv_matrix</span> <span class="o">=</span> <span class="n">tv_matrix</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
 
@@ -1694,11 +1900,14 @@
 </div>
 <div class="section" id="intuition-of-tf-idf">
 <h2>Intuition of TF-IDF<a class="headerlink" href="#intuition-of-tf-idf" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="create-vocabulary-dictionary-of-the-corpus">
+<h3>Create vocabulary dictionary of the corpus<a class="headerlink" href="#create-vocabulary-dictionary-of-the-corpus" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get unique words as feature names</span>
-<span class="n">unique_words</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">word</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="p">[</span><span class="n">doc</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">norm_corpus</span><span class="p">]</span> 
-                         <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">]))</span>
+<span class="n">unique_words</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+    <span class="nb">set</span><span class="p">([</span><span class="n">word</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="p">[</span><span class="n">doc</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">norm_corpus</span><span class="p">]</span>
+         <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">]))</span>
 <span class="n">def_feature_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">w</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">unique_words</span><span class="p">}</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Feature Names:&#39;</span><span class="p">,</span> <span class="n">unique_words</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Default Feature Dict:&#39;</span><span class="p">,</span> <span class="n">def_feature_dict</span><span class="p">)</span>
@@ -1706,12 +1915,15 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Feature Names: [&#39;love&#39;, &#39;dog&#39;, &#39;eggs&#39;, &#39;beans&#39;, &#39;toast&#39;, &#39;lazy&#39;, &#39;quick&#39;, &#39;sky&#39;, &#39;kings&#39;, &#39;bacon&#39;, &#39;green&#39;, &#39;blue&#39;, &#39;sausages&#39;, &#39;brown&#39;, &#39;ham&#39;, &#39;jumps&#39;, &#39;beautiful&#39;, &#39;breakfast&#39;, &#39;today&#39;, &#39;fox&#39;]
-Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &#39;beans&#39;: 0, &#39;toast&#39;: 0, &#39;lazy&#39;: 0, &#39;quick&#39;: 0, &#39;sky&#39;: 0, &#39;kings&#39;: 0, &#39;bacon&#39;: 0, &#39;green&#39;: 0, &#39;blue&#39;: 0, &#39;sausages&#39;: 0, &#39;brown&#39;: 0, &#39;ham&#39;: 0, &#39;jumps&#39;: 0, &#39;beautiful&#39;: 0, &#39;breakfast&#39;: 0, &#39;today&#39;: 0, &#39;fox&#39;: 0}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Feature Names: [&#39;green&#39;, &#39;dog&#39;, &#39;sausages&#39;, &#39;fox&#39;, &#39;love&#39;, &#39;eggs&#39;, &#39;beautiful&#39;, &#39;sky&#39;, &#39;lazy&#39;, &#39;ham&#39;, &#39;quick&#39;, &#39;jumps&#39;, &#39;toast&#39;, &#39;brown&#39;, &#39;kings&#39;, &#39;bacon&#39;, &#39;today&#39;, &#39;beans&#39;, &#39;breakfast&#39;, &#39;blue&#39;]
+Default Feature Dict: {&#39;green&#39;: 0, &#39;dog&#39;: 0, &#39;sausages&#39;: 0, &#39;fox&#39;: 0, &#39;love&#39;: 0, &#39;eggs&#39;: 0, &#39;beautiful&#39;: 0, &#39;sky&#39;: 0, &#39;lazy&#39;: 0, &#39;ham&#39;: 0, &#39;quick&#39;: 0, &#39;jumps&#39;: 0, &#39;toast&#39;: 0, &#39;brown&#39;: 0, &#39;kings&#39;: 0, &#39;bacon&#39;: 0, &#39;today&#39;: 0, &#39;beans&#39;: 0, &#39;breakfast&#39;: 0, &#39;blue&#39;: 0}
 </pre></div>
 </div>
 </div>
 </div>
+</div>
+<div class="section" id="create-document-term-matrix-bag-of-word-frequencies">
+<h3>Create Document-Term Matrix (Bag-of-Word Frequencies)<a class="headerlink" href="#create-document-term-matrix-bag-of-word-frequencies" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
@@ -1719,8 +1931,10 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
 <span class="n">bow_features</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">norm_corpus</span><span class="p">:</span>
     <span class="n">bow_feature_doc</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
-    <span class="n">all_features</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">def_feature_dict</span><span class="p">)</span>
-    <span class="n">bow_feature_doc</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">all_features</span><span class="p">)</span>
+    <span class="n">all_features</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span>
+        <span class="n">def_feature_dict</span><span class="p">)</span>  <span class="c1"># initialize default corpus dictionary</span>
+    <span class="n">bow_feature_doc</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+        <span class="n">all_features</span><span class="p">)</span>  <span class="c1"># update default dict with current doc words</span>
     <span class="n">bow_features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bow_feature_doc</span><span class="p">)</span>
 
 <span class="n">bow_features</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">bow_features</span><span class="p">)</span>
@@ -1750,23 +1964,23 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <th>sky</th>
       <th>blue</th>
       <th>beautiful</th>
-      <th>love</th>
+      <th>green</th>
       <th>dog</th>
+      <th>sausages</th>
+      <th>fox</th>
+      <th>love</th>
       <th>eggs</th>
-      <th>beans</th>
-      <th>toast</th>
       <th>lazy</th>
+      <th>ham</th>
       <th>quick</th>
+      <th>jumps</th>
+      <th>toast</th>
+      <th>brown</th>
       <th>kings</th>
       <th>bacon</th>
-      <th>green</th>
-      <th>sausages</th>
-      <th>brown</th>
-      <th>ham</th>
-      <th>jumps</th>
-      <th>breakfast</th>
       <th>today</th>
-      <th>fox</th>
+      <th>beans</th>
+      <th>breakfast</th>
     </tr>
   </thead>
   <tbody>
@@ -1798,11 +2012,11 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <td>1</td>
       <td>1</td>
       <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
       <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -1824,20 +2038,20 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <td>0</td>
       <td>1</td>
       <td>0</td>
-      <td>0</td>
-      <td>0</td>
       <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>1</td>
       <td>0</td>
       <td>1</td>
-      <td>0</td>
+      <td>1</td>
       <td>0</td>
       <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>3</th>
@@ -1847,20 +2061,20 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <td>0</td>
       <td>0</td>
       <td>1</td>
-      <td>1</td>
-      <td>1</td>
       <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
       <td>0</td>
       <td>1</td>
       <td>0</td>
       <td>1</td>
       <td>0</td>
       <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
     </tr>
     <tr>
       <th>4</th>
@@ -1871,16 +2085,16 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <td>0</td>
       <td>1</td>
       <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
       <td>1</td>
       <td>1</td>
       <td>0</td>
       <td>1</td>
       <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -1893,20 +2107,20 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <td>0</td>
       <td>1</td>
       <td>0</td>
-      <td>0</td>
-      <td>0</td>
       <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>1</td>
       <td>0</td>
-      <td>0</td>
+      <td>1</td>
       <td>0</td>
       <td>0</td>
       <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>6</th>
@@ -1927,8 +2141,8 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
       <td>1</td>
+      <td>0</td>
       <td>0</td>
     </tr>
     <tr>
@@ -1939,25 +2153,28 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <td>0</td>
       <td>1</td>
       <td>0</td>
-      <td>0</td>
-      <td>0</td>
       <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>1</td>
       <td>0</td>
-      <td>0</td>
+      <td>1</td>
       <td>0</td>
       <td>0</td>
       <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
+</div>
+<div class="section" id="compute-document-frequency-of-words">
+<h3>Compute Document Frequency of Words<a class="headerlink" href="#compute-document-frequency-of-words" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
@@ -1965,7 +2182,11 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
 
 <span class="c1"># build the document frequency matrix</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">csc_matrix</span><span class="p">(</span><span class="n">bow_features</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">indptr</span><span class="p">)</span>
-<span class="n">df</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">df</span> <span class="c1"># adding 1 to smoothen idf later</span>
+<span class="c1"># `csc_matrix()` compress `bow_features` into sparse matrix based on columns</span>
+<span class="c1"># `csc_matrix.indices` stores the matrix value indices in each column</span>
+<span class="c1"># `csc_matrix.indptr` stores the accumulative numbers of values from column-0 to the right-most column</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">df</span>  <span class="c1"># adding 1 to smoothen idf later</span>
 
 <span class="c1"># show smoothened document frequencies</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">df</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">feature_names</span><span class="p">)</span>
@@ -1994,23 +2215,23 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <th>sky</th>
       <th>blue</th>
       <th>beautiful</th>
-      <th>love</th>
+      <th>green</th>
       <th>dog</th>
+      <th>sausages</th>
+      <th>fox</th>
+      <th>love</th>
       <th>eggs</th>
-      <th>beans</th>
-      <th>toast</th>
       <th>lazy</th>
+      <th>ham</th>
       <th>quick</th>
+      <th>jumps</th>
+      <th>toast</th>
+      <th>brown</th>
       <th>kings</th>
       <th>bacon</th>
-      <th>green</th>
-      <th>sausages</th>
-      <th>brown</th>
-      <th>ham</th>
-      <th>jumps</th>
-      <th>breakfast</th>
       <th>today</th>
-      <th>fox</th>
+      <th>beans</th>
+      <th>breakfast</th>
     </tr>
   </thead>
   <tbody>
@@ -2019,31 +2240,34 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <td>4</td>
       <td>5</td>
       <td>4</td>
+      <td>2</td>
+      <td>4</td>
       <td>3</td>
       <td>4</td>
       <td>3</td>
-      <td>2</td>
-      <td>2</td>
+      <td>3</td>
       <td>4</td>
+      <td>3</td>
+      <td>4</td>
+      <td>2</td>
+      <td>2</td>
       <td>4</td>
       <td>2</td>
       <td>3</td>
       <td>2</td>
-      <td>3</td>
-      <td>4</td>
-      <td>3</td>
       <td>2</td>
       <td>2</td>
-      <td>2</td>
-      <td>4</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
+</div>
+<div class="section" id="create-inverse-document-frequency-of-words">
+<h3>Create Inverse Document Frequency of Words<a class="headerlink" href="#create-inverse-document-frequency-of-words" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># compute inverse document frequencies</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># compute inverse document frequencies for each term</span>
 <span class="n">total_docs</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">norm_corpus</span><span class="p">)</span>
 <span class="n">idf</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">total_docs</span><span class="p">)</span> <span class="o">/</span> <span class="n">df</span><span class="p">)</span>
 
@@ -2074,23 +2298,23 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <th>sky</th>
       <th>blue</th>
       <th>beautiful</th>
-      <th>love</th>
+      <th>green</th>
       <th>dog</th>
+      <th>sausages</th>
+      <th>fox</th>
+      <th>love</th>
       <th>eggs</th>
-      <th>beans</th>
-      <th>toast</th>
       <th>lazy</th>
+      <th>ham</th>
       <th>quick</th>
+      <th>jumps</th>
+      <th>toast</th>
+      <th>brown</th>
       <th>kings</th>
       <th>bacon</th>
-      <th>green</th>
-      <th>sausages</th>
-      <th>brown</th>
-      <th>ham</th>
-      <th>jumps</th>
-      <th>breakfast</th>
       <th>today</th>
-      <th>fox</th>
+      <th>beans</th>
+      <th>breakfast</th>
     </tr>
   </thead>
   <tbody>
@@ -2099,551 +2323,36 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <td>1.81</td>
       <td>1.59</td>
       <td>1.81</td>
+      <td>2.5</td>
+      <td>1.81</td>
       <td>2.1</td>
       <td>1.81</td>
       <td>2.1</td>
-      <td>2.5</td>
-      <td>2.5</td>
+      <td>2.1</td>
       <td>1.81</td>
+      <td>2.1</td>
+      <td>1.81</td>
+      <td>2.5</td>
+      <td>2.5</td>
       <td>1.81</td>
       <td>2.5</td>
       <td>2.1</td>
       <td>2.5</td>
-      <td>2.1</td>
-      <td>1.81</td>
-      <td>2.1</td>
       <td>2.5</td>
       <td>2.5</td>
-      <td>2.5</td>
-      <td>1.81</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># compute idf diagonal matrix  </span>
-<span class="n">total_features</span> <span class="o">=</span> <span class="n">bow_features</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">idf_diag</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">spdiags</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">diags</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="n">total_features</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">total_features</span><span class="p">)</span>
-<span class="n">idf_dense</span> <span class="o">=</span> <span class="n">idf_diag</span><span class="o">.</span><span class="n">todense</span><span class="p">()</span>
-
-<span class="c1"># print the idf diagonal matrix</span>
-<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">idf_dense</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-</pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>0</th>
-      <th>1</th>
-      <th>2</th>
-      <th>3</th>
-      <th>4</th>
-      <th>5</th>
-      <th>6</th>
-      <th>7</th>
-      <th>8</th>
-      <th>9</th>
-      <th>10</th>
-      <th>11</th>
-      <th>12</th>
-      <th>13</th>
-      <th>14</th>
-      <th>15</th>
-      <th>16</th>
-      <th>17</th>
-      <th>18</th>
-      <th>19</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1.81</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>0.00</td>
-      <td>1.59</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>1.81</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>2.1</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>1.81</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>2.1</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>2.5</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>2.5</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>1.81</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>1.81</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>2.5</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>2.1</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>2.5</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>2.1</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>1.81</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>2.1</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>2.5</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>2.5</td>
-      <td>0.0</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>2.5</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>1.81</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
+<div class="section" id="compute-raw-tf-idf-for-each-document">
+<h3>Compute Raw TF-IDF for Each Document<a class="headerlink" href="#compute-raw-tf-idf-for-each-document" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># compute tfidf feature matrix</span>
 <span class="n">tf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">bow_features</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float64&#39;</span><span class="p">)</span>
-<span class="n">tfidf</span> <span class="o">=</span> <span class="n">tf</span> <span class="o">*</span> <span class="n">idf</span>
+<span class="n">tfidf</span> <span class="o">=</span> <span class="n">tf</span> <span class="o">*</span> <span class="n">idf</span>  <span class="c1">## `tf.shape` = (8,20), `idf.shape`=(20,)</span>
 <span class="c1"># view raw tfidf feature matrix</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">tfidf</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="n">feature_names</span><span class="p">)</span>
 </pre></div>
@@ -2671,23 +2380,23 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <th>sky</th>
       <th>blue</th>
       <th>beautiful</th>
-      <th>love</th>
+      <th>green</th>
       <th>dog</th>
+      <th>sausages</th>
+      <th>fox</th>
+      <th>love</th>
       <th>eggs</th>
-      <th>beans</th>
-      <th>toast</th>
       <th>lazy</th>
+      <th>ham</th>
       <th>quick</th>
+      <th>jumps</th>
+      <th>toast</th>
+      <th>brown</th>
       <th>kings</th>
       <th>bacon</th>
-      <th>green</th>
-      <th>sausages</th>
-      <th>brown</th>
-      <th>ham</th>
-      <th>jumps</th>
-      <th>breakfast</th>
       <th>today</th>
-      <th>fox</th>
+      <th>beans</th>
+      <th>breakfast</th>
     </tr>
   </thead>
   <tbody>
@@ -2699,43 +2408,43 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <td>0.0</td>
       <td>0.00</td>
       <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
       <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.00</td>
       <td>0.0</td>
-      <td>0.0</td>
+      <td>0.00</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>1</th>
       <td>1.81</td>
       <td>1.59</td>
       <td>1.81</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.00</td>
       <td>2.1</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
       <td>0.0</td>
       <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
       <td>0.0</td>
       <td>0.00</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
       <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>2</th>
@@ -2745,20 +2454,20 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <td>0.0</td>
       <td>1.81</td>
       <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
       <td>1.81</td>
-      <td>1.81</td>
-      <td>0.0</td>
-      <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>1.81</td>
       <td>0.0</td>
+      <td>1.81</td>
       <td>2.5</td>
       <td>0.0</td>
-      <td>0.0</td>
       <td>1.81</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>3</th>
@@ -2768,43 +2477,43 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <td>0.0</td>
       <td>0.00</td>
       <td>2.1</td>
-      <td>2.5</td>
-      <td>2.5</td>
       <td>0.00</td>
-      <td>0.00</td>
-      <td>2.5</td>
-      <td>2.1</td>
       <td>0.0</td>
       <td>2.1</td>
       <td>0.00</td>
       <td>2.1</td>
+      <td>0.00</td>
       <td>0.0</td>
       <td>2.5</td>
-      <td>0.0</td>
       <td>0.00</td>
+      <td>2.5</td>
+      <td>2.1</td>
+      <td>0.0</td>
+      <td>2.5</td>
+      <td>2.5</td>
     </tr>
     <tr>
       <th>4</th>
       <td>0.00</td>
       <td>0.00</td>
       <td>0.00</td>
-      <td>2.1</td>
-      <td>0.00</td>
-      <td>2.1</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>2.1</td>
       <td>2.5</td>
+      <td>0.00</td>
       <td>2.1</td>
       <td>0.00</td>
       <td>2.1</td>
-      <td>0.0</td>
+      <td>2.1</td>
+      <td>0.00</td>
+      <td>2.1</td>
+      <td>0.00</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.00</td>
+      <td>0.0</td>
+      <td>2.1</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>5</th>
@@ -2814,20 +2523,20 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <td>0.0</td>
       <td>1.81</td>
       <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
       <td>1.81</td>
-      <td>1.81</td>
-      <td>0.0</td>
-      <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>1.81</td>
       <td>0.0</td>
-      <td>0.0</td>
+      <td>1.81</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>1.81</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>6</th>
@@ -2837,20 +2546,20 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <td>0.0</td>
       <td>0.00</td>
       <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
       <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-      <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.00</td>
       <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>2.5</td>
-      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>7</th>
@@ -2860,33 +2569,36 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <td>0.0</td>
       <td>1.81</td>
       <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
       <td>1.81</td>
-      <td>1.81</td>
-      <td>0.0</td>
-      <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>1.81</td>
       <td>0.0</td>
-      <td>0.0</td>
+      <td>1.81</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>1.81</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
+</div>
+<div class="section" id="get-l2-norms-of-tf-idf">
+<h3>Get L2 Norms of TF-IDF<a class="headerlink" href="#get-l2-norms-of-tf-idf" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">norm</span>
-<span class="c1"># compute L2 norms </span>
-<span class="n">norms</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">tfidf</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># compute L2 norms</span>
+<span class="n">norms</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">tfidf</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># get the L2 forms of tfidf according to columns</span>
 
 <span class="c1"># print norms for each document</span>
-<span class="nb">print</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">norms</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">norms</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -2896,6 +2608,9 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
 </div>
 </div>
 </div>
+</div>
+<div class="section" id="compute-normalized-tf-idf-for-each-document">
+<h3>Compute Normalized TF-IDF for Each Document<a class="headerlink" href="#compute-normalized-tf-idf-for-each-document" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># compute normalized tfidf</span>
@@ -2928,23 +2643,23 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <th>sky</th>
       <th>blue</th>
       <th>beautiful</th>
-      <th>love</th>
+      <th>green</th>
       <th>dog</th>
+      <th>sausages</th>
+      <th>fox</th>
+      <th>love</th>
       <th>eggs</th>
-      <th>beans</th>
-      <th>toast</th>
       <th>lazy</th>
+      <th>ham</th>
       <th>quick</th>
+      <th>jumps</th>
+      <th>toast</th>
+      <th>brown</th>
       <th>kings</th>
       <th>bacon</th>
-      <th>green</th>
-      <th>sausages</th>
-      <th>brown</th>
-      <th>ham</th>
-      <th>jumps</th>
-      <th>breakfast</th>
       <th>today</th>
-      <th>fox</th>
+      <th>beans</th>
+      <th>breakfast</th>
     </tr>
   </thead>
   <tbody>
@@ -2967,8 +2682,8 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <td>0.00</td>
       <td>0.00</td>
       <td>0.00</td>
-      <td>0.00</td>
       <td>0.0</td>
+      <td>0.00</td>
       <td>0.00</td>
     </tr>
     <tr>
@@ -2976,6 +2691,10 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <td>0.49</td>
       <td>0.43</td>
       <td>0.49</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
       <td>0.57</td>
       <td>0.00</td>
       <td>0.00</td>
@@ -2986,12 +2705,8 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <td>0.00</td>
       <td>0.00</td>
       <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
       <td>0.0</td>
+      <td>0.00</td>
       <td>0.00</td>
     </tr>
     <tr>
@@ -3002,20 +2717,20 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <td>0.00</td>
       <td>0.38</td>
       <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
       <td>0.38</td>
-      <td>0.38</td>
-      <td>0.00</td>
-      <td>0.00</td>
       <td>0.00</td>
       <td>0.00</td>
       <td>0.38</td>
       <td>0.00</td>
+      <td>0.38</td>
       <td>0.53</td>
       <td>0.00</td>
-      <td>0.0</td>
       <td>0.38</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.00</td>
     </tr>
     <tr>
       <th>3</th>
@@ -3025,42 +2740,42 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <td>0.00</td>
       <td>0.00</td>
       <td>0.32</td>
-      <td>0.38</td>
-      <td>0.38</td>
       <td>0.00</td>
-      <td>0.00</td>
-      <td>0.38</td>
-      <td>0.32</td>
       <td>0.00</td>
       <td>0.32</td>
       <td>0.00</td>
       <td>0.32</td>
       <td>0.00</td>
+      <td>0.00</td>
       <td>0.38</td>
+      <td>0.00</td>
+      <td>0.38</td>
+      <td>0.32</td>
       <td>0.0</td>
-      <td>0.00</td>
+      <td>0.38</td>
+      <td>0.38</td>
     </tr>
     <tr>
       <th>4</th>
       <td>0.00</td>
       <td>0.00</td>
       <td>0.00</td>
-      <td>0.39</td>
-      <td>0.00</td>
-      <td>0.39</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.39</td>
       <td>0.47</td>
+      <td>0.00</td>
+      <td>0.39</td>
+      <td>0.00</td>
+      <td>0.39</td>
       <td>0.39</td>
       <td>0.00</td>
       <td>0.39</td>
       <td>0.00</td>
       <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.39</td>
       <td>0.0</td>
+      <td>0.00</td>
       <td>0.00</td>
     </tr>
     <tr>
@@ -3071,20 +2786,20 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <td>0.00</td>
       <td>0.42</td>
       <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
       <td>0.42</td>
-      <td>0.42</td>
-      <td>0.00</td>
-      <td>0.00</td>
       <td>0.00</td>
       <td>0.00</td>
       <td>0.42</td>
       <td>0.00</td>
+      <td>0.42</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.42</td>
       <td>0.00</td>
       <td>0.00</td>
       <td>0.0</td>
-      <td>0.42</td>
+      <td>0.00</td>
+      <td>0.00</td>
     </tr>
     <tr>
       <th>6</th>
@@ -3105,8 +2820,8 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <td>0.00</td>
       <td>0.00</td>
       <td>0.00</td>
-      <td>0.00</td>
       <td>0.5</td>
+      <td>0.00</td>
       <td>0.00</td>
     </tr>
     <tr>
@@ -3117,20 +2832,20 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
       <td>0.00</td>
       <td>0.45</td>
       <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
       <td>0.45</td>
-      <td>0.45</td>
-      <td>0.00</td>
-      <td>0.00</td>
       <td>0.00</td>
       <td>0.00</td>
       <td>0.45</td>
       <td>0.00</td>
+      <td>0.45</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.45</td>
       <td>0.00</td>
       <td>0.00</td>
       <td>0.0</td>
-      <td>0.45</td>
+      <td>0.00</td>
+      <td>0.00</td>
     </tr>
   </tbody>
 </table>
@@ -3140,7 +2855,7 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_doc</span> <span class="o">=</span> <span class="s1">&#39;the sky is green today&#39;</span>
 
-<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">tv</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="n">new_doc</span><span class="p">])</span><span class="o">.</span><span class="n">toarray</span><span class="p">(),</span> <span class="mi">2</span><span class="p">),</span> 
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">tv</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="n">new_doc</span><span class="p">])</span><span class="o">.</span><span class="n">toarray</span><span class="p">(),</span> <span class="mi">2</span><span class="p">),</span>
              <span class="n">columns</span><span class="o">=</span><span class="n">tv</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">())</span>
 </pre></div>
 </div>
@@ -3215,18 +2930,121 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
 </div></div></div>
 </div>
 </div>
+</div>
 <div class="section" id="document-similarity">
 <h2>Document Similarity<a class="headerlink" href="#document-similarity" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Text vectorization allows us to perform computation of document similarity</p></li>
+<li><p>Now each document in our corpus has been transformed into a vector representation using the naive Bag-of-Words method.</p></li>
+<li><p>This vectorized text vectorization allows us to perform mathematical computation of the semantic relationships between documents.</p></li>
 </ul>
+</div>
+<div class="section" id="similarity-distance-metrics-and-intuition">
+<h2>Similarity/Distance Metrics and Intuition<a class="headerlink" href="#similarity-distance-metrics-and-intuition" title="Permalink to this headline">¶</a></h2>
+<p>Take a two-dimensional space for instance. If we have vectors on this space, we can compute their distance/similarity mathematically:</p>
+<p><img alt="" src="../_images/text-vec-similarity1.png" /></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">cosine_similarity</span>
-
-<span class="n">similarity_matrix</span> <span class="o">=</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">tv_matrix</span><span class="p">)</span>
-<span class="n">similarity_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">similarity_matrix</span><span class="p">)</span>
-<span class="n">similarity_df</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">manhattan_distances</span><span class="p">,</span> <span class="n">euclidean_distances</span><span class="p">,</span> <span class="n">cosine_similarity</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xyz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="n">xyz</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[1, 9],
+       [1, 3],
+       [5, 1]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>In Math, there are in general two types of metrics to measure the relationship between vectors: <strong>distance</strong>-based vs. <strong>similarity</strong>-based metrics.</p>
+<div class="section" id="distance-based-metrics">
+<h3>Distance-based Metrics<a class="headerlink" href="#distance-based-metrics" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Many distance measures of vectors are based on the following formula and differ in individual parameter settings.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\big( \sum_{i = 1}^{n}{|x_i - y_i|^y}\big)^{\frac{1}{y}}
+\]</div>
+<ul class="simple">
+<li><p>The <em>n</em> in the above formula refers to the number of dimensions of the vectors. (In other words, all the concepts we discuss here can be easily extended to vectors in multidimensional spaces.)</p></li>
+<li><p>When <em>y</em> is set to 2, it computes the famous <strong>Euclidean distance</strong> of two vectors, i.e., the direct spatial distance between two points on the <em>n</em>-dimensional space.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\sqrt{\big( \sum_{i = 1}^{n}{|x_i - y_i|^2}\big)}
+\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">euclidean_distances</span><span class="p">(</span><span class="n">xyz</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.        , 6.        , 8.94427191],
+       [6.        , 0.        , 4.47213595],
+       [8.94427191, 4.47213595, 0.        ]])
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>The geometrical meanings of the Euclidean distance are easy to conceptualize.</p></li>
+</ul>
+<p><img alt="" src="../_images/text-vec-similarity-distance.png" /></p>
+</div>
+<div class="section" id="similarity-based-metrics">
+<h3>Similarity-based Metrics<a class="headerlink" href="#similarity-based-metrics" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>In addition to distance-based metrics, the other type is similarity-based metric, which often utilizes the idea of <strong>correlations</strong>.</p></li>
+<li><p>The most commonly used one is <strong>Cosine Similarity</strong>, which can be computed as follows:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+cos(\vec{x},\vec{y}) = \frac{\sum_{i=1}^{n}{x_i\times y_i}}{\sqrt{\sum_{i=1}^{n}x_i^2}\times \sqrt{\sum_{i=1}^{n}y_i^2}}
+\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cosine_similarity</span><span class="p">(</span><span class="n">xyz</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[1.        , 0.97780241, 0.30320366],
+       [0.97780241, 1.        , 0.49613894],
+       [0.30320366, 0.49613894, 1.        ]])
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>The geometric meanings of <strong>cosines</strong> of two vectors are connected to the <strong>arcs</strong> between the vectors:</p></li>
+<li><p>The greater their cosine similarity, the smaller the arcs, the closer they are.</p></li>
+</ul>
+<p><img alt="" src="../_images/text-vec-similarity2.png" /></p>
+<p><img alt="" src="../_images/text-vec-similarity-curve.png" /></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Please note that different metrics may lead to very different results. In our earlier examples, if we adopt <strong>euclidean distance</strong>, then y is closer to z than is to x.</p>
+<p>But if we adopt <strong>cosine similarity</strong>, then y is closer to x than is to z.</p>
+</div>
+</div>
+</div>
+<div class="section" id="pairwise-similarity-computation">
+<h2>Pairwise Similarity Computation<a class="headerlink" href="#pairwise-similarity-computation" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">similarity_doc_matrix</span> <span class="o">=</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">tv_matrix</span><span class="p">)</span>
+<span class="n">similarity_doc_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">similarity_doc_matrix</span><span class="p">)</span>
+<span class="n">similarity_doc_df</span>
 </pre></div>
 </div>
 </div>
@@ -3359,9 +3177,13 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.cluster.hierarchy</span> <span class="kn">import</span> <span class="n">dendrogram</span><span class="p">,</span> <span class="n">linkage</span>
 
-<span class="n">Z</span> <span class="o">=</span> <span class="n">linkage</span><span class="p">(</span><span class="n">similarity_matrix</span><span class="p">,</span> <span class="s1">&#39;ward&#39;</span><span class="p">)</span>
-<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Document\Cluster 1&#39;</span><span class="p">,</span> <span class="s1">&#39;Document\Cluster 2&#39;</span><span class="p">,</span> 
-                         <span class="s1">&#39;Distance&#39;</span><span class="p">,</span> <span class="s1">&#39;Cluster Size&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;object&#39;</span><span class="p">)</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">linkage</span><span class="p">(</span><span class="n">similarity_doc_matrix</span><span class="p">,</span> <span class="s1">&#39;ward&#39;</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span>
+             <span class="n">columns</span><span class="o">=</span><span class="p">[</span>
+                 <span class="s1">&#39;Document\Cluster 1&#39;</span><span class="p">,</span> <span class="s1">&#39;Document\Cluster 2&#39;</span><span class="p">,</span> <span class="s1">&#39;Distance&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;Cluster Size&#39;</span>
+             <span class="p">],</span>
+             <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;object&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -3446,7 +3268,7 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Hierarchical Clustering Dendrogram&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Data point&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Distance&#39;</span><span class="p">)</span>
@@ -3456,10 +3278,10 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x7fd85a357278&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x7f8a88f7c1d0&gt;
 </pre></div>
 </div>
-<img alt="../_images/text-vec-traditional_37_1.png" src="../_images/text-vec-traditional_37_1.png" />
+<img alt="../_images/text-vec-traditional_74_1.png" src="../_images/text-vec-traditional_74_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -3549,6 +3371,718 @@ Default Feature Dict: {&#39;love&#39;: 0, &#39;dog&#39;: 0, &#39;eggs&#39;: 0, &
   </tbody>
 </table>
 </div></div></div>
+</div>
+</div>
+<div class="section" id="clustering-terms-using-similarity-features">
+<h2>Clustering terms using similarity features<a class="headerlink" href="#clustering-terms-using-similarity-features" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">similarity_term_matrix</span> <span class="o">=</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">tv_matrix</span><span class="p">))</span>
+<span class="n">similarity_term_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">similarity_term_matrix</span><span class="p">,</span>
+                                  <span class="n">columns</span><span class="o">=</span><span class="n">feature_names</span><span class="p">,</span>
+                                  <span class="n">index</span><span class="o">=</span><span class="n">feature_names</span><span class="p">)</span>
+<span class="n">similarity_term_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sky</th>
+      <th>blue</th>
+      <th>beautiful</th>
+      <th>green</th>
+      <th>dog</th>
+      <th>sausages</th>
+      <th>fox</th>
+      <th>love</th>
+      <th>eggs</th>
+      <th>lazy</th>
+      <th>ham</th>
+      <th>quick</th>
+      <th>jumps</th>
+      <th>toast</th>
+      <th>brown</th>
+      <th>kings</th>
+      <th>bacon</th>
+      <th>today</th>
+      <th>beans</th>
+      <th>breakfast</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>sky</th>
+      <td>1.000000</td>
+      <td>0.63129</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.63129</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.775547</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.63129</td>
+      <td>0.000000</td>
+      <td>0.440615</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.63129</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>blue</th>
+      <td>0.631290</td>
+      <td>1.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.631290</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.631290</td>
+      <td>0.000000</td>
+      <td>1.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.631290</td>
+      <td>0.000000</td>
+      <td>1.00000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>beautiful</th>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>1.000000</td>
+      <td>0.899485</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.473517</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.951208</td>
+      <td>0.00000</td>
+      <td>0.420997</td>
+    </tr>
+    <tr>
+      <th>green</th>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.899485</td>
+      <td>1.000000</td>
+      <td>0.00000</td>
+      <td>0.252766</td>
+      <td>0.252766</td>
+      <td>0.000000</td>
+      <td>0.252766</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.252766</td>
+      <td>0.425922</td>
+      <td>0.252766</td>
+      <td>0.000000</td>
+      <td>0.855597</td>
+      <td>0.00000</td>
+      <td>0.378680</td>
+    </tr>
+    <tr>
+      <th>dog</th>
+      <td>0.631290</td>
+      <td>1.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.631290</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.631290</td>
+      <td>0.000000</td>
+      <td>1.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.631290</td>
+      <td>0.000000</td>
+      <td>1.00000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>sausages</th>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.252766</td>
+      <td>0.00000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.528473</td>
+      <td>0.00000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>fox</th>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.252766</td>
+      <td>0.00000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.528473</td>
+      <td>0.00000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>love</th>
+      <td>1.000000</td>
+      <td>0.63129</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.63129</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.775547</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.63129</td>
+      <td>0.000000</td>
+      <td>0.440615</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.63129</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>eggs</th>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.252766</td>
+      <td>0.00000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.528473</td>
+      <td>0.00000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>lazy</th>
+      <td>0.775547</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.775547</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.775547</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.568135</td>
+      <td>0.000000</td>
+      <td>0.775547</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>ham</th>
+      <td>1.000000</td>
+      <td>0.63129</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.63129</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.775547</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.63129</td>
+      <td>0.000000</td>
+      <td>0.440615</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.63129</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>quick</th>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.528473</td>
+      <td>0.528473</td>
+      <td>0.000000</td>
+      <td>0.528473</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.00000</td>
+      <td>0.528473</td>
+      <td>0.000000</td>
+      <td>0.528473</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>jumps</th>
+      <td>0.631290</td>
+      <td>1.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.631290</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.631290</td>
+      <td>0.000000</td>
+      <td>1.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.631290</td>
+      <td>0.000000</td>
+      <td>1.00000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>toast</th>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.252766</td>
+      <td>0.00000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.528473</td>
+      <td>0.00000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>brown</th>
+      <td>0.440615</td>
+      <td>0.00000</td>
+      <td>0.473517</td>
+      <td>0.425922</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.440615</td>
+      <td>0.000000</td>
+      <td>0.568135</td>
+      <td>0.440615</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.440615</td>
+      <td>0.382602</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>kings</th>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.252766</td>
+      <td>0.00000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.528473</td>
+      <td>0.00000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>bacon</th>
+      <td>1.000000</td>
+      <td>0.63129</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.63129</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.775547</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.63129</td>
+      <td>0.000000</td>
+      <td>0.440615</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.63129</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>today</th>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.951208</td>
+      <td>0.855597</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.382602</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.00000</td>
+      <td>0.680330</td>
+    </tr>
+    <tr>
+      <th>beans</th>
+      <td>0.631290</td>
+      <td>1.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.631290</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.631290</td>
+      <td>0.000000</td>
+      <td>1.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.631290</td>
+      <td>0.000000</td>
+      <td>1.00000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>breakfast</th>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.420997</td>
+      <td>0.378680</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.680330</td>
+      <td>0.00000</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Z2</span> <span class="o">=</span> <span class="n">linkage</span><span class="p">(</span><span class="n">similarity_term_matrix</span><span class="p">,</span> <span class="s1">&#39;ward&#39;</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">Z2</span><span class="p">,</span>
+             <span class="n">columns</span><span class="o">=</span><span class="p">[</span>
+                 <span class="s1">&#39;Document\Cluster 1&#39;</span><span class="p">,</span> <span class="s1">&#39;Document\Cluster 2&#39;</span><span class="p">,</span> <span class="s1">&#39;Distance&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;Cluster Size&#39;</span>
+             <span class="p">],</span>
+             <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;object&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Document\Cluster 1</th>
+      <th>Document\Cluster 2</th>
+      <th>Distance</th>
+      <th>Cluster Size</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>7</td>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>4</td>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>12</td>
+      <td>21</td>
+      <td>0</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5</td>
+      <td>6</td>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>8</td>
+      <td>23</td>
+      <td>0</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>10</td>
+      <td>20</td>
+      <td>0</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>13</td>
+      <td>24</td>
+      <td>0</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>16</td>
+      <td>25</td>
+      <td>0</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>15</td>
+      <td>26</td>
+      <td>0</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>18</td>
+      <td>22</td>
+      <td>0</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2</td>
+      <td>17</td>
+      <td>0.286718</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>3</td>
+      <td>30</td>
+      <td>0.715754</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>9</td>
+      <td>14</td>
+      <td>1.17207</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>19</td>
+      <td>31</td>
+      <td>1.29113</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>11</td>
+      <td>28</td>
+      <td>1.52639</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>27</td>
+      <td>32</td>
+      <td>2.56361</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>29</td>
+      <td>35</td>
+      <td>3.46249</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>33</td>
+      <td>34</td>
+      <td>5.49711</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>36</td>
+      <td>37</td>
+      <td>8.09818</td>
+      <td>20</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Hierarchical Clustering Dendrogram&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Data point&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Distance&#39;</span><span class="p">)</span>
+<span class="n">dendrogram</span><span class="p">(</span><span class="n">Z2</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">feature_names</span><span class="p">,</span> <span class="n">leaf_rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x7f8a68d080f0&gt;
+</pre></div>
+</div>
+<img alt="../_images/text-vec-traditional_79_1.png" src="../_images/text-vec-traditional_79_1.png" />
+</div>
 </div>
 </div>
 <div class="section" id="references">

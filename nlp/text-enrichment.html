@@ -148,7 +148,7 @@
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="../temp/text-vec-traditional.html">
+  <a class="reference internal" href="text-vec-traditional.html">
    Text Vectorization Using Traditional Methods
   </a>
  </li>
@@ -167,11 +167,6 @@
  <li class="toctree-l1">
   <a class="reference internal" href="ml-simple-case.html">
    Machine Learning: A Simple Example
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="ml-nlp-case.html">
-   Machine Learning: NLP Tasks
   </a>
  </li>
  <li class="toctree-l1">
@@ -199,6 +194,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../temp/topic-modeling-naive.html">
    Topic Modeling: A Naive Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-nlp-case.html">
+   Machine Learning: NLP Tasks
   </a>
  </li>
 </ul>
@@ -275,6 +275,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../exercise/4-chinese-nlp.html">
    4. Assignment IV: Chinese Language Processing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/5-text-vectorization.html">
+   5. Assignment V: Text Vectorization
   </a>
  </li>
 </ul>
@@ -629,7 +634,9 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.classify</span> <span class="kn">import</span> <span class="n">MaxentClassifier</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+
+<span class="kn">from</span> <span class="nn">nltk.classify</span> <span class="kn">import</span> <span class="n">MaxentClassifier</span>
 <span class="n">metagger</span> <span class="o">=</span> <span class="n">ClassifierBasedPOSTagger</span><span class="p">(</span><span class="n">train</span><span class="o">=</span><span class="n">train_sents</span><span class="p">,</span>
                                    <span class="n">classifier_builder</span><span class="o">=</span><span class="n">MaxentClassifier</span><span class="o">.</span><span class="n">train</span><span class="p">)</span>
 <span class="n">metagger</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_sents</span><span class="p">)</span>
@@ -730,64 +737,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The Ghostscript executable isn&#39;t found.
-See http://web.mit.edu/ghostscript/www/Install.htm
-If you&#39;re using a Mac, you can try installing
-https://docs.brew.sh/Installation then `brew install ghostscript`
-</pre></div>
-</div>
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>---------------------------------------------------------------------------
-LookupError                               Traceback (most recent call last)
-~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/nltk/tree.py in _repr_png_(self)
-    801                             env_vars=[&quot;PATH&quot;],
---&gt; 802                             verbose=False,
-    803                         )
-
-~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/nltk/internals.py in find_binary(name, path_to_bin, env_vars, searchpath, binary_names, url, verbose)
-    689         find_binary_iter(
---&gt; 690             name, path_to_bin, env_vars, searchpath, binary_names, url, verbose
-    691         )
-
-~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/nltk/internals.py in find_binary_iter(name, path_to_bin, env_vars, searchpath, binary_names, url, verbose)
-    673     for file in find_file_iter(
---&gt; 674         path_to_bin or name, env_vars, searchpath, binary_names, url, verbose
-    675     ):
-
-~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/nltk/internals.py in find_file_iter(filename, env_vars, searchpath, file_names, url, verbose, finding_dir)
-    631         div = &quot;=&quot; * 75
---&gt; 632         raise LookupError(&quot;\n\n%s\n%s\n%s&quot; % (div, msg, div))
-    633 
-
-LookupError: 
-
-===========================================================================
-NLTK was unable to find the gs file!
-Use software specific configuration paramaters or set the PATH environment variable.
-===========================================================================
-
-During handling of the above exception, another exception occurred:
-
-LookupError                               Traceback (most recent call last)
-~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/IPython/core/formatters.py in __call__(self, obj)
-    343             method = get_real_method(obj, self.print_method)
-    344             if method is not None:
---&gt; 345                 return method()
-    346             return None
-    347         else:
-
-~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/nltk/tree.py in _repr_png_(self)
-    815                 )
-    816                 print(pre_error_message, file=sys.stderr)
---&gt; 817                 raise LookupError
-    818 
-    819             with open(out_path, &quot;rb&quot;) as sr:
-
-LookupError: 
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tree(&#39;S&#39;, [Tree(&#39;NP&#39;, [(&#39;This&#39;, &#39;DT&#39;), (&#39;course&#39;, &#39;NN&#39;)]), (&#39;has&#39;, &#39;VBZ&#39;), Tree(&#39;NP&#39;, [(&#39;many&#39;, &#39;JJ&#39;), (&#39;interesting&#39;, &#39;JJ&#39;), (&#39;topics&#39;, &#39;NNS&#39;)])])
-</pre></div>
-</div>
+<img alt="../_images/text-enrichment_36_0.png" src="../_images/text-enrichment_36_0.png" />
 </div>
 </div>
 <p>We can define a function to extract chunks from the tree.</p>
@@ -830,64 +780,7 @@ LookupError:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The Ghostscript executable isn&#39;t found.
-See http://web.mit.edu/ghostscript/www/Install.htm
-If you&#39;re using a Mac, you can try installing
-https://docs.brew.sh/Installation then `brew install ghostscript`
-</pre></div>
-</div>
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>---------------------------------------------------------------------------
-LookupError                               Traceback (most recent call last)
-~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/nltk/tree.py in _repr_png_(self)
-    801                             env_vars=[&quot;PATH&quot;],
---&gt; 802                             verbose=False,
-    803                         )
-
-~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/nltk/internals.py in find_binary(name, path_to_bin, env_vars, searchpath, binary_names, url, verbose)
-    689         find_binary_iter(
---&gt; 690             name, path_to_bin, env_vars, searchpath, binary_names, url, verbose
-    691         )
-
-~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/nltk/internals.py in find_binary_iter(name, path_to_bin, env_vars, searchpath, binary_names, url, verbose)
-    673     for file in find_file_iter(
---&gt; 674         path_to_bin or name, env_vars, searchpath, binary_names, url, verbose
-    675     ):
-
-~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/nltk/internals.py in find_file_iter(filename, env_vars, searchpath, file_names, url, verbose, finding_dir)
-    631         div = &quot;=&quot; * 75
---&gt; 632         raise LookupError(&quot;\n\n%s\n%s\n%s&quot; % (div, msg, div))
-    633 
-
-LookupError: 
-
-===========================================================================
-NLTK was unable to find the gs file!
-Use software specific configuration paramaters or set the PATH environment variable.
-===========================================================================
-
-During handling of the above exception, another exception occurred:
-
-LookupError                               Traceback (most recent call last)
-~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/IPython/core/formatters.py in __call__(self, obj)
-    343             method = get_real_method(obj, self.print_method)
-    344             if method is not None:
---&gt; 345                 return method()
-    346             return None
-    347         else:
-
-~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/nltk/tree.py in _repr_png_(self)
-    815                 )
-    816                 print(pre_error_message, file=sys.stderr)
---&gt; 817                 raise LookupError
-    818 
-    819             with open(out_path, &quot;rb&quot;) as sr:
-
-LookupError: 
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tree(&#39;S&#39;, [Tree(&#39;PERSON&#39;, [(&#39;Pierre&#39;, &#39;NNP&#39;)]), Tree(&#39;ORGANIZATION&#39;, [(&#39;Vinken&#39;, &#39;NNP&#39;)]), (&#39;,&#39;, &#39;,&#39;), (&#39;61&#39;, &#39;CD&#39;), (&#39;years&#39;, &#39;NNS&#39;), (&#39;old&#39;, &#39;JJ&#39;), (&#39;,&#39;, &#39;,&#39;), (&#39;will&#39;, &#39;MD&#39;), (&#39;join&#39;, &#39;VB&#39;), (&#39;the&#39;, &#39;DT&#39;), (&#39;board&#39;, &#39;NN&#39;), (&#39;as&#39;, &#39;IN&#39;), (&#39;a&#39;, &#39;DT&#39;), (&#39;nonexecutive&#39;, &#39;JJ&#39;), (&#39;director&#39;, &#39;NN&#39;), (&#39;Nov.&#39;, &#39;NNP&#39;), (&#39;29&#39;, &#39;CD&#39;), (&#39;.&#39;, &#39;.&#39;)])
-</pre></div>
-</div>
+<img alt="../_images/text-enrichment_41_0.png" src="../_images/text-enrichment_41_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -975,7 +868,7 @@ LookupError:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en" id="11d4aa355dc740f29f9ad70732dc8731-0" class="displacy" width="750" height="312.0" direction="ltr" style="max-width: none; height: 312.0px; color: #000000; background: #ffffff; font-family: Arial; direction: ltr">
+<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en" id="e40747d5c167482bae2be8f48f8af134-0" class="displacy" width="750" height="312.0" direction="ltr" style="max-width: none; height: 312.0px; color: #000000; background: #ffffff; font-family: Arial; direction: ltr">
 <text class="displacy-token" fill="currentColor" text-anchor="middle" y="222.0">
     <tspan class="displacy-word" fill="currentColor" x="50">This</tspan>
     <tspan class="displacy-tag" dy="2em" fill="currentColor" x="50">DET</tspan>
@@ -997,25 +890,25 @@ LookupError:
 </text>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-11d4aa355dc740f29f9ad70732dc8731-0-0" stroke-width="2px" d="M70,177.0 C70,89.5 220.0,89.5 220.0,177.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-e40747d5c167482bae2be8f48f8af134-0-0" stroke-width="2px" d="M70,177.0 C70,89.5 220.0,89.5 220.0,177.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-11d4aa355dc740f29f9ad70732dc8731-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nsubj</textPath>
+        <textPath xlink:href="#arrow-e40747d5c167482bae2be8f48f8af134-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nsubj</textPath>
     </text>
     <path class="displacy-arrowhead" d="M70,179.0 L62,167.0 78,167.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-11d4aa355dc740f29f9ad70732dc8731-0-1" stroke-width="2px" d="M420,177.0 C420,89.5 570.0,89.5 570.0,177.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-e40747d5c167482bae2be8f48f8af134-0-1" stroke-width="2px" d="M420,177.0 C420,89.5 570.0,89.5 570.0,177.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-11d4aa355dc740f29f9ad70732dc8731-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">det</textPath>
+        <textPath xlink:href="#arrow-e40747d5c167482bae2be8f48f8af134-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">det</textPath>
     </text>
     <path class="displacy-arrowhead" d="M420,179.0 L412,167.0 428,167.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-11d4aa355dc740f29f9ad70732dc8731-0-2" stroke-width="2px" d="M245,177.0 C245,2.0 575.0,2.0 575.0,177.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-e40747d5c167482bae2be8f48f8af134-0-2" stroke-width="2px" d="M245,177.0 C245,2.0 575.0,2.0 575.0,177.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-11d4aa355dc740f29f9ad70732dc8731-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">attr</textPath>
+        <textPath xlink:href="#arrow-e40747d5c167482bae2be8f48f8af134-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">attr</textPath>
     </text>
     <path class="displacy-arrowhead" d="M575.0,179.0 L583.0,167.0 567.0,167.0" fill="currentColor"/>
 </g>
@@ -1030,7 +923,7 @@ LookupError:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en" id="b946f56a89374b0a89b844f1219fed83-0" class="displacy" width="650" height="287.0" direction="ltr" style="max-width: none; height: 287.0px; color: white; background: #09a3d5; font-family: Source Sans Pro; direction: ltr">
+<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en" id="2bf8d0f1326049e991f06db9e81c062d-0" class="displacy" width="650" height="287.0" direction="ltr" style="max-width: none; height: 287.0px; color: white; background: #09a3d5; font-family: Source Sans Pro; direction: ltr">
 <text class="displacy-token" fill="currentColor" text-anchor="middle" y="197.0">
     <tspan class="displacy-word" fill="currentColor" x="50">This</tspan>
     <tspan class="displacy-tag" dy="2em" fill="currentColor" x="50">DET</tspan>
@@ -1052,25 +945,25 @@ LookupError:
 </text>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-b946f56a89374b0a89b844f1219fed83-0-0" stroke-width="2px" d="M62,152.0 62,127.0 197.0,127.0 197.0,152.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-2bf8d0f1326049e991f06db9e81c062d-0-0" stroke-width="2px" d="M62,152.0 62,127.0 197.0,127.0 197.0,152.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-b946f56a89374b0a89b844f1219fed83-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nsubj</textPath>
+        <textPath xlink:href="#arrow-2bf8d0f1326049e991f06db9e81c062d-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nsubj</textPath>
     </text>
     <path class="displacy-arrowhead" d="M62,154.0 L58,146.0 66,146.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-b946f56a89374b0a89b844f1219fed83-0-1" stroke-width="2px" d="M362,152.0 362,127.0 497.0,127.0 497.0,152.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-2bf8d0f1326049e991f06db9e81c062d-0-1" stroke-width="2px" d="M362,152.0 362,127.0 497.0,127.0 497.0,152.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-b946f56a89374b0a89b844f1219fed83-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">det</textPath>
+        <textPath xlink:href="#arrow-2bf8d0f1326049e991f06db9e81c062d-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">det</textPath>
     </text>
     <path class="displacy-arrowhead" d="M362,154.0 L358,146.0 366,146.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-b946f56a89374b0a89b844f1219fed83-0-2" stroke-width="2px" d="M212,152.0 212,102.0 500.0,102.0 500.0,152.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-2bf8d0f1326049e991f06db9e81c062d-0-2" stroke-width="2px" d="M212,152.0 212,102.0 500.0,102.0 500.0,152.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-b946f56a89374b0a89b844f1219fed83-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">attr</textPath>
+        <textPath xlink:href="#arrow-2bf8d0f1326049e991f06db9e81c062d-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">attr</textPath>
     </text>
     <path class="displacy-arrowhead" d="M500.0,154.0 L504.0,146.0 496.0,146.0" fill="currentColor"/>
 </g>
@@ -1114,7 +1007,7 @@ LookupError:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en" id="b83c90c2d6d649419a04a0bc364c29d8-0" class="displacy" width="2675" height="487.0" direction="ltr" style="max-width: none; height: 487.0px; color: #000000; background: #ffffff; font-family: Arial; direction: ltr">
+<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en" id="eaf2eaaaf62d4d9fb09f439dc34cfece-0" class="displacy" width="2675" height="487.0" direction="ltr" style="max-width: none; height: 487.0px; color: #000000; background: #ffffff; font-family: Arial; direction: ltr">
 <text class="displacy-token" fill="currentColor" text-anchor="middle" y="397.0">
     <tspan class="displacy-word" fill="currentColor" x="50">Pierre</tspan>
     <tspan class="displacy-tag" dy="2em" fill="currentColor" x="50">PROPN</tspan>
@@ -1191,113 +1084,113 @@ LookupError:
 </text>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-b83c90c2d6d649419a04a0bc364c29d8-0-0" stroke-width="2px" d="M70,352.0 C70,264.5 210.0,264.5 210.0,352.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-0" stroke-width="2px" d="M70,352.0 C70,264.5 210.0,264.5 210.0,352.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-b83c90c2d6d649419a04a0bc364c29d8-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">compound</textPath>
+        <textPath xlink:href="#arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">compound</textPath>
     </text>
     <path class="displacy-arrowhead" d="M70,354.0 L62,342.0 78,342.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-b83c90c2d6d649419a04a0bc364c29d8-0-1" stroke-width="2px" d="M245,352.0 C245,2.0 1100.0,2.0 1100.0,352.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-1" stroke-width="2px" d="M245,352.0 C245,2.0 1100.0,2.0 1100.0,352.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-b83c90c2d6d649419a04a0bc364c29d8-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nsubj</textPath>
+        <textPath xlink:href="#arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nsubj</textPath>
     </text>
     <path class="displacy-arrowhead" d="M245,354.0 L237,342.0 253,342.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-b83c90c2d6d649419a04a0bc364c29d8-0-2" stroke-width="2px" d="M420,352.0 C420,264.5 560.0,264.5 560.0,352.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-2" stroke-width="2px" d="M420,352.0 C420,264.5 560.0,264.5 560.0,352.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-b83c90c2d6d649419a04a0bc364c29d8-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nummod</textPath>
+        <textPath xlink:href="#arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nummod</textPath>
     </text>
     <path class="displacy-arrowhead" d="M420,354.0 L412,342.0 428,342.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-b83c90c2d6d649419a04a0bc364c29d8-0-3" stroke-width="2px" d="M595,352.0 C595,264.5 735.0,264.5 735.0,352.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-3" stroke-width="2px" d="M595,352.0 C595,264.5 735.0,264.5 735.0,352.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-b83c90c2d6d649419a04a0bc364c29d8-0-3" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">npadvmod</textPath>
+        <textPath xlink:href="#arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-3" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">npadvmod</textPath>
     </text>
     <path class="displacy-arrowhead" d="M595,354.0 L587,342.0 603,342.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-b83c90c2d6d649419a04a0bc364c29d8-0-4" stroke-width="2px" d="M245,352.0 C245,89.5 745.0,89.5 745.0,352.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-4" stroke-width="2px" d="M245,352.0 C245,89.5 745.0,89.5 745.0,352.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-b83c90c2d6d649419a04a0bc364c29d8-0-4" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">amod</textPath>
+        <textPath xlink:href="#arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-4" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">amod</textPath>
     </text>
     <path class="displacy-arrowhead" d="M745.0,354.0 L753.0,342.0 737.0,342.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-b83c90c2d6d649419a04a0bc364c29d8-0-5" stroke-width="2px" d="M945,352.0 C945,264.5 1085.0,264.5 1085.0,352.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-5" stroke-width="2px" d="M945,352.0 C945,264.5 1085.0,264.5 1085.0,352.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-b83c90c2d6d649419a04a0bc364c29d8-0-5" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">aux</textPath>
+        <textPath xlink:href="#arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-5" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">aux</textPath>
     </text>
     <path class="displacy-arrowhead" d="M945,354.0 L937,342.0 953,342.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-b83c90c2d6d649419a04a0bc364c29d8-0-6" stroke-width="2px" d="M1295,352.0 C1295,264.5 1435.0,264.5 1435.0,352.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-6" stroke-width="2px" d="M1295,352.0 C1295,264.5 1435.0,264.5 1435.0,352.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-b83c90c2d6d649419a04a0bc364c29d8-0-6" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">det</textPath>
+        <textPath xlink:href="#arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-6" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">det</textPath>
     </text>
     <path class="displacy-arrowhead" d="M1295,354.0 L1287,342.0 1303,342.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-b83c90c2d6d649419a04a0bc364c29d8-0-7" stroke-width="2px" d="M1120,352.0 C1120,177.0 1440.0,177.0 1440.0,352.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-7" stroke-width="2px" d="M1120,352.0 C1120,177.0 1440.0,177.0 1440.0,352.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-b83c90c2d6d649419a04a0bc364c29d8-0-7" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">dobj</textPath>
+        <textPath xlink:href="#arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-7" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">dobj</textPath>
     </text>
     <path class="displacy-arrowhead" d="M1440.0,354.0 L1448.0,342.0 1432.0,342.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-b83c90c2d6d649419a04a0bc364c29d8-0-8" stroke-width="2px" d="M1120,352.0 C1120,89.5 1620.0,89.5 1620.0,352.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-8" stroke-width="2px" d="M1120,352.0 C1120,89.5 1620.0,89.5 1620.0,352.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-b83c90c2d6d649419a04a0bc364c29d8-0-8" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">prep</textPath>
+        <textPath xlink:href="#arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-8" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">prep</textPath>
     </text>
     <path class="displacy-arrowhead" d="M1620.0,354.0 L1628.0,342.0 1612.0,342.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-b83c90c2d6d649419a04a0bc364c29d8-0-9" stroke-width="2px" d="M1820,352.0 C1820,177.0 2140.0,177.0 2140.0,352.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-9" stroke-width="2px" d="M1820,352.0 C1820,177.0 2140.0,177.0 2140.0,352.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-b83c90c2d6d649419a04a0bc364c29d8-0-9" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">det</textPath>
+        <textPath xlink:href="#arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-9" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">det</textPath>
     </text>
     <path class="displacy-arrowhead" d="M1820,354.0 L1812,342.0 1828,342.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-b83c90c2d6d649419a04a0bc364c29d8-0-10" stroke-width="2px" d="M1995,352.0 C1995,264.5 2135.0,264.5 2135.0,352.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-10" stroke-width="2px" d="M1995,352.0 C1995,264.5 2135.0,264.5 2135.0,352.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-b83c90c2d6d649419a04a0bc364c29d8-0-10" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">amod</textPath>
+        <textPath xlink:href="#arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-10" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">amod</textPath>
     </text>
     <path class="displacy-arrowhead" d="M1995,354.0 L1987,342.0 2003,342.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-b83c90c2d6d649419a04a0bc364c29d8-0-11" stroke-width="2px" d="M1645,352.0 C1645,89.5 2145.0,89.5 2145.0,352.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-11" stroke-width="2px" d="M1645,352.0 C1645,89.5 2145.0,89.5 2145.0,352.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-b83c90c2d6d649419a04a0bc364c29d8-0-11" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">pobj</textPath>
+        <textPath xlink:href="#arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-11" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">pobj</textPath>
     </text>
     <path class="displacy-arrowhead" d="M2145.0,354.0 L2153.0,342.0 2137.0,342.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-b83c90c2d6d649419a04a0bc364c29d8-0-12" stroke-width="2px" d="M2170,352.0 C2170,264.5 2310.0,264.5 2310.0,352.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-12" stroke-width="2px" d="M2170,352.0 C2170,264.5 2310.0,264.5 2310.0,352.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-b83c90c2d6d649419a04a0bc364c29d8-0-12" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">npadvmod</textPath>
+        <textPath xlink:href="#arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-12" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">npadvmod</textPath>
     </text>
     <path class="displacy-arrowhead" d="M2310.0,354.0 L2318.0,342.0 2302.0,342.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-b83c90c2d6d649419a04a0bc364c29d8-0-13" stroke-width="2px" d="M2345,352.0 C2345,264.5 2485.0,264.5 2485.0,352.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-13" stroke-width="2px" d="M2345,352.0 C2345,264.5 2485.0,264.5 2485.0,352.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-b83c90c2d6d649419a04a0bc364c29d8-0-13" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nummod</textPath>
+        <textPath xlink:href="#arrow-eaf2eaaaf62d4d9fb09f439dc34cfece-0-13" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nummod</textPath>
     </text>
     <path class="displacy-arrowhead" d="M2485.0,354.0 L2493.0,342.0 2477.0,342.0" fill="currentColor"/>
 </g>

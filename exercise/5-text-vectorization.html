@@ -1,0 +1,3832 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>5. Assignment V: Text Vectorization &#8212; ENC2045 Computational Linguistics</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="4. Assignment IV: Chinese Language Processing" href="4-chinese-nlp.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/ntnu-word-2.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">ENC2045 Computational Linguistics</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <p class="caption collapsible-parent">
+ <span class="caption-text">
+  INTRODUCTION
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/nlp-primer.html">
+   Natural Language Processing: A Primer
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/nlp-pipeline.html">
+   NLP Pipeline
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Preprocessing
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../nlp/text-preprocessing.html">
+   Text Preprocessing
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../nlp/text-normalization-eng.html">
+     Text Normalization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../nlp/text-tokenization.html">
+     Text Tokenization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../nlp/text-enrichment.html">
+     Text Enrichment
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../nlp/chinese-word-seg.html">
+     Chinese Word Segmentation
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Text Vectorization
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/text-vec-traditional.html">
+   Text Vectorization Using Traditional Methods
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine Learning Basics
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-overview.html">
+   Machine Learning: Overview
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-simple-case.html">
+   Machine Learning: A Simple Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-algorithm.html">
+   Classification Models
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine-Learning NLP
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/ml-sklearn-classification.html">
+   Sentiment Analysis Using Bag-of-Words
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-classification-ml-newsgroups.html">
+   Text Classification Using Bag-of-Words
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/topic-modeling-naive.html">
+   Topic Modeling: A Naive Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-nlp-case.html">
+   Machine Learning: NLP Tasks
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Deep Learning NLP
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-neural-network-from-scratch.html">
+   Neural Network From Scratch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-vec-embedding.html">
+   Word Embeddings
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-vec-embedding-keras.html">
+   Word Embedding Using Keras
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-statistical-language-model.html">
+   Statistical Language Model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-sequence-models-intuition.html">
+   Sequence Models Intuition
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Attention, Transformers, and Transfer Learning
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-seq-to-seq-types.html">
+   Attention: Intuition
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-transformers-intuition.html">
+   Transformers: Intuition
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Exercises
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="1-python-basics.html">
+   1. Assignment I: Python Basics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2-journal-review.html">
+   2. Assignment II: Journal Articles Review
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="3-preprocessing.html">
+   3. Assignment III: Preprocessing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="4-chinese-nlp.html">
+   4. Assignment IV: Chinese Language Processing
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   5. Assignment V: Text Vectorization
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  <div style="text-align:center">
+<i class="fas fa-chalkboard-teacher fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinntnu.github.io/NTNU_ENC2045/" target='_blank'>ENC2045 Course Website</a><br>
+<i class="fas fa-home fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinchen.myftp.org/" target='_blank'>Alvin Chen's Homepage</a>
+</div>
+
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/exercise/5-text-vectorization.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alvinntnu/NTNU_ENC2045_LECTURES/main?urlpath=tree/exercise/5-text-vectorization.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alvinntnu/NTNU_ENC2045_LECTURES/blob/main/exercise/5-text-vectorization.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#question-1">
+   5.1. Question 1
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#question-2">
+   5.2. Question 2
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="assignment-v-text-vectorization">
+<h1><span class="section-number">5. </span>Assignment V: Text Vectorization<a class="headerlink" href="#assignment-v-text-vectorization" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="question-1">
+<h2><span class="section-number">5.1. </span>Question 1<a class="headerlink" href="#question-1" title="Permalink to this headline">¶</a></h2>
+<p>Use <code class="docutils literal notranslate"><span class="pre">nltk.corpus.inaugural</span></code> as the corpus data for this exercise. It is a collection of US presidential inaugural speeches over the years. Cluster all the inaugural speeches collected in the corpus based on their bag-of-words vectorized representations.</p>
+<p>Please consider the following settings for bag-of-words model:</p>
+<ul class="simple">
+<li><p>Use the English stopwords provided in <code class="docutils literal notranslate"><span class="pre">nltk.corpus.stopwords.words('english')</span></code> to remove uninformative words.</p></li>
+<li><p>Lemmatize word tokens using <code class="docutils literal notranslate"><span class="pre">WordNetLemmatizer()</span></code>.</p></li>
+<li><p>Normalize the letter casing.</p></li>
+<li><p>Include in the Bag-of-words model only words consisting as alphabets or hyphens.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">TfIdfVectorizer()</span></code> for bag-of-word vectorization.</p></li>
+</ul>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tfidf_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>abandon</th>
+      <th>abandonment</th>
+      <th>abate</th>
+      <th>abdicate</th>
+      <th>abeyance</th>
+      <th>abhorring</th>
+      <th>abide</th>
+      <th>abiding</th>
+      <th>ability</th>
+      <th>abnormal</th>
+      <th>...</th>
+      <th>yesterday</th>
+      <th>yield</th>
+      <th>yielding</th>
+      <th>york</th>
+      <th>yorktown</th>
+      <th>young</th>
+      <th>your</th>
+      <th>youth</th>
+      <th>zeal</th>
+      <th>zone</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1789-Washington</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1793-Washington</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1797-Adams</th>
+      <td>0.03</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.03</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1801-Jefferson</th>
+      <td>0.04</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.04</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1805-Jefferson</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.10</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1809-Madison</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1813-Madison</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1817-Monroe</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>0.04</td>
+    </tr>
+    <tr>
+      <th>1821-Monroe</th>
+      <td>0.03</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.01</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1825-Adams</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.05</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.03</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1829-Jackson</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.04</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.05</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1833-Jackson</th>
+      <td>0.04</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.07</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.04</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1837-VanBuren</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>0.03</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1841-Harrison</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.01</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1845-Polk</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.03</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1849-Taylor</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.04</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1853-Pierce</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1857-Buchanan</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1861-Lincoln</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>0.01</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1865-Lincoln</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1869-Grant</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.07</td>
+      <td>0.00</td>
+      <td>0.04</td>
+      <td>0.00</td>
+      <td>0.10</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1873-Grant</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1877-Hayes</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.03</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1881-Garfield</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.03</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1885-Cleveland</th>
+      <td>0.03</td>
+      <td>0.05</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.04</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1889-Harrison</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.05</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>0.06</td>
+      <td>0.03</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1893-Cleveland</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1897-McKinley</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>0.07</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.06</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1901-McKinley</th>
+      <td>0.03</td>
+      <td>0.00</td>
+      <td>0.05</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.03</td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1905-Roosevelt</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1909-Taft</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1913-Wilson</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1917-Wilson</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1921-Harding</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.01</td>
+      <td>0.03</td>
+      <td>...</td>
+      <td>0.03</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1925-Coolidge</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1929-Hoover</th>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>0.03</td>
+      <td>0.06</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1933-Roosevelt</th>
+      <td>0.00</td>
+      <td>0.04</td>
+      <td>0.00</td>
+      <td>0.05</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1937-Roosevelt</th>
+      <td>0.03</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.03</td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.03</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1941-Roosevelt</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1945-Roosevelt</th>
+      <td>0.00</td>
+      <td>0.09</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1949-Truman</th>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1953-Eisenhower</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.04</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1957-Eisenhower</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.03</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1961-Kennedy</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1965-Johnson</th>
+      <td>0.03</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.03</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1969-Nixon</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.07</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1973-Nixon</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1977-Carter</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.04</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1981-Reagan</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1985-Reagan</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.03</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1989-Bush</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.04</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1993-Clinton</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.03</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.04</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.05</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1997-Clinton</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>2001-Bush</th>
+      <td>0.00</td>
+      <td>0.04</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.05</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>2005-Bush</th>
+      <td>0.05</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.03</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>2009-Obama</th>
+      <td>0.03</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>2013-Obama</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.04</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>2017-Trump</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+  </tbody>
+</table>
+<p>58 rows × 5240 columns</p>
+</div></div></div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">similarity_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>1789-Washington</th>
+      <th>1793-Washington</th>
+      <th>1797-Adams</th>
+      <th>1801-Jefferson</th>
+      <th>1805-Jefferson</th>
+      <th>1809-Madison</th>
+      <th>1813-Madison</th>
+      <th>1817-Monroe</th>
+      <th>1821-Monroe</th>
+      <th>1825-Adams</th>
+      <th>...</th>
+      <th>1981-Reagan</th>
+      <th>1985-Reagan</th>
+      <th>1989-Bush</th>
+      <th>1993-Clinton</th>
+      <th>1997-Clinton</th>
+      <th>2001-Bush</th>
+      <th>2005-Bush</th>
+      <th>2009-Obama</th>
+      <th>2013-Obama</th>
+      <th>2017-Trump</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1789-Washington</th>
+      <td>1.000000</td>
+      <td>0.100469</td>
+      <td>0.263077</td>
+      <td>0.222896</td>
+      <td>0.221114</td>
+      <td>0.235420</td>
+      <td>0.155258</td>
+      <td>0.271341</td>
+      <td>0.252055</td>
+      <td>0.271323</td>
+      <td>...</td>
+      <td>0.132736</td>
+      <td>0.143454</td>
+      <td>0.128986</td>
+      <td>0.098833</td>
+      <td>0.114395</td>
+      <td>0.135037</td>
+      <td>0.141243</td>
+      <td>0.137906</td>
+      <td>0.137122</td>
+      <td>0.100266</td>
+    </tr>
+    <tr>
+      <th>1793-Washington</th>
+      <td>0.100469</td>
+      <td>1.000000</td>
+      <td>0.116753</td>
+      <td>0.110464</td>
+      <td>0.105334</td>
+      <td>0.058795</td>
+      <td>0.083094</td>
+      <td>0.085385</td>
+      <td>0.098381</td>
+      <td>0.079854</td>
+      <td>...</td>
+      <td>0.089135</td>
+      <td>0.062981</td>
+      <td>0.055985</td>
+      <td>0.085991</td>
+      <td>0.057881</td>
+      <td>0.079049</td>
+      <td>0.113584</td>
+      <td>0.053607</td>
+      <td>0.093894</td>
+      <td>0.101117</td>
+    </tr>
+    <tr>
+      <th>1797-Adams</th>
+      <td>0.263077</td>
+      <td>0.116753</td>
+      <td>1.000000</td>
+      <td>0.271978</td>
+      <td>0.255818</td>
+      <td>0.269615</td>
+      <td>0.177193</td>
+      <td>0.373816</td>
+      <td>0.325464</td>
+      <td>0.363519</td>
+      <td>...</td>
+      <td>0.187246</td>
+      <td>0.206405</td>
+      <td>0.176901</td>
+      <td>0.177555</td>
+      <td>0.212440</td>
+      <td>0.191061</td>
+      <td>0.226490</td>
+      <td>0.211674</td>
+      <td>0.200487</td>
+      <td>0.192239</td>
+    </tr>
+    <tr>
+      <th>1801-Jefferson</th>
+      <td>0.222896</td>
+      <td>0.110464</td>
+      <td>0.271978</td>
+      <td>1.000000</td>
+      <td>0.312475</td>
+      <td>0.256926</td>
+      <td>0.159447</td>
+      <td>0.292838</td>
+      <td>0.249709</td>
+      <td>0.311659</td>
+      <td>...</td>
+      <td>0.207168</td>
+      <td>0.227679</td>
+      <td>0.192643</td>
+      <td>0.133177</td>
+      <td>0.177914</td>
+      <td>0.169416</td>
+      <td>0.190955</td>
+      <td>0.211151</td>
+      <td>0.198564</td>
+      <td>0.131511</td>
+    </tr>
+    <tr>
+      <th>1805-Jefferson</th>
+      <td>0.221114</td>
+      <td>0.105334</td>
+      <td>0.255818</td>
+      <td>0.312475</td>
+      <td>1.000000</td>
+      <td>0.252321</td>
+      <td>0.170299</td>
+      <td>0.333710</td>
+      <td>0.315158</td>
+      <td>0.299334</td>
+      <td>...</td>
+      <td>0.172774</td>
+      <td>0.174084</td>
+      <td>0.171594</td>
+      <td>0.117881</td>
+      <td>0.135964</td>
+      <td>0.180568</td>
+      <td>0.181756</td>
+      <td>0.168434</td>
+      <td>0.189254</td>
+      <td>0.111912</td>
+    </tr>
+    <tr>
+      <th>1809-Madison</th>
+      <td>0.235420</td>
+      <td>0.058795</td>
+      <td>0.269615</td>
+      <td>0.256926</td>
+      <td>0.252321</td>
+      <td>1.000000</td>
+      <td>0.189923</td>
+      <td>0.311826</td>
+      <td>0.272209</td>
+      <td>0.303731</td>
+      <td>...</td>
+      <td>0.116073</td>
+      <td>0.148220</td>
+      <td>0.119446</td>
+      <td>0.109400</td>
+      <td>0.124340</td>
+      <td>0.136778</td>
+      <td>0.158336</td>
+      <td>0.143664</td>
+      <td>0.153434</td>
+      <td>0.105658</td>
+    </tr>
+    <tr>
+      <th>1813-Madison</th>
+      <td>0.155258</td>
+      <td>0.083094</td>
+      <td>0.177193</td>
+      <td>0.159447</td>
+      <td>0.170299</td>
+      <td>0.189923</td>
+      <td>1.000000</td>
+      <td>0.252817</td>
+      <td>0.255972</td>
+      <td>0.187200</td>
+      <td>...</td>
+      <td>0.124457</td>
+      <td>0.115699</td>
+      <td>0.105333</td>
+      <td>0.089038</td>
+      <td>0.105538</td>
+      <td>0.134604</td>
+      <td>0.135726</td>
+      <td>0.124087</td>
+      <td>0.144395</td>
+      <td>0.095246</td>
+    </tr>
+    <tr>
+      <th>1817-Monroe</th>
+      <td>0.271341</td>
+      <td>0.085385</td>
+      <td>0.373816</td>
+      <td>0.292838</td>
+      <td>0.333710</td>
+      <td>0.311826</td>
+      <td>0.252817</td>
+      <td>1.000000</td>
+      <td>0.526531</td>
+      <td>0.424570</td>
+      <td>...</td>
+      <td>0.189510</td>
+      <td>0.215947</td>
+      <td>0.185875</td>
+      <td>0.140203</td>
+      <td>0.172928</td>
+      <td>0.173909</td>
+      <td>0.188759</td>
+      <td>0.187230</td>
+      <td>0.194673</td>
+      <td>0.158218</td>
+    </tr>
+    <tr>
+      <th>1821-Monroe</th>
+      <td>0.252055</td>
+      <td>0.098381</td>
+      <td>0.325464</td>
+      <td>0.249709</td>
+      <td>0.315158</td>
+      <td>0.272209</td>
+      <td>0.255972</td>
+      <td>0.526531</td>
+      <td>1.000000</td>
+      <td>0.373039</td>
+      <td>...</td>
+      <td>0.190434</td>
+      <td>0.192262</td>
+      <td>0.170365</td>
+      <td>0.139803</td>
+      <td>0.163219</td>
+      <td>0.173564</td>
+      <td>0.173309</td>
+      <td>0.181176</td>
+      <td>0.202169</td>
+      <td>0.140568</td>
+    </tr>
+    <tr>
+      <th>1825-Adams</th>
+      <td>0.271323</td>
+      <td>0.079854</td>
+      <td>0.363519</td>
+      <td>0.311659</td>
+      <td>0.299334</td>
+      <td>0.303731</td>
+      <td>0.187200</td>
+      <td>0.424570</td>
+      <td>0.373039</td>
+      <td>1.000000</td>
+      <td>...</td>
+      <td>0.178828</td>
+      <td>0.229070</td>
+      <td>0.176181</td>
+      <td>0.138276</td>
+      <td>0.200806</td>
+      <td>0.188288</td>
+      <td>0.194322</td>
+      <td>0.189036</td>
+      <td>0.212285</td>
+      <td>0.136648</td>
+    </tr>
+    <tr>
+      <th>1829-Jackson</th>
+      <td>0.239658</td>
+      <td>0.079782</td>
+      <td>0.300506</td>
+      <td>0.236003</td>
+      <td>0.264835</td>
+      <td>0.252786</td>
+      <td>0.128543</td>
+      <td>0.329080</td>
+      <td>0.285537</td>
+      <td>0.295693</td>
+      <td>...</td>
+      <td>0.127304</td>
+      <td>0.149233</td>
+      <td>0.111519</td>
+      <td>0.087705</td>
+      <td>0.102312</td>
+      <td>0.134401</td>
+      <td>0.145167</td>
+      <td>0.127328</td>
+      <td>0.141798</td>
+      <td>0.088108</td>
+    </tr>
+    <tr>
+      <th>1833-Jackson</th>
+      <td>0.253547</td>
+      <td>0.081887</td>
+      <td>0.301258</td>
+      <td>0.262312</td>
+      <td>0.232326</td>
+      <td>0.202349</td>
+      <td>0.149420</td>
+      <td>0.394226</td>
+      <td>0.295446</td>
+      <td>0.344810</td>
+      <td>...</td>
+      <td>0.196121</td>
+      <td>0.218858</td>
+      <td>0.142032</td>
+      <td>0.127417</td>
+      <td>0.154544</td>
+      <td>0.139271</td>
+      <td>0.171167</td>
+      <td>0.140782</td>
+      <td>0.160684</td>
+      <td>0.111765</td>
+    </tr>
+    <tr>
+      <th>1837-VanBuren</th>
+      <td>0.271228</td>
+      <td>0.117099</td>
+      <td>0.341596</td>
+      <td>0.291945</td>
+      <td>0.320544</td>
+      <td>0.289802</td>
+      <td>0.202584</td>
+      <td>0.407942</td>
+      <td>0.361319</td>
+      <td>0.352325</td>
+      <td>...</td>
+      <td>0.190075</td>
+      <td>0.211343</td>
+      <td>0.167520</td>
+      <td>0.143890</td>
+      <td>0.175345</td>
+      <td>0.184472</td>
+      <td>0.205019</td>
+      <td>0.200026</td>
+      <td>0.202815</td>
+      <td>0.158900</td>
+    </tr>
+    <tr>
+      <th>1841-Harrison</th>
+      <td>0.297393</td>
+      <td>0.127392</td>
+      <td>0.396508</td>
+      <td>0.329862</td>
+      <td>0.340092</td>
+      <td>0.260406</td>
+      <td>0.205536</td>
+      <td>0.434200</td>
+      <td>0.410776</td>
+      <td>0.407258</td>
+      <td>...</td>
+      <td>0.228042</td>
+      <td>0.224249</td>
+      <td>0.221103</td>
+      <td>0.144520</td>
+      <td>0.185594</td>
+      <td>0.199540</td>
+      <td>0.229179</td>
+      <td>0.186926</td>
+      <td>0.225010</td>
+      <td>0.176415</td>
+    </tr>
+    <tr>
+      <th>1845-Polk</th>
+      <td>0.266331</td>
+      <td>0.096425</td>
+      <td>0.340340</td>
+      <td>0.310211</td>
+      <td>0.359256</td>
+      <td>0.270406</td>
+      <td>0.201489</td>
+      <td>0.483244</td>
+      <td>0.415317</td>
+      <td>0.477900</td>
+      <td>...</td>
+      <td>0.212794</td>
+      <td>0.240690</td>
+      <td>0.152218</td>
+      <td>0.126507</td>
+      <td>0.182691</td>
+      <td>0.162359</td>
+      <td>0.191676</td>
+      <td>0.163536</td>
+      <td>0.191139</td>
+      <td>0.160435</td>
+    </tr>
+    <tr>
+      <th>1849-Taylor</th>
+      <td>0.231938</td>
+      <td>0.127836</td>
+      <td>0.267764</td>
+      <td>0.222268</td>
+      <td>0.228333</td>
+      <td>0.196377</td>
+      <td>0.151193</td>
+      <td>0.301321</td>
+      <td>0.273624</td>
+      <td>0.332504</td>
+      <td>...</td>
+      <td>0.148453</td>
+      <td>0.147958</td>
+      <td>0.132474</td>
+      <td>0.103793</td>
+      <td>0.116114</td>
+      <td>0.154935</td>
+      <td>0.144307</td>
+      <td>0.135801</td>
+      <td>0.150633</td>
+      <td>0.132662</td>
+    </tr>
+    <tr>
+      <th>1853-Pierce</th>
+      <td>0.241781</td>
+      <td>0.082371</td>
+      <td>0.289567</td>
+      <td>0.310205</td>
+      <td>0.296786</td>
+      <td>0.285845</td>
+      <td>0.192135</td>
+      <td>0.333828</td>
+      <td>0.321594</td>
+      <td>0.349790</td>
+      <td>...</td>
+      <td>0.210606</td>
+      <td>0.215175</td>
+      <td>0.204147</td>
+      <td>0.162242</td>
+      <td>0.190930</td>
+      <td>0.187278</td>
+      <td>0.217798</td>
+      <td>0.219303</td>
+      <td>0.216425</td>
+      <td>0.150565</td>
+    </tr>
+    <tr>
+      <th>1857-Buchanan</th>
+      <td>0.229841</td>
+      <td>0.105716</td>
+      <td>0.352369</td>
+      <td>0.253419</td>
+      <td>0.278403</td>
+      <td>0.243105</td>
+      <td>0.190539</td>
+      <td>0.439213</td>
+      <td>0.386490</td>
+      <td>0.360350</td>
+      <td>...</td>
+      <td>0.179700</td>
+      <td>0.200743</td>
+      <td>0.160270</td>
+      <td>0.126147</td>
+      <td>0.169273</td>
+      <td>0.155799</td>
+      <td>0.197082</td>
+      <td>0.180739</td>
+      <td>0.191561</td>
+      <td>0.153631</td>
+    </tr>
+    <tr>
+      <th>1861-Lincoln</th>
+      <td>0.217834</td>
+      <td>0.137906</td>
+      <td>0.281549</td>
+      <td>0.258098</td>
+      <td>0.244461</td>
+      <td>0.197658</td>
+      <td>0.153655</td>
+      <td>0.339499</td>
+      <td>0.313925</td>
+      <td>0.319026</td>
+      <td>...</td>
+      <td>0.169377</td>
+      <td>0.190612</td>
+      <td>0.171882</td>
+      <td>0.121957</td>
+      <td>0.142565</td>
+      <td>0.131084</td>
+      <td>0.159304</td>
+      <td>0.141254</td>
+      <td>0.172601</td>
+      <td>0.114982</td>
+    </tr>
+    <tr>
+      <th>1865-Lincoln</th>
+      <td>0.087317</td>
+      <td>0.041699</td>
+      <td>0.102704</td>
+      <td>0.112267</td>
+      <td>0.117207</td>
+      <td>0.103497</td>
+      <td>0.146779</td>
+      <td>0.162541</td>
+      <td>0.168557</td>
+      <td>0.169242</td>
+      <td>...</td>
+      <td>0.105916</td>
+      <td>0.128205</td>
+      <td>0.114306</td>
+      <td>0.087169</td>
+      <td>0.116270</td>
+      <td>0.098314</td>
+      <td>0.101175</td>
+      <td>0.151608</td>
+      <td>0.123847</td>
+      <td>0.080439</td>
+    </tr>
+    <tr>
+      <th>1869-Grant</th>
+      <td>0.157543</td>
+      <td>0.092843</td>
+      <td>0.188218</td>
+      <td>0.163297</td>
+      <td>0.219834</td>
+      <td>0.166446</td>
+      <td>0.109324</td>
+      <td>0.215937</td>
+      <td>0.222320</td>
+      <td>0.200927</td>
+      <td>...</td>
+      <td>0.120316</td>
+      <td>0.134302</td>
+      <td>0.101294</td>
+      <td>0.080857</td>
+      <td>0.114267</td>
+      <td>0.119278</td>
+      <td>0.128227</td>
+      <td>0.153464</td>
+      <td>0.139444</td>
+      <td>0.143127</td>
+    </tr>
+    <tr>
+      <th>1873-Grant</th>
+      <td>0.167341</td>
+      <td>0.064751</td>
+      <td>0.212574</td>
+      <td>0.193820</td>
+      <td>0.214197</td>
+      <td>0.162942</td>
+      <td>0.133407</td>
+      <td>0.252082</td>
+      <td>0.256386</td>
+      <td>0.209966</td>
+      <td>...</td>
+      <td>0.159831</td>
+      <td>0.177298</td>
+      <td>0.150492</td>
+      <td>0.124808</td>
+      <td>0.163144</td>
+      <td>0.158463</td>
+      <td>0.148972</td>
+      <td>0.158733</td>
+      <td>0.170947</td>
+      <td>0.134293</td>
+    </tr>
+    <tr>
+      <th>1877-Hayes</th>
+      <td>0.268814</td>
+      <td>0.089404</td>
+      <td>0.334941</td>
+      <td>0.264048</td>
+      <td>0.257693</td>
+      <td>0.240323</td>
+      <td>0.195639</td>
+      <td>0.369109</td>
+      <td>0.353596</td>
+      <td>0.360152</td>
+      <td>...</td>
+      <td>0.172962</td>
+      <td>0.223189</td>
+      <td>0.179651</td>
+      <td>0.136826</td>
+      <td>0.177776</td>
+      <td>0.199904</td>
+      <td>0.191357</td>
+      <td>0.182017</td>
+      <td>0.199402</td>
+      <td>0.152157</td>
+    </tr>
+    <tr>
+      <th>1881-Garfield</th>
+      <td>0.198924</td>
+      <td>0.115467</td>
+      <td>0.333774</td>
+      <td>0.271410</td>
+      <td>0.268331</td>
+      <td>0.242683</td>
+      <td>0.178135</td>
+      <td>0.376154</td>
+      <td>0.327899</td>
+      <td>0.357122</td>
+      <td>...</td>
+      <td>0.222055</td>
+      <td>0.273979</td>
+      <td>0.203552</td>
+      <td>0.195838</td>
+      <td>0.255653</td>
+      <td>0.194294</td>
+      <td>0.257129</td>
+      <td>0.212226</td>
+      <td>0.242525</td>
+      <td>0.175955</td>
+    </tr>
+    <tr>
+      <th>1885-Cleveland</th>
+      <td>0.242538</td>
+      <td>0.150555</td>
+      <td>0.313967</td>
+      <td>0.248439</td>
+      <td>0.247422</td>
+      <td>0.184372</td>
+      <td>0.148094</td>
+      <td>0.331348</td>
+      <td>0.262678</td>
+      <td>0.314950</td>
+      <td>...</td>
+      <td>0.211754</td>
+      <td>0.215103</td>
+      <td>0.155788</td>
+      <td>0.170707</td>
+      <td>0.208044</td>
+      <td>0.183904</td>
+      <td>0.185560</td>
+      <td>0.175272</td>
+      <td>0.208878</td>
+      <td>0.168875</td>
+    </tr>
+    <tr>
+      <th>1889-Harrison</th>
+      <td>0.201107</td>
+      <td>0.110286</td>
+      <td>0.311506</td>
+      <td>0.210770</td>
+      <td>0.274758</td>
+      <td>0.237249</td>
+      <td>0.171349</td>
+      <td>0.339874</td>
+      <td>0.328590</td>
+      <td>0.289515</td>
+      <td>...</td>
+      <td>0.184922</td>
+      <td>0.211650</td>
+      <td>0.186595</td>
+      <td>0.152990</td>
+      <td>0.192581</td>
+      <td>0.191090</td>
+      <td>0.199910</td>
+      <td>0.186237</td>
+      <td>0.194092</td>
+      <td>0.159556</td>
+    </tr>
+    <tr>
+      <th>1893-Cleveland</th>
+      <td>0.187081</td>
+      <td>0.082868</td>
+      <td>0.245104</td>
+      <td>0.224297</td>
+      <td>0.204598</td>
+      <td>0.168568</td>
+      <td>0.132638</td>
+      <td>0.275993</td>
+      <td>0.233625</td>
+      <td>0.243179</td>
+      <td>...</td>
+      <td>0.182321</td>
+      <td>0.197097</td>
+      <td>0.130463</td>
+      <td>0.145739</td>
+      <td>0.170313</td>
+      <td>0.177705</td>
+      <td>0.175770</td>
+      <td>0.166623</td>
+      <td>0.185582</td>
+      <td>0.136337</td>
+    </tr>
+    <tr>
+      <th>1897-McKinley</th>
+      <td>0.198859</td>
+      <td>0.093912</td>
+      <td>0.311027</td>
+      <td>0.240926</td>
+      <td>0.252417</td>
+      <td>0.220070</td>
+      <td>0.192731</td>
+      <td>0.369348</td>
+      <td>0.386539</td>
+      <td>0.302438</td>
+      <td>...</td>
+      <td>0.200912</td>
+      <td>0.218691</td>
+      <td>0.184370</td>
+      <td>0.166455</td>
+      <td>0.166244</td>
+      <td>0.161263</td>
+      <td>0.180224</td>
+      <td>0.182362</td>
+      <td>0.205185</td>
+      <td>0.161228</td>
+    </tr>
+    <tr>
+      <th>1901-McKinley</th>
+      <td>0.194617</td>
+      <td>0.074237</td>
+      <td>0.284042</td>
+      <td>0.228160</td>
+      <td>0.208129</td>
+      <td>0.186097</td>
+      <td>0.179577</td>
+      <td>0.325199</td>
+      <td>0.349830</td>
+      <td>0.283190</td>
+      <td>...</td>
+      <td>0.201454</td>
+      <td>0.225115</td>
+      <td>0.191309</td>
+      <td>0.154646</td>
+      <td>0.181927</td>
+      <td>0.158640</td>
+      <td>0.220130</td>
+      <td>0.179475</td>
+      <td>0.212481</td>
+      <td>0.144608</td>
+    </tr>
+    <tr>
+      <th>1905-Roosevelt</th>
+      <td>0.135136</td>
+      <td>0.029364</td>
+      <td>0.205791</td>
+      <td>0.167768</td>
+      <td>0.163999</td>
+      <td>0.143277</td>
+      <td>0.106975</td>
+      <td>0.182755</td>
+      <td>0.172575</td>
+      <td>0.181196</td>
+      <td>...</td>
+      <td>0.202199</td>
+      <td>0.198707</td>
+      <td>0.224674</td>
+      <td>0.174449</td>
+      <td>0.220328</td>
+      <td>0.192387</td>
+      <td>0.184496</td>
+      <td>0.239070</td>
+      <td>0.200623</td>
+      <td>0.160882</td>
+    </tr>
+    <tr>
+      <th>1909-Taft</th>
+      <td>0.199444</td>
+      <td>0.078073</td>
+      <td>0.226108</td>
+      <td>0.195742</td>
+      <td>0.225772</td>
+      <td>0.194128</td>
+      <td>0.143382</td>
+      <td>0.298367</td>
+      <td>0.332566</td>
+      <td>0.264082</td>
+      <td>...</td>
+      <td>0.174716</td>
+      <td>0.200757</td>
+      <td>0.178160</td>
+      <td>0.151725</td>
+      <td>0.176534</td>
+      <td>0.169025</td>
+      <td>0.172847</td>
+      <td>0.177021</td>
+      <td>0.185307</td>
+      <td>0.148024</td>
+    </tr>
+    <tr>
+      <th>1913-Wilson</th>
+      <td>0.144212</td>
+      <td>0.043186</td>
+      <td>0.178558</td>
+      <td>0.187577</td>
+      <td>0.156692</td>
+      <td>0.129842</td>
+      <td>0.100065</td>
+      <td>0.170188</td>
+      <td>0.154201</td>
+      <td>0.168813</td>
+      <td>...</td>
+      <td>0.216933</td>
+      <td>0.216021</td>
+      <td>0.252401</td>
+      <td>0.174070</td>
+      <td>0.207795</td>
+      <td>0.166648</td>
+      <td>0.194795</td>
+      <td>0.242959</td>
+      <td>0.184979</td>
+      <td>0.174285</td>
+    </tr>
+    <tr>
+      <th>1917-Wilson</th>
+      <td>0.146761</td>
+      <td>0.033300</td>
+      <td>0.227297</td>
+      <td>0.202814</td>
+      <td>0.210788</td>
+      <td>0.194649</td>
+      <td>0.154554</td>
+      <td>0.226717</td>
+      <td>0.227365</td>
+      <td>0.217365</td>
+      <td>...</td>
+      <td>0.186601</td>
+      <td>0.215518</td>
+      <td>0.241470</td>
+      <td>0.219048</td>
+      <td>0.222669</td>
+      <td>0.209503</td>
+      <td>0.230307</td>
+      <td>0.238202</td>
+      <td>0.218702</td>
+      <td>0.174091</td>
+    </tr>
+    <tr>
+      <th>1921-Harding</th>
+      <td>0.162135</td>
+      <td>0.079501</td>
+      <td>0.217242</td>
+      <td>0.196333</td>
+      <td>0.190327</td>
+      <td>0.176106</td>
+      <td>0.196644</td>
+      <td>0.225617</td>
+      <td>0.216628</td>
+      <td>0.230081</td>
+      <td>...</td>
+      <td>0.242715</td>
+      <td>0.271511</td>
+      <td>0.250049</td>
+      <td>0.309930</td>
+      <td>0.270029</td>
+      <td>0.231276</td>
+      <td>0.280244</td>
+      <td>0.261933</td>
+      <td>0.250398</td>
+      <td>0.232015</td>
+    </tr>
+    <tr>
+      <th>1925-Coolidge</th>
+      <td>0.180862</td>
+      <td>0.084242</td>
+      <td>0.317610</td>
+      <td>0.265334</td>
+      <td>0.279402</td>
+      <td>0.254756</td>
+      <td>0.196499</td>
+      <td>0.343191</td>
+      <td>0.342836</td>
+      <td>0.327664</td>
+      <td>...</td>
+      <td>0.264206</td>
+      <td>0.291312</td>
+      <td>0.241890</td>
+      <td>0.223416</td>
+      <td>0.230321</td>
+      <td>0.252573</td>
+      <td>0.289345</td>
+      <td>0.248131</td>
+      <td>0.270035</td>
+      <td>0.229347</td>
+    </tr>
+    <tr>
+      <th>1929-Hoover</th>
+      <td>0.179763</td>
+      <td>0.079659</td>
+      <td>0.284060</td>
+      <td>0.225666</td>
+      <td>0.212693</td>
+      <td>0.192845</td>
+      <td>0.174830</td>
+      <td>0.271156</td>
+      <td>0.275473</td>
+      <td>0.270245</td>
+      <td>...</td>
+      <td>0.234234</td>
+      <td>0.277041</td>
+      <td>0.208748</td>
+      <td>0.207688</td>
+      <td>0.223184</td>
+      <td>0.227476</td>
+      <td>0.268296</td>
+      <td>0.228143</td>
+      <td>0.217975</td>
+      <td>0.192496</td>
+    </tr>
+    <tr>
+      <th>1933-Roosevelt</th>
+      <td>0.140593</td>
+      <td>0.042248</td>
+      <td>0.171998</td>
+      <td>0.149116</td>
+      <td>0.164020</td>
+      <td>0.142785</td>
+      <td>0.125921</td>
+      <td>0.215969</td>
+      <td>0.194958</td>
+      <td>0.179669</td>
+      <td>...</td>
+      <td>0.206676</td>
+      <td>0.217863</td>
+      <td>0.252645</td>
+      <td>0.194562</td>
+      <td>0.211253</td>
+      <td>0.158872</td>
+      <td>0.182693</td>
+      <td>0.237826</td>
+      <td>0.217244</td>
+      <td>0.150715</td>
+    </tr>
+    <tr>
+      <th>1937-Roosevelt</th>
+      <td>0.149017</td>
+      <td>0.066298</td>
+      <td>0.235792</td>
+      <td>0.192260</td>
+      <td>0.192132</td>
+      <td>0.154735</td>
+      <td>0.148608</td>
+      <td>0.242199</td>
+      <td>0.212352</td>
+      <td>0.250178</td>
+      <td>...</td>
+      <td>0.266448</td>
+      <td>0.280185</td>
+      <td>0.282505</td>
+      <td>0.248074</td>
+      <td>0.293379</td>
+      <td>0.226946</td>
+      <td>0.252626</td>
+      <td>0.274907</td>
+      <td>0.255194</td>
+      <td>0.222135</td>
+    </tr>
+    <tr>
+      <th>1941-Roosevelt</th>
+      <td>0.121813</td>
+      <td>0.060130</td>
+      <td>0.251591</td>
+      <td>0.164989</td>
+      <td>0.155462</td>
+      <td>0.128153</td>
+      <td>0.117272</td>
+      <td>0.179671</td>
+      <td>0.174861</td>
+      <td>0.187263</td>
+      <td>...</td>
+      <td>0.250740</td>
+      <td>0.281791</td>
+      <td>0.301133</td>
+      <td>0.267443</td>
+      <td>0.309926</td>
+      <td>0.284725</td>
+      <td>0.361932</td>
+      <td>0.307005</td>
+      <td>0.295888</td>
+      <td>0.239297</td>
+    </tr>
+    <tr>
+      <th>1945-Roosevelt</th>
+      <td>0.059130</td>
+      <td>0.059212</td>
+      <td>0.101460</td>
+      <td>0.129558</td>
+      <td>0.099616</td>
+      <td>0.099088</td>
+      <td>0.073456</td>
+      <td>0.124281</td>
+      <td>0.102751</td>
+      <td>0.118771</td>
+      <td>...</td>
+      <td>0.177419</td>
+      <td>0.235870</td>
+      <td>0.264253</td>
+      <td>0.200823</td>
+      <td>0.210729</td>
+      <td>0.180100</td>
+      <td>0.194650</td>
+      <td>0.210754</td>
+      <td>0.239829</td>
+      <td>0.162344</td>
+    </tr>
+    <tr>
+      <th>1949-Truman</th>
+      <td>0.139416</td>
+      <td>0.048009</td>
+      <td>0.248022</td>
+      <td>0.209795</td>
+      <td>0.186282</td>
+      <td>0.196736</td>
+      <td>0.153536</td>
+      <td>0.257644</td>
+      <td>0.247849</td>
+      <td>0.228649</td>
+      <td>...</td>
+      <td>0.263074</td>
+      <td>0.343316</td>
+      <td>0.273920</td>
+      <td>0.237350</td>
+      <td>0.246739</td>
+      <td>0.214087</td>
+      <td>0.323666</td>
+      <td>0.246192</td>
+      <td>0.274052</td>
+      <td>0.182489</td>
+    </tr>
+    <tr>
+      <th>1953-Eisenhower</th>
+      <td>0.146783</td>
+      <td>0.061330</td>
+      <td>0.211000</td>
+      <td>0.211501</td>
+      <td>0.190056</td>
+      <td>0.167791</td>
+      <td>0.155883</td>
+      <td>0.231503</td>
+      <td>0.207911</td>
+      <td>0.202824</td>
+      <td>...</td>
+      <td>0.285598</td>
+      <td>0.329671</td>
+      <td>0.301611</td>
+      <td>0.282566</td>
+      <td>0.281789</td>
+      <td>0.263716</td>
+      <td>0.323174</td>
+      <td>0.299918</td>
+      <td>0.299235</td>
+      <td>0.222314</td>
+    </tr>
+    <tr>
+      <th>1957-Eisenhower</th>
+      <td>0.103462</td>
+      <td>0.058415</td>
+      <td>0.209156</td>
+      <td>0.193006</td>
+      <td>0.172302</td>
+      <td>0.163121</td>
+      <td>0.142133</td>
+      <td>0.178976</td>
+      <td>0.188737</td>
+      <td>0.228676</td>
+      <td>...</td>
+      <td>0.273809</td>
+      <td>0.327630</td>
+      <td>0.289657</td>
+      <td>0.273558</td>
+      <td>0.272879</td>
+      <td>0.247863</td>
+      <td>0.347072</td>
+      <td>0.296111</td>
+      <td>0.274539</td>
+      <td>0.226652</td>
+    </tr>
+    <tr>
+      <th>1961-Kennedy</th>
+      <td>0.125081</td>
+      <td>0.058710</td>
+      <td>0.151539</td>
+      <td>0.200763</td>
+      <td>0.156918</td>
+      <td>0.108401</td>
+      <td>0.166571</td>
+      <td>0.155277</td>
+      <td>0.159073</td>
+      <td>0.162137</td>
+      <td>...</td>
+      <td>0.301872</td>
+      <td>0.307210</td>
+      <td>0.277737</td>
+      <td>0.279308</td>
+      <td>0.271597</td>
+      <td>0.234492</td>
+      <td>0.263239</td>
+      <td>0.288503</td>
+      <td>0.265859</td>
+      <td>0.195977</td>
+    </tr>
+    <tr>
+      <th>1965-Johnson</th>
+      <td>0.114979</td>
+      <td>0.042360</td>
+      <td>0.170738</td>
+      <td>0.207508</td>
+      <td>0.175268</td>
+      <td>0.145923</td>
+      <td>0.108162</td>
+      <td>0.165974</td>
+      <td>0.153818</td>
+      <td>0.232030</td>
+      <td>...</td>
+      <td>0.265267</td>
+      <td>0.301875</td>
+      <td>0.268056</td>
+      <td>0.271136</td>
+      <td>0.307208</td>
+      <td>0.245794</td>
+      <td>0.272477</td>
+      <td>0.305062</td>
+      <td>0.279320</td>
+      <td>0.219613</td>
+    </tr>
+    <tr>
+      <th>1969-Nixon</th>
+      <td>0.122489</td>
+      <td>0.072958</td>
+      <td>0.185052</td>
+      <td>0.232233</td>
+      <td>0.159178</td>
+      <td>0.120675</td>
+      <td>0.112196</td>
+      <td>0.167725</td>
+      <td>0.165441</td>
+      <td>0.171592</td>
+      <td>...</td>
+      <td>0.326510</td>
+      <td>0.380931</td>
+      <td>0.366201</td>
+      <td>0.326139</td>
+      <td>0.359952</td>
+      <td>0.276771</td>
+      <td>0.291767</td>
+      <td>0.332912</td>
+      <td>0.296507</td>
+      <td>0.311116</td>
+    </tr>
+    <tr>
+      <th>1973-Nixon</th>
+      <td>0.124212</td>
+      <td>0.069505</td>
+      <td>0.194943</td>
+      <td>0.201252</td>
+      <td>0.152232</td>
+      <td>0.146956</td>
+      <td>0.118058</td>
+      <td>0.185654</td>
+      <td>0.185928</td>
+      <td>0.188753</td>
+      <td>...</td>
+      <td>0.297767</td>
+      <td>0.377705</td>
+      <td>0.315695</td>
+      <td>0.431685</td>
+      <td>0.435901</td>
+      <td>0.319748</td>
+      <td>0.326282</td>
+      <td>0.342594</td>
+      <td>0.312722</td>
+      <td>0.310858</td>
+    </tr>
+    <tr>
+      <th>1977-Carter</th>
+      <td>0.112771</td>
+      <td>0.074625</td>
+      <td>0.187136</td>
+      <td>0.173800</td>
+      <td>0.157600</td>
+      <td>0.157880</td>
+      <td>0.142972</td>
+      <td>0.172554</td>
+      <td>0.165357</td>
+      <td>0.179238</td>
+      <td>...</td>
+      <td>0.270177</td>
+      <td>0.272716</td>
+      <td>0.244791</td>
+      <td>0.245557</td>
+      <td>0.304649</td>
+      <td>0.256859</td>
+      <td>0.276639</td>
+      <td>0.256244</td>
+      <td>0.256056</td>
+      <td>0.221400</td>
+    </tr>
+    <tr>
+      <th>1981-Reagan</th>
+      <td>0.132736</td>
+      <td>0.089135</td>
+      <td>0.187246</td>
+      <td>0.207168</td>
+      <td>0.172774</td>
+      <td>0.116073</td>
+      <td>0.124457</td>
+      <td>0.189510</td>
+      <td>0.190434</td>
+      <td>0.178828</td>
+      <td>...</td>
+      <td>1.000000</td>
+      <td>0.425823</td>
+      <td>0.324284</td>
+      <td>0.324647</td>
+      <td>0.327586</td>
+      <td>0.276996</td>
+      <td>0.324140</td>
+      <td>0.317933</td>
+      <td>0.319519</td>
+      <td>0.306585</td>
+    </tr>
+    <tr>
+      <th>1985-Reagan</th>
+      <td>0.143454</td>
+      <td>0.062981</td>
+      <td>0.206405</td>
+      <td>0.227679</td>
+      <td>0.174084</td>
+      <td>0.148220</td>
+      <td>0.115699</td>
+      <td>0.215947</td>
+      <td>0.192262</td>
+      <td>0.229070</td>
+      <td>...</td>
+      <td>0.425823</td>
+      <td>1.000000</td>
+      <td>0.380280</td>
+      <td>0.359553</td>
+      <td>0.381739</td>
+      <td>0.308768</td>
+      <td>0.370062</td>
+      <td>0.337947</td>
+      <td>0.350950</td>
+      <td>0.292282</td>
+    </tr>
+    <tr>
+      <th>1989-Bush</th>
+      <td>0.128986</td>
+      <td>0.055985</td>
+      <td>0.176901</td>
+      <td>0.192643</td>
+      <td>0.171594</td>
+      <td>0.119446</td>
+      <td>0.105333</td>
+      <td>0.185875</td>
+      <td>0.170365</td>
+      <td>0.176181</td>
+      <td>...</td>
+      <td>0.324284</td>
+      <td>0.380280</td>
+      <td>1.000000</td>
+      <td>0.344350</td>
+      <td>0.352426</td>
+      <td>0.317701</td>
+      <td>0.315920</td>
+      <td>0.348850</td>
+      <td>0.331689</td>
+      <td>0.305273</td>
+    </tr>
+    <tr>
+      <th>1993-Clinton</th>
+      <td>0.098833</td>
+      <td>0.085991</td>
+      <td>0.177555</td>
+      <td>0.133177</td>
+      <td>0.117881</td>
+      <td>0.109400</td>
+      <td>0.089038</td>
+      <td>0.140203</td>
+      <td>0.139803</td>
+      <td>0.138276</td>
+      <td>...</td>
+      <td>0.324647</td>
+      <td>0.359553</td>
+      <td>0.344350</td>
+      <td>1.000000</td>
+      <td>0.441915</td>
+      <td>0.318053</td>
+      <td>0.364296</td>
+      <td>0.394513</td>
+      <td>0.376239</td>
+      <td>0.377192</td>
+    </tr>
+    <tr>
+      <th>1997-Clinton</th>
+      <td>0.114395</td>
+      <td>0.057881</td>
+      <td>0.212440</td>
+      <td>0.177914</td>
+      <td>0.135964</td>
+      <td>0.124340</td>
+      <td>0.105538</td>
+      <td>0.172928</td>
+      <td>0.163219</td>
+      <td>0.200806</td>
+      <td>...</td>
+      <td>0.327586</td>
+      <td>0.381739</td>
+      <td>0.352426</td>
+      <td>0.441915</td>
+      <td>1.000000</td>
+      <td>0.359197</td>
+      <td>0.366349</td>
+      <td>0.365223</td>
+      <td>0.389452</td>
+      <td>0.368267</td>
+    </tr>
+    <tr>
+      <th>2001-Bush</th>
+      <td>0.135037</td>
+      <td>0.079049</td>
+      <td>0.191061</td>
+      <td>0.169416</td>
+      <td>0.180568</td>
+      <td>0.136778</td>
+      <td>0.134604</td>
+      <td>0.173909</td>
+      <td>0.173564</td>
+      <td>0.188288</td>
+      <td>...</td>
+      <td>0.276996</td>
+      <td>0.308768</td>
+      <td>0.317701</td>
+      <td>0.318053</td>
+      <td>0.359197</td>
+      <td>1.000000</td>
+      <td>0.373461</td>
+      <td>0.318852</td>
+      <td>0.350078</td>
+      <td>0.308994</td>
+    </tr>
+    <tr>
+      <th>2005-Bush</th>
+      <td>0.141243</td>
+      <td>0.113584</td>
+      <td>0.226490</td>
+      <td>0.190955</td>
+      <td>0.181756</td>
+      <td>0.158336</td>
+      <td>0.135726</td>
+      <td>0.188759</td>
+      <td>0.173309</td>
+      <td>0.194322</td>
+      <td>...</td>
+      <td>0.324140</td>
+      <td>0.370062</td>
+      <td>0.315920</td>
+      <td>0.364296</td>
+      <td>0.366349</td>
+      <td>0.373461</td>
+      <td>1.000000</td>
+      <td>0.352493</td>
+      <td>0.377653</td>
+      <td>0.329433</td>
+    </tr>
+    <tr>
+      <th>2009-Obama</th>
+      <td>0.137906</td>
+      <td>0.053607</td>
+      <td>0.211674</td>
+      <td>0.211151</td>
+      <td>0.168434</td>
+      <td>0.143664</td>
+      <td>0.124087</td>
+      <td>0.187230</td>
+      <td>0.181176</td>
+      <td>0.189036</td>
+      <td>...</td>
+      <td>0.317933</td>
+      <td>0.337947</td>
+      <td>0.348850</td>
+      <td>0.394513</td>
+      <td>0.365223</td>
+      <td>0.318852</td>
+      <td>0.352493</td>
+      <td>1.000000</td>
+      <td>0.442743</td>
+      <td>0.334788</td>
+    </tr>
+    <tr>
+      <th>2013-Obama</th>
+      <td>0.137122</td>
+      <td>0.093894</td>
+      <td>0.200487</td>
+      <td>0.198564</td>
+      <td>0.189254</td>
+      <td>0.153434</td>
+      <td>0.144395</td>
+      <td>0.194673</td>
+      <td>0.202169</td>
+      <td>0.212285</td>
+      <td>...</td>
+      <td>0.319519</td>
+      <td>0.350950</td>
+      <td>0.331689</td>
+      <td>0.376239</td>
+      <td>0.389452</td>
+      <td>0.350078</td>
+      <td>0.377653</td>
+      <td>0.442743</td>
+      <td>1.000000</td>
+      <td>0.328498</td>
+    </tr>
+    <tr>
+      <th>2017-Trump</th>
+      <td>0.100266</td>
+      <td>0.101117</td>
+      <td>0.192239</td>
+      <td>0.131511</td>
+      <td>0.111912</td>
+      <td>0.105658</td>
+      <td>0.095246</td>
+      <td>0.158218</td>
+      <td>0.140568</td>
+      <td>0.136648</td>
+      <td>...</td>
+      <td>0.306585</td>
+      <td>0.292282</td>
+      <td>0.305273</td>
+      <td>0.377192</td>
+      <td>0.368267</td>
+      <td>0.308994</td>
+      <td>0.329433</td>
+      <td>0.334788</td>
+      <td>0.328498</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+<p>58 rows × 58 columns</p>
+</div></div></div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;US Presidential Inaugural Speech Analysis&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Inaugural Speech&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Distance&#39;</span><span class="p">)</span>
+<span class="n">color_threshold</span> <span class="o">=</span> <span class="mf">1.8</span>
+<span class="n">dendrogram</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">color_threshold</span> <span class="o">=</span> <span class="n">color_threshold</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">textsid</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">color_threshold</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x7f96a0cd1278&gt;
+</pre></div>
+</div>
+<img alt="../_images/5-text-vectorization_4_1.png" src="../_images/5-text-vectorization_4_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="question-2">
+<h2><span class="section-number">5.2. </span>Question 2<a class="headerlink" href="#question-2" title="Permalink to this headline">¶</a></h2>
+<p>Please use the Chinese song lyrics from the directory, <code class="docutils literal notranslate"><span class="pre">demo_data/ChineseSongLyrics</span></code>, as the corpus for this exercise. The directory is a collection of song lyrics from nine Chinese pop-song artists.</p>
+<p>Please utilize the bag-of-words method to vectorize each artist’s song lyrics and provide a cluster analysis of each artist in terms of their textual similarities in lyrics.</p>
+<p>A few notes for data processing:</p>
+<ul class="simple">
+<li><p>Please use <code class="docutils literal notranslate"><span class="pre">ckip-transformers</span></code> for word segmentation and POS tagging.</p></li>
+<li><p>Please build the bag-of-words model using the <code class="docutils literal notranslate"><span class="pre">Tfidfvectorizer()</span></code>.</p></li>
+<li><p>Please include in the model only words (a) whose POS tags start with ‘N’ or ‘V’, and (b) which consist of NO digits, alphabets, symbols and punctuations.</p></li>
+<li><p>Please make sure you have the word tokens intact when doing the vectorization using <code class="docutils literal notranslate"><span class="pre">Tfidfvectorizer()</span></code>.</p></li>
+</ul>
+<p>The expected result is a dendrogram as shown below. But please note that depending on how you preprocess the data and adjust the parameters of bag-of-words representations, we may have somewhat different results. Please indicate and justify your parameter settings in the bag-of-words model creation (i.e., using markdown cells in notebook).</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tv_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ㄧ</th>
+      <th>ㄧ起</th>
+      <th>一</th>
+      <th>一下</th>
+      <th>一世</th>
+      <th>一九四三</th>
+      <th>一二三</th>
+      <th>一些</th>
+      <th>一些些</th>
+      <th>一個個</th>
+      <th>...</th>
+      <th>鼓起</th>
+      <th>鼻</th>
+      <th>鼻子</th>
+      <th>鼻尖</th>
+      <th>鼻涕</th>
+      <th>齊</th>
+      <th>齣</th>
+      <th>龍</th>
+      <th>龍捲風</th>
+      <th>龜</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>周杰倫</th>
+      <td>0.003903</td>
+      <td>0.001115</td>
+      <td>0.173294</td>
+      <td>0.002746</td>
+      <td>0.000000</td>
+      <td>0.001115</td>
+      <td>0.000558</td>
+      <td>0.001398</td>
+      <td>0.001115</td>
+      <td>0.000000</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.001147</td>
+      <td>0.000558</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.001939</td>
+      <td>0.015998</td>
+      <td>0.005576</td>
+      <td>0.000558</td>
+    </tr>
+    <tr>
+      <th>周興哲</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.151433</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.001383</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>張惠妹</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.159486</td>
+      <td>0.001253</td>
+      <td>0.000679</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.004084</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000590</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>林俊傑</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.225602</td>
+      <td>0.004501</td>
+      <td>0.000000</td>
+      <td>0.000914</td>
+      <td>0.000000</td>
+      <td>0.006876</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>...</td>
+      <td>0.001589</td>
+      <td>0.000000</td>
+      <td>0.000627</td>
+      <td>0.000000</td>
+      <td>0.000914</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>田馥甄</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.193735</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.003713</td>
+      <td>0.003724</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.001614</td>
+      <td>0.000000</td>
+      <td>0.001856</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.001614</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>蔡依林</th>
+      <td>0.000692</td>
+      <td>0.000692</td>
+      <td>0.175459</td>
+      <td>0.007239</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.003470</td>
+      <td>0.000692</td>
+      <td>0.000000</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.000601</td>
+      <td>0.003794</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>鄧紫棋</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.191900</td>
+      <td>0.001905</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000517</td>
+      <td>0.000000</td>
+      <td>0.001032</td>
+      <td>...</td>
+      <td>0.000897</td>
+      <td>0.000000</td>
+      <td>0.003536</td>
+      <td>0.000000</td>
+      <td>0.001032</td>
+      <td>0.004126</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.006189</td>
+      <td>0.002063</td>
+    </tr>
+    <tr>
+      <th>陳奕迅</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.231057</td>
+      <td>0.004663</td>
+      <td>0.000842</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.006543</td>
+      <td>0.000000</td>
+      <td>0.000421</td>
+      <td>...</td>
+      <td>0.001464</td>
+      <td>0.004391</td>
+      <td>0.000289</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.001263</td>
+      <td>0.003659</td>
+      <td>0.000366</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>高爾宣</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.077348</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+  </tbody>
+</table>
+<p>9 rows × 7337 columns</p>
+</div></div></div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">similarity_doc_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>周杰倫</th>
+      <th>周興哲</th>
+      <th>張惠妹</th>
+      <th>林俊傑</th>
+      <th>田馥甄</th>
+      <th>蔡依林</th>
+      <th>鄧紫棋</th>
+      <th>陳奕迅</th>
+      <th>高爾宣</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>周杰倫</th>
+      <td>1.000000</td>
+      <td>0.924684</td>
+      <td>0.954221</td>
+      <td>0.964494</td>
+      <td>0.938640</td>
+      <td>0.929480</td>
+      <td>0.928913</td>
+      <td>0.942586</td>
+      <td>0.911681</td>
+    </tr>
+    <tr>
+      <th>周興哲</th>
+      <td>0.924684</td>
+      <td>1.000000</td>
+      <td>0.971298</td>
+      <td>0.949029</td>
+      <td>0.941841</td>
+      <td>0.966280</td>
+      <td>0.961808</td>
+      <td>0.945111</td>
+      <td>0.789708</td>
+    </tr>
+    <tr>
+      <th>張惠妹</th>
+      <td>0.954221</td>
+      <td>0.971298</td>
+      <td>1.000000</td>
+      <td>0.969764</td>
+      <td>0.966961</td>
+      <td>0.974818</td>
+      <td>0.973992</td>
+      <td>0.967873</td>
+      <td>0.834848</td>
+    </tr>
+    <tr>
+      <th>林俊傑</th>
+      <td>0.964494</td>
+      <td>0.949029</td>
+      <td>0.969764</td>
+      <td>1.000000</td>
+      <td>0.962102</td>
+      <td>0.953864</td>
+      <td>0.954434</td>
+      <td>0.967477</td>
+      <td>0.866838</td>
+    </tr>
+    <tr>
+      <th>田馥甄</th>
+      <td>0.938640</td>
+      <td>0.941841</td>
+      <td>0.966961</td>
+      <td>0.962102</td>
+      <td>1.000000</td>
+      <td>0.957751</td>
+      <td>0.948707</td>
+      <td>0.956214</td>
+      <td>0.833359</td>
+    </tr>
+    <tr>
+      <th>蔡依林</th>
+      <td>0.929480</td>
+      <td>0.966280</td>
+      <td>0.974818</td>
+      <td>0.953864</td>
+      <td>0.957751</td>
+      <td>1.000000</td>
+      <td>0.965339</td>
+      <td>0.957491</td>
+      <td>0.795709</td>
+    </tr>
+    <tr>
+      <th>鄧紫棋</th>
+      <td>0.928913</td>
+      <td>0.961808</td>
+      <td>0.973992</td>
+      <td>0.954434</td>
+      <td>0.948707</td>
+      <td>0.965339</td>
+      <td>1.000000</td>
+      <td>0.967545</td>
+      <td>0.792193</td>
+    </tr>
+    <tr>
+      <th>陳奕迅</th>
+      <td>0.942586</td>
+      <td>0.945111</td>
+      <td>0.967873</td>
+      <td>0.967477</td>
+      <td>0.956214</td>
+      <td>0.957491</td>
+      <td>0.967545</td>
+      <td>1.000000</td>
+      <td>0.823111</td>
+    </tr>
+    <tr>
+      <th>高爾宣</th>
+      <td>0.911681</td>
+      <td>0.789708</td>
+      <td>0.834848</td>
+      <td>0.866838</td>
+      <td>0.833359</td>
+      <td>0.795709</td>
+      <td>0.792193</td>
+      <td>0.823111</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Chinese Pop Song Artists&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Artists&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Distance&#39;</span><span class="p">)</span>
+<span class="n">color_threshold</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">dendrogram</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">fileids</span><span class="p">,</span> <span class="n">leaf_rotation</span> <span class="o">=</span> <span class="mi">90</span><span class="p">,</span> <span class="n">color_threshold</span> <span class="o">=</span> <span class="n">color_threshold</span><span class="p">,</span> <span class="n">above_threshold_color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">color_threshold</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x7f96830a64a8&gt;
+</pre></div>
+</div>
+<img alt="../_images/5-text-vectorization_8_1.png" src="../_images/5-text-vectorization_8_1.png" />
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python-notes",
+            path: "./exercise"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python-notes'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="4-chinese-nlp.html" title="previous page"><span class="section-number">4. </span>Assignment IV: Chinese Language Processing</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Alvin Chen<br/>
+        
+            &copy; Copyright 2020 Alvin Chen.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

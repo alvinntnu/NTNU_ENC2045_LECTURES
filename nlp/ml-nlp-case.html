@@ -57,8 +57,8 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Classification Models" href="ml-algorithm.html" />
-    <link rel="prev" title="Machine Learning: A Simple Example" href="ml-simple-case.html" />
+    <link rel="next" title="Neural Network From Scratch" href="../temp/dl-neural-network-from-scratch.html" />
+    <link rel="prev" title="Topic Modeling: A Naive Example" href="../temp/topic-modeling-naive.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -148,7 +148,7 @@
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="../temp/text-vec-traditional.html">
+  <a class="reference internal" href="text-vec-traditional.html">
    Text Vectorization Using Traditional Methods
   </a>
  </li>
@@ -158,7 +158,7 @@
   Machine Learning Basics
  </span>
 </p>
-<ul class="current nav sidenav_l1">
+<ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="ml-overview.html">
    Machine Learning: Overview
@@ -167,11 +167,6 @@
  <li class="toctree-l1">
   <a class="reference internal" href="ml-simple-case.html">
    Machine Learning: A Simple Example
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Machine Learning: NLP Tasks
   </a>
  </li>
  <li class="toctree-l1">
@@ -185,7 +180,7 @@
   Machine-Learning NLP
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="current nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../temp/ml-sklearn-classification.html">
    Sentiment Analysis Using Bag-of-Words
@@ -199,6 +194,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../temp/topic-modeling-naive.html">
    Topic Modeling: A Naive Example
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Machine Learning: NLP Tasks
   </a>
  </li>
 </ul>
@@ -275,6 +275,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../exercise/4-chinese-nlp.html">
    4. Assignment IV: Chinese Language Processing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/5-text-vectorization.html">
+   5. Assignment V: Text Vectorization
   </a>
  </li>
 </ul>
@@ -374,6 +379,11 @@
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#nlp-tasks-and-base-units-for-classification">
+   NLP Tasks and Base Units for Classification
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#document-sentiment-classification">
    Document Sentiment Classification
   </a>
@@ -411,7 +421,13 @@
                 
   <div class="section" id="machine-learning-nlp-tasks">
 <h1>Machine Learning: NLP Tasks<a class="headerlink" href="#machine-learning-nlp-tasks" title="Permalink to this headline">¶</a></h1>
-<p>Let’s take a look at a few more  classification tasks in NLP.</p>
+<ul class="simple">
+<li><p>Let’s take a look at a few more classification tasks in NLP.</p></li>
+<li><p>In more complex NLP tasks, feature engineering (text vectorization) can be more complicated. We often need to come up with heuristics to extract features from the texts.</p></li>
+<li><p>In this lecture, we demonstrate a few NLP tasks and focus on a heuristics-based approach to feature engineering.</p></li>
+</ul>
+<div class="section" id="nlp-tasks-and-base-units-for-classification">
+<h2>NLP Tasks and Base Units for Classification<a class="headerlink" href="#nlp-tasks-and-base-units-for-classification" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Document Sentiment/Topic Classification</p>
 <ul>
@@ -448,6 +464,7 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nltk</span><span class="o">,</span> <span class="nn">random</span>
 </pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -511,7 +528,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.81
 </pre></div>
 </div>
 </div>
@@ -524,11 +541,11 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Most Informative Features
-   contains(outstanding) = True              pos : neg    =     13.4 : 1.0
-         contains(mulan) = True              pos : neg    =      9.0 : 1.0
-        contains(seagal) = True              neg : pos    =      8.2 : 1.0
-   contains(wonderfully) = True              pos : neg    =      7.1 : 1.0
-         contains(damon) = True              pos : neg    =      6.3 : 1.0
+   contains(outstanding) = True              pos : neg    =     13.2 : 1.0
+         contains(mulan) = True              pos : neg    =      9.1 : 1.0
+         contains(damon) = True              pos : neg    =      8.2 : 1.0
+        contains(seagal) = True              neg : pos    =      8.1 : 1.0
+   contains(wonderfully) = True              pos : neg    =      7.9 : 1.0
 </pre></div>
 </div>
 </div>
@@ -979,8 +996,8 @@ ynQuestion |   2.6%      .      .   0.3%   0.1%  &lt;2.6%&gt;  0.1%      .   0.1
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="ml-simple-case.html" title="previous page">Machine Learning: A Simple Example</a>
-    <a class='right-next' id="next-link" href="ml-algorithm.html" title="next page">Classification Models</a>
+    <a class='left-prev' id="prev-link" href="../temp/topic-modeling-naive.html" title="previous page">Topic Modeling: A Naive Example</a>
+    <a class='right-next' id="next-link" href="../temp/dl-neural-network-from-scratch.html" title="next page">Neural Network From Scratch</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
