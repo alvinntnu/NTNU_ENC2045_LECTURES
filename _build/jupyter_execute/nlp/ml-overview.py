@@ -11,6 +11,7 @@ Simply put, ML is the science of programming computers so that they can learn fr
 [Machine learning is the] field of study that gives computers the ability to learn without being explicitly programmed.
 
 -- Arthur Samuel, 1959
+
 ```
 
 ```{epigraph}
@@ -23,14 +24,14 @@ A computer program is said to learn from experience E with respect to some task 
 
 ## Why use machine learning?
 
-- Limitations of rules/heuristics-based systems:
+- Limitations of **rules**/**heuristics**-based systems:
     - Rules are hard to be exhaustively listed.
     - Tasks are simply too complex for rule generalization.
-    - The rule-based deductive approach is not helpful in discovering novel things.
+    - The rule-based **deductive** approach is not helpful in discovering novel things.
 
 ## Types of Machine Learning
 
-We can categorize ML into four types according to the amount and type of supervision it gets during training:
+We can categorize ML into four types according to the amount and type of **supervision** it gets during training:
 
 - Supervised Learning
 - Unsupervised Learning
@@ -39,9 +40,9 @@ We can categorize ML into four types according to the amount and type of supervi
 
 ### Supervised Learning
 
-- The data we feed to the ML algorithm includes the desired solutions, i.e., labels.
-    - Classification task (e.g., spam filter): the target is a categorical label.
-    - Regression task (e.g., car price prediction): the target is a numeric value.
+- The data we feed to the ML algorithm includes the desired solutions, i.e., **labels**.
+    - **Classification** task (e.g., spam filter): the target is a categorical label.
+    - **Regression** task (e.g., car price prediction): the target is a numeric value.
 - Classification and regression are two sides of the coin.
     - We can sometimes utilize regression algorithms for classification.
     - A classic example is Logistic Regression.
@@ -49,6 +50,7 @@ We can categorize ML into four types according to the amount and type of supervi
 - Examples of Supervised Learning
     - K-Nearest Neighbors
     - Linear Regression
+    - Naive Bayes
     - Logistic Regression
     - Support Vector Machines (SVMs)
     - Decision Trees and Random Forests
@@ -56,7 +58,7 @@ We can categorize ML into four types according to the amount and type of supervi
 
 ### Unsupervised Learning
 
-- The data is unlabeled. We are more interested in the underlying grouping patterns of the data.
+- The data is **unlabeled**. We are more interested in the underlying grouping patterns of the data.
     - Clustering
     - Anomaly/Novelty detection
     - Dimensionality reduction
@@ -86,8 +88,8 @@ We can categorize ML into four types according to the amount and type of supervi
 - In NLP, most often we deal with **classification** problems. In particular, we  deal with **supervised classifcation** learning problems.
 
 - Given a dataset of **texts** and their corresponding **labels**, the objectives of the classifier are:
-    - How can we identify particular features of language data that are salient for texts of each label?
-    - How can we construct models of language that can be used to perform the classification automatically?
+    - How can we identify particular **features** of language data that are **salient** for texts of each **label**?
+    - How can we construct **models** of language that can be used to perform the classification **automatically**?
     - What can we learn about language from these classifiers?
 
 
@@ -95,25 +97,72 @@ We can categorize ML into four types according to the amount and type of supervi
 
 A common workflow for classifier building as shown as follows:
 
-```{figure} ../images/nltk-fig-6-1-classification-workflow.png
+![](../images/nltk-fig-6-1-classification-workflow.png)
+<small>(Source: from NLTK Book Ch 6, Figure 6-1)</small>
 
-Workflow for Building Classifiers (from NLTK Book Ch 6, Figure 6-1)
-```
 
-```{tip}
-Most classification methods require that features be encoded using simple value types, such as booleans, numbers, and strings. But note that just because a feature has a simple type, this does not necessarily mean that the feature's value is simple to express or compute. Indeed, it is even possible to use very complex and informative values, such as the output of a second supervised classifier, as features.
-```
+- Most classification methods require that features be encoded using simple value types, such as booleans, numbers, and strings.
+- But note that just because a feature has a simple type, this does not necessarily mean that the feature's value is simple to express or compute. 
+- Indeed, it is even possible to use very complex and informative values, such as the output of a second supervised classifier, as features.
+
+
+## Feature Engineering
+
+### What is feature engineering?
+
+- It refers to a process to feed the extracted and preprocessed texts into a machine-learning algorithm.
+- It aims at capturing the **characteristics** of the text into a **numeric vector** that can be understood by the ML algorithms. (Cf. *construct*, *operational definitions*, and *measurement* in experimental science)
+- In short, it concerns how to meaningfully represent texts quantitatively, i.e., the **vectorized representation** of texts.
+
+### Feature Engineering for Classical ML
+
+- Word-based frequency lists
+- Bag-of-words representations
+- Domain-specific word frequency lists (e.g., Sentiment Dictionary)
+- Hand-crafted features based on domain-specific knowledge
+
+### Feature Engineering for DL
+
+- DL directly takes the texts as inputs to the model.
+- The DL model is capable of learning features from the texts (e.g., embeddings)
+- The price is that the model is often less interpretable.
+    
+
+### Strengths and Weakness 
+
+![](../images/feature-engineer-strengths.png)
+
+![](../images/feature-engineer-weakness.png)
 
 ## Challenges of ML
 
-- Insufficient quantity of training data
-- Non-representative training data
-- Poor quality data
-- Irrelevant features
-- Overfitting the training data
-- Underfitting the training data
+- Insufficient **quantity** of training data
+- Non-**representative** training data
+- Poor **quality** data
+- Irrelevant **features**
+- **Overfitting** the training data
+- **Underfitting** the training data
 
 ## Testing and Validating
 
 - Hyperparameter tuning and model selection
-- Data mismatch
+    - Many ML algorithms are available.
+    - Algorithms often come with many parameter settings.
+    - It is usually not clear which algorithms would perform better.
+    - **Cross-validation** comes to rescue.
+
+- Cross-Validation
+
+![](../images/ml-kfold.png)
+(Source: https://scikit-learn.org/stable/modules/cross_validation.html)
+
+- **Cross Validation**
+    - Before testing our model on the testing dataset, we can utilize **$k$-fold cross-validation** to first evaluate our trained model within the **training dataset** and at the same time fine-tune the **hyperparameters**.
+    - Specifically, we often split the **training set** into **$k$** distinct subsets called **folds**, and trains the model on the **${k-1}$** folds and test on the remaining 1 folds. A $k$-fold split allows us to do this training-testing for $k$ times.
+    - Based on the distribution of the evaluation scores in all $k$ folds of datasets, we get to see the average performance of our model.
+        - Which ML algorithm out-performs the rest?
+        - Which sets of hyperparameters yield the best performance?
+
+## References
+
+- Géron (2019), Ch 1-2

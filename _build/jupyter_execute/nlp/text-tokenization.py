@@ -24,7 +24,8 @@ tokenizer.tokenize(para)
 
 The `nltk` also provides many pre-trained `PunktSentenceTokenizer` for other European languages.
 
-!ls /Users/Alvin/nltk_data/tokenizers/punkt/PY3
+!ls /Users/Alvinchen/nltk_data/tokenizers/punkt/PY3
+# !dir C:/Users/alvinchen/AppData/Roaming/nltk_data/tokenziers/punkt/PY3
 
 ## Word Tokenization
 

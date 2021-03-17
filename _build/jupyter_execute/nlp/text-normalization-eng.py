@@ -261,6 +261,10 @@ It seems that the unicode catetory `Lo` is good to identify Chinese characters?
 We can also make use of the category names to identify punctuations.
 ```
 
+```{note}
+[This page](https://www.compart.com/en/unicode/) shows how unicode deals with combining or decomposing character classes. 
+```
+
 ## Special Characters
 
 - Depending on the research questions and the defined tasks, we often need to decide whether to remove irrelevant characters.

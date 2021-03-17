@@ -1,6 +1,12 @@
 # Machine Learning: NLP Tasks
 
-Let's take a look at a few more  classification tasks in NLP.
+- Let's take a look at a few more classification tasks in NLP.
+
+- In more complex NLP tasks, feature engineering (text vectorization) can be more complicated. We often need to come up with heuristics to extract features from the texts.
+
+- In this lecture, we demonstrate a few NLP tasks and focus on a heuristics-based approach to feature engineering.
+
+## NLP Tasks and Base Units for Classification
 
 - Document Sentiment/Topic Classification
     - Unit: Document

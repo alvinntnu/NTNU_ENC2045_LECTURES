@@ -93,6 +93,8 @@ import numpy
 with numpy.errstate(divide='ignore'):
     numpy.float64(1.0) / 0.0
 
+%%time
+
 from nltk.classify import MaxentClassifier
 metagger = ClassifierBasedPOSTagger(train=train_sents,
                                    classifier_builder=MaxentClassifier.train)

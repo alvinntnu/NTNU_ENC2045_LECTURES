@@ -292,7 +292,7 @@ nlp/text-preprocessing
 :titlesonly:
 :caption: Text Vectorization
 
-temp/text-vec-traditional
+nlp/text-vec-traditional
 ```
 
 
@@ -303,7 +303,6 @@ temp/text-vec-traditional
 
 nlp/ml-overview
 nlp/ml-simple-case
-nlp/ml-nlp-case
 nlp/ml-algorithm
 ```
 
@@ -316,6 +315,7 @@ nlp/ml-algorithm
 temp/ml-sklearn-classification
 temp/text-classification-ml-newsgroups
 temp/topic-modeling-naive
+nlp/ml-nlp-case
 ```
 
 
@@ -352,4 +352,5 @@ exercise/1-python-basics
 exercise/2-journal-review
 exercise/3-preprocessing
 exercise/4-chinese-nlp
+exercise/5-text-vectorization
 ```

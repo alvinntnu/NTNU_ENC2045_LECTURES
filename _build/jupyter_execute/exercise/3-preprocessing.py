@@ -44,7 +44,7 @@ alice_df[:21]
 
 Please identify top verbs that co-occcur with the name *Alice* in the text, with *Alice* being the **subject** of the verb. 
 
-Please use the `en_core_web-sm` model in `spacy` for English dependency parsing.
+Please use the `en_core_web_sm` model in `spacy` for English dependency parsing.
 
 To simply the task, please identify all the verbs that have a dependency relation of `nsubj` with the noun `Alice` (where `Alice` is the **dependent**, and the verb is the **head**).
 

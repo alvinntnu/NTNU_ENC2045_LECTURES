@@ -58,7 +58,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Machine Learning: A Simple Example" href="ml-simple-case.html" />
-    <link rel="prev" title="Text Vectorization Using Traditional Methods" href="../temp/text-vec-traditional.html" />
+    <link rel="prev" title="Text Vectorization Using Traditional Methods" href="text-vec-traditional.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -148,7 +148,7 @@
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="../temp/text-vec-traditional.html">
+  <a class="reference internal" href="text-vec-traditional.html">
    Text Vectorization Using Traditional Methods
   </a>
  </li>
@@ -167,11 +167,6 @@
  <li class="toctree-l1">
   <a class="reference internal" href="ml-simple-case.html">
    Machine Learning: A Simple Example
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="ml-nlp-case.html">
-   Machine Learning: NLP Tasks
   </a>
  </li>
  <li class="toctree-l1">
@@ -199,6 +194,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../temp/topic-modeling-naive.html">
    Topic Modeling: A Naive Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-nlp-case.html">
+   Machine Learning: NLP Tasks
   </a>
  </li>
 </ul>
@@ -275,6 +275,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../exercise/4-chinese-nlp.html">
    4. Assignment IV: Chinese Language Processing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/5-text-vectorization.html">
+   5. Assignment V: Text Vectorization
   </a>
  </li>
 </ul>
@@ -416,6 +421,33 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#feature-engineering">
+   Feature Engineering
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-is-feature-engineering">
+     What is feature engineering?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#feature-engineering-for-classical-ml">
+     Feature Engineering for Classical ML
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#feature-engineering-for-dl">
+     Feature Engineering for DL
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#strengths-and-weakness">
+     Strengths and Weakness
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#challenges-of-ml">
    Challenges of ML
   </a>
@@ -423,6 +455,11 @@
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#testing-and-validating">
    Testing and Validating
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
   </a>
  </li>
 </ul>
@@ -443,7 +480,8 @@
 <p>Simply put, ML is the science of programming computers so that they can learn from data.</p>
 <blockquote class="epigraph">
 <div><p>[Machine learning is the] field of study that gives computers the ability to learn without being explicitly programmed.</p>
-<p class="attribution">—Arthur Samuel, 1959</p>
+<p class="attribution">—Arthur Samuel, 1959
+</p>
 </div></blockquote>
 <blockquote class="epigraph">
 <div><p>A computer program is said to learn from experience E with respect to some task T and some performance measure P, if its performance on T, as measured by P, improves with eexperience E.</p>
@@ -454,18 +492,18 @@
 <div class="section" id="why-use-machine-learning">
 <h2>Why use machine learning?<a class="headerlink" href="#why-use-machine-learning" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Limitations of rules/heuristics-based systems:</p>
+<li><p>Limitations of <strong>rules</strong>/<strong>heuristics</strong>-based systems:</p>
 <ul>
 <li><p>Rules are hard to be exhaustively listed.</p></li>
 <li><p>Tasks are simply too complex for rule generalization.</p></li>
-<li><p>The rule-based deductive approach is not helpful in discovering novel things.</p></li>
+<li><p>The rule-based <strong>deductive</strong> approach is not helpful in discovering novel things.</p></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="types-of-machine-learning">
 <h2>Types of Machine Learning<a class="headerlink" href="#types-of-machine-learning" title="Permalink to this headline">¶</a></h2>
-<p>We can categorize ML into four types according to the amount and type of supervision it gets during training:</p>
+<p>We can categorize ML into four types according to the amount and type of <strong>supervision</strong> it gets during training:</p>
 <ul class="simple">
 <li><p>Supervised Learning</p></li>
 <li><p>Unsupervised Learning</p></li>
@@ -475,10 +513,10 @@
 <div class="section" id="supervised-learning">
 <h3>Supervised Learning<a class="headerlink" href="#supervised-learning" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>The data we feed to the ML algorithm includes the desired solutions, i.e., labels.</p>
+<li><p>The data we feed to the ML algorithm includes the desired solutions, i.e., <strong>labels</strong>.</p>
 <ul>
-<li><p>Classification task (e.g., spam filter): the target is a categorical label.</p></li>
-<li><p>Regression task (e.g., car price prediction): the target is a numeric value.</p></li>
+<li><p><strong>Classification</strong> task (e.g., spam filter): the target is a categorical label.</p></li>
+<li><p><strong>Regression</strong> task (e.g., car price prediction): the target is a numeric value.</p></li>
 </ul>
 </li>
 <li><p>Classification and regression are two sides of the coin.</p>
@@ -493,6 +531,7 @@
 <ul>
 <li><p>K-Nearest Neighbors</p></li>
 <li><p>Linear Regression</p></li>
+<li><p>Naive Bayes</p></li>
 <li><p>Logistic Regression</p></li>
 <li><p>Support Vector Machines (SVMs)</p></li>
 <li><p>Decision Trees and Random Forests</p></li>
@@ -503,7 +542,7 @@
 <div class="section" id="unsupervised-learning">
 <h3>Unsupervised Learning<a class="headerlink" href="#unsupervised-learning" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>The data is unlabeled. We are more interested in the underlying grouping patterns of the data.</p>
+<li><p>The data is <strong>unlabeled</strong>. We are more interested in the underlying grouping patterns of the data.</p>
 <ul>
 <li><p>Clustering</p></li>
 <li><p>Anomaly/Novelty detection</p></li>
@@ -553,38 +592,101 @@
 <li><p>In NLP, most often we deal with <strong>classification</strong> problems. In particular, we  deal with <strong>supervised classifcation</strong> learning problems.</p></li>
 <li><p>Given a dataset of <strong>texts</strong> and their corresponding <strong>labels</strong>, the objectives of the classifier are:</p>
 <ul>
-<li><p>How can we identify particular features of language data that are salient for texts of each label?</p></li>
-<li><p>How can we construct models of language that can be used to perform the classification automatically?</p></li>
+<li><p>How can we identify particular <strong>features</strong> of language data that are <strong>salient</strong> for texts of each <strong>label</strong>?</p></li>
+<li><p>How can we construct <strong>models</strong> of language that can be used to perform the classification <strong>automatically</strong>?</p></li>
 <li><p>What can we learn about language from these classifiers?</p></li>
 </ul>
 </li>
 </ul>
 <p>A common workflow for classifier building as shown as follows:</p>
-<div class="figure align-default" id="id1">
-<img alt="../_images/nltk-fig-6-1-classification-workflow.png" src="../_images/nltk-fig-6-1-classification-workflow.png" />
-<p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">Workflow for Building Classifiers (from NLTK Book Ch 6, Figure 6-1)</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+<p><img alt="" src="../_images/nltk-fig-6-1-classification-workflow.png" />
+<small>(Source: from NLTK Book Ch 6, Figure 6-1)</small></p>
+<ul class="simple">
+<li><p>Most classification methods require that features be encoded using simple value types, such as booleans, numbers, and strings.</p></li>
+<li><p>But note that just because a feature has a simple type, this does not necessarily mean that the feature’s value is simple to express or compute.</p></li>
+<li><p>Indeed, it is even possible to use very complex and informative values, such as the output of a second supervised classifier, as features.</p></li>
+</ul>
 </div>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>Most classification methods require that features be encoded using simple value types, such as booleans, numbers, and strings. But note that just because a feature has a simple type, this does not necessarily mean that the feature’s value is simple to express or compute. Indeed, it is even possible to use very complex and informative values, such as the output of a second supervised classifier, as features.</p>
+<div class="section" id="feature-engineering">
+<h2>Feature Engineering<a class="headerlink" href="#feature-engineering" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="what-is-feature-engineering">
+<h3>What is feature engineering?<a class="headerlink" href="#what-is-feature-engineering" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>It refers to a process to feed the extracted and preprocessed texts into a machine-learning algorithm.</p></li>
+<li><p>It aims at capturing the <strong>characteristics</strong> of the text into a <strong>numeric vector</strong> that can be understood by the ML algorithms. (Cf. <em>construct</em>, <em>operational definitions</em>, and <em>measurement</em> in experimental science)</p></li>
+<li><p>In short, it concerns how to meaningfully represent texts quantitatively, i.e., the <strong>vectorized representation</strong> of texts.</p></li>
+</ul>
+</div>
+<div class="section" id="feature-engineering-for-classical-ml">
+<h3>Feature Engineering for Classical ML<a class="headerlink" href="#feature-engineering-for-classical-ml" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Word-based frequency lists</p></li>
+<li><p>Bag-of-words representations</p></li>
+<li><p>Domain-specific word frequency lists (e.g., Sentiment Dictionary)</p></li>
+<li><p>Hand-crafted features based on domain-specific knowledge</p></li>
+</ul>
+</div>
+<div class="section" id="feature-engineering-for-dl">
+<h3>Feature Engineering for DL<a class="headerlink" href="#feature-engineering-for-dl" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>DL directly takes the texts as inputs to the model.</p></li>
+<li><p>The DL model is capable of learning features from the texts (e.g., embeddings)</p></li>
+<li><p>The price is that the model is often less interpretable.</p></li>
+</ul>
+</div>
+<div class="section" id="strengths-and-weakness">
+<h3>Strengths and Weakness<a class="headerlink" href="#strengths-and-weakness" title="Permalink to this headline">¶</a></h3>
+<p><img alt="" src="../_images/feature-engineer-strengths.png" /></p>
+<p><img alt="" src="../_images/feature-engineer-weakness.png" /></p>
 </div>
 </div>
 <div class="section" id="challenges-of-ml">
 <h2>Challenges of ML<a class="headerlink" href="#challenges-of-ml" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Insufficient quantity of training data</p></li>
-<li><p>Non-representative training data</p></li>
-<li><p>Poor quality data</p></li>
-<li><p>Irrelevant features</p></li>
-<li><p>Overfitting the training data</p></li>
-<li><p>Underfitting the training data</p></li>
+<li><p>Insufficient <strong>quantity</strong> of training data</p></li>
+<li><p>Non-<strong>representative</strong> training data</p></li>
+<li><p>Poor <strong>quality</strong> data</p></li>
+<li><p>Irrelevant <strong>features</strong></p></li>
+<li><p><strong>Overfitting</strong> the training data</p></li>
+<li><p><strong>Underfitting</strong> the training data</p></li>
 </ul>
 </div>
 <div class="section" id="testing-and-validating">
 <h2>Testing and Validating<a class="headerlink" href="#testing-and-validating" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Hyperparameter tuning and model selection</p></li>
-<li><p>Data mismatch</p></li>
+<li><p>Hyperparameter tuning and model selection</p>
+<ul>
+<li><p>Many ML algorithms are available.</p></li>
+<li><p>Algorithms often come with many parameter settings.</p></li>
+<li><p>It is usually not clear which algorithms would perform better.</p></li>
+<li><p><strong>Cross-validation</strong> comes to rescue.</p></li>
+</ul>
+</li>
+</ul>
+<ul class="simple">
+<li><p>Cross-Validation</p></li>
+</ul>
+<p><img alt="" src="../_images/ml-kfold.png" />
+(Source: <a class="reference external" href="https://scikit-learn.org/stable/modules/cross_validation.html">https://scikit-learn.org/stable/modules/cross_validation.html</a>)</p>
+<ul class="simple">
+<li><p><strong>Cross Validation</strong></p>
+<ul>
+<li><p>Before testing our model on the testing dataset, we can utilize <strong><span class="math notranslate nohighlight">\(k\)</span>-fold cross-validation</strong> to first evaluate our trained model within the <strong>training dataset</strong> and at the same time fine-tune the <strong>hyperparameters</strong>.</p></li>
+<li><p>Specifically, we often split the <strong>training set</strong> into <strong><span class="math notranslate nohighlight">\(k\)</span></strong> distinct subsets called <strong>folds</strong>, and trains the model on the <strong><span class="math notranslate nohighlight">\({k-1}\)</span></strong> folds and test on the remaining 1 folds. A <span class="math notranslate nohighlight">\(k\)</span>-fold split allows us to do this training-testing for <span class="math notranslate nohighlight">\(k\)</span> times.</p></li>
+<li><p>Based on the distribution of the evaluation scores in all <span class="math notranslate nohighlight">\(k\)</span> folds of datasets, we get to see the average performance of our model.</p>
+<ul>
+<li><p>Which ML algorithm out-performs the rest?</p></li>
+<li><p>Which sets of hyperparameters yield the best performance?</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Géron (2019), Ch 1-2</p></li>
 </ul>
 </div>
 </div>
@@ -617,7 +719,7 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="../temp/text-vec-traditional.html" title="previous page">Text Vectorization Using Traditional Methods</a>
+    <a class='left-prev' id="prev-link" href="text-vec-traditional.html" title="previous page">Text Vectorization Using Traditional Methods</a>
     <a class='right-next' id="next-link" href="ml-simple-case.html" title="next page">Machine Learning: A Simple Example</a>
 
     </div>
