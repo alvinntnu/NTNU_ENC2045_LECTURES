@@ -580,7 +580,7 @@
 <div class="section" id="train-test-split">
 <h3>Train-Test Split<a class="headerlink" href="#train-test-split" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>We then apply the feature engineering method to every text in the data and split the data into train and test sets.</p></li>
+<li><p>We then apply the feature engineering method to every text in the data and split the data into training and test sets.</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -607,11 +607,12 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">classifier</span><span class="o">.</span><span class="n">classify</span><span class="p">(</span><span class="n">text_vectorizer</span><span class="p">(</span><span class="s1">&#39;Neo&#39;</span><span class="p">))</span>
 <span class="n">classifier</span><span class="o">.</span><span class="n">classify</span><span class="p">(</span><span class="n">text_vectorizer</span><span class="p">(</span><span class="s1">&#39;Trinity&#39;</span><span class="p">))</span>
+<span class="n">classifier</span><span class="o">.</span><span class="n">classify</span><span class="p">(</span><span class="n">text_vectorizer</span><span class="p">(</span><span class="s1">&#39;Alvin&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;female&#39;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;male&#39;
 </pre></div>
 </div>
 </div>
@@ -623,7 +624,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.764
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.762
 </pre></div>
 </div>
 </div>
@@ -642,11 +643,11 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Most Informative Features
-             last_letter = &#39;a&#39;            female : male   =     39.8 : 1.0
-             last_letter = &#39;k&#39;              male : female =     31.3 : 1.0
-             last_letter = &#39;f&#39;              male : female =     16.0 : 1.0
-             last_letter = &#39;v&#39;              male : female =     11.2 : 1.0
-             last_letter = &#39;p&#39;              male : female =     10.5 : 1.0
+             last_letter = &#39;a&#39;            female : male   =     36.7 : 1.0
+             last_letter = &#39;k&#39;              male : female =     30.9 : 1.0
+             last_letter = &#39;f&#39;              male : female =     15.3 : 1.0
+             last_letter = &#39;p&#39;              male : female =     12.6 : 1.0
+             last_letter = &#39;v&#39;              male : female =      9.9 : 1.0
 </pre></div>
 </div>
 </div>
@@ -698,6 +699,66 @@
         <span class="n">features</span><span class="p">[</span><span class="s2">&quot;count(</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">letter</span><span class="p">)]</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
         <span class="n">features</span><span class="p">[</span><span class="s2">&quot;has(</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">letter</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">letter</span> <span class="ow">in</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
     <span class="k">return</span> <span class="n">features</span>
+
+<span class="n">text_vectorizer2</span><span class="p">(</span><span class="s1">&#39;Alvin&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;first_letter&#39;: &#39;a&#39;,
+ &#39;last_letter&#39;: &#39;n&#39;,
+ &#39;count(a)&#39;: 1,
+ &#39;has(a)&#39;: True,
+ &#39;count(b)&#39;: 0,
+ &#39;has(b)&#39;: False,
+ &#39;count(c)&#39;: 0,
+ &#39;has(c)&#39;: False,
+ &#39;count(d)&#39;: 0,
+ &#39;has(d)&#39;: False,
+ &#39;count(e)&#39;: 0,
+ &#39;has(e)&#39;: False,
+ &#39;count(f)&#39;: 0,
+ &#39;has(f)&#39;: False,
+ &#39;count(g)&#39;: 0,
+ &#39;has(g)&#39;: False,
+ &#39;count(h)&#39;: 0,
+ &#39;has(h)&#39;: False,
+ &#39;count(i)&#39;: 1,
+ &#39;has(i)&#39;: True,
+ &#39;count(j)&#39;: 0,
+ &#39;has(j)&#39;: False,
+ &#39;count(k)&#39;: 0,
+ &#39;has(k)&#39;: False,
+ &#39;count(l)&#39;: 1,
+ &#39;has(l)&#39;: True,
+ &#39;count(m)&#39;: 0,
+ &#39;has(m)&#39;: False,
+ &#39;count(n)&#39;: 1,
+ &#39;has(n)&#39;: True,
+ &#39;count(o)&#39;: 0,
+ &#39;has(o)&#39;: False,
+ &#39;count(p)&#39;: 0,
+ &#39;has(p)&#39;: False,
+ &#39;count(q)&#39;: 0,
+ &#39;has(q)&#39;: False,
+ &#39;count(r)&#39;: 0,
+ &#39;has(r)&#39;: False,
+ &#39;count(s)&#39;: 0,
+ &#39;has(s)&#39;: False,
+ &#39;count(t)&#39;: 0,
+ &#39;has(t)&#39;: False,
+ &#39;count(u)&#39;: 0,
+ &#39;has(u)&#39;: False,
+ &#39;count(v)&#39;: 1,
+ &#39;has(v)&#39;: True,
+ &#39;count(w)&#39;: 0,
+ &#39;has(w)&#39;: False,
+ &#39;count(x)&#39;: 0,
+ &#39;has(x)&#39;: False,
+ &#39;count(y)&#39;: 0,
+ &#39;has(y)&#39;: False,
+ &#39;count(z)&#39;: 0,
+ &#39;has(z)&#39;: False}
 </pre></div>
 </div>
 </div>
@@ -777,7 +838,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.746
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.77
 </pre></div>
 </div>
 </div>
@@ -790,26 +851,26 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Most Informative Features
-             last_letter = &#39;a&#39;            female : male   =     39.8 : 1.0
-             last_letter = &#39;k&#39;              male : female =     31.3 : 1.0
-             last_letter = &#39;f&#39;              male : female =     16.0 : 1.0
-             last_letter = &#39;v&#39;              male : female =     11.2 : 1.0
-             last_letter = &#39;p&#39;              male : female =     10.5 : 1.0
-             last_letter = &#39;d&#39;              male : female =     10.2 : 1.0
-             last_letter = &#39;m&#39;              male : female =     10.0 : 1.0
-                count(v) = 2              female : male   =      8.8 : 1.0
-             last_letter = &#39;o&#39;              male : female =      8.5 : 1.0
-             last_letter = &#39;r&#39;              male : female =      6.9 : 1.0
-                count(a) = 3              female : male   =      5.2 : 1.0
-                count(i) = 3                male : female =      5.1 : 1.0
-             last_letter = &#39;w&#39;              male : female =      5.1 : 1.0
-             last_letter = &#39;g&#39;              male : female =      4.9 : 1.0
-             last_letter = &#39;b&#39;              male : female =      4.6 : 1.0
-            first_letter = &#39;w&#39;              male : female =      4.6 : 1.0
+             last_letter = &#39;a&#39;            female : male   =     36.7 : 1.0
+             last_letter = &#39;k&#39;              male : female =     30.9 : 1.0
+             last_letter = &#39;f&#39;              male : female =     15.3 : 1.0
+             last_letter = &#39;p&#39;              male : female =     12.6 : 1.0
+             last_letter = &#39;v&#39;              male : female =      9.9 : 1.0
+             last_letter = &#39;d&#39;              male : female =      9.7 : 1.0
+                count(v) = 2              female : male   =      8.4 : 1.0
+             last_letter = &#39;m&#39;              male : female =      8.0 : 1.0
+             last_letter = &#39;o&#39;              male : female =      7.9 : 1.0
+             last_letter = &#39;r&#39;              male : female =      7.0 : 1.0
+             last_letter = &#39;w&#39;              male : female =      6.6 : 1.0
+            first_letter = &#39;w&#39;              male : female =      4.8 : 1.0
+             last_letter = &#39;g&#39;              male : female =      4.6 : 1.0
+                  has(w) = True             male : female =      4.5 : 1.0
+                count(w) = 1                male : female =      4.5 : 1.0
+                count(a) = 3              female : male   =      4.5 : 1.0
              last_letter = &#39;z&#39;              male : female =      4.3 : 1.0
-                count(w) = 1                male : female =      4.3 : 1.0
-                  has(w) = True             male : female =      4.3 : 1.0
              last_letter = &#39;t&#39;              male : female =      4.3 : 1.0
+             last_letter = &#39;s&#39;              male : female =      4.2 : 1.0
+                count(w) = 2                male : female =      4.0 : 1.0
 </pre></div>
 </div>
 </div>
@@ -818,13 +879,14 @@
 <div class="section" id="train-development-test-data-splits-for-error-analysis">
 <h2>Train-Development-Test Data Splits for Error Analysis<a class="headerlink" href="#train-development-test-data-splits-for-error-analysis" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Normally we have <strong>train</strong>-<strong>test</strong> splits of data</p></li>
+<li><p>Normally we have <strong>training</strong>-<strong>test</strong> splits of data</p></li>
 <li><p>Sometimes we use <strong>development (dev)</strong> set for error analysis and feature engineering.</p></li>
 </ul>
 <ul class="simple">
 <li><p>Now let’s train the model on the <strong>training set</strong> and first check the classifier’s performance on the <strong>dev</strong> set.</p></li>
 <li><p>We then identify the errors the classifier made in the <strong>dev</strong> set.</p></li>
 <li><p>We perform error analysis for further improvement.</p></li>
+<li><p>We only test our <strong>final model</strong> on the test set. (Note: Test set can only be used <strong>once</strong>.)</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -841,7 +903,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.79
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.771
 </pre></div>
 </div>
 </div>
@@ -887,9 +949,9 @@
 </ul>
 <p>Given these four numbers, we can define the following model evaluation metrics:</p>
 <ul class="simple">
-<li><p><strong>Accuracy</strong>: How many items were correctly classified?</p></li>
-<li><p><strong>Precision</strong>: How many of the items identified by the classifier as relevant are indeed relevant, is TP/(TP+FP).</p></li>
-<li><p><strong>Recall</strong>: How many of the true relevant items were successfully identified by the classifier, is TP/(TP+FN).</p></li>
+<li><p><strong>Accuracy</strong>: How many items were correctly classified, i.e., <span class="math notranslate nohighlight">\(\frac{TP + TN}{N}\)</span></p></li>
+<li><p><strong>Precision</strong>: How many of the items identified by the classifier as relevant are indeed relevant, i.e., <span class="math notranslate nohighlight">\(\frac{TP}{TP+FP}\)</span>.</p></li>
+<li><p><strong>Recall</strong>: How many of the true relevant items were successfully identified by the classifier, i.e., <span class="math notranslate nohighlight">\(\frac{TP}{TP+FN}\)</span>.</p></li>
 <li><p><strong>F-Measure (or F-Score)</strong>: the harmonic mean of the precision and recall,i.e.:</p></li>
 </ul>
 <div class="math notranslate nohighlight">
@@ -903,7 +965,7 @@ F= \frac{(2 × Precision × Recall)}{(Precision + Recall)}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.74
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.77
 </pre></div>
 </div>
 </div>
@@ -934,8 +996,8 @@ F= \frac{(2 × Precision × Recall)}{(Precision + Recall)}
        |      l      l |
        |      e      e |
 -------+---------------+
-female | &lt;52.4%&gt; 10.0% |
-  male |  15.6% &lt;22.0%&gt;|
+female | &lt;53.4%&gt;  8.6% |
+  male |  14.4% &lt;23.6%&gt;|
 -------+---------------+
 (row = reference; col = test)
 </pre></div>
@@ -968,8 +1030,8 @@ female | &lt;52.4%&gt; 10.0% |
        |      l      l |
        |      e      e |
 -------+---------------+
-female | &lt;52.4%&gt; 10.0% |
-  male |  15.6% &lt;22.0%&gt;|
+female | &lt;53.4%&gt;  8.6% |
+  male |  14.4% &lt;23.6%&gt;|
 -------+---------------+
 (row = reference; col = test)
 </pre></div>
@@ -1006,14 +1068,14 @@ female | &lt;52.4%&gt; 10.0% |
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>accuracy: 0.76
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>accuracy: 0.75
+accuracy: 0.8
+accuracy: 0.74
+accuracy: 0.78
+accuracy: 0.79
+accuracy: 0.81
 accuracy: 0.76
 accuracy: 0.78
-accuracy: 0.77
-accuracy: 0.78
-accuracy: 0.78
-accuracy: 0.79
-accuracy: 0.79
 accuracy: 0.8
 accuracy: 0.77
 </pre></div>
@@ -1027,7 +1089,7 @@ accuracy: 0.77
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7783712315137699
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7768184364827139
 </pre></div>
 </div>
 </div>
@@ -1047,14 +1109,14 @@ accuracy: 0.77
 <span class="n">classifier_maxent</span> <span class="o">=</span> <span class="n">MaxentClassifier</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">train_set</span><span class="p">,</span>
                                            <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;gis&#39;</span><span class="p">,</span>
                                            <span class="n">trace</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                                           <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-                                           <span class="n">min_lldelta</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+                                           <span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+                                           <span class="n">min_lldelta</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 5.9 s, sys: 11.2 ms, total: 5.91 s
-Wall time: 5.95 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 14.4 s, sys: 11.2 ms, total: 14.4 s
+Wall time: 14.4 s
 </pre></div>
 </div>
 </div>
@@ -1070,7 +1132,7 @@ Wall time: 5.95 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.624
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.692
 </pre></div>
 </div>
 </div>
@@ -1082,26 +1144,26 @@ Wall time: 5.95 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  -0.193 last_letter==&#39;a&#39; and label is &#39;male&#39;
-  -0.129 last_letter==&#39;k&#39; and label is &#39;female&#39;
-  -0.126 last_letter==&#39;f&#39; and label is &#39;female&#39;
-  -0.119 count(v)==2 and label is &#39;male&#39;
-  -0.078 last_letter==&#39;p&#39; and label is &#39;female&#39;
-  -0.076 last_letter==&#39;m&#39; and label is &#39;female&#39;
-  -0.075 count(a)==3 and label is &#39;male&#39;
-  -0.075 last_letter==&#39;v&#39; and label is &#39;female&#39;
-  -0.070 last_letter==&#39;d&#39; and label is &#39;female&#39;
-  -0.065 last_letter==&#39;i&#39; and label is &#39;male&#39;
-  -0.059 last_letter==&#39;w&#39; and label is &#39;female&#39;
-  -0.059 count(l)==3 and label is &#39;male&#39;
-  -0.058 last_letter==&#39;o&#39; and label is &#39;female&#39;
-  -0.055 count(e)==3 and label is &#39;male&#39;
-  -0.052 last_letter==&#39;r&#39; and label is &#39;female&#39;
-  -0.051 count(a)==2 and label is &#39;male&#39;
-  -0.050 last_letter==&#39;z&#39; and label is &#39;female&#39;
-  -0.050 count(p)==3 and label is &#39;male&#39;
-  -0.044 count(n)==3 and label is &#39;male&#39;
-   0.044 last_letter==&#39;c&#39; and label is &#39;male&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  -0.630 last_letter==&#39;a&#39; and label is &#39;male&#39;
+  -0.483 last_letter==&#39;k&#39; and label is &#39;female&#39;
+  -0.448 last_letter==&#39;p&#39; and label is &#39;female&#39;
+  -0.386 count(v)==2 and label is &#39;male&#39;
+  -0.361 last_letter==&#39;f&#39; and label is &#39;female&#39;
+  -0.290 last_letter==&#39;d&#39; and label is &#39;female&#39;
+  -0.288 last_letter==&#39;v&#39; and label is &#39;female&#39;
+  -0.258 last_letter==&#39;m&#39; and label is &#39;female&#39;
+  -0.255 count(a)==3 and label is &#39;male&#39;
+  -0.221 last_letter==&#39;r&#39; and label is &#39;female&#39;
+  -0.221 last_letter==&#39;o&#39; and label is &#39;female&#39;
+  -0.205 last_letter==&#39;i&#39; and label is &#39;male&#39;
+  -0.194 last_letter==&#39;w&#39; and label is &#39;female&#39;
+   0.187 last_letter==&#39;c&#39; and label is &#39;male&#39;
+  -0.180 last_letter==&#39;j&#39; and label is &#39;female&#39;
+  -0.171 count(p)==3 and label is &#39;male&#39;
+   0.170 count(u)==3 and label is &#39;male&#39;
+   0.169 count(g)==3 and label is &#39;male&#39;
+  -0.166 count(l)==3 and label is &#39;male&#39;
+  -0.165 last_letter==&#39;g&#39; and label is &#39;female&#39;
 </pre></div>
 </div>
 </div>
@@ -1120,8 +1182,8 @@ Wall time: 5.95 s
        |      l      l |
        |      e      e |
 -------+---------------+
-female | &lt;62.4%&gt;     . |
-  male |  37.6%     &lt;.&gt;|
+female | &lt;61.2%&gt;  0.8% |
+  male |  30.0%  &lt;8.0%&gt;|
 -------+---------------+
 (row = reference; col = test)
 </pre></div>
@@ -1148,18 +1210,18 @@ female | &lt;62.4%&gt;     . |
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>accuracy: 0.6180124223602484
-accuracy: 0.6304347826086957
-accuracy: 0.6475155279503105
-accuracy: 0.59472049689441
-accuracy: 0.6360808709175739
-accuracy: 0.6531881804043546
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>accuracy: 0.6444099378881988
+accuracy: 0.6195652173913043
+accuracy: 0.6413043478260869
+accuracy: 0.6086956521739131
+accuracy: 0.6127527216174183
+accuracy: 0.671850699844479
 accuracy: 0.6485225505443235
-accuracy: 0.5847589424572317
-accuracy: 0.640746500777605
+accuracy: 0.6034214618973561
+accuracy: 0.6189735614307932
 accuracy: 0.645412130637636
-CPU times: user 59.7 s, sys: 132 ms, total: 59.8 s
-Wall time: 1min 1s
+CPU times: user 39.8 s, sys: 34.5 ms, total: 39.8 s
+Wall time: 39.8 s
 </pre></div>
 </div>
 </div>
@@ -1190,8 +1252,8 @@ Wall time: 1min 1s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 16.4 s, sys: 28.8 ms, total: 16.4 s
-Wall time: 16.8 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 10.1 s, sys: 10.1 ms, total: 10.1 s
+Wall time: 10.1 s
 </pre></div>
 </div>
 </div>
@@ -1203,7 +1265,7 @@ Wall time: 16.8 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.72
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.704
 </pre></div>
 </div>
 </div>
@@ -1222,8 +1284,8 @@ Wall time: 16.8 s
        |      l      l |
        |      e      e |
 -------+---------------+
-female | &lt;59.2%&gt;  3.2% |
-  male |  24.8% &lt;12.8%&gt;|
+female | &lt;58.8%&gt;  3.2% |
+  male |  26.4% &lt;11.6%&gt;|
 -------+---------------+
 (row = reference; col = test)
 </pre></div>
@@ -1252,17 +1314,17 @@ female | &lt;59.2%&gt;  3.2% |
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>accuracy: 0.7065217391304348
-accuracy: 0.7158385093167702
-accuracy: 0.7515527950310559
-accuracy: 0.6909937888198758
-accuracy: 0.7325038880248833
-accuracy: 0.7418351477449455
+accuracy: 0.7360248447204969
+accuracy: 0.7142857142857143
+accuracy: 0.7142857142857143
+accuracy: 0.7200622083981337
+accuracy: 0.744945567651633
+accuracy: 0.7402799377916018
+accuracy: 0.6967340590979783
+accuracy: 0.7309486780715396
 accuracy: 0.702954898911353
-accuracy: 0.6765163297045101
-accuracy: 0.7356143079315708
-accuracy: 0.713841368584759
-CPU times: user 2min 39s, sys: 301 ms, total: 2min 40s
-Wall time: 2min 42s
+CPU times: user 1min 34s, sys: 66.5 ms, total: 1min 34s
+Wall time: 1min 34s
 </pre></div>
 </div>
 </div>
@@ -1287,7 +1349,7 @@ Wall time: 2min 42s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;SklearnClassifier(MultinomialNB())&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;SklearnClassifier(MultinomialNB(alpha=1.0, class_prior=None, fit_prior=True))&gt;
 </pre></div>
 </div>
 </div>
@@ -1299,7 +1361,7 @@ Wall time: 2min 42s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.742
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.78
 </pre></div>
 </div>
 </div>
@@ -1317,7 +1379,7 @@ Wall time: 2min 42s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.774
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.804
 </pre></div>
 </div>
 </div>
@@ -1339,7 +1401,7 @@ Wall time: 2min 42s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.794
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.83
 </pre></div>
 </div>
 </div>
@@ -1354,7 +1416,7 @@ Wall time: 2min 42s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.778
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.802
 </pre></div>
 </div>
 </div>
@@ -1369,7 +1431,7 @@ Wall time: 2min 42s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.796
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.812
 </pre></div>
 </div>
 </div>

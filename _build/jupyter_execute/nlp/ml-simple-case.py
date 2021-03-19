@@ -34,7 +34,7 @@ text_vectorizer('Shrek')
 
 ### Train-Test Split
 
-- We then apply the feature engineering method to every text in the data and split the data into train and test sets.
+- We then apply the feature engineering method to every text in the data and split the data into training and test sets.
 
 featuresets = [(text_vectorizer(n), gender) for (n, gender) in labeled_names]
 train_set, test_set = featuresets[500:], featuresets[:500]
@@ -47,6 +47,7 @@ classifier = nltk.NaiveBayesClassifier.train(train_set)
 
 classifier.classify(text_vectorizer('Neo'))
 classifier.classify(text_vectorizer('Trinity'))
+classifier.classify(text_vectorizer('Alvin'))
 
 print(nltk.classify.accuracy(classifier, test_set))
 
@@ -89,6 +90,8 @@ def text_vectorizer2(name):
         features["has({})".format(letter)] = (letter in name.lower())
     return features
 
+text_vectorizer2('Alvin')
+
 text_vectorizer2('John')
 
 train_set = apply_features(text_vectorizer2, labeled_names[500:])
@@ -100,12 +103,13 @@ classifier.show_most_informative_features(n=20)
 
 ## Train-Development-Test Data Splits for Error Analysis
 
-- Normally we have **train**-**test** splits of data
+- Normally we have **training**-**test** splits of data
 - Sometimes we use **development (dev)** set for error analysis and feature engineering.
 
 - Now let's train the model on the **training set** and first check the classifier's performance on the **dev** set.
 - We then identify the errors the classifier made in the **dev** set.
 - We perform error analysis for further improvement.
+- We only test our **final model** on the test set. (Note: Test set can only be used **once**.)
 
 train_names = labeled_names[1500:]
 devtest_names = labeled_names[500:1500]
@@ -144,9 +148,9 @@ with open('error-analysis.csv', 'w') as f:
     
 
 Given these four numbers, we can define the following model evaluation metrics:
-- **Accuracy**: How many items were correctly classified?
-- **Precision**: How many of the items identified by the classifier as relevant are indeed relevant, is TP/(TP+FP).
-- **Recall**: How many of the true relevant items were successfully identified by the classifier, is TP/(TP+FN).
+- **Accuracy**: How many items were correctly classified, i.e., $\frac{TP + TN}{N}$
+- **Precision**: How many of the items identified by the classifier as relevant are indeed relevant, i.e., $\frac{TP}{TP+FP}$.
+- **Recall**: How many of the true relevant items were successfully identified by the classifier, i.e., $\frac{TP}{TP+FN}$.
 - **F-Measure (or F-Score)**: the harmonic mean of the precision and recall,i.e.:
     
 
@@ -211,8 +215,8 @@ from nltk.classify import MaxentClassifier
 classifier_maxent = MaxentClassifier.train(train_set,
                                            algorithm='gis',
                                            trace=0,
-                                           max_iter=100,
-                                           min_lldelta=0.5)
+                                           max_iter=1000,
+                                           min_lldelta=0.01)
 
 ```{note}
 The default algorithm for training is `iis` (Improved Iterative Scaling). Another alternative is `gis` (General Iterative Scaling), which is faster.

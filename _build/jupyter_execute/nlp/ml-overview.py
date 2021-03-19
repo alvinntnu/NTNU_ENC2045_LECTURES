@@ -25,7 +25,7 @@ A computer program is said to learn from experience E with respect to some task 
 ## Why use machine learning?
 
 - Limitations of **rules**/**heuristics**-based systems:
-    - Rules are hard to be exhaustively listed.
+    - Rules are hard to be **exhaustively** listed.
     - Tasks are simply too complex for rule generalization.
     - The rule-based **deductive** approach is not helpful in discovering novel things.
 
@@ -95,7 +95,7 @@ We can categorize ML into four types according to the amount and type of **super
 
 
 
-A common workflow for classifier building as shown as follows:
+A common workflow for classifier building is shown as follows:
 
 ![](../images/nltk-fig-6-1-classification-workflow.png)
 <small>(Source: from NLTK Book Ch 6, Figure 6-1)</small>
@@ -103,7 +103,7 @@ A common workflow for classifier building as shown as follows:
 
 - Most classification methods require that features be encoded using simple value types, such as booleans, numbers, and strings.
 - But note that just because a feature has a simple type, this does not necessarily mean that the feature's value is simple to express or compute. 
-- Indeed, it is even possible to use very complex and informative values, such as the output of a second supervised classifier, as features.
+- Indeed, it is even possible to use very complex and informative values, such as the output of a second supervised classifier, as features. (i.e., **boosting** techniques)
 
 
 ## Feature Engineering
@@ -117,7 +117,7 @@ A common workflow for classifier building as shown as follows:
 ### Feature Engineering for Classical ML
 
 - Word-based frequency lists
-- Bag-of-words representations
+- Bag-of-words representations (TF-IDF)
 - Domain-specific word frequency lists (e.g., Sentiment Dictionary)
 - Hand-crafted features based on domain-specific knowledge
 
@@ -158,8 +158,8 @@ A common workflow for classifier building as shown as follows:
 
 - **Cross Validation**
     - Before testing our model on the testing dataset, we can utilize **$k$-fold cross-validation** to first evaluate our trained model within the **training dataset** and at the same time fine-tune the **hyperparameters**.
-    - Specifically, we often split the **training set** into **$k$** distinct subsets called **folds**, and trains the model on the **${k-1}$** folds and test on the remaining 1 folds. A $k$-fold split allows us to do this training-testing for $k$ times.
-    - Based on the distribution of the evaluation scores in all $k$ folds of datasets, we get to see the average performance of our model.
+    - Specifically, we often split the **training set** into **$k$** distinct subsets called **folds**, and trains the model on the **${k-1}$** folds and test on the remaining 1 folds. A **$k$-fold** split allows us to do this training-testing for $k$ times.
+    - Based on the distribution of the evaluation scores in all $k$ folds of datasets, we get to see the **average** performance of our model.
         - Which ML algorithm out-performs the rest?
         - Which sets of hyperparameters yield the best performance?
 

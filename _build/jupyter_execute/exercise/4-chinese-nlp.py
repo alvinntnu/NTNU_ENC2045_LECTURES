@@ -9,6 +9,7 @@ Please preprocess the data by:
 - removing stopwords (Please use the stopword list provided in `demo_data/stopwords/tomlinNTUB-chinese-stopwords.txt`)
 - performing word segmentation on the corpus using `ckip-transformer`
 - creating a word frequency list of this tiny corpus
+- including only word tokens which have at least two characters in the frequency list
 
 ```{warning}
 Please note that the preprocessing steps are important. Removal of characters from texts may have a lot to do with the word segmentation performance.

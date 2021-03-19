@@ -177,7 +177,7 @@ $$
 
 :::{note}
 
-All these plus-1's in the above formula are avoid potential division by zero errors.
+All these plus-1's in the above formula are to avoid potential division-by-zero errors.
 
 :::
 
@@ -336,7 +336,6 @@ In Math, there are in general two types of metrics to measure the relationship b
 
 ### Distance-based Metrics
 
-
 - Many distance measures of vectors are based on the following formula and differ in individual parameter settings.
 
 $$
@@ -344,13 +343,12 @@ $$
 $$
 
 - The *n* in the above formula refers to the number of dimensions of the vectors. (In other words, all the concepts we discuss here can be easily extended to vectors in multidimensional spaces.)
+
 - When *y* is set to 2, it computes the famous **Euclidean distance** of two vectors, i.e., the direct spatial distance between two points on the *n*-dimensional space.
 
 $$
 \sqrt{\big( \sum_{i = 1}^{n}{|x_i - y_i|^2}\big)}
 $$
-
-
 
 euclidean_distances(xyz)
 
