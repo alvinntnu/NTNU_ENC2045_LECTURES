@@ -183,8 +183,10 @@ createCM(classifier, test_set)
 - We can also check our average model performance using the cross-validation method.
 
 ---
+
 ![](../images/ml-kfold.png)
 (Source: https://scikit-learn.org/stable/modules/cross_validation.html)
+
 ---
 
 import sklearn.model_selection

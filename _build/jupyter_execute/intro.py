@@ -299,6 +299,7 @@ nlp/text-vec-traditional
 ```{toctree}
 :hidden:
 :titlesonly:
+:numbered: 2
 :caption: Machine Learning Basics
 
 nlp/ml-overview
@@ -310,6 +311,7 @@ nlp/ml-algorithm
 ```{toctree}
 :hidden:
 :titlesonly:
+:numbered: 2
 :caption: Machine-Learning NLP
 
 temp/ml-sklearn-classification
