@@ -58,7 +58,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Word Embeddings" href="text-vec-embedding.html" />
-    <link rel="prev" title="Machine Learning: NLP Tasks" href="../nlp/ml-nlp-case.html" />
+    <link rel="prev" title="4. Machine Learning: NLP Tasks" href="../nlp/ml-nlp-case.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -161,17 +161,17 @@
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../nlp/ml-overview.html">
-   Machine Learning: Overview
+   1. Machine Learning: Overview
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../nlp/ml-simple-case.html">
-   Machine Learning: A Simple Example
+   2. Machine Learning: A Simple Example
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../nlp/ml-algorithm.html">
-   Classification Models
+   3. Classification Models
   </a>
  </li>
 </ul>
@@ -183,22 +183,22 @@
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="ml-sklearn-classification.html">
-   Sentiment Analysis Using Bag-of-Words
+   1. Sentiment Analysis Using Bag-of-Words
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="text-classification-ml-newsgroups.html">
-   Text Classification Using Bag-of-Words
+   2. Text Classification Using Bag-of-Words
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="topic-modeling-naive.html">
-   Topic Modeling: A Naive Example
+   3. Topic Modeling: A Naive Example
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../nlp/ml-nlp-case.html">
-   Machine Learning: NLP Tasks
+   4. Machine Learning: NLP Tasks
   </a>
  </li>
 </ul>
@@ -398,6 +398,16 @@
      Activation Functions
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#layers">
+     Layers
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#layer-parameters-and-matrix-mutiplication">
+     Layer, Parameters, and Matrix Mutiplication
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -529,19 +539,19 @@
 <p>This notebook provides an intuitive understanding of the mechanism of the neural network, or deep learning.</p>
 <p>Important steps in neural network:</p>
 <ul class="simple">
-<li><p>forward propagation</p>
+<li><p>Forward propagation</p>
 <ul>
 <li><p>matrix multiplication</p></li>
 <li><p>weights, biases, and activation functions</p></li>
 </ul>
 </li>
-<li><p>back propagation</p>
+<li><p>Back propagation</p>
 <ul>
 <li><p>derivatives and partial derivatives</p></li>
 <li><p>chain rules</p></li>
 </ul>
 </li>
-<li><p>gradient descent</p>
+<li><p>Gradient descent</p>
 <ul>
 <li><p>Batch</p></li>
 <li><p>Mini-batch</p></li>
@@ -597,15 +607,11 @@
 <li><p>Neural network is a type of machine learning algorithm modeled on human brains and nervous system.</p></li>
 <li><p>The model is believed to process information in a similar way to the human brain.</p></li>
 <li><p>A neural network often consists of a large number of elements, known as <strong>nodes</strong>, working in parallel to solve a specific problem. These nodes are often organized into different <strong>layers</strong>.</p></li>
-<li><p>Each node transforms the input values into the output values based on the weights (parameters) of the nodes.</p>
-<ul>
-<li><p>So the input shape and output shape would determine the number of parameters in the node as well.</p></li>
+<li><p>Each node transforms the input values into the output values based on the weights (parameters) of the nodes.</p></li>
+<li><p>The data transformation from the input to the output is in general referred to as <strong>forward propagation</strong> of the network.</p></li>
+<li><p>When the predicted output is compared with the true label, we can evaluate the network performance by computing the <strong>loss</strong> of the network.</p></li>
+<li><p>Then we determine the proportion of the losses that may be attributed to each model parameter. This process goes from the losses of the predicted output backward to the original inputs. This step is referred to as the <strong>back propagation</strong> of the network.</p></li>
 </ul>
-</li>
-</ul>
-<hr class="docutils" />
-<p><img alt="" src="../_images/neural-network-sample.png" /></p>
-<hr class="docutils" />
 <div class="section" id="neurons">
 <h3>Neurons<a class="headerlink" href="#neurons" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
@@ -621,20 +627,25 @@ y = w_0 + w_1 x_1 + w_2x_2 + w_3x_3 +...+w_nx_n
 <li><p>This mechanism of activation function in each neuron will ultimately determine the output of the neuron.</p></li>
 </ul>
 <div class="math notranslate nohighlight">
-\[\begin{split} Neuron\:Output =  h(y) \\
-= h(w_0 + w_1 x_1 + w_2x_2 + w_3x_3 +...+w_nx_n)\end{split}\]</div>
+\[\begin{split}\begin{align}
+Neuron\:Output &amp; =  h(y) \\
+&amp; = h(w_0 + w_1 x_1 + w_2x_2 + w_3x_3 +...+w_nx_n)
+\end{align}\end{split}\]</div>
 <p><img alt="" src="../_images/neuron.png" /></p>
 </div>
 <div class="section" id="activation-functions">
 <h3>Activation Functions<a class="headerlink" href="#activation-functions" title="Permalink to this headline">¶</a></h3>
-<p>In neural network, the activation function of a node determines whether the node would activate the output given the input values. Different types of activation functions may determine the cut-offs for output activation in different ways.</p>
 <ul class="simple">
-<li><p>Sigmoid function: This function converts the y values into values within the range of 0 and 1 (i.e., a probability-like value).</p></li>
+<li><p>In neural network, the activation function of a node determines whether the node would activate the output given the <strong>weighted sum of the input values</strong>.</p></li>
+<li><p>Different types of activation functions may determine the cut-offs for output activation in different ways.</p></li>
+</ul>
+<ul class="simple">
+<li><p><strong>Sigmoid</strong> function: This function converts the y values into values within the range of 0 and 1 (i.e., a probability-like value).</p></li>
 </ul>
 <div class="math notranslate nohighlight">
 \[ h(x) = \frac{1}{1 + \exp(-x)}\]</div>
 <ul class="simple">
-<li><p>Step function: This function converts the y values into binary ones, with only the positive values activated.</p></li>
+<li><p><strong>Step</strong> function: This function converts the y values into binary ones, with only the positive values activated.</p></li>
 </ul>
 <div class="math notranslate nohighlight">
 \[\begin{split} h(x)= \left\{ 
@@ -645,7 +656,7 @@ y = w_0 + w_1 x_1 + w_2x_2 + w_3x_3 +...+w_nx_n
 \right.
 \end{split}\]</div>
 <ul class="simple">
-<li><p>ReLU function: This function converts the y values by passing only positive values and zero for negative y.</p></li>
+<li><p><strong>ReLU</strong> (Rectified Linear Unit) function: This function converts the y values by passing only positive values and zero for negative y.</p></li>
 </ul>
 <div class="math notranslate nohighlight">
 \[\begin{split} h(x)= \left\{ 
@@ -656,11 +667,11 @@ y = w_0 + w_1 x_1 + w_2x_2 + w_3x_3 +...+w_nx_n
 \right.
 \end{split}\]</div>
 <ul class="simple">
-<li><p>Softmax function: This function converts the y values into normalized probability values.</p></li>
+<li><p><strong>Softmax</strong> function: This function converts the y values into normalized probability values.</p></li>
 </ul>
 <div class="math notranslate nohighlight">
 \[
-y_k = \frac{\exp(a_k)}{\sum_{i = 1}^{n} {a_i}}
+y_k = \frac{\exp(a_k)}{\sum_{i = 1}^{n} \exp({a_i})}
 \]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -702,7 +713,7 @@ y_k = \frac{\exp(a_k)}{\sum_{i = 1}^{n} {a_i}}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-neural-network-from-scratch_17_0.png" src="../_images/dl-neural-network-from-scratch_17_0.png" />
+<img alt="../_images/dl-neural-network-from-scratch_19_0.png" src="../_images/dl-neural-network-from-scratch_19_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -715,7 +726,7 @@ y_k = \frac{\exp(a_k)}{\sum_{i = 1}^{n} {a_i}}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-neural-network-from-scratch_18_0.png" src="../_images/dl-neural-network-from-scratch_18_0.png" />
+<img alt="../_images/dl-neural-network-from-scratch_20_0.png" src="../_images/dl-neural-network-from-scratch_20_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -728,9 +739,33 @@ y_k = \frac{\exp(a_k)}{\sum_{i = 1}^{n} {a_i}}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-neural-network-from-scratch_19_0.png" src="../_images/dl-neural-network-from-scratch_19_0.png" />
+<img alt="../_images/dl-neural-network-from-scratch_21_0.png" src="../_images/dl-neural-network-from-scratch_21_0.png" />
 </div>
 </div>
+</div>
+<div class="section" id="layers">
+<h3>Layers<a class="headerlink" href="#layers" title="Permalink to this headline">¶</a></h3>
+<p><img alt="" src="../_images/neural-network-dense-layer.gif" /></p>
+<ul class="simple">
+<li><p>A neural network can be defined in terms of <strong>depths</strong> and <strong>widths</strong> of its layers.</p>
+<ul>
+<li><p><strong>Depth</strong>: How many layers does the network have?</p></li>
+<li><p><strong>Width</strong>: How many neurons does each layer have?</p></li>
+</ul>
+</li>
+<li><p>A network can consist of several layers.</p></li>
+<li><p>Each layer can have various numbers of neurons.</p></li>
+<li><p>For each layer, the shape of the input tensor, the number of its neurons, and the shape of its output are inter-connected. These settings will determine the number of parameters (i.e., <strong>weights</strong>) needed to train.</p></li>
+</ul>
+</div>
+<div class="section" id="layer-parameters-and-matrix-mutiplication">
+<h3>Layer, Parameters, and Matrix Mutiplication<a class="headerlink" href="#layer-parameters-and-matrix-mutiplication" title="Permalink to this headline">¶</a></h3>
+<p><img alt="" src="../_images/neural-network-dense-layer-1.gif" /></p>
+<p><img alt="" src="../_images/neural-network-dense-layer-2.gif" /></p>
+<ul class="simple">
+<li><p>Each layer transforms the input tensor into the output tenser based on its layer parameters.</p></li>
+<li><p>This transformation is a matrix multiplication, running in parallel for all nodes of the layer.</p></li>
+</ul>
 </div>
 </div>
 <div class="section" id="building-a-neural-network-model">
@@ -1009,6 +1044,7 @@ y_k = \frac{\exp(a_k)}{\sum_{i = 1}^{n} {a_i}}
 </div>
 <div class="section" id="some-math">
 <h2>Some Math<a class="headerlink" href="#some-math" title="Permalink to this headline">¶</a></h2>
+<p>The following presents some important mathematical constructs related to the understanding of neural network.</p>
 <div class="section" id="elementwise-operations-of-matrix">
 <h3>Elementwise Operations of Matrix<a class="headerlink" href="#elementwise-operations-of-matrix" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
@@ -1143,7 +1179,8 @@ y_k = \frac{\exp(a_k)}{\sum_{i = 1}^{n} {a_i}}
 </div>
 <div class="section" id="matrices-dot-production">
 <h3>Matrices Dot Production<a class="headerlink" href="#matrices-dot-production" title="Permalink to this headline">¶</a></h3>
-<p><img alt="" src="../_images/matrices-dot-product.png" /></p>
+<p><img alt="" src="../_images/matrices-dot-product.png" />
+(Source: Chollet [2018], Ch 2., Figure 2.5)</p>
 <p>The most common applications may be the dot product between two matrices. You can take the dot product of two matrices x and y (dot(x, y)) if and only if <code class="docutils literal notranslate"><span class="pre">x.shape[1]</span> <span class="pre">==</span> <span class="pre">y.shape[0]</span></code>. The result is a matrix with shape (<code class="docutils literal notranslate"><span class="pre">x.shape[0]</span></code>, <code class="docutils literal notranslate"><span class="pre">y.shape[1]</span></code>), where the coefficients are the vector products between the rows of x and the columns of y.</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{pmatrix}
@@ -1346,7 +1383,7 @@ y_k = \frac{\exp(a_k)}{\sum_{i = 1}^{n} {a_i}}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-neural-network-from-scratch_81_0.png" src="../_images/dl-neural-network-from-scratch_81_0.png" />
+<img alt="../_images/dl-neural-network-from-scratch_91_0.png" src="../_images/dl-neural-network-from-scratch_91_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1360,7 +1397,7 @@ y_k = \frac{\exp(a_k)}{\sum_{i = 1}^{n} {a_i}}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-neural-network-from-scratch_82_0.png" src="../_images/dl-neural-network-from-scratch_82_0.png" />
+<img alt="../_images/dl-neural-network-from-scratch_92_0.png" src="../_images/dl-neural-network-from-scratch_92_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1502,7 +1539,7 @@ x_1 = x_1 + \eta\frac{\partial f}{\partial x_1}
 <p>In the following graph, each vector represents the gradient at a specific <span class="math notranslate nohighlight">\((x_0, x_1)\)</span>, i.e., when <span class="math notranslate nohighlight">\(x_0 = p_0\)</span> and <span class="math notranslate nohighlight">\(x_1 = p_1\)</span>:</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<img alt="../_images/dl-neural-network-from-scratch_99_0.png" src="../_images/dl-neural-network-from-scratch_99_0.png" />
+<img alt="../_images/dl-neural-network-from-scratch_109_0.png" src="../_images/dl-neural-network-from-scratch_109_0.png" />
 </div>
 </div>
 </div>
@@ -1543,7 +1580,7 @@ x_1 = x_1 + \eta\frac{\partial f}{\partial x_1}
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="../nlp/ml-nlp-case.html" title="previous page">Machine Learning: NLP Tasks</a>
+    <a class='left-prev' id="prev-link" href="../nlp/ml-nlp-case.html" title="previous page"><span class="section-number">4. </span>Machine Learning: NLP Tasks</a>
     <a class='right-next' id="next-link" href="text-vec-embedding.html" title="next page">Word Embeddings</a>
 
     </div>

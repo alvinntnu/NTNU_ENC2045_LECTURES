@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Topic Modeling: A Naive Example &#8212; ENC2045 Computational Linguistics</title>
+    <title>3. Topic Modeling: A Naive Example &#8212; ENC2045 Computational Linguistics</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -57,8 +57,8 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Machine Learning: NLP Tasks" href="../nlp/ml-nlp-case.html" />
-    <link rel="prev" title="Text Classification Using Bag-of-Words" href="text-classification-ml-newsgroups.html" />
+    <link rel="next" title="4. Machine Learning: NLP Tasks" href="../nlp/ml-nlp-case.html" />
+    <link rel="prev" title="2. Text Classification Using Bag-of-Words" href="text-classification-ml-newsgroups.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -161,17 +161,17 @@
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../nlp/ml-overview.html">
-   Machine Learning: Overview
+   1. Machine Learning: Overview
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../nlp/ml-simple-case.html">
-   Machine Learning: A Simple Example
+   2. Machine Learning: A Simple Example
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../nlp/ml-algorithm.html">
-   Classification Models
+   3. Classification Models
   </a>
  </li>
 </ul>
@@ -183,22 +183,22 @@
 <ul class="current nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="ml-sklearn-classification.html">
-   Sentiment Analysis Using Bag-of-Words
+   1. Sentiment Analysis Using Bag-of-Words
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="text-classification-ml-newsgroups.html">
-   Text Classification Using Bag-of-Words
+   2. Text Classification Using Bag-of-Words
   </a>
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Topic Modeling: A Naive Example
+   3. Topic Modeling: A Naive Example
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../nlp/ml-nlp-case.html">
-   Machine Learning: NLP Tasks
+   4. Machine Learning: NLP Tasks
   </a>
  </li>
 </ul>
@@ -380,37 +380,37 @@
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#import-necessary-dependencies-and-settings">
-   Import necessary dependencies and settings
+   3.1. Import necessary dependencies and settings
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#sample-corpus-of-text-documents">
-   Sample corpus of text documents
+   3.2. Sample corpus of text documents
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#simple-text-pre-processing">
-   Simple text pre-processing
+   3.3. Simple text pre-processing
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#bag-of-words-model">
-   Bag of Words Model
+   3.4. Bag of Words Model
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#latent-dirichlet-allocation">
-   Latent Dirichlet Allocation
+   3.5. Latent Dirichlet Allocation
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#show-topics-and-their-weights">
-   Show topics and their weights
+   3.6. Show topics and their weights
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#clustering-documents-using-topic-model-features">
-   Clustering documents using topic model features
+   3.7. Clustering documents using topic model features
   </a>
  </li>
 </ul>
@@ -425,9 +425,9 @@
               <div>
                 
   <div class="section" id="topic-modeling-a-naive-example">
-<h1>Topic Modeling: A Naive Example<a class="headerlink" href="#topic-modeling-a-naive-example" title="Permalink to this headline">¶</a></h1>
+<h1><span class="section-number">3. </span>Topic Modeling: A Naive Example<a class="headerlink" href="#topic-modeling-a-naive-example" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="import-necessary-dependencies-and-settings">
-<h2>Import necessary dependencies and settings<a class="headerlink" href="#import-necessary-dependencies-and-settings" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.1. </span>Import necessary dependencies and settings<a class="headerlink" href="#import-necessary-dependencies-and-settings" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
@@ -452,7 +452,7 @@
 </div>
 </div>
 <div class="section" id="sample-corpus-of-text-documents">
-<h2>Sample corpus of text documents<a class="headerlink" href="#sample-corpus-of-text-documents" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.2. </span>Sample corpus of text documents<a class="headerlink" href="#sample-corpus-of-text-documents" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">corpus</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;The sky is blue and beautiful.&#39;</span><span class="p">,</span>
@@ -544,7 +544,7 @@
 </div>
 </div>
 <div class="section" id="simple-text-pre-processing">
-<h2>Simple text pre-processing<a class="headerlink" href="#simple-text-pre-processing" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.3. </span>Simple text pre-processing<a class="headerlink" href="#simple-text-pre-processing" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wpt</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">WordPunctTokenizer</span><span class="p">()</span>
@@ -588,7 +588,7 @@
 </div>
 </div>
 <div class="section" id="bag-of-words-model">
-<h2>Bag of Words Model<a class="headerlink" href="#bag-of-words-model" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.4. </span>Bag of Words Model<a class="headerlink" href="#bag-of-words-model" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Bag-of-words model is the simplest way to vectorize texts into numeric representations.</p></li>
 <li><p>In short, it is a method to represent a text using its word frequency list.</p></li>
@@ -928,7 +928,7 @@
 </div>
 </div>
 <div class="section" id="latent-dirichlet-allocation">
-<h2>Latent Dirichlet Allocation<a class="headerlink" href="#latent-dirichlet-allocation" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.5. </span>Latent Dirichlet Allocation<a class="headerlink" href="#latent-dirichlet-allocation" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">LatentDirichletAllocation</span>
@@ -1019,7 +1019,7 @@
 </div>
 </div>
 <div class="section" id="show-topics-and-their-weights">
-<h2>Show topics and their weights<a class="headerlink" href="#show-topics-and-their-weights" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.6. </span>Show topics and their weights<a class="headerlink" href="#show-topics-and-their-weights" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tt_matrix</span> <span class="o">=</span> <span class="n">lda</span><span class="o">.</span><span class="n">components_</span>
@@ -1044,7 +1044,7 @@
 </div>
 </div>
 <div class="section" id="clustering-documents-using-topic-model-features">
-<h2>Clustering documents using topic model features<a class="headerlink" href="#clustering-documents-using-topic-model-features" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.7. </span>Clustering documents using topic model features<a class="headerlink" href="#clustering-documents-using-topic-model-features" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
@@ -1165,8 +1165,8 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="text-classification-ml-newsgroups.html" title="previous page">Text Classification Using Bag-of-Words</a>
-    <a class='right-next' id="next-link" href="../nlp/ml-nlp-case.html" title="next page">Machine Learning: NLP Tasks</a>
+    <a class='left-prev' id="prev-link" href="text-classification-ml-newsgroups.html" title="previous page"><span class="section-number">2. </span>Text Classification Using Bag-of-Words</a>
+    <a class='right-next' id="next-link" href="../nlp/ml-nlp-case.html" title="next page"><span class="section-number">4. </span>Machine Learning: NLP Tasks</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
