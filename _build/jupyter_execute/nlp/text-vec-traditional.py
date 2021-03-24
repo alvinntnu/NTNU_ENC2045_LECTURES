@@ -448,6 +448,22 @@ plt.ylabel('Distance')
 dendrogram(Z2, labels=feature_names, leaf_rotation=90)
 plt.axhline(y=1.0, c='k', ls='--', lw=0.5)
 
+## Notes on Word Vectors
+
+- In the previous section, we talk about how we can utilize the **Word-Document Matrix** to create vectorized representations of words for a corpus. 
+- This initial effort of representing words using their frequency distributions is referred to as a traditional **count-based** approach to word representations.
+- This **count-base**d feature engineering strategy can be further sophisticated in several ways:
+    - We can further limit the Word-Document Matrix to a Word-Word Co-occurrence Matrix, where the counts refer to the number of times when the two words co-occur within a specific window frame.
+    - We can transform the sparse word vectors in the Word-Document Matrix or Word-Word Co-occurrence Matrix using statistical methods (e.g., Latent Semantic Analysis) and build the dense word vectors.
+- It should be noted that the count-based approach relies on the creation of the word distribution for the entire corpus in the first place. This can be difficult when we deal with a large corpus.
+- In contrast to the traditional count-based approach, **predicative methods** like neural network based language models try to predict words from their neighboring words by looking at word sequences in the corpus in a piecemeal fashion. Through this process the model learns the distributed representations of words, i.e, word embeddings.
+- We will come back to "word embeddings" when we work on the deep learning NLP.
+- Recommended Reading: [Don't count, predict! A systematic comparison of context-counting vs. context-predicting semantic vectors](https://www.aclweb.org/anthology/P14-1023.pdf) by Baroni et al.
+
+:::{tip}
+Latent Semantic Analysis (aka. Latent Semantic Indexing) learns latent topics by performing a matrix decomposition on the document-term matrix using Singular value decomposition. LSA is typically used as a dimension reduction or noise reducing technique.
+:::
+
 ## References
 
 - Based on Sarkar (2020), Ch 4 Feature Engineering and Text Representation
