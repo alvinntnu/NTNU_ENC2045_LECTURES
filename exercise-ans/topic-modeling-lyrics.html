@@ -1,0 +1,1521 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Assignment X: Topic Modeling Dcard Lyrics &#8212; ENC2045 Computational Linguistics</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/ntnu-word-2.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">ENC2045 Computational Linguistics</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <p class="caption collapsible-parent">
+ <span class="caption-text">
+  INTRODUCTION
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/nlp-primer.html">
+   Natural Language Processing: A Primer
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/nlp-pipeline.html">
+   NLP Pipeline
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Preprocessing
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../nlp/text-preprocessing.html">
+   Text Preprocessing
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../nlp/text-normalization-eng.html">
+     Text Normalization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../nlp/text-tokenization.html">
+     Text Tokenization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../nlp/text-enrichment.html">
+     Text Enrichment
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../nlp/chinese-word-seg.html">
+     Chinese Word Segmentation
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Text Vectorization
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/text-vec-traditional.html">
+   Text Vectorization Using Traditional Methods
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine Learning Basics
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-overview.html">
+   1. Machine Learning: Overview
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-simple-case.html">
+   2. Machine Learning: A Simple Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-algorithm.html">
+   3. Classification Models
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine-Learning NLP
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/ml-sklearn-classification.html">
+   1. Sentiment Analysis Using Bag-of-Words
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-classification-ml-newsgroups.html">
+   2. Text Classification Using Bag-of-Words
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/topic-modeling-naive.html">
+   3. Topic Modeling: A Naive Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/ml-nlp-case.html">
+   4. Machine Learning: NLP Tasks
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Deep Learning NLP
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-neural-network-from-scratch.html">
+   Neural Network From Scratch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-vec-embedding.html">
+   Word Embeddings
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-vec-embedding-keras.html">
+   Word Embedding Using Keras
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-statistical-language-model.html">
+   Statistical Language Model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-sequence-models-intuition.html">
+   Sequence Models Intuition
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Attention, Transformers, and Transfer Learning
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-seq-to-seq-types.html">
+   Attention: Intuition
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-transformers-intuition.html">
+   Transformers: Intuition
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Exercises
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/1-python-basics.html">
+   1. Assignment I: Python Basics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/2-journal-review.html">
+   2. Assignment II: Journal Articles Review
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/3-preprocessing.html">
+   3. Assignment III: Preprocessing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/4-chinese-nlp.html">
+   4. Assignment IV: Chinese Language Processing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/5-text-vectorization.html">
+   5. Assignment V: Text Vectorization
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  <div style="text-align:center">
+<i class="fas fa-chalkboard-teacher fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinntnu.github.io/NTNU_ENC2045/" target='_blank'>ENC2045 Course Website</a><br>
+<i class="fas fa-home fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinchen.myftp.org/" target='_blank'>Alvin Chen's Homepage</a>
+</div>
+
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/exercise-ans/topic-modeling-lyrics.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alvinntnu/NTNU_ENC2045_LECTURES/main?urlpath=tree/exercise-ans/topic-modeling-lyrics.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alvinntnu/NTNU_ENC2045_LECTURES/blob/main/exercise-ans/topic-modeling-lyrics.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-necessary-dependencies-and-settings">
+   Import necessary dependencies and settings
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sample-corpus-of-text-documents">
+   Sample corpus of text documents
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#jay-songs">
+     Jay Songs
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bag-of-words-model">
+   Bag of Words Model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#latent-dirichlet-allocation">
+   Latent Dirichlet Allocation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#show-topics-and-their-weights">
+   Show topics and their weights
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#clustering-documents-using-topic-model-features">
+   Clustering documents using topic model features
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#visualize-topic-distributions">
+   Visualize topic distributions
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="assignment-x-topic-modeling-dcard-lyrics">
+<h1>Assignment X: Topic Modeling Dcard Lyrics<a class="headerlink" href="#assignment-x-topic-modeling-dcard-lyrics" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="import-necessary-dependencies-and-settings">
+<h2>Import necessary dependencies and settings<a class="headerlink" href="#import-necessary-dependencies-and-settings" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span><span class="c1">#, category=DeprecationWarning)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">nltk</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">nltk</span><span class="o">,</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">movie_reviews</span>
+<span class="kn">from</span> <span class="nn">nltk.stem</span> <span class="kn">import</span> <span class="n">PorterStemmer</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">max_colwidth</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="sample-corpus-of-text-documents">
+<h2>Sample corpus of text documents<a class="headerlink" href="#sample-corpus-of-text-documents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="jay-songs">
+<h3>Jay Songs<a class="headerlink" href="#jay-songs" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pickle</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;jay_seg.pickle&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">jay_seg</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corpus_df</span> <span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../../RepositoryData/data/data-chinese-songs-jaychou.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corpus_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>title</th>
+      <th>lyric</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>我是如此相信</td>
+      <td>鳥群離開了森林 整座天空很灰心\n蝴蝶不再被吸引 玫瑰盛開的很安靜\n遠方的風雨不停 城市蒼白而孤寂\n徘徊無助的人群 焦慮著何時放晴\n故事裡能毀壞的只有風景\n誰也摧毀不了我們的夢境\n弦月旁的流星劃過了天際\n我許下的願望該向誰去說明\n隕石在浩瀚的宇宙間旅行\n璀璨的夜空裡漫天的水晶\n我的禱告終於有了回音\n我是如此相信 在背後支撐的是你\n一直與我並肩而行 仰望等太陽升起\n聽...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>英雄</td>
+      <td>人生不是ㄧ個人的遊戲\nㄧ起奮鬥ㄧ起超越ㄧ起殺吧sup兄弟\n好戰好勝戰勝逆命\n管他天賦夠不夠我們都還需要再努力\n你的劍就是我的劍\n艾希的箭可不可以準ㄧ點  嘿\n你打野我來控兵線\n不要隨便慌張就交閃現\n旋轉跳躍你閉著眼\n卡特轉完會讓你閉上眼\n悟空蓋倫也轉圈圈\n盲僧李先生ㄧ腳把你  踢回老家\n擊殺  雙殺  三殺  Penta kill\n扛塔  偷拆  插眼讓我傳送\n...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>雙截棍</td>
+      <td>岩燒店的煙味瀰漫  隔壁是國術館\n店裡面的媽媽桑  茶道  有三段\n教拳腳武術的老板  練鐵沙掌  耍楊家槍\n硬底子功夫最擅長  還會金鐘罩鐵布衫\n他們兒子我習慣  從小就耳濡目染\n什麼刀槍跟棍棒  我都耍的有模有樣\n什麼兵器最喜歡  雙截棍柔中帶剛\n想要去河南嵩山  學少林跟武當\n幹什麼(客)  幹什麼(客)  呼吸吐納心自在\n幹什麼(客)  幹什麼(客)  氣沉丹田手...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>開不了口</td>
+      <td>才離開沒多久就開始  擔心今天的妳過得好不好\n整個畫面是妳  想妳想的睡不著\n嘴嘟嘟那可愛的模樣  還有在妳身上香香的味道\n我的快樂是妳  想妳想的都會笑\n沒有妳在我有多難熬(沒有妳在我有多難熬多煩惱)\n沒有妳煩我有多煩惱(沒有妳煩我有多煩惱多難熬)\n穿過雲層  我試著努力向妳奔跑\n愛才送到  妳卻已在別人懷抱\n就是開不了口  讓她知道\n我一定會呵護著妳  也逗妳笑\n妳...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>床邊故事</td>
+      <td>從前從前有隻貓頭鷹  牠站在屋頂\n屋頂後面一遍森林  森林很安靜\n安靜的鋼琴在大廳  閣樓裡  仔細聽\n仔細聽  叮叮叮  什麼聲音\n乖乖睡  不要怕  聽我說\n乖乖睡  醒來就  吃蘋果\n不睡覺  的時候  有傳說\n會有人  咬你的  小指頭\n這故事  繼續翻頁  再翻頁\n你繼續  不想睡  我卻想睡\n然後我準備  去打開衣櫃\n去看看  躲著誰  去看看  躲著誰\...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">norm_corpus</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">w</span> <span class="k">for</span> <span class="n">w</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="n">d</span> <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Na&#39;</span><span class="p">,</span><span class="s1">&#39;VC&#39;</span><span class="p">]])</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">jay_seg</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">norm_corpus</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;鳥群 離開 森林 灰心 蝴蝶 玫瑰 風雨 人群 故事 毀壞 風景 摧毀不了 夢境 弦月 流星 劃過 許下 願望 隕石 宇宙 水晶 回音 支撐 仰望 太陽 鳥群 聲音 守候 人 信心 雙手 彈奏 出 鳥群 離開 森林 蝴蝶 玫瑰 風雨 人群 故事 毀壞 風景 摧毀不了 夢境 弦月 流星 許下 願望 隕石 宇宙 水晶 回音 支撐 仰望 等 太陽 鳥群 聲音 守候 人 信心 雙手 彈奏 出 支撐 仰望 等 太陽 鳥群 聲音 守候 人 信心 雙手 彈奏出&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="bag-of-words-model">
+<h2>Bag of Words Model<a class="headerlink" href="#bag-of-words-model" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Bag-of-words model is the simplest way to vectorize texts into numeric representations.</p></li>
+<li><p>In short, it is a method to represent a text using its word frequency list.</p></li>
+<li><p>The sequential order of words in the text is therefore naively ignored.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">CountVectorizer</span>
+<span class="c1"># get bag of words features in sparse format</span>
+<span class="n">cv</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">(</span><span class="n">min_df</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_df</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span><span class="n">token_pattern</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;[^\s0-9]+&#39;</span><span class="p">)</span>
+<span class="n">cv_matrix</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">norm_corpus</span><span class="p">)</span>
+<span class="n">cv_matrix</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;212x1353 sparse matrix of type &#39;&lt;class &#39;numpy.int64&#39;&gt;&#39;
+	with 6039 stored elements in Compressed Sparse Row format&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># view dense representation </span>
+<span class="c1"># warning might give a memory error if data is too big</span>
+<span class="n">cv_matrix</span> <span class="o">=</span> <span class="n">cv_matrix</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="n">cv_matrix</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0, 0, 0, ..., 0, 0, 0],
+       [0, 0, 0, ..., 0, 0, 0],
+       [0, 0, 0, ..., 0, 0, 0],
+       ...,
+       [0, 0, 0, ..., 0, 0, 0],
+       [0, 0, 0, ..., 0, 0, 0],
+       [0, 0, 0, ..., 0, 0, 0]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get all unique words in the corpus</span>
+<span class="n">vocab</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">())</span>
+<span class="c1"># show document feature vectors</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cv_matrix</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">vocab</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>..</th>
+      <th>...</th>
+      <th>一</th>
+      <th>一生</th>
+      <th>一統</th>
+      <th>上</th>
+      <th>上帝</th>
+      <th>下</th>
+      <th>世事</th>
+      <th>世人</th>
+      <th>...</th>
+      <th>默</th>
+      <th>默劇</th>
+      <th>默契</th>
+      <th>默片</th>
+      <th>點</th>
+      <th>點亮</th>
+      <th>點心</th>
+      <th>鼻子</th>
+      <th>龍</th>
+      <th>龍捲風</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>207</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>208</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>209</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>210</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>211</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>212 rows × 1353 columns</p>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="latent-dirichlet-allocation">
+<h2>Latent Dirichlet Allocation<a class="headerlink" href="#latent-dirichlet-allocation" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_of_topic</span> <span class="o">=</span> <span class="mi">4</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">LatentDirichletAllocation</span>
+
+
+<span class="n">lda</span> <span class="o">=</span> <span class="n">LatentDirichletAllocation</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">num_of_topic</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                               <span class="n">max_doc_update_iter</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">learning_method</span><span class="o">=</span><span class="s1">&#39;online&#39;</span><span class="p">,</span>
+                               <span class="n">batch_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">learning_offset</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">n_jobs</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">dt_matrix</span> <span class="o">=</span> <span class="n">lda</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">cv_matrix</span><span class="p">)</span> <span class="c1"># document matrix</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 27.9 s, sys: 2.64 s, total: 30.5 s
+Wall time: 1min 13s
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">features</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dt_matrix</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;T&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">num_of_topic</span><span class="o">+</span><span class="mi">1</span><span class="p">)])</span>
+<span class="n">features</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>T1</th>
+      <th>T2</th>
+      <th>T3</th>
+      <th>T4</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.987465</td>
+      <td>0.004468</td>
+      <td>0.004003</td>
+      <td>0.004064</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.982056</td>
+      <td>0.005835</td>
+      <td>0.006157</td>
+      <td>0.005952</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.005601</td>
+      <td>0.005334</td>
+      <td>0.983399</td>
+      <td>0.005666</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.971742</td>
+      <td>0.009187</td>
+      <td>0.009223</td>
+      <td>0.009847</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.991628</td>
+      <td>0.002718</td>
+      <td>0.002833</td>
+      <td>0.002821</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>207</th>
+      <td>0.977596</td>
+      <td>0.007525</td>
+      <td>0.007424</td>
+      <td>0.007456</td>
+    </tr>
+    <tr>
+      <th>208</th>
+      <td>0.979522</td>
+      <td>0.006796</td>
+      <td>0.006811</td>
+      <td>0.006870</td>
+    </tr>
+    <tr>
+      <th>209</th>
+      <td>0.008353</td>
+      <td>0.008119</td>
+      <td>0.975310</td>
+      <td>0.008217</td>
+    </tr>
+    <tr>
+      <th>210</th>
+      <td>0.988824</td>
+      <td>0.003722</td>
+      <td>0.003705</td>
+      <td>0.003749</td>
+    </tr>
+    <tr>
+      <th>211</th>
+      <td>0.011106</td>
+      <td>0.010899</td>
+      <td>0.010923</td>
+      <td>0.967073</td>
+    </tr>
+  </tbody>
+</table>
+<p>212 rows × 4 columns</p>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="show-topics-and-their-weights">
+<h2>Show topics and their weights<a class="headerlink" href="#show-topics-and-their-weights" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># tt_matrix = lda.components_ # topic matrix</span>
+<span class="c1"># for topic_weights in tt_matrix:</span>
+<span class="c1">#     topic = [(token, weight) for token, weight in zip(vocab, topic_weights)]</span>
+<span class="c1">#     topic = sorted(topic, key=lambda x: -x[1])</span>
+<span class="c1">#     topic = [item for item in topic if item[1] &gt; 0.6]</span>
+<span class="c1">#     print(topic)</span>
+<span class="c1">#     print()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">topic_terms</span> <span class="o">=</span> <span class="n">lda</span><span class="o">.</span><span class="n">components_</span>
+<span class="n">top_terms</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">topic_keywords_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">topic_terms</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,:</span><span class="n">top_terms</span><span class="p">]</span>
+<span class="n">topic_keywords</span> <span class="o">=</span> <span class="n">vocab</span><span class="p">[</span><span class="n">topic_keywords_idxs</span><span class="p">]</span>
+<span class="n">topics</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">topic_keywords</span><span class="p">]</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_colwidth&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">topics_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">topics</span><span class="p">,</span>
+                        <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Keywords per Topic&#39;</span><span class="p">],</span>
+                        <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Topic&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">num_of_topic</span><span class="o">+</span><span class="mi">1</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">topics_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Keywords per Topic</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Topic1</th>
+      <td>看, 手, 夢, 人, 牽, 心, 時間, 找, 故事, 唱, 陪, 臉, 風, 歌, 放, 帶, 離開, 話, 淚, 女人</td>
+    </tr>
+    <tr>
+      <th>Topic2</th>
+      <td>咪, 茶, 泡, 愛情, 爺爺, 嘴, 寫, 彈奏, 風, 爸爸, 味道, 哥哥, 麥, 眼睛, 事, 風沙, 氣, 水, 唇印, 夜曲</td>
+    </tr>
+    <tr>
+      <th>Topic3</th>
+      <td>打, 媽媽, 人, 看, 龍, 功夫, 吃, 寫, 雙截棍, 鈴, 話, 使用, 爸爸, 媽, 做, 畫面, 冰淇淋, 暴力, 拿, 拳</td>
+    </tr>
+    <tr>
+      <th>Topic4</th>
+      <td>人, 離開, 愛情, 等, 雨, 開, 愛, 眼淚, 娘子, 解, 黑色, 風, 歌詞, 一生, 花, 嚐, 耍, 遇見, 心, 寫</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">float_format</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:,.5f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_colwidth&#39;</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+
+
+<span class="n">dt_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dt_matrix</span><span class="p">,</span>
+                    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Topic&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">num_of_topic</span><span class="o">+</span><span class="mi">1</span><span class="p">)])</span>
+
+<span class="n">max_contrib_topics</span> <span class="o">=</span> <span class="n">dt_df</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">dominant_topics</span> <span class="o">=</span> <span class="n">max_contrib_topics</span><span class="o">.</span><span class="n">index</span>
+<span class="n">contrib_perc</span> <span class="o">=</span> <span class="n">max_contrib_topics</span><span class="o">.</span><span class="n">values</span>
+<span class="n">document_numbers</span> <span class="o">=</span> <span class="p">[</span><span class="n">dt_df</span><span class="p">[</span><span class="n">dt_df</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">==</span><span class="n">max_contrib_topics</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">t</span><span class="p">]]</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">dominant_topics</span><span class="p">]</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="p">[</span><span class="n">norm_corpus</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">document_numbers</span><span class="p">]</span>
+
+<span class="n">documents_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Dominant Topic&#39;</span><span class="p">:</span> <span class="n">dominant_topics</span><span class="p">,</span>
+                            <span class="s1">&#39;Contribution%&#39;</span><span class="p">:</span> <span class="n">contrib_perc</span><span class="p">,</span>
+                            <span class="s1">&#39;DOCID&#39;</span><span class="p">:</span> <span class="n">document_numbers</span><span class="p">,</span>
+                            <span class="s1">&#39;Topic&#39;</span><span class="p">:</span> <span class="n">topics_df</span><span class="p">[</span><span class="s1">&#39;Keywords per Topic&#39;</span><span class="p">],</span>
+                            <span class="s1">&#39;Text&#39;</span><span class="p">:</span> <span class="n">documents</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">documents_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Dominant Topic</th>
+      <th>Contribution%</th>
+      <th>DOCID</th>
+      <th>Topic</th>
+      <th>Text</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Topic1</th>
+      <td>Topic1</td>
+      <td>0.99511</td>
+      <td>111</td>
+      <td>看, 手, 夢, 人, 牽, 心, 時間, 找, 故事, 唱, 陪, 臉, 風, 歌, 放, 帶, 離開, 話, 淚, 女人</td>
+      <td>望 星星 望 星星 望 星星 望 星 乘 風　 雲 形狀 風 吃掉 載 載 陽光 蝴蝶 花 佈滿 夕陽 你我 迎 風 手 牽 手 望 天 看 星星 線 背對背 許下 心願 看 星 手 牽 手 望 天 看 星星 連成 線 背對背 許下 心願 看 星 實現 朋友 歌聲 手 手 歌曲 燈 時間 分寸 輕重 分 支撐 看 身影 黑暗 夢 空間 抱 臉 看 看 夢 畫面 故事 離 時間 抱 挽留 燈...</td>
+    </tr>
+    <tr>
+      <th>Topic2</th>
+      <td>Topic2</td>
+      <td>0.99295</td>
+      <td>120</td>
+      <td>咪, 茶, 泡, 愛情, 爺爺, 嘴, 寫, 彈奏, 風, 爸爸, 味道, 哥哥, 麥, 眼睛, 事, 風沙, 氣, 水, 唇印, 夜曲</td>
+      <td>爺爺 泡 茶 味道 泡 茶 名 利 拿 爺爺 泡 茶 味道 爺爺 泡 茶 口感 味覺 陸羽 泡 茶 山水畫 山泉 地表 臉 泉水 礦層巖 爺爺 栽種 樟木 樹苗 躲 屋簷 爺爺 抽 煙 陸羽　 寫 茶經 翻閱 字典 字眼 事 海角 時間 茶桌 樟木 年輪 鏡頭 臉 年 爺爺 手繭 泡 水 茶色 爺爺 泡 茶 味道 家  挑剔 口感 味覺 陸羽 泡 茶　 名 利 拿 牽 馬 爺爺 泡 茶 味...</td>
+    </tr>
+    <tr>
+      <th>Topic3</th>
+      <td>Topic3</td>
+      <td>0.99474</td>
+      <td>194</td>
+      <td>打, 媽媽, 人, 看, 龍, 功夫, 吃, 寫, 雙截棍, 鈴, 話, 使用, 爸爸, 媽, 做, 畫面, 冰淇淋, 暴力, 拿, 拳</td>
+      <td>等 寫完 詞 出 專輯 歌 時期 梯田 看過 綠地 攝影 畫面 寫 詞 詩人 公車 看 窗 牛 啃 草 自由自在 那魯灣 牛兒 水溝 流 夢 收割期 人們 汗水 畫面 作品 油畫 拿到 獎狀 用 哼 撕掉 換回 自然 梯田 看 西洋片 水牛　 畫　 掛 牆壁 人們 蒸蒸日上 遊客 看看 窗 景點 牛兒 那魯灣 利用 利用 人類 破壞 自然 生態 藝術 砍下 樹 　醬 裝飾 事 相機 紀錄 ...</td>
+    </tr>
+    <tr>
+      <th>Topic4</th>
+      <td>Topic4</td>
+      <td>0.99521</td>
+      <td>186</td>
+      <td>人, 離開, 愛情, 等, 雨, 開, 愛, 眼淚, 娘子, 解, 黑色, 風, 歌詞, 一生, 花, 嚐, 耍, 遇見, 心, 寫</td>
+      <td>前奏 巷 章 推向 接近 事實 石楠 煙斗 霧  樹  圓形 盔甲 騎士 臂 徽章 人 馬車 聲響 拜訪 月光 血色 手槍 手杖 蠟像 珠寶箱 符號 假象 堆砌 證據 埋葬 嘲弄 樂章 正義 終場 寫上 點亮 灰燼 微光 晨曦 光 風乾 雨滴 清洗 牆 黑色 墨  關上 布幕 間奏 事實 穿 腳印 土壤 花香 服裝 人 理由 戴 面具 動機 名字 欲望 人性 沼澤 弄髒 真相 鐵床 圖 拼...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyLDAvis</span>
+<span class="kn">import</span> <span class="nn">pyLDAvis.sklearn</span>
+<span class="kn">import</span> <span class="nn">dill</span>
+
+<span class="n">pyLDAvis</span><span class="o">.</span><span class="n">enable_notebook</span><span class="p">()</span>
+<span class="n">cv_matrix2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">cv_matrix</span><span class="p">)</span>
+<span class="n">pyLDAvis</span><span class="o">.</span><span class="n">sklearn</span><span class="o">.</span><span class="n">prepare</span><span class="p">(</span><span class="n">lda</span><span class="p">,</span> <span class="n">cv_matrix2</span><span class="p">,</span> <span class="n">cv</span><span class="p">,</span> <span class="n">mds</span><span class="o">=</span><span class="s2">&quot;mmds&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.2.2/pyLDAvis/js/ldavis.v1.0.0.css">
+
+
+<div id="ldavis_el748321402982222257124149002319"></div>
+<script type="text/javascript">
+
+var ldavis_el748321402982222257124149002319_data = {"mdsDat": {"x": [-0.15138388013320495, -0.10175144519703, 0.13958019206423747, 0.1135551332659975], "y": [-0.09396204079688208, 0.17680526451550888, -0.16868164314877515, 0.08583841943014842], "topics": [1, 2, 3, 4], "cluster": [1, 1, 1, 1], "Freq": [48.78087236122202, 25.56927304657689, 19.62787883194777, 6.021975760253313]}, "tinfo": {"Term": ["\u6253", "\u5abd\u5abd", "\u611b\u60c5", "\u54aa", "\u96e2\u958b", "\u8336", "\u9f8d", "\u6ce1", "\u5634", "\u5beb", "\u529f\u592b", "\u7238\u7238", "\u96d9\u622a\u68cd", "\u723a\u723a", "\u627e", "\u9234", "\u4e8b", "\u5473\u9053", "\u5403", "\u4f7f\u7528", "\u96e8", "\u624b", "\u727d", "\u773c\u775b", "\u62ff", "\u5a18\u5b50", "\u966a", "\u98a8", "\u5abd", "\u89e3", "\u627e", "\u62b1", "\u5b63\u7bc0", "\u6f22\u5821", "\u966a", "\u592a\u967d", "\u5730\u7403", "\u904a\u6232", "\u52c7\u6c23", "\u6642\u4ee3", "\u661f\u661f", "\u529b", "\u653e\u4e0b", "\u9583", "\u6539\u8b8a", "\u6a5f\u6703", "\u7dda", "\u98a8\u8eca", "\u7537\u4eba", "\u71c8", "\u5f69\u8679", "\u72d7", "\u9078\u64c7", "\u84b2\u516c\u82f1", "\u64e0", "\u529b\u6c23", "\u62c6\u7a7f", "\u7ae5\u5e74", "\u7ae5\u8a71", "\u8aaa\u7a7f", "\u6545\u4e8b", "\u8def", "\u5973\u4eba", "\u727d", "\u6b4c", "\u8b80", "\u5922", "\u773c", "\u624b", "\u6642\u9593", "\u5531", "\u5922\u60f3", "\u770b", "\u81c9", "\u5fc3", "\u671b", "\u6dda", "\u5e36", "\u653e", "\u611f\u89ba", "\u4eba", "\u4e8b", "\u98a8", "\u967d\u5149", "\u756b\u9762", "\u8a71", "\u96e2\u958b", "\u6b4c\u8a5e", "\u5403", "\u7b49", "\u5a18\u5b50", "\u89e3", "\u4e00\u751f", "\u5690", "\u60b2\u5287", "\u8166\u888b", "\u776b\u6bdb", "\u7a97\u53f0", "\u694a\u67f3", "\u9f8d\u6372\u98a8", "\u7709\u982d", "\u62bd\u96e2", "\u9810\u5146", "\u5708", "\u8a0a\u865f", "\u7434\u8072", "\u8173\u5370", "\u63a5\u8fd1", "\u71b1\u60c5", "\u6bc5\u529b", "\u6bdb\u75c5", "\u62c6", "\u7f8e\u666f", "\u96fb\u8a71", "\u751f\u6b7b", "\u666f\u8272", "\u98f2\u6599", "\u795e\u7d93", "\u8a9e", "\u5beb\u4e0a", "\u9ed1\u8272", "\u6eaa", "\u6298", "\u611b\u60c5", "\u96e2\u958b", "\u96e8", "\u8a98\u60d1", "\u5834\u666f", "\u611b", "\u800d", "\u958b", "\u7b49", "\u4eba", "\u8f29\u5b50", "\u7d00\u9304", "\u9152", "\u82b1", "\u773c\u6dda", "\u9047\u898b", "\u71c3\u71d2", "\u9999\u5473", "\u6b4c\u8a5e", "\u7d50\u5c40", "\u7b11\u5bb9", "\u98a8", "\u756b", "\u5fc3", "\u5beb", "\u8a71", "\u770b", "\u5531", "\u5abd\u5abd", "\u6253", "\u9f8d", "\u529f\u592b", "\u96d9\u622a\u68cd", "\u4f7f\u7528", "\u5abd", "\u51b0\u6dc7\u6dcb", "\u66b4\u529b", "\u62f3", "\u795e", "\u82f1\u96c4", "\u7238", "\u7a7f\u4e0a", "\u76ee\u5149", "\u9234", "\u570d\u5dfe", "\u8d85\u4eba", "\u6575\u4eba", "\u7d05\u8272", "\u62ef\u6551", "\u6230\u722d", "\u4fe1\u4ef0", "\u5e73\u539f", "\u4ee3", "\u725b\u5152", "\u8abf\u6574", "\u7159\u9727", "\u6bd4\u8f03", "\u5f48\u5531", "\u6b77\u53f2", "\u7238\u7238", "\u5403", "\u5beb", "\u7528", "\u9748\u9b42", "\u505a", "\u4eba", "\u8a71", "\u770b", "\u62ff", "\u756b\u9762", "\u98a8", "\u5230", "\u624b", "\u54aa", "\u8336", "\u6ce1", "\u723a\u723a", "\u98a8\u6c99", "\u5507\u5370", "\u591c\u66f2", "\u9999\u6c34", "\u98b3", "\u611b\u6068", "\u706b\u8eca", "\u6a39\u679d", "\u611f\u61c9", "\u591c\u98a8", "\u5229", "\u679d", "\u5bb6", "\u6279\u7d19", "\u79bf\u9df9", "\u9d3f\u5b50", "\u9375\u76e4", "\u9935\u98df", "\u7c6c\u7b06", "\u54e5\u54e5", "\u5b57\u578b", "\u67af\u4e95", "\u8150\u8089", "\u5e7d\u51a5", "\u5927\u8863", "\u70cf\u9d09", "\u5f48\u594f", "\u9ea5", "\u5c71\u6c34\u756b", "\u6c23", "\u540d", "\u89aa\u8fd1", "\u611b\u60c5", "\u6c34", "\u5634", "\u5473\u9053", "\u7238\u7238", "\u6572", "\u773c\u775b", "\u5beb", "\u98a8", "\u4e8b", "\u73ab\u7470", "\u98a8\u666f", "\u62ff", "\u770b", "\u624b"], "Freq": [53.0, 51.0, 66.0, 23.0, 89.0, 16.0, 27.0, 14.0, 31.0, 53.0, 23.0, 22.0, 21.0, 11.0, 51.0, 21.0, 42.0, 20.0, 52.0, 17.0, 58.0, 116.0, 61.0, 20.0, 24.0, 20.0, 49.0, 76.0, 15.0, 19.0, 50.90572551867386, 28.049827466066468, 25.07225068635772, 22.918859289374282, 48.302509037684906, 19.963850326328224, 19.987540594832062, 17.009699941912952, 15.76797053128523, 15.732780566470113, 15.005427195025842, 14.837057805713199, 14.360248455428446, 14.814190058121172, 14.18824597890073, 13.752348543008386, 13.458974877668117, 13.128205927774271, 12.634899383037212, 12.64456209365713, 12.217583776234278, 12.041049364740143, 11.901016221939912, 11.57563704453611, 11.416381314379278, 11.274654593200747, 11.55762155561676, 11.116052355148074, 11.384271923788162, 10.795248461204642, 50.813865389668834, 25.83059621374558, 30.97471799829283, 57.07465260254371, 41.7226522256147, 19.58042950210717, 95.65850614245583, 29.70340125613607, 97.76250891588161, 55.03000226958427, 50.57143599991213, 26.49095331696842, 99.67906795791063, 47.949531800319846, 55.79707029248394, 17.79247290851856, 33.38806708664504, 36.037757320614446, 36.98242367084972, 29.48622344089348, 88.84982082834372, 30.74937276098306, 44.507574679564236, 23.131739971397838, 30.1646058010193, 34.53823865862638, 35.163060701824946, 27.171240084460244, 26.681875344068718, 26.127583333414517, 19.424411212246742, 18.40341892404548, 15.251179999418891, 13.567093240228271, 10.5618311333243, 9.4257733572828, 8.594332114378469, 8.584160778480962, 8.571607202906439, 8.571261247414318, 8.06536160559691, 7.9074297844837735, 7.758118461270664, 7.743507140423154, 7.756847713885689, 7.743834023102927, 7.763853599777144, 7.738779959875414, 7.732957003029286, 7.711926423573502, 6.935058827002343, 6.925602153870413, 6.933421586779767, 6.904842441390601, 6.9098194254092125, 6.8986416094802125, 6.904721712114248, 6.100639006206117, 6.094432720349881, 6.09017508636471, 15.93126474961413, 8.573036103561462, 9.180801072877646, 42.580385654036334, 53.73704191131791, 34.97746445388293, 10.790495047914975, 10.142116765944191, 28.918474899540218, 13.33372911458647, 30.465579331650066, 35.035057724719586, 54.94060891519452, 9.608481818621014, 9.704266645592119, 10.778838851928365, 14.577290045209573, 20.7823258808512, 13.007319095428866, 11.086433737111332, 10.06125612104669, 15.7621646575953, 12.136418828101418, 12.075808136747854, 15.804600769501679, 11.324701566941837, 12.965390582506418, 12.159677498546696, 11.749901992080314, 10.89513448058577, 10.615568670862139, 50.740070127603005, 52.34099820372866, 27.084744241824268, 23.221084102133286, 20.72701971609139, 17.317931658004735, 14.907593871183519, 13.26641409555603, 12.45302279283187, 11.598854196769933, 10.80975084879655, 10.944092232128265, 10.016204413582091, 9.35211593878171, 9.177838777519172, 19.847975602607985, 8.677989263811293, 8.542534197517067, 8.375820082065074, 7.859921085802517, 6.904157604179697, 6.75118703502032, 6.751168535927075, 6.739966060998168, 5.955104460919966, 5.94675640836313, 5.930118756289444, 5.945278554908266, 5.934288548730867, 5.283444443346144, 9.125363793735739, 16.40156219990285, 23.102609754452338, 22.78159881267702, 8.724271350586806, 11.063747775398992, 14.06769543874498, 32.56308569722345, 19.71357186572134, 27.44441918065447, 11.864237123496777, 13.441430863454958, 11.214551612181017, 9.000557268731598, 9.318148083516048, 22.578819448117237, 15.609018310334402, 13.682047985333037, 10.467997058047766, 4.6765184477389745, 4.040273659672001, 4.033691605815957, 3.392462620504286, 3.3995818776682087, 3.385174000331303, 2.7640770113214534, 2.7576449511830767, 2.751210737376437, 2.7540165829113676, 2.758276650396634, 2.754469818862208, 2.7406506046627133, 2.121283142555978, 2.1116101198238986, 2.1116101198238986, 2.111610119823897, 2.1116101198239, 2.1152483875654293, 5.320648129916299, 1.4703695829562808, 1.4703695829562808, 1.4703695829562806, 1.4703695829562808, 1.4703695829562795, 1.4703695829562795, 5.721345307157772, 5.315924443461761, 2.6317958844571416, 4.591976826441768, 3.4271694156094767, 2.7732608212894245, 10.599728176931288, 4.275295983548925, 6.6199791150863545, 5.328579218184537, 5.4161399031747814, 3.395877234122326, 4.711000973693989, 6.379936946352315, 5.436403638802149, 4.690987965229236, 3.427686667883789, 3.3251519609579288, 3.3873844557723944, 3.7841777782481447, 3.6520480246105014], "Total": [53.0, 51.0, 66.0, 23.0, 89.0, 16.0, 27.0, 14.0, 31.0, 53.0, 23.0, 22.0, 21.0, 11.0, 51.0, 21.0, 42.0, 20.0, 52.0, 17.0, 58.0, 116.0, 61.0, 20.0, 24.0, 20.0, 49.0, 76.0, 15.0, 19.0, 51.59838851612942, 28.73645823405667, 25.76345709419518, 23.597805816461083, 49.93730629029881, 20.650861688321385, 20.678947175857427, 17.692231465328884, 16.447412025104107, 16.432636190657814, 15.686202409327972, 15.512770115403226, 15.037445849705795, 15.518638018410366, 14.88209140136615, 14.428636140412282, 14.14190170907266, 13.803896072567579, 13.310599852484954, 13.34203648175448, 12.89628754870902, 12.71777973374404, 12.58357628559432, 12.25151517513442, 12.093093829328868, 11.950509335117497, 12.250653947356714, 11.796248902513865, 12.086861909517102, 11.47448436721223, 54.107978862192105, 27.458325050732423, 33.00511785832934, 61.22249508153751, 45.50387162676656, 21.175986415764605, 112.00289751925155, 32.78888326971107, 116.05410096731855, 66.61211232731567, 64.09280768548496, 30.757386563273936, 141.802799397399, 62.181923675920736, 74.80704129570147, 19.638537365822877, 43.00079541752877, 47.40191903376054, 49.45658475757277, 38.74754585148807, 176.54709534559044, 42.00614450751489, 76.96313070004908, 29.299944402748828, 46.749317784141404, 66.19170490258395, 89.33416417672078, 48.95079067756147, 52.29807164020906, 69.14922184436254, 20.09987911591536, 19.063272345306014, 15.910599709778124, 14.228463326455596, 11.22528464960786, 10.085631012548362, 9.255225108675825, 9.250574713583331, 9.250359971209173, 9.250335865433046, 8.72786419869976, 8.577328700248463, 8.420648115381603, 8.40566153169703, 8.4225404874737, 8.409159848117534, 8.431167147794568, 8.405400404032322, 8.402950207370942, 8.381796205802415, 7.5947293103945315, 7.586128358273481, 7.5986109031336, 7.5703028415535565, 7.5767721658521765, 7.566252494409049, 7.5748654930283745, 6.760169802536458, 6.75376797348558, 6.749506258653962, 18.829460688634562, 9.893746182790126, 10.84288666378143, 66.20333305026823, 89.33416417672078, 58.23532570693992, 13.281433392600038, 12.468394218446385, 52.18490377436878, 18.34046657783706, 56.225597525170635, 69.14922184436254, 176.54709534559044, 11.812591968539428, 12.025239189814503, 14.926341039867694, 25.35049149613616, 47.67227535911627, 20.868368923147013, 15.960535266219221, 13.352072950567624, 48.95079067756147, 23.775002745415033, 26.43313265139453, 76.96313070004908, 26.789686243577933, 74.80704129570147, 53.8234876804857, 66.19170490258395, 141.802799397399, 64.09280768548496, 51.41142264189748, 53.03932565417329, 27.751676587956524, 23.8873585680795, 21.396048134517578, 17.989496690055898, 15.577746685919156, 13.937054752732932, 13.129121168116368, 12.281219257918709, 11.481423550553085, 11.628371111165333, 10.687391330529765, 10.022650941166555, 9.858323688381839, 21.336130309784714, 9.35072700114664, 9.214385460564554, 9.044582056708688, 8.54073475310715, 7.573190470617325, 7.417957296285509, 7.417946428215479, 7.407599940629933, 6.620397555396768, 6.6120489684361585, 6.595412056506426, 6.6159815277946965, 6.610217785131976, 5.948751775369352, 10.698762220143866, 22.300720946527186, 52.29807164020906, 53.8234876804857, 12.17034492119942, 18.549934923923978, 29.122460268838616, 176.54709534559044, 66.19170490258395, 141.802799397399, 24.867381070534126, 46.749317784141404, 76.96313070004908, 29.445405035670582, 116.05410096731855, 23.294675317423472, 16.333073534493938, 14.40598097809358, 11.195590540897626, 5.411187244157709, 4.756112404585414, 4.749529320012814, 4.108301017833915, 4.121067531288561, 4.116494014782392, 3.4802586460929943, 3.4736533870294553, 3.4670485855075066, 3.4725338420324086, 3.4797520304500518, 3.4827647351787205, 3.482347689306649, 2.83735538304376, 2.8274479489126088, 2.827447948912609, 2.8274479489126083, 2.8274479489126136, 2.838924213115405, 7.569544369382898, 2.1862076092972558, 2.1862076092972558, 2.1862076092972544, 2.1862076092972567, 2.1862076092972558, 2.1862076092972575, 9.051882819352423, 8.510232691254098, 4.347790650776417, 8.912850136075704, 6.51966702503766, 5.020315263477516, 66.20333305026823, 12.061785151104278, 31.69034420098632, 20.452531554249664, 22.300720946527186, 8.195886298501783, 20.50916215937391, 53.8234876804857, 76.96313070004908, 42.00614450751489, 9.709701877302745, 19.00576371243692, 24.867381070534126, 141.802799397399, 116.05410096731855], "Category": ["Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4"], "logprob": [30.0, 29.0, 28.0, 27.0, 26.0, 25.0, 24.0, 23.0, 22.0, 21.0, 20.0, 19.0, 18.0, 17.0, 16.0, 15.0, 14.0, 13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, -4.6251, -5.2211, -5.3333, -5.4231, -4.6776, -5.5612, -5.56, -5.7213, -5.7971, -5.7994, -5.8467, -5.858, -5.8906, -5.8595, -5.9027, -5.9339, -5.9555, -5.9803, -6.0186, -6.0179, -6.0522, -6.0668, -6.0785, -6.1062, -6.1201, -6.1326, -6.1078, -6.1467, -6.1229, -6.176, -4.6269, -5.3035, -5.1219, -4.5107, -4.8241, -5.5806, -3.9943, -5.1638, -3.9726, -4.5472, -4.6317, -5.2783, -3.9532, -4.685, -4.5334, -5.6763, -5.0469, -4.9705, -4.9447, -5.1712, -4.0682, -5.1292, -4.7594, -5.4139, -5.1484, -5.013, -4.9951, -5.2529, -5.2711, -5.2921, -4.9426, -4.9966, -5.1845, -5.3015, -5.5519, -5.6657, -5.7581, -5.7592, -5.7607, -5.7607, -5.8216, -5.8414, -5.8604, -5.8623, -5.8606, -5.8623, -5.8597, -5.8629, -5.8637, -5.8664, -5.9726, -5.9739, -5.9728, -5.9769, -5.9762, -5.9778, -5.977, -6.1008, -6.1018, -6.1025, -5.1409, -5.7605, -5.692, -4.1578, -3.9251, -4.3545, -5.5305, -5.5925, -4.5447, -5.3189, -4.4926, -4.3528, -3.9029, -5.6465, -5.6366, -5.5316, -5.2297, -4.8751, -5.3436, -5.5034, -5.6005, -5.1515, -5.4129, -5.418, -5.1489, -5.4822, -5.3469, -5.411, -5.4453, -5.5208, -5.5468, -3.718, -3.6869, -4.3457, -4.4997, -4.6133, -4.793, -4.9428, -5.0595, -5.1228, -5.1938, -5.2643, -5.2519, -5.3405, -5.4091, -5.4279, -4.6566, -5.4839, -5.4997, -5.5194, -5.5829, -5.7126, -5.735, -5.735, -5.7367, -5.8605, -5.8619, -5.8647, -5.8621, -5.864, -5.9801, -5.4337, -4.8473, -4.5048, -4.5188, -5.4786, -5.241, -5.0008, -4.1615, -4.6634, -4.3326, -5.1712, -5.0464, -5.2275, -5.4474, -5.4128, -3.3462, -3.7153, -3.8471, -4.1149, -4.9206, -5.0669, -5.0685, -5.2416, -5.2395, -5.2438, -5.4465, -5.4488, -5.4511, -5.4501, -5.4486, -5.45, -5.455, -5.7112, -5.7157, -5.7157, -5.7157, -5.7157, -5.714, -4.7916, -6.0777, -6.0777, -6.0777, -6.0777, -6.0777, -6.0777, -4.719, -4.7925, -5.4955, -4.9389, -5.2315, -5.4432, -4.1024, -5.0103, -4.5731, -4.7901, -4.7738, -5.2406, -4.9133, -4.61, -4.7701, -4.9175, -5.2313, -5.2617, -5.2431, -5.1324, -5.1679], "loglift": [30.0, 29.0, 28.0, 27.0, 26.0, 25.0, 24.0, 23.0, 22.0, 21.0, 20.0, 19.0, 18.0, 17.0, 16.0, 15.0, 14.0, 13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.7043, 0.6936, 0.6906, 0.6886, 0.6845, 0.684, 0.6838, 0.6785, 0.6756, 0.6743, 0.6735, 0.6733, 0.6718, 0.6714, 0.6701, 0.6698, 0.6683, 0.6676, 0.6657, 0.6641, 0.6638, 0.6632, 0.6621, 0.6611, 0.6602, 0.6596, 0.6596, 0.6584, 0.6579, 0.6568, 0.655, 0.6567, 0.6543, 0.6477, 0.6311, 0.6395, 0.5601, 0.619, 0.5463, 0.5268, 0.4809, 0.5685, 0.3654, 0.4579, 0.4246, 0.6191, 0.4648, 0.4437, 0.4272, 0.4447, 0.0312, 0.4059, 0.1702, 0.4815, 0.2797, 0.0673, -0.2146, 0.1292, 0.0449, -0.2554, 1.3296, 1.3286, 1.3215, 1.3162, 1.3029, 1.2961, 1.2897, 1.289, 1.2876, 1.2875, 1.2848, 1.2825, 1.2818, 1.2817, 1.2814, 1.2814, 1.2813, 1.2811, 1.2807, 1.2805, 1.2729, 1.2727, 1.2722, 1.2718, 1.2716, 1.2714, 1.2711, 1.2611, 1.2611, 1.261, 1.1966, 1.2205, 1.1974, 0.9224, 0.8555, 0.854, 1.1561, 1.1573, 0.7735, 1.045, 0.751, 0.6839, 0.1964, 1.1573, 1.1493, 1.0382, 0.8104, 0.5335, 0.8911, 0.9994, 1.0808, 0.2306, 0.6914, 0.5804, -0.2192, 0.5027, -0.3888, -0.1238, -0.3649, -1.2023, -0.4342, 1.6151, 1.615, 1.6039, 1.5999, 1.5965, 1.5902, 1.5842, 1.5789, 1.5753, 1.5711, 1.5679, 1.5676, 1.5634, 1.559, 1.5567, 1.5559, 1.5536, 1.5525, 1.5514, 1.5451, 1.5357, 1.534, 1.534, 1.5338, 1.5223, 1.5222, 1.5219, 1.5213, 1.5203, 1.5096, 1.4691, 1.321, 0.8112, 0.7685, 1.2953, 1.1114, 0.9006, -0.0622, 0.417, -0.0141, 0.8882, 0.3818, -0.2979, 0.443, -0.8939, 2.7785, 2.7644, 2.7582, 2.7426, 2.6638, 2.6466, 2.6464, 2.6183, 2.6173, 2.6142, 2.5794, 2.5789, 2.5785, 2.5779, 2.5774, 2.5752, 2.5702, 2.5189, 2.5178, 2.5178, 2.5178, 2.5178, 2.5155, 2.4572, 2.4131, 2.4131, 2.4131, 2.4131, 2.4131, 2.4131, 2.351, 2.3392, 2.3078, 2.1466, 2.1667, 2.2163, 0.9779, 1.7726, 1.2438, 1.4647, 1.3945, 1.9287, 1.3388, 0.6772, 0.1595, 0.6176, 1.7685, 1.0665, 0.8163, -0.8139, -0.649]}, "token.table": {"Topic": [2, 1, 2, 3, 4, 1, 2, 3, 3, 3, 3, 1, 2, 3, 3, 4, 1, 3, 1, 1, 3, 1, 1, 2, 3, 1, 3, 4, 1, 2, 4, 4, 1, 4, 4, 1, 2, 4, 1, 2, 4, 2, 2, 3, 1, 1, 2, 4, 4, 1, 2, 3, 1, 3, 4, 1, 1, 3, 2, 3, 3, 4, 1, 4, 1, 2, 3, 4, 2, 2, 4, 1, 2, 3, 3, 4, 3, 1, 4, 1, 1, 2, 3, 2, 1, 2, 3, 4, 1, 2, 4, 4, 1, 2, 3, 4, 3, 1, 2, 3, 4, 3, 4, 1, 1, 2, 1, 2, 2, 1, 3, 3, 1, 3, 4, 2, 1, 1, 1, 2, 3, 1, 1, 2, 3, 4, 3, 1, 1, 1, 2, 4, 2, 3, 1, 3, 4, 4, 2, 4, 1, 1, 3, 1, 2, 3, 4, 2, 3, 2, 3, 2, 2, 4, 2, 3, 4, 4, 1, 2, 3, 2, 4, 1, 4, 4, 3, 2, 2, 3, 1, 3, 3, 4, 4, 3, 1, 3, 4, 1, 1, 4, 2, 2, 1, 3, 1, 1, 2, 3, 4, 1, 2, 3, 3, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 1, 2, 3, 4, 2, 3, 2, 4, 3, 2, 1, 1, 1, 2, 3, 4, 1, 2, 3, 4, 4, 2, 3, 3, 1, 2, 4, 1, 2, 2, 3, 4, 2, 2, 1, 2, 3, 4, 1, 2, 3, 4, 1, 1, 4, 2, 2, 1, 2, 3, 1, 2, 2, 1, 3, 1, 3, 3, 1, 4, 1, 2, 1, 2, 1, 1, 1, 2, 3, 2, 3, 4, 1, 1, 2, 3, 1, 2, 1, 3, 3, 1, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1, 2, 3, 4, 1, 2, 3, 4, 4, 1, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 3, 2], "Freq": [0.9427677318021834, 0.7379872721823852, 0.09522416415256585, 0.047612082076282924, 0.11903020519070731, 0.5041147792648911, 0.3115316051636967, 0.18691896309821804, 0.9062899848225826, 0.9449958658041353, 0.9436573946361023, 0.37771534061530276, 0.1373510329510192, 0.4807286153285672, 0.9327652241195951, 0.8621303971513156, 0.6792231241435367, 0.3056504058645915, 0.9669452901326709, 0.9204628599113888, 0.9628523779408047, 0.9727974209911437, 0.5162714255651677, 0.038242327819642055, 0.4397867699258836, 0.15338206631714044, 0.3067641326342809, 0.4601461989514213, 0.44004332549874314, 0.2933622169991621, 0.24446851416596843, 0.9873500998228952, 0.264216695537125, 0.6605417388428125, 0.8410230162229895, 0.7957211088374574, 0.1716261215139614, 0.0468071240492622, 0.5048856490331847, 0.2839981775811664, 0.2208874714520183, 0.9839432185181372, 0.9517394877051241, 0.9624920071879297, 0.96716722712798, 0.16040557949644366, 0.8020278974822183, 0.8421887160787562, 0.8639224659777992, 0.8571206828242912, 0.07142672356869094, 0.07142672356869094, 0.8453253967632437, 0.13005006104049902, 0.4574131000858809, 0.9684825893396272, 0.9392482745574162, 0.06059666287467202, 0.9452793168768632, 0.9629120502748074, 0.9919974468560574, 0.4574131000858809, 0.9703666673535364, 0.8614877857292054, 0.24153024191171643, 0.22295099253389208, 0.4273227356899598, 0.11147549626694604, 0.8889539130817201, 0.23000187458920607, 0.6900056237676182, 0.7594629233124532, 0.10548096157117406, 0.12657715388540888, 0.9449754382125458, 0.4574131000858807, 0.8405124619087934, 0.33142276141557714, 0.6628455228311543, 0.9305003439692423, 0.7485926328597874, 0.17378043262816492, 0.0802063535206915, 0.9799306069609799, 0.36408996904832985, 0.5557162685474508, 0.07665051979964839, 0.7287755039183721, 0.19636473574720315, 0.6495141259330565, 0.16615477640147958, 0.8652892874187571, 0.7484344972750391, 0.07742425833879715, 0.10323234445172953, 0.051616172225864766, 0.943656012081008, 0.8444337527339713, 0.04308335473132506, 0.07755003851638512, 0.03446668378506005, 0.9804046216396133, 0.7048817402120806, 0.9884029611517351, 0.09222636286887577, 0.830037265819882, 0.9743719901715701, 0.9326913167928682, 0.922736825612205, 0.9795395455268087, 0.924313210813698, 0.9771016824948073, 0.36191989717261724, 0.482559862896823, 0.12063996572420575, 0.9517690550663309, 0.9096100762339382, 0.9407279946362125, 0.7481309148492017, 0.12131852673230298, 0.12131852673230298, 0.9310091713662867, 0.9425596940128215, 0.05544468788310714, 0.48804971839728967, 0.36603728879796726, 0.8845074266384831, 0.9562543953328108, 0.9736721372250806, 0.8256756628545784, 0.15012284779174154, 0.030024569558348306, 0.9251607721487656, 0.9139987243884685, 0.9165652036452349, 0.050920289091401935, 0.8613846263279259, 0.4574131000858809, 0.9729351104185789, 0.863644027121973, 0.9702926779606188, 0.9229983844999797, 0.06592845603571283, 0.5515743387650022, 0.32685886741629755, 0.10214339606759298, 0.020428679213518597, 0.09346875642466171, 0.8412188078219555, 0.95444935710342, 0.90768567618082, 0.9216918357339537, 0.4487902229848538, 0.5609877787310673, 0.16581293522848867, 0.497438805685466, 0.33162587045697733, 0.9718185815522778, 0.7674276645251994, 0.16278768641443622, 0.04651076754698178, 0.9096655436396003, 0.10107394929328892, 0.9746668897476869, 0.8620048982186591, 0.4574131000858805, 0.9068949142002787, 0.9520465791862625, 0.6891999432676742, 0.25061816118824515, 0.9743639974135716, 0.9356820285445941, 0.717465593976307, 0.22420799811759595, 0.893208800685402, 0.9074342958804619, 0.9310303332800486, 0.03266773099228241, 0.03266773099228241, 0.9435609242516162, 0.6179386427945343, 0.3089693213972671, 0.9513435520899121, 0.9238762690461202, 0.2465008197733431, 0.7395024593200293, 0.9766652250141102, 0.41060577940277065, 0.41060577940277065, 0.14931119251009842, 0.037327798127524604, 0.6417205944805635, 0.06417205944805635, 0.2780789242749108, 0.9129341137993486, 0.9166045458397264, 0.7052046957109243, 0.07757251652820167, 0.19040526784194953, 0.028208187828436967, 0.9149442435483212, 0.09149442435483211, 0.48246071383714134, 0.4405076082860856, 0.06292965832658365, 0.4388282627082581, 0.04875869585647312, 0.2925521751388387, 0.24379347928236558, 0.9724236735812533, 0.958069350160861, 0.887551670336559, 0.7073516599197407, 0.897966022445602, 0.9729125247520684, 0.9324998218421638, 0.910079066208135, 0.41614439518275087, 0.4539757038357282, 0.0756626173059547, 0.0756626173059547, 0.37599844664224047, 0.5061517550953237, 0.0867688723020555, 0.028922957434018497, 0.7044922124938381, 0.8315842905203997, 0.16631685810407995, 0.9366875604103699, 0.42060983576241573, 0.5047318029148988, 0.04206098357624157, 0.9192540202467905, 0.9212210085810898, 0.7088151190062649, 0.2726211996177942, 0.45741310008588115, 0.8923586425878918, 0.9488603250016988, 0.7719285149518054, 0.14473659655346352, 0.048245532184487835, 0.03216368812299189, 0.3944696694154497, 0.5917045041231745, 0.9459622413871894, 0.9796074184206348, 0.9794706881933352, 0.3983813555594559, 0.5975720333391839, 0.9442240384522531, 0.949832180907635, 0.528767162766247, 0.18129159866271327, 0.30215266443785543, 0.15058615594265087, 0.8282238576845798, 0.8883929716796941, 0.9586487416752211, 0.9097232968304009, 0.9444660384326119, 0.047223301921630594, 0.9767336127317363, 0.9468895117222919, 0.0364188273739343, 0.16931085110927527, 0.8465542555463764, 0.3354358946681099, 0.6229523758122041, 0.960873705123888, 0.953623972045022, 0.1339913107075656, 0.7369522088916108, 0.1339913107075656, 0.04686885510543595, 0.9373771021087189, 0.7073516599197408, 0.9665796690537478, 0.4090663507791721, 0.5335648053641375, 0.03557098702427583, 0.9612052304336015, 0.020025108967366697, 0.7849844246749564, 0.20477854556737995, 0.9814896595844423, 0.391787400963007, 0.6044719900572109, 0.3434341571410941, 0.6010097749969147, 0.05151512357116411, 0.9246657824013127, 0.3234512694846039, 0.05390854491410065, 0.5929939940551071, 0.9500456366757299, 0.5846955495532006, 0.2078917509522491, 0.14292557877967127, 0.06496617217257784, 0.6840030317483695, 0.052615617826797655, 0.052615617826797655, 0.15784685348039296, 0.9240116400330343, 0.9417631030876017, 0.7279667166875984, 0.9241088183602125, 0.7073516599197395, 0.7489473759634364, 0.22468421278903092, 0.7302288675968875, 0.7073516599197406, 0.3525168005198116, 0.5875280008663526, 0.849732250146579, 0.05310826563416119, 0.05310826563416119, 0.9729141918480438, 0.9729376458244604], "Term": ["\u4e00\u751f", "\u4e8b", "\u4e8b", "\u4e8b", "\u4e8b", "\u4eba", "\u4eba", "\u4eba", "\u4ee3", "\u4f7f\u7528", "\u4fe1\u4ef0", "\u505a", "\u505a", "\u505a", "\u51b0\u6dc7\u6dcb", "\u5229", "\u5230", "\u5230", "\u529b", "\u529b\u6c23", "\u529f\u592b", "\u52c7\u6c23", "\u5403", "\u5403", "\u5403", "\u540d", "\u540d", "\u540d", "\u5473\u9053", "\u5473\u9053", "\u5473\u9053", "\u54aa", "\u54e5\u54e5", "\u54e5\u54e5", "\u5507\u5370", "\u5531", "\u5531", "\u5531", "\u5634", "\u5634", "\u5634", "\u5690", "\u5708", "\u570d\u5dfe", "\u5730\u7403", "\u5834\u666f", "\u5834\u666f", "\u591c\u66f2", "\u591c\u98a8", "\u5922", "\u5922", "\u5922", "\u5922\u60f3", "\u5922\u60f3", "\u5927\u8863", "\u592a\u967d", "\u5973\u4eba", "\u5973\u4eba", "\u5a18\u5b50", "\u5abd", "\u5abd\u5abd", "\u5b57\u578b", "\u5b63\u7bc0", "\u5bb6", "\u5beb", "\u5beb", "\u5beb", "\u5beb", "\u5beb\u4e0a", "\u5c71\u6c34\u756b", "\u5c71\u6c34\u756b", "\u5e36", "\u5e36", "\u5e36", "\u5e73\u539f", "\u5e7d\u51a5", "\u5f48\u5531", "\u5f48\u594f", "\u5f48\u594f", "\u5f69\u8679", "\u5fc3", "\u5fc3", "\u5fc3", "\u60b2\u5287", "\u611b", "\u611b", "\u611b", "\u611b\u6068", "\u611b\u60c5", "\u611b\u60c5", "\u611b\u60c5", "\u611f\u61c9", "\u611f\u89ba", "\u611f\u89ba", "\u611f\u89ba", "\u611f\u89ba", "\u6230\u722d", "\u624b", "\u624b", "\u624b", "\u624b", "\u6253", "\u6279\u7d19", "\u627e", "\u6298", "\u6298", "\u62b1", "\u62bd\u96e2", "\u62c6", "\u62c6\u7a7f", "\u62ef\u6551", "\u62f3", "\u62ff", "\u62ff", "\u62ff", "\u63a5\u8fd1", "\u64e0", "\u6539\u8b8a", "\u653e", "\u653e", "\u653e", "\u653e\u4e0b", "\u6545\u4e8b", "\u6545\u4e8b", "\u6572", "\u6572", "\u6575\u4eba", "\u661f\u661f", "\u6642\u4ee3", "\u6642\u9593", "\u6642\u9593", "\u6642\u9593", "\u666f\u8272", "\u66b4\u529b", "\u671b", "\u671b", "\u679d", "\u67af\u4e95", "\u694a\u67f3", "\u6a39\u679d", "\u6a5f\u6703", "\u6b4c", "\u6b4c", "\u6b4c\u8a5e", "\u6b4c\u8a5e", "\u6b4c\u8a5e", "\u6b4c\u8a5e", "\u6b77\u53f2", "\u6b77\u53f2", "\u6bc5\u529b", "\u6bd4\u8f03", "\u6bdb\u75c5", "\u6c23", "\u6c23", "\u6c34", "\u6c34", "\u6c34", "\u6ce1", "\u6dda", "\u6dda", "\u6dda", "\u6eaa", "\u6eaa", "\u6f22\u5821", "\u706b\u8eca", "\u70cf\u9d09", "\u7159\u9727", "\u71b1\u60c5", "\u71c3\u71d2", "\u71c3\u71d2", "\u71c8", "\u7238", "\u7238\u7238", "\u7238\u7238", "\u723a\u723a", "\u725b\u5152", "\u727d", "\u727d", "\u727d", "\u72d7", "\u73ab\u7470", "\u73ab\u7470", "\u7434\u8072", "\u751f\u6b7b", "\u7528", "\u7528", "\u7537\u4eba", "\u756b", "\u756b", "\u756b", "\u756b", "\u756b\u9762", "\u756b\u9762", "\u756b\u9762", "\u76ee\u5149", "\u7709\u982d", "\u770b", "\u770b", "\u770b", "\u770b", "\u773c", "\u773c", "\u773c\u6dda", "\u773c\u6dda", "\u773c\u6dda", "\u773c\u775b", "\u773c\u775b", "\u773c\u775b", "\u773c\u775b", "\u776b\u6bdb", "\u795e", "\u795e\u7d93", "\u79bf\u9df9", "\u7a7f\u4e0a", "\u7a97\u53f0", "\u7ae5\u5e74", "\u7ae5\u8a71", "\u7b11\u5bb9", "\u7b11\u5bb9", "\u7b11\u5bb9", "\u7b11\u5bb9", "\u7b49", "\u7b49", "\u7b49", "\u7b49", "\u7c6c\u7b06", "\u7d00\u9304", "\u7d00\u9304", "\u7d05\u8272", "\u7d50\u5c40", "\u7d50\u5c40", "\u7d50\u5c40", "\u7dda", "\u7f8e\u666f", "\u800d", "\u800d", "\u8150\u8089", "\u8166\u888b", "\u8173\u5370", "\u81c9", "\u81c9", "\u81c9", "\u81c9", "\u82b1", "\u82b1", "\u82f1\u96c4", "\u8336", "\u84b2\u516c\u82f1", "\u89aa\u8fd1", "\u89aa\u8fd1", "\u89e3", "\u8a0a\u865f", "\u8a71", "\u8a71", "\u8a71", "\u8a98\u60d1", "\u8a98\u60d1", "\u8a9e", "\u8aaa\u7a7f", "\u8abf\u6574", "\u8b80", "\u8b80", "\u8d85\u4eba", "\u8def", "\u8def", "\u8f29\u5b50", "\u8f29\u5b50", "\u9047\u898b", "\u9047\u898b", "\u904a\u6232", "\u9078\u64c7", "\u9152", "\u9152", "\u9152", "\u9234", "\u9234", "\u9375\u76e4", "\u9583", "\u958b", "\u958b", "\u958b", "\u966a", "\u966a", "\u967d\u5149", "\u967d\u5149", "\u96d9\u622a\u68cd", "\u96e2\u958b", "\u96e2\u958b", "\u96e8", "\u96e8", "\u96e8", "\u96fb\u8a71", "\u9748\u9b42", "\u9748\u9b42", "\u9748\u9b42", "\u9810\u5146", "\u98a8", "\u98a8", "\u98a8", "\u98a8", "\u98a8\u666f", "\u98a8\u666f", "\u98a8\u666f", "\u98a8\u666f", "\u98a8\u6c99", "\u98a8\u8eca", "\u98b3", "\u98f2\u6599", "\u9935\u98df", "\u9999\u5473", "\u9999\u5473", "\u9999\u6c34", "\u9d3f\u5b50", "\u9ea5", "\u9ea5", "\u9ed1\u8272", "\u9ed1\u8272", "\u9ed1\u8272", "\u9f8d", "\u9f8d\u6372\u98a8"]}, "R": 30, "lambda.step": 0.01, "plot.opts": {"xlab": "PC1", "ylab": "PC2"}, "topic.order": [1, 4, 3, 2]};
+
+function LDAvis_load_lib(url, callback){
+  var s = document.createElement('script');
+  s.src = url;
+  s.async = true;
+  s.onreadystatechange = s.onload = callback;
+  s.onerror = function(){console.warn("failed to load library " + url);};
+  document.getElementsByTagName("head")[0].appendChild(s);
+}
+
+if(typeof(LDAvis) !== "undefined"){
+   // already loaded: just create the visualization
+   !function(LDAvis){
+       new LDAvis("#" + "ldavis_el748321402982222257124149002319", ldavis_el748321402982222257124149002319_data);
+   }(LDAvis);
+}else if(typeof define === "function" && define.amd){
+   // require.js is available: use it to load d3/LDAvis
+   require.config({paths: {d3: "https://d3js.org/d3.v5"}});
+   require(["d3"], function(d3){
+      window.d3 = d3;
+      LDAvis_load_lib("https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.2.2/pyLDAvis/js/ldavis.v3.0.0.js", function(){
+        new LDAvis("#" + "ldavis_el748321402982222257124149002319", ldavis_el748321402982222257124149002319_data);
+      });
+    });
+}else{
+    // require.js not available: dynamically load d3 & LDAvis
+    LDAvis_load_lib("https://d3js.org/d3.v5.js", function(){
+         LDAvis_load_lib("https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.2.2/pyLDAvis/js/ldavis.v3.0.0.js", function(){
+                 new LDAvis("#" + "ldavis_el748321402982222257124149002319", ldavis_el748321402982222257124149002319_data);
+            })
+         });
+}
+</script></div></div>
+</div>
+</div>
+<div class="section" id="clustering-documents-using-topic-model-features">
+<h2>Clustering documents using topic model features<a class="headerlink" href="#clustering-documents-using-topic-model-features" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+
+<span class="n">km</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">num_of_topic</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">km</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+<span class="n">cluster_labels</span> <span class="o">=</span> <span class="n">km</span><span class="o">.</span><span class="n">labels_</span>
+<span class="n">cluster_labels</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cluster_labels</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ClusterLabel&#39;</span><span class="p">])</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">corpus_df</span><span class="p">,</span> <span class="n">cluster_labels</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>title</th>
+      <th>lyric</th>
+      <th>ClusterLabel</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>我是如此相信</td>
+      <td>鳥群離開了森林 整座天空很灰心\n蝴蝶不再被吸引 玫瑰盛開的很安靜\n遠方的風雨不停 城市蒼白而孤寂\n徘徊無助的人群 焦慮著何時放晴\n故事裡能毀壞的只有風景\n誰也摧毀不了我們的夢境\n弦月旁的流星劃過了天際\n我許下的願望該向誰去說明\n隕石在浩瀚的宇宙間旅行\n璀璨的夜空裡漫天的水晶\n我的禱告終於有了回音\n我是如此相信 在背後支撐的是你\n一直與我並肩而行 仰望等太陽升起\n聽...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>英雄</td>
+      <td>人生不是ㄧ個人的遊戲\nㄧ起奮鬥ㄧ起超越ㄧ起殺吧sup兄弟\n好戰好勝戰勝逆命\n管他天賦夠不夠我們都還需要再努力\n你的劍就是我的劍\n艾希的箭可不可以準ㄧ點  嘿\n你打野我來控兵線\n不要隨便慌張就交閃現\n旋轉跳躍你閉著眼\n卡特轉完會讓你閉上眼\n悟空蓋倫也轉圈圈\n盲僧李先生ㄧ腳把你  踢回老家\n擊殺  雙殺  三殺  Penta kill\n扛塔  偷拆  插眼讓我傳送\n...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>雙截棍</td>
+      <td>岩燒店的煙味瀰漫  隔壁是國術館\n店裡面的媽媽桑  茶道  有三段\n教拳腳武術的老板  練鐵沙掌  耍楊家槍\n硬底子功夫最擅長  還會金鐘罩鐵布衫\n他們兒子我習慣  從小就耳濡目染\n什麼刀槍跟棍棒  我都耍的有模有樣\n什麼兵器最喜歡  雙截棍柔中帶剛\n想要去河南嵩山  學少林跟武當\n幹什麼(客)  幹什麼(客)  呼吸吐納心自在\n幹什麼(客)  幹什麼(客)  氣沉丹田手...</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>開不了口</td>
+      <td>才離開沒多久就開始  擔心今天的妳過得好不好\n整個畫面是妳  想妳想的睡不著\n嘴嘟嘟那可愛的模樣  還有在妳身上香香的味道\n我的快樂是妳  想妳想的都會笑\n沒有妳在我有多難熬(沒有妳在我有多難熬多煩惱)\n沒有妳煩我有多煩惱(沒有妳煩我有多煩惱多難熬)\n穿過雲層  我試著努力向妳奔跑\n愛才送到  妳卻已在別人懷抱\n就是開不了口  讓她知道\n我一定會呵護著妳  也逗妳笑\n妳...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>床邊故事</td>
+      <td>從前從前有隻貓頭鷹  牠站在屋頂\n屋頂後面一遍森林  森林很安靜\n安靜的鋼琴在大廳  閣樓裡  仔細聽\n仔細聽  叮叮叮  什麼聲音\n乖乖睡  不要怕  聽我說\n乖乖睡  醒來就  吃蘋果\n不睡覺  的時候  有傳說\n會有人  咬你的  小指頭\n這故事  繼續翻頁  再翻頁\n你繼續  不想睡  我卻想睡\n然後我準備  去打開衣櫃\n去看看  躲著誰  去看看  躲著誰\...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>207</th>
+      <td>大頭貼</td>
+      <td>Ya　這首歌　送給我的朋友　詹宇豪\n真的有夠衰(台語)　不是別人拍到他\n哼　自己拍到自己　Ya　聽下去(台語)\n前幾天從香港回來　聽到狗週刊\n拍了宇豪跟Lara　場面有點溫馨　有點甜蜜\n有什麼不可以　照片不腥羶色　嘴對嘴\n年輕人都試過戀愛　怎麼不可以嘴對嘴\n我說真心話大冒險遊戲　遊戲就是這樣玩\n真心話大冒險遊戲　還有更誇張更恐怖的\n只是你們沒有機會看到啊　張傑說他把過８個...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>208</th>
+      <td>不知不覺愛上你</td>
+      <td>不知不覺愛上你\n我不知不覺愛上你 就像呼吸\n明明現在的你正躺我懷裡\n還是懷疑總覺得不夠力\n要怎樣才抱得更緊\nSHOO BE DOO SHOO BE DOO\n可以倒流讓我陪你一起\n早聽說孩提時的你愛讓我哄你\n好羨慕和你同班同桌男生\n多麼幸運\n讓我可以代替你最愛的那個木偶玩具\nWOOH\n我不知不覺愛上你就像呼吸\n明明現在的你正躺(在)我(的)懷裡\n還是懷疑總覺得不夠...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>209</th>
+      <td>熊貓人</td>
+      <td>2030年光明市 沐浴陽光\n誰懶在床上 翻閱著 科幻偶像\n這一頁寫到一座廢舊工廠\n超喜歡這感覺的未來式的家當\n廚房里煮著濃郁的竹筍湯\n鋼琴彈唱悠揚飄出了琴房\n誰在做拯救世界的夢想\n這城市安全籠罩在不祥\n紅色圍巾飄飄 穿上熊貓外套\n伸張正義的火苗 體內熊熊燃燒\n輕輕舒展拳腳 畫面變得潦草\n邪惡勢力哪里逃 東方功夫討教\n紅色圍巾飄飄 熊貓超人來到\n雙截棍不是花招 你像...</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>210</th>
+      <td>哇靠</td>
+      <td>哇靠著田邊的風車唱著小時候的歌\n關於折疊好的夢想該染上什麼顏色\n才更適合　在蒲公英成熟的季節飛呢\n不熟悉的土地　長出的蘆葦\n在冬季會不會還很美麗\n我們都在努力尋找屬於自己的土地\n被雨淋濕的日記　抓秋蟬劃傷的幼稚\n如果我們現在能笑的很快樂的事\n還是鞦韆和夕陽下追趕的燕子\n為什麼要親自把美好都留在過去\n就笑一個吧\n想看海就丟下遺憾揚起帆\n有些畫面不是靠焦距就能瀏覽\n想...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>211</th>
+      <td>默</td>
+      <td>忍不住化身一條固執的魚\n逆著洋流獨自游到底\n年少時候虔誠發過的誓\n沉默地沉沒在深海裡\n重溫幾次\n結局還是\n失去你\n我被愛判處終身孤寂\n不還手 不放手\n筆下畫不完的圓\n心間填不滿的緣\n是你\n為何愛判處眾生孤寂\n掙不脫 逃不過\n眉頭解不開的結\n命中解不開的劫\n是你\n眉頭解不開的結\n命中解不開的劫\n是你</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>212 rows × 3 columns</p>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="visualize-topic-distributions">
+<h2>Visualize topic distributions<a class="headerlink" href="#visualize-topic-distributions" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_axis</span> <span class="o">=</span> <span class="n">corpus_df</span><span class="o">.</span><span class="n">index</span>
+<span class="n">y_axis</span> <span class="o">=</span> <span class="n">features</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Plot a stackplot - https://matplotlib.org/3.1.1/gallery/lines_bars_and_markers/stackplot_demo.html</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">stackplot</span><span class="p">(</span><span class="n">x_axis</span><span class="p">,</span> <span class="n">y_axis</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">baseline</span><span class="o">=</span><span class="s1">&#39;wiggle&#39;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">y_axis</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+<span class="c1"># Move the legend off of the chart</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="p">(</span><span class="mf">1.04</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f99a9e2eba8&gt;
+</pre></div>
+</div>
+<img alt="../_images/topic-modeling-lyrics_30_1.png" src="../_images/topic-modeling-lyrics_30_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tmtoolkit.topicmod.evaluate</span> <span class="kn">import</span> <span class="n">metric_coherence_gensim</span>
+<span class="c1"># lda_model - LatentDirichletAllocation()</span>
+<span class="c1"># vect - CountVectorizer()</span>
+<span class="c1"># texts - the list of tokenized words</span>
+<span class="n">norm_corpus</span>
+<span class="n">norm_corpus_tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">doc</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">norm_corpus</span><span class="p">]</span>
+
+
+<span class="n">metric_coherence_gensim</span><span class="p">(</span><span class="n">measure</span><span class="o">=</span><span class="s1">&#39;c_v&#39;</span><span class="p">,</span> 
+                        <span class="n">top_n</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> 
+                        <span class="n">topic_word_distrib</span><span class="o">=</span> <span class="n">lda</span><span class="o">.</span><span class="n">components_</span><span class="p">,</span> 
+                        <span class="n">dtm</span><span class="o">=</span><span class="n">cv</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">norm_corpus</span><span class="p">),</span> 
+                        <span class="n">vocab</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">()),</span> 
+                        <span class="n">texts</span><span class="o">=</span><span class="n">norm_corpus_tokens</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.4624846092264191,
+ 0.389057595015177,
+ 0.35260753929261884,
+ 0.44817352289651746]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python-notes",
+            path: "./exercise-ans"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python-notes'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Alvin Chen<br/>
+        
+            &copy; Copyright 2020 Alvin Chen.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>
