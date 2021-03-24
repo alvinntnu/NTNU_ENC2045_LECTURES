@@ -39,4 +39,5 @@ text-normalization-eng
 text-tokenization
 text-enrichment
 chinese-word-seg
+google-colab
 ```

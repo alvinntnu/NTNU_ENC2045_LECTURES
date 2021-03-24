@@ -1,0 +1,745 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Google Colab &#8212; ENC2045 Computational Linguistics</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Text Vectorization Using Traditional Methods" href="text-vec-traditional.html" />
+    <link rel="prev" title="Chinese Word Segmentation" href="chinese-word-seg.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/ntnu-word-2.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">ENC2045 Computational Linguistics</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <p class="caption collapsible-parent">
+ <span class="caption-text">
+  INTRODUCTION
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="nlp-primer.html">
+   Natural Language Processing: A Primer
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="nlp-pipeline.html">
+   NLP Pipeline
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Preprocessing
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1 current active collapsible-parent">
+  <a class="reference internal" href="text-preprocessing.html">
+   Text Preprocessing
+  </a>
+  <ul class="current collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="text-normalization-eng.html">
+     Text Normalization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="text-tokenization.html">
+     Text Tokenization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="text-enrichment.html">
+     Text Enrichment
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="chinese-word-seg.html">
+     Chinese Word Segmentation
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Google Colab
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Text Vectorization
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="text-vec-traditional.html">
+   Text Vectorization Using Traditional Methods
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine Learning Basics
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-overview.html">
+   1. Machine Learning: Overview
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-simple-case.html">
+   2. Machine Learning: A Simple Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-algorithm.html">
+   3. Classification Models
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine-Learning NLP
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/ml-sklearn-classification.html">
+   1. Sentiment Analysis Using Bag-of-Words
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-classification-ml-newsgroups.html">
+   2. Text Classification Using Bag-of-Words
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/topic-modeling-naive.html">
+   3. Topic Modeling: A Naive Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-nlp-case.html">
+   4. Machine Learning: NLP Tasks
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Deep Learning NLP
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-neural-network-from-scratch.html">
+   Neural Network From Scratch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-vec-embedding.html">
+   Word Embeddings
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-vec-embedding-keras.html">
+   Word Embedding Using Keras
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-statistical-language-model.html">
+   Statistical Language Model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-sequence-models-intuition.html">
+   Sequence Models Intuition
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Attention, Transformers, and Transfer Learning
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-seq-to-seq-types.html">
+   Attention: Intuition
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-transformers-intuition.html">
+   Transformers: Intuition
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Exercises
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/1-python-basics.html">
+   1. Assignment I: Python Basics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/2-journal-review.html">
+   2. Assignment II: Journal Articles Review
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/3-preprocessing.html">
+   3. Assignment III: Preprocessing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/4-chinese-nlp.html">
+   4. Assignment IV: Chinese Language Processing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/5-text-vectorization.html">
+   5. Assignment V: Text Vectorization
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  <div style="text-align:center">
+<i class="fas fa-chalkboard-teacher fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinntnu.github.io/NTNU_ENC2045/" target='_blank'>ENC2045 Course Website</a><br>
+<i class="fas fa-home fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinchen.myftp.org/" target='_blank'>Alvin Chen's Homepage</a>
+</div>
+
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/nlp/google-colab.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alvinntnu/NTNU_ENC2045_LECTURES/main?urlpath=tree/nlp/google-colab.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alvinntnu/NTNU_ENC2045_LECTURES/blob/main/nlp/google-colab.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#setup-google-drive">
+   Setup Google Drive
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#run-notebook-in-google-colab">
+   Run Notebook in Google Colab
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#setting-google-colab-environment">
+   Setting Google Colab Environment
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#try-ckip-transformers-with-gpu">
+   Try
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     ckip-transformers
+    </span>
+   </code>
+   with GPU
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#initialize-the-ckip-transformers">
+     Initialize the
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       ckip-transformers
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tokenization-chinese-texts">
+     Tokenization Chinese Texts
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="google-colab">
+<h1>Google Colab<a class="headerlink" href="#google-colab" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>As we are working with more and more data, we may need GPU computing for quicker processing.</p></li>
+<li><p>This lecture note shows how we can capitalize on the free GPU computing provided by Google Colab and speed up the Chinese word segmentation of <code class="docutils literal notranslate"><span class="pre">ckip-transformers</span></code>.</p></li>
+</ul>
+<div class="section" id="setup-google-drive">
+<h2>Setup Google Drive<a class="headerlink" href="#setup-google-drive" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Create a working directory under your Google Drive, named <code class="docutils literal notranslate"><span class="pre">ENC2045_DEMO_DATA</span></code>.</p></li>
+<li><p>Save the corpus files needed in that Google Drive directory.</p></li>
+<li><p>We can access the files on our Google Drive from Google Colab. This can be useful when you need to load your own data in Google Colab.</p></li>
+</ul>
+</div>
+<div class="section" id="run-notebook-in-google-colab">
+<h2>Run Notebook in Google Colab<a class="headerlink" href="#run-notebook-in-google-colab" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Click on the button on top of the lecture notes website to open this notebook in Google Colab.</p></li>
+</ul>
+</div>
+<div class="section" id="setting-google-colab-environment">
+<h2>Setting Google Colab Environment<a class="headerlink" href="#setting-google-colab-environment" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>GPU Setting:</p>
+<ul>
+<li><p>[Runtime] -&gt; [Change runtime type]</p></li>
+<li><p>For [Hardware accelerator], choose [GPU]</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>nvidia-smi
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wed Mar 24 11:27:29 2021       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 460.56       Driver Version: 460.32.03    CUDA Version: 11.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  Tesla T4            Off  | 00000000:00:04.0 Off |                    0 |
+| N/A   67C    P0    31W /  70W |  10734MiB / 15109MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
++-----------------------------------------------------------------------------+
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Install modules that are not installed in the current Google Colab</p></li>
+</ul>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Google Drive Setting</span>
+<span class="o">!</span>pip install ckip-transformers
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Mount Our Google Drive</p>
+<ul>
+<li><p>After we run the above codes, get the authorization code and copy-paste it to the box.</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
+<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/drive&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mounted at /content/drive
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Change Colab working directory to the <code class="docutils literal notranslate"><span class="pre">ENC2045_demo_data</span></code> of the Google Drive</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;/content/drive/MyDrive/ENC2045_demo_data&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/content/drive/MyDrive/ENC2045_demo_data
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="try-ckip-transformers-with-gpu">
+<h2>Try <code class="docutils literal notranslate"><span class="pre">ckip-transformers</span></code> with GPU<a class="headerlink" href="#try-ckip-transformers-with-gpu" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="initialize-the-ckip-transformers">
+<h3>Initialize the <code class="docutils literal notranslate"><span class="pre">ckip-transformers</span></code><a class="headerlink" href="#initialize-the-ckip-transformers" title="Permalink to this headline">¶</a></h3>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ckip_transformers</span>
+<span class="kn">from</span> <span class="nn">ckip_transformers.nlp</span> <span class="kn">import</span> <span class="n">CkipWordSegmenter</span><span class="p">,</span> <span class="n">CkipPosTagger</span>
+<span class="c1"># Initialize drivers</span>
+<span class="n">ws_driver</span> <span class="o">=</span> <span class="n">CkipWordSegmenter</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">pos_driver</span> <span class="o">=</span> <span class="n">CkipPosTagger</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_tokenizer</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+    <span class="c1"># `doc`: a list of corpus documents (each element is a document long string)</span>
+    <span class="n">cur_ws</span> <span class="o">=</span> <span class="n">ws_driver</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">use_delim</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">delim_set</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">cur_pos</span> <span class="o">=</span> <span class="n">pos_driver</span><span class="p">(</span><span class="n">cur_ws</span><span class="p">)</span>
+    <span class="n">doc_seg</span> <span class="o">=</span> <span class="p">[[(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">p</span><span class="p">)]</span>  <span class="k">for</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">p</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">cur_ws</span><span class="p">,</span> <span class="n">cur_pos</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">doc_seg</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="tokenization-chinese-texts">
+<h3>Tokenization Chinese Texts<a class="headerlink" href="#tokenization-chinese-texts" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;dcard-top100.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">corpus</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">]</span>
+<span class="n">corpus</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    部分回應在B117 \n謝謝各位的留言，我都有看完\n好的不好的，我都接受謝謝大家🙇‍♀️\...
+1    https://i.imgur.com/REIEzSd.jpg\n\n身高195公分的男大生...
+2    看過這麼多在Dcard、PTT上的感情渣事和創作文\n從沒想過如此荒謬像八點檔的事情居然會發...
+3    剛剛吃小火鍋，跟店員說不要金針菇（怕卡牙縫），於是店員幫我換其他配料..…\n\n沒想到餐一...
+4    已經約好見面，到了當天晚上七點半才回，我是被耍了嗎 \n如下圖\n\n\nhttps://i...
+5    嗨！巨砲哥 答應你的文來了😆\n這是一段與約砲小哥哥談心的奇幻旅程\n\n可憐的我情人節當天...
+6    https://i.imgur.com/HCTwyAH.jpg\n（圖片非本人）\n今天逛街...
+7    https://i.imgur.com/RWJLK2v.jpg\n\n因為馬鞍很寬\n想請問...
+8    手機排版請見諒😖🙏🏻（圖多）\n先說這不是我第一次訂購訂製蛋糕\n也了解訂製蛋糕不可能跟圖上...
+9    https://i.imgur.com/6Yk9etg.jpg\n想在這裡問大家有沒有接到這...
+Name: content, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">corpus_seg</span> <span class="o">=</span> <span class="n">my_tokenizer</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokenization: 100%|██████████| 100/100 [00:00&lt;00:00, 406.53it/s]
+Inference: 100%|██████████| 16/16 [02:28&lt;00:00,  9.28s/it]
+Tokenization: 100%|██████████| 100/100 [00:00&lt;00:00, 1249.52it/s]
+Inference: 100%|██████████| 10/10 [01:39&lt;00:00,  9.93s/it]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 2min 4s, sys: 2min 4s, total: 4min 9s
+Wall time: 4min 8s
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corpus_seg</span><span class="p">[</span><span class="mi">0</span><span class="p">][:</span><span class="mi">50</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(&#39;部分&#39;, &#39;Neqa&#39;),
+ (&#39;回應&#39;, &#39;VC&#39;),
+ (&#39;在&#39;, &#39;P&#39;),
+ (&#39;B117 \n&#39;, &#39;FW&#39;),
+ (&#39;謝謝&#39;, &#39;VJ&#39;),
+ (&#39;各位&#39;, &#39;Nh&#39;),
+ (&#39;的&#39;, &#39;DE&#39;),
+ (&#39;留言&#39;, &#39;Na&#39;),
+ (&#39;，&#39;, &#39;COMMACATEGORY&#39;),
+ (&#39;我&#39;, &#39;Nh&#39;),
+ (&#39;都&#39;, &#39;D&#39;),
+ (&#39;有&#39;, &#39;D&#39;),
+ (&#39;看完&#39;, &#39;VC&#39;),
+ (&#39;\n&#39;, &#39;WHITESPACE&#39;),
+ (&#39;好&#39;, &#39;VH&#39;),
+ (&#39;的&#39;, &#39;DE&#39;),
+ (&#39;不&#39;, &#39;D&#39;),
+ (&#39;好&#39;, &#39;VH&#39;),
+ (&#39;的&#39;, &#39;T&#39;),
+ (&#39;，&#39;, &#39;COMMACATEGORY&#39;),
+ (&#39;我&#39;, &#39;Nh&#39;),
+ (&#39;都&#39;, &#39;D&#39;),
+ (&#39;接受&#39;, &#39;VC&#39;),
+ (&#39;謝謝&#39;, &#39;VJ&#39;),
+ (&#39;大家&#39;, &#39;Nh&#39;),
+ (&#39;🙇&#39;, &#39;FW&#39;),
+ (&#39;\u200d♀️\n&#39;, &#39;DASHCATEGORY&#39;),
+ (&#39;\n&#39;, &#39;WHITESPACE&#39;),
+ (&#39;\n&#39;, &#39;WHITESPACE&#39;),
+ (&#39;（&#39;, &#39;PARENTHESISCATEGORY&#39;),
+ (&#39;第三&#39;, &#39;Neu&#39;),
+ (&#39;次&#39;, &#39;Nf&#39;),
+ (&#39;更新&#39;, &#39;VC&#39;),
+ (&#39;在&#39;, &#39;P&#39;),
+ (&#39;這邊&#39;, &#39;Ncd&#39;),
+ (&#39;）&#39;, &#39;PARENTHESISCATEGORY&#39;),
+ (&#39;\n&#39;, &#39;WHITESPACE&#39;),
+ (&#39;B258 &#39;, &#39;FW&#39;),
+ (&#39;這邊&#39;, &#39;Ncd&#39;),
+ (&#39;也&#39;, &#39;D&#39;),
+ (&#39;有&#39;, &#39;V_2&#39;),
+ (&#39;講到&#39;, &#39;VE&#39;),
+ (&#39;怎麼&#39;, &#39;D&#39;),
+ (&#39;逃生&#39;, &#39;VA&#39;),
+ (&#39;\n&#39;, &#39;WHITESPACE&#39;),
+ (&#39;很多&#39;, &#39;Neqa&#39;),
+ (&#39;人&#39;, &#39;Na&#39;),
+ (&#39;好奇&#39;, &#39;VH&#39;),
+ (&#39;我&#39;, &#39;Nh&#39;),
+ (&#39;是&#39;, &#39;SHI&#39;)]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./nlp"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="chinese-word-seg.html" title="previous page">Chinese Word Segmentation</a>
+    <a class='right-next' id="next-link" href="text-vec-traditional.html" title="next page">Text Vectorization Using Traditional Methods</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Alvin Chen<br/>
+        
+            &copy; Copyright 2020 Alvin Chen.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>
