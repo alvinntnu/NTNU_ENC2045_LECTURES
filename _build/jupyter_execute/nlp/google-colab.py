@@ -3,11 +3,17 @@
 - As we are working with more and more data, we may need GPU computing for quicker processing.
 - This lecture note shows how we can capitalize on the free GPU computing provided by Google Colab and speed up the Chinese word segmentation of `ckip-transformers`.
 
-## Setup Google Drive
+## Prepare Google Drive
 
 - Create a working directory under your Google Drive, named `ENC2045_DEMO_DATA`.
 - Save the corpus files needed in that Google Drive directory.
 - We can access the files on our Google Drive from Google Colab. This can be useful when you need to load your own data in Google Colab.
+
+:::{note}
+
+You can of course name the directory in which ever ways you like. The key is that we need to put the data files on the Google Drive so that we can access these files through Google Colab.
+
+:::
 
 ## Run Notebook in Google Colab
 
@@ -15,22 +21,45 @@
 
 ## Setting Google Colab Environment
 
-- GPU Setting:
-    - [Runtime] -> [Change runtime type]
-    - For [Hardware accelerator], choose [GPU]
+- Important Steps for Google Colab Environment Setting
+    - Change the Runtime for GPU
+    - Install Modules
+    - Mount Google Drive
+    - Set Working Directory
+
+## Change Runtime for GPU
+
+- [Runtime] -> [Change runtime type]
+- For [Hardware accelerator], choose [GPU]
 
 !nvidia-smi
 
-- Install modules that are not installed in the current Google Colab
+## Install Modules
+
+- Google Colab has been pre-instralled with several popular modules for machine learning and deep learning (e.g., `nltk`, `sklearn`, `tensorflow`, `pytorch`,`numpy`, `spacy`).
+- We can check the pre-installed modules here.
+
+!pip list
+
+- We only need to install modules that are not pre-installed in Google Colab (e.g., `ckip-transformers`).
+- This installation has to be done every time we work with Google Colab. But don't worry. It's quick.
+- This is how we install the package on Google Colab, exactly the same as we do in our terminal.
 
 ## Google Drive Setting
 !pip install ckip-transformers
 
-- Mount Our Google Drive
-    - After we run the above codes, get the authorization code and copy-paste it to the box.
+## Mount Google Drive
+    
+
+- To mount our Google Drive to the current Google Colab server, we need the following codes.
 
 from google.colab import drive
 drive.mount('/content/drive')
+
+- After we run the above codes, we need to click on the link presented, log in with our Google Account in the new window and get the authorization code.
+- Then copy the authorization code from the new window and paste it back to the text box in the notebook window.
+
+## Set Working Directory
 
 - Change Colab working directory to the `ENC2045_demo_data` of the Google Drive
 

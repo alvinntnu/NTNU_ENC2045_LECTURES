@@ -70,6 +70,7 @@ We can categorize ML into four types according to the amount and type of **super
         - Hierarchical Clustering
     - Dimensionality reduction
         - Principal Component Analysis
+        - Latent Dirichlet Allocation
 
 ### Semisupervised Learning
 
@@ -160,7 +161,7 @@ A common workflow for classifier building is shown as follows:
     - Before testing our model on the testing dataset, we can utilize **$k$-fold cross-validation** to first evaluate our trained model within the **training dataset** and at the same time fine-tune the **hyperparameters**.
     - Specifically, we often split the **training set** into **$k$** distinct subsets called **folds**, and trains the model on the **${k-1}$** folds and test on the remaining 1 folds. A **$k$-fold** split allows us to do this training-testing for $k$ times.
     - Based on the distribution of the evaluation scores in all $k$ folds of datasets, we get to see the **average** performance of our model.
-        - Which ML algorithm out-performs the rest?
+        - Which ML algorithm performs the rest?
         - Which sets of hyperparameters yield the best performance?
 
 ## References

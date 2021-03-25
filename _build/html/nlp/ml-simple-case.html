@@ -187,23 +187,18 @@
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="../temp/ml-sklearn-classification.html">
+  <a class="reference internal" href="ml-sklearn-classification.html">
    1. Sentiment Analysis Using Bag-of-Words
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../temp/text-classification-ml-newsgroups.html">
-   2. Text Classification Using Bag-of-Words
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../temp/topic-modeling-naive.html">
-   3. Topic Modeling: A Naive Example
+  <a class="reference internal" href="topic-modeling-naive.html">
+   2. Topic Modeling: A Naive Example
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="ml-nlp-case.html">
-   4. Machine Learning: NLP Tasks
+   3. Machine Learning: NLP Tasks
   </a>
  </li>
 </ul>
@@ -421,8 +416,8 @@
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#how-can-we-improve-the-model">
-   2.2. How can we improve the model?
+  <a class="reference internal nav-link" href="#how-can-we-improve-the-model-classifier">
+   2.2. How can we improve the model/classifier?
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -506,8 +501,13 @@
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#remaining-issues">
+   2.8. Remaining Issues
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#references">
-   2.8. References
+   2.9. References
   </a>
  </li>
 </ul>
@@ -523,10 +523,10 @@
                 
   <div class="section" id="machine-learning-a-simple-example">
 <h1><span class="section-number">2. </span>Machine Learning: A Simple Example<a class="headerlink" href="#machine-learning-a-simple-example" title="Permalink to this headline">¶</a></h1>
-<p>Let’s assume that we have collected a list of personal names and we have their corresponding gender labels, i.e., whether the name is a male or female one.</p>
-<p>The goal of this example is to create a classifier that would automatically classify a given name into either male or female.</p>
 <div class="section" id="a-quick-example-name-gender-prediction">
 <h2><span class="section-number">2.1. </span>A Quick Example: Name Gender Prediction<a class="headerlink" href="#a-quick-example-name-gender-prediction" title="Permalink to this headline">¶</a></h2>
+<p>Let’s assume that we have collected a list of personal names and we have their corresponding gender labels, i.e., whether the name is a male or female one.</p>
+<p>The goal of this example is to create a classifier that would automatically classify a given name into either male or female.</p>
 <div class="section" id="prepare-data">
 <h3>Prepare Data<a class="headerlink" href="#prepare-data" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
@@ -535,18 +535,17 @@
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nltk</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">nltk</span>
+<span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">names</span>
+<span class="kn">import</span> <span class="nn">random</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">names</span>
-<span class="kn">import</span> <span class="nn">random</span>
-
-<span class="n">labeled_names</span> <span class="o">=</span> <span class="p">([(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;male&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s1">&#39;male.txt&#39;</span><span class="p">)]</span> <span class="o">+</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labeled_names</span> <span class="o">=</span> <span class="p">([(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;male&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s1">&#39;male.txt&#39;</span><span class="p">)]</span> <span class="o">+</span>
                  <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;female&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s1">&#39;female.txt&#39;</span><span class="p">)])</span>
 <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">labeled_names</span><span class="p">)</span>
 </pre></div>
@@ -557,7 +556,8 @@
 <div class="section" id="feature-engineering">
 <h3>Feature Engineering<a class="headerlink" href="#feature-engineering" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>As now our unit for classification is a name. In <strong>feature engineering</strong>, our goal is to transform the texts (i.e., names) into vectorized reprsentations.</p></li>
+<li><p>Now our unit for classification is a name.</p></li>
+<li><p>In <strong>feature engineering</strong>, our goal is to transform the texts (i.e., names) into vectorized representations.</p></li>
 <li><p>To start with, let’s represent each text (name) by using its last character as the features.</p></li>
 </ul>
 <div class="cell docutils container">
@@ -580,7 +580,7 @@
 <div class="section" id="train-test-split">
 <h3>Train-Test Split<a class="headerlink" href="#train-test-split" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>We then apply the feature engineering method to every text in the data and split the data into training and test sets.</p></li>
+<li><p>We then apply the feature engineering method to every text in the data and split the data into <strong>training</strong> and <strong>testing</strong> sets.</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -593,6 +593,9 @@
 </div>
 <div class="section" id="train-the-model">
 <h3>Train the Model<a class="headerlink" href="#train-the-model" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>A good start is to try the simple Naive Bayes Classifier.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">classifier</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">NaiveBayesClassifier</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">train_set</span><span class="p">)</span>
@@ -605,14 +608,16 @@
 <h3>Model Prediction<a class="headerlink" href="#model-prediction" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">classifier</span><span class="o">.</span><span class="n">classify</span><span class="p">(</span><span class="n">text_vectorizer</span><span class="p">(</span><span class="s1">&#39;Neo&#39;</span><span class="p">))</span>
-<span class="n">classifier</span><span class="o">.</span><span class="n">classify</span><span class="p">(</span><span class="n">text_vectorizer</span><span class="p">(</span><span class="s1">&#39;Trinity&#39;</span><span class="p">))</span>
-<span class="n">classifier</span><span class="o">.</span><span class="n">classify</span><span class="p">(</span><span class="n">text_vectorizer</span><span class="p">(</span><span class="s1">&#39;Alvin&#39;</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">classifier</span><span class="o">.</span><span class="n">classify</span><span class="p">(</span><span class="n">text_vectorizer</span><span class="p">(</span><span class="s1">&#39;Neo&#39;</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classifier</span><span class="o">.</span><span class="n">classify</span><span class="p">(</span><span class="n">text_vectorizer</span><span class="p">(</span><span class="s1">&#39;Trinity&#39;</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classifier</span><span class="o">.</span><span class="n">classify</span><span class="p">(</span><span class="n">text_vectorizer</span><span class="p">(</span><span class="s1">&#39;Alvin&#39;</span><span class="p">)))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;male&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>male
+female
+male
 </pre></div>
 </div>
 </div>
@@ -624,7 +629,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.762
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.764
 </pre></div>
 </div>
 </div>
@@ -643,19 +648,26 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Most Informative Features
-             last_letter = &#39;a&#39;            female : male   =     36.7 : 1.0
-             last_letter = &#39;k&#39;              male : female =     30.9 : 1.0
-             last_letter = &#39;f&#39;              male : female =     15.3 : 1.0
-             last_letter = &#39;p&#39;              male : female =     12.6 : 1.0
-             last_letter = &#39;v&#39;              male : female =      9.9 : 1.0
+             last_letter = &#39;a&#39;            female : male   =     35.6 : 1.0
+             last_letter = &#39;k&#39;              male : female =     30.0 : 1.0
+             last_letter = &#39;f&#39;              male : female =     15.4 : 1.0
+             last_letter = &#39;d&#39;              male : female =     10.7 : 1.0
+             last_letter = &#39;p&#39;              male : female =     10.6 : 1.0
 </pre></div>
 </div>
 </div>
 </div>
 <ul class="simple">
-<li><p>Please note that in <code class="docutils literal notranslate"><span class="pre">NLTK</span></code>, we can use the <code class="docutils literal notranslate"><span class="pre">apply_features</span></code> to create training and test datasets.</p></li>
+<li><p>Please note that in <code class="docutils literal notranslate"><span class="pre">NLTK</span></code>, we can use the <code class="docutils literal notranslate"><span class="pre">apply_features</span></code> to create training and testing datasets.</p></li>
 <li><p>When you have a very large feature set, this can be more effective in terms of memory management.</p></li>
 </ul>
+<ul class="simple">
+<li><p>This is our earlier method of creating training and testing sets:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">featuresets</span> <span class="o">=</span> <span class="p">[(</span><span class="n">text_vectorizer</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">gender</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">gender</span><span class="p">)</span> <span class="ow">in</span> <span class="n">labeled_names</span><span class="p">]</span>
+<span class="n">train_set</span><span class="p">,</span> <span class="n">test_set</span> <span class="o">=</span> <span class="n">featuresets</span><span class="p">[</span><span class="mi">500</span><span class="p">:],</span> <span class="n">featuresets</span><span class="p">[:</span><span class="mi">500</span><span class="p">]</span>
+</pre></div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.classify</span> <span class="kn">import</span> <span class="n">apply_features</span>
@@ -667,8 +679,8 @@
 </div>
 </div>
 </div>
-<div class="section" id="how-can-we-improve-the-model">
-<h2><span class="section-number">2.2. </span>How can we improve the model?<a class="headerlink" href="#how-can-we-improve-the-model" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="how-can-we-improve-the-model-classifier">
+<h2><span class="section-number">2.2. </span>How can we improve the model/classifier?<a class="headerlink" href="#how-can-we-improve-the-model-classifier" title="Permalink to this headline">¶</a></h2>
 <p>In the following, we will talk about methods that we may consider to further improve the model training.</p>
 <ul class="simple">
 <li><p>Feature Engineering</p></li>
@@ -699,6 +711,7 @@
         <span class="n">features</span><span class="p">[</span><span class="s2">&quot;count(</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">letter</span><span class="p">)]</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
         <span class="n">features</span><span class="p">[</span><span class="s2">&quot;has(</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">letter</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">letter</span> <span class="ow">in</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
     <span class="k">return</span> <span class="n">features</span>
+
 
 <span class="n">text_vectorizer2</span><span class="p">(</span><span class="s1">&#39;Alvin&#39;</span><span class="p">)</span>
 </pre></div>
@@ -838,7 +851,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.77
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.76
 </pre></div>
 </div>
 </div>
@@ -851,26 +864,26 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Most Informative Features
-             last_letter = &#39;a&#39;            female : male   =     36.7 : 1.0
-             last_letter = &#39;k&#39;              male : female =     30.9 : 1.0
-             last_letter = &#39;f&#39;              male : female =     15.3 : 1.0
-             last_letter = &#39;p&#39;              male : female =     12.6 : 1.0
-             last_letter = &#39;v&#39;              male : female =      9.9 : 1.0
-             last_letter = &#39;d&#39;              male : female =      9.7 : 1.0
-                count(v) = 2              female : male   =      8.4 : 1.0
-             last_letter = &#39;m&#39;              male : female =      8.0 : 1.0
-             last_letter = &#39;o&#39;              male : female =      7.9 : 1.0
-             last_letter = &#39;r&#39;              male : female =      7.0 : 1.0
-             last_letter = &#39;w&#39;              male : female =      6.6 : 1.0
-            first_letter = &#39;w&#39;              male : female =      4.8 : 1.0
-             last_letter = &#39;g&#39;              male : female =      4.6 : 1.0
-                  has(w) = True             male : female =      4.5 : 1.0
+             last_letter = &#39;a&#39;            female : male   =     35.6 : 1.0
+             last_letter = &#39;k&#39;              male : female =     30.0 : 1.0
+             last_letter = &#39;f&#39;              male : female =     15.4 : 1.0
+             last_letter = &#39;d&#39;              male : female =     10.7 : 1.0
+             last_letter = &#39;p&#39;              male : female =     10.6 : 1.0
+             last_letter = &#39;v&#39;              male : female =     10.6 : 1.0
+                count(v) = 2              female : male   =      9.2 : 1.0
+             last_letter = &#39;o&#39;              male : female =      9.1 : 1.0
+             last_letter = &#39;m&#39;              male : female =      8.4 : 1.0
+             last_letter = &#39;r&#39;              male : female =      6.9 : 1.0
+             last_letter = &#39;g&#39;              male : female =      5.7 : 1.0
+             last_letter = &#39;w&#39;              male : female =      5.4 : 1.0
+            first_letter = &#39;w&#39;              male : female =      4.6 : 1.0
                 count(w) = 1                male : female =      4.5 : 1.0
-                count(a) = 3              female : male   =      4.5 : 1.0
-             last_letter = &#39;z&#39;              male : female =      4.3 : 1.0
-             last_letter = &#39;t&#39;              male : female =      4.3 : 1.0
-             last_letter = &#39;s&#39;              male : female =      4.2 : 1.0
-                count(w) = 2                male : female =      4.0 : 1.0
+                  has(w) = True             male : female =      4.4 : 1.0
+                count(a) = 3              female : male   =      4.3 : 1.0
+             last_letter = &#39;t&#39;              male : female =      4.2 : 1.0
+             last_letter = &#39;s&#39;              male : female =      4.1 : 1.0
+             last_letter = &#39;z&#39;              male : female =      4.0 : 1.0
+             last_letter = &#39;j&#39;              male : female =      4.0 : 1.0
 </pre></div>
 </div>
 </div>
@@ -879,14 +892,15 @@
 <div class="section" id="train-development-test-data-splits-for-error-analysis">
 <h2><span class="section-number">2.4. </span>Train-Development-Test Data Splits for Error Analysis<a class="headerlink" href="#train-development-test-data-splits-for-error-analysis" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Normally we have <strong>training</strong>-<strong>test</strong> splits of data</p></li>
-<li><p>Sometimes we use <strong>development (dev)</strong> set for error analysis and feature engineering.</p></li>
+<li><p>Normally we have <strong>training</strong>-<strong>testing</strong> splits of data</p></li>
+<li><p>Sometimes we can use <strong>development (dev)</strong> set for error analysis and feature engineering.</p></li>
+<li><p>This dev set should be independent of training and testing sets.</p></li>
 </ul>
 <ul class="simple">
 <li><p>Now let’s train the model on the <strong>training set</strong> and first check the classifier’s performance on the <strong>dev</strong> set.</p></li>
 <li><p>We then identify the errors the classifier made in the <strong>dev</strong> set.</p></li>
 <li><p>We perform error analysis for further improvement.</p></li>
-<li><p>We only test our <strong>final model</strong> on the test set. (Note: Test set can only be used <strong>once</strong>.)</p></li>
+<li><p>We only test our <strong>final model</strong> on the testing set. (Note: Testing set can only be used <strong>once</strong>.)</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -933,10 +947,170 @@
 </div>
 </div>
 </div>
+<ul class="simple">
+<li><p>Ideally, we can inspect the errors in a spreadsheet and come up with better rules (features) that could help improve the classifier.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="c1">## check first and last N rows</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;error-analysis.csv&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="o">*</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="o">*</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">)],]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tag</th>
+      <th>guess</th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>female</td>
+      <td>male</td>
+      <td>Ruthy</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>female</td>
+      <td>male</td>
+      <td>Dionis</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>female</td>
+      <td>male</td>
+      <td>Fawne</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>female</td>
+      <td>male</td>
+      <td>Corliss</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>female</td>
+      <td>male</td>
+      <td>Lory</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>female</td>
+      <td>male</td>
+      <td>Joannes</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>male</td>
+      <td>female</td>
+      <td>Clinten</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>female</td>
+      <td>male</td>
+      <td>Margit</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>male</td>
+      <td>female</td>
+      <td>Giorgi</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>male</td>
+      <td>female</td>
+      <td>Maurice</td>
+    </tr>
+    <tr>
+      <th>219</th>
+      <td>female</td>
+      <td>male</td>
+      <td>Scarlett</td>
+    </tr>
+    <tr>
+      <th>220</th>
+      <td>male</td>
+      <td>female</td>
+      <td>Jerome</td>
+    </tr>
+    <tr>
+      <th>221</th>
+      <td>female</td>
+      <td>male</td>
+      <td>Timmy</td>
+    </tr>
+    <tr>
+      <th>222</th>
+      <td>female</td>
+      <td>male</td>
+      <td>Gerry</td>
+    </tr>
+    <tr>
+      <th>223</th>
+      <td>male</td>
+      <td>female</td>
+      <td>Vale</td>
+    </tr>
+    <tr>
+      <th>224</th>
+      <td>male</td>
+      <td>female</td>
+      <td>Parke</td>
+    </tr>
+    <tr>
+      <th>225</th>
+      <td>female</td>
+      <td>male</td>
+      <td>Sydel</td>
+    </tr>
+    <tr>
+      <th>226</th>
+      <td>female</td>
+      <td>male</td>
+      <td>Esther</td>
+    </tr>
+    <tr>
+      <th>227</th>
+      <td>female</td>
+      <td>male</td>
+      <td>Tori</td>
+    </tr>
+    <tr>
+      <th>228</th>
+      <td>female</td>
+      <td>male</td>
+      <td>Florette</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 </div>
 <div class="section" id="evaluation">
 <h2><span class="section-number">2.5. </span>Evaluation<a class="headerlink" href="#evaluation" title="Permalink to this headline">¶</a></h2>
-<p><img alt="" src="../_images/confusion-matrix.png" /></p>
+<p><img alt="" src="../_images/confusion-matrix.jpeg" /></p>
 <ul class="simple">
 <li><p>Confusion Matrix:</p>
 <ul>
@@ -958,6 +1132,11 @@
 \[ 
 F= \frac{(2 × Precision × Recall)}{(Precision + Recall)} 
 \]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When dealing with imbalanced class distributions, we need to take into account the baseline performance in our model evaluation. For example. if the distribution of <code class="docutils literal notranslate"><span class="pre">Class</span> <span class="pre">0</span></code> and <code class="docutils literal notranslate"><span class="pre">Class</span> <span class="pre">1</span></code> is 9:1, then a naive classifier might as well classify all cases as <code class="docutils literal notranslate"><span class="pre">Class</span> <span class="pre">0</span></code>, yielding a high-<strong>precision</strong> performance (i.e., Precision = 90%).</p>
+<p>Given this baseline, to better evaluate the classifier on imbalanced dataset, probably the classifier’s <strong>recall rates</strong> are more important.</p>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Accuracy: </span><span class="si">{:4.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nltk</span><span class="o">.</span><span class="n">classify</span><span class="o">.</span><span class="n">accuracy</span><span class="p">(</span><span class="n">classifier</span><span class="p">,</span> <span class="n">test_set</span><span class="p">)))</span>
@@ -965,7 +1144,7 @@ F= \frac{(2 × Precision × Recall)}{(Precision + Recall)}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.77
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.75
 </pre></div>
 </div>
 </div>
@@ -996,8 +1175,8 @@ F= \frac{(2 × Precision × Recall)}{(Precision + Recall)}
        |      l      l |
        |      e      e |
 -------+---------------+
-female | &lt;53.4%&gt;  8.6% |
-  male |  14.4% &lt;23.6%&gt;|
+female | &lt;50.4%&gt; 10.8% |
+  male |  14.4% &lt;24.4%&gt;|
 -------+---------------+
 (row = reference; col = test)
 </pre></div>
@@ -1030,8 +1209,8 @@ female | &lt;53.4%&gt;  8.6% |
        |      l      l |
        |      e      e |
 -------+---------------+
-female | &lt;53.4%&gt;  8.6% |
-  male |  14.4% &lt;23.6%&gt;|
+female | &lt;50.4%&gt; 10.8% |
+  male |  14.4% &lt;24.4%&gt;|
 -------+---------------+
 (row = reference; col = test)
 </pre></div>
@@ -1052,7 +1231,7 @@ female | &lt;53.4%&gt;  8.6% |
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sklearn.model_selection</span>
 <span class="n">kf</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">model_selection</span><span class="o">.</span><span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">acc_kf</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1">## accuracy holder</span>
+<span class="n">acc_kf</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1">## accuracy holder</span>
 
 <span class="c1">## Cross-validation</span>
 <span class="k">for</span> <span class="n">train_index</span><span class="p">,</span> <span class="n">test_index</span> <span class="ow">in</span> <span class="n">kf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">train_set</span><span class="p">):</span>
@@ -1067,16 +1246,16 @@ female | &lt;53.4%&gt;  8.6% |
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>accuracy: 0.75
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>accuracy: 0.78
+accuracy: 0.77
+accuracy: 0.76
+accuracy: 0.77
 accuracy: 0.8
-accuracy: 0.74
+accuracy: 0.75
+accuracy: 0.8
+accuracy: 0.75
 accuracy: 0.78
 accuracy: 0.79
-accuracy: 0.81
-accuracy: 0.76
-accuracy: 0.78
-accuracy: 0.8
-accuracy: 0.77
 </pre></div>
 </div>
 </div>
@@ -1088,7 +1267,7 @@ accuracy: 0.77
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7768184364827139
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7755708876288361
 </pre></div>
 </div>
 </div>
@@ -1096,6 +1275,32 @@ accuracy: 0.77
 </div>
 <div class="section" id="try-different-machine-learning-algorithms">
 <h2><span class="section-number">2.7. </span>Try Different Machine Learning Algorithms<a class="headerlink" href="#try-different-machine-learning-algorithms" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>There are many ML algorithms for classification tasks.</p></li>
+<li><p>Here we will demonstrate a few more classifiers implemented in NLTK, including:</p>
+<ul>
+<li><p>Maximum Entropy Classifier (Logistic Regression)</p></li>
+<li><p>Decision Tree Classifier</p></li>
+</ul>
+</li>
+<li><p>Also, in NLTK, we can use the classification methods provided in <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> as well, including:</p>
+<ul>
+<li><p>Naive Bayes</p></li>
+<li><p>Logistic Regression</p></li>
+<li><p>Support Vector Machine</p></li>
+</ul>
+</li>
+</ul>
+<ul class="simple">
+<li><p>When we try another ML algorithm, we do the following:</p>
+<ul>
+<li><p>train the model</p></li>
+<li><p>check model performance (accuracy and confusion matrix)</p></li>
+<li><p>check the most informative features</p></li>
+<li><p>obtain average performance using <em>k</em>-fold cross validation</p></li>
+</ul>
+</li>
+</ul>
 <div class="section" id="try-maxent-classifier">
 <h3>Try Maxent Classifier<a class="headerlink" href="#try-maxent-classifier" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
@@ -1106,16 +1311,16 @@ accuracy: 0.77
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
 <span class="kn">from</span> <span class="nn">nltk.classify</span> <span class="kn">import</span> <span class="n">MaxentClassifier</span>
 <span class="n">classifier_maxent</span> <span class="o">=</span> <span class="n">MaxentClassifier</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">train_set</span><span class="p">,</span>
-                                           <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;gis&#39;</span><span class="p">,</span>
+                                           <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;iis&#39;</span><span class="p">,</span>
                                            <span class="n">trace</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                                           <span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
-                                           <span class="n">min_lldelta</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+                                           <span class="n">max_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
+                                           <span class="n">min_lldelta</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 14.4 s, sys: 11.2 ms, total: 14.4 s
-Wall time: 14.4 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 2min 13s, sys: 206 ms, total: 2min 13s
+Wall time: 2min 13s
 </pre></div>
 </div>
 </div>
@@ -1131,7 +1336,7 @@ Wall time: 14.4 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.692
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.79
 </pre></div>
 </div>
 </div>
@@ -1143,26 +1348,26 @@ Wall time: 14.4 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  -0.630 last_letter==&#39;a&#39; and label is &#39;male&#39;
-  -0.483 last_letter==&#39;k&#39; and label is &#39;female&#39;
-  -0.448 last_letter==&#39;p&#39; and label is &#39;female&#39;
-  -0.386 count(v)==2 and label is &#39;male&#39;
-  -0.361 last_letter==&#39;f&#39; and label is &#39;female&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  -0.633 last_letter==&#39;a&#39; and label is &#39;male&#39;
+  -0.495 last_letter==&#39;k&#39; and label is &#39;female&#39;
+  -0.420 last_letter==&#39;p&#39; and label is &#39;female&#39;
+  -0.396 last_letter==&#39;v&#39; and label is &#39;female&#39;
+  -0.387 count(v)==2 and label is &#39;male&#39;
+  -0.378 last_letter==&#39;f&#39; and label is &#39;female&#39;
   -0.290 last_letter==&#39;d&#39; and label is &#39;female&#39;
-  -0.288 last_letter==&#39;v&#39; and label is &#39;female&#39;
-  -0.258 last_letter==&#39;m&#39; and label is &#39;female&#39;
-  -0.255 count(a)==3 and label is &#39;male&#39;
-  -0.221 last_letter==&#39;r&#39; and label is &#39;female&#39;
-  -0.221 last_letter==&#39;o&#39; and label is &#39;female&#39;
-  -0.205 last_letter==&#39;i&#39; and label is &#39;male&#39;
-  -0.194 last_letter==&#39;w&#39; and label is &#39;female&#39;
-   0.187 last_letter==&#39;c&#39; and label is &#39;male&#39;
-  -0.180 last_letter==&#39;j&#39; and label is &#39;female&#39;
-  -0.171 count(p)==3 and label is &#39;male&#39;
-   0.170 count(u)==3 and label is &#39;male&#39;
-   0.169 count(g)==3 and label is &#39;male&#39;
-  -0.166 count(l)==3 and label is &#39;male&#39;
-  -0.165 last_letter==&#39;g&#39; and label is &#39;female&#39;
+  -0.286 count(i)==3 and label is &#39;female&#39;
+  -0.248 last_letter==&#39;o&#39; and label is &#39;female&#39;
+  -0.245 last_letter==&#39;m&#39; and label is &#39;female&#39;
+  -0.217 last_letter==&#39;r&#39; and label is &#39;female&#39;
+  -0.215 count(l)==3 and label is &#39;male&#39;
+  -0.210 count(a)==3 and label is &#39;male&#39;
+  -0.208 last_letter==&#39;i&#39; and label is &#39;male&#39;
+  -0.201 last_letter==&#39;w&#39; and label is &#39;female&#39;
+  -0.191 count(w)==2 and label is &#39;female&#39;
+   0.186 last_letter==&#39;c&#39; and label is &#39;male&#39;
+  -0.179 last_letter==&#39;j&#39; and label is &#39;female&#39;
+  -0.175 last_letter==&#39;g&#39; and label is &#39;female&#39;
+  -0.174 count(e)==3 and label is &#39;male&#39;
 </pre></div>
 </div>
 </div>
@@ -1181,8 +1386,8 @@ Wall time: 14.4 s
        |      l      l |
        |      e      e |
 -------+---------------+
-female | &lt;61.2%&gt;  0.8% |
-  male |  30.0%  &lt;8.0%&gt;|
+female | &lt;59.8%&gt;  1.4% |
+  male |  31.2%  &lt;7.6%&gt;|
 -------+---------------+
 (row = reference; col = test)
 </pre></div>
@@ -1198,8 +1403,8 @@ female | &lt;61.2%&gt;  0.8% |
         <span class="n">train_set</span><span class="p">[</span><span class="n">train_index</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">train_index</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">train_index</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]],</span>
         <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;gis&#39;</span><span class="p">,</span>
         <span class="n">trace</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">max_iter</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-        <span class="n">min_lldelta</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">min_lldelta</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span> <span class="c1">## set smaller value for `min_lldelta`</span>
     <span class="nb">print</span><span class="p">(</span>
         <span class="s1">&#39;accuracy:&#39;</span><span class="p">,</span>
         <span class="n">nltk</span><span class="o">.</span><span class="n">classify</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">accuracy</span><span class="p">(</span>
@@ -1209,18 +1414,18 @@ female | &lt;61.2%&gt;  0.8% |
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>accuracy: 0.6444099378881988
-accuracy: 0.6195652173913043
-accuracy: 0.6413043478260869
-accuracy: 0.6086956521739131
-accuracy: 0.6127527216174183
-accuracy: 0.671850699844479
-accuracy: 0.6485225505443235
-accuracy: 0.6034214618973561
-accuracy: 0.6189735614307932
-accuracy: 0.645412130637636
-CPU times: user 39.8 s, sys: 34.5 ms, total: 39.8 s
-Wall time: 39.8 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>accuracy: 0.7391304347826086
+accuracy: 0.6956521739130435
+accuracy: 0.6863354037267081
+accuracy: 0.7003105590062112
+accuracy: 0.6967340590979783
+accuracy: 0.6827371695178849
+accuracy: 0.7153965785381027
+accuracy: 0.6858475894245724
+accuracy: 0.6842923794712286
+accuracy: 0.7387247278382582
+CPU times: user 2min 38s, sys: 290 ms, total: 2min 38s
+Wall time: 2min 38s
 </pre></div>
 </div>
 </div>
@@ -1232,9 +1437,14 @@ Wall time: 39.8 s
 <li><p>Parameters:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">binary</span></code>: whether the features are binary</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">entropy_cutoff</span></code>: a value used during tree refinement process (entropy=1 -&gt; high-level uncertainty; entropy = 0 -&gt; perfect model prediction)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">entropy_cutoff</span></code>: a value used during tree refinement process</p>
+<ul>
+<li><p>entropy = 1 -&gt; high-level uncertainty</p></li>
+<li><p>entropy = 0 -&gt; perfect model prediction</p></li>
+</ul>
+</li>
 <li><p><code class="docutils literal notranslate"><span class="pre">depth_cutoff</span></code>: to control the depth of the tree</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">support_cutoff</span></code>: the mimimum number of instances that are required to make a decision about a feature.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">support_cutoff</span></code>: the minimum number of instances that are required to make a decision about a feature.</p></li>
 </ul>
 </li>
 </ul>
@@ -1251,8 +1461,8 @@ Wall time: 39.8 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 10.1 s, sys: 10.1 ms, total: 10.1 s
-Wall time: 10.1 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 9.73 s, sys: 6.66 ms, total: 9.74 s
+Wall time: 9.74 s
 </pre></div>
 </div>
 </div>
@@ -1264,7 +1474,7 @@ Wall time: 10.1 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.704
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.686
 </pre></div>
 </div>
 </div>
@@ -1283,8 +1493,8 @@ Wall time: 10.1 s
        |      l      l |
        |      e      e |
 -------+---------------+
-female | &lt;58.8%&gt;  3.2% |
-  male |  26.4% &lt;11.6%&gt;|
+female | &lt;53.0%&gt;  8.2% |
+  male |  23.2% &lt;15.6%&gt;|
 -------+---------------+
 (row = reference; col = test)
 </pre></div>
@@ -1312,18 +1522,18 @@ female | &lt;58.8%&gt;  3.2% |
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>accuracy: 0.7065217391304348
-accuracy: 0.7360248447204969
-accuracy: 0.7142857142857143
-accuracy: 0.7142857142857143
-accuracy: 0.7200622083981337
-accuracy: 0.744945567651633
-accuracy: 0.7402799377916018
-accuracy: 0.6967340590979783
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>accuracy: 0.7670807453416149
+accuracy: 0.7329192546583851
+accuracy: 0.6801242236024845
+accuracy: 0.7080745341614907
+accuracy: 0.7262830482115086
+accuracy: 0.6858475894245724
+accuracy: 0.713841368584759
+accuracy: 0.7278382581648523
+accuracy: 0.7060653188180405
 accuracy: 0.7309486780715396
-accuracy: 0.702954898911353
-CPU times: user 1min 34s, sys: 66.5 ms, total: 1min 34s
-Wall time: 1min 34s
+CPU times: user 1min 46s, sys: 113 ms, total: 1min 46s
+Wall time: 1min 47s
 </pre></div>
 </div>
 </div>
@@ -1360,7 +1570,7 @@ Wall time: 1min 34s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.78
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.742
 </pre></div>
 </div>
 </div>
@@ -1378,7 +1588,7 @@ Wall time: 1min 34s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.804
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.786
 </pre></div>
 </div>
 </div>
@@ -1400,7 +1610,7 @@ Wall time: 1min 34s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.83
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.796
 </pre></div>
 </div>
 </div>
@@ -1415,7 +1625,7 @@ Wall time: 1min 34s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.802
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.784
 </pre></div>
 </div>
 </div>
@@ -1430,7 +1640,7 @@ Wall time: 1min 34s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.812
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.792
 </pre></div>
 </div>
 </div>
@@ -1438,8 +1648,18 @@ Wall time: 1min 34s
 </div>
 </div>
 </div>
+<div class="section" id="remaining-issues">
+<h2><span class="section-number">2.8. </span>Remaining Issues<a class="headerlink" href="#remaining-issues" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Feature engineering is crucial to the process of machine learning.</p></li>
+<li><p>The quality of the text vectorization almost determines the classifier’s performance to a great deal.</p></li>
+<li><p>Every ML algorithm requires a lot of <strong>hyperparameter</strong> settings, which can have substantial impact on the model performances.</p></li>
+<li><p>We need a more <strong>systematic</strong> way to find the optimal combinations of hyperparameters for a given ML algorithm.</p></li>
+<li><p>We will come back to issue when we talk about doing ML with <code class="docutils literal notranslate"><span class="pre">sklearn</span></code>.</p></li>
+</ul>
+</div>
 <div class="section" id="references">
-<h2><span class="section-number">2.8. </span>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.9. </span>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>NLTK Book, <a class="reference external" href="https://www.nltk.org/book/ch06.html">Chapter 6 Learning to Classify Texts</a></p></li>
 <li><p>Géron (2019), Chapter 3 Classification</p></li>

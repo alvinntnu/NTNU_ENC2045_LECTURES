@@ -1,19 +1,18 @@
 # Machine Learning: A Simple Example
 
+## A Quick Example: Name Gender Prediction
+
 Let's assume that we have collected a list of personal names and we have their corresponding gender labels, i.e., whether the name is a male or female one.
 
 The goal of this example is to create a classifier that would automatically classify a given name into either male or female.
-
-## A Quick Example: Name Gender Prediction
 
 ### Prepare Data
 
 - We use the data provided in NLTK. Please download the corpus data if necessary.
 - We load the corpus, `nltk.corpus.names` and randomize it before we proceed.
 
-import nltk
 import numpy as np
-
+import nltk
 from nltk.corpus import names
 import random
 
@@ -23,7 +22,8 @@ random.shuffle(labeled_names)
 
 ### Feature Engineering
 
-- As now our unit for classification is a name. In **feature engineering**, our goal is to transform the texts (i.e., names) into vectorized reprsentations.
+- Now our unit for classification is a name. 
+- In **feature engineering**, our goal is to transform the texts (i.e., names) into vectorized representations.
 - To start with, let's represent each text (name) by using its last character as the features.
 
 def text_vectorizer(word):
@@ -34,20 +34,22 @@ text_vectorizer('Shrek')
 
 ### Train-Test Split
 
-- We then apply the feature engineering method to every text in the data and split the data into training and test sets.
+- We then apply the feature engineering method to every text in the data and split the data into **training** and **testing** sets.
 
 featuresets = [(text_vectorizer(n), gender) for (n, gender) in labeled_names]
 train_set, test_set = featuresets[500:], featuresets[:500]
 
 ### Train the Model
 
+- A good start is to try the simple Naive Bayes Classifier.
+
 classifier = nltk.NaiveBayesClassifier.train(train_set)
 
 ### Model Prediction
 
-classifier.classify(text_vectorizer('Neo'))
-classifier.classify(text_vectorizer('Trinity'))
-classifier.classify(text_vectorizer('Alvin'))
+print(classifier.classify(text_vectorizer('Neo')))
+print(classifier.classify(text_vectorizer('Trinity')))
+print(classifier.classify(text_vectorizer('Alvin')))
 
 print(nltk.classify.accuracy(classifier, test_set))
 
@@ -57,14 +59,21 @@ print(nltk.classify.accuracy(classifier, test_set))
 
 classifier.show_most_informative_features(5)
 
-- Please note that in `NLTK`, we can use the `apply_features` to create training and test datasets.
+- Please note that in `NLTK`, we can use the `apply_features` to create training and testing datasets.
 - When you have a very large feature set, this can be more effective in terms of memory management.
+
+- This is our earlier method of creating training and testing sets:
+
+```
+featuresets = [(text_vectorizer(n), gender) for (n, gender) in labeled_names]
+train_set, test_set = featuresets[500:], featuresets[:500]
+```
 
 from nltk.classify import apply_features
 train_set = apply_features(text_vectorizer, labeled_names[500:])
 test_set = apply_features(text_vectorizer, labeled_names[:500])
 
-## How can we improve the model?
+## How can we improve the model/classifier?
 
 In the following, we will talk about methods that we may consider to further improve the model training.
 
@@ -90,6 +99,7 @@ def text_vectorizer2(name):
         features["has({})".format(letter)] = (letter in name.lower())
     return features
 
+
 text_vectorizer2('Alvin')
 
 text_vectorizer2('John')
@@ -103,13 +113,14 @@ classifier.show_most_informative_features(n=20)
 
 ## Train-Development-Test Data Splits for Error Analysis
 
-- Normally we have **training**-**test** splits of data
-- Sometimes we use **development (dev)** set for error analysis and feature engineering.
+- Normally we have **training**-**testing** splits of data
+- Sometimes we can use **development (dev)** set for error analysis and feature engineering.
+- This dev set should be independent of training and testing sets.
 
 - Now let's train the model on the **training set** and first check the classifier's performance on the **dev** set.
 - We then identify the errors the classifier made in the **dev** set.
 - We perform error analysis for further improvement.
-- We only test our **final model** on the test set. (Note: Test set can only be used **once**.)
+- We only test our **final model** on the testing set. (Note: Testing set can only be used **once**.)
 
 train_names = labeled_names[1500:]
 devtest_names = labeled_names[500:1500]
@@ -136,9 +147,15 @@ with open('error-analysis.csv', 'w') as f:
     write.writerow(['tag', 'guess', 'name'])
     write.writerows(errors)
 
+- Ideally, we can inspect the errors in a spreadsheet and come up with better rules (features) that could help improve the classifier.
+
+import pandas as pd
+## check first and last N rows
+pd.read_csv('error-analysis.csv').iloc[[*range(10), *range(-10, 0)],]
+
 ## Evaluation
 
-![](../images/confusion-matrix.png)
+![](../images/confusion-matrix.jpeg)
 
 - Confusion Matrix:
     - **True positives** are relevant items that we correctly identified as relevant.
@@ -157,6 +174,14 @@ Given these four numbers, we can define the following model evaluation metrics:
 $$ 
 F= \frac{(2 × Precision × Recall)}{(Precision + Recall)} 
 $$
+
+:::{note}
+
+When dealing with imbalanced class distributions, we need to take into account the baseline performance in our model evaluation. For example. if the distribution of `Class 0` and `Class 1` is 9:1, then a naive classifier might as well classify all cases as `Class 0`, yielding a high-**precision** performance (i.e., Precision = 90%).
+
+Given this baseline, to better evaluate the classifier on imbalanced dataset, probably the classifier's **recall rates** are more important.
+
+:::
 
 print('Accuracy: {:4.2f}'.format(nltk.classify.accuracy(classifier, test_set)))
 
@@ -191,7 +216,7 @@ createCM(classifier, test_set)
 
 import sklearn.model_selection
 kf = sklearn.model_selection.KFold(n_splits=10)
-acc_kf = [] ## accuracy holder
+acc_kf = []  ## accuracy holder
 
 ## Cross-validation
 for train_index, test_index in kf.split(train_set):
@@ -207,6 +232,21 @@ np.mean(acc_kf)
 
 ## Try Different Machine Learning Algorithms
 
+- There are many ML algorithms for classification tasks.
+- Here we will demonstrate a few more classifiers implemented in NLTK, including:
+    - Maximum Entropy Classifier (Logistic Regression)
+    - Decision Tree Classifier
+- Also, in NLTK, we can use the classification methods provided in `sklearn` as well, including:
+    - Naive Bayes
+    - Logistic Regression
+    - Support Vector Machine
+
+- When we try another ML algorithm, we do the following:
+    - train the model
+    - check model performance (accuracy and confusion matrix)
+    - check the most informative features
+    - obtain average performance using *k*-fold cross validation
+
 ### Try Maxent Classifier
 
 - Maxent is memory hungry, slower, and it requires `numpy`.
@@ -215,10 +255,10 @@ np.mean(acc_kf)
 %%time
 from nltk.classify import MaxentClassifier
 classifier_maxent = MaxentClassifier.train(train_set,
-                                           algorithm='gis',
+                                           algorithm='iis',
                                            trace=0,
-                                           max_iter=1000,
-                                           min_lldelta=0.01)
+                                           max_iter=10000,
+                                           min_lldelta=0.001)
 
 ```{note}
 The default algorithm for training is `iis` (Improved Iterative Scaling). Another alternative is `gis` (General Iterative Scaling), which is faster.
@@ -237,8 +277,8 @@ for train_index, test_index in kf.split(train_set):
         train_set[train_index[0]:train_index[len(train_index) - 1]],
         algorithm='gis',
         trace=0,
-        max_iter=10,
-        min_lldelta=0.5)
+        max_iter=100,
+        min_lldelta=0.01) ## set smaller value for `min_lldelta`
     print(
         'accuracy:',
         nltk.classify.util.accuracy(
@@ -249,9 +289,11 @@ for train_index, test_index in kf.split(train_set):
 
 - Parameters:
     - `binary`: whether the features are binary
-    - `entropy_cutoff`: a value used during tree refinement process (entropy=1 -> high-level uncertainty; entropy = 0 -> perfect model prediction)
+    - `entropy_cutoff`: a value used during tree refinement process
+        - entropy = 1 -> high-level uncertainty
+        - entropy = 0 -> perfect model prediction
     - `depth_cutoff`: to control the depth of the tree
-    - `support_cutoff`: the mimimum number of instances that are required to make a decision about a feature.
+    - `support_cutoff`: the minimum number of instances that are required to make a decision about a feature.
 
 %%time
 from nltk.classify import DecisionTreeClassifier
@@ -322,6 +364,14 @@ from sklearn.svm import NuSVC
 sk_classifier = SklearnClassifier(NuSVC())
 sk_classifier.train(train_set)
 nltk.classify.accuracy(sk_classifier, test_set)
+
+## Remaining Issues
+
+- Feature engineering is crucial to the process of machine learning.
+- The quality of the text vectorization almost determines the classifier's performance to a great deal.
+- Every ML algorithm requires a lot of **hyperparameter** settings, which can have substantial impact on the model performances.
+- We need a more **systematic** way to find the optimal combinations of hyperparameters for a given ML algorithm.
+- We will come back to issue when we talk about doing ML with `sklearn`.
 
 ## References
 

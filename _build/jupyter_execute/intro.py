@@ -314,9 +314,8 @@ nlp/ml-algorithm
 :numbered: 2
 :caption: Machine-Learning NLP
 
-temp/ml-sklearn-classification
-temp/text-classification-ml-newsgroups
-temp/topic-modeling-naive
+nlp/ml-sklearn-classification
+nlp/topic-modeling-naive
 nlp/ml-nlp-case
 ```
 
