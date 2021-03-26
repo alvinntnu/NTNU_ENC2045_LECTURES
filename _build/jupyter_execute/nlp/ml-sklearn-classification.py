@@ -228,7 +228,7 @@ from sklearn.pipeline import make_pipeline, TransformerMixin, Pipeline
 ## Refit model based on optimal parameter settings
 pipeline = Pipeline([
   ('vectorizer',tfidf_vec), 
-  ('clf', svm.SVC(C=4, kernel='rbf', probability=True))])
+  ('clf', svm.SVC(C=1, kernel='linear', probability=True))])
 pipeline.fit(X_train, y_train)
 
 import textwrap
@@ -398,7 +398,7 @@ from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, Confusio
 print(accuracy_score(y_train, doc_sents_prediction))
 print(f1_score(y_train, doc_sents_prediction, average=None, labels=['neg','pos']))
 
-ConfusionMatrixDisplay(confusion_matrix(y_train, doc_sents_prediction, normalize="all")).plot()
+ConfusionMatrixDisplay(confusion_matrix(y_train, doc_sents_prediction, normalize="all"), display_labels=['neg','pos']).plot()
 
 ### AFINN Lexicon
 
@@ -415,7 +415,7 @@ doc_sents_afn_prediction = ['pos' if score >= 1.0 else 'neg' for score in doc_se
 print(accuracy_score(y_train, doc_sents_afn_prediction))
 print(f1_score(y_train, doc_sents_afn_prediction, average=None, labels=['neg','pos']))
 
-ConfusionMatrixDisplay(confusion_matrix(y_train, doc_sents_afn_prediction, normalize="all")).plot()
+ConfusionMatrixDisplay(confusion_matrix(y_train, doc_sents_afn_prediction, normalize="all"),display_labels=['neg','pos']).plot()
 
 - Disadvantage of Dictionary-based Approach
     - Constructing the sentiment dictionary is time-consuming.
