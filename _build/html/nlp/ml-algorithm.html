@@ -267,10 +267,24 @@
    2. Assignment II: Journal Articles Review
   </a>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../exercise/3-preprocessing.html">
    3. Assignment III: Preprocessing
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../exercise-student/Assignment-3-1.html">
+     Student Sample 1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../exercise-student/Assignment-3-2.html">
+     Student Sample 2
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../exercise/4-chinese-nlp.html">
@@ -448,14 +462,15 @@
 <ul class="simple">
 <li><p>Before the era of deep learning, probability-based classifiers are commonly used in many ML NLP tasks.</p></li>
 <li><p>There are two types of probability-based models: <strong>generative</strong> and <strong>disriminative</strong> models.</p></li>
+<li><p>Let’s assume that we have our data as <em><strong>d</strong></em>, and their class labels as <em><strong>c</strong></em>.</p></li>
 </ul>
 <ul class="simple">
 <li><p><strong>Generative</strong>:</p>
 <ul>
 <li><p>The goal of training is NOT to find <span class="math notranslate nohighlight">\(P(c|d)\)</span>.</p></li>
-<li><p>Rather, based on the Bayes Theorem, we can estimate the joint probability of <span class="math notranslate nohighlight">\(P(c,d)\)</span>, which can reformulated as <span class="math notranslate nohighlight">\(p(d)\times p(c|d) = p(c) \times p(d|c)\)</span></p></li>
+<li><p>Rather, based on the <strong>Bayes Theorem</strong>, we can estimate the joint probability of <span class="math notranslate nohighlight">\(P(c,d)\)</span>, which, according to Bayes Theorem, can be reformulated as <span class="math notranslate nohighlight">\(P(c,d)=P(d)\times P(c|d) =P(c) \times P(d|c)\)</span></p></li>
 <li><p>That is, the training in generative models is based on the <strong>joint</strong> probability of the data and the class, i.e., <span class="math notranslate nohighlight">\(P(c,d)\)</span></p></li>
-<li><p>Examples: n-gram models, Naive Bayes, HMM, probablistic context-free grammars.</p></li>
+<li><p>Examples: N-gram Language Models, Naive Bayes, Hidden Markov Model, Probabilistic Context-Free Grammars.</p></li>
 </ul>
 </li>
 </ul>
@@ -464,12 +479,12 @@
 <ul>
 <li><p>The goal of training is to directly find <span class="math notranslate nohighlight">\(P(c|d)\)</span>.</p></li>
 <li><p>Training is based on the <strong>conditional</strong> Probablity of the class given the data, i.e., <span class="math notranslate nohighlight">\(P(c|d)\)</span>.</p></li>
-<li><p>Examples: Logistic regression, maximum entropy models, CRF, SVM, perceptron.</p></li>
+<li><p>Examples: Logistic regression, Maximum Entropy Models, Conditional Random Field, Support Vector Machine, Perceptron.</p></li>
 </ul>
 </li>
 </ul>
 <ul class="simple">
-<li><p>Strengths of discriminative models:</p>
+<li><p>Strengths of <strong>discriminative</strong> models:</p>
 <ul>
 <li><p>They give high accuracy performance.</p></li>
 <li><p>They make it easier to include linguistically relevant features.</p></li>
@@ -477,7 +492,7 @@
 </li>
 <li><p>Other classification models:</p>
 <ul>
-<li><p>Tree-based methods (Decision tree)</p></li>
+<li><p>Tree-based methods (Decision tree, Random Forest)</p></li>
 <li><p>Neural Network</p></li>
 </ul>
 </li>
@@ -503,7 +518,7 @@ P(Y|X) = P(Y) \frac{P(X|Y)}{P(X)}
 <h3>Intuition of Naive Bayes<a class="headerlink" href="#intuition-of-naive-bayes" title="Permalink to this headline">¶</a></h3>
 <p><img alt="" src="../_images/ml-naive-bayes.gif" /></p>
 <ul class="simple">
-<li><p>In naive bayes, given a document <span class="math notranslate nohighlight">\(d\)</span> and a class <span class="math notranslate nohighlight">\(c\)</span>, the goal is to find the <strong>maximum joint probability</strong> <span class="math notranslate nohighlight">\(P(c,d)\)</span>. And according bayes rule, the goal (of finding the maximum joint probability) can be reformulated as finding the maximum of the <strong>posterior probability</strong> of the class, <span class="math notranslate nohighlight">\(P(c|d)\)</span>:</p></li>
+<li><p>In Naive Bayes, given a document <span class="math notranslate nohighlight">\(d\)</span> and a class <span class="math notranslate nohighlight">\(c\)</span>, the goal is to find the <strong>maximum joint probability</strong> <span class="math notranslate nohighlight">\(P(c,d)\)</span>. And according bayes rule, the goal (of finding the maximum joint probability) can be reformulated as finding the maximum of the <strong>posterior probability</strong> of the class, <span class="math notranslate nohighlight">\(P(c|d)\)</span>:</p></li>
 </ul>
 <div class="math notranslate nohighlight" id="equation-navie-bayes2">
 <span class="eqno">(3.2)<a class="headerlink" href="#equation-navie-bayes2" title="Permalink to this equation">¶</a></span>\[\begin{split}
@@ -511,7 +526,7 @@ P(c,d) = P(d|c)\times P(c) = P(c|d) \times P(d)\\
 P(c|d) = \frac{P(d|c)\times P(c)}{P(d)}
 \end{split}\]</div>
 <ul class="simple">
-<li><p>Because the <span class="math notranslate nohighlight">\(P(d)\)</span> is a constant for all classes estimation, we can drop the denominator. And now the goal is to find out the class <span class="math notranslate nohighlight">\(c\)</span> that maximizes the <strong>posterior probability</strong> of the class, i.e., <span class="math notranslate nohighlight">\(P(c|d)\)</span>.</p></li>
+<li><p>Because the <span class="math notranslate nohighlight">\(P(d)\)</span> is a constant for all classes estimation, we can drop the denominator. And now the goal is to find the class <span class="math notranslate nohighlight">\(c\)</span> that maximizes the <strong>posterior probability</strong> of the class, i.e., <span class="math notranslate nohighlight">\(P(c|d)\)</span>. (MAP = Maximum A Posterior Estimation)</p></li>
 </ul>
 <div class="math notranslate nohighlight" id="equation-naive-bayes3">
 <span class="eqno">(3.3)<a class="headerlink" href="#equation-naive-bayes3" title="Permalink to this equation">¶</a></span>\[\begin{split}
@@ -520,16 +535,16 @@ C_{MAP}= \underset{c \in C}{\arg\max}\frac{P(d|c)\times P(c)}{P(d)} \\
 = \underset{c \in C}{\arg\max}P(d|c)\times P(c) \\
 \end{split}\]</div>
 <ul class="simple">
-<li><p>In naive Bayes, the probabilities <span class="math notranslate nohighlight">\(P(C=c_i)\)</span> and <span class="math notranslate nohighlight">\(P(X_i|C=c_i)\)</span> are <strong>parameters</strong>.</p></li>
+<li><p>In Naive Bayes, the probabilities <span class="math notranslate nohighlight">\(P(C=c_i)\)</span> and <span class="math notranslate nohighlight">\(P(X_i|C=c_i)\)</span> are <strong>parameters</strong>.</p></li>
 <li><p>The standard, maximum likelihood, approach is to calculate these parameters (probabilities) using MLE estimators based on the training data.</p></li>
 </ul>
 <ul class="simple">
 <li><p>For example, for class prior probabilities, <span class="math notranslate nohighlight">\(P(C=c_i)\)</span>, we count the cases where <span class="math notranslate nohighlight">\(C=c_i\)</span> and divide by the sample size.</p></li>
-<li><p>Similarly, each feature <span class="math notranslate nohighlight">\(x_i\)</span> of the document is in the form of a probability value of an observed event given the class, <span class="math notranslate nohighlight">\(P(x_i|C=c_i)\)</span>. For example, the probability of observing the word ‘好看’ (<strong><span class="math notranslate nohighlight">\(x_i\)</span></strong>) when the document class is <strong><span class="math notranslate nohighlight">\(c_i\)</span></strong>. same for conditional probabilities <span class="math notranslate nohighlight">\(P(好看|C=c_i)\)</span>.</p></li>
+<li><p>Similarly, each feature <span class="math notranslate nohighlight">\(x_i\)</span> of the document is in the form of a probability value of an observed event given the class, <span class="math notranslate nohighlight">\(P(x_i|C=c_i)\)</span>. For example, the probability of observing the word ‘好看’ (<strong><span class="math notranslate nohighlight">\(x_i\)</span></strong>) when the document class is <strong><span class="math notranslate nohighlight">\(c_i\)</span></strong>. Same for conditional probabilities <span class="math notranslate nohighlight">\(P(好看|C=c_i)\)</span>.</p></li>
 </ul>
 <ul class="simple">
 <li><p>A document needs to be vectorized through feature engineering into a numeric representation, i.e., a set of <strong>n</strong> features from the document, <span class="math notranslate nohighlight">\(\{x_1, x_2, ..., x_n\}\)</span></p></li>
-<li><p>Given a class <span class="math notranslate nohighlight">\(c\)</span> and a set of <strong><span class="math notranslate nohighlight">\(n\)</span></strong> features from the document, <span class="math notranslate nohighlight">\(\{x_1, x_2, ..., x_n\}\)</span>, we can denote the posterior probability of each class <span class="math notranslate nohighlight">\(c\)</span> as follows:</p></li>
+<li><p>Given a class <span class="math notranslate nohighlight">\(c\)</span> and a set of <strong><span class="math notranslate nohighlight">\(n\)</span></strong> features from the document, <span class="math notranslate nohighlight">\(\{x_1, x_2, ..., x_n\}\)</span>, we can denote the <strong>posterior probability</strong> of each class <span class="math notranslate nohighlight">\(c\)</span> as follows:</p></li>
 </ul>
 <div class="math notranslate nohighlight" id="equation-naive-bayes4">
 <span class="eqno">(3.4)<a class="headerlink" href="#equation-naive-bayes4" title="Permalink to this equation">¶</a></span>\[\begin{split}
@@ -575,12 +590,12 @@ C_{MAP} = \underset{c \in C}{\arg\max} P(x_1,x_2,...,x_n|c) \times P(c) \\
 <h2><span class="section-number">3.2. </span>Logistic Regression<a class="headerlink" href="#logistic-regression" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><strong>Logistic Regression</strong> is also a form of probabilistic statistical classification model.</p></li>
-<li><p>The model is trained by maximizing directly the probability of the class given the observed data, i.e., <span class="math notranslate nohighlight">\(P(c|d)\)</span>.</p></li>
-<li><p>Logistic Regression is similar to linear regression, whose predicted values are both numeric.</p></li>
+<li><p>The model is trained by maximizing directly the probability of the <strong>class</strong> given the observed <strong>data</strong>, i.e., <span class="math notranslate nohighlight">\(P(c|d)\)</span>.</p></li>
+<li><p>Logistic Regression is similar to Linear Regression, whose predicted values are both numeric.</p></li>
 </ul>
 <ul class="simple">
 <li><p>A document needs to be vectorized through feature engineering into a numeric representation, i.e., a set of <strong><span class="math notranslate nohighlight">\(n\)</span></strong> features characterizing the semantics of the document, <span class="math notranslate nohighlight">\(\{x_1, x_2, ..., x_n\}\)</span></p></li>
-<li><p>Then the Logistic Regression models the <strong>probability</strong> of the class given these observed values:</p></li>
+<li><p>Then Logistic Regression models the <strong>probability</strong> of the class given these observed values as follows:</p></li>
 </ul>
 <div class="math notranslate nohighlight">
 \[
@@ -600,11 +615,11 @@ y = \beta_0 + \beta_1x_1 + \beta_2 x_2 + ... + \beta_ix_i
 </ul>
 <ul class="simple">
 <li><p>But so far the model prediction (<span class="math notranslate nohighlight">\(y\)</span>) could be any number (<span class="math notranslate nohighlight">\(-\infty\)</span> to <span class="math notranslate nohighlight">\(\infty\)</span>) based on the current linear model.</p></li>
-<li><p>In order to make sure the predicted values of the model are within the range of 0 and 1 (i.e., a probability-like value), the dependent variable <span class="math notranslate nohighlight">\(y\)</span> often needs to be transformed with a so-called <strong>link function</strong>.</p></li>
+<li><p>In order to make sure the predicted values of the model are within the range of 0 and 1 (i.e., a probability-like value), the dependent variable <span class="math notranslate nohighlight">\(y\)</span> is transformed with a so-called <strong>link function</strong>.</p></li>
 <li><p>That is, <strong>link functions</strong> transform the predicted <span class="math notranslate nohighlight">\(y\)</span> into a range more appropriate for linear modeling.</p></li>
 </ul>
 <ul class="simple">
-<li><p>For binary logistic regression, the <strong>inverse logit transformation</strong> is used, transforming <span class="math notranslate nohighlight">\(y\)</span> from the range of <span class="math notranslate nohighlight">\(-\infty\)</span> to <span class="math notranslate nohighlight">\(\infty\)</span> to into probability values ranging from 0 to 1.</p></li>
+<li><p>In particular, in Binary Logistic Regression, the <strong>inverse logit transformation</strong> is used, transforming <span class="math notranslate nohighlight">\(y\)</span> from the range of <span class="math notranslate nohighlight">\(-\infty\)</span> to <span class="math notranslate nohighlight">\(\infty\)</span> to into probability values ranging from 0 to 1.</p></li>
 </ul>
 <div class="math notranslate nohighlight">
 \[
@@ -613,16 +628,21 @@ y = \beta_0 + \beta_1x_1 + \beta_2 x_2 + ... + \beta_ix_i
 \]</div>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-Probability_{class} = P(c|d) = P(c|x_1,x_2,...,x_i)\\
-= \frac{1}{1+e^{-y}}\\
-= \frac{1}{1+e^{-(\sum_{i}\beta_ix_i)}}
+\begin{align*}\\
+P(c|d) &amp;= \frac{1}{1+e^{-y}}\\
+                    &amp;= \frac{1}{1+e^{-(\sum_{i}\beta_ix_i)}}\\
+                    &amp;= P(c|x_1,x_2,...,x_i)\\
+\end{align*}
 \end{split}\]</div>
 <ul class="simple">
 <li><p>And we can re-formulate the model equation as:</p></li>
 </ul>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-P(c|d) = P(c|x_1,x_2,...,x_i)\\= \frac{1}{1+e^{-(\sum_{i}{\beta_ix_i})}}
+\begin{align}\\
+P(c|d) &amp;= P(c|x_1,x_2,...,x_i)\\
+&amp;= \frac{1}{1+e^{-(\sum_{i}{\beta_ix_i})}}
+\end{align}
 \end{split}\]</div>
 <ul class="simple">
 <li><p>In model prediction, the model will then determine the <strong>class</strong> of the document by choosing the class that maximizes the conditional probability of <span class="math notranslate nohighlight">\(P(c|d)\)</span>.</p></li>
@@ -645,8 +665,21 @@ P(c|d) = P(c|x_1,x_2,...,x_i)\\= \frac{1}{1+e^{-(\sum_{i}{\beta_ix_i})}}
 </ul>
 <div class="math notranslate nohighlight">
 \[
-    log\left({\frac{P_{relevant_class}}{1 - P_{relevant_class}}}\right)
+    log\left({\frac{P_{relevant-class}}{1 - P_{relevant-class}}}\right)
     \]</div>
+</li>
+</ul>
+<ul class="simple">
+<li><p>A quick example (based on Stefan Gries’ data):</p>
+<ul>
+<li><p>We use the type of the subordinate clauses (<code class="docutils literal notranslate"><span class="pre">SUBORDTYPE</span></code>) to predict the <code class="docutils literal notranslate"><span class="pre">ORDER</span></code> of the main and subordinate clauses.</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(X: \{caus, temp\}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(y: \{mc-sc, sc-mc\}\)</span></p></li>
+</ul>
+</li>
+<li><p>We run a logistic regression, using SUBORDTYPE as the predictor and ORDER as the response variable.</p></li>
+</ul>
 </li>
 </ul>
 <div class="cell docutils container">
@@ -659,7 +692,7 @@ P(c|d) = P(c|x_1,x_2,...,x_i)\\= \frac{1}{1+e^{-(\sum_{i}{\beta_ix_i})}}
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-
+<span class="c1">## data from Stefan Gries&#39; &quot;Statistics for Linguistics with R&quot;</span>
 <span class="n">csv</span><span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s1">&#39;../../../RepositoryData/data/gries_sflwr/_inputfiles/05-3_clauseorders.csv&#39;</span><span class="p">)</span>
 <span class="n">csv</span>
 </pre></div>
@@ -883,9 +916,106 @@ Number of Fisher Scoring iterations: 5
 </div>
 </div>
 <ul class="simple">
-<li><p>We use the <code class="docutils literal notranslate"><span class="pre">order</span></code> of the main and subordinate clauses to predict the type of the subordinate clauses.</p></li>
-<li><p>The log odds of being mc-sc order increases <span class="math notranslate nohighlight">\(e^{2.7234}= 15.23\)</span> when the subordinate clause is <code class="docutils literal notranslate"><span class="pre">temp</span></code>.</p></li>
+<li><p>Based on the model parameters, we get the formula for the probability prediction of our response variable:</p></li>
 </ul>
+<div class="math notranslate nohighlight">
+\[
+y = \beta_0 + \beta_1x_1 = -2.50 + 2.72x_1
+\]</div>
+<ul>
+<li><p>Now we can estimate the following probabilities:</p>
+<ul class="simple">
+<li><p>Probability of <code class="docutils literal notranslate"><span class="pre">sc-mc</span></code> when subordinate is <code class="docutils literal notranslate"><span class="pre">cause</span></code>:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    \begin{align*}\\
+    P(type=scmc|x_1=cause) &amp;= \frac{1}{1+e^{-y}}\\
+    &amp;=\frac{1}{1+e^{-({-2.50 + 2.72 \times x_1})}} \\
+    &amp;=\frac{1}{1+e^{-({-2.50 + 2.72 \times 0})}}\\
+    &amp;= 0.0758
+    \end{align*}
+    \end{split}\]</div>
+<ul class="simple">
+<li><p>Probability of <code class="docutils literal notranslate"><span class="pre">sc-mc</span></code> when subordinate is <code class="docutils literal notranslate"><span class="pre">temp</span></code>:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    \begin{align*}\\
+    P(type=scmc|x_1=temp) &amp;= \frac{1}{1+e^{-y}}\\
+    &amp;=\frac{1}{1+e^{-({-2.50 + 2.72 \times x_1})}} \\
+    &amp;=\frac{1}{1+e^{-({-2.50 + 2.72 \times 1})}}\\
+    &amp;= 0.5547
+    \end{align*}
+    \end{split}\]</div>
+</li>
+</ul>
+<ul class="simple">
+<li><p>Now we can also compute the odds.</p></li>
+<li><p>Odds is just a ratio of two probability values.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+Odds = \frac{1-P(c)}{P(c)} = \frac{1-P(type=scmc)}{P(type=scmc)} 
+\]</div>
+<ul>
+<li><p>Now we can compute the two odds:</p>
+<ul class="simple">
+<li><p>The odds of the probabilities when the subordinate is <code class="docutils literal notranslate"><span class="pre">caus</span></code>:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+    odds_1 = \frac{1-0.07}{0.07} = 12.18
+    \]</div>
+<ul class="simple">
+<li><p>The odds of the probabilities when the subordinate is <code class="docutils literal notranslate"><span class="pre">temp</span></code>:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+    odds_2 = \frac{1-0.55}{0.55} = 0.8025
+    \]</div>
+</li>
+<li><p>Finally, we can compute the <strong>log odds ratios</strong> (the log of the ratios between two odds):</p>
+<div class="math notranslate nohighlight">
+\[
+    log\;odds\;ratios = \frac{odds_1}{odds_2} = \frac{12.18}{0.8025} = 2.72
+    \]</div>
+</li>
+<li><p>That is the meaning of the coefficient <span class="math notranslate nohighlight">\(\beta_1, 2.7234\)</span>:</p>
+<ul class="simple">
+<li><p>The odds ratio increases <span class="math notranslate nohighlight">\(e^{2.7234}= 15.23\)</span> times when the subordinate clause is <code class="docutils literal notranslate"><span class="pre">temp</span></code> as compared to when the subordnate is <code class="docutils literal notranslate"><span class="pre">caus</span></code>.</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">R</span>
+y1= 1/(1+exp(-(-2.50 + 2.72*0))) # prob of sc-mc when SUBORDTYPE = 0 (caus)
+y2= 1/(1+exp(-(-2.50 + 2.72*1))) # prob of sc-mc when SUBORDTYPE = 1 (temp)
+odds1 = (1-y1)/y1 # odds when SUBORDTYPE = 0
+odds2 = (1-y2)/y2 # odds when SUBORDTYPE = 1
+
+cat(&quot;Prob(type=sc-mc|subordtype=cause):&quot;, y1, &quot;\n&quot;)
+cat(&quot;The odds of Prob(type=mc-sc|subordtype=cause) vs. Prob(type=sc-mc|subordtype=cause):&quot;, odds1,&quot;\n&quot;)
+cat(&quot;Prob(type=sc-mc|subordtype=temp):&quot;, y2, &quot;\n&quot;)
+cat(&quot;The odds of Prob(type=mc-sc|subordtype=temp) vs. Prob(type=sc-mc|subordtype=temp):&quot;, odds2, &quot;\n&quot;)
+
+
+log_odds = log(odds1/odds2)
+cat(&quot;Log Odds when subordtype=temp:&quot;, log_odds)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Prob(type=sc-mc|subordtype=cause): 0.07585818 
+The odds of Prob(type=mc-sc|subordtype=cause) vs. Prob(type=sc-mc|subordtype=cause): 12.18249 
+Prob(type=sc-mc|subordtype=temp): 0.5547792 
+The odds of Prob(type=mc-sc|subordtype=temp) vs. Prob(type=sc-mc|subordtype=temp): 0.8025188 
+Log Odds when subordtype=temp: 2.72[1] 15.225
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="support-vector-machine-svm">
 <h2><span class="section-number">3.3. </span>Support Vector Machine (SVM)<a class="headerlink" href="#support-vector-machine-svm" title="Permalink to this headline">¶</a></h2>

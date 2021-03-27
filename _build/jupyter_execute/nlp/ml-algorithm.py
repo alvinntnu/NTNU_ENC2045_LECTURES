@@ -2,24 +2,25 @@
 
 - Before the era of deep learning, probability-based classifiers are commonly used in many ML NLP tasks.
 - There are two types of probability-based models: **generative** and **disriminative** models.
+- Let's assume that we have our data as ***d***, and their class labels as ***c***.
 
 - **Generative**:
     - The goal of training is NOT to find $P(c|d)$. 
-    - Rather, based on the Bayes Theorem, we can estimate the joint probability of $P(c,d)$, which can reformulated as $p(d)\times p(c|d) = p(c) \times p(d|c)$
+    - Rather, based on the **Bayes Theorem**, we can estimate the joint probability of $P(c,d)$, which, according to Bayes Theorem, can be reformulated as $P(c,d)=P(d)\times P(c|d) =P(c) \times P(d|c)$
     - That is, the training in generative models is based on the **joint** probability of the data and the class, i.e., $P(c,d)$
-    - Examples: n-gram models, Naive Bayes, HMM, probablistic context-free grammars.
+    - Examples: N-gram Language Models, Naive Bayes, Hidden Markov Model, Probabilistic Context-Free Grammars.
 
 - **Distriminative**: 
     - The goal of training is to directly find $P(c|d)$.
     - Training is based on the **conditional** Probablity of the class given the data, i.e., $P(c|d)$.
-    - Examples: Logistic regression, maximum entropy models, CRF, SVM, perceptron.
+    - Examples: Logistic regression, Maximum Entropy Models, Conditional Random Field, Support Vector Machine, Perceptron.
 
     
-- Strengths of discriminative models:
+- Strengths of **discriminative** models:
     - They give high accuracy performance.
     - They make it easier to include linguistically relevant features.
 - Other classification models:
-    - Tree-based methods (Decision tree)
+    - Tree-based methods (Decision tree, Random Forest)
     - Neural Network
 
 ## Naive Bayes
@@ -42,14 +43,14 @@ $$ (naive_bayes1)
 
 ![](../images/ml-naive-bayes.gif)
 
-- In naive bayes, given a document $d$ and a class $c$, the goal is to find the **maximum joint probability** $P(c,d)$. And according bayes rule, the goal (of finding the maximum joint probability) can be reformulated as finding the maximum of the **posterior probability** of the class, $P(c|d)$:
+- In Naive Bayes, given a document $d$ and a class $c$, the goal is to find the **maximum joint probability** $P(c,d)$. And according bayes rule, the goal (of finding the maximum joint probability) can be reformulated as finding the maximum of the **posterior probability** of the class, $P(c|d)$:
 
 $$
 P(c,d) = P(d|c)\times P(c) = P(c|d) \times P(d)\\
 P(c|d) = \frac{P(d|c)\times P(c)}{P(d)}
 $$ (navie_bayes2)
 
-- Because the $P(d)$ is a constant for all classes estimation, we can drop the denominator. And now the goal is to find out the class $c$ that maximizes the **posterior probability** of the class, i.e., $P(c|d)$.
+- Because the $P(d)$ is a constant for all classes estimation, we can drop the denominator. And now the goal is to find the class $c$ that maximizes the **posterior probability** of the class, i.e., $P(c|d)$. (MAP = Maximum A Posterior Estimation)
 
 $$
 C_{MAP} = \underset{c \in C}{\arg\max}P(c|d)\\
@@ -58,14 +59,14 @@ C_{MAP}= \underset{c \in C}{\arg\max}\frac{P(d|c)\times P(c)}{P(d)} \\
 $$ (naive_bayes3)
 
 
-- In naive Bayes, the probabilities $P(C=c_i)$ and $P(X_i|C=c_i)$ are **parameters**. 
+- In Naive Bayes, the probabilities $P(C=c_i)$ and $P(X_i|C=c_i)$ are **parameters**. 
 - The standard, maximum likelihood, approach is to calculate these parameters (probabilities) using MLE estimators based on the training data. 
 
 - For example, for class prior probabilities, $P(C=c_i)$, we count the cases where $C=c_i$ and divide by the sample size.
-- Similarly, each feature $x_i$ of the document is in the form of a probability value of an observed event given the class, $P(x_i|C=c_i)$. For example, the probability of observing the word '好看' (**$x_i$**) when the document class is **$c_i$**. same for conditional probabilities $P(好看|C=c_i)$. 
+- Similarly, each feature $x_i$ of the document is in the form of a probability value of an observed event given the class, $P(x_i|C=c_i)$. For example, the probability of observing the word '好看' (**$x_i$**) when the document class is **$c_i$**. Same for conditional probabilities $P(好看|C=c_i)$. 
 
 - A document needs to be vectorized through feature engineering into a numeric representation, i.e., a set of **n** features from the document, $\{x_1, x_2, ..., x_n\}$
-- Given a class $c$ and a set of **$n$** features from the document, $\{x_1, x_2, ..., x_n\}$, we can denote the posterior probability of each class $c$ as follows:
+- Given a class $c$ and a set of **$n$** features from the document, $\{x_1, x_2, ..., x_n\}$, we can denote the **posterior probability** of each class $c$ as follows:
 
 $$
 C_{MAP}= \underset{c \in C}{\arg\max}P(c|d)\\\\
@@ -98,12 +99,12 @@ $$ (naive_bayes6)
 ## Logistic Regression
 
 - **Logistic Regression** is also a form of probabilistic statistical classification model.
-- The model is trained by maximizing directly the probability of the class given the observed data, i.e., $P(c|d)$.
-- Logistic Regression is similar to linear regression, whose predicted values are both numeric.
+- The model is trained by maximizing directly the probability of the **class** given the observed **data**, i.e., $P(c|d)$.
+- Logistic Regression is similar to Linear Regression, whose predicted values are both numeric.
 
 - A document needs to be vectorized through feature engineering into a numeric representation, i.e., a set of **$n$** features characterizing the semantics of the document, $\{x_1, x_2, ..., x_n\}$
 
-- Then the Logistic Regression models the **probability** of the class given these observed values:
+- Then Logistic Regression models the **probability** of the class given these observed values as follows:
 
 $$
 y = \beta_0 + \beta_1x_1 + \beta_2 x_2 + ... + \beta_ix_i
@@ -121,10 +122,10 @@ $$
 
 
 - But so far the model prediction ($y$) could be any number ($-\infty$ to $\infty$) based on the current linear model. 
-- In order to make sure the predicted values of the model are within the range of 0 and 1 (i.e., a probability-like value), the dependent variable $y$ often needs to be transformed with a so-called **link function**.
+- In order to make sure the predicted values of the model are within the range of 0 and 1 (i.e., a probability-like value), the dependent variable $y$ is transformed with a so-called **link function**.
 - That is, **link functions** transform the predicted $y$ into a range more appropriate for linear modeling.
 
-- For binary logistic regression, the **inverse logit transformation** is used, transforming $y$ from the range of $-\infty$ to $\infty$ to into probability values ranging from 0 to 1.
+- In particular, in Binary Logistic Regression, the **inverse logit transformation** is used, transforming $y$ from the range of $-\infty$ to $\infty$ to into probability values ranging from 0 to 1.
 
 $$
 y = \beta_0 + \beta_1x_1 + \beta_2 x_2 + ... + \beta_ix_i
@@ -132,15 +133,20 @@ y = \beta_0 + \beta_1x_1 + \beta_2 x_2 + ... + \beta_ix_i
 $$
 
 $$
-Probability_{class} = P(c|d) = P(c|x_1,x_2,...,x_i)\\
-= \frac{1}{1+e^{-y}}\\
-= \frac{1}{1+e^{-(\sum_{i}\beta_ix_i)}}
+\begin{align*}\\
+P(c|d) &= \frac{1}{1+e^{-y}}\\
+                    &= \frac{1}{1+e^{-(\sum_{i}\beta_ix_i)}}\\
+                    &= P(c|x_1,x_2,...,x_i)\\
+\end{align*}
 $$
 
 - And we can re-formulate the model equation as:
 
 $$
-P(c|d) = P(c|x_1,x_2,...,x_i)\\= \frac{1}{1+e^{-(\sum_{i}{\beta_ix_i})}}
+\begin{align}\\
+P(c|d) &= P(c|x_1,x_2,...,x_i)\\
+&= \frac{1}{1+e^{-(\sum_{i}{\beta_ix_i})}}
+\end{align}
 $$
 - In model prediction, the model will then determine the **class** of the document by choosing the class that maximizes the conditional probability of $P(c|d)$.
 
@@ -158,14 +164,21 @@ $$
     - Log odds is defined as: 
     
     $$
-    log\left({\frac{P_{relevant_class}}{1 - P_{relevant_class}}}\right)
+    log\left({\frac{P_{relevant-class}}{1 - P_{relevant-class}}}\right)
     $$
+
+
+- A quick example (based on Stefan Gries' data):
+    - We use the type of the subordinate clauses (`SUBORDTYPE`) to predict the `ORDER` of the main and subordinate clauses.
+        - $X: \{caus, temp\}$
+        - $y: \{mc-sc, sc-mc\}$
+    - We run a logistic regression, using SUBORDTYPE as the predictor and ORDER as the response variable.
 
 
 %load_ext rpy2.ipython
 
 import pandas as pd
-
+## data from Stefan Gries' "Statistics for Linguistics with R"
 csv= pd.read_table('../../../RepositoryData/data/gries_sflwr/_inputfiles/05-3_clauseorders.csv')
 csv
 
@@ -180,8 +193,82 @@ print(table(csv$SUBORDTYPE, csv$ORDER))
 lg = glm(factor(csv$ORDER)~factor(csv$SUBORDTYPE), family="binomial")
 summary(lg)
 
-- We use the `order` of the main and subordinate clauses to predict the type of the subordinate clauses.
-- The log odds of being mc-sc order increases $e^{2.7234}= 15.23$ when the subordinate clause is `temp`.
+- Based on the model parameters, we get the formula for the probability prediction of our response variable:
+
+$$
+y = \beta_0 + \beta_1x_1 = -2.50 + 2.72x_1
+$$
+
+- Now we can estimate the following probabilities:
+
+    - Probability of `sc-mc` when subordinate is `cause`:
+    
+    $$
+    \begin{align*}\\
+    P(type=scmc|x_1=cause) &= \frac{1}{1+e^{-y}}\\
+    &=\frac{1}{1+e^{-({-2.50 + 2.72 \times x_1})}} \\
+    &=\frac{1}{1+e^{-({-2.50 + 2.72 \times 0})}}\\
+    &= 0.0758
+    \end{align*}
+    $$
+    - Probability of `sc-mc` when subordinate is `temp`:
+    
+    $$
+    \begin{align*}\\
+    P(type=scmc|x_1=temp) &= \frac{1}{1+e^{-y}}\\
+    &=\frac{1}{1+e^{-({-2.50 + 2.72 \times x_1})}} \\
+    &=\frac{1}{1+e^{-({-2.50 + 2.72 \times 1})}}\\
+    &= 0.5547
+    \end{align*}
+    $$
+    
+
+- Now we can also compute the odds. 
+- Odds is just a ratio of two probability values.
+
+$$
+Odds = \frac{1-P(c)}{P(c)} = \frac{1-P(type=scmc)}{P(type=scmc)} 
+$$
+
+- Now we can compute the two odds:
+
+    - The odds of the probabilities when the subordinate is `caus`:
+
+    $$
+    odds_1 = \frac{1-0.07}{0.07} = 12.18
+    $$
+    
+    - The odds of the probabilities when the subordinate is `temp`:
+
+    $$
+    odds_2 = \frac{1-0.55}{0.55} = 0.8025
+    $$
+    
+
+- Finally, we can compute the **log odds ratios** (the log of the ratios between two odds):
+
+    $$
+    log\;odds\;ratios = \frac{odds_1}{odds_2} = \frac{12.18}{0.8025} = 2.72
+    $$
+    
+- That is the meaning of the coefficient $\beta_1, 2.7234$:
+    - The odds ratio increases $e^{2.7234}= 15.23$ times when the subordinate clause is `temp` as compared to when the subordnate is `caus`.
+
+%%R
+y1= 1/(1+exp(-(-2.50 + 2.72*0))) # prob of sc-mc when SUBORDTYPE = 0 (caus)
+y2= 1/(1+exp(-(-2.50 + 2.72*1))) # prob of sc-mc when SUBORDTYPE = 1 (temp)
+odds1 = (1-y1)/y1 # odds when SUBORDTYPE = 0
+odds2 = (1-y2)/y2 # odds when SUBORDTYPE = 1
+
+cat("Prob(type=sc-mc|subordtype=cause):", y1, "\n")
+cat("The odds of Prob(type=mc-sc|subordtype=cause) vs. Prob(type=sc-mc|subordtype=cause):", odds1,"\n")
+cat("Prob(type=sc-mc|subordtype=temp):", y2, "\n")
+cat("The odds of Prob(type=mc-sc|subordtype=temp) vs. Prob(type=sc-mc|subordtype=temp):", odds2, "\n")
+
+
+log_odds = log(odds1/odds2)
+cat("Log Odds when subordtype=temp:", log_odds)
+
 
 ## Support Vector Machine (SVM)
 
