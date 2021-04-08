@@ -93,7 +93,7 @@ X_test_bow = tfidf_vec.transform(X_test) # transform test
 print(X_train_bow.shape)
 print(X_test_bow.shape)
 
-## Models
+## Model Selection and Cross Validation
 
 - For our current binary sentiment classifier, we will try a few common classification algorithms:
     - Support Vector Machine
@@ -104,6 +104,7 @@ print(X_test_bow.shape)
 
 - The common steps include:
     - We fit the model with our training data.
+    - We check the model stability, using **k-fold cross validation** on the training data.
     - We use the fitted model to make prediction.
     - We evaluate the model prediction by comparing the predicted classes and the true labels.
 
@@ -114,6 +115,10 @@ from sklearn import svm
 model_svm = svm.SVC(C=8.0, kernel='linear')
 model_svm.fit(X_train_bow, y_train)
 
+from sklearn.model_selection import cross_val_score
+model_svm_acc = cross_val_score(estimator=model_svm, X=X_train_bow, y=y_train, cv=5, n_jobs=-1)
+model_svm_acc
+
 model_svm.predict(X_test_bow[:10])
 #print(model_svm.score(test_text_bow, test_label))
 
@@ -121,8 +126,11 @@ model_svm.predict(X_test_bow[:10])
 
 from sklearn.tree import DecisionTreeClassifier
 
-model_dec = DecisionTreeClassifier(max_depth=20, random_state=0)
+model_dec = DecisionTreeClassifier(max_depth=10, random_state=0)
 model_dec.fit(X_train_bow, y_train)
+
+model_dec_acc = cross_val_score(estimator=model_dec, X=X_train_bow, y=y_train, cv=5, n_jobs=-1)
+model_dec_acc
 
 model_dec.predict(X_test_bow[:10])
 
@@ -132,6 +140,9 @@ from sklearn.naive_bayes import GaussianNB
 model_gnb = GaussianNB()
 model_gnb.fit(X_train_bow.toarray(), y_train)
 
+model_gnb_acc = cross_val_score(estimator=model_gnb, X=X_train_bow.toarray(), y=y_train, cv=5, n_jobs=-1)
+model_gnb_acc
+
 model_gnb.predict(X_test_bow[:10].toarray())
 
 ### Logistic Regression
@@ -140,6 +151,9 @@ from sklearn.linear_model import LogisticRegression
 
 model_lg = LogisticRegression()
 model_lg.fit(X_train_bow, y_train)
+
+model_lg_acc = cross_val_score(estimator=model_lg, X=X_train_bow, y=y_train, cv=5, n_jobs=-1)
+model_lg_acc
 
 model_lg.predict(X_test_bow[:10].toarray())
 
@@ -167,9 +181,9 @@ f1_score(y_test, model_svm.predict(X_test_bow),
 
 from sklearn.metrics import confusion_matrix, plot_confusion_matrix
 
-plot_confusion_matrix(model_svm, X_test_bow, y_test, normalize=None)
+plot_confusion_matrix(model_svm, X_test_bow, y_test, normalize='all')
 
-plot_confusion_matrix(model_lg, X_test_bow.toarray(), y_test, normalize=None)
+plot_confusion_matrix(model_lg, X_test_bow.toarray(), y_test, normalize='all')
 
 ## try a whole new self-created review:)
 new_review =['This book looks soso like the content but the cover is weird',
@@ -190,7 +204,7 @@ from sklearn.model_selection import GridSearchCV
 parameters = {'kernel': ('linear', 'rbf'), 'C': (1,4,8,16,32)}
 
 svc = svm.SVC()
-clf = GridSearchCV(svc, parameters, cv=5)
+clf = GridSearchCV(svc, parameters, cv=5, n_jobs=-1) ## `-1` run in parallel
 clf.fit(X_train_bow, y_train)
 
 - We can check the parameters that yield the most optimal results in the Grid Search:
@@ -330,7 +344,7 @@ It is suggested to use a held-out set, which makes it possible to highlight whic
 from sklearn.inspection import permutation_importance
 r = permutation_importance(model_lg, X_test_bow.toarray(), y_test,
                            n_repeats=5,
-                           random_state=0)
+                           random_state=0, n_jobs=-1)
 
 for i in r.importances_mean.argsort()[::-1]:
     if r.importances_mean[i] - 2 * r.importances_std[i] > 0:

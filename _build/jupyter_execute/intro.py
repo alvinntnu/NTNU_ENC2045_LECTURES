@@ -358,7 +358,6 @@ temp/dl-transformers-keras
 ```{toctree}
 :hidden:
 :titlesonly:
-:numbered: 2
 :caption: Exercises
 
 exercise/1-python-basics
@@ -366,4 +365,5 @@ exercise/2-journal-review
 exercise/3-preprocessing
 exercise/4-chinese-nlp
 exercise/5-text-vectorization
+exercise/6-machine-learning
 ```

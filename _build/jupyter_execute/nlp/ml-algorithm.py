@@ -225,17 +225,18 @@ As shown above, the second level of `ORDER` is `sc-mc`, this tells us that the c
     &= 0.0758
     \end{align*}
     $$
+    
 
    - Probability of `sc-mc` when subordinate is `temp`:
-    
-    $$
-    \begin{align*}\\
-    P(type=scmc|x_1=temp) &= \frac{1}{1+e^{-y}}\\
-    &=\frac{1}{1+e^{-({-2.50 + 2.72 \times x_1})}} \\
-    &=\frac{1}{1+e^{-({-2.50 + 2.72 \times 1})}}\\
-    &= 0.5547
-    \end{align*}
-    $$
+
+$$
+\begin{align*}\\
+P(type=scmc|x_1=temp) &= \frac{1}{1+e^{-y}}\\
+&=\frac{1}{1+e^{-({-2.50 + 2.72 \times x_1})}} \\
+&=\frac{1}{1+e^{-({-2.50 + 2.72 \times 1})}}\\
+&= 0.5547
+\end{align*}
+$$
     
 
 - Now we can also compute the **odds** of the predicted probability.
