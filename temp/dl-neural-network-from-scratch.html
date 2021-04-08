@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mycss.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
@@ -57,8 +58,8 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Word Embeddings" href="text-vec-embedding.html" />
-    <link rel="prev" title="3. Machine Learning: NLP Tasks" href="../nlp/ml-nlp-case.html" />
+    <link rel="next" title="Deep Learning: A Simple Example" href="dl-simple-case.html" />
+    <link rel="prev" title="2. Topic Modeling: A Naive Example" href="../nlp/topic-modeling-naive.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -196,11 +197,6 @@
    2. Topic Modeling: A Naive Example
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../nlp/ml-nlp-case.html">
-   3. Machine Learning: NLP Tasks
-  </a>
- </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
@@ -213,6 +209,23 @@
    Neural Network From Scratch
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl-simple-case.html">
+   Deep Learning: A Simple Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl-sentiment-case.html">
+   Deep Learning: Sentiment Analysis
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Embeddings and Language Model
+ </span>
+</p>
+<ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="text-vec-embedding.html">
    Word Embeddings
@@ -233,10 +246,15 @@
    Sequence Models Intuition
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl-neural-language-model-primer.html">
+   Neural Language Model: A Start
+  </a>
+ </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
-  Attention, Transformers, and Transfer Learning
+  Seq2Seq, Attention, Transformers, and Transfer Learning
  </span>
 </p>
 <ul class="nav sidenav_l1">
@@ -246,8 +264,18 @@
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="dl-seq-to-seq-attention-addition.html">
+   Seqeunce Model with Attention for Addition Learning
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="dl-transformers-intuition.html">
    Transformers: Intuition
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl-transformers-keras.html">
+   Text Classification with Transformer
   </a>
  </li>
 </ul>
@@ -286,15 +314,43 @@
   <i class="fas fa-chevron-down">
   </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../exercise/4-chinese-nlp.html">
    4. Assignment IV: Chinese Language Processing
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../exercise-student/Assignment-4-1.html">
+     Student Sample 1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../exercise-student/Assignment-4-2.html">
+     Student Sample 2
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../exercise/5-text-vectorization.html">
    5. Assignment V: Text Vectorization
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../exercise-student/Assignment-5-1.html">
+     Student Sample 1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../exercise-student/Assignment-5-2.html">
+     Student Sample 2
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
 </ul>
 
@@ -393,6 +449,11 @@
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#loading-dependencies">
+   Loading Dependencies
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#workflow-of-neural-network">
    Workflow of Neural Network
   </a>
@@ -402,6 +463,16 @@
    Neural Network Overview
   </a>
   <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#forward-propogation">
+     Forward Propogation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#backward-propogation">
+     Backward Propogation
+    </a>
+   </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#neurons">
      Neurons
@@ -413,8 +484,13 @@
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#layers">
-     Layers
+    <a class="reference internal nav-link" href="#activation-functions-in-python">
+     Activation Functions in Python
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#from-nodes-to-layers">
+     From Nodes to Layers
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -425,18 +501,8 @@
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#building-a-neural-network-model">
-   Building a Neural Network Model
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#forward-propagation">
-   Forward Propagation
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#weights-biases-and-activation-functions">
-   Weights, Biases, and Activation Functions
+  <a class="reference internal nav-link" href="#building-a-neural-network-model-in-python">
+   Building a Neural Network Model in Python
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -445,10 +511,54 @@
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-does-the-neural-network-learn-the-parameters">
+     How does the neural network learn the parameters?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#loss-functions">
      Loss Functions
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#principles-for-loss-functions">
+     Principles for Loss Functions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#categorical-variables-encoding">
+   Categorical Variables Encoding
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-s-wrong-with-categorical-variables">
+     What’s wrong with categorical variables?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#three-ways-of-encodings">
+     Three Ways of Encodings
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#steps">
+     Steps
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#one-hot-encoding-and-loss-function">
+     One-hot Encoding and Loss Function
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#examples-of-loss-errors">
+   Examples of Loss Errors
+  </a>
+  <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#error-based-on-one-sample">
      Error based on One Sample
@@ -467,17 +577,84 @@
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#chain-rule-and-back-propagation">
-     Chain Rule and Back Propagation
+    <a class="reference internal nav-link" href="#how-do-we-adjust-the-model-parameters">
+     How do we adjust the model parameters?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#gradients">
+     Gradients
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#intuition-of-gradients-an-example">
+     Intuition of Gradients: An Example
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#types-of-gradient-descent">
+     Types of Gradient Descent
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#gradients-in-python">
+     Gradients in Python
     </a>
    </li>
   </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#overfitting-and-underfitting">
+   Overfitting and Underfitting
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#optimization-vs-generalization">
+     Optimization vs. Generalization
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#overfitting-underfitting">
+     Overfitting/Underfitting
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-to-deal-with-overfitting">
+     How to Deal With Overfitting?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#regularization">
+     Regularization
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#dropout">
+     Dropout
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#heuristics-for-regularization">
+     Heuristics for Regularization
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#keras-workflow">
+   Keras Workflow
+  </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#some-math">
    Some Math
   </a>
   <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#chain-rule-and-back-propagation">
+     Chain Rule and Back Propagation
+    </a>
+   </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#elementwise-operations-of-matrix">
      Elementwise Operations of Matrix
@@ -511,28 +688,6 @@
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id1">
-   Gradient Descent
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#gradients">
-     Gradients
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#types-of-gradient-descent">
-   Types of Gradient Descent
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#intuition-for-gradient">
-   Intuition for Gradient
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#references">
    References
   </a>
@@ -550,22 +705,28 @@
                 
   <div class="section" id="neural-network-from-scratch">
 <h1>Neural Network From Scratch<a class="headerlink" href="#neural-network-from-scratch" title="Permalink to this headline">¶</a></h1>
-<p>This notebook provides an intuitive understanding of the mechanism of the neural network, or deep learning.</p>
-<p>Important steps in neural network:</p>
 <ul class="simple">
-<li><p>Forward propagation</p>
+<li><p>This lecture note provides an intuitive understanding of the mechanism of the neural network, or deep learning.</p></li>
+</ul>
+<ul class="simple">
+<li><p>We will break our discussions into three main parts:</p>
 <ul>
-<li><p>matrix multiplication</p></li>
-<li><p>weights, biases, and activation functions</p></li>
+<li><p>Building A Neural Network (How does the network work?)</p>
+<ul>
+<li><p>Forward Propagation</p></li>
+<li><p>Weights, Biases, and Activation functions</p></li>
+<li><p>Matrix multiplication</p></li>
 </ul>
 </li>
-<li><p>Back propagation</p>
+<li><p>Learning and Training (How does it learn?)</p>
 <ul>
-<li><p>derivatives and partial derivatives</p></li>
-<li><p>chain rules</p></li>
+<li><p>Loss Function</p></li>
+<li><p>Gradients</p></li>
+<li><p>Derivatives and Partial Derivatives</p></li>
+<li><p>Gradient Descent</p></li>
 </ul>
 </li>
-<li><p>Gradient descent</p>
+<li><p>Gradient Descent (More on how does it learn.)</p>
 <ul>
 <li><p>Batch</p></li>
 <li><p>Mini-batch</p></li>
@@ -573,6 +734,10 @@
 </ul>
 </li>
 </ul>
+</li>
+</ul>
+<div class="section" id="loading-dependencies">
+<h2>Loading Dependencies<a class="headerlink" href="#loading-dependencies" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -581,9 +746,11 @@
 </div>
 </div>
 </div>
+</div>
 <div class="section" id="workflow-of-neural-network">
 <h2>Workflow of Neural Network<a class="headerlink" href="#workflow-of-neural-network" title="Permalink to this headline">¶</a></h2>
 <p><img alt="" src="../_images/nn-flowchart.png" /></p>
+<p><img alt="" src="../_images/neural-network-flowchart.png" /></p>
 <ul class="simple">
 <li><p>Three major variations of neural networks</p>
 <ul>
@@ -617,15 +784,23 @@
 <div class="section" id="neural-network-overview">
 <h2>Neural Network Overview<a class="headerlink" href="#neural-network-overview" title="Permalink to this headline">¶</a></h2>
 <p><img alt="" src="../_images/neural-network-propagation.gif" /></p>
+<div class="section" id="forward-propogation">
+<h3>Forward Propogation<a class="headerlink" href="#forward-propogation" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Neural network is a type of machine learning algorithm modeled on human brains and nervous system.</p></li>
 <li><p>The model is believed to process information in a similar way to the human brain.</p></li>
 <li><p>A neural network often consists of a large number of elements, known as <strong>nodes</strong>, working in parallel to solve a specific problem. These nodes are often organized into different <strong>layers</strong>.</p></li>
 <li><p>Each node transforms the input values into the output values based on the weights (parameters) of the nodes.</p></li>
 <li><p>The data transformation from the input to the output is in general referred to as <strong>forward propagation</strong> of the network.</p></li>
+</ul>
+</div>
+<div class="section" id="backward-propogation">
+<h3>Backward Propogation<a class="headerlink" href="#backward-propogation" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
 <li><p>When the predicted output is compared with the true label, we can evaluate the network performance by computing the <strong>loss</strong> of the network.</p></li>
 <li><p>Then we determine the proportion of the losses that may be attributed to each model parameter. This process goes from the losses of the predicted output backward to the original inputs. This step is referred to as the <strong>back propagation</strong> of the network.</p></li>
 </ul>
+</div>
 <div class="section" id="neurons">
 <h3>Neurons<a class="headerlink" href="#neurons" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
@@ -642,7 +817,7 @@ y = w_0 + w_1 x_1 + w_2x_2 + w_3x_3 +...+w_nx_n
 </ul>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{align}
-Neuron\:Output &amp; =  h(y) \\
+\textit{Neuron Output Value} &amp; =  h(y) \\
 &amp; = h(w_0 + w_1 x_1 + w_2x_2 + w_3x_3 +...+w_nx_n)
 \end{align}\end{split}\]</div>
 <p><img alt="" src="../_images/neuron.png" /></p>
@@ -657,15 +832,15 @@ Neuron\:Output &amp; =  h(y) \\
 <li><p><strong>Sigmoid</strong> function: This function converts the y values into values within the range of 0 and 1 (i.e., a probability-like value).</p></li>
 </ul>
 <div class="math notranslate nohighlight">
-\[ h(x) = \frac{1}{1 + \exp(-x)}\]</div>
+\[ h(y) = \frac{1}{1 + \exp(-y)}\]</div>
 <ul class="simple">
 <li><p><strong>Step</strong> function: This function converts the y values into binary ones, with only the positive values activated.</p></li>
 </ul>
 <div class="math notranslate nohighlight">
-\[\begin{split} h(x)= \left\{ 
+\[\begin{split} h(y)= \left\{ 
      \begin{array}\\
-     0 &amp; (x \leq 0) \\
-     1 &amp; (x &gt; 0)
+     0 &amp; (y \leq 0) \\
+     1 &amp; (y &gt; 0)
      \end{array}
 \right.
 \end{split}\]</div>
@@ -673,10 +848,10 @@ Neuron\:Output &amp; =  h(y) \\
 <li><p><strong>ReLU</strong> (Rectified Linear Unit) function: This function converts the y values by passing only positive values and zero for negative y.</p></li>
 </ul>
 <div class="math notranslate nohighlight">
-\[\begin{split} h(x)= \left\{ 
+\[\begin{split} h(y)= \left\{ 
      \begin{array}\\
-     x &amp; (x &gt; 0) \\
-     0 &amp; (x \leq 0)
+     y &amp; (y &gt; 0) \\
+     0 &amp; (y \leq 0)
      \end{array}
 \right.
 \end{split}\]</div>
@@ -685,8 +860,11 @@ Neuron\:Output &amp; =  h(y) \\
 </ul>
 <div class="math notranslate nohighlight">
 \[
-y_k = \frac{\exp(a_k)}{\sum_{i = 1}^{n} \exp({a_i})}
+h(y_k) = \frac{\exp(y_k)}{\sum_{i = 1}^{n} \exp({y_i})}
 \]</div>
+</div>
+<div class="section" id="activation-functions-in-python">
+<h3>Activation Functions in Python<a class="headerlink" href="#activation-functions-in-python" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">step_function</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -727,7 +905,7 @@ y_k = \frac{\exp(a_k)}{\sum_{i = 1}^{n} \exp({a_i})}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-neural-network-from-scratch_19_0.png" src="../_images/dl-neural-network-from-scratch_19_0.png" />
+<img alt="../_images/dl-neural-network-from-scratch_22_0.png" src="../_images/dl-neural-network-from-scratch_22_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -740,7 +918,7 @@ y_k = \frac{\exp(a_k)}{\sum_{i = 1}^{n} \exp({a_i})}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-neural-network-from-scratch_20_0.png" src="../_images/dl-neural-network-from-scratch_20_0.png" />
+<img alt="../_images/dl-neural-network-from-scratch_23_0.png" src="../_images/dl-neural-network-from-scratch_23_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -753,13 +931,12 @@ y_k = \frac{\exp(a_k)}{\sum_{i = 1}^{n} \exp({a_i})}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-neural-network-from-scratch_21_0.png" src="../_images/dl-neural-network-from-scratch_21_0.png" />
+<img alt="../_images/dl-neural-network-from-scratch_24_0.png" src="../_images/dl-neural-network-from-scratch_24_0.png" />
 </div>
 </div>
 </div>
-<div class="section" id="layers">
-<h3>Layers<a class="headerlink" href="#layers" title="Permalink to this headline">¶</a></h3>
-<p><img alt="" src="../_images/neural-network-dense-layer.gif" /></p>
+<div class="section" id="from-nodes-to-layers">
+<h3>From Nodes to Layers<a class="headerlink" href="#from-nodes-to-layers" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>A neural network can be defined in terms of <strong>depths</strong> and <strong>widths</strong> of its layers.</p>
 <ul>
@@ -771,185 +948,292 @@ y_k = \frac{\exp(a_k)}{\sum_{i = 1}^{n} \exp({a_i})}
 <li><p>Each layer can have various numbers of neurons.</p></li>
 <li><p>For each layer, the shape of the input tensor, the number of its neurons, and the shape of its output are inter-connected. These settings will determine the number of parameters (i.e., <strong>weights</strong>) needed to train.</p></li>
 </ul>
+<p><img alt="" src="../_images/neural-network-dense-layer.gif" /></p>
 </div>
 <div class="section" id="layer-parameters-and-matrix-mutiplication">
 <h3>Layer, Parameters, and Matrix Mutiplication<a class="headerlink" href="#layer-parameters-and-matrix-mutiplication" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Each layer transforms the input values into the output values based on its layer parameters.</p></li>
+<li><p>Mathematically, these values transformation is a matrix multiplication, running in parallel for all nodes of the layer.</p></li>
+<li><p>In Deep Learning, the input and output values are represented as a multi-dimensional tensor.</p>
+<ul>
+<li><p>A 1D tensor is a vector.</p></li>
+<li><p>A 2D tensor is a two-dimensional array.</p></li>
+<li><p>A 3D tensor is a three-dimensional array.</p></li>
+</ul>
+</li>
+</ul>
 <p><img alt="" src="../_images/neural-network-dense-layer-1.gif" /></p>
 <p><img alt="" src="../_images/neural-network-dense-layer-2.gif" /></p>
-<ul class="simple">
-<li><p>Each layer transforms the input tensor into the output tenser based on its layer parameters.</p></li>
-<li><p>This transformation is a matrix multiplication, running in parallel for all nodes of the layer.</p></li>
-</ul>
 </div>
 </div>
-<div class="section" id="building-a-neural-network-model">
-<h2>Building a Neural Network Model<a class="headerlink" href="#building-a-neural-network-model" title="Permalink to this headline">¶</a></h2>
-<p><img alt="" src="../_images/neural-network-flowchart.png" /></p>
+<div class="section" id="building-a-neural-network-model-in-python">
+<h2>Building a Neural Network Model in Python<a class="headerlink" href="#building-a-neural-network-model-in-python" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Usually we need to define the architecture of the neural network model in terms of <strong>depths</strong> and <strong>widths</strong> of the layers.</p></li>
 <li><p>After we define the structure of the network and initialize the values for all parameters, the training requires an iterative processing involving:</p>
 <ul>
 <li><p><strong>Forward Propagation</strong>: It refers to the process of transforming the data values by moving the input data through the network to get output.</p></li>
-<li><p>Define your loss function.</p></li>
-<li><p>Calculate Total Error based on the loss function.</p></li>
-<li><p>Calculate Gradients via <strong>Back propogation</strong></p></li>
-<li><p>Update the weights based on gradients.</p></li>
+<li><p>Define your <strong>loss function</strong>.</p></li>
+<li><p>Calculate <strong>Total Error</strong> based on the loss function.</p></li>
+<li><p>Calculate <strong>Gradients</strong> via <strong>Back propogation</strong></p></li>
+<li><p>Update the <strong>weights</strong> based on gradients.</p></li>
 <li><p>Iterate the process until the stop-condition is reached.</p></li>
 </ul>
 </li>
 </ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="forward-propagation">
-<h2>Forward Propagation<a class="headerlink" href="#forward-propagation" title="Permalink to this headline">¶</a></h2>
-<p><img alt="" src="../_images/neural-network-sample2.png" /></p>
 <ul class="simple">
-<li><p>Neural network is a model with weights for data/value transformation.</p></li>
-<li><p>The input data values will be transformed according to the weights of the neural network.</p></li>
-<li><p>Given a two-layer network, with two input values <span class="math notranslate nohighlight">\(x1\)</span> and <span class="math notranslate nohighlight">\(x2\)</span>, to get the values of the three outputs in the second layer, <span class="math notranslate nohighlight">\(a_1^{(1)}\)</span>, <span class="math notranslate nohighlight">\(a_2^{(1)}\)</span>, <span class="math notranslate nohighlight">\(a_3^{(1)}\)</span>, we compute the dot product of the <em>X</em> and <em>W</em>.</p>
+<li><p>In <code class="docutils literal notranslate"><span class="pre">tensorflow.kears</span></code>, we can create models in two ways:</p>
 <ul>
-<li><p><em>X</em> refers to the input vector/matrix</p></li>
-<li><p><em>W</em> refers to the network weights, which is a 2 x 3 matrix in the current example</p></li>
-<li><p>The weights are represented as the links in-between the first and second layers</p></li>
-<li><p>These weights can be mathematically represesnted as a 2 x 3 Matrix <em>W</em></p></li>
+<li><p>Sequential API</p></li>
+<li><p>Functional API</p></li>
 </ul>
 </li>
-<li><p>Taking the dot product of the input values <em>X</em> and the weight matrix <em>W</em> is referred to as the <strong>forward propagation</strong> of the network.</p></li>
-<li><p>Forward propagation gives us the values of the nodes in the second layer</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
-<span class="n">X</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2,)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras</span> <span class="kn">import</span> <span class="n">layers</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.datasets</span> <span class="kn">import</span> <span class="n">mnist</span>
+
+<span class="c1"># Sequential API (Very convenient, not very flexible)</span>
+<span class="c1"># model = keras.Sequential(</span>
+<span class="c1">#     [</span>
+<span class="c1">#         keras.Input(shape=(2)),</span>
+<span class="c1">#         layers.Dense(4, activation=&quot;relu&quot;),</span>
+<span class="c1">#         layers.Dense(2, activation=&quot;relu&quot;)</span>
+<span class="c1">#     ]</span>
+<span class="c1"># )</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;dense_layer_1&quot;</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;dense_layer_2&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">]])</span>
-<span class="n">W</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2, 3)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Functional API (A bit more flexible)</span>
+<span class="n">inputs</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;first_layer&quot;</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;second_layer&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">)</span>
+
+<span class="c1"># model.compile(</span>
+<span class="c1">#     loss=keras.losses.SparseCategoricalCrossentropy(from_logits=False),</span>
+<span class="c1">#     optimizer=keras.optimizers.Adam(lr=0.001),</span>
+<span class="c1">#     metrics=[&quot;accuracy&quot;],</span>
+<span class="c1"># )</span>
+
+<span class="c1">#model.fit(x_train, y_train, batch_size=32, epochs=5, verbose=2)</span>
+<span class="c1">#model.evaluate(x_test, y_test, batch_size=32, verbose=2)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">W</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 5 11 17]
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="weights-biases-and-activation-functions">
-<h2>Weights, Biases, and Activation Functions<a class="headerlink" href="#weights-biases-and-activation-functions" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>The output of a node in the network is computed as the sum of the weighted inputs and the bias. Take <span class="math notranslate nohighlight">\(a^{(1)}_1 \)</span> for example:</p></li>
-</ul>
-<div class="math notranslate nohighlight">
-\[ a^{(1)}_1 = w_{11}^{(1)}x_1 + w_{12}^{(1)}x_2 + b_1\]</div>
-<ul class="simple">
-<li><p>Then the output values go through the activation function and this result would indicate the final output of the node.</p></li>
-</ul>
-<div class="math notranslate nohighlight">
-\[ z^{(1)}_1= h(a^{(1)}_1) \]</div>
-<ul class="simple">
-<li><p>Not all the nodes need to have an activation function.</p></li>
-</ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
-<span class="n">W1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">]])</span>
-<span class="n">B1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.3</span><span class="p">])</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">W1</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">B1</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2,)
-(2, 3)
-(3,)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model: &quot;model_1&quot;
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+input_5 (InputLayer)         [(None, 2)]               0         
+_________________________________________________________________
+first_layer (Dense)          (None, 4)                 12        
+_________________________________________________________________
+second_layer (Dense)         (None, 2)                 10        
+=================================================================
+Total params: 22
+Trainable params: 22
+Non-trainable params: 0
+_________________________________________________________________
+None
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">W1</span><span class="p">)</span> <span class="o">+</span> <span class="n">B1</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">A1</span><span class="p">)</span>
-
-
-<span class="n">Z1</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">A1</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">Z1</span><span class="p">)</span>
-
-<span class="n">Z2</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">A1</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">Z2</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">show_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_layer_names</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.3 0.7 1.1]
-[0.57444252 0.66818777 0.75026011]
-[0.21198272 0.31624106 0.47177622]
-</pre></div>
-</div>
+<img alt="../_images/dl-neural-network-from-scratch_36_0.png" src="../_images/dl-neural-network-from-scratch_36_0.png" />
 </div>
 </div>
 </div>
 <div class="section" id="learning-and-training">
 <h2>Learning and Training<a class="headerlink" href="#learning-and-training" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="how-does-the-neural-network-learn-the-parameters">
+<h3>How does the neural network learn the parameters?<a class="headerlink" href="#how-does-the-neural-network-learn-the-parameters" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Forward propagation shows how the network takes the input values, transforms them, and produces the output values based on the network parameters (i.e., weights).</p></li>
-<li><p>The network needs to learn the weights that best produce the output values according to some loss function.</p></li>
-<li><p>The key is we compute the differences between the real outputs of the network and the target outputs. The model should aim to minimize these differences, which are commonly referred to as <strong>errors</strong> of the model.</p></li>
+<li><p>Forward propagation shows how the network takes the input values, transforms them, and produces the predictde output values based on the network parameters (i.e., weights).</p></li>
+<li><p>The network needs to learn the weights that best produce the output values according to some <strong>loss function</strong>, i.e., how different is the prediction from the true label?</p></li>
+<li><p>Crucially, we need to compute the differences between the predicted outputs of the network and the true target outputs.</p></li>
+<li><p>The model should aim to minimize these differences, which are commonly referred to as <strong>errors</strong> of the model.</p></li>
 </ul>
+</div>
 <div class="section" id="loss-functions">
 <h3>Loss Functions<a class="headerlink" href="#loss-functions" title="Permalink to this headline">¶</a></h3>
-<p><img alt="" src="../_images/neural-network-sample3.png" /></p>
 <ul class="simple">
-<li><p>If the target ouputs are numeric values, we can evaluate the errors (i.e., the differences between the actual model outputs and the target outputs) using the <strong>mean square error</strong> function.</p></li>
-<li><p>If the target outputs are labels, we can evaluate the errors (i.e., the differences between the actual model labels and the target labels) using the <strong>cross entory error</strong> function.</p></li>
+<li><p>If the target ouputs are numeric values, we can evaluate the errors (i.e., the differences between the actual model outputs and the target outputs) using the <strong>mean square error</strong> function.</p>
+<ul>
+<li><p>Mean Square Error: <span class="math notranslate nohighlight">\(E = \frac{1}{2}\sum(y_k - t_k)^2\)</span></p></li>
+</ul>
+</li>
+<li><p>If the target outputs are labels, we can evaluate the errors (i.e., the differences between the actual model labels and the target labels) using the <strong>cross entory error</strong> function.</p>
+<ul>
+<li><p>Cross Entropy Error: <span class="math notranslate nohighlight">\(E= -\sum_{k}t_k\log(y_k)\)</span></p></li>
+</ul>
+</li>
 <li><p>The function used to compute the errors of the model is referred to as the <strong>loss function</strong>.</p></li>
 </ul>
 </div>
+<div class="section" id="principles-for-loss-functions">
+<h3>Principles for Loss Functions<a class="headerlink" href="#principles-for-loss-functions" title="Permalink to this headline">¶</a></h3>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Problem Type</p></th>
+<th class="head"><p>Last-Layer Activation</p></th>
+<th class="head"><p>Loss Function in Keras</p></th>
+<th class="head"><p><code class="docutils literal notranslate"><span class="pre">y</span></code> Encoding</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Binary Classification</p></td>
+<td><p>sigmoid</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">binary_crossentropy()</span></code></p></td>
+<td><p>Integer Encoding</p></td>
+</tr>
+<tr class="row-odd"><td><p>Binary Classification</p></td>
+<td><p>softmax</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SparseCategoricalCrossentropy(from_logits=False)</span></code></p></td>
+<td><p>Integer Encoding</p></td>
+</tr>
+<tr class="row-even"><td><p>Multiclass Classification</p></td>
+<td><p>softmax</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">categorical_crossentropy()</span></code></p></td>
+<td><p>One-hot Encoding</p></td>
+</tr>
+<tr class="row-odd"><td><p>Regression</p></td>
+<td><p>None</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">mes</span></code></p></td>
+<td><p>Floating-point</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="categorical-variables-encoding">
+<h2>Categorical Variables Encoding<a class="headerlink" href="#categorical-variables-encoding" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="what-s-wrong-with-categorical-variables">
+<h3>What’s wrong with categorical variables?<a class="headerlink" href="#what-s-wrong-with-categorical-variables" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Before we look at the examples of loss computation, we need to talk about the ways of encoding categorical labels.</p></li>
+<li><p>Remember, machine doesn’t understand characters. If we have class labels like male/female, positive/negative, or each word tokens, we may need to convert these strings into machine-readable numerical values.</p></li>
+<li><p>This step is called encoding.</p></li>
+<li><p>Most importantly, machine learning and deep learning both requires input and output variables to be <strong>numbers</strong>.</p></li>
+</ul>
+</div>
+<div class="section" id="three-ways-of-encodings">
+<h3>Three Ways of Encodings<a class="headerlink" href="#three-ways-of-encodings" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Integer Encoding: Each unique label is mapped to an integer</p></li>
+<li><p>One-hot Encoding: Each unique label is mapped to a binary vector</p></li>
+<li><p>Embeddings Encoding: Each unique label is mapped to a learned vectorized representation (i.e., embeddings)</p></li>
+</ul>
+</div>
+<div class="section" id="steps">
+<h3>Steps<a class="headerlink" href="#steps" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Given a corpus, we can create its <strong>vocabulary</strong> (at the word-token level).</p></li>
+<li><p>We can associate a <strong>unique integer index</strong> with every word type (i.e., integer encoding).</p></li>
+<li><p>We can further turn this integer index <span class="math notranslate nohighlight">\(i\)</span> into a <strong>binary vector</strong> of size <span class="math notranslate nohighlight">\(N\)</span> (the size of vocabulary). The vector is all zeros except for the <span class="math notranslate nohighlight">\(i\)</span>th entry, which is 1 (i.e., one-hot encoding).</p></li>
+<li><p>We can turn the integer index into a <strong>dense, low-dimensional floating-point vectors</strong> (i.e., embedding encoding).</p>
+<ul>
+<li><p>Learn embeddings jointly with the main task (i.e., <code class="docutils literal notranslate"><span class="pre">Embedding</span></code> layer)</p></li>
+<li><p>Use pretrained word embeddings that were precomputed using a different machine learning task.</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Integer Encoding</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OrdinalEncoder</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;male&#39;</span><span class="p">,</span><span class="s1">&#39;female&#39;</span><span class="p">,</span><span class="s1">&#39;female&#39;</span><span class="p">,</span> <span class="s1">&#39;male&#39;</span><span class="p">]</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">oe</span> <span class="o">=</span> <span class="n">OrdinalEncoder</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int16&#39;</span><span class="p">)</span>
+<span class="n">labels_int</span> <span class="o">=</span> <span class="n">oe</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">labels_int</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[&#39;male&#39;]
+ [&#39;female&#39;]
+ [&#39;female&#39;]
+ [&#39;male&#39;]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## One-hot Encoding</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span>
+
+<span class="n">ohe</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">()</span>
+<span class="n">labels_ohe</span> <span class="o">=</span><span class="n">ohe</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">labels_ohe</span><span class="o">.</span><span class="n">toarray</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0. 1.]
+ [1. 0.]
+ [1. 0.]
+ [0. 1.]]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="one-hot-encoding-and-loss-function">
+<h3>One-hot Encoding and Loss Function<a class="headerlink" href="#one-hot-encoding-and-loss-function" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>With one-hot encoding, we can convert any categorical variable into a numeric vector.</p></li>
+<li><p>And if we specify our network output to be a vector of the same size, we can compute the differences between the output vector and the true numeric vector.</p></li>
+</ul>
+<ul class="simple">
+<li><p>When the target class label is a binary one (e.g., name-gender prediction):</p></li>
+</ul>
+<p><img alt="" src="../_images/neural-network-loss-binary.png" /></p>
+<ul class="simple">
+<li><p>When the target class label is a multi-level one (e.g., next-word prediction):
+<img alt="" src="../_images/neural-network-loss-multicat.png" /></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="examples-of-loss-errors">
+<h2>Examples of Loss Errors<a class="headerlink" href="#examples-of-loss-errors" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="error-based-on-one-sample">
 <h3>Error based on One Sample<a class="headerlink" href="#error-based-on-one-sample" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Mean Square Error</p></li>
+<li><p>The following is a simple example showing how to compute the loss for a case of prediction.</p></li>
 </ul>
-<div class="math notranslate nohighlight">
-\[E = \frac{1}{2}\sum(y_k - t_k)^2\]</div>
-<ul class="simple">
-<li><p>Cross Entropy Error</p></li>
-</ul>
-<div class="math notranslate nohighlight">
-\[E= -\sum_{k}t_k\log(y_k)\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">mean_square_error</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
@@ -965,16 +1249,16 @@ y_k = \frac{\exp(a_k)}{\sum_{i = 1}^{n} \exp({a_i})}
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## mean square error</span>
-<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span> <span class="c1"># predicted values</span>
-<span class="n">t</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="c1"># true label</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">]</span> <span class="c1"># predicted values</span>
+<span class="n">t</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="c1"># true label</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">mean_square_error</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">),</span>  <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">t</span><span class="p">)))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">cross_entropy_error</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">t</span><span class="p">)))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.09750000000000003
-0.510825457099338
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.40625
+2.302584092994546
 </pre></div>
 </div>
 </div>
@@ -982,6 +1266,9 @@ y_k = \frac{\exp(a_k)}{\sum_{i = 1}^{n} \exp({a_i})}
 </div>
 <div class="section" id="errors-based-on-batch-samples">
 <h3>Errors based on Batch Samples<a class="headerlink" href="#errors-based-on-batch-samples" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>The following is a simple example showing how to compute the average loss of a sample of batch size N cases.</p></li>
+</ul>
 <ul class="simple">
 <li><p>If the training is based on a sample of batch size <em>N</em>, we can compute the average loss (or total errors) of the batch sample:</p></li>
 </ul>
@@ -1024,18 +1311,168 @@ y_k = \frac{\exp(a_k)}{\sum_{i = 1}^{n} \exp({a_i})}
 </div>
 <div class="section" id="gradient-descent">
 <h2>Gradient Descent<a class="headerlink" href="#gradient-descent" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="how-do-we-adjust-the-model-parameters">
+<h3>How do we adjust the model parameters?<a class="headerlink" href="#how-do-we-adjust-the-model-parameters" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>With the Loss Function, we can now perform the most important step in model training – adjusting the weights of the model.</p></li>
+<li><p>With the <strong>Loss Function</strong>, we can now perform the most important step in model training — adjusting the <strong>weights</strong> (i.e., <strong>parameters</strong>) of the model.</p></li>
 <li><p>The mechanism behind the neural network training steps is that we need to figure out:</p>
 <ul>
 <li><p>how the change of a specific parameter (i.e., weight) in the model may lead to the change (i.e., decrease) of the values from the Loss Function? (i.e., How much does a change in a specific weight affect the total error?)</p></li>
 </ul>
 </li>
 <li><p>Then we would know how much of the total error each wight in the model is responsible for.</p></li>
-<li><p>These turn out to be the basis for parameter adjustments.</p></li>
-<li><p>The error that a specific weight is responsible for is referred to as the <strong>gradient</strong> of the parameter.</p></li>
-<li><p>Mathematically, the gradient of a weight is the partial derivative of a weight in relation to the loss function.</p></li>
+<li><p>These are the bases for parameter adjustments.</p></li>
+<li><p>All we need to do is the adjust the weights <strong>in proportion to</strong> the changes that the parameter is responsible for.</p></li>
+<li><p>This optimization method to finding a combination of weights that minimize the loss function is called <strong>Gradient Descent</strong>.</p></li>
 </ul>
+</div>
+<div class="section" id="gradients">
+<h3>Gradients<a class="headerlink" href="#gradients" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>The error that a specific weight is responsible for is referred to as the <strong>gradient</strong> of the parameter.</p></li>
+<li><p>Mathematically, the gradient of a weight is the <strong>partial derivative</strong> of a weight in relation to the <strong>loss function</strong>.</p></li>
+<li><p>Then we adjust the weight in proportion to its gradient:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+{W}_{new} = W_{original} + \eta \times \textit{Gradient}_{W_{original}}
+\]</div>
+<ul class="simple">
+<li><p>The <span class="math notranslate nohighlight">\(\eta\)</span> is a hyperparameter in deep learning. This parameter controls how fast the model learns. This <span class="math notranslate nohighlight">\(\eta\)</span> is referred to as the <strong>learning rates</strong>.</p></li>
+</ul>
+</div>
+<div class="section" id="intuition-of-gradients-an-example">
+<h3>Intuition of Gradients: An Example<a class="headerlink" href="#intuition-of-gradients-an-example" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Let’s assume that we are training a model with two parameters, <span class="math notranslate nohighlight">\(x_0\)</span> and <span class="math notranslate nohighlight">\(x_1\)</span>, and the loss function is <span class="math notranslate nohighlight">\(f(x_0, x_1)\)</span>.</p>
+<ul>
+<li><p>When a function includes more than one parameters, we can compute the partial derivative of the function with respect to each parameter.</p></li>
+<li><p>When all partial derivatives are concatenated into a vector, this vector is called the <strong>gradient</strong>.</p></li>
+<li><p>That is, for the above loss function with two parameters (e.g., <span class="math notranslate nohighlight">\(f(x_0, x_1) = \beta x_0 + \beta x_1\)</span>), we can calculate the partial derivatives of each parameter all at once,and represent them in a vector, which is referred to as <strong>gradient</strong>, i.e:
+$<span class="math notranslate nohighlight">\(
+(\frac{\partial f}{\partial x_0}, \frac{\partial f}{\partial x_1})
+\)</span>$</p></li>
+</ul>
+</li>
+</ul>
+<ul class="simple">
+<li><p>Each parameter estimation value pair, <span class="math notranslate nohighlight">\((x_0,x_1)\)</span>, should correspond to a gradient.</p></li>
+<li><p>Intuitive understanding of the gradient:</p>
+<ul>
+<li><p>The gradient of a specific <span class="math notranslate nohighlight">\((x_0,x_1)\)</span> indicates how the changes of the parameter values <span class="math notranslate nohighlight">\((x_0,x_1)\)</span> may contribute to the change of <span class="math notranslate nohighlight">\(f(x_0,x_1)\)</span>.</p></li>
+<li><p>The gradient of a specific <span class="math notranslate nohighlight">\((x_0,x_1)\)</span> is a <strong>vector</strong> with the direction pointing at the <strong>global minimum</strong> of the loss function.</p></li>
+<li><p>The farther the <span class="math notranslate nohighlight">\((x_0,x_1)\)</span> is way from the global minimum, the larger the gradient vector.</p></li>
+</ul>
+</li>
+<li><p>In Deep Learning, the training goes as follows:</p>
+<ul>
+<li><p>We initialize the parameters <span class="math notranslate nohighlight">\(x_0,x_1\)</span> with some values <span class="math notranslate nohighlight">\(p_0, p_1\)</span>;</p></li>
+<li><p>We compute the loss function <span class="math notranslate nohighlight">\(f(x_0,x_1)\)</span></p></li>
+<li><p>We compute the gradient of <span class="math notranslate nohighlight">\(f(x_0,x_1)\)</span> when the parameter <span class="math notranslate nohighlight">\(x_0 = p_0\)</span> and <span class="math notranslate nohighlight">\(x_1 = p_1\)</span></p></li>
+<li><p>We use the gradient to determine how to update/modify all the model parameters, i.e.,</p></li>
+</ul>
+</li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+x_0 = x_0 + \eta\frac{\partial f}{\partial x_0} \\
+x_1 = x_1 + \eta\frac{\partial f}{\partial x_1} 
+\end{split}\]</div>
+<ul class="simple">
+<li><p>The <span class="math notranslate nohighlight">\(\eta\)</span> is again <strong>learning rate</strong>.</p></li>
+</ul>
+</div>
+<div class="section" id="types-of-gradient-descent">
+<h3>Types of Gradient Descent<a class="headerlink" href="#types-of-gradient-descent" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Batch</strong> Gradient Descent: Update the model weights after one epoch of the entire training set.</p></li>
+<li><p><strong>Stochastic</strong> Gradient Descent (SGD): Update the model weights after every instance of the training set (online).</p></li>
+<li><p><strong>Mini-batch</strong> Gradient Descent: Update the model weights after a subset of the training set. (Recommended!)</p></li>
+</ul>
+</div>
+<div class="section" id="gradients-in-python">
+<h3>Gradients in Python<a class="headerlink" href="#gradients-in-python" title="Permalink to this headline">¶</a></h3>
+<p>In the following graph, each vector represents the gradient at a specific <span class="math notranslate nohighlight">\((x_0, x_1)\)</span>, i.e., when <span class="math notranslate nohighlight">\(x_0 = p_0\)</span> and <span class="math notranslate nohighlight">\(x_1 = p_1\)</span>:</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/dl-neural-network-from-scratch_69_0.png" src="../_images/dl-neural-network-from-scratch_69_0.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="overfitting-and-underfitting">
+<h2>Overfitting and Underfitting<a class="headerlink" href="#overfitting-and-underfitting" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="optimization-vs-generalization">
+<h3>Optimization vs. Generalization<a class="headerlink" href="#optimization-vs-generalization" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>ML is always dealing with the tension between <strong>optimization</strong> and <strong>generalization</strong>.</p>
+<ul>
+<li><p>Optimization: the process of adjusting a model to get the best performance possible on the training data (i.e., to minimize the <em>bias</em> of the model)</p></li>
+<li><p>Generalization: the performance of the model on data it has never seen before (i.e., to minimize the <strong>variation</strong> of the model performance on different datasets.)</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="overfitting-underfitting">
+<h3>Overfitting/Underfitting<a class="headerlink" href="#overfitting-underfitting" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>During the training stage, if both the losses on training data and validation data are dropping, the model is <strong>underfit</strong> and in a way to be better fit. (Great bias, Small variation)</p></li>
+<li><p>During the training, if the loss on the validation data stalls while that of the training data still drops, the model starts to <strong>overfit</strong>. (Small bias, Great variation)</p></li>
+</ul>
+</div>
+<div class="section" id="how-to-deal-with-overfitting">
+<h3>How to Deal With Overfitting?<a class="headerlink" href="#how-to-deal-with-overfitting" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Get more training data</p></li>
+<li><p>Reduce the capacity of the network (e.g., number of layers/nodes)</p></li>
+<li><p>Add weight <strong>Regularization</strong></p></li>
+<li><p>Add <strong>dropout</strong></p></li>
+</ul>
+</div>
+<div class="section" id="regularization">
+<h3>Regularization<a class="headerlink" href="#regularization" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>What is <strong>regularization</strong>?</p>
+<ul>
+<li><p>Modulate the quantity of information that the model is allowed to store</p></li>
+<li><p>Add constraints on what information the model is allowed to store</p></li>
+</ul>
+</li>
+<li><p>Weight regularization is to add to the loss function of the network a cost associated with having large weights.</p></li>
+<li><p>That is, large weights will have greater penalties to the loss function, hence discouraged.</p></li>
+<li><p>Common methods:</p>
+<ul>
+<li><p>L1 regularization: the cost added is proportional to the absolute values of the weights (<code class="docutils literal notranslate"><span class="pre">keras.regularizer.l1()</span></code>)</p></li>
+<li><p>L2 regularization: the cost added is propositional to the square values of the weights (<code class="docutils literal notranslate"><span class="pre">keras/regularizer.l2()</span></code>)</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="dropout">
+<h3>Dropout<a class="headerlink" href="#dropout" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Dropout consists of randomly dropping out a number of output features of the applied layer during training.</p></li>
+<li><p>The dropout rate is the fraction of the features that are zeroed out.</p></li>
+<li><p>The dropout rate is usually set between 0.2 and 0.5.</p></li>
+<li><p>In keras, it’s an independent layer: <code class="docutils literal notranslate"><span class="pre">keras.layers.dropout()</span></code>.</p></li>
+</ul>
+</div>
+<div class="section" id="heuristics-for-regularization">
+<h3>Heuristics for Regularization<a class="headerlink" href="#heuristics-for-regularization" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Applying dropout before a recurrent layer hinders learning rather than helping with regularization.</p></li>
+<li><p>The same dropout mask (the same pattern of dropped units) should be applied at every time step, instead of a dropout mask that varies randomly from timestep to timestep. (Yarin Gal)</p></li>
+<li><p>In order to regularize the representations formed by the recurrent gates of layers (e.g., LSTM and GRU), a temporally constant dropout mask should be applied to the inner activations of the layer (a recurrent dropout mask). (Yarin Gal)</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="keras-workflow">
+<h2>Keras Workflow<a class="headerlink" href="#keras-workflow" title="Permalink to this headline">¶</a></h2>
+<p><img alt="" src="../_images/keras-workflow1.png" /></p>
+</div>
+<div class="section" id="some-math">
+<h2>Some Math<a class="headerlink" href="#some-math" title="Permalink to this headline">¶</a></h2>
+<p>The following presents some important mathematical constructs related to the understanding of neural network.</p>
 <div class="section" id="chain-rule-and-back-propagation">
 <h3>Chain Rule and Back Propagation<a class="headerlink" href="#chain-rule-and-back-propagation" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
@@ -1055,10 +1492,6 @@ y_k = \frac{\exp(a_k)}{\sum_{i = 1}^{n} \exp({a_i})}
 <li><p>The <strong><span class="math notranslate nohighlight">\(\eta\)</span></strong> in the formula controls the amount of adjustment, which is referred to as the <strong>learning rate</strong>.</p></li>
 </ul>
 </div>
-</div>
-<div class="section" id="some-math">
-<h2>Some Math<a class="headerlink" href="#some-math" title="Permalink to this headline">¶</a></h2>
-<p>The following presents some important mathematical constructs related to the understanding of neural network.</p>
 <div class="section" id="elementwise-operations-of-matrix">
 <h3>Elementwise Operations of Matrix<a class="headerlink" href="#elementwise-operations-of-matrix" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
@@ -1152,7 +1585,7 @@ y_k = \frac{\exp(a_k)}{\sum_{i = 1}^{n} \exp({a_i})}
 <h3>Broadcast<a class="headerlink" href="#broadcast" title="Permalink to this headline">¶</a></h3>
 <p>In matrix elementwise computation, the smaller tensor will be <strong>broadcasted</strong> to match the shape of the larger tensor.</p>
 <ul class="simple">
-<li><p>Axes (called broadcast axes) are added to the smaller tensor to match the ndim of the larger tensor.</p></li>
+<li><p>Axes (called broadcast axes) are added to the smaller tensor to match the <code class="docutils literal notranslate"><span class="pre">ndim</span></code> of the larger tensor.</p></li>
 <li><p>The smaller tensor is repeated alongside these new axes to match the full shape of the larger tensor.</p></li>
 </ul>
 <div class="math notranslate nohighlight">
@@ -1195,7 +1628,10 @@ y_k = \frac{\exp(a_k)}{\sum_{i = 1}^{n} \exp({a_i})}
 <h3>Matrices Dot Production<a class="headerlink" href="#matrices-dot-production" title="Permalink to this headline">¶</a></h3>
 <p><img alt="" src="../_images/matrices-dot-product.png" />
 (Source: Chollet [2018], Ch 2., Figure 2.5)</p>
-<p>The most common applications may be the dot product between two matrices. You can take the dot product of two matrices x and y (dot(x, y)) if and only if <code class="docutils literal notranslate"><span class="pre">x.shape[1]</span> <span class="pre">==</span> <span class="pre">y.shape[0]</span></code>. The result is a matrix with shape (<code class="docutils literal notranslate"><span class="pre">x.shape[0]</span></code>, <code class="docutils literal notranslate"><span class="pre">y.shape[1]</span></code>), where the coefficients are the vector products between the rows of x and the columns of y.</p>
+<ul class="simple">
+<li><p>The most common applications may be the <strong>dot product</strong> between two matrices.</p></li>
+<li><p>You can take the dot product of two matrices x and y (<code class="docutils literal notranslate"><span class="pre">dot(x,</span> <span class="pre">y)</span></code>) if and only if <code class="docutils literal notranslate"><span class="pre">x.shape[1]</span> <span class="pre">==</span> <span class="pre">y.shape[0]</span></code>. The result is a matrix with shape (<code class="docutils literal notranslate"><span class="pre">x.shape[0]</span></code>, <code class="docutils literal notranslate"><span class="pre">y.shape[1]</span></code>), where the coefficients are the vector products between the rows of <span class="math notranslate nohighlight">\(x\)</span> and the columns of <span class="math notranslate nohighlight">\(y\)</span>.</p></li>
+</ul>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{pmatrix}
 1&amp;2 \\
@@ -1304,9 +1740,11 @@ y_k = \frac{\exp(a_k)}{\sum_{i = 1}^{n} \exp({a_i})}
 <h3>Derivatives<a class="headerlink" href="#derivatives" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Given a normal function, <span class="math notranslate nohighlight">\(f(x) = y \)</span> , if the <span class="math notranslate nohighlight">\(x\)</span> value changes, <span class="math notranslate nohighlight">\(y\)</span> will change as well.</p></li>
-<li><p>So if we increase <span class="math notranslate nohighlight">\(x\)</span> by a small factor <span class="math notranslate nohighlight">\(h\)</span>, this results in a small change to y, i.e., <span class="math notranslate nohighlight">\(f(x+h) - f(x)\)</span>.</p></li>
+<li><p>So if we increase <span class="math notranslate nohighlight">\(x\)</span> by a small factor <span class="math notranslate nohighlight">\(h\)</span>, this results in a small change to <span class="math notranslate nohighlight">\(y\)</span>, i.e., <span class="math notranslate nohighlight">\(f(x+h) - f(x)\)</span>.</p></li>
 <li><p>We can then compute the change of <span class="math notranslate nohighlight">\(y\)</span> relative to the small change of <span class="math notranslate nohighlight">\(x\)</span>, i.e., <span class="math notranslate nohighlight">\(\frac{f(x+h) - f(x)}{h}\)</span></p></li>
 <li><p>When <span class="math notranslate nohighlight">\(h\)</span> is very very small around a certain point <span class="math notranslate nohighlight">\(p\)</span>, we can then estimate the change of <span class="math notranslate nohighlight">\(y\)</span> at the point when  <span class="math notranslate nohighlight">\(x = p\)</span>, i.e., <span class="math notranslate nohighlight">\(\lim_{h \to 0} \frac{f(x+h) - f(x)}{h}\)</span></p></li>
+</ul>
+<ul class="simple">
 <li><p>This instantaneous change of <span class="math notranslate nohighlight">\(y\)</span> is called the <strong>derivetaive</strong> of <span class="math notranslate nohighlight">\(x\)</span> in <span class="math notranslate nohighlight">\(p\)</span>.</p>
 <ul>
 <li><p>If it is negative, it means a small change of <span class="math notranslate nohighlight">\(x\)</span> around <span class="math notranslate nohighlight">\(p\)</span> will result in a decrease of <span class="math notranslate nohighlight">\(f(x)\)</span></p></li>
@@ -1321,10 +1759,10 @@ y_k = \frac{\exp(a_k)}{\sum_{i = 1}^{n} \exp({a_i})}
 \frac{\partial f}{\partial x}= \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}
 \]</div>
 <ul class="simple">
-<li><p>The <strong>deriative</strong> turns out to be the <strong>slope</strong> of the tangent line at <span class="math notranslate nohighlight">\(x = p\)</span>.</p></li>
+<li><p>The <strong>derivative</strong> turns out to be the <strong>slope of the tangent line</strong> at <span class="math notranslate nohighlight">\(x = p\)</span>.</p></li>
 <li><p>If we are trying to update <span class="math notranslate nohighlight">\(x\)</span> by a factor <span class="math notranslate nohighlight">\(h\)</span> in order to minimize <span class="math notranslate nohighlight">\(f(x)\)</span>, and we know the derivative of <span class="math notranslate nohighlight">\(\frac{\partial f}{\partial x}\)</span>, we have everything we need:</p>
 <ul>
-<li><p>the derivative completely describes how <span class="math notranslate nohighlight">\(f(x)\)</span> evolves when we change <span class="math notranslate nohighlight">\(x\)</span>.</p></li>
+<li><p>The derivative completely describes how <span class="math notranslate nohighlight">\(f(x)\)</span> evolves when we change <span class="math notranslate nohighlight">\(x\)</span>.</p></li>
 <li><p>If we want to reduce the value of <span class="math notranslate nohighlight">\(f(x)\)</span>, we just need to move <span class="math notranslate nohighlight">\(x\)</span> a little in the opposite direction from the derivative.</p></li>
 </ul>
 </li>
@@ -1397,7 +1835,7 @@ y_k = \frac{\exp(a_k)}{\sum_{i = 1}^{n} \exp({a_i})}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-neural-network-from-scratch_91_0.png" src="../_images/dl-neural-network-from-scratch_91_0.png" />
+<img alt="../_images/dl-neural-network-from-scratch_112_0.png" src="../_images/dl-neural-network-from-scratch_112_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1411,7 +1849,7 @@ y_k = \frac{\exp(a_k)}{\sum_{i = 1}^{n} \exp({a_i})}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-neural-network-from-scratch_92_0.png" src="../_images/dl-neural-network-from-scratch_92_0.png" />
+<img alt="../_images/dl-neural-network-from-scratch_113_0.png" src="../_images/dl-neural-network-from-scratch_113_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1450,8 +1888,8 @@ f'(x) = \frac{\partial f}{\partial x}= 4x^2 + 2x = 8x + 2
 <div class="math notranslate nohighlight">
 \[ f(x_0, x_1)=x_0^2 + x_1^2 \]</div>
 <ul class="simple">
-<li><p>Once if we have defined the loss function for the model, we can calculate to what extent the change in weights would affect the change in loss function</p></li>
-<li><p>The partial derivative refers to how a change in a specific weight <span class="math notranslate nohighlight">\(x_1\)</span> affects the total error.</p></li>
+<li><p>Once if we have defined the function for the model (e.g., the Loss Function), we can calculate to what extent the change in weights would affect the change in the function.</p></li>
+<li><p>The partial derivative refers to how a change in a specific weight <span class="math notranslate nohighlight">\(x_1\)</span> affects the function, i.e., the Loss Function or the total error.</p></li>
 </ul>
 <div class="math notranslate nohighlight">
 \[\frac{\partial f}{\partial x_1}\]</div>
@@ -1502,66 +1940,17 @@ f'(x) = \frac{\partial f}{\partial x}= 4x^2 + 2x = 8x + 2
 </div>
 </div>
 </div>
-<div class="section" id="id1">
-<h2>Gradient Descent<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="gradients">
-<h3>Gradients<a class="headerlink" href="#gradients" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><p>When a function includes more than one parameters, we can compute the partial derivative of the function with respect to each parameter.</p></li>
-<li><p>When all partial derivatives are concatenated into a vector, this vector is called the <strong>gradient</strong>.</p></li>
-<li><p>That is, for a complex function with multiple parameters (e.g., <span class="math notranslate nohighlight">\(f(x_0, x_1) = \beta x_0 + \beta x_1\)</span>), we can calculate the partial derivatives of each parameter all at once,and represent them in a vector, which is referred to as <strong>gradient</strong>, i.e:
-$<span class="math notranslate nohighlight">\(
-(\frac{\partial f}{\partial x_0}, \frac{\partial f}{\partial x_1})
-\)</span>$</p></li>
-<li><p>Each parameter estimation value pair, <span class="math notranslate nohighlight">\((x_0,x_1)\)</span>, should correspond to a gradient.</p></li>
-<li><p>Intuitive understanding of the gradient:</p>
-<ul>
-<li><p>The gradient of a specific <span class="math notranslate nohighlight">\((x_0,x_1)\)</span> indicates how the changes of the parameter values <span class="math notranslate nohighlight">\((x_0,x_1)\)</span> may contribute to the change of <span class="math notranslate nohighlight">\(f(x_0,x_1)\)</span>.</p></li>
-<li><p>The gradient of a specific <span class="math notranslate nohighlight">\((x_0,x_1)\)</span> is a <strong>vector</strong> with the direction pointing at the <strong>global minimum</strong> of the function.</p></li>
-<li><p>The more farther the <span class="math notranslate nohighlight">\((x_0,x_1)\)</span> is way from the global minimum, the larger the gradient vector.</p></li>
-</ul>
-</li>
-<li><p>In Deep Learning, the <span class="math notranslate nohighlight">\(f(x_0,x_1)\)</span> is often the <strong>loss function</strong>, and <span class="math notranslate nohighlight">\(x_0,x_1\)</span> are often the parameters of the model.</p>
-<ul>
-<li><p>We initialize the parameters <span class="math notranslate nohighlight">\(x_0,x_1\)</span> with some values <span class="math notranslate nohighlight">\(p_0, p_1\)</span>;</p></li>
-<li><p>We compute the loss function <span class="math notranslate nohighlight">\(f(x_0,x_1)\)</span></p></li>
-<li><p>We compute the gradient of <span class="math notranslate nohighlight">\(f(x_0,x_1)\)</span> when the parameter <span class="math notranslate nohighlight">\(x_0 = p_0\)</span> and <span class="math notranslate nohighlight">\(x_1 = p_1\)</span></p></li>
-<li><p>We use the gradient to determine how to update/modify all the model parameters, i.e.,</p></li>
-</ul>
-</li>
-</ul>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-x_0 = x_0 + \eta\frac{\partial f}{\partial x_0} \\
-x_1 = x_1 + \eta\frac{\partial f}{\partial x_1} 
-\end{split}\]</div>
-<ul class="simple">
-<li><p>The <span class="math notranslate nohighlight">\(\eta\)</span> is again <strong>learning rate</strong>.</p></li>
-</ul>
-</div>
-</div>
-<div class="section" id="types-of-gradient-descent">
-<h2>Types of Gradient Descent<a class="headerlink" href="#types-of-gradient-descent" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p><strong>Batch</strong> Gradient Descent: Update the model weights after one epoch of the entire training set.</p></li>
-<li><p><strong>Stochastic</strong> Gradient Descent (SGD): Update the model weights after every instance of the training set (online).</p></li>
-<li><p><strong>Mini-batch</strong> Gradient Descent: Update the model weights after a subset of the training set. (Recommended!)</p></li>
-</ul>
-</div>
-<div class="section" id="intuition-for-gradient">
-<h2>Intuition for Gradient<a class="headerlink" href="#intuition-for-gradient" title="Permalink to this headline">¶</a></h2>
-<p>In the following graph, each vector represents the gradient at a specific <span class="math notranslate nohighlight">\((x_0, x_1)\)</span>, i.e., when <span class="math notranslate nohighlight">\(x_0 = p_0\)</span> and <span class="math notranslate nohighlight">\(x_1 = p_1\)</span>:</p>
-<div class="cell tag_remove-input docutils container">
-<div class="cell_output docutils container">
-<img alt="../_images/dl-neural-network-from-scratch_109_0.png" src="../_images/dl-neural-network-from-scratch_109_0.png" />
-</div>
-</div>
-</div>
 <div class="section" id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="https://www.books.com.tw/products/0010761759">Deep Learning From Scratch</a></p></li>
-<li><p><a class="reference external" href="https://buzzorange.com/techorange/2017/08/21/the-best-ai-lesson/">史上最完整機器學習自學攻略！我不相信有人看完這份不會把它加進我的最愛</a></p></li>
+<li><p>I highly recommend the following two books for deep learning with Python:</p>
+<ul>
+<li><p><a class="reference external" href="https://www.books.com.tw/products/0010761759">Deep Learning：用Python進行深度學習的基礎理論實作</a></p></li>
+<li><p><a class="reference external" href="https://www.books.com.tw/products/0010817138?loc=P_br_r0vq68ygz_D_2aabd0_B_1">Deep Learning 2｜用Python進行自然語言處理的基礎理論實作</a></p></li>
+</ul>
+</li>
+<li><p>This post collections a comprehensive list of learning resourcess for deep learning: <a class="reference external" href="https://buzzorange.com/techorange/2017/08/21/the-best-ai-lesson/">史上最完整機器學習自學攻略！我不相信有人看完這份不會把它加進我的最愛</a>.</p></li>
+<li><p>Taylor, Michael. (2017). Neural Networks: A Visual Introduction for Beginners. (cf. Course Data)</p></li>
 </ul>
 </div>
 </div>
@@ -1594,8 +1983,8 @@ x_1 = x_1 + \eta\frac{\partial f}{\partial x_1}
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="../nlp/ml-nlp-case.html" title="previous page"><span class="section-number">3. </span>Machine Learning: NLP Tasks</a>
-    <a class='right-next' id="next-link" href="text-vec-embedding.html" title="next page">Word Embeddings</a>
+    <a class='left-prev' id="prev-link" href="../nlp/topic-modeling-naive.html" title="previous page"><span class="section-number">2. </span>Topic Modeling: A Naive Example</a>
+    <a class='right-next' id="next-link" href="dl-simple-case.html" title="next page">Deep Learning: A Simple Example</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
