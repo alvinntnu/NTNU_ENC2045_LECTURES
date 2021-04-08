@@ -1,8 +1,8 @@
 # Sentiment Analysis Using Bag-of-Words
 
-- Sentiment analysis is to analyze the textual documents and extract information that is related to the author's sentiment or opinion. It is sometimes referred to as "opinion mining".
+- Sentiment analysis is to analyze the textual documents and extract information that is related to the author's sentiment or opinion. It is sometimes referred to as **opinion mining**.
 - It is popular and widely used in industry, e.g., corporate surveys, feedback surveys, social media data, reviews for movies, places, hotels, commodities, etc..
-- The sentiment information from texts can be crucial to further decision making in the industry.
+- The sentiment information from texts can be crucial to further **decision making** in the industry.
 
 - Output of Sentiment Analysis
     - Qualitative: overall sentiment scale (positive/negative)
@@ -56,7 +56,7 @@ print(sentiment_distr)
 
 - We split the entire dataset into two parts: training set and testing set.
 - The proportion of training and testing sets may depend on the corpus size.
-- In the train-test split, make sure the the distribution of the classe is proportional.
+- In the train-test split, make sure the the distribution of the classes is proportional.
 
 from sklearn.model_selection import train_test_split
 train, test = train_test_split(documents, test_size = 0.33, random_state=42)
@@ -65,8 +65,8 @@ train, test = train_test_split(documents, test_size = 0.33, random_state=42)
 print(Counter([label for (words, label) in train]))
 print(Counter([label for (words, label) in test]))
 
-- Because in most of the ML steps, the feature sets and the labels are often separated as two units, we split our training data into `X_train` and `y_train` as the features and labels in training.
-- Likewise, we split our testing data into `X_test` and `y_test` as the features and labels in testing.
+- Because in most of the ML steps, the feature sets and the labels are often separated as two units, we split our training data into `X_train` and `y_train` as the **features** (X) and **labels** (y) in training.
+- Likewise, we split our testing data into `X_test` and `y_test` as the **features** (X) and **labels** (y) in testing.
 
 X_train = [' '.join(words) for (words, label) in train]
 X_test = [' '.join(words) for (words, label) in test]
@@ -85,9 +85,9 @@ X_train_bow = tfidf_vec.fit_transform(X_train) # fit train
 X_test_bow = tfidf_vec.transform(X_test) # transform test
 
 - Important Notes:
-    - Always split the data into train and test first before vectorizing the texts
+    - Always split the data into train and test first **before** vectorizing the texts
     - Otherwise, you would leak information to the training process, which may lead to over-fitting
-    - When vectorizing the texts, `fit_transform()` on the training set and `transform()` on the testing set.
+    - When vectorizing the texts, `fit_transform()` on the **training** set and `transform()` on the **testing** set.
     - Always report the number of features used in the model.
 
 print(X_train_bow.shape)
@@ -146,8 +146,8 @@ model_lg.predict(X_test_bow[:10].toarray())
 ## Evaluation
 
 - To evaluate each model's performance, there are several common metrics in use:
-    - precision
-    - recall
+    - Precision
+    - Recall
     - F-score
     - Accuracy
     - Confusion Matrix
@@ -203,7 +203,7 @@ print(clf.score(X_test_bow, y_test))
 ## Post-hoc Analysis
 
 - After we find the optimal classifier, next comes the most important step: interpret the classifier.
-- A good classifier may not always perform as we have expected. Chances are that the classifier may have used cues that are unexpected for decision marking.
+- A good classifier may not always perform as we have expected. Chances are that the classifier may have used cues that are unexpected for decision making.
 - In the post-hoc analysis, we are interested in:
     - Which features contribute to the classifier's prediction the most?
     - Which features are more relevant to each class prediction?
@@ -215,15 +215,16 @@ print(clf.score(X_test_bow, y_test))
 
 ### LIME
 
-- Using LIME (Local Interpretable Model-agnostic Explainations) to interpret the importance of the features in relatio to the model prediction.
+- Using LIME (Local Interpretable Model-agnostic Explanations) to interpret the **importance of the features** in relation to the model prediction.
 - LIME was introduced in 2016 by Marco Ribeiro and his collaborators in a paper called [“Why Should I Trust You?” Explaining the Predictions of Any Classifier](https://arxiv.org/abs/1602.04938) 
 - Its objective is to explain a model prediction for a specific text sample in a human-interpretable way.
+
 - What we have done so far tells us that the model accuracy is good, but **we have no idea whether the classifier has learned features that are useful and meaningful**.
-- Identify important words that may have great contribution to the model prediction
+- How can we identify important words that may have great contribution to the model prediction?
 
 import lime
 from lime.lime_text import LimeTextExplainer
-from sklearn.pipeline import make_pipeline, TransformerMixin, Pipeline
+from sklearn.pipeline import Pipeline
 
 ## Refit model based on optimal parameter settings
 pipeline = Pipeline([
@@ -264,9 +265,16 @@ explanation.show_in_notebook(text=True)
 
 ### Model Coefficients and Feature Importance
 
+- Another way to evaluate the importance of the features is to look at their corresponding coefficients.
+- Positive weights imply positive contribution of the feature to the prediction; negative weights imply negative contribution of the feature to the prediction.
+- The absolute values of the weights indicate the effect sizes of the features.
+
+## Extract the coefficients of the model from the pipeline
 importances = pipeline.named_steps['clf'].coef_.toarray().flatten()
+## Select top 10 positive/negative weights
 top_indices_pos = np.argsort(importances)[::-1][:10] 
 top_indices_neg = np.argsort(importances)[:10]
+## Get featnames from tfidfvectorizer
 feature_names = np.array(tfidf_vec.get_feature_names()) # List indexing is different from array
 
 feature_importance_df = pd.DataFrame({'FEATURE': feature_names[np.concatenate((top_indices_pos, top_indices_neg))],
@@ -304,15 +312,18 @@ feature_importance_df %>%
 - Permutation importance is defined as the decrease in a model score when a single feature value is randomly shuffled.
     - The drop in the model score is indicative of how much the model depends on the feature.
     - The increase in the model score is indicative of how redundant the feature is.
+
 - Permutation importance reports the importance of the feature as the difference between target model accuracy - shuffled model accuracy.
     - Positive permutation importance score, Higher importance.
-    - Negative permutation importance score, lower importance.
+    - Negative permutation importance score, Lower importance.
 - See `sklearn` documentation: [4.2 Permutation feature importance](https://scikit-learn.org/stable/modules/permutation_importance.html#permutation-importance)
 
 :::{tip}
-On which dataset (training, held-out, or testing sets) should be perform the permutation importance computation?
+
+On which dataset (training, held-out, or testing sets) should be performed the permutation importance computation?
 
 It is suggested to use a held-out set, which makes it possible to highlight which features contribute the most to the generalization power of the classifier (i.e., to avoid overfitting problems).
+
 :::
 
 %%time

@@ -48,3 +48,13 @@ plt.ylabel('Distance')
 color_threshold = 0.1
 dendrogram(Z, labels=fileids, leaf_rotation = 90, color_threshold = color_threshold, above_threshold_color='b')
 plt.axhline(y=color_threshold, c='k', ls='--', lw=0.5)
+
+
+```{toctree}
+:hidden:
+:titlesonly:
+
+
+../exercise-student/Assignment-5-1
+../exercise-student/Assignment-5-2
+```

@@ -63,3 +63,13 @@ To simplify the task, please extract word token pairs whose dependency relation 
 - Remove words that include alphabets and digits
 
 sub_pred_df[:21]
+
+
+```{toctree}
+:hidden:
+:titlesonly:
+
+
+../exercise-student/Assignment-4-1
+../exercise-student/Assignment-4-2
+```

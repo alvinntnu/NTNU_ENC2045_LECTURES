@@ -316,7 +316,6 @@ nlp/ml-algorithm
 
 nlp/ml-sklearn-classification
 nlp/topic-modeling-naive
-nlp/ml-nlp-case
 ```
 
 
@@ -326,20 +325,33 @@ nlp/ml-nlp-case
 :caption: Deep Learning NLP
 
 temp/dl-neural-network-from-scratch
-temp/text-vec-embedding
-temp/text-vec-embedding-keras
-temp/dl-statistical-language-model
-temp/dl-sequence-models-intuition
+temp/dl-simple-case
+temp/dl-sentiment-case
 ```
 
 
 ```{toctree}
 :hidden:
 :titlesonly:
-:caption: Attention, Transformers, and Transfer Learning
+:caption: Embeddings and Language Model
+
+temp/text-vec-embedding
+temp/text-vec-embedding-keras
+temp/dl-statistical-language-model
+temp/dl-sequence-models-intuition
+temp/dl-neural-language-model-primer
+```
+
+
+```{toctree}
+:hidden:
+:titlesonly:
+:caption: Seq2Seq, Attention, Transformers, and Transfer Learning
 
 temp/dl-seq-to-seq-types
+temp/dl-seq-to-seq-attention-addition
 temp/dl-transformers-intuition
+temp/dl-transformers-keras
 ```
 
 

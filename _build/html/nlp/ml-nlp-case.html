@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>3. Machine Learning: NLP Tasks &#8212; ENC2045 Computational Linguistics</title>
+    <title>Machine Learning: NLP Tasks &#8212; ENC2045 Computational Linguistics</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mycss.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
@@ -57,8 +58,6 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Neural Network From Scratch" href="../temp/dl-neural-network-from-scratch.html" />
-    <link rel="prev" title="2. Topic Modeling: A Naive Example" href="topic-modeling-naive.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -185,7 +184,7 @@
   Machine-Learning NLP
  </span>
 </p>
-<ul class="current nav sidenav_l1">
+<ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="ml-sklearn-classification.html">
    1. Sentiment Analysis Using Bag-of-Words
@@ -194,11 +193,6 @@
  <li class="toctree-l1">
   <a class="reference internal" href="topic-modeling-naive.html">
    2. Topic Modeling: A Naive Example
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   3. Machine Learning: NLP Tasks
   </a>
  </li>
 </ul>
@@ -213,6 +207,23 @@
    Neural Network From Scratch
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-simple-case.html">
+   Deep Learning: A Simple Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-sentiment-case.html">
+   Deep Learning: Sentiment Analysis
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Embeddings and Language Model
+ </span>
+</p>
+<ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../temp/text-vec-embedding.html">
    Word Embeddings
@@ -233,10 +244,15 @@
    Sequence Models Intuition
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-neural-language-model-primer.html">
+   Neural Language Model: A Start
+  </a>
+ </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
-  Attention, Transformers, and Transfer Learning
+  Seq2Seq, Attention, Transformers, and Transfer Learning
  </span>
 </p>
 <ul class="nav sidenav_l1">
@@ -246,8 +262,18 @@
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-seq-to-seq-attention-addition.html">
+   Seqeunce Model with Attention for Addition Learning
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="../temp/dl-transformers-intuition.html">
    Transformers: Intuition
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-transformers-keras.html">
+   Text Classification with Transformer
   </a>
  </li>
 </ul>
@@ -286,15 +312,43 @@
   <i class="fas fa-chevron-down">
   </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../exercise/4-chinese-nlp.html">
    4. Assignment IV: Chinese Language Processing
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../exercise-student/Assignment-4-1.html">
+     Student Sample 1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../exercise-student/Assignment-4-2.html">
+     Student Sample 2
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../exercise/5-text-vectorization.html">
    5. Assignment V: Text Vectorization
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../exercise-student/Assignment-5-1.html">
+     Student Sample 1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../exercise-student/Assignment-5-2.html">
+     Student Sample 2
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
 </ul>
 
@@ -394,32 +448,32 @@
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#nlp-tasks-and-base-units-for-classification">
-   3.1. NLP Tasks and Base Units for Classification
+   NLP Tasks and Base Units for Classification
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#document-sentiment-classification">
-   3.2. Document Sentiment Classification
+   Document Sentiment Classification
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#parts-of-speech-tagging">
-   3.3. Parts-of-Speech Tagging
+   Parts-of-Speech Tagging
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#sentence-boundary">
-   3.4. Sentence Boundary
+   Sentence Boundary
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#dialogue-act-classification">
-   3.5. Dialogue Act Classification
+   Dialogue Act Classification
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#references">
-   3.6. References
+   References
   </a>
  </li>
 </ul>
@@ -434,14 +488,14 @@
               <div>
                 
   <div class="section" id="machine-learning-nlp-tasks">
-<h1><span class="section-number">3. </span>Machine Learning: NLP Tasks<a class="headerlink" href="#machine-learning-nlp-tasks" title="Permalink to this headline">¶</a></h1>
+<h1>Machine Learning: NLP Tasks<a class="headerlink" href="#machine-learning-nlp-tasks" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
 <li><p>Let’s take a look at a few more classification tasks in NLP.</p></li>
 <li><p>In more complex NLP tasks, feature engineering (text vectorization) can be more complicated. We often need to come up with heuristics to extract features from the texts.</p></li>
 <li><p>In this lecture, we demonstrate a few NLP tasks and focus on a heuristics-based approach to feature engineering.</p></li>
 </ul>
 <div class="section" id="nlp-tasks-and-base-units-for-classification">
-<h2><span class="section-number">3.1. </span>NLP Tasks and Base Units for Classification<a class="headerlink" href="#nlp-tasks-and-base-units-for-classification" title="Permalink to this headline">¶</a></h2>
+<h2>NLP Tasks and Base Units for Classification<a class="headerlink" href="#nlp-tasks-and-base-units-for-classification" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Document Sentiment/Topic Classification</p>
 <ul>
@@ -483,7 +537,7 @@
 </div>
 </div>
 <div class="section" id="document-sentiment-classification">
-<h2><span class="section-number">3.2. </span>Document Sentiment Classification<a class="headerlink" href="#document-sentiment-classification" title="Permalink to this headline">¶</a></h2>
+<h2>Document Sentiment Classification<a class="headerlink" href="#document-sentiment-classification" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">movie_reviews</span>
@@ -566,7 +620,7 @@
 </div>
 </div>
 <div class="section" id="parts-of-speech-tagging">
-<h2><span class="section-number">3.3. </span>Parts-of-Speech Tagging<a class="headerlink" href="#parts-of-speech-tagging" title="Permalink to this headline">¶</a></h2>
+<h2>Parts-of-Speech Tagging<a class="headerlink" href="#parts-of-speech-tagging" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">brown</span>
@@ -667,7 +721,7 @@
 </div>
 </div>
 <div class="section" id="sentence-boundary">
-<h2><span class="section-number">3.4. </span>Sentence Boundary<a class="headerlink" href="#sentence-boundary" title="Permalink to this headline">¶</a></h2>
+<h2>Sentence Boundary<a class="headerlink" href="#sentence-boundary" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sents</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">corpus</span><span class="o">.</span><span class="n">treebank_raw</span><span class="o">.</span><span class="n">sents</span><span class="p">()</span>
@@ -848,7 +902,7 @@
 </div>
 </div>
 <div class="section" id="dialogue-act-classification">
-<h2><span class="section-number">3.5. </span>Dialogue Act Classification<a class="headerlink" href="#dialogue-act-classification" title="Permalink to this headline">¶</a></h2>
+<h2>Dialogue Act Classification<a class="headerlink" href="#dialogue-act-classification" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>NPS Chat Corpus consists of over 10,000 posts from instant messaging sessions.</p></li>
 <li><p>Thse poasts have been labeled with one of  15 dialogue act types.</p></li>
@@ -975,7 +1029,7 @@ ynQuestion |   2.6%      .      .   0.3%   0.1%  &lt;2.6%&gt;  0.1%      .   0.1
 </div>
 </div>
 <div class="section" id="references">
-<h2><span class="section-number">3.6. </span>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://www.nltk.org/book/ch06.html">NLTK Book Chapter 6: Learning to Classify Text</a></p></li>
 </ul>
@@ -1010,8 +1064,6 @@ ynQuestion |   2.6%      .      .   0.3%   0.1%  &lt;2.6%&gt;  0.1%      .   0.1
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="topic-modeling-naive.html" title="previous page"><span class="section-number">2. </span>Topic Modeling: A Naive Example</a>
-    <a class='right-next' id="next-link" href="../temp/dl-neural-network-from-scratch.html" title="next page">Neural Network From Scratch</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

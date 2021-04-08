@@ -99,8 +99,8 @@ $$ (naive_bayes6)
 ## Logistic Regression
 
 - **Logistic Regression** is also a form of probabilistic statistical classification model.
-- The model is trained by maximizing directly the probability of the **class** given the observed **data**, i.e., $P(c|d)$.
-- Logistic Regression is similar to Linear Regression, whose predicted values are both numeric.
+- The model is trained by maximizing directly the probability of the **class** (c) given the observed **data** (d), i.e., $P(c|d)$.
+- Logistic Regression is similar to Linear Regression, whose predicted values are both numeric (cf. [Generalized Linear Models](https://en.wikipedia.org/wiki/Generalized_linear_model)).
 
 - A document needs to be vectorized through feature engineering into a numeric representation, i.e., a set of **$n$** features characterizing the semantics of the document, $\{x_1, x_2, ..., x_n\}$
 
@@ -114,10 +114,13 @@ $$
 - Each feature $x_i$ of the document is a function that chracterizes the relevant linguistic properties of the document. These features can be all manually annotated or created automatically.
 - These features are often in simple forms that are of binary values or numeric values within a range:
 
-    $$ 
-    x_1 = f_1(x_1) = [Contains("好看") ] = \{0, 1\} \\
-    x_2 = f_2(x_2) = [Contains("絕配") ] = \{0, 1\} \\
-    ...
+    $$
+    \begin{align*}
+    x_1 &= f_1(x_1) = [Contains("好看") ] = \{0, 1\} \\
+    x_2 &= f_2(x_2) = [Contains("絕配") ] = \{0, 1\} \\
+    x_3 &= f_3(x_3) = [FreqOf("覺得")] = \{\textit{Any Positive Number}\}\\
+    &...\\
+    \end{align*}
     $$
 
 
@@ -154,17 +157,17 @@ $$
 
 - In training:
     - Given a document in a training set, $d$, the initial Logistic Regression model will output the predicted conditional probability of $d$ being the class, $c$, i.e., $P(c|d)$.
-    - This is commonly referred to as the **likelihood**. 
-    - And the optimal Logistic Regression is the one that maximizes the likelihoods of the entire training set.
-    - This maximum likelihood approach is similar to the least squares method in linear regression.
+    - This is the **likelihood** of the document. 
+    - And the optimal Logistic Regression is the one that **maximizes the likelihoods** of the documents in the entire training set.
+    - This **maximum likelihood** approach is similar to the least squares method in linear regression.
 
 - Interpreting the parameters (coefficients $\beta_i$)
 
-    - The coefficient refers to the change of the log odds of being the relevant class when there is one unit increase in the corresponding $x_i$ feature. The log odds change will be $e^{\beta_i}$.
-    - Log odds is defined as: 
+    - The coefficient refers to the change of the odds of having the target class label in relation to a specific predictor. 
+    - Odds are defined as: 
     
     $$
-    log\left({\frac{P_{relevant-class}}{1 - P_{relevant-class}}}\right)
+    odds =\frac{\textit{The probability that the event will occur}}{\textit{The probability that the event will NOT occur}} = \frac{P_{\textit{relevant class}}}{1 - P_{\textit{relevant class}}}
     $$
 
 
@@ -172,6 +175,7 @@ $$
     - We use the type of the subordinate clauses (`SUBORDTYPE`) to predict the `ORDER` of the main and subordinate clauses.
         - $X: \{caus, temp\}$
         - $y: \{mc-sc, sc-mc\}$
+    - Unit = sentences; Label = main-subordinate clauses orders.
     - We run a logistic regression, using SUBORDTYPE as the predictor and ORDER as the response variable.
 
 
@@ -182,6 +186,8 @@ import pandas as pd
 csv= pd.read_table('../../../RepositoryData/data/gries_sflwr/_inputfiles/05-3_clauseorders.csv')
 csv
 
+- To explain the model in a more comprehensive way, I like to switch back to R for the statistical outputs. I think they are more intuitive.
+
 %%R -i csv
 
 # library(readr)
@@ -191,13 +197,21 @@ print(table(csv$SUBORDTYPE, csv$ORDER))
 
 %%R
 lg = glm(factor(csv$ORDER)~factor(csv$SUBORDTYPE), family="binomial")
-summary(lg)
+summary(lg) 
 
 - Based on the model parameters, we get the formula for the probability prediction of our response variable:
 
 $$
 y = \beta_0 + \beta_1x_1 = -2.50 + 2.72x_1
 $$
+
+:::{tip}
+
+To interpret the coefficients we need to know the order of the two class labels in the outcome variable. The most straightforward way to do this is to create a table of the outcome variable. 
+
+As shown above, the second level of `ORDER` is `sc-mc`, this tells us that the coefficients in the Logistic Regression are predicting whether or not the clause order is `sc-mc`.
+
+:::
 
 - Now we can estimate the following probabilities:
 
@@ -211,7 +225,8 @@ $$
     &= 0.0758
     \end{align*}
     $$
-    - Probability of `sc-mc` when subordinate is `temp`:
+
+   - Probability of `sc-mc` when subordinate is `temp`:
     
     $$
     \begin{align*}\\
@@ -223,11 +238,17 @@ $$
     $$
     
 
-- Now we can also compute the odds. 
-- Odds is just a ratio of two probability values.
+- Now we can also compute the **odds** of the predicted probability.
+- The odds of an event is the ratio of:
 
 $$
-Odds = \frac{1-P(c)}{P(c)} = \frac{1-P(type=scmc)}{P(type=scmc)} 
+\frac{\textit{The probability that the event will occur}}{\textit{The probability that the event will NOT occur}}
+$$
+
+- Simply put, odds are just a ratio of two complementary probability values.
+
+$$
+Odds = \frac{P(c)}{1-P(c)} = \frac{P(type=scmc)}{1-P(type=scmc)}
 $$
 
 - Now we can compute the two odds:
@@ -235,39 +256,49 @@ $$
     - The odds of the probabilities when the subordinate is `caus`:
 
     $$
-    odds_1 = \frac{1-0.07}{0.07} = 12.18
+    odds_1 = \frac{0.07}{1-0.07} = 0.08
     $$
     
     - The odds of the probabilities when the subordinate is `temp`:
 
     $$
-    odds_2 = \frac{1-0.55}{0.55} = 0.8025
+    odds_2 = \frac{0.55}{1-0.55} = 1.25
     $$
-    
 
 - Finally, we can compute the **log odds ratios** (the log of the ratios between two odds):
 
     $$
-    log\;odds\;ratios = \frac{odds_1}{odds_2} = \frac{12.18}{0.8025} = 2.72
+    \textit{Odds Ratio} = \frac{odds_2}{odds_1} = \frac{1.25}{0.08} = 15.18
     $$
-    
-- That is the meaning of the coefficient $\beta_1, 2.7234$:
-    - The odds ratio increases $e^{2.7234}= 15.23$ times when the subordinate clause is `temp` as compared to when the subordnate is `caus`.
+
+    $$
+    \textit{Log Odds Ratio} = log\left(\frac{odds_2}{odds_1}\right) = log\left(\frac{1.25}{0.08}\right) = 2.72
+    $$
+
+$$
+y = \beta_0 + \beta_1x_1 = -2.50 + 2.72x_1
+$$
+
+- That is the meaning of the coefficient $\beta_1, 2.72$:
+  - The **odds** (of having `sc-mc` order) when the subordinate clause is `temp` are $e^{2.7234}= 15.23$ times more than the **odds** when the subordinate clause is `caus`.
+  - Or the **log odds ratio** increase 2.72 times when the subordinate clause is `temp` as compared to when the subordinate is `caus`.
 
 %%R
 y1= 1/(1+exp(-(-2.50 + 2.72*0))) # prob of sc-mc when SUBORDTYPE = 0 (caus)
 y2= 1/(1+exp(-(-2.50 + 2.72*1))) # prob of sc-mc when SUBORDTYPE = 1 (temp)
-odds1 = (1-y1)/y1 # odds when SUBORDTYPE = 0
-odds2 = (1-y2)/y2 # odds when SUBORDTYPE = 1
+odds1 = y1/(1-y1) # odds when SUBORDTYPE = 0
+odds2 = y2/(1-y2) # odds when SUBORDTYPE = 1
 
 cat("Prob(type=sc-mc|subordtype=cause):", y1, "\n")
-cat("The odds of Prob(type=mc-sc|subordtype=cause) vs. Prob(type=sc-mc|subordtype=cause):", odds1,"\n")
+cat("The odds of Prob(type=mc-sc|subordtype=cause) vs. Prob(type=sc-mc|subordtype=cause):", odds1,"\n\n")
+
 cat("Prob(type=sc-mc|subordtype=temp):", y2, "\n")
-cat("The odds of Prob(type=mc-sc|subordtype=temp) vs. Prob(type=sc-mc|subordtype=temp):", odds2, "\n")
+cat("The odds of Prob(type=mc-sc|subordtype=temp) vs. Prob(type=sc-mc|subordtype=temp):", odds2, "\n\n")
 
-
-log_odds = log(odds1/odds2)
-cat("Log Odds when subordtype=temp:", log_odds)
+odds_ratio = odds2/odds1
+log_odds_ratio = log(odds_ratio)
+cat("Odds Ratioos of subordtype=temp vs. subordtype=cause:", odds_ratio, "\n")
+cat("Log Odds Ratios of subordtype=temp vs. subordtype=cause:", log_odds_ratio)
 
 
 ## Support Vector Machine (SVM)
@@ -278,14 +309,14 @@ cat("Log Odds when subordtype=temp:", log_odds)
     - A hyperplane that gives us the largest margin to make classification is referred to as **Maximum Margin Classifier**.
     
 
-![](../images/svm/svm.001.png)
-    
+- These threshold cases are the vectors that support the maximum margin classifier, henceforth, known as the "support vectors".
+![](../images/svm/svm.002.png)
 
 - Issues with Maximum Margin Classifier:
     - Maximum Margin Classifier is very sensitive to outliers.
     - The classifier may be too biased toward the class with fewer outliers.
  
-![](../images/svm/svm.002.png)
+![](../images/svm/svm.003.png)
     
 
 - If we choose a hyperplane which allows misclassifications, we may be able to find a better classifier. 
@@ -293,31 +324,39 @@ cat("Log Odds when subordtype=temp:", log_odds)
     - A classifier allowing misclassifications (i.e., based on soft margins) is referred to as **soft margin classifier**, or **support vector classifier**.
     - The observations on the edge and within the **soft margin** are called **support vectors**.
 
-![](../images/svm/svm.003.png)
+![](../images/svm/svm.004.png)
 
 - Support Vector Classifiers can deal with observations with outliers and the assumption is that the observations are linearly separable.
 - What if the observations are not linearly separable in the first place? This is where **Support Vector Machine** comes in!
-![](../images/svm.004.png)
+![](../images/svm.005.png)
 
 - Intuition of Support Vector Machine:
-    - Start with data in a relatively low dimension
+    - Start with data in a relatively low dimension and seek linear solutions
     - Move the data into a higher dimension (when no obvious linear classifier found)
     - Find a **Support Vector Classifier** that separates the higher dimensional data into two groups
     
 
 ![](../images/svm-kernel.gif)
 
-- The mathematical tricks of moving data into a higher dimension are the **kernel functions**. This process is called the **Kernel Tricks**. SVM uses these kernel functions to find support vector classifiers in higher dimensions.
+- The mathematical tricks of moving data into a higher dimension are the **kernel functions**. This process is called the **Kernel Tricks**. 
+- SVM often uses two kernel functions to find support vector classifiers in higher dimensions.
     - Polynomial Kernel
     - Radial Basis Function Kernel (RBF)
 
 
-- SVM has a **cost function (C)**, which controls the compromise of the **misclassifications** and **margin** sizes. 
-- A smaller C creates a softer (larger) margin, allowing more misclassifications. 
-- A larger C creates a narrower margin, allowing fewer misclassifications. 
-- A model of larger C often has higher generalizability.
+- SVM has a **cost function (C)**, which controls the compromise of the **misclassifications** and **margin** sizes.
+- C is the model penalty for the data points that fall on the wrong side of the hyperplane.
+    - A smaller C creates a softer (larger) margin, allowing more misclassifications. 
+    - A larger C creates a narrower margin, allowing fewer misclassifications. 
+- The greater the cost parameter, the harder the optimization will try to achieve 100 percent separation.
 
 
+
+- Heuristics for SVM
+  - There is no reliable rule for matching a kernel to a particular learning task. 
+  - The fit depends heavily on the concept to be learned as well as the amount of training data and the relationships among the features.
+  - Trial and error is required by training and evaluating several SVMs on a validation dataset (i.e., ***k***-fold cross validation) 
+  - The choice of kernel is often arbitrary because the performances with different kernels may vary only slightly.
 
 ## Other Discriminative Models
 
@@ -371,8 +410,8 @@ $$
 ## Conclusion
 
 - Feature engineering is a lot more important than algorithm selection.
-- With good feature representations of the data, usually it does not really mather which machine learning algorithm we choose.
-- Generally, discriminative models out-perform generative models.
+- With good feature representations of the data, usually it doesn't really matter which machine learning algorithm we choose.
+- Generally, **discriminative** models out-perform **generative** models.
 - Maybe one day the optimal algorithm can be determined *automatically* via machine learning as well!!
 - Please see [Google's AutoML effort: Google AI Introduces Model Search, An Open Source Platform for Finding Optimal Machine Learning Models](https://www.marktechpost.com/2021/02/28/google-ai-introduces-model-search-an-open-source-platform-for-finding-optimal-machine-learning-ml-models/?fbclid=IwAR3FkqJzXGIqG-X25BXslDZ077F9s4onOaQzlosc9u7qeto9LNd7prt_PNE).
 

@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mycss.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
@@ -196,11 +197,6 @@
    2. Topic Modeling: A Naive Example
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="ml-nlp-case.html">
-   3. Machine Learning: NLP Tasks
-  </a>
- </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
@@ -213,6 +209,23 @@
    Neural Network From Scratch
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-simple-case.html">
+   Deep Learning: A Simple Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-sentiment-case.html">
+   Deep Learning: Sentiment Analysis
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Embeddings and Language Model
+ </span>
+</p>
+<ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../temp/text-vec-embedding.html">
    Word Embeddings
@@ -233,10 +246,15 @@
    Sequence Models Intuition
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-neural-language-model-primer.html">
+   Neural Language Model: A Start
+  </a>
+ </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
-  Attention, Transformers, and Transfer Learning
+  Seq2Seq, Attention, Transformers, and Transfer Learning
  </span>
 </p>
 <ul class="nav sidenav_l1">
@@ -246,8 +264,18 @@
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-seq-to-seq-attention-addition.html">
+   Seqeunce Model with Attention for Addition Learning
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="../temp/dl-transformers-intuition.html">
    Transformers: Intuition
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-transformers-keras.html">
+   Text Classification with Transformer
   </a>
  </li>
 </ul>
@@ -286,15 +314,43 @@
   <i class="fas fa-chevron-down">
   </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../exercise/4-chinese-nlp.html">
    4. Assignment IV: Chinese Language Processing
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../exercise-student/Assignment-4-1.html">
+     Student Sample 1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../exercise-student/Assignment-4-2.html">
+     Student Sample 2
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../exercise/5-text-vectorization.html">
    5. Assignment V: Text Vectorization
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../exercise-student/Assignment-5-1.html">
+     Student Sample 1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../exercise-student/Assignment-5-2.html">
+     Student Sample 2
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
 </ul>
 
@@ -517,9 +573,9 @@
   <div class="section" id="sentiment-analysis-using-bag-of-words">
 <h1><span class="section-number">1. </span>Sentiment Analysis Using Bag-of-Words<a class="headerlink" href="#sentiment-analysis-using-bag-of-words" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><p>Sentiment analysis is to analyze the textual documents and extract information that is related to the author’s sentiment or opinion. It is sometimes referred to as “opinion mining”.</p></li>
+<li><p>Sentiment analysis is to analyze the textual documents and extract information that is related to the author’s sentiment or opinion. It is sometimes referred to as <strong>opinion mining</strong>.</p></li>
 <li><p>It is popular and widely used in industry, e.g., corporate surveys, feedback surveys, social media data, reviews for movies, places, hotels, commodities, etc..</p></li>
-<li><p>The sentiment information from texts can be crucial to further decision making in the industry.</p></li>
+<li><p>The sentiment information from texts can be crucial to further <strong>decision making</strong> in the industry.</p></li>
 </ul>
 <ul class="simple">
 <li><p>Output of Sentiment Analysis</p>
@@ -607,7 +663,7 @@
 Corpus Size (words): 1583820
 Sample Text of Doc 1:
 ------------------------------
-i must admit i &#39; m going to be a bit biased in my review of the new romantic comedy serendipity , because that also defines how i met my current girlfriend . the magic and mystery of our fated encounter is also embodied in the quirkiness and freshness of
+a movie about divorce and custody in 1995 seems about as timely as a movie about mood rings . family breakups have been an all too familiar part of the american landscape for nearly thirty years , and countless dramas have told stories of acrimonious court battles in hand -
 </pre></div>
 </div>
 </div>
@@ -622,7 +678,7 @@ i must admit i &#39; m going to be a bit biased in my review of the new romantic
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Counter({&#39;pos&#39;: 1000, &#39;neg&#39;: 1000})
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Counter({&#39;neg&#39;: 1000, &#39;pos&#39;: 1000})
 </pre></div>
 </div>
 </div>
@@ -633,7 +689,7 @@ i must admit i &#39; m going to be a bit biased in my review of the new romantic
 <ul class="simple">
 <li><p>We split the entire dataset into two parts: training set and testing set.</p></li>
 <li><p>The proportion of training and testing sets may depend on the corpus size.</p></li>
-<li><p>In the train-test split, make sure the the distribution of the classe is proportional.</p></li>
+<li><p>In the train-test split, make sure the the distribution of the classes is proportional.</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -652,15 +708,15 @@ i must admit i &#39; m going to be a bit biased in my review of the new romantic
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Counter({&#39;pos&#39;: 674, &#39;neg&#39;: 666})
-Counter({&#39;neg&#39;: 334, &#39;pos&#39;: 326})
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Counter({&#39;neg&#39;: 698, &#39;pos&#39;: 642})
+Counter({&#39;pos&#39;: 358, &#39;neg&#39;: 302})
 </pre></div>
 </div>
 </div>
 </div>
 <ul class="simple">
-<li><p>Because in most of the ML steps, the feature sets and the labels are often separated as two units, we split our training data into <code class="docutils literal notranslate"><span class="pre">X_train</span></code> and <code class="docutils literal notranslate"><span class="pre">y_train</span></code> as the features and labels in training.</p></li>
-<li><p>Likewise, we split our testing data into <code class="docutils literal notranslate"><span class="pre">X_test</span></code> and <code class="docutils literal notranslate"><span class="pre">y_test</span></code> as the features and labels in testing.</p></li>
+<li><p>Because in most of the ML steps, the feature sets and the labels are often separated as two units, we split our training data into <code class="docutils literal notranslate"><span class="pre">X_train</span></code> and <code class="docutils literal notranslate"><span class="pre">y_train</span></code> as the <strong>features</strong> (X) and <strong>labels</strong> (y) in training.</p></li>
+<li><p>Likewise, we split our testing data into <code class="docutils literal notranslate"><span class="pre">X_test</span></code> and <code class="docutils literal notranslate"><span class="pre">y_test</span></code> as the <strong>features</strong> (X) and <strong>labels</strong> (y) in testing.</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -693,9 +749,9 @@ Counter({&#39;neg&#39;: 334, &#39;pos&#39;: 326})
 <ul class="simple">
 <li><p>Important Notes:</p>
 <ul>
-<li><p>Always split the data into train and test first before vectorizing the texts</p></li>
+<li><p>Always split the data into train and test first <strong>before</strong> vectorizing the texts</p></li>
 <li><p>Otherwise, you would leak information to the training process, which may lead to over-fitting</p></li>
-<li><p>When vectorizing the texts, <code class="docutils literal notranslate"><span class="pre">fit_transform()</span></code> on the training set and <code class="docutils literal notranslate"><span class="pre">transform()</span></code> on the testing set.</p></li>
+<li><p>When vectorizing the texts, <code class="docutils literal notranslate"><span class="pre">fit_transform()</span></code> on the <strong>training</strong> set and <code class="docutils literal notranslate"><span class="pre">transform()</span></code> on the <strong>testing</strong> set.</p></li>
 <li><p>Always report the number of features used in the model.</p></li>
 </ul>
 </li>
@@ -708,8 +764,8 @@ Counter({&#39;neg&#39;: 334, &#39;pos&#39;: 326})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1340, 6089)
-(660, 6089)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1340, 6143)
+(660, 6143)
 </pre></div>
 </div>
 </div>
@@ -764,8 +820,8 @@ Counter({&#39;neg&#39;: 334, &#39;pos&#39;: 326})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;pos&#39;, &#39;pos&#39;, &#39;neg&#39;, &#39;pos&#39;, &#39;neg&#39;, &#39;pos&#39;, &#39;neg&#39;, &#39;pos&#39;, &#39;pos&#39;,
-       &#39;neg&#39;], dtype=&#39;&lt;U3&#39;)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;pos&#39;, &#39;neg&#39;, &#39;pos&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;pos&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;neg&#39;,
+       &#39;pos&#39;], dtype=&#39;&lt;U3&#39;)
 </pre></div>
 </div>
 </div>
@@ -785,8 +841,8 @@ Counter({&#39;neg&#39;: 334, &#39;pos&#39;: 326})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;neg&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;pos&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;pos&#39;, &#39;neg&#39;,
-       &#39;pos&#39;], dtype=&#39;&lt;U3&#39;)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;pos&#39;, &#39;neg&#39;, &#39;pos&#39;, &#39;pos&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;pos&#39;, &#39;neg&#39;, &#39;pos&#39;,
+       &#39;neg&#39;], dtype=&#39;&lt;U3&#39;)
 </pre></div>
 </div>
 </div>
@@ -805,7 +861,7 @@ Counter({&#39;neg&#39;: 334, &#39;pos&#39;: 326})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;pos&#39;, &#39;pos&#39;, &#39;neg&#39;, &#39;pos&#39;, &#39;neg&#39;, &#39;pos&#39;, &#39;neg&#39;, &#39;pos&#39;, &#39;pos&#39;,
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;pos&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;pos&#39;, &#39;pos&#39;, &#39;neg&#39;, &#39;pos&#39;, &#39;neg&#39;,
        &#39;pos&#39;], dtype=&#39;&lt;U3&#39;)
 </pre></div>
 </div>
@@ -826,7 +882,7 @@ Counter({&#39;neg&#39;: 334, &#39;pos&#39;: 326})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;neg&#39;, &#39;pos&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;pos&#39;, &#39;neg&#39;, &#39;pos&#39;, &#39;pos&#39;,
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;pos&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;pos&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;neg&#39;,
        &#39;neg&#39;], dtype=&#39;&lt;U3&#39;)
 </pre></div>
 </div>
@@ -839,8 +895,8 @@ Counter({&#39;neg&#39;: 334, &#39;pos&#39;: 326})
 <ul class="simple">
 <li><p>To evaluate each model’s performance, there are several common metrics in use:</p>
 <ul>
-<li><p>precision</p></li>
-<li><p>recall</p></li>
+<li><p>Precision</p></li>
+<li><p>Recall</p></li>
 <li><p>F-score</p></li>
 <li><p>Accuracy</p></li>
 <li><p>Confusion Matrix</p></li>
@@ -858,10 +914,10 @@ Counter({&#39;neg&#39;: 334, &#39;pos&#39;: 326})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.843939393939394
-0.6287878787878788
-0.7090909090909091
-0.7909090909090909
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8227272727272728
+0.6121212121212121
+0.7121212121212122
+0.8045454545454546
 </pre></div>
 </div>
 </div>
@@ -878,7 +934,7 @@ Counter({&#39;neg&#39;: 334, &#39;pos&#39;: 326})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.8412943 , 0.84649776])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.8097561 , 0.83404255])
 </pre></div>
 </div>
 </div>
@@ -892,7 +948,7 @@ Counter({&#39;neg&#39;: 334, &#39;pos&#39;: 326})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x7fbd93857278&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x7fb2e3073978&gt;
 </pre></div>
 </div>
 <img alt="../_images/ml-sklearn-classification_40_1.png" src="../_images/ml-sklearn-classification_40_1.png" />
@@ -905,7 +961,7 @@ Counter({&#39;neg&#39;: 334, &#39;pos&#39;: 326})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x7fbd95185f28&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x7fb2e228f240&gt;
 </pre></div>
 </div>
 <img alt="../_images/ml-sklearn-classification_41_1.png" src="../_images/ml-sklearn-classification_41_1.png" />
@@ -923,7 +979,7 @@ Counter({&#39;neg&#39;: 334, &#39;pos&#39;: 326})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;neg&#39;, &#39;pos&#39;], dtype=&#39;&lt;U3&#39;)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;neg&#39;, &#39;neg&#39;], dtype=&#39;&lt;U3&#39;)
 </pre></div>
 </div>
 </div>
@@ -950,8 +1006,8 @@ Counter({&#39;neg&#39;: 334, &#39;pos&#39;: 326})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 2min 10s, sys: 124 ms, total: 2min 10s
-Wall time: 2min 10s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 2min 23s, sys: 159 ms, total: 2min 23s
+Wall time: 2min 23s
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GridSearchCV(cv=5, error_score=nan,
@@ -980,7 +1036,7 @@ Wall time: 2min 10s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;C&#39;: 1, &#39;kernel&#39;: &#39;linear&#39;}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;C&#39;: 4, &#39;kernel&#39;: &#39;rbf&#39;}
 </pre></div>
 </div>
 </div>
@@ -992,7 +1048,7 @@ Wall time: 2min 10s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8303030303030303
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8393939393939394
 </pre></div>
 </div>
 </div>
@@ -1002,7 +1058,7 @@ Wall time: 2min 10s
 <h2><span class="section-number">1.7. </span>Post-hoc Analysis<a class="headerlink" href="#post-hoc-analysis" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>After we find the optimal classifier, next comes the most important step: interpret the classifier.</p></li>
-<li><p>A good classifier may not always perform as we have expected. Chances are that the classifier may have used cues that are unexpected for decision marking.</p></li>
+<li><p>A good classifier may not always perform as we have expected. Chances are that the classifier may have used cues that are unexpected for decision making.</p></li>
 <li><p>In the post-hoc analysis, we are interested in:</p>
 <ul>
 <li><p>Which features contribute to the classifier’s prediction the most?</p></li>
@@ -1022,17 +1078,19 @@ Wall time: 2min 10s
 <div class="section" id="lime">
 <h3>LIME<a class="headerlink" href="#lime" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Using LIME (Local Interpretable Model-agnostic Explainations) to interpret the importance of the features in relatio to the model prediction.</p></li>
+<li><p>Using LIME (Local Interpretable Model-agnostic Explanations) to interpret the <strong>importance of the features</strong> in relation to the model prediction.</p></li>
 <li><p>LIME was introduced in 2016 by Marco Ribeiro and his collaborators in a paper called <a class="reference external" href="https://arxiv.org/abs/1602.04938">“Why Should I Trust You?” Explaining the Predictions of Any Classifier</a></p></li>
 <li><p>Its objective is to explain a model prediction for a specific text sample in a human-interpretable way.</p></li>
+</ul>
+<ul class="simple">
 <li><p>What we have done so far tells us that the model accuracy is good, but <strong>we have no idea whether the classifier has learned features that are useful and meaningful</strong>.</p></li>
-<li><p>Identify important words that may have great contribution to the model prediction</p></li>
+<li><p>How can we identify important words that may have great contribution to the model prediction?</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lime</span>
 <span class="kn">from</span> <span class="nn">lime.lime_text</span> <span class="kn">import</span> <span class="n">LimeTextExplainer</span>
-<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">,</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 </pre></div>
 </div>
 </div>
@@ -1100,19 +1158,18 @@ Wall time: 2min 10s
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Review ID-210:
 --------------------------------------------------
 Review Text:
- in some regards , making a movie is like trying to stretch a rubber band as far as you can without breaking it . try too hard , and it snaps ; but too much reservation means someone else will come along and pull it farther . in simon birch , director mark steven johnson shows us just how to master the technique : he takes advantage of caution and poise , but also risks his movie with a few bold
-steps . in the end , he &#39; s not only holding an unbroken band , but he makes the audience appreciate the lengths he went to direct such a fine feature . there &#39; s no doubt about it : the film that johnson has crafted is rich . he chooses for his setting the quaint town of gravestown , maine - leaves turn bright orange in the fall , the grass is a lush green , pure white snow falls in the winter ,
-and the sky goes on forever . the characters continue that turn : our two leads are simon birch ( ian michael smith ) and joe wenteworth ( joseph mazzello ) . simon is the smallest baby ever born within the records of the local hospital , and by age twelve he &#39; s only two feet tall . joe is the bastard son of rebecca ( ashley judd ) , and by age twelve he &#39; s ready to know who is father is .
-naturally , the two outcasts become good friends and share many adventures together , from disrupting sunday school to doing community service to playing little league baseball . in a wonderfully executed performance by ian michael smith , simon birch is convinced that he &#39; s god &#39; s instrument , and there must be a reason he &#39; s so small . joe doesn &#39; t quite buy it , but he sticks by simon ; the
-two tough it out through the worst of times and are each other &#39; s only true friends . early on , the two meet up with ben goodrich ( oliver platt ) , rebecca &#39; s new boyfriend , and although the bond isn &#39; t immediate , ben and the two boys develop a liking for each other . both platt and judd give solid performances that lend their characters a deep likeability . the audience cares about them as
-much as they do about joe and simon , a testament to the acting jobs of both . finally , jim carrey gives a cameo as the adult joe in the present day , and his few minutes here are relatively more impressive than his entire performance in the truman show . mark steven johnson &#39; s sense of drama and writing is fantastic . the script is loosely based on john irving &#39; s novel , a prayer for owen
-meany , but it &#39; s so far off the source material that irving actually requested the credits be changed from &#39; based on &#39; to &#39; suggested by . &#39; along those same lines , it &#39; s almost unfitting to compare the two ; johnson uses tension , humor , atmosphere , and suspense to create an original drama of forrest gumpian proportions . by no means has he developed a project of similar popularity - gump
-made over 300 million dollars while birch ought to pass out of sight in a few weeks - but the winning idea remains the same . simon birch is a different look at a different life , and one that will most likely be studied in film school classes in decades to come . in the present , however , it &#39; s an enjoyable little picture that everyone ought to take a look at .
+ disney &#39; s &quot; air bud &quot; tells a boy - and - his - dog story with a twist -- the pooch is quite an accomplished basketball player . granted , for a family comedy , it &#39; s not a very funny or successful idea to begin with , but it doesn &#39; t seem to matter -- &quot; air bud &quot; is surprisingly solemn . save for occasional moments of forced slapstick , the movie wags its tale with a straight face -- not a
+very enjoyable approach . if &quot; air bud &quot; had realized its own absurdity , then it possibly could have been better . here , we &#39; re actually asked to cheer a moment when the dog marches out to save the big game , clad in two pairs of sneakers and even a jersey . its number ? k9 . yeah , whatever . the movie opens as golden retriever buddy ( as himself ) escapes from his current owner , abusive
+clown - for - hire norm snively ( michael jeter ) . he ends up in fernwell , washington , where mopey new - kid - on - the - block josh ( kevin zegers ) is trying to cope with the move and the recent death of his father . buddy , kevin . kevin , buddy . once the dog proves his on - court prowess , kevin &#39; s self - esteem rockets . they both win places in the school &#39; s basketball team , with the
+animal as their mascot . but before they can make it to the finals , snively surfaces to reclaim buddy . everything plays out just as one would think : heavy on predictability , light on an actual story . the movie follows a calculated chain of events -- kevin &#39; s gloom fades , snively gets his comeuppance and buddy contracts rabies and must be executed old yeller - style . okay , that last one &#39;
+s a lie , but at least it would have been a quicker send - off than &quot; air bud &quot; &#39; s courtroom climax -- no joke ! there &#39; s even a faux - cute musical montage where a reluctant buddy gets cleaned - up to &quot; splish splash . &quot; paint cans are spilled and newspapers are buried , all in the name of formula . the end credits note that &quot; no special visual effects were used in the basketball sequences of
+this motion picture . &quot; that very well may be true , and although to see a dog sink shots is quite a sight , a movie cannot exist on feat alone . but &quot; air bud &quot; doesn &#39; t seem to be interested in anything else . a friend of mine insists he saw buddy a while back on a segment of david letterman &#39; s &quot; stupid pet tricks . &quot; i can &#39; t think of a more appropriate connection -- this movie is a stupid
+pet trick .
 --------------------------------------------------
-Probability(positive) = 0.9530387716170476
-Probability(negative) = 0.04696122838295221
-Predicted class: [&#39;pos&#39;]
-True class: pos
+Probability(positive) = 0.03651578742720806
+Probability(negative) = 0.9634842125727919
+Predicted class: [&#39;neg&#39;]
+True class: neg
 </pre></div>
 </div>
 </div>
@@ -38224,25 +38281,25 @@ True class: pos
 /***/ })
 /******/ ]);
 //# sourceMappingURL=bundle.js.map </script></head><body>
-        <div class="lime top_div" id="top_div5GMQG8QL5K1JAKE"></div>
+        <div class="lime top_div" id="top_div24XO6A6UTKSPP45"></div>
 
         <script>
-        var top_div = d3.select('#top_div5GMQG8QL5K1JAKE').classed('lime top_div', true);
+        var top_div = d3.select('#top_div24XO6A6UTKSPP45').classed('lime top_div', true);
 
             var pp_div = top_div.append('div')
                                 .classed('lime predict_proba', true);
             var pp_svg = pp_div.append('svg').style('width', '100%');
-            var pp = new lime.PredictProba(pp_svg, ["negative", "positive"], [0.04696122838295221, 0.9530387716170476]);
+            var pp = new lime.PredictProba(pp_svg, ["negative", "positive"], [0.9634842125727919, 0.03651578742720806]);
 
 
         var exp_div;
             var exp = new lime.Explanation(["negative", "positive"]);
 
                 exp_div = top_div.append('div').classed('lime explanation', true);
-                exp.show([["and", 0.3185486050002452], ["is", 0.08010976907921483], ["the", 0.08004421723114995], ["joe", 0.07194239284619935], ["to", -0.06946601134232801], ["judd", -0.04786119509550184], ["only", -0.04474856891807812], ["it", 0.03970357371292804], ["as", 0.03941249927408337], ["a", 0.034766676633092165], ["worst", -0.03425634263610884], ["different", 0.030261320525727692], ["truman", 0.028409278705347304], ["his", 0.027828673290218806], ["no", -0.025578954276291938], ["two", -0.025324449979861247], ["on", -0.02505865144411706], ["performances", 0.02421435248918121], ["t", -0.021387255175026976], ["johnson", -0.02049148388235239]], 1, exp_div);
+                exp.show([["the", 0.05398540171469361], ["and", 0.04812355481975065], ["kevin", -0.04792713116991995], ["to", -0.04666691807027463], ["buddy", -0.04267340776816054], ["on", -0.03179865429938074], ["basketball", -0.0282440869935377], ["movie", -0.027717866176735616], ["stupid", -0.026896374142019026], ["save", -0.02565261616815385], ["t", -0.02489174833426238], ["no", -0.024191488739716306], ["quite", 0.02236226293228321], ["very", 0.022220023380464474], ["bud", 0.017825979336641654], ["in", 0.017204637849062312], ["as", 0.015624954906374125], ["family", 0.012556700663045378], ["s", 0.011198340385585745], ["of", 0.00882355437063309]], 1, exp_div);
 
         var raw_div = top_div.append('div');
-            exp.show_raw_text([["and", 128, 0.3185486050002452], ["and", 203, 0.3185486050002452], ["and", 345, 0.3185486050002452], ["and", 798, 0.3185486050002452], ["and", 916, 0.3185486050002452], ["and", 1037, 0.3185486050002452], ["and", 1135, 0.3185486050002452], ["and", 1242, 0.3185486050002452], ["and", 1491, 0.3185486050002452], ["and", 1638, 0.3185486050002452], ["and", 1773, 0.3185486050002452], ["and", 1819, 0.3185486050002452], ["and", 1881, 0.3185486050002452], ["and", 2021, 0.3185486050002452], ["and", 2147, 0.3185486050002452], ["and", 2291, 0.3185486050002452], ["and", 2649, 0.3185486050002452], ["and", 2971, 0.3185486050002452], ["is", 33, 0.08010976907921483], ["is", 615, 0.08010976907921483], ["is", 742, 0.08010976907921483], ["is", 963, 0.08010976907921483], ["is", 1087, 0.08010976907921483], ["is", 1178, 0.08010976907921483], ["is", 1188, 0.08010976907921483], ["is", 1445, 0.08010976907921483], ["is", 2303, 0.08010976907921483], ["is", 2329, 0.08010976907921483], ["is", 2929, 0.08010976907921483], ["the", 299, 0.08004421723114995], ["the", 409, 0.08004421723114995], ["the", 475, 0.08004421723114995], ["the", 499, 0.08004421723114995], ["the", 581, 0.08004421723114995], ["the", 652, 0.08004421723114995], ["the", 721, 0.08004421723114995], ["the", 732, 0.08004421723114995], ["the", 785, 0.08004421723114995], ["the", 802, 0.08004421723114995], ["the", 828, 0.08004421723114995], ["the", 966, 0.08004421723114995], ["the", 1001, 0.08004421723114995], ["the", 1016, 0.08004421723114995], ["the", 1090, 0.08004421723114995], ["the", 1205, 0.08004421723114995], ["the", 1590, 0.08004421723114995], ["the", 1619, 0.08004421723114995], ["the", 1692, 0.08004421723114995], ["the", 1786, 0.08004421723114995], ["the", 1823, 0.08004421723114995], ["the", 1962, 0.08004421723114995], ["the", 2048, 0.08004421723114995], ["the", 2112, 0.08004421723114995], ["the", 2129, 0.08004421723114995], ["the", 2234, 0.08004421723114995], ["the", 2318, 0.08004421723114995], ["the", 2421, 0.08004421723114995], ["the", 2472, 0.08004421723114995], ["the", 2595, 0.08004421723114995], ["the", 2881, 0.08004421723114995], ["the", 2906, 0.08004421723114995], ["the", 3059, 0.08004421723114995], ["joe", 920, 0.07194239284619935], ["joe", 1083, 0.07194239284619935], ["joe", 1536, 0.07194239284619935], ["joe", 2017, 0.07194239284619935], ["joe", 2122, 0.07194239284619935], ["to", 48, -0.06946601134232801], ["to", 289, -0.06946601134232801], ["to", 519, -0.06946601134232801], ["to", 1166, -0.06946601134232801], ["to", 1309, -0.06946601134232801], ["to", 1336, -0.06946601134232801], ["to", 2045, -0.06946601134232801], ["to", 2513, -0.06946601134232801], ["to", 2584, -0.06946601134232801], ["to", 2662, -0.06946601134232801], ["to", 2839, -0.06946601134232801], ["to", 3046, -0.06946601134232801], ["to", 3138, -0.06946601134232801], ["judd", 1126, -0.04786119509550184], ["judd", 1885, -0.04786119509550184], ["only", 430, -0.04474856891807812], ["only", 1062, -0.04474856891807812], ["only", 1661, -0.04474856891807812], ["it", 108, 0.03970357371292804], ["it", 132, 0.03970357371292804], ["it", 212, 0.03970357371292804], ["it", 576, 0.03970357371292804], ["it", 1560, 0.03970357371292804], ["it", 1604, 0.03970357371292804], ["it", 2403, 0.03970357371292804], ["it", 2560, 0.03970357371292804], ["it", 3083, 0.03970357371292804], ["as", 73, 0.03941249927408337], ["as", 80, 0.03941249927408337], ["as", 1992, 0.03941249927408337], ["as", 2000, 0.03941249927408337], ["as", 2109, 0.03941249927408337], ["a", 25, 0.034766676633092165], ["a", 59, 0.034766676633092165], ["a", 387, 0.034766676633092165], ["a", 534, 0.034766676633092165], ["a", 745, 0.034766676633092165], ["a", 1375, 0.034766676633092165], ["a", 1509, 0.034766676633092165], ["a", 1844, 0.034766676633092165], ["a", 1941, 0.034766676633092165], ["a", 2033, 0.034766676633092165], ["a", 2101, 0.034766676633092165], ["a", 2373, 0.034766676633092165], ["a", 2752, 0.034766676633092165], ["a", 2863, 0.034766676633092165], ["a", 2932, 0.034766676633092165], ["a", 2952, 0.034766676633092165], ["a", 3146, 0.034766676633092165], ["worst", 1623, -0.03425634263610884], ["different", 2934, 0.030261320525727692], ["different", 2954, 0.030261320525727692], ["truman", 2238, 0.028409278705347304], ["his", 372, 0.027828673290218806], ["his", 640, 0.027828673290218806], ["his", 2151, 0.027828673290218806], ["his", 2208, 0.027828673290218806], ["no", 561, -0.025578954276291938], ["no", 2726, -0.025578954276291938], ["two", 868, -0.025324449979861247], ["two", 1067, -0.025324449979861247], ["two", 1209, -0.025324449979861247], ["two", 1594, -0.025324449979861247], ["two", 1696, -0.025324449979861247], ["two", 1827, -0.025324449979861247], ["two", 2599, -0.025324449979861247], ["on", 815, -0.02505865144411706], ["on", 1687, -0.02505865144411706], ["on", 2346, -0.02505865144411706], ["on", 2508, -0.02505865144411706], ["performances", 1901, 0.02421435248918121], ["t", 1548, -0.021387255175026976], ["t", 1801, -0.021387255175026976], ["johnson", 263, -0.02049148388235239], ["johnson", 595, -0.02049148388235239], ["johnson", 2264, -0.02049148388235239], ["johnson", 2605, -0.02049148388235239]], 1, "in some regards , making a movie is like trying to stretch a rubber band as far as you can without breaking it . try too hard , and it snaps ; but too much reservation means someone else will come along and pull it farther . in simon birch , director mark steven johnson shows us just how to master the technique : he takes advantage of caution and poise , but also risks his movie with a few bold steps . in the end , he ' s not only holding an unbroken band , but he makes the audience appreciate the lengths he went to direct such a fine feature . there ' s no doubt about it : the film that johnson has crafted is rich . he chooses for his setting the quaint town of gravestown , maine - leaves turn bright orange in the fall , the grass is a lush green , pure white snow falls in the winter , and the sky goes on forever . the characters continue that turn : our two leads are simon birch ( ian michael smith ) and joe wenteworth ( joseph mazzello ) . simon is the smallest baby ever born within the records of the local hospital , and by age twelve he ' s only two feet tall . joe is the bastard son of rebecca ( ashley judd ) , and by age twelve he ' s ready to know who is father is . naturally , the two outcasts become good friends and share many adventures together , from disrupting sunday school to doing community service to playing little league baseball . in a wonderfully executed performance by ian michael smith , simon birch is convinced that he ' s god ' s instrument , and there must be a reason he ' s so small . joe doesn ' t quite buy it , but he sticks by simon ; the two tough it out through the worst of times and are each other ' s only true friends . early on , the two meet up with ben goodrich ( oliver platt ) , rebecca ' s new boyfriend , and although the bond isn ' t immediate , ben and the two boys develop a liking for each other . both platt and judd give solid performances that lend their characters a deep likeability . the audience cares about them as much as they do about joe and simon , a testament to the acting jobs of both . finally , jim carrey gives a cameo as the adult joe in the present day , and his few minutes here are relatively more impressive than his entire performance in the truman show . mark steven johnson ' s sense of drama and writing is fantastic . the script is loosely based on john irving ' s novel , a prayer for owen meany , but it ' s so far off the source material that irving actually requested the credits be changed from ' based on ' to ' suggested by . ' along those same lines , it ' s almost unfitting to compare the two ; johnson uses tension , humor , atmosphere , and suspense to create an original drama of forrest gumpian proportions . by no means has he developed a project of similar popularity - gump made over 300 million dollars while birch ought to pass out of sight in a few weeks - but the winning idea remains the same . simon birch is a different look at a different life , and one that will most likely be studied in film school classes in decades to come . in the present , however , it ' s an enjoyable little picture that everyone ought to take a look at .", raw_div, true);
+            exp.show_raw_text([["the", 75, 0.05398540171469361], ["the", 343, 0.05398540171469361], ["the", 566, 0.05398540171469361], ["the", 594, 0.05398540171469361], ["the", 695, 0.05398540171469361], ["the", 912, 0.05398540171469361], ["the", 969, 0.05398540171469361], ["the", 982, 0.05398540171469361], ["the", 1052, 0.05398540171469361], ["the", 1150, 0.05398540171469361], ["the", 1188, 0.05398540171469361], ["the", 1248, 0.05398540171469361], ["the", 1397, 0.05398540171469361], ["the", 1874, 0.05398540171469361], ["the", 1896, 0.05398540171469361], ["the", 1963, 0.05398540171469361], ["and", 37, 0.04812355481975065], ["and", 639, 0.04812355481975065], ["and", 978, 0.04812355481975065], ["and", 1500, 0.04812355481975065], ["and", 1527, 0.04812355481975065], ["and", 1839, 0.04812355481975065], ["and", 2044, 0.04812355481975065], ["kevin", 931, -0.04792713116991995], ["kevin", 1023, -0.04792713116991995], ["kevin", 1031, -0.04792713116991995], ["kevin", 1092, -0.04792713116991995], ["kevin", 1447, -0.04792713116991995], ["to", 205, -0.04666691807027463], ["to", 243, -0.04666691807027463], ["to", 543, -0.04666691807027463], ["to", 586, -0.04666691807027463], ["to", 956, -0.04666691807027463], ["to", 1245, -0.04666691807027463], ["to", 1278, -0.04666691807027463], ["to", 1793, -0.04666691807027463], ["to", 2057, -0.04666691807027463], ["to", 2168, -0.04666691807027463], ["buddy", 731, -0.04267340776816054], ["buddy", 1015, -0.04267340776816054], ["buddy", 1039, -0.04267340776816054], ["buddy", 1289, -0.04267340776816054], ["buddy", 1504, -0.04267340776816054], ["buddy", 1769, -0.04267340776816054], ["buddy", 2236, -0.04267340776816054], ["on", 907, -0.03179865429938074], ["on", 1071, -0.03179865429938074], ["on", 1350, -0.03179865429938074], ["on", 1376, -0.03179865429938074], ["on", 2121, -0.03179865429938074], ["on", 2255, -0.03179865429938074], ["basketball", 110, -0.0282440869935377], ["basketball", 1165, -0.0282440869935377], ["basketball", 1967, -0.0282440869935377], ["movie", 347, -0.027717866176735616], ["movie", 699, -0.027717866176735616], ["movie", 1401, -0.027717866176735616], ["movie", 2102, -0.027717866176735616], ["movie", 2372, -0.027717866176735616], ["stupid", 2293, -0.026896374142019026], ["stupid", 2383, -0.026896374142019026], ["save", 293, -0.02565261616815385], ["save", 589, -0.02565261616815385], ["t", 236, -0.02489174833426238], ["t", 2161, -0.02489174833426238], ["t", 2323, -0.02489174833426238], ["no", 1696, -0.024191488739716306], ["no", 1924, -0.024191488739716306], ["quite", 88, 0.02236226293228321], ["quite", 2084, 0.02236226293228321], ["very", 175, 0.022220023380464474], ["very", 397, 0.022220023380464474], ["very", 2020, 0.022220023380464474], ["bud", 17, 0.017825979336641654], ["bud", 262, 0.017825979336641654], ["bud", 432, 0.017825979336641654], ["bud", 1666, 0.017825979336641654], ["bud", 2147, 0.017825979336641654], ["in", 614, 0.017204637849062312], ["in", 856, 0.017204637849062312], ["in", 1147, 0.017204637849062312], ["in", 1871, 0.017204637849062312], ["in", 1960, 0.017204637849062312], ["in", 2185, 0.017204637849062312], ["as", 711, 0.015624954906374125], ["as", 739, 0.015624954906374125], ["as", 1199, 0.015624954906374125], ["as", 1323, 0.015624954906374125], ["family", 146, 0.012556700663045378], ["s", 9, 0.011198340385585745], ["s", 167, 0.011198340385585745], ["s", 1100, 0.011198340385585745], ["s", 1163, 0.011198340385585745], ["s", 1455, 0.011198340385585745], ["s", 1592, 0.011198340385585745], ["s", 1674, 0.011198340385585745], ["s", 1714, 0.011198340385585745], ["s", 2289, 0.011198340385585745], ["of", 321, 0.00882355437063309], ["of", 627, 0.00882355437063309], ["of", 999, 0.00882355437063309], ["of", 1434, 0.00882355437063309], ["of", 1883, 0.00882355437063309], ["of", 1988, 0.00882355437063309], ["of", 2213, 0.00882355437063309], ["of", 2268, 0.00882355437063309], ["of", 2331, 0.00882355437063309]], 1, "disney ' s \" air bud \" tells a boy - and - his - dog story with a twist -- the pooch is quite an accomplished basketball player . granted , for a family comedy , it ' s not a very funny or successful idea to begin with , but it doesn ' t seem to matter -- \" air bud \" is surprisingly solemn . save for occasional moments of forced slapstick , the movie wags its tale with a straight face -- not a very enjoyable approach . if \" air bud \" had realized its own absurdity , then it possibly could have been better . here , we ' re actually asked to cheer a moment when the dog marches out to save the big game , clad in two pairs of sneakers and even a jersey . its number ? k9 . yeah , whatever . the movie opens as golden retriever buddy ( as himself ) escapes from his current owner , abusive clown - for - hire norm snively ( michael jeter ) . he ends up in fernwell , washington , where mopey new - kid - on - the - block josh ( kevin zegers ) is trying to cope with the move and the recent death of his father . buddy , kevin . kevin , buddy . once the dog proves his on - court prowess , kevin ' s self - esteem rockets . they both win places in the school ' s basketball team , with the animal as their mascot . but before they can make it to the finals , snively surfaces to reclaim buddy . everything plays out just as one would think : heavy on predictability , light on an actual story . the movie follows a calculated chain of events -- kevin ' s gloom fades , snively gets his comeuppance and buddy contracts rabies and must be executed old yeller - style . okay , that last one ' s a lie , but at least it would have been a quicker send - off than \" air bud \" ' s courtroom climax -- no joke ! there ' s even a faux - cute musical montage where a reluctant buddy gets cleaned - up to \" splish splash . \" paint cans are spilled and newspapers are buried , all in the name of formula . the end credits note that \" no special visual effects were used in the basketball sequences of this motion picture . \" that very well may be true , and although to see a dog sink shots is quite a sight , a movie cannot exist on feat alone . but \" air bud \" doesn ' t seem to be interested in anything else . a friend of mine insists he saw buddy a while back on a segment of david letterman ' s \" stupid pet tricks . \" i can ' t think of a more appropriate connection -- this movie is a stupid pet trick .", raw_div, true);
 
         </script>
         </body></html></div></div>
@@ -38250,11 +38307,19 @@ True class: pos
 </div>
 <div class="section" id="model-coefficients-and-feature-importance">
 <h3>Model Coefficients and Feature Importance<a class="headerlink" href="#model-coefficients-and-feature-importance" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Another way to evaluate the importance of the features is to look at their corresponding coefficients.</p></li>
+<li><p>Positive weights imply positive contribution of the feature to the prediction; negative weights imply negative contribution of the feature to the prediction.</p></li>
+<li><p>The absolute values of the weights indicate the effect sizes of the features.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">importances</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="s1">&#39;clf&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">coef_</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Extract the coefficients of the model from the pipeline</span>
+<span class="n">importances</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="s1">&#39;clf&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">coef_</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="c1">## Select top 10 positive/negative weights</span>
 <span class="n">top_indices_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">importances</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">][:</span><span class="mi">10</span><span class="p">]</span> 
 <span class="n">top_indices_neg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">importances</span><span class="p">)[:</span><span class="mi">10</span><span class="p">]</span>
+<span class="c1">## Get featnames from tfidfvectorizer</span>
 <span class="n">feature_names</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tfidf_vec</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">())</span> <span class="c1"># List indexing is different from array</span>
 </pre></div>
 </div>
@@ -38296,122 +38361,122 @@ True class: pos
   <tbody>
     <tr>
       <th>0</th>
-      <td>and</td>
-      <td>2.731311</td>
+      <td>well</td>
+      <td>2.331467</td>
       <td>pos</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>very</td>
-      <td>1.800543</td>
+      <td>and</td>
+      <td>2.212631</td>
       <td>pos</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>well</td>
-      <td>1.761716</td>
+      <td>great</td>
+      <td>2.026321</td>
       <td>pos</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>great</td>
-      <td>1.642044</td>
+      <td>see</td>
+      <td>1.546314</td>
       <td>pos</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>jackie</td>
-      <td>1.379740</td>
+      <td>very</td>
+      <td>1.496730</td>
       <td>pos</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>war</td>
-      <td>1.353750</td>
+      <td>fun</td>
+      <td>1.442269</td>
       <td>pos</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>others</td>
-      <td>1.276870</td>
+      <td>as</td>
+      <td>1.413002</td>
       <td>pos</td>
     </tr>
     <tr>
       <th>7</th>
-      <td>hilarious</td>
-      <td>1.262489</td>
+      <td>seen</td>
+      <td>1.409586</td>
       <td>pos</td>
     </tr>
     <tr>
       <th>8</th>
-      <td>seen</td>
-      <td>1.255090</td>
+      <td>quite</td>
+      <td>1.404376</td>
       <td>pos</td>
     </tr>
     <tr>
       <th>9</th>
-      <td>see</td>
-      <td>1.253419</td>
+      <td>family</td>
+      <td>1.398959</td>
       <td>pos</td>
     </tr>
     <tr>
       <th>10</th>
       <td>bad</td>
-      <td>-3.283474</td>
+      <td>-3.505795</td>
       <td>neg</td>
     </tr>
     <tr>
       <th>11</th>
-      <td>have</td>
-      <td>-2.039482</td>
+      <td>only</td>
+      <td>-2.123810</td>
       <td>neg</td>
     </tr>
     <tr>
       <th>12</th>
-      <td>worst</td>
-      <td>-2.020004</td>
+      <td>plot</td>
+      <td>-2.093344</td>
       <td>neg</td>
     </tr>
     <tr>
       <th>13</th>
-      <td>only</td>
-      <td>-2.005399</td>
+      <td>worst</td>
+      <td>-1.845326</td>
       <td>neg</td>
     </tr>
     <tr>
       <th>14</th>
-      <td>boring</td>
-      <td>-1.853239</td>
+      <td>have</td>
+      <td>-1.740088</td>
       <td>neg</td>
     </tr>
     <tr>
       <th>15</th>
-      <td>plot</td>
-      <td>-1.752474</td>
+      <td>nothing</td>
+      <td>-1.716863</td>
       <td>neg</td>
     </tr>
     <tr>
       <th>16</th>
-      <td>nothing</td>
-      <td>-1.733007</td>
+      <td>t</td>
+      <td>-1.633605</td>
       <td>neg</td>
     </tr>
     <tr>
       <th>17</th>
-      <td>t</td>
-      <td>-1.681726</td>
+      <td>poor</td>
+      <td>-1.513992</td>
       <td>neg</td>
     </tr>
     <tr>
       <th>18</th>
-      <td>no</td>
-      <td>-1.511692</td>
+      <td>why</td>
+      <td>-1.495172</td>
       <td>neg</td>
     </tr>
     <tr>
       <th>19</th>
-      <td>script</td>
-      <td>-1.416031</td>
+      <td>there</td>
+      <td>-1.482219</td>
       <td>neg</td>
     </tr>
   </tbody>
@@ -38435,7 +38500,7 @@ True class: pos
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Feature Importance: Top Words&#39;)
 </pre></div>
 </div>
-<img alt="../_images/ml-sklearn-classification_61_1.png" src="../_images/ml-sklearn-classification_61_1.png" />
+<img alt="../_images/ml-sklearn-classification_63_1.png" src="../_images/ml-sklearn-classification_63_1.png" />
 </div>
 </div>
 <div class="cell tag_hide-input tag_remove-output docutils container">
@@ -38477,7 +38542,7 @@ R[write to console]: The following objects are masked from ‘package:base’:
     intersect, setdiff, setequal, union
 </pre></div>
 </div>
-<img alt="../_images/ml-sklearn-classification_63_1.png" src="../_images/ml-sklearn-classification_63_1.png" />
+<img alt="../_images/ml-sklearn-classification_65_1.png" src="../_images/ml-sklearn-classification_65_1.png" />
 </div>
 </div>
 </div>
@@ -38491,17 +38556,19 @@ R[write to console]: The following objects are masked from ‘package:base’:
 <li><p>The increase in the model score is indicative of how redundant the feature is.</p></li>
 </ul>
 </li>
+</ul>
+<ul class="simple">
 <li><p>Permutation importance reports the importance of the feature as the difference between target model accuracy - shuffled model accuracy.</p>
 <ul>
 <li><p>Positive permutation importance score, Higher importance.</p></li>
-<li><p>Negative permutation importance score, lower importance.</p></li>
+<li><p>Negative permutation importance score, Lower importance.</p></li>
 </ul>
 </li>
 <li><p>See <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> documentation: <a class="reference external" href="https://scikit-learn.org/stable/modules/permutation_importance.html#permutation-importance">4.2 Permutation feature importance</a></p></li>
 </ul>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>On which dataset (training, held-out, or testing sets) should be perform the permutation importance computation?</p>
+<p>On which dataset (training, held-out, or testing sets) should be performed the permutation importance computation?</p>
 <p>It is suggested to use a held-out set, which makes it possible to highlight which features contribute the most to the generalization power of the classifier (i.e., to avoid overfitting problems).</p>
 </div>
 <div class="cell docutils container">
@@ -38515,8 +38582,8 @@ R[write to console]: The following objects are masked from ‘package:base’:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 18min 4s, sys: 2min 10s, total: 20min 15s
-Wall time: 2min 32s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 19min 32s, sys: 3min 2s, total: 22min 35s
+Wall time: 2min 51s
 </pre></div>
 </div>
 </div>
@@ -38532,134 +38599,134 @@ Wall time: 2min 32s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>funny   0.005 +/- 0.002
-accent  0.003 +/- 0.001
-schumacher0.003 +/- 0.001
-modern  0.003 +/- 0.001
-obvious 0.003 +/- 0.001
-worst   0.003 +/- 0.001
-invisible0.003 +/- 0.000
-twenty  0.003 +/- 0.000
-actors  0.003 +/- 0.001
-captain 0.003 +/- 0.001
-azaria  0.003 +/- 0.001
-wonderfully0.003 +/- 0.001
-greg    0.003 +/- 0.001
-strange 0.003 +/- 0.001
-unfortunately0.003 +/- 0.001
-hell    0.002 +/- 0.001
-paul    0.002 +/- 0.001
-tom     0.002 +/- 0.001
-joke    0.002 +/- 0.001
-awful   0.002 +/- 0.001
-review  0.002 +/- 0.001
-william 0.002 +/- 0.001
-jay     0.002 +/- 0.001
-problems0.002 +/- 0.001
-production0.002 +/- 0.001
-leave   0.002 +/- 0.001
-desire  0.002 +/- 0.001
-walter  0.002 +/- 0.001
-deniro  0.002 +/- 0.001
-gags    0.002 +/- 0.001
-local   0.002 +/- 0.001
-painful 0.002 +/- 0.001
-blonde  0.002 +/- 0.001
-include 0.002 +/- 0.001
-trailer 0.002 +/- 0.001
-heavily 0.002 +/- 0.001
-donnell 0.002 +/- 0.001
-cast    0.002 +/- 0.001
-sure    0.002 +/- 0.001
-rocky   0.002 +/- 0.001
-definitely0.002 +/- 0.001
-jolie   0.002 +/- 0.001
-far     0.002 +/- 0.001
-festival0.002 +/- 0.001
-calls   0.002 +/- 0.001
-crazed  0.002 +/- 0.001
-academy 0.002 +/- 0.001
-awesome 0.002 +/- 0.001
-baldwin 0.002 +/- 0.001
-wrestling0.002 +/- 0.001
-appropriately0.002 +/- 0.000
-travel  0.002 +/- 0.000
-bear    0.002 +/- 0.000
-attacks 0.002 +/- 0.000
-believe 0.002 +/- 0.000
-strong  0.002 +/- 0.000
-visit   0.002 +/- 0.000
-struck  0.002 +/- 0.000
-tell    0.002 +/- 0.000
-forward 0.002 +/- 0.000
-accept  0.002 +/- 0.000
-answer  0.002 +/- 0.000
-senator 0.002 +/- 0.000
-present 0.002 +/- 0.000
-finds   0.002 +/- 0.000
-hundred 0.002 +/- 0.000
-search  0.002 +/- 0.000
-warmth  0.002 +/- 0.000
-reeves  0.002 +/- 0.000
-warns   0.002 +/- 0.000
-award   0.002 +/- 0.000
-instance0.002 +/- 0.000
-overdone0.002 +/- 0.000
-spouse  0.002 +/- 0.000
-contemporary0.002 +/- 0.000
-creative0.002 +/- 0.000
-call    0.002 +/- 0.000
-bob     0.002 +/- 0.000
-seagal  0.002 +/- 0.000
-hot     0.002 +/- 0.000
-science 0.002 +/- 0.000
-collar  0.002 +/- 0.000
-beast   0.002 +/- 0.000
-enemy   0.002 +/- 0.000
-stories 0.002 +/- 0.000
-explaining0.002 +/- 0.000
-toys    0.002 +/- 0.000
-anna    0.002 +/- 0.000
-proves  0.002 +/- 0.000
-hollow  0.002 +/- 0.000
-forever 0.002 +/- 0.000
-join    0.002 +/- 0.000
-afterwards0.002 +/- 0.000
-dating  0.002 +/- 0.000
-empty   0.002 +/- 0.000
-breathtaking0.002 +/- 0.000
-token   0.002 +/- 0.000
-eerie   0.002 +/- 0.000
-doors   0.002 +/- 0.000
-shall   0.002 +/- 0.000
-dogs    0.002 +/- 0.000
-question0.002 +/- 0.000
-necessarily0.002 +/- 0.000
-title   0.002 +/- 0.000
-dread   0.002 +/- 0.000
-tiny    0.002 +/- 0.000
-pure    0.002 +/- 0.000
-purpose 0.002 +/- 0.000
-via     0.002 +/- 0.000
-meg     0.002 +/- 0.000
-eccentric0.002 +/- 0.000
-general 0.002 +/- 0.000
-queen   0.002 +/- 0.000
-solely  0.002 +/- 0.000
-bore    0.002 +/- 0.000
-romance 0.002 +/- 0.000
-remake  0.002 +/- 0.000
-nearly  0.002 +/- 0.000
-included0.002 +/- 0.000
-evident 0.002 +/- 0.000
-fast    0.002 +/- 0.000
-claire  0.002 +/- 0.000
-asleep  0.002 +/- 0.000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>and     0.013 +/- 0.005
+south   0.003 +/- 0.000
+remain  0.003 +/- 0.000
+hollywood0.003 +/- 0.001
+terrible0.003 +/- 0.001
+white   0.003 +/- 0.001
+because 0.002 +/- 0.001
+hilarious0.002 +/- 0.001
+john    0.002 +/- 0.001
+granger 0.002 +/- 0.001
+one     0.002 +/- 0.001
+story   0.002 +/- 0.001
+good    0.002 +/- 0.001
+connery 0.002 +/- 0.001
+mess    0.002 +/- 0.001
+presented0.002 +/- 0.000
+before  0.002 +/- 0.000
+prominent0.002 +/- 0.000
+usually 0.002 +/- 0.000
+serial  0.002 +/- 0.000
+exactly 0.002 +/- 0.000
+seven   0.002 +/- 0.000
+troopers0.002 +/- 0.000
+began   0.002 +/- 0.000
+sexual  0.002 +/- 0.000
+extra   0.002 +/- 0.000
+credit  0.002 +/- 0.000
+travolta0.002 +/- 0.000
+probably0.002 +/- 0.000
+showing 0.002 +/- 0.000
+maggie  0.002 +/- 0.000
+court   0.002 +/- 0.000
+images  0.002 +/- 0.000
+industry0.002 +/- 0.000
+man     0.002 +/- 0.000
+broadway0.002 +/- 0.000
+dance   0.002 +/- 0.000
+secondly0.002 +/- 0.000
+reasons 0.002 +/- 0.000
+elite   0.002 +/- 0.000
+revival 0.002 +/- 0.000
+richards0.002 +/- 0.000
+wind    0.002 +/- 0.000
+highest 0.002 +/- 0.000
+end     0.002 +/- 0.000
+endearing0.002 +/- 0.000
+energetic0.002 +/- 0.000
+quirky  0.002 +/- 0.000
+enjoyable0.002 +/- 0.000
+provoking0.002 +/- 0.000
+demise  0.002 +/- 0.000
+prove   0.002 +/- 0.000
+matt    0.002 +/- 0.000
+scene   0.002 +/- 0.000
+humour  0.002 +/- 0.000
+innocence0.002 +/- 0.000
+dazzling0.002 +/- 0.000
+added   0.002 +/- 0.000
+dark    0.002 +/- 0.000
+sincere 0.002 +/- 0.000
+fame    0.002 +/- 0.000
+possible0.002 +/- 0.000
+perhaps 0.002 +/- 0.000
+japanese0.002 +/- 0.000
+charisma0.002 +/- 0.000
+subject 0.002 +/- 0.000
+florida 0.002 +/- 0.000
+animated0.002 +/- 0.000
+parker  0.002 +/- 0.000
+paramount0.002 +/- 0.000
+born    0.002 +/- 0.000
+sweet   0.002 +/- 0.000
+years   0.002 +/- 0.000
+campbell0.002 +/- 0.000
+tad     0.002 +/- 0.000
+opera   0.002 +/- 0.000
+gone    0.002 +/- 0.000
+taxi    0.002 +/- 0.000
+burton  0.002 +/- 0.000
+waking  0.002 +/- 0.000
+yourself0.002 +/- 0.000
+kelly   0.002 +/- 0.000
+kind    0.002 +/- 0.000
+genre   0.002 +/- 0.000
+size    0.002 +/- 0.000
+citizen 0.002 +/- 0.000
+starship0.002 +/- 0.000
+today   0.002 +/- 0.000
+portrait0.002 +/- 0.000
+contract0.002 +/- 0.000
+easy    0.002 +/- 0.000
+fantasy 0.002 +/- 0.000
+slightly0.002 +/- 0.000
+tradition0.002 +/- 0.000
+lloyd   0.002 +/- 0.000
+according0.002 +/- 0.000
+points  0.002 +/- 0.000
+neve    0.002 +/- 0.000
+sophisticated0.002 +/- 0.000
+greatest0.002 +/- 0.000
+soundtrack0.002 +/- 0.000
+spirited0.002 +/- 0.000
+finest  0.002 +/- 0.000
+stage   0.002 +/- 0.000
+stages  0.002 +/- 0.000
+newton  0.002 +/- 0.000
+star    0.002 +/- 0.000
 irish   0.002 +/- 0.000
-loose   0.002 +/- 0.000
-reminiscent0.002 +/- 0.000
-manhattan0.002 +/- 0.000
-nemesis 0.002 +/- 0.000
+lesbian 0.002 +/- 0.000
+mill    0.002 +/- 0.000
+history 0.001 +/- 0.001
+release 0.001 +/- 0.001
+critique0.001 +/- 0.001
+belief  0.001 +/- 0.001
+slick   0.001 +/- 0.001
+new     0.001 +/- 0.001
+clear   0.001 +/- 0.001
+flick   0.001 +/- 0.001
+succeed 0.001 +/- 0.001
+age     0.001 +/- 0.001
+along   0.001 +/- 0.001
+dramatic0.001 +/- 0.001
+dillon  0.001 +/- 0.001
+high    0.001 +/- 0.001
+role    0.001 +/- 0.001
+runs    0.001 +/- 0.001
+tense   0.001 +/- 0.001
+monty   0.001 +/- 0.001
 </pre></div>
 </div>
 </div>
@@ -38691,26 +38758,26 @@ nemesis 0.002 +/- 0.000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>	-2.3605	bad            		2.7670	and            
-	-1.6821	t              		1.6301	is             
-	-1.5244	worst          		1.3351	life           
-	-1.4351	have           		1.3035	very           
-	-1.3196	plot           		1.2522	his            
-	-1.2626	boring         		1.1867	well           
-	-1.2266	only           		1.1592	as             
-	-1.2073	to             		1.1532	jackie         
-	-1.2023	no             		1.1005	great          
-	-1.1455	nothing        		1.0181	truman         
-	-1.1293	there          		0.9523	will           
-	-1.0265	any            		0.9505	war            
-	-0.9937	script         		0.8642	also           
-	-0.9848	supposed       		0.8306	world          
-	-0.9559	stupid         		0.7793	others         
-	-0.9495	waste          		0.7730	perfectly      
-	-0.9294	even           		0.7691	seen           
-	-0.9079	movie          		0.7672	family         
-	-0.8756	harry          		0.7598	best           
-	-0.8457	unfortunately  		0.7437	many           
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>	-2.5005	bad            		2.5284	and            
+	-1.5775	t              		1.4965	as             
+	-1.4654	plot           		1.3909	great          
+	-1.4216	worst          		1.2943	well           
+	-1.2776	have           		1.2622	the            
+	-1.2081	nothing        		1.2599	very           
+	-1.1966	movie          		1.2567	is             
+	-1.1919	there          		1.1857	life           
+	-1.1740	only           		1.0056	family         
+	-1.1091	to             		0.9970	his            
+	-1.0838	no             		0.9422	jackie         
+	-1.0727	why            		0.9299	of             
+	-1.0495	this           		0.8787	seen           
+	-1.0107	script         		0.8784	both           
+	-1.0064	boring         		0.8621	truman         
+	-0.9740	be             		0.8417	cameron        
+	-0.9263	batman         		0.8290	will           
+	-0.9121	supposed       		0.8195	also           
+	-0.8912	poor           		0.8105	excellent      
+	-0.8886	reason         		0.8061	war            
 </pre></div>
 </div>
 </div>
@@ -38730,242 +38797,269 @@ nemesis 0.002 +/- 0.000
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|--- bad &lt;= 0.02
 |   |--- worst &lt;= 0.02
-|   |   |--- and &lt;= 0.17
-|   |   |   |--- t &lt;= 0.07
-|   |   |   |   |--- have &lt;= 0.02
-|   |   |   |   |   |--- looks &lt;= 0.03
-|   |   |   |   |   |   |--- unfortunately &lt;= 0.03
-|   |   |   |   |   |   |   |--- whatever &lt;= 0.03
-|   |   |   |   |   |   |   |   |--- the &lt;= 0.28
-|   |   |   |   |   |   |   |   |   |--- t &lt;= 0.02
-|   |   |   |   |   |   |   |   |   |   |--- would &lt;= 0.02
-|   |   |   |   |   |   |   |   |   |   |   |--- truncated branch of depth 2
-|   |   |   |   |   |   |   |   |   |   |--- would &gt;  0.02
+|   |   |--- and &lt;= 0.15
+|   |   |   |--- hilarious &lt;= 0.03
+|   |   |   |   |--- nothing &lt;= 0.02
+|   |   |   |   |   |--- don &lt;= 0.02
+|   |   |   |   |   |   |--- feels &lt;= 0.03
+|   |   |   |   |   |   |   |--- after &lt;= 0.02
+|   |   |   |   |   |   |   |   |--- funny &lt;= 0.02
+|   |   |   |   |   |   |   |   |   |--- should &lt;= 0.02
+|   |   |   |   |   |   |   |   |   |   |--- little &lt;= 0.02
+|   |   |   |   |   |   |   |   |   |   |   |--- truncated branch of depth 7
+|   |   |   |   |   |   |   |   |   |   |--- little &gt;  0.02
+|   |   |   |   |   |   |   |   |   |   |   |--- truncated branch of depth 4
+|   |   |   |   |   |   |   |   |   |--- should &gt;  0.02
+|   |   |   |   |   |   |   |   |   |   |--- always &lt;= 0.02
 |   |   |   |   |   |   |   |   |   |   |   |--- truncated branch of depth 3
-|   |   |   |   |   |   |   |   |   |--- t &gt;  0.02
-|   |   |   |   |   |   |   |   |   |   |--- life &lt;= 0.03
-|   |   |   |   |   |   |   |   |   |   |   |--- truncated branch of depth 2
-|   |   |   |   |   |   |   |   |   |   |--- life &gt;  0.03
-|   |   |   |   |   |   |   |   |   |   |   |--- truncated branch of depth 2
-|   |   |   |   |   |   |   |   |--- the &gt;  0.28
-|   |   |   |   |   |   |   |   |   |--- saturday &lt;= 0.04
-|   |   |   |   |   |   |   |   |   |   |--- girl &lt;= 0.04
-|   |   |   |   |   |   |   |   |   |   |   |--- truncated branch of depth 8
-|   |   |   |   |   |   |   |   |   |   |--- girl &gt;  0.04
-|   |   |   |   |   |   |   |   |   |   |   |--- class: neg
-|   |   |   |   |   |   |   |   |   |--- saturday &gt;  0.04
-|   |   |   |   |   |   |   |   |   |   |--- class: neg
-|   |   |   |   |   |   |   |--- whatever &gt;  0.03
-|   |   |   |   |   |   |   |   |--- class: neg
-|   |   |   |   |   |   |--- unfortunately &gt;  0.03
-|   |   |   |   |   |   |   |--- intelligent &lt;= 0.04
-|   |   |   |   |   |   |   |   |--- class: neg
-|   |   |   |   |   |   |   |--- intelligent &gt;  0.04
-|   |   |   |   |   |   |   |   |--- class: pos
-|   |   |   |   |   |--- looks &gt;  0.03
-|   |   |   |   |   |   |--- ben &lt;= 0.04
-|   |   |   |   |   |   |   |--- making &lt;= 0.03
-|   |   |   |   |   |   |   |   |--- rest &lt;= 0.06
-|   |   |   |   |   |   |   |   |   |--- class: neg
-|   |   |   |   |   |   |   |   |--- rest &gt;  0.06
-|   |   |   |   |   |   |   |   |   |--- class: pos
-|   |   |   |   |   |   |   |--- making &gt;  0.03
-|   |   |   |   |   |   |   |   |--- class: pos
-|   |   |   |   |   |   |--- ben &gt;  0.04
-|   |   |   |   |   |   |   |--- class: pos
-|   |   |   |   |--- have &gt;  0.02
-|   |   |   |   |   |--- film &lt;= 0.07
-|   |   |   |   |   |   |--- see &lt;= 0.04
-|   |   |   |   |   |   |   |--- great &lt;= 0.04
-|   |   |   |   |   |   |   |   |--- tense &lt;= 0.01
-|   |   |   |   |   |   |   |   |   |--- offer &lt;= 0.03
-|   |   |   |   |   |   |   |   |   |   |--- liked &lt;= 0.04
-|   |   |   |   |   |   |   |   |   |   |   |--- truncated branch of depth 8
-|   |   |   |   |   |   |   |   |   |   |--- liked &gt;  0.04
+|   |   |   |   |   |   |   |   |   |   |--- always &gt;  0.02
 |   |   |   |   |   |   |   |   |   |   |   |--- class: pos
-|   |   |   |   |   |   |   |   |   |--- offer &gt;  0.03
+|   |   |   |   |   |   |   |   |--- funny &gt;  0.02
+|   |   |   |   |   |   |   |   |   |--- main &lt;= 0.01
+|   |   |   |   |   |   |   |   |   |   |--- we &lt;= 0.11
+|   |   |   |   |   |   |   |   |   |   |   |--- class: neg
+|   |   |   |   |   |   |   |   |   |   |--- we &gt;  0.11
+|   |   |   |   |   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |   |   |   |   |--- main &gt;  0.01
 |   |   |   |   |   |   |   |   |   |   |--- class: pos
-|   |   |   |   |   |   |   |   |--- tense &gt;  0.01
-|   |   |   |   |   |   |   |   |   |--- class: pos
-|   |   |   |   |   |   |   |--- great &gt;  0.04
-|   |   |   |   |   |   |   |   |--- class: pos
-|   |   |   |   |   |   |--- see &gt;  0.04
-|   |   |   |   |   |   |   |--- main &lt;= 0.05
-|   |   |   |   |   |   |   |   |--- class: pos
-|   |   |   |   |   |   |   |--- main &gt;  0.05
-|   |   |   |   |   |   |   |   |--- class: neg
-|   |   |   |   |   |--- film &gt;  0.07
-|   |   |   |   |   |   |--- few &lt;= 0.03
-|   |   |   |   |   |   |   |--- matter &lt;= 0.02
-|   |   |   |   |   |   |   |   |--- anyone &lt;= 0.03
-|   |   |   |   |   |   |   |   |   |--- class: pos
-|   |   |   |   |   |   |   |   |--- anyone &gt;  0.03
-|   |   |   |   |   |   |   |   |   |--- class: neg
-|   |   |   |   |   |   |   |--- matter &gt;  0.02
-|   |   |   |   |   |   |   |   |--- class: neg
-|   |   |   |   |   |   |--- few &gt;  0.03
-|   |   |   |   |   |   |   |--- room &lt;= 0.02
-|   |   |   |   |   |   |   |   |--- class: neg
-|   |   |   |   |   |   |   |--- room &gt;  0.02
-|   |   |   |   |   |   |   |   |--- class: pos
-|   |   |   |--- t &gt;  0.07
-|   |   |   |   |--- a &lt;= 0.25
-|   |   |   |   |   |--- easily &lt;= 0.03
-|   |   |   |   |   |   |--- trying &lt;= 0.05
-|   |   |   |   |   |   |   |--- class: neg
-|   |   |   |   |   |   |--- trying &gt;  0.05
-|   |   |   |   |   |   |   |--- class: pos
-|   |   |   |   |   |--- easily &gt;  0.03
-|   |   |   |   |   |   |--- class: pos
-|   |   |   |   |--- a &gt;  0.25
-|   |   |   |   |   |--- class: pos
-|   |   |--- and &gt;  0.17
-|   |   |   |--- boring &lt;= 0.02
-|   |   |   |   |--- waste &lt;= 0.02
-|   |   |   |   |   |--- supposed &lt;= 0.04
-|   |   |   |   |   |   |--- screenwriters &lt;= 0.04
-|   |   |   |   |   |   |   |--- wrapped &lt;= 0.03
-|   |   |   |   |   |   |   |   |--- sole &lt;= 0.03
-|   |   |   |   |   |   |   |   |   |--- reserved &lt;= 0.04
-|   |   |   |   |   |   |   |   |   |   |--- gets &lt;= 0.04
-|   |   |   |   |   |   |   |   |   |   |   |--- truncated branch of depth 10
-|   |   |   |   |   |   |   |   |   |   |--- gets &gt;  0.04
-|   |   |   |   |   |   |   |   |   |   |   |--- truncated branch of depth 2
-|   |   |   |   |   |   |   |   |   |--- reserved &gt;  0.04
+|   |   |   |   |   |   |   |--- after &gt;  0.02
+|   |   |   |   |   |   |   |   |--- real &lt;= 0.05
+|   |   |   |   |   |   |   |   |   |--- such &lt;= 0.05
+|   |   |   |   |   |   |   |   |   |   |--- h &lt;= 0.03
+|   |   |   |   |   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |   |   |   |   |   |--- h &gt;  0.03
+|   |   |   |   |   |   |   |   |   |   |   |--- class: neg
+|   |   |   |   |   |   |   |   |   |--- such &gt;  0.05
 |   |   |   |   |   |   |   |   |   |   |--- class: neg
-|   |   |   |   |   |   |   |   |--- sole &gt;  0.03
+|   |   |   |   |   |   |   |   |--- real &gt;  0.05
 |   |   |   |   |   |   |   |   |   |--- class: neg
-|   |   |   |   |   |   |   |--- wrapped &gt;  0.03
+|   |   |   |   |   |   |--- feels &gt;  0.03
+|   |   |   |   |   |   |   |--- amazing &lt;= 0.03
 |   |   |   |   |   |   |   |   |--- class: neg
-|   |   |   |   |   |   |--- screenwriters &gt;  0.04
-|   |   |   |   |   |   |   |--- class: neg
-|   |   |   |   |   |--- supposed &gt;  0.04
-|   |   |   |   |   |   |--- learns &lt;= 0.03
-|   |   |   |   |   |   |   |--- class: neg
-|   |   |   |   |   |   |--- learns &gt;  0.03
+|   |   |   |   |   |   |   |--- amazing &gt;  0.03
+|   |   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |--- don &gt;  0.02
+|   |   |   |   |   |   |--- themselves &lt;= 0.01
+|   |   |   |   |   |   |   |--- impact &lt;= 0.02
+|   |   |   |   |   |   |   |   |--- fantastic &lt;= 0.02
+|   |   |   |   |   |   |   |   |   |--- looking &lt;= 0.05
+|   |   |   |   |   |   |   |   |   |   |--- human &lt;= 0.05
+|   |   |   |   |   |   |   |   |   |   |   |--- class: neg
+|   |   |   |   |   |   |   |   |   |   |--- human &gt;  0.05
+|   |   |   |   |   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |   |   |   |   |--- looking &gt;  0.05
+|   |   |   |   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |   |   |   |--- fantastic &gt;  0.02
+|   |   |   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |   |   |--- impact &gt;  0.02
+|   |   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |   |--- themselves &gt;  0.01
 |   |   |   |   |   |   |   |--- class: pos
-|   |   |   |   |--- waste &gt;  0.02
-|   |   |   |   |   |--- dan &lt;= 0.06
-|   |   |   |   |   |   |--- class: neg
-|   |   |   |   |   |--- dan &gt;  0.06
+|   |   |   |   |--- nothing &gt;  0.02
+|   |   |   |   |   |--- believed &lt;= 0.01
+|   |   |   |   |   |   |--- sweet &lt;= 0.04
+|   |   |   |   |   |   |   |--- quiet &lt;= 0.01
+|   |   |   |   |   |   |   |   |--- farce &lt;= 0.05
+|   |   |   |   |   |   |   |   |   |--- class: neg
+|   |   |   |   |   |   |   |   |--- farce &gt;  0.05
+|   |   |   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |   |   |--- quiet &gt;  0.01
+|   |   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |   |--- sweet &gt;  0.04
+|   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |--- believed &gt;  0.01
 |   |   |   |   |   |   |--- class: pos
-|   |   |   |--- boring &gt;  0.02
-|   |   |   |   |--- offer &lt;= 0.02
-|   |   |   |   |   |--- class: neg
-|   |   |   |   |--- offer &gt;  0.02
+|   |   |   |--- hilarious &gt;  0.03
+|   |   |   |   |--- david &lt;= 0.02
+|   |   |   |   |   |--- to &lt;= 0.03
+|   |   |   |   |   |   |--- class: neg
+|   |   |   |   |   |--- to &gt;  0.03
+|   |   |   |   |   |   |--- class: pos
+|   |   |   |   |--- david &gt;  0.02
+|   |   |   |   |   |--- whether &lt;= 0.02
+|   |   |   |   |   |   |--- class: neg
+|   |   |   |   |   |--- whether &gt;  0.02
+|   |   |   |   |   |   |--- class: pos
+|   |   |--- and &gt;  0.15
+|   |   |   |--- someone &lt;= 0.03
+|   |   |   |   |--- nothing &lt;= 0.03
+|   |   |   |   |   |--- t &lt;= 0.08
+|   |   |   |   |   |   |--- any &lt;= 0.03
+|   |   |   |   |   |   |   |--- barely &lt;= 0.04
+|   |   |   |   |   |   |   |   |--- she &lt;= 0.18
+|   |   |   |   |   |   |   |   |   |--- terribly &lt;= 0.03
+|   |   |   |   |   |   |   |   |   |   |--- break &lt;= 0.03
+|   |   |   |   |   |   |   |   |   |   |   |--- truncated branch of depth 10
+|   |   |   |   |   |   |   |   |   |   |--- break &gt;  0.03
+|   |   |   |   |   |   |   |   |   |   |   |--- truncated branch of depth 2
+|   |   |   |   |   |   |   |   |   |--- terribly &gt;  0.03
+|   |   |   |   |   |   |   |   |   |   |--- fan &lt;= 0.01
+|   |   |   |   |   |   |   |   |   |   |   |--- class: neg
+|   |   |   |   |   |   |   |   |   |   |--- fan &gt;  0.01
+|   |   |   |   |   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |   |   |   |--- she &gt;  0.18
+|   |   |   |   |   |   |   |   |   |--- class: neg
+|   |   |   |   |   |   |   |--- barely &gt;  0.04
+|   |   |   |   |   |   |   |   |--- class: neg
+|   |   |   |   |   |   |--- any &gt;  0.03
+|   |   |   |   |   |   |   |--- would &lt;= 0.02
+|   |   |   |   |   |   |   |   |--- feel &lt;= 0.01
+|   |   |   |   |   |   |   |   |   |--- wild &lt;= 0.02
+|   |   |   |   |   |   |   |   |   |   |--- post &lt;= 0.02
+|   |   |   |   |   |   |   |   |   |   |   |--- class: neg
+|   |   |   |   |   |   |   |   |   |   |--- post &gt;  0.02
+|   |   |   |   |   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |   |   |   |   |--- wild &gt;  0.02
+|   |   |   |   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |   |   |   |--- feel &gt;  0.01
+|   |   |   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |   |   |--- would &gt;  0.02
+|   |   |   |   |   |   |   |   |--- comic &lt;= 0.04
+|   |   |   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |   |   |   |--- comic &gt;  0.04
+|   |   |   |   |   |   |   |   |   |--- class: neg
+|   |   |   |   |   |--- t &gt;  0.08
+|   |   |   |   |   |   |--- more &lt;= 0.02
+|   |   |   |   |   |   |   |--- class: neg
+|   |   |   |   |   |   |--- more &gt;  0.02
+|   |   |   |   |   |   |   |--- other &lt;= 0.01
+|   |   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |   |   |--- other &gt;  0.01
+|   |   |   |   |   |   |   |   |--- session &lt;= 0.02
+|   |   |   |   |   |   |   |   |   |--- class: neg
+|   |   |   |   |   |   |   |   |--- session &gt;  0.02
+|   |   |   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |--- nothing &gt;  0.03
+|   |   |   |   |   |--- well &lt;= 0.01
+|   |   |   |   |   |   |--- different &lt;= 0.02
+|   |   |   |   |   |   |   |--- showing &lt;= 0.02
+|   |   |   |   |   |   |   |   |--- class: neg
+|   |   |   |   |   |   |   |--- showing &gt;  0.02
+|   |   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |   |--- different &gt;  0.02
+|   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |--- well &gt;  0.01
+|   |   |   |   |   |   |--- we &lt;= 0.03
+|   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |   |--- we &gt;  0.03
+|   |   |   |   |   |   |   |--- she &lt;= 0.02
+|   |   |   |   |   |   |   |   |--- class: neg
+|   |   |   |   |   |   |   |--- she &gt;  0.02
+|   |   |   |   |   |   |   |   |--- class: pos
+|   |   |   |--- someone &gt;  0.03
+|   |   |   |   |--- living &lt;= 0.01
+|   |   |   |   |   |--- family &lt;= 0.02
+|   |   |   |   |   |   |--- human &lt;= 0.01
+|   |   |   |   |   |   |   |--- class: neg
+|   |   |   |   |   |   |--- human &gt;  0.01
+|   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |--- family &gt;  0.02
+|   |   |   |   |   |   |--- class: pos
+|   |   |   |   |--- living &gt;  0.01
 |   |   |   |   |   |--- class: pos
 |   |--- worst &gt;  0.02
-|   |   |--- america &lt;= 0.03
-|   |   |   |--- aspects &lt;= 0.04
-|   |   |   |   |--- two &lt;= 0.07
-|   |   |   |   |   |--- nomination &lt;= 0.04
-|   |   |   |   |   |   |--- juliette &lt;= 0.02
+|   |   |--- flaws &lt;= 0.03
+|   |   |   |--- meet &lt;= 0.03
+|   |   |   |   |--- reality &lt;= 0.02
+|   |   |   |   |   |--- evil &lt;= 0.11
+|   |   |   |   |   |   |--- physically &lt;= 0.02
 |   |   |   |   |   |   |   |--- class: neg
-|   |   |   |   |   |   |--- juliette &gt;  0.02
+|   |   |   |   |   |   |--- physically &gt;  0.02
 |   |   |   |   |   |   |   |--- class: pos
-|   |   |   |   |   |--- nomination &gt;  0.04
-|   |   |   |   |   |   |--- were &lt;= 0.02
-|   |   |   |   |   |   |   |--- class: pos
-|   |   |   |   |   |   |--- were &gt;  0.02
-|   |   |   |   |   |   |   |--- class: neg
-|   |   |   |   |--- two &gt;  0.07
+|   |   |   |   |   |--- evil &gt;  0.11
+|   |   |   |   |   |   |--- class: pos
+|   |   |   |   |--- reality &gt;  0.02
 |   |   |   |   |   |--- class: pos
-|   |   |   |--- aspects &gt;  0.04
-|   |   |   |   |--- class: pos
-|   |   |--- america &gt;  0.03
+|   |   |   |--- meet &gt;  0.03
+|   |   |   |   |--- rating &lt;= 0.02
+|   |   |   |   |   |--- class: pos
+|   |   |   |   |--- rating &gt;  0.02
+|   |   |   |   |   |--- class: neg
+|   |   |--- flaws &gt;  0.03
 |   |   |   |--- class: pos
 |--- bad &gt;  0.02
-|   |--- very &lt;= 0.03
-|   |   |--- others &lt;= 0.02
-|   |   |   |--- intelligent &lt;= 0.04
-|   |   |   |   |--- songs &lt;= 0.06
-|   |   |   |   |   |--- why &lt;= 0.02
-|   |   |   |   |   |   |--- stolen &lt;= 0.01
-|   |   |   |   |   |   |   |--- about &lt;= 0.01
-|   |   |   |   |   |   |   |   |--- to &lt;= 0.10
-|   |   |   |   |   |   |   |   |   |--- screen &lt;= 0.01
-|   |   |   |   |   |   |   |   |   |   |--- class: pos
-|   |   |   |   |   |   |   |   |   |--- screen &gt;  0.01
-|   |   |   |   |   |   |   |   |   |   |--- class: neg
-|   |   |   |   |   |   |   |   |--- to &gt;  0.10
-|   |   |   |   |   |   |   |   |   |--- moment &lt;= 0.01
-|   |   |   |   |   |   |   |   |   |   |--- america &lt;= 0.02
-|   |   |   |   |   |   |   |   |   |   |   |--- truncated branch of depth 4
-|   |   |   |   |   |   |   |   |   |   |--- america &gt;  0.02
-|   |   |   |   |   |   |   |   |   |   |   |--- truncated branch of depth 2
-|   |   |   |   |   |   |   |   |   |--- moment &gt;  0.01
-|   |   |   |   |   |   |   |   |   |   |--- reveal &lt;= 0.02
-|   |   |   |   |   |   |   |   |   |   |   |--- class: pos
-|   |   |   |   |   |   |   |   |   |   |--- reveal &gt;  0.02
-|   |   |   |   |   |   |   |   |   |   |   |--- class: neg
-|   |   |   |   |   |   |   |--- about &gt;  0.01
-|   |   |   |   |   |   |   |   |--- luckily &lt;= 0.03
-|   |   |   |   |   |   |   |   |   |--- delivers &lt;= 0.03
-|   |   |   |   |   |   |   |   |   |   |--- list &lt;= 0.01
-|   |   |   |   |   |   |   |   |   |   |   |--- truncated branch of depth 4
-|   |   |   |   |   |   |   |   |   |   |--- list &gt;  0.01
-|   |   |   |   |   |   |   |   |   |   |   |--- truncated branch of depth 2
-|   |   |   |   |   |   |   |   |   |--- delivers &gt;  0.03
-|   |   |   |   |   |   |   |   |   |   |--- floor &lt;= 0.03
-|   |   |   |   |   |   |   |   |   |   |   |--- class: pos
-|   |   |   |   |   |   |   |   |   |   |--- floor &gt;  0.03
-|   |   |   |   |   |   |   |   |   |   |   |--- class: neg
-|   |   |   |   |   |   |   |   |--- luckily &gt;  0.03
-|   |   |   |   |   |   |   |   |   |--- class: pos
-|   |   |   |   |   |   |--- stolen &gt;  0.01
-|   |   |   |   |   |   |   |--- during &lt;= 0.03
-|   |   |   |   |   |   |   |   |--- class: pos
-|   |   |   |   |   |   |   |--- during &gt;  0.03
-|   |   |   |   |   |   |   |   |--- class: neg
-|   |   |   |   |   |--- why &gt;  0.02
-|   |   |   |   |   |   |--- occasional &lt;= 0.01
-|   |   |   |   |   |   |   |--- nelson &lt;= 0.17
-|   |   |   |   |   |   |   |   |--- class: neg
-|   |   |   |   |   |   |   |--- nelson &gt;  0.17
-|   |   |   |   |   |   |   |   |--- class: pos
-|   |   |   |   |   |   |--- occasional &gt;  0.01
-|   |   |   |   |   |   |   |--- class: pos
-|   |   |   |   |--- songs &gt;  0.06
-|   |   |   |   |   |--- class: pos
-|   |   |   |--- intelligent &gt;  0.04
-|   |   |   |   |--- class: pos
-|   |   |--- others &gt;  0.02
-|   |   |   |--- look &lt;= 0.02
-|   |   |   |   |--- as &lt;= 0.03
-|   |   |   |   |   |--- class: neg
-|   |   |   |   |--- as &gt;  0.03
-|   |   |   |   |   |--- class: pos
-|   |   |   |--- look &gt;  0.02
-|   |   |   |   |--- who &lt;= 0.04
-|   |   |   |   |   |--- class: neg
-|   |   |   |   |--- who &gt;  0.04
-|   |   |   |   |   |--- class: pos
-|   |--- very &gt;  0.03
-|   |   |--- while &lt;= 0.02
-|   |   |   |--- director &lt;= 0.01
-|   |   |   |   |--- t &lt;= 0.04
-|   |   |   |   |   |--- begin &lt;= 0.02
-|   |   |   |   |   |   |--- class: pos
-|   |   |   |   |   |--- begin &gt;  0.02
-|   |   |   |   |   |   |--- class: neg
-|   |   |   |   |--- t &gt;  0.04
-|   |   |   |   |   |--- hard &lt;= 0.02
-|   |   |   |   |   |   |--- more &lt;= 0.03
+|   |--- others &lt;= 0.02
+|   |   |--- be &lt;= 0.01
+|   |   |   |--- some &lt;= 0.03
+|   |   |   |   |--- point &lt;= 0.02
+|   |   |   |   |   |--- bob &lt;= 0.01
+|   |   |   |   |   |   |--- secondly &lt;= 0.02
 |   |   |   |   |   |   |   |--- class: neg
-|   |   |   |   |   |   |--- more &gt;  0.03
-|   |   |   |   |   |   |   |--- character &lt;= 0.01
-|   |   |   |   |   |   |   |   |--- class: pos
-|   |   |   |   |   |   |   |--- character &gt;  0.01
-|   |   |   |   |   |   |   |   |--- class: neg
-|   |   |   |   |   |--- hard &gt;  0.02
+|   |   |   |   |   |   |--- secondly &gt;  0.02
+|   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |--- bob &gt;  0.01
 |   |   |   |   |   |   |--- class: pos
-|   |   |   |--- director &gt;  0.01
-|   |   |   |   |--- ideal &lt;= 0.02
-|   |   |   |   |   |--- class: neg
-|   |   |   |   |--- ideal &gt;  0.02
+|   |   |   |   |--- point &gt;  0.02
+|   |   |   |   |   |--- relate &lt;= 0.03
+|   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |--- relate &gt;  0.03
+|   |   |   |   |   |   |--- class: neg
+|   |   |   |--- some &gt;  0.03
+|   |   |   |   |--- laughable &lt;= 0.07
 |   |   |   |   |   |--- class: pos
-|   |   |--- while &gt;  0.02
-|   |   |   |--- class: pos
+|   |   |   |   |--- laughable &gt;  0.07
+|   |   |   |   |   |--- class: neg
+|   |   |--- be &gt;  0.01
+|   |   |   |--- tradition &lt;= 0.01
+|   |   |   |   |--- always &lt;= 0.04
+|   |   |   |   |   |--- similar &lt;= 0.03
+|   |   |   |   |   |   |--- will &lt;= 0.06
+|   |   |   |   |   |   |   |--- ones &lt;= 0.03
+|   |   |   |   |   |   |   |   |--- legal &lt;= 0.02
+|   |   |   |   |   |   |   |   |   |--- sweet &lt;= 0.09
+|   |   |   |   |   |   |   |   |   |   |--- pack &lt;= 0.01
+|   |   |   |   |   |   |   |   |   |   |   |--- truncated branch of depth 10
+|   |   |   |   |   |   |   |   |   |   |--- pack &gt;  0.01
+|   |   |   |   |   |   |   |   |   |   |   |--- truncated branch of depth 2
+|   |   |   |   |   |   |   |   |   |--- sweet &gt;  0.09
+|   |   |   |   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |   |   |   |--- legal &gt;  0.02
+|   |   |   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |   |   |--- ones &gt;  0.03
+|   |   |   |   |   |   |   |   |--- if &lt;= 0.02
+|   |   |   |   |   |   |   |   |   |--- situation &lt;= 0.02
+|   |   |   |   |   |   |   |   |   |   |--- class: neg
+|   |   |   |   |   |   |   |   |   |--- situation &gt;  0.02
+|   |   |   |   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |   |   |   |--- if &gt;  0.02
+|   |   |   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |   |--- will &gt;  0.06
+|   |   |   |   |   |   |   |--- like &lt;= 0.01
+|   |   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |   |   |--- like &gt;  0.01
+|   |   |   |   |   |   |   |   |--- walking &lt;= 0.03
+|   |   |   |   |   |   |   |   |   |--- class: neg
+|   |   |   |   |   |   |   |   |--- walking &gt;  0.03
+|   |   |   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |--- similar &gt;  0.03
+|   |   |   |   |   |   |--- will &lt;= 0.02
+|   |   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |   |--- will &gt;  0.02
+|   |   |   |   |   |   |   |--- class: neg
+|   |   |   |   |--- always &gt;  0.04
+|   |   |   |   |   |--- director &lt;= 0.02
+|   |   |   |   |   |   |--- class: pos
+|   |   |   |   |   |--- director &gt;  0.02
+|   |   |   |   |   |   |--- class: neg
+|   |   |   |--- tradition &gt;  0.01
+|   |   |   |   |--- part &lt;= 0.01
+|   |   |   |   |   |--- class: pos
+|   |   |   |   |--- part &gt;  0.01
+|   |   |   |   |   |--- class: neg
+|   |--- others &gt;  0.02
+|   |   |--- plot &lt;= 0.01
+|   |   |   |--- audience &lt;= 0.02
+|   |   |   |   |--- class: pos
+|   |   |   |--- audience &gt;  0.02
+|   |   |   |   |--- somewhat &lt;= 0.03
+|   |   |   |   |   |--- class: neg
+|   |   |   |   |--- somewhat &gt;  0.03
+|   |   |   |   |   |--- class: pos
+|   |   |--- plot &gt;  0.01
+|   |   |   |--- female &lt;= 0.02
+|   |   |   |   |--- class: neg
+|   |   |   |--- female &gt;  0.02
+|   |   |   |   |--- class: pos
 </pre></div>
 </div>
 </div>
@@ -38986,7 +39080,7 @@ nemesis 0.002 +/- 0.000
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/ml-sklearn-classification_75_0.png" src="../_images/ml-sklearn-classification_75_0.png" />
+<img alt="../_images/ml-sklearn-classification_78_0.png" src="../_images/ml-sklearn-classification_78_0.png" />
 </div>
 </div>
 </div>
@@ -39031,8 +39125,8 @@ nemesis 0.002 +/- 0.000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sentiment(polarity=0.09628119895977037, subjectivity=0.5428773246955064)
-0.09628119895977037
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sentiment(polarity=-0.034718331777155303, subjectivity=0.5646184969714383)
+-0.034718331777155303
 </pre></div>
 </div>
 </div>
@@ -39051,7 +39145,7 @@ nemesis 0.002 +/- 0.000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;neg&#39;, &#39;neg&#39;, &#39;pos&#39;, &#39;pos&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;pos&#39;, &#39;neg&#39;, &#39;pos&#39;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;neg&#39;, &#39;pos&#39;, &#39;pos&#39;, &#39;neg&#39;, &#39;pos&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;pos&#39;, &#39;neg&#39;, &#39;pos&#39;]
 </pre></div>
 </div>
 </div>
@@ -39064,7 +39158,7 @@ nemesis 0.002 +/- 0.000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;neg&#39;, &#39;neg&#39;, &#39;pos&#39;, &#39;pos&#39;, &#39;pos&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;pos&#39;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;neg&#39;, &#39;pos&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;pos&#39;, &#39;neg&#39;, &#39;neg&#39;, &#39;pos&#39;, &#39;neg&#39;, &#39;pos&#39;]
 </pre></div>
 </div>
 </div>
@@ -39078,8 +39172,8 @@ nemesis 0.002 +/- 0.000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7477611940298508
-[0.75471698 0.74039939]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.746268656716418
+[0.76223776 0.728     ]
 </pre></div>
 </div>
 </div>
@@ -39091,10 +39185,10 @@ nemesis 0.002 +/- 0.000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x7fbd76319630&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x7fb2c4b8e940&gt;
 </pre></div>
 </div>
-<img alt="../_images/ml-sklearn-classification_87_1.png" src="../_images/ml-sklearn-classification_87_1.png" />
+<img alt="../_images/ml-sklearn-classification_90_1.png" src="../_images/ml-sklearn-classification_90_1.png" />
 </div>
 </div>
 </div>
@@ -39143,8 +39237,8 @@ nemesis 0.002 +/- 0.000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.6544776119402985
-[0.5942156 0.6991553]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.6440298507462686
+[0.60016764 0.67921991]
 </pre></div>
 </div>
 </div>
@@ -39156,10 +39250,10 @@ nemesis 0.002 +/- 0.000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x7fbd8108b9e8&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x7fb2c4b0ec18&gt;
 </pre></div>
 </div>
-<img alt="../_images/ml-sklearn-classification_94_1.png" src="../_images/ml-sklearn-classification_94_1.png" />
+<img alt="../_images/ml-sklearn-classification_97_1.png" src="../_images/ml-sklearn-classification_97_1.png" />
 </div>
 </div>
 <ul class="simple">
@@ -39198,7 +39292,7 @@ nemesis 0.002 +/- 0.000
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>textblob==0.15.3
 scikit-learn==0.22.1
 pandas==1.1.2
-numpy==1.18.1
+numpy==1.19.5
 nltk==3.5
 matplotlib==3.3.2
 lime==0.2.0.1

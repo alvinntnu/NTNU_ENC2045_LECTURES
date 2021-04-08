@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mycss.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
@@ -196,11 +197,6 @@
    2. Topic Modeling: A Naive Example
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="ml-nlp-case.html">
-   3. Machine Learning: NLP Tasks
-  </a>
- </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
@@ -213,6 +209,23 @@
    Neural Network From Scratch
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-simple-case.html">
+   Deep Learning: A Simple Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-sentiment-case.html">
+   Deep Learning: Sentiment Analysis
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Embeddings and Language Model
+ </span>
+</p>
+<ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../temp/text-vec-embedding.html">
    Word Embeddings
@@ -233,10 +246,15 @@
    Sequence Models Intuition
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-neural-language-model-primer.html">
+   Neural Language Model: A Start
+  </a>
+ </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
-  Attention, Transformers, and Transfer Learning
+  Seq2Seq, Attention, Transformers, and Transfer Learning
  </span>
 </p>
 <ul class="nav sidenav_l1">
@@ -246,8 +264,18 @@
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-seq-to-seq-attention-addition.html">
+   Seqeunce Model with Attention for Addition Learning
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="../temp/dl-transformers-intuition.html">
    Transformers: Intuition
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-transformers-keras.html">
+   Text Classification with Transformer
   </a>
  </li>
 </ul>
@@ -286,15 +314,43 @@
   <i class="fas fa-chevron-down">
   </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../exercise/4-chinese-nlp.html">
    4. Assignment IV: Chinese Language Processing
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../exercise-student/Assignment-4-1.html">
+     Student Sample 1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../exercise-student/Assignment-4-2.html">
+     Student Sample 2
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../exercise/5-text-vectorization.html">
    5. Assignment V: Text Vectorization
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../exercise-student/Assignment-5-1.html">
+     Student Sample 1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../exercise-student/Assignment-5-2.html">
+     Student Sample 2
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
 </ul>
 
@@ -590,8 +646,8 @@ C_{MAP} = \underset{c \in C}{\arg\max} P(x_1,x_2,...,x_n|c) \times P(c) \\
 <h2><span class="section-number">3.2. </span>Logistic Regression<a class="headerlink" href="#logistic-regression" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><strong>Logistic Regression</strong> is also a form of probabilistic statistical classification model.</p></li>
-<li><p>The model is trained by maximizing directly the probability of the <strong>class</strong> given the observed <strong>data</strong>, i.e., <span class="math notranslate nohighlight">\(P(c|d)\)</span>.</p></li>
-<li><p>Logistic Regression is similar to Linear Regression, whose predicted values are both numeric.</p></li>
+<li><p>The model is trained by maximizing directly the probability of the <strong>class</strong> (c) given the observed <strong>data</strong> (d), i.e., <span class="math notranslate nohighlight">\(P(c|d)\)</span>.</p></li>
+<li><p>Logistic Regression is similar to Linear Regression, whose predicted values are both numeric (cf. <a class="reference external" href="https://en.wikipedia.org/wiki/Generalized_linear_model">Generalized Linear Models</a>).</p></li>
 </ul>
 <ul class="simple">
 <li><p>A document needs to be vectorized through feature engineering into a numeric representation, i.e., a set of <strong><span class="math notranslate nohighlight">\(n\)</span></strong> features characterizing the semantics of the document, <span class="math notranslate nohighlight">\(\{x_1, x_2, ..., x_n\}\)</span></p></li>
@@ -606,10 +662,13 @@ y = \beta_0 + \beta_1x_1 + \beta_2 x_2 + ... + \beta_ix_i
 <li><p>Each feature <span class="math notranslate nohighlight">\(x_i\)</span> of the document is a function that chracterizes the relevant linguistic properties of the document. These features can be all manually annotated or created automatically.</p></li>
 <li><p>These features are often in simple forms that are of binary values or numeric values within a range:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split} 
-    x_1 = f_1(x_1) = [Contains(&quot;好看&quot;) ] = \{0, 1\} \\
-    x_2 = f_2(x_2) = [Contains(&quot;絕配&quot;) ] = \{0, 1\} \\
-    ...
+\[\begin{split}
+    \begin{align*}
+    x_1 &amp;= f_1(x_1) = [Contains(&quot;好看&quot;) ] = \{0, 1\} \\
+    x_2 &amp;= f_2(x_2) = [Contains(&quot;絕配&quot;) ] = \{0, 1\} \\
+    x_3 &amp;= f_3(x_3) = [FreqOf(&quot;覺得&quot;)] = \{\textit{Any Positive Number}\}\\
+    &amp;...\\
+    \end{align*}
     \end{split}\]</div>
 </li>
 </ul>
@@ -651,21 +710,21 @@ P(c|d) &amp;= P(c|x_1,x_2,...,x_i)\\
 <li><p>In training:</p>
 <ul>
 <li><p>Given a document in a training set, <span class="math notranslate nohighlight">\(d\)</span>, the initial Logistic Regression model will output the predicted conditional probability of <span class="math notranslate nohighlight">\(d\)</span> being the class, <span class="math notranslate nohighlight">\(c\)</span>, i.e., <span class="math notranslate nohighlight">\(P(c|d)\)</span>.</p></li>
-<li><p>This is commonly referred to as the <strong>likelihood</strong>.</p></li>
-<li><p>And the optimal Logistic Regression is the one that maximizes the likelihoods of the entire training set.</p></li>
-<li><p>This maximum likelihood approach is similar to the least squares method in linear regression.</p></li>
+<li><p>This is the <strong>likelihood</strong> of the document.</p></li>
+<li><p>And the optimal Logistic Regression is the one that <strong>maximizes the likelihoods</strong> of the documents in the entire training set.</p></li>
+<li><p>This <strong>maximum likelihood</strong> approach is similar to the least squares method in linear regression.</p></li>
 </ul>
 </li>
 </ul>
 <ul>
 <li><p>Interpreting the parameters (coefficients <span class="math notranslate nohighlight">\(\beta_i\)</span>)</p>
 <ul class="simple">
-<li><p>The coefficient refers to the change of the log odds of being the relevant class when there is one unit increase in the corresponding <span class="math notranslate nohighlight">\(x_i\)</span> feature. The log odds change will be <span class="math notranslate nohighlight">\(e^{\beta_i}\)</span>.</p></li>
-<li><p>Log odds is defined as:</p></li>
+<li><p>The coefficient refers to the change of the odds of having the target class label in relation to a specific predictor.</p></li>
+<li><p>Odds are defined as:</p></li>
 </ul>
 <div class="math notranslate nohighlight">
 \[
-    log\left({\frac{P_{relevant-class}}{1 - P_{relevant-class}}}\right)
+    odds =\frac{\textit{The probability that the event will occur}}{\textit{The probability that the event will NOT occur}} = \frac{P_{\textit{relevant class}}}{1 - P_{\textit{relevant class}}}
     \]</div>
 </li>
 </ul>
@@ -678,6 +737,7 @@ P(c|d) &amp;= P(c|x_1,x_2,...,x_i)\\
 <li><p><span class="math notranslate nohighlight">\(y: \{mc-sc, sc-mc\}\)</span></p></li>
 </ul>
 </li>
+<li><p>Unit = sentences; Label = main-subordinate clauses orders.</p></li>
 <li><p>We run a logistic regression, using SUBORDTYPE as the predictor and ORDER as the response variable.</p></li>
 </ul>
 </li>
@@ -854,6 +914,9 @@ P(c|d) &amp;= P(c|x_1,x_2,...,x_i)\\
 <p>403 rows × 8 columns</p>
 </div></div></div>
 </div>
+<ul class="simple">
+<li><p>To explain the model in a more comprehensive way, I like to switch back to R for the statistical outputs. I think they are more intuitive.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">R</span> -i csv
@@ -885,7 +948,7 @@ print(table(csv$SUBORDTYPE, csv$ORDER))
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">R</span>
 lg = glm(factor(csv$ORDER)~factor(csv$SUBORDTYPE), family=&quot;binomial&quot;)
-summary(lg)
+summary(lg) 
 </pre></div>
 </div>
 </div>
@@ -922,6 +985,11 @@ Number of Fisher Scoring iterations: 5
 \[
 y = \beta_0 + \beta_1x_1 = -2.50 + 2.72x_1
 \]</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>To interpret the coefficients we need to know the order of the two class labels in the outcome variable. The most straightforward way to do this is to create a table of the outcome variable.</p>
+<p>As shown above, the second level of <code class="docutils literal notranslate"><span class="pre">ORDER</span></code> is <code class="docutils literal notranslate"><span class="pre">sc-mc</span></code>, this tells us that the coefficients in the Logistic Regression are predicting whether or not the clause order is <code class="docutils literal notranslate"><span class="pre">sc-mc</span></code>.</p>
+</div>
 <ul>
 <li><p>Now we can estimate the following probabilities:</p>
 <ul class="simple">
@@ -936,27 +1004,35 @@ y = \beta_0 + \beta_1x_1 = -2.50 + 2.72x_1
     &amp;= 0.0758
     \end{align*}
     \end{split}\]</div>
-<ul class="simple">
-<li><p>Probability of <code class="docutils literal notranslate"><span class="pre">sc-mc</span></code> when subordinate is <code class="docutils literal notranslate"><span class="pre">temp</span></code>:</p></li>
-</ul>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-    \begin{align*}\\
-    P(type=scmc|x_1=temp) &amp;= \frac{1}{1+e^{-y}}\\
-    &amp;=\frac{1}{1+e^{-({-2.50 + 2.72 \times x_1})}} \\
-    &amp;=\frac{1}{1+e^{-({-2.50 + 2.72 \times 1})}}\\
-    &amp;= 0.5547
-    \end{align*}
-    \end{split}\]</div>
 </li>
 </ul>
 <ul class="simple">
-<li><p>Now we can also compute the odds.</p></li>
-<li><p>Odds is just a ratio of two probability values.</p></li>
+<li><p>Probability of <code class="docutils literal notranslate"><span class="pre">sc-mc</span></code> when subordinate is <code class="docutils literal notranslate"><span class="pre">temp</span></code>:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$$
+\begin{align*}\\
+P(type=scmc|x_1=temp) &amp;= \frac{1}{1+e^{-y}}\\
+&amp;=\frac{1}{1+e^{-({-2.50 + 2.72 \times x_1})}} \\
+&amp;=\frac{1}{1+e^{-({-2.50 + 2.72 \times 1})}}\\
+&amp;= 0.5547
+\end{align*}
+$$
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Now we can also compute the <strong>odds</strong> of the predicted probability.</p></li>
+<li><p>The odds of an event is the ratio of:</p></li>
 </ul>
 <div class="math notranslate nohighlight">
 \[
-Odds = \frac{1-P(c)}{P(c)} = \frac{1-P(type=scmc)}{P(type=scmc)} 
+\frac{\textit{The probability that the event will occur}}{\textit{The probability that the event will NOT occur}}
+\]</div>
+<ul class="simple">
+<li><p>Simply put, odds are just a ratio of two complementary probability values.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+Odds = \frac{P(c)}{1-P(c)} = \frac{P(type=scmc)}{1-P(type=scmc)}
 \]</div>
 <ul>
 <li><p>Now we can compute the two odds:</p>
@@ -965,25 +1041,38 @@ Odds = \frac{1-P(c)}{P(c)} = \frac{1-P(type=scmc)}{P(type=scmc)}
 </ul>
 <div class="math notranslate nohighlight">
 \[
-    odds_1 = \frac{1-0.07}{0.07} = 12.18
+    odds_1 = \frac{0.07}{1-0.07} = 0.08
     \]</div>
 <ul class="simple">
 <li><p>The odds of the probabilities when the subordinate is <code class="docutils literal notranslate"><span class="pre">temp</span></code>:</p></li>
 </ul>
 <div class="math notranslate nohighlight">
 \[
-    odds_2 = \frac{1-0.55}{0.55} = 0.8025
+    odds_2 = \frac{0.55}{1-0.55} = 1.25
     \]</div>
 </li>
+</ul>
+<ul>
 <li><p>Finally, we can compute the <strong>log odds ratios</strong> (the log of the ratios between two odds):</p>
 <div class="math notranslate nohighlight">
 \[
-    log\;odds\;ratios = \frac{odds_1}{odds_2} = \frac{12.18}{0.8025} = 2.72
+    \textit{Odds Ratio} = \frac{odds_2}{odds_1} = \frac{1.25}{0.08} = 15.18
+    \]</div>
+<div class="math notranslate nohighlight">
+\[
+    \textit{Log Odds Ratio} = log\left(\frac{odds_2}{odds_1}\right) = log\left(\frac{1.25}{0.08}\right) = 2.72
     \]</div>
 </li>
-<li><p>That is the meaning of the coefficient <span class="math notranslate nohighlight">\(\beta_1, 2.7234\)</span>:</p>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+y = \beta_0 + \beta_1x_1 = -2.50 + 2.72x_1
+\]</div>
 <ul class="simple">
-<li><p>The odds ratio increases <span class="math notranslate nohighlight">\(e^{2.7234}= 15.23\)</span> times when the subordinate clause is <code class="docutils literal notranslate"><span class="pre">temp</span></code> as compared to when the subordnate is <code class="docutils literal notranslate"><span class="pre">caus</span></code>.</p></li>
+<li><p>That is the meaning of the coefficient <span class="math notranslate nohighlight">\(\beta_1, 2.72\)</span>:</p>
+<ul>
+<li><p>The <strong>odds</strong> (of having <code class="docutils literal notranslate"><span class="pre">sc-mc</span></code> order) when the subordinate clause is <code class="docutils literal notranslate"><span class="pre">temp</span></code> are <span class="math notranslate nohighlight">\(e^{2.7234}= 15.23\)</span> times more than the <strong>odds</strong> when the subordinate clause is <code class="docutils literal notranslate"><span class="pre">caus</span></code>.</p></li>
+<li><p>Or the <strong>log odds ratio</strong> increase 2.72 times when the subordinate clause is <code class="docutils literal notranslate"><span class="pre">temp</span></code> as compared to when the subordinate is <code class="docutils literal notranslate"><span class="pre">caus</span></code>.</p></li>
 </ul>
 </li>
 </ul>
@@ -992,26 +1081,31 @@ Odds = \frac{1-P(c)}{P(c)} = \frac{1-P(type=scmc)}{P(type=scmc)}
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">R</span>
 y1= 1/(1+exp(-(-2.50 + 2.72*0))) # prob of sc-mc when SUBORDTYPE = 0 (caus)
 y2= 1/(1+exp(-(-2.50 + 2.72*1))) # prob of sc-mc when SUBORDTYPE = 1 (temp)
-odds1 = (1-y1)/y1 # odds when SUBORDTYPE = 0
-odds2 = (1-y2)/y2 # odds when SUBORDTYPE = 1
+odds1 = y1/(1-y1) # odds when SUBORDTYPE = 0
+odds2 = y2/(1-y2) # odds when SUBORDTYPE = 1
 
 cat(&quot;Prob(type=sc-mc|subordtype=cause):&quot;, y1, &quot;\n&quot;)
-cat(&quot;The odds of Prob(type=mc-sc|subordtype=cause) vs. Prob(type=sc-mc|subordtype=cause):&quot;, odds1,&quot;\n&quot;)
+cat(&quot;The odds of Prob(type=mc-sc|subordtype=cause) vs. Prob(type=sc-mc|subordtype=cause):&quot;, odds1,&quot;\n\n&quot;)
+
 cat(&quot;Prob(type=sc-mc|subordtype=temp):&quot;, y2, &quot;\n&quot;)
-cat(&quot;The odds of Prob(type=mc-sc|subordtype=temp) vs. Prob(type=sc-mc|subordtype=temp):&quot;, odds2, &quot;\n&quot;)
+cat(&quot;The odds of Prob(type=mc-sc|subordtype=temp) vs. Prob(type=sc-mc|subordtype=temp):&quot;, odds2, &quot;\n\n&quot;)
 
-
-log_odds = log(odds1/odds2)
-cat(&quot;Log Odds when subordtype=temp:&quot;, log_odds)
+odds_ratio = odds2/odds1
+log_odds_ratio = log(odds_ratio)
+cat(&quot;Odds Ratioos of subordtype=temp vs. subordtype=cause:&quot;, odds_ratio, &quot;\n&quot;)
+cat(&quot;Log Odds Ratios of subordtype=temp vs. subordtype=cause:&quot;, log_odds_ratio)
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Prob(type=sc-mc|subordtype=cause): 0.07585818 
-The odds of Prob(type=mc-sc|subordtype=cause) vs. Prob(type=sc-mc|subordtype=cause): 12.18249 
+The odds of Prob(type=mc-sc|subordtype=cause) vs. Prob(type=sc-mc|subordtype=cause): 0.082085 
+
 Prob(type=sc-mc|subordtype=temp): 0.5547792 
-The odds of Prob(type=mc-sc|subordtype=temp) vs. Prob(type=sc-mc|subordtype=temp): 0.8025188 
-Log Odds when subordtype=temp: 2.72[1] 15.225
+The odds of Prob(type=mc-sc|subordtype=temp) vs. Prob(type=sc-mc|subordtype=temp): 1.246077 
+
+Odds Ratioos of subordtype=temp vs. subordtype=cause: 15.18032 
+Log Odds Ratios of subordtype=temp vs. subordtype=cause: 2.72
 </pre></div>
 </div>
 </div>
@@ -1028,7 +1122,10 @@ Log Odds when subordtype=temp: 2.72[1] 15.225
 </ul>
 </li>
 </ul>
-<p><img alt="" src="../_images/svm.001.png" /></p>
+<ul class="simple">
+<li><p>These threshold cases are the vectors that support the maximum margin classifier, henceforth, known as the “support vectors”.
+<img alt="" src="../_images/svm.002.png" /></p></li>
+</ul>
 <ul class="simple">
 <li><p>Issues with Maximum Margin Classifier:</p>
 <ul>
@@ -1037,7 +1134,7 @@ Log Odds when subordtype=temp: 2.72[1] 15.225
 </ul>
 </li>
 </ul>
-<p><img alt="" src="../_images/svm.002.png" /></p>
+<p><img alt="" src="../_images/svm.003.png" /></p>
 <ul class="simple">
 <li><p>If we choose a hyperplane which allows misclassifications, we may be able to find a better classifier.</p>
 <ul>
@@ -1047,16 +1144,16 @@ Log Odds when subordtype=temp: 2.72[1] 15.225
 </ul>
 </li>
 </ul>
-<p><img alt="" src="../_images/svm.003.png" /></p>
+<p><img alt="" src="../_images/svm.004.png" /></p>
 <ul class="simple">
 <li><p>Support Vector Classifiers can deal with observations with outliers and the assumption is that the observations are linearly separable.</p></li>
 <li><p>What if the observations are not linearly separable in the first place? This is where <strong>Support Vector Machine</strong> comes in!
-<img alt="" src="../_images/svm.004.png" /></p></li>
+<img alt="" src="../_images/svm.005.png" /></p></li>
 </ul>
 <ul class="simple">
 <li><p>Intuition of Support Vector Machine:</p>
 <ul>
-<li><p>Start with data in a relatively low dimension</p></li>
+<li><p>Start with data in a relatively low dimension and seek linear solutions</p></li>
 <li><p>Move the data into a higher dimension (when no obvious linear classifier found)</p></li>
 <li><p>Find a <strong>Support Vector Classifier</strong> that separates the higher dimensional data into two groups</p></li>
 </ul>
@@ -1064,7 +1161,8 @@ Log Odds when subordtype=temp: 2.72[1] 15.225
 </ul>
 <p><img alt="" src="../_images/svm-kernel.gif" /></p>
 <ul class="simple">
-<li><p>The mathematical tricks of moving data into a higher dimension are the <strong>kernel functions</strong>. This process is called the <strong>Kernel Tricks</strong>. SVM uses these kernel functions to find support vector classifiers in higher dimensions.</p>
+<li><p>The mathematical tricks of moving data into a higher dimension are the <strong>kernel functions</strong>. This process is called the <strong>Kernel Tricks</strong>.</p></li>
+<li><p>SVM often uses two kernel functions to find support vector classifiers in higher dimensions.</p>
 <ul>
 <li><p>Polynomial Kernel</p></li>
 <li><p>Radial Basis Function Kernel (RBF)</p></li>
@@ -1073,9 +1171,23 @@ Log Odds when subordtype=temp: 2.72[1] 15.225
 </ul>
 <ul class="simple">
 <li><p>SVM has a <strong>cost function (C)</strong>, which controls the compromise of the <strong>misclassifications</strong> and <strong>margin</strong> sizes.</p></li>
+<li><p>C is the model penalty for the data points that fall on the wrong side of the hyperplane.</p>
+<ul>
 <li><p>A smaller C creates a softer (larger) margin, allowing more misclassifications.</p></li>
 <li><p>A larger C creates a narrower margin, allowing fewer misclassifications.</p></li>
-<li><p>A model of larger C often has higher generalizability.</p></li>
+</ul>
+</li>
+<li><p>The greater the cost parameter, the harder the optimization will try to achieve 100 percent separation.</p></li>
+</ul>
+<ul class="simple">
+<li><p>Heuristics for SVM</p>
+<ul>
+<li><p>There is no reliable rule for matching a kernel to a particular learning task.</p></li>
+<li><p>The fit depends heavily on the concept to be learned as well as the amount of training data and the relationships among the features.</p></li>
+<li><p>Trial and error is required by training and evaluating several SVMs on a validation dataset (i.e., <em><strong>k</strong></em>-fold cross validation)</p></li>
+<li><p>The choice of kernel is often arbitrary because the performances with different kernels may vary only slightly.</p></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="section" id="other-discriminative-models">
@@ -1151,8 +1263,8 @@ p(c|d,\lambda) = \frac{e^{\sum_{i}\lambda_if_i(c,x_i)}}{\sum_{c'}{e^{\sum_{i}\la
 <h2><span class="section-number">3.7. </span>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Feature engineering is a lot more important than algorithm selection.</p></li>
-<li><p>With good feature representations of the data, usually it does not really mather which machine learning algorithm we choose.</p></li>
-<li><p>Generally, discriminative models out-perform generative models.</p></li>
+<li><p>With good feature representations of the data, usually it doesn’t really matter which machine learning algorithm we choose.</p></li>
+<li><p>Generally, <strong>discriminative</strong> models out-perform <strong>generative</strong> models.</p></li>
 <li><p>Maybe one day the optimal algorithm can be determined <em>automatically</em> via machine learning as well!!</p></li>
 <li><p>Please see <a class="reference external" href="https://www.marktechpost.com/2021/02/28/google-ai-introduces-model-search-an-open-source-platform-for-finding-optimal-machine-learning-ml-models/?fbclid=IwAR3FkqJzXGIqG-X25BXslDZ077F9s4onOaQzlosc9u7qeto9LNd7prt_PNE">Google’s AutoML effort: Google AI Introduces Model Search, An Open Source Platform for Finding Optimal Machine Learning Models</a>.</p></li>
 </ul>
