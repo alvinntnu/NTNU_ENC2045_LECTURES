@@ -280,8 +280,9 @@ explanation.show_in_notebook(text=True)
 ### Model Coefficients and Feature Importance
 
 - Another way to evaluate the importance of the features is to look at their corresponding coefficients.
-- Positive weights imply positive contribution of the feature to the prediction; negative weights imply negative contribution of the feature to the prediction.
-- The absolute values of the weights indicate the effect sizes of the features.
+    - Positive weights imply positive contribution of the feature to the prediction; negative weights imply negative contribution of the feature to the prediction.
+    - The absolute values of the weights indicate the effect sizes of the features.
+- Not all ML models provide "coefficients".
 
 ## Extract the coefficients of the model from the pipeline
 importances = pipeline.named_steps['clf'].coef_.toarray().flatten()
@@ -327,7 +328,7 @@ feature_importance_df %>%
     - The drop in the model score is indicative of how much the model depends on the feature.
     - The increase in the model score is indicative of how redundant the feature is.
 
-- Permutation importance reports the importance of the feature as the difference between target model accuracy - shuffled model accuracy.
+- Permutation importance reports the importance of the feature as the difference between **target model accuracy** - **shuffled model accuracy**.
     - Positive permutation importance score, Higher importance.
     - Negative permutation importance score, Lower importance.
 - See `sklearn` documentation: [4.2 Permutation feature importance](https://scikit-learn.org/stable/modules/permutation_importance.html#permutation-importance)
