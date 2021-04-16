@@ -8,6 +8,10 @@
 - Meanwhile, the mathematical framework will also determine the distribution of these **topics** for each document.
 
 
+- In short, an intuitive understanding of Topic Modeling:
+    - Each **document** consists of several **topics** (a distribution of different topics).
+    - Each topic is connected to particular groups of **words** (a distribution of different words).
+
 ## Flowchart for Topic Modeling
 
 ![](../images/topic-modeling-pipeline.jpeg)
@@ -102,8 +106,8 @@ norm_corpus
 - Recap of the characteristics of BOW model
     - It is a naive way to vectorize texts into numeric representations using their word frequency lists
     - The sequential order of words in the text is naively ignored.
-    - We can filter the document-by-word matrix in many different ways (Please see the lecture notes on [Link to other notebooks](../nlp/text-vec-traditional.ipynb)
-- Please use the count-based vectorizer for topic modeling because most of the topic modeling algorithms will take care of the weightings automatically during the mathematical computing.
+    - We can filter the document-by-word matrix in many different ways (Please see the lecture notes on [Lecture Notes: Text Vectorization](../nlp/text-vec-traditional.ipynb)
+- Please use the **count-based** vectorizer for topic modeling because most of the topic modeling algorithms will take care of the weightings automatically during the mathematical computing.
 
 from sklearn.feature_extraction.text import CountVectorizer
 # get bag of words features in sparse format
@@ -213,8 +217,8 @@ def get_topics_meanings(tw_m, vocab, display_weights=False, topn = 5, weight_cut
             print('='*20)
 
 - To use the above function:
-    - If we are to display the weights of words, then we need to specify the `weight_cutoff`.
-    - If we are to display only the top N words, then we need to specify the `topn`.
+  - If we are to display the weights of words, then we need to specify the `weight_cutoff`.
+  - If we are to display only the top N words, then we need to specify the `topn`.
 
 get_topics_meanings(topic_word_matrix, vocab, display_weights=True, weight_cutoff=0.6)
 
@@ -268,7 +272,7 @@ pyLDAvis.sklearn.prepare(lda, cv_matrix, cv, mds='mmds')
 
 ## Hyperparameter Tuning
 
-- One thing we haven't made explicit is that the number of topics so far has been pre-determined. 
+- One thing we haven't made explicit is that the **number of topics** so far has been pre-determined. 
 - How to find the optimal number of topics can be challenging in topic modeling.
 - We can take this as a hyperparameter of the model and use **Grid Search** to find the most optimal number of topics.
 - Similarly, we can fine tune the other hyperparameters of LDA as well (e.g., `learning_decay`).

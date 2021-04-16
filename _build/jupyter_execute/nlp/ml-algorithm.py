@@ -282,7 +282,7 @@ $$
 
 - That is the meaning of the coefficient $\beta_1, 2.72$:
   - The **odds** (of having `sc-mc` order) when the subordinate clause is `temp` are $e^{2.7234}= 15.23$ times more than the **odds** when the subordinate clause is `caus`.
-  - Or the **log odds ratio** increase 2.72 times when the subordinate clause is `temp` as compared to when the subordinate is `caus`.
+  - Or the **log odds ratio** increases 2.72 times when the subordinate clause is `temp` as compared to when the subordinate is `caus`.
 
 %%R
 y1= 1/(1+exp(-(-2.50 + 2.72*0))) # prob of sc-mc when SUBORDTYPE = 0 (caus)

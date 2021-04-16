@@ -366,4 +366,5 @@ exercise/3-preprocessing
 exercise/4-chinese-nlp
 exercise/5-text-vectorization
 exercise/6-machine-learning
+exercise/midterm-exam
 ```

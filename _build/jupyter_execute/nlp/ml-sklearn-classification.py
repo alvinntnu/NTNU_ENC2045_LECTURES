@@ -33,6 +33,7 @@ print(movie_reviews.fileids()[:10])
 documents = [(list(movie_reviews.words(fileid)), category)
              for category in movie_reviews.categories()
              for fileid in movie_reviews.fileids(category)]
+random.seed(123)
 random.shuffle(documents)
 
 - Important descriptive statistics:
@@ -175,7 +176,9 @@ print(model_lg.score(X_test_bow, y_test))
 # F1
 from sklearn.metrics import f1_score
 
-f1_score(y_test, model_svm.predict(X_test_bow), 
+y_pred = model_svm.predict(X_test_bown)
+
+f1_score(y_test, y_pred, 
          average=None, 
          labels = movie_reviews.categories())
 
@@ -204,7 +207,7 @@ from sklearn.model_selection import GridSearchCV
 parameters = {'kernel': ('linear', 'rbf'), 'C': (1,4,8,16,32)}
 
 svc = svm.SVC()
-clf = GridSearchCV(svc, parameters, cv=5, n_jobs=-1) ## `-1` run in parallel
+clf = GridSearchCV(svc, parameters, cv=10, n_jobs=-1) ## `-1` run in parallel
 clf.fit(X_train_bow, y_train)
 
 - We can check the parameters that yield the most optimal results in the Grid Search:
