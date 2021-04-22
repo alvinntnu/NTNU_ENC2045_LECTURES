@@ -203,17 +203,17 @@
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="dl-neural-network-from-scratch.html">
+  <a class="reference internal" href="../nlp/dl-neural-network-from-scratch.html">
    Neural Network From Scratch
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="dl-simple-case.html">
+  <a class="reference internal" href="../nlp/dl-simple-case.html">
    Deep Learning: A Simple Example
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="dl-sentiment-case.html">
+  <a class="reference internal" href="../nlp/dl-sentiment-case.html">
    Deep Learning: Sentiment Analysis
   </a>
  </li>
@@ -358,6 +358,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../exercise/midterm-exam.html">
    Midterm Exam
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/7-topic-modeling.html">
+   Assignment VII: Topic Modeling
   </a>
  </li>
 </ul>
@@ -512,6 +517,18 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#custom-model-with-bert">
+   Custom Model with BERT
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#define-model-structure">
+     Define Model Structure
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#references">
    References
   </a>
@@ -567,25 +584,6 @@
 <span class="kn">import</span> <span class="nn">unicodedata</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">nltk</span>
-<span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">stopwords</span>
-
-<span class="c1"># import tensorflow_hub as hub</span>
-
-<span class="c1"># from sklearn.model_selection import train_test_split</span>
-
-<span class="c1"># from tqdm import tqdm</span>
-<span class="c1"># import pickle</span>
-<span class="c1"># from keras.models import Model</span>
-<span class="c1"># import keras.backend as K</span>
-<span class="c1"># from sklearn.metrics import confusion_matrix,f1_score,classification_report</span>
-<span class="c1"># import matplotlib.pyplot as plt</span>
-<span class="c1"># from keras.callbacks import ModelCheckpoint</span>
-<span class="c1"># import itertools</span>
-<span class="c1"># from keras.models import load_model</span>
-<span class="c1"># from sklearn.utils import shuffle</span>
-<span class="c1"># from transformers import *</span>
-<span class="c1"># from transformers import BertTokenizer, TFBertModel, BertConfig</span>
 </pre></div>
 </div>
 </div>
@@ -790,54 +788,54 @@
   </thead>
   <tbody>
     <tr>
-      <th>2425</th>
-      <td>Review_2426</td>
-      <td>葉問4：完結篇</td>
-      <td>IP MAN 4</td>
-      <td>動作_劇情</td>
+      <th>1694</th>
+      <td>Review_1695</td>
+      <td>萬萬沒想到</td>
+      <td>Chhichhore</td>
+      <td>劇情_喜劇</td>
       <td>positive</td>
-      <td>後面直接他媽看哭\r\n能用功夫片把我看哭的，大概也只有葉師傅了！</td>
-      <td>後面 直接 他 媽 看 哭 \r \n 能 用 功夫 片 把 我 看 哭 的 ， 大概 也 ...</td>
+      <td>看完這部以後,我人生中最好看的劇又增加了一部,上一部是三個傻瓜,誠心推薦</td>
+      <td>看完 這部 以後 , 我 人生 中 最 好看 的 劇 又 增加 了 一部 , 上一部 是 三...</td>
     </tr>
     <tr>
-      <th>2312</th>
-      <td>Review_2313</td>
-      <td>返校</td>
-      <td>Detention</td>
-      <td>懸疑/驚悚</td>
-      <td>positive</td>
-      <td>看到韓粉洗負評，就知道這一定是好片</td>
-      <td>看到 韓粉 洗 負評 ， 就 知道 這 一定是 好片</td>
-    </tr>
-    <tr>
-      <th>405</th>
-      <td>Review_406</td>
-      <td>古曼童</td>
-      <td>Kumanthong</td>
-      <td>恐怖_懸疑/驚悚</td>
-      <td>negative</td>
-      <td>這是在描述神棍的片子\r\n整場滿頭問號\r\n想學泰國邪降但只有20%\r\n真的不用特地...</td>
-      <td>這是 在 描述 神棍 的 片子 \r \n 整場 滿頭 問號 \r \n 想學 泰國 邪降 ...</td>
-    </tr>
-    <tr>
-      <th>2748</th>
-      <td>Review_2749</td>
-      <td>返校</td>
-      <td>Detention</td>
-      <td>懸疑/驚悚</td>
-      <td>positive</td>
-      <td>挖操，電影還沒上映，一堆時空旅人來給一星影評\r\n\r\n笑死\r\n\r\n五毛網軍們是...</td>
-      <td>挖操 ， 電影 還沒 上映 ， 一堆 時 空 旅人 來給 一星 影評 \r \n \r \n...</td>
-    </tr>
-    <tr>
-      <th>1645</th>
-      <td>Review_1646</td>
-      <td>花椒之味</td>
-      <td>Fagaro</td>
+      <th>2819</th>
+      <td>Review_2820</td>
+      <td>證人</td>
+      <td>Innocent Witness</td>
       <td>劇情</td>
       <td>positive</td>
-      <td>好看啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</td>
-      <td>好看 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊</td>
+      <td>之於驚奇隊長，我會選擇證人，劇情太多層了</td>
+      <td>之於 驚奇隊長 ， 我 會 選擇 證人 ， 劇情 太多 層 了</td>
+    </tr>
+    <tr>
+      <th>2833</th>
+      <td>Review_2834</td>
+      <td>返校</td>
+      <td>Detention</td>
+      <td>懸疑/驚悚</td>
+      <td>positive</td>
+      <td>好看 一堆中國人和韓粉別來亂刷負評阿 事實也是抹滅不了阿</td>
+      <td>好看 一堆 中國 人 和 韓粉 別來 亂 刷 負評 阿 事實 也是 抹滅 不了 阿</td>
+    </tr>
+    <tr>
+      <th>2904</th>
+      <td>Review_2905</td>
+      <td>你的情歌</td>
+      <td>Your love song</td>
+      <td>劇情</td>
+      <td>positive</td>
+      <td>演員演技實力都很好，劇情架構也很棒！</td>
+      <td>演員 演技 實力 都 很 好 ， 劇情 架構 也 很棒 ！</td>
+    </tr>
+    <tr>
+      <th>2304</th>
+      <td>Review_2305</td>
+      <td>肥龍過江</td>
+      <td>Enter The Fat Dragon</td>
+      <td>動作_喜劇</td>
+      <td>positive</td>
+      <td>超想看 《肥龍過江》，因為這部電影感覺好看、好笑、很有意思，非看不可！🙋</td>
+      <td>超 想 看 《 肥 龍 過 江 》 ， 因為 這部 電影 感覺 好看 、 好笑 、 很 有 ...</td>
     </tr>
   </tbody>
 </table>
@@ -848,7 +846,12 @@
 <h2>BERT Tokenizer<a class="headerlink" href="#bert-tokenizer" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>You can find more pre-trained models supported by HuggingFace <a class="reference external" href="https://huggingface.co/models?filter=zh">here</a>.</p></li>
-<li><p>CKIP has also released their BERT models. Please see <a class="reference external" href="https://huggingface.co/ckiplab">here</a>. - It seems that CKIP only releases the <code class="docutils literal notranslate"><span class="pre">pytorch</span></code> version of the pre-trained models. They are not using Tensorflow unfortunately. But the general Chinese models come with both versions <code class="docutils literal notranslate"><span class="pre">bert-base-chinese</span></code>. So we will use this general one.</p></li>
+<li><p>CKIP has also released their BERT models. Please see <a class="reference external" href="https://huggingface.co/ckiplab">here</a>.</p>
+<ul>
+<li><p>It seems that CKIP only releases the <code class="docutils literal notranslate"><span class="pre">pytorch</span></code> version of the pre-trained models. They are not using Tensorflow unfortunately.</p></li>
+<li><p>But the general Chinese models come with both versions <code class="docutils literal notranslate"><span class="pre">bert-base-chinese</span></code>. So we will use this general one.</p></li>
+</ul>
+</li>
 </ul>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
@@ -858,17 +861,20 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">csv_data</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
-
+<span class="n">MAX_LEN</span> <span class="o">=</span> <span class="mi">50</span>
 
 <span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">BertTokenizer</span><span class="p">,</span> <span class="n">TFBertModel</span><span class="p">,</span> <span class="n">BertConfig</span>
-<span class="n">bert_tokenizer</span> <span class="o">=</span> <span class="n">BertTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-chinese&quot;</span><span class="p">)</span>
+<span class="n">bert_tokenizer</span> <span class="o">=</span> <span class="n">BertTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-chinese&quot;</span><span class="p">,</span>
+                                              <span class="n">add_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="c1">#                                               max_length=MAX_LEN,</span>
+                                              <span class="n">pad_to_max_length</span><span class="o">=</span><span class="kc">True</span><span class="p">,)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "ee429340ab3b41f1b23a8a351ae5b646", "version_major": 2, "version_minor": 0}
+{"model_id": "52af120dd3764011b23724c32e0f9e52", "version_major": 2, "version_minor": 0}
 </script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
@@ -882,19 +888,19 @@
 </div>
 <div class="cell_output docutils container">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "710f3c70811843ad8451dd0e7297e2a7", "version_major": 2, "version_minor": 0}
+{"model_id": "d0d87a46f99543ff8b3268536d62a85c", "version_major": 2, "version_minor": 0}
 </script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "9c20e79e933a46b9b7ad8675b3793aa9", "version_major": 2, "version_minor": 0}
+{"model_id": "5803bf7b74c9496e90c540a7f1ca0299", "version_major": 2, "version_minor": 0}
 </script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Some layers from the model checkpoint at bert-base-chinese were not used when initializing TFBertForSequenceClassification: [&#39;nsp___cls&#39;, &#39;mlm___cls&#39;]
-- This IS expected if you are initializing TFBertForSequenceClassification from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Some weights of the model checkpoint at bert-base-chinese were not used when initializing TFBertForSequenceClassification: [&#39;nsp___cls&#39;, &#39;mlm___cls&#39;]
+- This IS expected if you are initializing TFBertForSequenceClassification from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPretraining model).
 - This IS NOT expected if you are initializing TFBertForSequenceClassification from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
-Some layers of TFBertForSequenceClassification were not initialized from the model checkpoint at bert-base-chinese and are newly initialized: [&#39;classifier&#39;, &#39;dropout_37&#39;]
+Some weights of TFBertForSequenceClassification were not initialized from the model checkpoint at bert-base-chinese and are newly initialized: [&#39;dropout_37&#39;, &#39;classifier&#39;]
 You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
 </pre></div>
 </div>
@@ -1004,58 +1010,58 @@ These tokens can then be converted into IDs which are understandable by the mode
   </thead>
   <tbody>
     <tr>
-      <th>2425</th>
-      <td>Review_2426</td>
-      <td>葉問4：完結篇</td>
-      <td>IP MAN 4</td>
-      <td>動作_劇情</td>
+      <th>1694</th>
+      <td>Review_1695</td>
+      <td>萬萬沒想到</td>
+      <td>Chhichhore</td>
+      <td>劇情_喜劇</td>
       <td>positive</td>
-      <td>後面直接他媽看哭\r\n能用功夫片把我看哭的，大概也只有葉師傅了！</td>
-      <td>後面 直接 他 媽 看 哭 \r \n 能 用 功夫 片 把 我 看 哭 的 ， 大概 也 ...</td>
+      <td>看完這部以後,我人生中最好看的劇又增加了一部,上一部是三個傻瓜,誠心推薦</td>
+      <td>看完 這部 以後 , 我 人生 中 最 好看 的 劇 又 增加 了 一部 , 上一部 是 三...</td>
       <td>1</td>
     </tr>
     <tr>
-      <th>2312</th>
-      <td>Review_2313</td>
-      <td>返校</td>
-      <td>Detention</td>
-      <td>懸疑/驚悚</td>
-      <td>positive</td>
-      <td>看到韓粉洗負評，就知道這一定是好片</td>
-      <td>看到 韓粉 洗 負評 ， 就 知道 這 一定是 好片</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>405</th>
-      <td>Review_406</td>
-      <td>古曼童</td>
-      <td>Kumanthong</td>
-      <td>恐怖_懸疑/驚悚</td>
-      <td>negative</td>
-      <td>這是在描述神棍的片子\r\n整場滿頭問號\r\n想學泰國邪降但只有20%\r\n真的不用特地...</td>
-      <td>這是 在 描述 神棍 的 片子 \r \n 整場 滿頭 問號 \r \n 想學 泰國 邪降 ...</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>2748</th>
-      <td>Review_2749</td>
-      <td>返校</td>
-      <td>Detention</td>
-      <td>懸疑/驚悚</td>
-      <td>positive</td>
-      <td>挖操，電影還沒上映，一堆時空旅人來給一星影評\r\n\r\n笑死\r\n\r\n五毛網軍們是...</td>
-      <td>挖操 ， 電影 還沒 上映 ， 一堆 時 空 旅人 來給 一星 影評 \r \n \r \n...</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>1645</th>
-      <td>Review_1646</td>
-      <td>花椒之味</td>
-      <td>Fagaro</td>
+      <th>2819</th>
+      <td>Review_2820</td>
+      <td>證人</td>
+      <td>Innocent Witness</td>
       <td>劇情</td>
       <td>positive</td>
-      <td>好看啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</td>
-      <td>好看 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊 啊</td>
+      <td>之於驚奇隊長，我會選擇證人，劇情太多層了</td>
+      <td>之於 驚奇隊長 ， 我 會 選擇 證人 ， 劇情 太多 層 了</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2833</th>
+      <td>Review_2834</td>
+      <td>返校</td>
+      <td>Detention</td>
+      <td>懸疑/驚悚</td>
+      <td>positive</td>
+      <td>好看 一堆中國人和韓粉別來亂刷負評阿 事實也是抹滅不了阿</td>
+      <td>好看 一堆 中國 人 和 韓粉 別來 亂 刷 負評 阿 事實 也是 抹滅 不了 阿</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2904</th>
+      <td>Review_2905</td>
+      <td>你的情歌</td>
+      <td>Your love song</td>
+      <td>劇情</td>
+      <td>positive</td>
+      <td>演員演技實力都很好，劇情架構也很棒！</td>
+      <td>演員 演技 實力 都 很 好 ， 劇情 架構 也 很棒 ！</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2304</th>
+      <td>Review_2305</td>
+      <td>肥龍過江</td>
+      <td>Enter The Fat Dragon</td>
+      <td>動作_喜劇</td>
+      <td>positive</td>
+      <td>超想看 《肥龍過江》，因為這部電影感覺好看、好笑、很有意思，非看不可！🙋</td>
+      <td>超 想 看 《 肥 龍 過 江 》 ， 因為 這部 電影 感覺 好看 、 好笑 、 很 有 ...</td>
       <td>1</td>
     </tr>
   </tbody>
@@ -1080,22 +1086,25 @@ These tokens can then be converted into IDs which are understandable by the mode
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_ids</span><span class="o">=</span><span class="p">[]</span>
 <span class="n">attention_masks</span><span class="o">=</span><span class="p">[]</span>
+<span class="n">segment_ids</span> <span class="o">=</span><span class="p">[]</span> 
 
+<span class="n">MAX_LEN</span> <span class="o">=</span> <span class="mi">50</span>
 <span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">:</span>
-    <span class="n">bert_inp</span><span class="o">=</span><span class="n">bert_tokenizer</span><span class="o">.</span><span class="n">encode_plus</span><span class="p">(</span><span class="n">sent</span><span class="p">,</span><span class="n">add_special_tokens</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">max_length</span> <span class="o">=</span><span class="mi">32</span><span class="p">,</span><span class="n">pad_to_max_length</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span><span class="n">return_attention_mask</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">bert_inp</span><span class="o">=</span><span class="n">bert_tokenizer</span><span class="o">.</span><span class="n">encode_plus</span><span class="p">(</span>
+        <span class="n">sent</span><span class="p">,</span><span class="n">add_special_tokens</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> 
+        <span class="n">max_length</span> <span class="o">=</span><span class="n">MAX_LEN</span><span class="p">,</span>
+        <span class="n">pad_to_max_length</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;max_length&#39;</span><span class="p">,</span>
+        <span class="n">return_attention_mask</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
     <span class="n">input_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bert_inp</span><span class="p">[</span><span class="s1">&#39;input_ids&#39;</span><span class="p">])</span>
     <span class="n">attention_masks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bert_inp</span><span class="p">[</span><span class="s1">&#39;attention_mask&#39;</span><span class="p">])</span>
+    <span class="n">segment_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bert_inp</span><span class="p">[</span><span class="s1">&#39;token_type_ids&#39;</span><span class="p">])</span>
 
 <span class="c1">## alvin&#39;s note:</span>
-<span class="c1">## according to the warning, we should use `padding=True` and `max_length = 32`</span>
-<span class="c1">## It didn&#39;t work. the tokenizer won&#39;t pad the sequences</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Truncation was not explicitly activated but `max_length` is provided a specific value, please use `truncation=True` to explicitly truncate examples to max length. Defaulting to &#39;longest_first&#39; truncation strategy. If you encode pairs of sequences (GLUE-style) with the tokenizer you can select this strategy more precisely by providing a specific strategy to `truncation`.
-/Users/Alvin/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/transformers/tokenization_utils_base.py:2022: FutureWarning: The `pad_to_max_length` argument is deprecated and will be removed in a future version, use `padding=True` or `padding=&#39;longest&#39;` to pad to the longest sequence in the batch, or use `padding=&#39;max_length&#39;` to pad to a max length. In this case, you can give a specific length with `max_length` (e.g. `max_length=45`) or leave max_length to None to pad to the maximal input size of the model (e.g. 512 for Bert).
-  FutureWarning,
+<span class="c1">## according to the warning, we should use `padding=&#39;max_length&#39;` and specificay `max_length = 50`</span>
+<span class="c1">## to make it work</span>
 </pre></div>
 </div>
 </div>
@@ -1104,6 +1113,7 @@ These tokens can then be converted into IDs which are understandable by the mode
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_ids</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">input_ids</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int32&#39;</span><span class="p">)</span>
 <span class="n">attention_masks</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">attention_masks</span><span class="p">)</span>
+<span class="n">segment_ids</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">segment_ids</span><span class="p">)</span>
 <span class="n">labels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1111,39 +1121,45 @@ These tokens can then be converted into IDs which are understandable by the mode
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">input_ids</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">attention_masks</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">input_ids</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">attention_masks</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">segment_ids</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(3200, 3200, 3200)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(3200, 3200, 3200, 3200)
 </pre></div>
 </div>
 </div>
 </div>
-<p>BERT Tokenizer returns a dictionary from which we can get the input ds and the attention masks.
-Convert all the encoding to NumPy arrays.
-Arguments of BERT Tokenizer:
-text (str, List[str], List[List[str]]) – The sequence or batch of sequences to be encoded. Each sequence can be a string or a list of strings (pretokenized string). If the sequences are provided as list of strings (pretokenized), you must set is_split_into_words=True (to lift the ambiguity with a batch of sequences).
-2. add_special_tokens (bool, optional, defaults to True) – Whether or not to encode the sequences with the special tokens relative to their model.
-3. max_length (int, optional) — Controls the maximum length to use by one of the truncation/padding parameters. (max_length≤512)
-4. pad_to_max_length (bool, optional, defaults to True) – Whether or not to pad the sequences to the maximum length.
-5. return_attention_mask (bool, optional) –</p>
+<ul class="simple">
+<li><p>BERT Tokenizer returns a dictionary from which we can get the input ids and the attention masks.</p></li>
+<li><p>Convert all the encoding to NumPy arrays.</p></li>
+<li><p>Arguments of BERT Tokenizer:</p>
+<ul>
+<li><p>text (str, List[str], List[List[str]]) – The sequence or batch of sequences to be encoded. Each sequence can be a string or a list of strings (pretokenized string). If the sequences are provided as list of strings (pretokenized), you must set is_split_into_words=True (to lift the ambiguity with a batch of sequences).</p></li>
+<li><p>add_special_tokens (bool, optional, defaults to True) – Whether or not to encode the sequences with the special tokens relative to their model.</p></li>
+<li><p>max_length (int, optional) — Controls the maximum length to use by one of the truncation/padding parameters. (max_length≤512)</p></li>
+<li><p>padding (bool, optional, defaults to True) – Whether or not to pad the sequences to the maximum length.</p></li>
+<li><p>return_attention_mask (bool, optional) –</p></li>
+</ul>
+</li>
+</ul>
 </div>
 <div class="section" id="train-test-split">
 <h2>Train-Test Split<a class="headerlink" href="#train-test-split" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_inp</span><span class="p">,</span><span class="n">val_inp</span><span class="p">,</span><span class="n">train_label</span><span class="p">,</span><span class="n">val_label</span><span class="p">,</span><span class="n">train_mask</span><span class="p">,</span><span class="n">val_mask</span><span class="o">=</span><span class="n">sklearn</span><span class="o">.</span><span class="n">model_selection</span><span class="o">.</span><span class="n">train_test_split</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span><span class="n">labels</span><span class="p">,</span><span class="n">attention_masks</span><span class="p">,</span><span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sklearn.model_selection</span>
+<span class="n">train_inp</span><span class="p">,</span><span class="n">val_inp</span><span class="p">,</span><span class="n">train_label</span><span class="p">,</span><span class="n">val_label</span><span class="p">,</span><span class="n">train_mask</span><span class="p">,</span><span class="n">val_mask</span><span class="p">,</span> <span class="n">train_seg</span><span class="p">,</span> <span class="n">val_seg</span> <span class="o">=</span><span class="n">sklearn</span><span class="o">.</span><span class="n">model_selection</span><span class="o">.</span><span class="n">train_test_split</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span><span class="n">labels</span><span class="p">,</span><span class="n">attention_masks</span><span class="p">,</span> <span class="n">segment_ids</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Train inp shape </span><span class="si">{}</span><span class="s1"> Val input shape </span><span class="si">{}</span><span class="se">\n</span><span class="s1">Train label shape </span><span class="si">{}</span><span class="s1"> Val label shape </span><span class="si">{}</span><span class="se">\n</span><span class="s1">Train attention mask shape </span><span class="si">{}</span><span class="s1"> Val attention mask shape </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">train_inp</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">val_inp</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">train_label</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">val_label</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">train_mask</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">val_mask</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train inp shape (2560, 32) Val input shape (640, 32)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train inp shape (2560, 50) Val input shape (640, 50)
 Train label shape (2560,) Val label shape (640,)
-Train attention mask shape (2560, 32) Val attention mask shape (640, 32)
+Train attention mask shape (2560, 50) Val attention mask shape (640, 50)
 </pre></div>
 </div>
 </div>
@@ -1155,7 +1171,9 @@ Train attention mask shape (2560, 32) Val attention mask shape (640, 32)
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;./sentiment-analysis-using-bert-keras-chinese/models/&quot;</span>
-<span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
 <span class="c1">## Callbacks</span>
 <span class="c1">## The model will automatically create the `log_dir` but not `model_save_path`</span>
@@ -1217,79 +1235,10 @@ Bert Model None
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>80/80 [==============================] - 580s 7s/step - loss: 0.5266 - accuracy: 0.7042 - val_loss: 0.2681 - val_accuracy: 0.8781
-</pre></div>
-</div>
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">OSError</span><span class="g g-Whitespace">                                   </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">39</span><span class="o">-</span><span class="mi">5</span><span class="n">a7a7deb3b2b</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span>                        <span class="n">epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span>                        <span class="n">validation_data</span><span class="o">=</span><span class="p">([</span><span class="n">val_inp</span><span class="p">,</span><span class="n">val_mask</span><span class="p">],</span><span class="n">val_label</span><span class="p">),</span>
-<span class="ne">----&gt; </span><span class="mi">6</span>                        <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">)</span>
-
-<span class="nn">~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/tensorflow/python/keras/engine/training.py</span> in <span class="ni">fit</span><span class="nt">(self, x, y, batch_size, epochs, verbose, callbacks, validation_split, validation_data, shuffle, class_weight, sample_weight, initial_epoch, steps_per_epoch, validation_steps, validation_batch_size, validation_freq, max_queue_size, workers, use_multiprocessing)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1143</span>           <span class="n">epoch_logs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">val_logs</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1144</span> 
-<span class="ne">-&gt; </span><span class="mi">1145</span>         <span class="n">callbacks</span><span class="o">.</span><span class="n">on_epoch_end</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">epoch_logs</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1146</span>         <span class="n">training_logs</span> <span class="o">=</span> <span class="n">epoch_logs</span>
-<span class="g g-Whitespace">   </span><span class="mi">1147</span>         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop_training</span><span class="p">:</span>
-
-<span class="nn">~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/tensorflow/python/keras/callbacks.py</span> in <span class="ni">on_epoch_end</span><span class="nt">(self, epoch, logs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">426</span>     <span class="k">for</span> <span class="n">callback</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">427</span>       <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">callback</span><span class="p">,</span> <span class="s1">&#39;_supports_tf_logs&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">428</span>         <span class="n">callback</span><span class="o">.</span><span class="n">on_epoch_end</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">logs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">429</span>       <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">430</span>         <span class="k">if</span> <span class="n">numpy_logs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># Only convert once.</span>
-
-<span class="nn">~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/tensorflow/python/keras/callbacks.py</span> in <span class="ni">on_epoch_end</span><span class="nt">(self, epoch, logs)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1342</span>     <span class="c1"># pylint: disable=protected-access</span>
-<span class="g g-Whitespace">   </span><span class="mi">1343</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_freq</span> <span class="o">==</span> <span class="s1">&#39;epoch&#39;</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">1344</span>       <span class="bp">self</span><span class="o">.</span><span class="n">_save_model</span><span class="p">(</span><span class="n">epoch</span><span class="o">=</span><span class="n">epoch</span><span class="p">,</span> <span class="n">logs</span><span class="o">=</span><span class="n">logs</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1345</span> 
-<span class="g g-Whitespace">   </span><span class="mi">1346</span>   <span class="k">def</span> <span class="nf">_should_save_on_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">):</span>
-
-<span class="nn">~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/tensorflow/python/keras/callbacks.py</span> in <span class="ni">_save_model</span><span class="nt">(self, epoch, logs)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1416</span>                         <span class="s1">&#39;directory: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filepath</span><span class="p">))</span>
-<span class="g g-Whitespace">   </span><span class="mi">1417</span>         <span class="c1"># Re-throw the error for any other causes.</span>
-<span class="ne">-&gt; </span><span class="mi">1418</span>         <span class="k">raise</span> <span class="n">e</span>
-<span class="g g-Whitespace">   </span><span class="mi">1419</span> 
-<span class="g g-Whitespace">   </span><span class="mi">1420</span>   <span class="k">def</span> <span class="nf">_get_file_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">logs</span><span class="p">):</span>
-
-<span class="nn">~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/tensorflow/python/keras/callbacks.py</span> in <span class="ni">_save_model</span><span class="nt">(self, epoch, logs)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1392</span>               <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_weights_only</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1393</span>                 <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">save_weights</span><span class="p">(</span>
-<span class="ne">-&gt; </span><span class="mi">1394</span>                     <span class="n">filepath</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1395</span>               <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1396</span>                 <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="p">)</span>
-
-<span class="nn">~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/tensorflow/python/keras/engine/training.py</span> in <span class="ni">save_weights</span><span class="nt">(self, filepath, overwrite, save_format, options)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2105</span>         <span class="k">return</span>
-<span class="g g-Whitespace">   </span><span class="mi">2106</span>     <span class="k">if</span> <span class="n">save_format</span> <span class="o">==</span> <span class="s1">&#39;h5&#39;</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">2107</span>       <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">2108</span>         <span class="n">hdf5_format</span><span class="o">.</span><span class="n">save_weights_to_hdf5_group</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2109</span>     <span class="k">else</span><span class="p">:</span>
-
-<span class="nn">~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/h5py/_hl/files.py</span> in <span class="ni">__init__</span><span class="nt">(self, name, mode, driver, libver, userblock_size, swmr, rdcc_nslots, rdcc_nbytes, rdcc_w0, track_order, **kwds)</span>
-<span class="g g-Whitespace">    </span><span class="mi">406</span>                 <span class="n">fid</span> <span class="o">=</span> <span class="n">make_fid</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">userblock_size</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">407</span>                                <span class="n">fapl</span><span class="p">,</span> <span class="n">fcpl</span><span class="o">=</span><span class="n">make_fcpl</span><span class="p">(</span><span class="n">track_order</span><span class="o">=</span><span class="n">track_order</span><span class="p">),</span>
-<span class="ne">--&gt; </span><span class="mi">408</span>                                <span class="n">swmr</span><span class="o">=</span><span class="n">swmr</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">409</span> 
-<span class="g g-Whitespace">    </span><span class="mi">410</span>             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">libver</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
-
-<span class="nn">~/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/h5py/_hl/files.py</span> in <span class="ni">make_fid</span><span class="nt">(name, mode, userblock_size, fapl, fcpl, swmr)</span>
-<span class="g g-Whitespace">    </span><span class="mi">177</span>         <span class="n">fid</span> <span class="o">=</span> <span class="n">h5f</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">h5f</span><span class="o">.</span><span class="n">ACC_EXCL</span><span class="p">,</span> <span class="n">fapl</span><span class="o">=</span><span class="n">fapl</span><span class="p">,</span> <span class="n">fcpl</span><span class="o">=</span><span class="n">fcpl</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">178</span>     <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;w&#39;</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">179</span>         <span class="n">fid</span> <span class="o">=</span> <span class="n">h5f</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">h5f</span><span class="o">.</span><span class="n">ACC_TRUNC</span><span class="p">,</span> <span class="n">fapl</span><span class="o">=</span><span class="n">fapl</span><span class="p">,</span> <span class="n">fcpl</span><span class="o">=</span><span class="n">fcpl</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">180</span>     <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">181</span>         <span class="c1"># Open in append mode (read/write).</span>
-
-<span class="nn">h5py/_objects.pyx</span> in <span class="ni">h5py._objects.with_phil.wrapper</span><span class="nt">()</span>
-
-<span class="nn">h5py/_objects.pyx</span> in <span class="ni">h5py._objects.with_phil.wrapper</span><span class="nt">()</span>
-
-<span class="nn">h5py/h5f.pyx</span> in <span class="ni">h5py.h5f.create</span><span class="nt">()</span>
-
-<span class="ne">OSError</span>: Unable to create file (unable to open file: name = &#39;./sentiment-analysis-using-bert-keras-chinese/models/bert_model.h5&#39;, errno = 2, error message = &#39;No such file or directory&#39;, flags = 13, o_flags = 602)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 1/80 [..............................] - ETA: 0s - loss: 0.8381 - accuracy: 0.3750WARNING:tensorflow:From /Users/Alvin/opt/anaconda3/lib/python3.7/site-packages/tensorflow/python/ops/summary_ops_v2.py:1277: stop (from tensorflow.python.eager.profiler) is deprecated and will be removed after 2020-07-01.
+Instructions for updating:
+use `tf.profiler.experimental.stop` instead.
+80/80 [==============================] - 846s 11s/step - loss: 0.4073 - accuracy: 0.8152 - val_loss: 0.2520 - val_accuracy: 0.8984
 </pre></div>
 </div>
 </div>
@@ -1329,8 +1278,6 @@ Bert Model None
 <span class="n">trained_model</span> <span class="o">=</span> <span class="n">TFBertForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-chinese&#39;</span><span class="p">,</span><span class="n">num_labels</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">trained_model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="n">loss</span><span class="p">,</span><span class="n">optimizer</span><span class="o">=</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="n">metric</span><span class="p">])</span>
 <span class="n">trained_model</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="n">model_save_path</span><span class="p">)</span>
-
-<span class="n">preds</span> <span class="o">=</span> <span class="n">trained_model</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">val_inp</span><span class="p">,</span><span class="n">val_mask</span><span class="p">],</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1346,7 +1293,91 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pred_labels</span> <span class="o">=</span> <span class="n">preds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_confusion_matrix</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span>
+                          <span class="n">target_names</span><span class="p">,</span>
+                          <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Confusion matrix&#39;</span><span class="p">,</span>
+                          <span class="n">cmap</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    given a sklearn confusion matrix (cm), make a nice plot</span>
+
+<span class="sd">    Arguments</span>
+<span class="sd">    ---------</span>
+<span class="sd">    cm:           confusion matrix from sklearn.metrics.confusion_matrix</span>
+
+<span class="sd">    target_names: given classification classes such as [0, 1, 2]</span>
+<span class="sd">                  the class names, for example: [&#39;high&#39;, &#39;medium&#39;, &#39;low&#39;]</span>
+
+<span class="sd">    title:        the text to display at the top of the matrix</span>
+
+<span class="sd">    cmap:         the gradient of the values displayed from matplotlib.pyplot.cm</span>
+<span class="sd">                  see http://matplotlib.org/examples/color/colormaps_reference.html</span>
+<span class="sd">                  plt.get_cmap(&#39;jet&#39;) or plt.cm.Blues</span>
+
+<span class="sd">    normalize:    If False, plot the raw numbers</span>
+<span class="sd">                  If True, plot the proportions</span>
+
+<span class="sd">    Usage</span>
+<span class="sd">    -----</span>
+<span class="sd">    plot_confusion_matrix(cm           = cm,                  # confusion matrix created by</span>
+<span class="sd">                                                              # sklearn.metrics.confusion_matrix</span>
+<span class="sd">                          normalize    = True,                # show proportions</span>
+<span class="sd">                          target_names = y_labels_vals,       # list of names of the classes</span>
+<span class="sd">                          title        = best_estimator_name) # title of graph</span>
+
+<span class="sd">    Citiation</span>
+<span class="sd">    ---------</span>
+<span class="sd">    http://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">import</span> <span class="nn">itertools</span>
+
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">cm</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">cm</span><span class="p">))</span>
+    <span class="n">misclass</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">accuracy</span>
+
+    <span class="k">if</span> <span class="n">cmap</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s1">&#39;Blues&#39;</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">target_names</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">tick_marks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">target_names</span><span class="p">))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">tick_marks</span><span class="p">,</span> <span class="n">target_names</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">tick_marks</span><span class="p">,</span> <span class="n">target_names</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
+        <span class="n">cm</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="n">cm</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+
+
+    <span class="n">thresh</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">/</span> <span class="mf">1.5</span> <span class="k">if</span> <span class="n">normalize</span> <span class="k">else</span> <span class="n">cm</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">cm</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">range</span><span class="p">(</span><span class="n">cm</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])):</span>
+        <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{:0.4f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cm</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]),</span>
+                     <span class="n">horizontalalignment</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                     <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span> <span class="k">if</span> <span class="n">cm</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">thresh</span> <span class="k">else</span> <span class="s2">&quot;black&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{:,}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cm</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]),</span>
+                     <span class="n">horizontalalignment</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                     <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span> <span class="k">if</span> <span class="n">cm</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">thresh</span> <span class="k">else</span> <span class="s2">&quot;black&quot;</span><span class="p">)</span>
+
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;True label&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Predicted label</span><span class="se">\n</span><span class="s1">accuracy=</span><span class="si">{:0.4f}</span><span class="s1">; misclass=</span><span class="si">{:0.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">accuracy</span><span class="p">,</span> <span class="n">misclass</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">preds</span> <span class="o">=</span> <span class="n">bert_model</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">val_inp</span><span class="p">,</span><span class="n">val_mask</span><span class="p">],</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<span class="n">pred_labels</span> <span class="o">=</span> <span class="n">preds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">f1</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">f1_score</span><span class="p">(</span><span class="n">val_label</span><span class="p">,</span><span class="n">pred_labels</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;F1 score&#39;</span><span class="p">,</span><span class="n">f1</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Classification Report&#39;</span><span class="p">)</span>
@@ -1359,20 +1390,34 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>F1 score 0.8888888888888888
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>F1 score 0.882032667876588
 Classification Report
               precision    recall  f1-score   support
 
-    positive       0.94      0.80      0.87       312
-    negative       0.83      0.95      0.89       328
+    positive       0.86      0.97      0.91       343
+    negative       0.96      0.82      0.88       297
 
-    accuracy                           0.88       640
-   macro avg       0.89      0.88      0.88       640
-weighted avg       0.89      0.88      0.88       640
+    accuracy                           0.90       640
+   macro avg       0.91      0.89      0.90       640
+weighted avg       0.90      0.90      0.90       640
 
 Training and saving built model.....
 </pre></div>
 </div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cm</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">val_label</span><span class="p">,</span> <span class="n">pred_labels</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">plot_confusion_matrix</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span>
+                      <span class="n">normalize</span>    <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                      <span class="n">target_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ham&#39;</span><span class="p">,</span> <span class="s1">&#39;spam&#39;</span><span class="p">],</span>
+                      <span class="n">title</span>        <span class="o">=</span> <span class="s2">&quot;Confusion Matrix&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/sentiment-analysis-using-bert-keras-chinese_49_0.png" src="../_images/sentiment-analysis-using-bert-keras-chinese_49_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1387,6 +1432,187 @@ Training and saving built model.....
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.0, 0.878125011920929]
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="custom-model-with-bert">
+<h2>Custom Model with BERT<a class="headerlink" href="#custom-model-with-bert" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">TFBertModel</span>
+
+<span class="n">bert_custom</span> <span class="o">=</span> <span class="n">TFBertModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-chinese&#39;</span><span class="p">)</span>
+<span class="n">bert_custom</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Some weights of the model checkpoint at bert-base-chinese were not used when initializing TFBertModel: [&#39;nsp___cls&#39;, &#39;mlm___cls&#39;]
+- This IS expected if you are initializing TFBertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPretraining model).
+- This IS NOT expected if you are initializing TFBertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+All the weights of TFBertModel were initialized from the model checkpoint at bert-base-chinese.
+If your task is similar to the task the model of the checkpoint was trained on, you can already use TFBertModel for predictions without further training.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model: &quot;tf_bert_model&quot;
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+bert (TFBertMainLayer)       multiple                  102267648 
+=================================================================
+Total params: 102,267,648
+Trainable params: 102,267,648
+Non-trainable params: 0
+_________________________________________________________________
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="define-model-structure">
+<h3>Define Model Structure<a class="headerlink" href="#define-model-structure" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inp_ids</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">((</span><span class="n">MAX_LEN</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;input_ids&quot;</span><span class="p">)</span>
+<span class="n">att_mask</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">((</span><span class="n">MAX_LEN</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;attention_mask&quot;</span><span class="p">)</span>
+<span class="n">seg_ids</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">((</span><span class="n">MAX_LEN</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;token_type_ids&quot;</span><span class="p">)</span>
+
+<span class="n">inp_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;input_ids&quot;</span><span class="p">:</span> <span class="n">inp_ids</span><span class="p">,</span>
+           <span class="s2">&quot;attention_mask&quot;</span><span class="p">:</span> <span class="n">att_mask</span><span class="p">,</span>
+           <span class="s2">&quot;token_type_ids&quot;</span><span class="p">:</span> <span class="n">seg_ids</span><span class="p">}</span>
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">bert_custom</span><span class="p">(</span><span class="n">inp_dict</span><span class="p">)</span> <span class="c1">## get the pooled output of each input sequence for fine-tuning</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## The output of the each input token includes special token [SEP] and [CLS].</span>
+<span class="c1">## The second one is [CLS], which is the pooled output of the entire input sequence</span>
+<span class="n">outputs</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;tf.Tensor &#39;tf_bert_model/bert/encoder/layer_._11/output/LayerNorm/batchnorm/add_1:0&#39; shape=(None, 50, 768) dtype=float32&gt;,
+ &lt;tf.Tensor &#39;tf_bert_model/bert/pooler/dense/Tanh:0&#39; shape=(None, 768) dtype=float32&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)(</span><span class="n">outputs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;sigmoid&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">custom_model</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inp_dict</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+<span class="n">custom_model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model: &quot;functional_1&quot;
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+attention_mask (InputLayer)     [(None, 50)]         0                                            
+__________________________________________________________________________________________________
+input_ids (InputLayer)          [(None, 50)]         0                                            
+__________________________________________________________________________________________________
+token_type_ids (InputLayer)     [(None, 50)]         0                                            
+__________________________________________________________________________________________________
+tf_bert_model (TFBertModel)     ((None, 50, 768), (N 102267648   attention_mask[0][0]             
+                                                                 input_ids[0][0]                  
+                                                                 token_type_ids[0][0]             
+__________________________________________________________________________________________________
+dropout_75 (Dropout)            (None, 768)          0           tf_bert_model[0][1]              
+__________________________________________________________________________________________________
+dense (Dense)                   (None, 200)          153800      dropout_75[0][0]                 
+__________________________________________________________________________________________________
+dropout_76 (Dropout)            (None, 200)          0           dense[0][0]                      
+__________________________________________________________________________________________________
+dense_1 (Dense)                 (None, 2)            402         dropout_76[0][0]                 
+==================================================================================================
+Total params: 102,421,850
+Trainable params: 102,421,850
+Non-trainable params: 0
+__________________________________________________________________________________________________
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Fine tune BERT on IMDB</span>
+
+<span class="n">input_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;input_ids&quot;</span><span class="p">:</span> <span class="n">train_inp</span><span class="p">,</span>
+           <span class="s2">&quot;attention_mask&quot;</span><span class="p">:</span> <span class="n">train_mask</span><span class="p">,</span>
+           <span class="s2">&quot;token_type_ids&quot;</span><span class="p">:</span> <span class="n">train_seg</span><span class="p">}</span>
+<span class="n">val_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;input_ids&quot;</span><span class="p">:</span> <span class="n">val_inp</span><span class="p">,</span>
+           <span class="s2">&quot;attention_mask&quot;</span><span class="p">:</span> <span class="n">val_mask</span><span class="p">,</span>
+           <span class="s2">&quot;token_type_ids&quot;</span><span class="p">:</span> <span class="n">val_seg</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bert_custom</span><span class="o">.</span><span class="n">trainable</span><span class="o">=</span><span class="kc">False</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">()</span> <span class="c1">## standard learning rate</span>
+<span class="n">custom_model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="n">loss</span><span class="p">,</span><span class="n">optimizer</span><span class="o">=</span><span class="n">optimizer</span><span class="p">,</span><span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="n">metric</span><span class="p">])</span>
+<span class="n">custom_model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model: &quot;functional_1&quot;
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+attention_mask (InputLayer)     [(None, 50)]         0                                            
+__________________________________________________________________________________________________
+input_ids (InputLayer)          [(None, 50)]         0                                            
+__________________________________________________________________________________________________
+token_type_ids (InputLayer)     [(None, 50)]         0                                            
+__________________________________________________________________________________________________
+tf_bert_model (TFBertModel)     ((None, 50, 768), (N 102267648   attention_mask[0][0]             
+                                                                 input_ids[0][0]                  
+                                                                 token_type_ids[0][0]             
+__________________________________________________________________________________________________
+dropout_75 (Dropout)            (None, 768)          0           tf_bert_model[0][1]              
+__________________________________________________________________________________________________
+dense (Dense)                   (None, 200)          153800      dropout_75[0][0]                 
+__________________________________________________________________________________________________
+dropout_76 (Dropout)            (None, 200)          0           dense[0][0]                      
+__________________________________________________________________________________________________
+dense_1 (Dense)                 (None, 2)            402         dropout_76[0][0]                 
+==================================================================================================
+Total params: 102,421,850
+Trainable params: 154,202
+Non-trainable params: 102,267,648
+__________________________________________________________________________________________________
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">custom_history</span> <span class="o">=</span> <span class="n">custom_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">input_dict</span><span class="p">,</span> <span class="n">train_label</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+                       <span class="n">epochs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                       <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">val_dict</span><span class="p">,</span><span class="n">val_label</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/3
+80/80 [==============================] - 300s 4s/step - loss: 0.6673 - accuracy: 0.5791 - val_loss: 0.6193 - val_accuracy: 0.6016
+Epoch 2/3
+80/80 [==============================] - 293s 4s/step - loss: 0.5916 - accuracy: 0.6922 - val_loss: 0.4886 - val_accuracy: 0.8234
+Epoch 3/3
+80/80 [==============================] - 297s 4s/step - loss: 0.5164 - accuracy: 0.7898 - val_loss: 0.4812 - val_accuracy: 0.8313
+</pre></div>
+</div>
 </div>
 </div>
 </div>

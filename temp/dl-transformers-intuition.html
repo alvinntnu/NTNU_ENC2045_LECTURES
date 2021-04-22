@@ -205,17 +205,17 @@
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="dl-neural-network-from-scratch.html">
+  <a class="reference internal" href="../nlp/dl-neural-network-from-scratch.html">
    Neural Network From Scratch
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="dl-simple-case.html">
+  <a class="reference internal" href="../nlp/dl-simple-case.html">
    Deep Learning: A Simple Example
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="dl-sentiment-case.html">
+  <a class="reference internal" href="../nlp/dl-sentiment-case.html">
    Deep Learning: Sentiment Analysis
   </a>
  </li>
@@ -362,6 +362,11 @@
    Midterm Exam
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/7-topic-modeling.html">
+   Assignment VII: Topic Modeling
+  </a>
+ </li>
 </ul>
 
 </nav> <!-- To handle the deprecated key -->
@@ -459,6 +464,16 @@
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-attention-is-all-we-need">
+   Why Attention is All We Need?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#types-of-attention">
+   Types of Attention
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#self-attention">
    Self-attention
   </a>
@@ -549,6 +564,28 @@
 <li><p>It can be seen as an important architecture in deep learning that allows the model to learn things from the co-occurring contexts of words.</p></li>
 <li><p>Most importantly, this mechanism enables the model to effectively model the long distance dependency relations in languages, which have long been a difficult task in traditional statistical NLP.</p></li>
 </ul>
+<div class="section" id="why-attention-is-all-we-need">
+<h2>Why Attention is All We Need?<a class="headerlink" href="#why-attention-is-all-we-need" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>In the encoder-decoder sequence model, as the input sequence length grows, more and more of the inputs are compressed into one vector (e.g., the last time step hidden state of the LSTM).</p></li>
+<li><p>The intermediate hidden states of the inputs out of the encoder are NOT easily available to the decoder.</p></li>
+<li><p>That is, the encoder states are mostly hidden from the decoder.</p></li>
+<li><p>The goal of <strong>Attention layer</strong> is to make available the hidden states of the encoder at all time steps to the decoder.</p></li>
+</ul>
+</div>
+<div class="section" id="types-of-attention">
+<h2>Types of Attention<a class="headerlink" href="#types-of-attention" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>The <strong>General Attention</strong> mechanism allows the decoder to focus its attention on a subset of the encoded input vectors while decoding.</p></li>
+<li><p>The <strong>Self Attention</strong> enables the connections between different encodings of input tokens in different positions.</p>
+<ul>
+<li><p>Each attention mechanism may need a way to determine for a given token, how much it is dependent on the other tokens of the input. This is referred to as the attention weights.</p></li>
+<li><p>There are several ways for attention weights computation: <strong>Bahdanau Attention</strong>, <strong>Luong’s</strong> Attention.</p></li>
+<li><p>The key is that the output of the Attention Layer is a weighted version of the input vectors.</p></li>
+</ul>
+</li>
+</ul>
+</div>
 <div class="section" id="self-attention">
 <h2>Self-attention<a class="headerlink" href="#self-attention" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
@@ -618,7 +655,9 @@ y_i = \sum_jw_{ij}x_j
 <div class="section" id="bert">
 <h3>BERT<a class="headerlink" href="#bert" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>The paper: <a class="reference external" href="https://arxiv.org/abs/1810.04805">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</a></p></li>
+<li><p>Prior embeddings models are mostly context-free; BERT, however, is claimed to be considering contexts in its language model. BERT was developed by Google Research in May 2019.</p></li>
+<li><p>The paper: <a class="reference external" href="https://arxiv.org/abs/1810.04805">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</a>.</p></li>
+<li><p>BERT refers to Bi-directional Encoder Representations from Transformers.</p></li>
 <li><p>BERT consists of a simple stacks of transformer blocks.</p></li>
 <li><p>It is pre-trained on a large general-domain corpus consisting of 800M words from English books and 2.5B words of Wikipedia articles.</p></li>
 </ul>
