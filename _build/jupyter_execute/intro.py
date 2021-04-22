@@ -324,9 +324,9 @@ nlp/topic-modeling-naive
 :titlesonly:
 :caption: Deep Learning NLP
 
-temp/dl-neural-network-from-scratch
-temp/dl-simple-case
-temp/dl-sentiment-case
+nlp/dl-neural-network-from-scratch
+nlp/dl-simple-case
+nlp/dl-sentiment-case
 ```
 
 
@@ -367,4 +367,5 @@ exercise/4-chinese-nlp
 exercise/5-text-vectorization
 exercise/6-machine-learning
 exercise/midterm-exam
+exercise/7-topic-modeling
 ```

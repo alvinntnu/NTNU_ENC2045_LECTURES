@@ -58,7 +58,7 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Neural Network From Scratch" href="../temp/dl-neural-network-from-scratch.html" />
+    <link rel="next" title="Neural Network From Scratch" href="dl-neural-network-from-scratch.html" />
     <link rel="prev" title="1. Sentiment Analysis Using Bag-of-Words" href="ml-sklearn-classification.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -205,17 +205,17 @@
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="../temp/dl-neural-network-from-scratch.html">
+  <a class="reference internal" href="dl-neural-network-from-scratch.html">
    Neural Network From Scratch
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../temp/dl-simple-case.html">
+  <a class="reference internal" href="dl-simple-case.html">
    Deep Learning: A Simple Example
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../temp/dl-sentiment-case.html">
+  <a class="reference internal" href="dl-sentiment-case.html">
    Deep Learning: Sentiment Analysis
   </a>
  </li>
@@ -360,6 +360,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../exercise/midterm-exam.html">
    Midterm Exam
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/7-topic-modeling.html">
+   Assignment VII: Topic Modeling
   </a>
  </li>
 </ul>
@@ -656,20 +661,22 @@
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corpus</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;The sky is blue and beautiful.&#39;</span><span class="p">,</span>
-          <span class="s1">&#39;Love this blue and beautiful sky!&#39;</span><span class="p">,</span>
-          <span class="s1">&#39;The quick brown fox jumps over the lazy dog.&#39;</span><span class="p">,</span>
-          <span class="s2">&quot;A king&#39;s breakfast has sausages, ham, bacon, eggs, toast and beans&quot;</span><span class="p">,</span>
-          <span class="s1">&#39;I love green eggs, ham, sausages and bacon!&#39;</span><span class="p">,</span>
-          <span class="s1">&#39;The brown fox is quick and the blue dog is lazy!&#39;</span><span class="p">,</span>
-          <span class="s1">&#39;The sky is very blue and the sky is very beautiful today&#39;</span><span class="p">,</span>
-          <span class="s1">&#39;The dog is lazy but the brown fox is quick!&#39;</span>    
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corpus</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;The sky is blue and beautiful.&#39;</span><span class="p">,</span> <span class="s1">&#39;Love this blue and beautiful sky!&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;The quick brown fox jumps over the lazy dog.&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;A king&#39;s breakfast has sausages, ham, bacon, eggs, toast and beans&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;I love green eggs, ham, sausages and bacon!&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;The brown fox is quick and the blue dog is lazy!&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;The sky is very blue and the sky is very beautiful today&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;The dog is lazy but the brown fox is quick!&#39;</span>
 <span class="p">]</span>
-<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;weather&#39;</span><span class="p">,</span> <span class="s1">&#39;weather&#39;</span><span class="p">,</span> <span class="s1">&#39;animals&#39;</span><span class="p">,</span> <span class="s1">&#39;food&#39;</span><span class="p">,</span> <span class="s1">&#39;food&#39;</span><span class="p">,</span> <span class="s1">&#39;animals&#39;</span><span class="p">,</span> <span class="s1">&#39;weather&#39;</span><span class="p">,</span> <span class="s1">&#39;animals&#39;</span><span class="p">]</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;weather&#39;</span><span class="p">,</span> <span class="s1">&#39;weather&#39;</span><span class="p">,</span> <span class="s1">&#39;animals&#39;</span><span class="p">,</span> <span class="s1">&#39;food&#39;</span><span class="p">,</span> <span class="s1">&#39;food&#39;</span><span class="p">,</span> <span class="s1">&#39;animals&#39;</span><span class="p">,</span> <span class="s1">&#39;weather&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;animals&#39;</span>
+<span class="p">]</span>
 
 <span class="n">corpus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
-<span class="n">corpus_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Document&#39;</span><span class="p">:</span> <span class="n">corpus</span><span class="p">,</span> 
-                          <span class="s1">&#39;Category&#39;</span><span class="p">:</span> <span class="n">labels</span><span class="p">})</span>
+<span class="n">corpus_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Document&#39;</span><span class="p">:</span> <span class="n">corpus</span><span class="p">,</span> <span class="s1">&#39;Category&#39;</span><span class="p">:</span> <span class="n">labels</span><span class="p">})</span>
 <span class="n">corpus_df</span> <span class="o">=</span> <span class="n">corpus_df</span><span class="p">[[</span><span class="s1">&#39;Document&#39;</span><span class="p">,</span> <span class="s1">&#39;Category&#39;</span><span class="p">]]</span>
 <span class="n">corpus_df</span>
 </pre></div>
@@ -773,9 +780,10 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wpt</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">WordPunctTokenizer</span><span class="p">()</span>
 <span class="n">stop_words</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">corpus</span><span class="o">.</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s1">&#39;english&#39;</span><span class="p">)</span>
 
+
 <span class="k">def</span> <span class="nf">normalize_document</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
     <span class="c1"># lower case and remove special characters\whitespaces</span>
-    <span class="n">doc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[^a-zA-Z\s]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">doc</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span><span class="o">|</span><span class="n">re</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[^a-zA-Z\s]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">doc</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
     <span class="n">doc</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="n">doc</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="c1"># tokeanize document</span>
@@ -785,6 +793,7 @@
     <span class="c1"># re-create document from filtered tokens</span>
     <span class="n">doc</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filtered_tokens</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">doc</span>
+
 
 <span class="n">normalize_corpus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="n">normalize_document</span><span class="p">)</span>
 </pre></div>
@@ -848,7 +857,7 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># view dense representation </span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># view dense representation</span>
 <span class="c1"># warning might give a memory error if data is too big</span>
 <span class="n">cv_matrix</span> <span class="o">=</span> <span class="n">cv_matrix</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
 <span class="n">cv_matrix</span>
@@ -1154,8 +1163,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 12.4 s, sys: 70.2 ms, total: 12.5 s
-Wall time: 12.5 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 12.7 s, sys: 31.3 ms, total: 12.7 s
+Wall time: 13.2 s
 </pre></div>
 </div>
 </div>
@@ -1208,7 +1217,7 @@ Wall time: 12.5 s
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## doc-topic matrix</span>
-<span class="n">doc_topic_df</span><span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">doc_topic_matrix</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;T1&#39;</span><span class="p">,</span> <span class="s1">&#39;T2&#39;</span><span class="p">,</span> <span class="s1">&#39;T3&#39;</span><span class="p">])</span>
+<span class="n">doc_topic_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">doc_topic_matrix</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;T1&#39;</span><span class="p">,</span> <span class="s1">&#39;T2&#39;</span><span class="p">,</span> <span class="s1">&#39;T3&#39;</span><span class="p">])</span>
 <span class="n">doc_topic_df</span>
 </pre></div>
 </div>
@@ -1595,19 +1604,27 @@ Wall time: 12.5 s
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## This function sorts the words importances under each topic</span>
 <span class="c1">## and the selectional criteria include (a) ranks based on weights, or (b) cutoff on weights</span>
-<span class="k">def</span> <span class="nf">get_topics_meanings</span><span class="p">(</span><span class="n">tw_m</span><span class="p">,</span> <span class="n">vocab</span><span class="p">,</span> <span class="n">display_weights</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">topn</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">weight_cutoff</span><span class="o">=</span><span class="mf">0.6</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">topic_weights</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tw_m</span><span class="p">):</span> <span class="c1">## for each topic row</span>
-        <span class="n">topic</span> <span class="o">=</span> <span class="p">[(</span><span class="n">token</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span> <span class="k">for</span> <span class="n">token</span><span class="p">,</span> <span class="n">weight</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vocab</span><span class="p">,</span> <span class="n">topic_weights</span><span class="p">)]</span> <span class="c1">## zip (word, importance_weight)</span>
-        <span class="n">topic</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1">## rank words according to weights                  </span>
+<span class="k">def</span> <span class="nf">get_topics_meanings</span><span class="p">(</span><span class="n">tw_m</span><span class="p">,</span>
+                        <span class="n">vocab</span><span class="p">,</span>
+                        <span class="n">display_weights</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">topn</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                        <span class="n">weight_cutoff</span><span class="o">=</span><span class="mf">0.6</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">topic_weights</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tw_m</span><span class="p">):</span>  <span class="c1">## for each topic row</span>
+        <span class="n">topic</span> <span class="o">=</span> <span class="p">[(</span><span class="n">token</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+                 <span class="k">for</span> <span class="n">token</span><span class="p">,</span> <span class="n">weight</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vocab</span><span class="p">,</span> <span class="n">topic_weights</span><span class="p">)</span>
+                 <span class="p">]</span>  <span class="c1">## zip (word, importance_weight)</span>
+        <span class="n">topic</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span>
+                       <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>  <span class="c1">## rank words according to weights</span>
         <span class="k">if</span> <span class="n">display_weights</span><span class="p">:</span>
-            <span class="n">topic</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">topic</span> <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">weight_cutoff</span><span class="p">]</span> <span class="c1">## output words whose weights &gt; 0.6</span>
+            <span class="n">topic</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">topic</span> <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">weight_cutoff</span>
+                     <span class="p">]</span>  <span class="c1">## output words whose weights &gt; 0.6</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Topic #</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> :</span><span class="se">\n</span><span class="si">{</span><span class="n">topic</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">20</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">20</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">topic_topn</span> <span class="o">=</span> <span class="n">topic</span><span class="p">[:</span><span class="n">topn</span><span class="p">]</span>
-            <span class="n">topic_topn</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span><span class="p">,</span><span class="n">weight</span> <span class="ow">in</span> <span class="n">topic_topn</span><span class="p">])</span>
+            <span class="n">topic_topn</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">weight</span> <span class="ow">in</span> <span class="n">topic_topn</span><span class="p">])</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Topic #</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> :</span><span class="se">\n</span><span class="si">{</span><span class="n">topic_topn</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">20</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;=&#39;</span> <span class="o">*</span> <span class="mi">20</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1622,7 +1639,10 @@ Wall time: 12.5 s
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">get_topics_meanings</span><span class="p">(</span><span class="n">topic_word_matrix</span><span class="p">,</span> <span class="n">vocab</span><span class="p">,</span> <span class="n">display_weights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">weight_cutoff</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">get_topics_meanings</span><span class="p">(</span><span class="n">topic_word_matrix</span><span class="p">,</span>
+                    <span class="n">vocab</span><span class="p">,</span>
+                    <span class="n">display_weights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">weight_cutoff</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1670,9 +1690,9 @@ brown dog fox lazy quick jumps blue bacon beans beautiful
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">topics</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;weather&#39;</span><span class="p">,</span><span class="s1">&#39;food&#39;</span><span class="p">,</span><span class="s1">&#39;animal&#39;</span><span class="p">]</span>
-<span class="n">doc_topic_df</span><span class="o">.</span><span class="n">columns</span><span class="o">=</span><span class="n">topics</span>
-<span class="n">doc_topic_df</span><span class="p">[</span><span class="s1">&#39;corpus&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">norm_corpus</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">topics</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;weather&#39;</span><span class="p">,</span> <span class="s1">&#39;food&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">]</span>
+<span class="n">doc_topic_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">topics</span>
+<span class="n">doc_topic_df</span><span class="p">[</span><span class="s1">&#39;corpus&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm_corpus</span>
 <span class="n">doc_topic_df</span>
 </pre></div>
 </div>
@@ -1768,21 +1788,21 @@ brown dog fox lazy quick jumps blue bacon beans beautiful
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_axis</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;DOC&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">norm_corpus</span><span class="p">))]</span>
-<span class="n">y_axis</span> <span class="o">=</span> <span class="n">doc_topic_df</span><span class="p">[[</span><span class="s1">&#39;weather&#39;</span><span class="p">,</span><span class="s1">&#39;food&#39;</span><span class="p">,</span><span class="s1">&#39;animal&#39;</span><span class="p">]]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_axis</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;DOC&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">norm_corpus</span><span class="p">))]</span>
+<span class="n">y_axis</span> <span class="o">=</span> <span class="n">doc_topic_df</span><span class="p">[[</span><span class="s1">&#39;weather&#39;</span><span class="p">,</span> <span class="s1">&#39;food&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">]]</span>
 
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
 
 <span class="c1"># Plot a stackplot - https://matplotlib.org/3.1.1/gallery/lines_bars_and_markers/stackplot_demo.html</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">stackplot</span><span class="p">(</span><span class="n">x_axis</span><span class="p">,</span> <span class="n">y_axis</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">baseline</span><span class="o">=</span><span class="s1">&#39;wiggle&#39;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">y_axis</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
 
 <span class="c1"># Move the legend off of the chart</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="p">(</span><span class="mf">1.04</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="p">(</span><span class="mf">1.04</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fe0c91d2390&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fd3130d1510&gt;
 </pre></div>
 </div>
 <img alt="../_images/topic-modeling-naive_56_1.png" src="../_images/topic-modeling-naive_56_1.png" />
@@ -1905,13 +1925,13 @@ brown dog fox lazy quick jumps blue bacon beans beautiful
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html">
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.2.2/pyLDAvis/js/ldavis.v1.0.0.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.3.1/pyLDAvis/js/ldavis.v1.0.0.css">
 
 
-<div id="ldavis_el786051406028880390642194839998"></div>
+<div id="ldavis_el408411405439620866086677109655"></div>
 <script type="text/javascript">
 
-var ldavis_el786051406028880390642194839998_data = {"mdsDat": {"x": [-0.008445793833628996, 0.1346209365077882, -0.12617514267415922], "y": [0.1690184496708698, -0.0852462491329757, -0.08377220053789405], "topics": [1, 2, 3], "cluster": [1, 1, 1], "Freq": [38.69857956361475, 33.67447534464973, 27.62694509173553]}, "tinfo": {"Term": ["sky", "beautiful", "blue", "lazy", "brown", "dog", "fox", "quick", "bacon", "sausages", "ham", "eggs", "today", "love", "kings", "beans", "breakfast", "toast", "green", "jumps", "quick", "brown", "dog", "fox", "lazy", "jumps", "blue", "today", "green", "toast", "breakfast", "beans", "kings", "love", "sausages", "bacon", "eggs", "ham", "beautiful", "sky", "bacon", "eggs", "sausages", "ham", "breakfast", "beans", "kings", "toast", "green", "love", "today", "jumps", "beautiful", "brown", "dog", "fox", "lazy", "quick", "sky", "blue", "sky", "beautiful", "blue", "today", "love", "green", "kings", "breakfast", "toast", "beans", "jumps", "sausages", "bacon", "eggs", "ham", "lazy", "fox", "quick", "dog", "brown"], "Freq": [3.0, 2.0, 3.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.3472697459049434, 2.3472697459049434, 2.3472697459049434, 2.3472697459049434, 2.3472697459049434, 0.9385419225967809, 0.9100303130835472, 0.2350533944145678, 0.23502914665699018, 0.23496968562811435, 0.23496968562811435, 0.23496968562811435, 0.23496968562811435, 0.23535274903672895, 0.2349881444878742, 0.2349881444878742, 0.2349881444878742, 0.2349881444878742, 0.23511251824933255, 0.23508911832772755, 1.6342777413769038, 1.6342777413769038, 1.6342777413769038, 1.6342777413769038, 0.9337359955049812, 0.9337359955049812, 0.9337359955049812, 0.9337359955049812, 0.933574600961362, 0.9356188717354831, 0.23381967072922322, 0.23383558797262427, 0.23389603446125903, 0.23383196198973594, 0.23383196198973594, 0.23383196198973594, 0.23383196198973594, 0.23383196198973594, 0.23386718998892936, 0.23419768487428277, 2.7511006632233563, 2.116053051315057, 2.1423479111851953, 0.8461748182314355, 0.844814541198604, 0.211958761180358, 0.21186608133170443, 0.21186608133170443, 0.21186608133170443, 0.21186608133170443, 0.21197203519452112, 0.21189875069161163, 0.21189875069161163, 0.21189875069161163, 0.21189875069161163, 0.212021055964897, 0.212021055964897, 0.212021055964897, 0.212021055964897, 0.212021055964897], "Total": [3.0, 2.0, 3.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764, 1.3843495457639263, 3.2865759091430253, 1.3150478833752266, 1.3805625087987101, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3805717624648, 2.015786161970816, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.5850616040256487, 3.2200569715400134, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3805625087987101, 2.015786161970816, 1.3150478833752266, 1.3843495457639263, 2.5850616040256487, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764, 3.2200569715400134, 3.2865759091430253, 3.2200569715400134, 2.5850616040256487, 3.2865759091430253, 1.3150478833752266, 2.015786161970816, 1.3805625087987101, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3843495457639263, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764], "Category": ["Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3"], "logprob": [20.0, 19.0, 18.0, 17.0, 16.0, 15.0, 14.0, 13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, -1.9586, -1.9586, -1.9586, -1.9586, -1.9586, -2.8753, -2.9061, -4.2598, -4.2599, -4.2601, -4.2601, -4.2601, -4.2601, -4.2585, -4.2601, -4.2601, -4.2601, -4.2601, -4.2595, -4.2596, -2.1816, -2.1816, -2.1816, -2.1816, -2.7413, -2.7413, -2.7413, -2.7413, -2.7415, -2.7393, -4.126, -4.1259, -4.1256, -4.1259, -4.1259, -4.1259, -4.1259, -4.1259, -4.1258, -4.1244, -1.4628, -1.7253, -1.7129, -2.6419, -2.6435, -4.0262, -4.0266, -4.0266, -4.0266, -4.0266, -4.0261, -4.0265, -4.0265, -4.0265, -4.0265, -4.0259, -4.0259, -4.0259, -4.0259, -4.0259], "loglift": [20.0, 19.0, 18.0, 17.0, 16.0, 15.0, 14.0, 13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.7755, 0.7755, 0.7755, 0.7755, 0.7755, 0.5607, -0.3348, -0.7724, -0.8212, -0.8214, -0.8214, -0.8214, -0.8214, -1.1983, -1.2318, -1.2318, -1.2318, -1.2318, -1.4481, -1.6678, 0.8467, 0.8467, 0.8467, 0.8467, 0.6974, 0.6974, 0.6974, 0.6974, 0.6972, 0.3209, -0.6386, -0.6899, -1.3142, -1.3919, -1.3919, -1.3919, -1.3919, -1.3919, -1.534, -1.553, 1.129, 1.0862, 0.8584, 0.8455, 0.4167, -0.5875, -0.5879, -0.5879, -0.5879, -0.5879, -0.5902, -0.9982, -0.9982, -0.9982, -0.9982, -1.2919, -1.2919, -1.2919, -1.2919, -1.2919]}, "token.table": {"Topic": [2, 2, 3, 1, 3, 2, 1, 1, 2, 1, 2, 2, 1, 2, 1, 2, 3, 1, 2, 3, 2, 3], "Freq": [0.961000376841551, 0.7243375731621895, 0.7736759529774657, 0.30426803690067517, 0.6085360738013503, 0.7243375731621895, 0.7160444309423664, 0.7160444309423664, 0.961000376841551, 0.7160444309423664, 0.72434242826871, 0.961000376841551, 0.7223609117075771, 0.7243375731621895, 0.7160444309423664, 0.4960843659241657, 0.4960843659241657, 0.7160444309423664, 0.961000376841551, 0.9316605347405486, 0.7243375731621895, 0.7604285841161778], "Term": ["bacon", "beans", "beautiful", "blue", "blue", "breakfast", "brown", "dog", "eggs", "fox", "green", "ham", "jumps", "kings", "lazy", "love", "love", "quick", "sausages", "sky", "toast", "today"]}, "R": 20, "lambda.step": 0.01, "plot.opts": {"xlab": "PC1", "ylab": "PC2"}, "topic.order": [3, 2, 1]};
+var ldavis_el408411405439620866086677109655_data = {"mdsDat": {"x": [-0.008445793833628996, 0.1346209365077882, -0.12617514267415922], "y": [0.1690184496708698, -0.0852462491329757, -0.08377220053789405], "topics": [1, 2, 3], "cluster": [1, 1, 1], "Freq": [38.69857956361475, 33.67447534464973, 27.62694509173553]}, "tinfo": {"Term": ["sky", "beautiful", "blue", "lazy", "brown", "dog", "fox", "quick", "bacon", "sausages", "ham", "eggs", "today", "love", "kings", "beans", "breakfast", "toast", "green", "jumps", "quick", "brown", "dog", "fox", "lazy", "jumps", "blue", "today", "green", "toast", "breakfast", "beans", "kings", "love", "sausages", "bacon", "eggs", "ham", "beautiful", "sky", "bacon", "eggs", "sausages", "ham", "breakfast", "beans", "kings", "toast", "green", "love", "today", "jumps", "beautiful", "brown", "dog", "fox", "lazy", "quick", "sky", "blue", "sky", "beautiful", "blue", "today", "love", "green", "kings", "breakfast", "toast", "beans", "jumps", "sausages", "bacon", "eggs", "ham", "lazy", "fox", "quick", "dog", "brown"], "Freq": [3.0, 2.0, 3.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.3472697459049434, 2.3472697459049434, 2.3472697459049434, 2.3472697459049434, 2.3472697459049434, 0.9385419225967809, 0.9100303130835472, 0.2350533944145678, 0.23502914665699018, 0.23496968562811435, 0.23496968562811435, 0.23496968562811435, 0.23496968562811435, 0.23535274903672895, 0.2349881444878742, 0.2349881444878742, 0.2349881444878742, 0.2349881444878742, 0.23511251824933255, 0.23508911832772755, 1.6342777413769038, 1.6342777413769038, 1.6342777413769038, 1.6342777413769038, 0.9337359955049812, 0.9337359955049812, 0.9337359955049812, 0.9337359955049812, 0.933574600961362, 0.9356188717354831, 0.23381967072922322, 0.23383558797262427, 0.23389603446125903, 0.23383196198973594, 0.23383196198973594, 0.23383196198973594, 0.23383196198973594, 0.23383196198973594, 0.23386718998892936, 0.23419768487428277, 2.7511006632233563, 2.116053051315057, 2.1423479111851953, 0.8461748182314355, 0.844814541198604, 0.211958761180358, 0.21186608133170443, 0.21186608133170443, 0.21186608133170443, 0.21186608133170443, 0.21197203519452112, 0.21189875069161163, 0.21189875069161163, 0.21189875069161163, 0.21189875069161163, 0.212021055964897, 0.212021055964897, 0.212021055964897, 0.212021055964897, 0.212021055964897], "Total": [3.0, 2.0, 3.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764, 1.3843495457639263, 3.2865759091430253, 1.3150478833752266, 1.3805625087987101, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3805717624648, 2.015786161970816, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.5850616040256487, 3.2200569715400134, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3805625087987101, 2.015786161970816, 1.3150478833752266, 1.3843495457639263, 2.5850616040256487, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764, 3.2200569715400134, 3.2865759091430253, 3.2200569715400134, 2.5850616040256487, 3.2865759091430253, 1.3150478833752266, 2.015786161970816, 1.3805625087987101, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3843495457639263, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764], "Category": ["Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3"], "logprob": [20.0, 19.0, 18.0, 17.0, 16.0, 15.0, 14.0, 13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, -1.9586, -1.9586, -1.9586, -1.9586, -1.9586, -2.8753, -2.9061, -4.2598, -4.2599, -4.2601, -4.2601, -4.2601, -4.2601, -4.2585, -4.2601, -4.2601, -4.2601, -4.2601, -4.2595, -4.2596, -2.1816, -2.1816, -2.1816, -2.1816, -2.7413, -2.7413, -2.7413, -2.7413, -2.7415, -2.7393, -4.126, -4.1259, -4.1256, -4.1259, -4.1259, -4.1259, -4.1259, -4.1259, -4.1258, -4.1244, -1.4628, -1.7253, -1.7129, -2.6419, -2.6435, -4.0262, -4.0266, -4.0266, -4.0266, -4.0266, -4.0261, -4.0265, -4.0265, -4.0265, -4.0265, -4.0259, -4.0259, -4.0259, -4.0259, -4.0259], "loglift": [20.0, 19.0, 18.0, 17.0, 16.0, 15.0, 14.0, 13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.7755, 0.7755, 0.7755, 0.7755, 0.7755, 0.5607, -0.3348, -0.7724, -0.8212, -0.8214, -0.8214, -0.8214, -0.8214, -1.1983, -1.2318, -1.2318, -1.2318, -1.2318, -1.4481, -1.6678, 0.8467, 0.8467, 0.8467, 0.8467, 0.6974, 0.6974, 0.6974, 0.6974, 0.6972, 0.3209, -0.6386, -0.6899, -1.3142, -1.3919, -1.3919, -1.3919, -1.3919, -1.3919, -1.534, -1.553, 1.129, 1.0862, 0.8584, 0.8455, 0.4167, -0.5875, -0.5879, -0.5879, -0.5879, -0.5879, -0.5902, -0.9982, -0.9982, -0.9982, -0.9982, -1.2919, -1.2919, -1.2919, -1.2919, -1.2919]}, "token.table": {"Topic": [2, 2, 3, 1, 3, 2, 1, 1, 2, 1, 2, 2, 1, 2, 1, 2, 3, 1, 2, 3, 2, 3], "Freq": [0.961000376841551, 0.7243375731621895, 0.7736759529774657, 0.30426803690067517, 0.6085360738013503, 0.7243375731621895, 0.7160444309423664, 0.7160444309423664, 0.961000376841551, 0.7160444309423664, 0.72434242826871, 0.961000376841551, 0.7223609117075771, 0.7243375731621895, 0.7160444309423664, 0.4960843659241657, 0.4960843659241657, 0.7160444309423664, 0.961000376841551, 0.9316605347405486, 0.7243375731621895, 0.7604285841161778], "Term": ["bacon", "beans", "beautiful", "blue", "blue", "breakfast", "brown", "dog", "eggs", "fox", "green", "ham", "jumps", "kings", "lazy", "love", "love", "quick", "sausages", "sky", "toast", "today"]}, "R": 20, "lambda.step": 0.01, "plot.opts": {"xlab": "PC1", "ylab": "PC2"}, "topic.order": [3, 2, 1]};
 
 function LDAvis_load_lib(url, callback){
   var s = document.createElement('script');
@@ -1925,22 +1945,22 @@ function LDAvis_load_lib(url, callback){
 if(typeof(LDAvis) !== "undefined"){
    // already loaded: just create the visualization
    !function(LDAvis){
-       new LDAvis("#" + "ldavis_el786051406028880390642194839998", ldavis_el786051406028880390642194839998_data);
+       new LDAvis("#" + "ldavis_el408411405439620866086677109655", ldavis_el408411405439620866086677109655_data);
    }(LDAvis);
 }else if(typeof define === "function" && define.amd){
    // require.js is available: use it to load d3/LDAvis
    require.config({paths: {d3: "https://d3js.org/d3.v5"}});
    require(["d3"], function(d3){
       window.d3 = d3;
-      LDAvis_load_lib("https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.2.2/pyLDAvis/js/ldavis.v3.0.0.js", function(){
-        new LDAvis("#" + "ldavis_el786051406028880390642194839998", ldavis_el786051406028880390642194839998_data);
+      LDAvis_load_lib("https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.3.1/pyLDAvis/js/ldavis.v3.0.0.js", function(){
+        new LDAvis("#" + "ldavis_el408411405439620866086677109655", ldavis_el408411405439620866086677109655_data);
       });
     });
 }else{
     // require.js not available: dynamically load d3 & LDAvis
     LDAvis_load_lib("https://d3js.org/d3.v5.js", function(){
-         LDAvis_load_lib("https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.2.2/pyLDAvis/js/ldavis.v3.0.0.js", function(){
-                 new LDAvis("#" + "ldavis_el786051406028880390642194839998", ldavis_el786051406028880390642194839998_data);
+         LDAvis_load_lib("https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.3.1/pyLDAvis/js/ldavis.v3.0.0.js", function(){
+                 new LDAvis("#" + "ldavis_el408411405439620866086677109655", ldavis_el408411405439620866086677109655_data);
             })
          });
 }
@@ -1954,6 +1974,10 @@ if(typeof(LDAvis) !== "undefined"){
 <li><p>How to find the optimal number of topics can be challenging in topic modeling.</p></li>
 <li><p>We can take this as a hyperparameter of the model and use <strong>Grid Search</strong> to find the most optimal number of topics.</p></li>
 <li><p>Similarly, we can fine tune the other hyperparameters of LDA as well (e.g., <code class="docutils literal notranslate"><span class="pre">learning_decay</span></code>).</p></li>
+</ul>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">learning_method</span></code>: The default is <code class="docutils literal notranslate"><span class="pre">batch</span></code>; that is, use all training data for parameter estimation. If it is <code class="docutils literal notranslate"><span class="pre">online</span></code>, the model will update the parameters on a token by token basis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">learning_decay</span></code>: If the <code class="docutils literal notranslate"><span class="pre">learning_method</span></code> is <code class="docutils literal notranslate"><span class="pre">online</span></code>, we can specify a parameter that controls learning rate in the online learning method (usually set between (0.5, 1.0]).</p></li>
 </ul>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
@@ -1969,16 +1993,18 @@ if(typeof(LDAvis) !== "undefined"){
 
 <span class="c1"># Options to try with our LDA</span>
 <span class="c1"># Beware it will try *all* of the combinations, so it&#39;ll take ages</span>
-<span class="n">search_params</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s1">&#39;n_components&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span>
-  <span class="s1">&#39;learning_decay&#39;</span><span class="p">:</span> <span class="p">[</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">7</span><span class="p">]</span>
-<span class="p">}</span>
+<span class="n">search_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;n_components&#39;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="s1">&#39;learning_decay&#39;</span><span class="p">:</span> <span class="p">[</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">7</span><span class="p">]}</span>
 
 <span class="c1"># Set up LDA with the options we&#39;ll keep static</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">LatentDirichletAllocation</span><span class="p">(</span><span class="n">learning_method</span><span class="o">=</span><span class="s1">&#39;batch&#39;</span><span class="p">,</span> <span class="n">max_iter</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LatentDirichletAllocation</span><span class="p">(</span><span class="n">learning_method</span><span class="o">=</span><span class="s1">&#39;online&#39;</span><span class="p">,</span> <span class="c1">## `online` for large datasets</span>
+                                  <span class="n">max_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
+                                  <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
 <span class="c1"># Try all of the options</span>
-<span class="n">gridsearch</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">param_grid</span><span class="o">=</span><span class="n">search_params</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">gridsearch</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
+                          <span class="n">param_grid</span><span class="o">=</span><span class="n">search_params</span><span class="p">,</span>
+                          <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+                          <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">gridsearch</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cv_matrix</span><span class="p">)</span>
 
 <span class="c1">## Save the best model</span>
@@ -1987,15 +2013,16 @@ if(typeof(LDAvis) !== "undefined"){
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fitting 5 folds for each of 6 candidates, totalling 30 fits
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fitting 5 folds for each of 10 candidates, totalling 50 fits
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Parallel(n_jobs=-1)]: Using backend LokyBackend with 4 concurrent workers.
-[Parallel(n_jobs=-1)]: Done  30 out of  30 | elapsed:  2.6min finished
+[Parallel(n_jobs=-1)]: Done  42 tasks      | elapsed:  3.0min
+[Parallel(n_jobs=-1)]: Done  50 out of  50 | elapsed:  3.5min finished
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 13.7 s, sys: 83.3 ms, total: 13.8 s
-Wall time: 2min 50s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 15.7 s, sys: 30.8 ms, total: 15.8 s
+Wall time: 3min 42s
 </pre></div>
 </div>
 </div>
@@ -2011,8 +2038,8 @@ Wall time: 2min 50s
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best Model&#39;s Params:  {&#39;learning_decay&#39;: 0.5, &#39;n_components&#39;: 3}
-Best Log Likelihood Score:  -50.410868132698795
-Best Model Perplexity:  25.29296641284209
+Best Log Likelihood Score:  -50.41087449871124
+Best Model Perplexity:  25.292966407265162
 </pre></div>
 </div>
 </div>
@@ -2066,111 +2093,183 @@ Best Model Perplexity:  25.29296641284209
   <tbody>
     <tr>
       <th>0</th>
-      <td>16.971015</td>
-      <td>2.369532</td>
-      <td>0.001095</td>
-      <td>0.000113</td>
+      <td>17.580901</td>
+      <td>2.439738</td>
+      <td>0.001131</td>
+      <td>0.000175</td>
       <td>0.5</td>
       <td>3</td>
       <td>{'learning_decay': 0.5, 'n_components': 3}</td>
-      <td>-45.022883</td>
-      <td>-73.947625</td>
+      <td>-45.022881</td>
+      <td>-73.947624</td>
       <td>-60.589126</td>
-      <td>-37.947911</td>
-      <td>-34.546796</td>
-      <td>-50.410868</td>
-      <td>14.789188</td>
+      <td>-37.947945</td>
+      <td>-34.546797</td>
+      <td>-50.410874</td>
+      <td>14.789181</td>
       <td>1</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>19.315964</td>
-      <td>4.647842</td>
-      <td>0.001137</td>
-      <td>0.000132</td>
+      <td>19.380049</td>
+      <td>4.617627</td>
+      <td>0.001529</td>
+      <td>0.001061</td>
       <td>0.5</td>
       <td>4</td>
       <td>{'learning_decay': 0.5, 'n_components': 4}</td>
-      <td>-49.145599</td>
-      <td>-82.726223</td>
+      <td>-49.145597</td>
+      <td>-82.726222</td>
       <td>-65.081852</td>
-      <td>-42.126564</td>
-      <td>-37.038050</td>
-      <td>-55.223657</td>
-      <td>16.689926</td>
-      <td>3</td>
+      <td>-42.126555</td>
+      <td>-37.038041</td>
+      <td>-55.223653</td>
+      <td>16.689929</td>
+      <td>4</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>18.822349</td>
-      <td>6.181343</td>
-      <td>0.001074</td>
-      <td>0.000147</td>
+      <td>15.585636</td>
+      <td>1.652599</td>
+      <td>0.001125</td>
+      <td>0.000128</td>
       <td>0.5</td>
       <td>5</td>
       <td>{'learning_decay': 0.5, 'n_components': 5}</td>
-      <td>-50.024617</td>
-      <td>-86.998110</td>
-      <td>-70.381182</td>
-      <td>-44.942218</td>
-      <td>-42.224895</td>
-      <td>-58.914204</td>
-      <td>17.163750</td>
+      <td>-50.024619</td>
+      <td>-86.229447</td>
+      <td>-68.803221</td>
+      <td>-44.942217</td>
+      <td>-42.246234</td>
+      <td>-58.449148</td>
+      <td>16.702671</td>
       <td>5</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>20.012752</td>
-      <td>3.937335</td>
-      <td>0.001165</td>
-      <td>0.000087</td>
-      <td>0.7</td>
-      <td>3</td>
-      <td>{'learning_decay': 0.7, 'n_components': 3}</td>
-      <td>-45.022883</td>
-      <td>-73.947625</td>
-      <td>-60.589126</td>
-      <td>-37.947911</td>
-      <td>-34.546796</td>
-      <td>-50.410868</td>
-      <td>14.789188</td>
-      <td>1</td>
+      <td>18.848046</td>
+      <td>2.319297</td>
+      <td>0.001168</td>
+      <td>0.000125</td>
+      <td>0.5</td>
+      <td>6</td>
+      <td>{'learning_decay': 0.5, 'n_components': 6}</td>
+      <td>-52.609495</td>
+      <td>-92.798988</td>
+      <td>-76.277660</td>
+      <td>-48.051613</td>
+      <td>-50.126104</td>
+      <td>-63.972772</td>
+      <td>17.644821</td>
+      <td>8</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>23.997265</td>
-      <td>5.921193</td>
-      <td>0.002658</td>
-      <td>0.001892</td>
-      <td>0.7</td>
-      <td>4</td>
-      <td>{'learning_decay': 0.7, 'n_components': 4}</td>
-      <td>-49.145599</td>
-      <td>-82.726223</td>
-      <td>-65.081852</td>
-      <td>-42.126564</td>
-      <td>-37.038050</td>
-      <td>-55.223657</td>
-      <td>16.689926</td>
-      <td>3</td>
+      <td>14.831953</td>
+      <td>1.606835</td>
+      <td>0.001141</td>
+      <td>0.000174</td>
+      <td>0.5</td>
+      <td>7</td>
+      <td>{'learning_decay': 0.5, 'n_components': 7}</td>
+      <td>-54.878310</td>
+      <td>-99.179301</td>
+      <td>-75.026422</td>
+      <td>-50.917763</td>
+      <td>-46.539680</td>
+      <td>-65.308295</td>
+      <td>19.543899</td>
+      <td>10</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>20.200537</td>
-      <td>5.291183</td>
-      <td>0.001044</td>
-      <td>0.000187</td>
+      <td>17.232279</td>
+      <td>2.476954</td>
+      <td>0.001154</td>
+      <td>0.000149</td>
+      <td>0.7</td>
+      <td>3</td>
+      <td>{'learning_decay': 0.7, 'n_components': 3}</td>
+      <td>-45.022882</td>
+      <td>-73.947624</td>
+      <td>-60.589126</td>
+      <td>-37.947946</td>
+      <td>-34.546797</td>
+      <td>-50.410875</td>
+      <td>14.789181</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>16.605747</td>
+      <td>2.571087</td>
+      <td>0.001043</td>
+      <td>0.000125</td>
+      <td>0.7</td>
+      <td>4</td>
+      <td>{'learning_decay': 0.7, 'n_components': 4}</td>
+      <td>-49.145597</td>
+      <td>-81.939131</td>
+      <td>-65.081852</td>
+      <td>-42.126555</td>
+      <td>-37.038041</td>
+      <td>-55.066235</td>
+      <td>16.431495</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>14.042014</td>
+      <td>1.487472</td>
+      <td>0.001076</td>
+      <td>0.000125</td>
       <td>0.7</td>
       <td>5</td>
       <td>{'learning_decay': 0.7, 'n_components': 5}</td>
-      <td>-50.024617</td>
-      <td>-86.998110</td>
-      <td>-70.381182</td>
-      <td>-44.942218</td>
-      <td>-42.224895</td>
-      <td>-58.914204</td>
-      <td>17.163750</td>
-      <td>5</td>
+      <td>-50.024619</td>
+      <td>-86.229447</td>
+      <td>-68.803221</td>
+      <td>-44.942217</td>
+      <td>-42.246234</td>
+      <td>-58.449148</td>
+      <td>16.702671</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>14.564182</td>
+      <td>1.049571</td>
+      <td>0.001065</td>
+      <td>0.000167</td>
+      <td>0.7</td>
+      <td>6</td>
+      <td>{'learning_decay': 0.7, 'n_components': 6}</td>
+      <td>-52.609495</td>
+      <td>-92.798988</td>
+      <td>-76.277744</td>
+      <td>-48.051613</td>
+      <td>-44.648808</td>
+      <td>-62.877330</td>
+      <td>18.613898</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>13.395302</td>
+      <td>1.172417</td>
+      <td>0.001014</td>
+      <td>0.000131</td>
+      <td>0.7</td>
+      <td>7</td>
+      <td>{'learning_decay': 0.7, 'n_components': 7}</td>
+      <td>-54.878310</td>
+      <td>-99.179301</td>
+      <td>-75.026422</td>
+      <td>-50.917763</td>
+      <td>-46.539680</td>
+      <td>-65.308295</td>
+      <td>19.543899</td>
+      <td>9</td>
     </tr>
   </tbody>
 </table>
@@ -2179,7 +2278,11 @@ Best Model Perplexity:  25.29296641284209
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">pointplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;param_n_components&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;mean_test_score&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;param_learning_decay&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">cv_results_df</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">rc</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;figure.dpi&quot;</span><span class="p">:</span><span class="mi">150</span><span class="p">,</span> <span class="s1">&#39;savefig.dpi&#39;</span><span class="p">:</span><span class="mi">150</span><span class="p">})</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">pointplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;param_n_components&quot;</span><span class="p">,</span>
+              <span class="n">y</span><span class="o">=</span><span class="s2">&quot;mean_test_score&quot;</span><span class="p">,</span>
+              <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;param_learning_decay&quot;</span><span class="p">,</span>
+              <span class="n">data</span><span class="o">=</span><span class="n">cv_results_df</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2187,12 +2290,15 @@ Best Model Perplexity:  25.29296641284209
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;param_n_components&#39;, ylabel=&#39;mean_test_score&#39;&gt;
 </pre></div>
 </div>
-<img alt="../_images/topic-modeling-naive_70_1.png" src="../_images/topic-modeling-naive_70_1.png" />
+<img alt="../_images/topic-modeling-naive_71_1.png" src="../_images/topic-modeling-naive_71_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">get_topics_meanings</span><span class="p">(</span><span class="n">best_lda</span><span class="o">.</span><span class="n">components_</span><span class="p">,</span> <span class="n">vocab</span><span class="p">,</span> <span class="n">display_weights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">weight_cutoff</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">get_topics_meanings</span><span class="p">(</span><span class="n">best_lda</span><span class="o">.</span><span class="n">components_</span><span class="p">,</span>
+                    <span class="n">vocab</span><span class="p">,</span>
+                    <span class="n">display_weights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">weight_cutoff</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2219,7 +2325,7 @@ Topic #2 :
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_texts</span><span class="o">=</span> <span class="p">[</span><span class="s1">&#39;The sky is so blue&#39;</span><span class="p">,</span> <span class="s1">&#39;Love burger with ham&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_texts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;The sky is so blue&#39;</span><span class="p">,</span> <span class="s1">&#39;Love burger with ham&#39;</span><span class="p">]</span>
 
 <span class="n">new_texts_norm</span> <span class="o">=</span> <span class="n">normalize_corpus</span><span class="p">(</span><span class="n">new_texts</span><span class="p">)</span>
 <span class="n">new_texts_cv</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">new_texts_norm</span><span class="p">)</span>
@@ -2236,11 +2342,14 @@ Topic #2 :
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_texts_doc_topic_matrix</span> <span class="o">=</span> <span class="n">best_lda</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">new_texts_cv</span><span class="p">)</span>
-<span class="n">topics</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;weather&#39;</span><span class="p">,</span><span class="s1">&#39;food&#39;</span><span class="p">,</span><span class="s1">&#39;animal&#39;</span><span class="p">]</span>
-<span class="n">new_texts_doc_topic_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">new_texts_doc_topic_matrix</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">topics</span><span class="p">)</span>
-<span class="n">new_texts_doc_topic_df</span><span class="p">[</span><span class="s1">&#39;predicted_topic&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">topics</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">new_texts_doc_topic_df</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+<span class="n">topics</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;weather&#39;</span><span class="p">,</span> <span class="s1">&#39;food&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">]</span>
+<span class="n">new_texts_doc_topic_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">new_texts_doc_topic_matrix</span><span class="p">,</span>
+                                      <span class="n">columns</span><span class="o">=</span><span class="n">topics</span><span class="p">)</span>
+<span class="n">new_texts_doc_topic_df</span><span class="p">[</span><span class="s1">&#39;predicted_topic&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">topics</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">new_texts_doc_topic_df</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">]</span>
 
-<span class="n">new_texts_doc_topic_df</span><span class="p">[</span><span class="s1">&#39;corpus&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">new_texts_norm</span>
+<span class="n">new_texts_doc_topic_df</span><span class="p">[</span><span class="s1">&#39;corpus&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_texts_norm</span>
 <span class="n">new_texts_doc_topic_df</span>
 </pre></div>
 </div>
@@ -2298,30 +2407,185 @@ Topic #2 :
 <ul class="simple">
 <li><p>We can calculate a metric to evaluate the coherence of each topic.</p></li>
 <li><p>The coherence computation is implemented in <code class="docutils literal notranslate"><span class="pre">gensim</span></code>. To apply the coherence comptuation to a <code class="docutils literal notranslate"><span class="pre">sklearn</span></code>-trained LDA, we need <code class="docutils literal notranslate"><span class="pre">tmtoolkit</span></code> (<code class="docutils literal notranslate"><span class="pre">tmtoolkit.topicmod.evaluate.metric_coherence_gensim</span></code>).</p></li>
-<li><p>However, <code class="docutils literal notranslate"><span class="pre">tmtoolkit</span></code> does not support <code class="docutils literal notranslate"><span class="pre">spacy</span></code> 3+.</p></li>
 <li><p>I leave notes here in case in the future we need to compute the coherence metrics.</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code class="docutils literal notranslate"><span class="pre">tmtoolkit</span></code> does not support <code class="docutils literal notranslate"><span class="pre">spacy</span></code> 3+. Also, <code class="docutils literal notranslate"><span class="pre">tmtoolkit</span></code> will downgrade several important packages to lower versions. Please use it with caution. I would suggest creating another virtual environment for this.</p>
+</div>
+<ul class="simple">
+<li><p>The following codes demonstrate how to find the optimal topic number based on the coherence scores of the topic models.</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tmtoolkit.topicmod.evaluate</span> <span class="kn">import</span> <span class="n">metric_coherence_gensim</span>
-<span class="c1"># lda_model - LatentDirichletAllocation()</span>
-<span class="c1"># vect - CountVectorizer()</span>
-<span class="c1"># texts - the list of tokenized words</span>
-<span class="n">norm_corpus</span>
-<span class="n">norm_corpus_tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">doc</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">norm_corpus</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">topic_model_coherence_generator</span><span class="p">(</span><span class="n">topic_num_start</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                    <span class="n">topic_num_end</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                                    <span class="n">norm_corpus</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+                                    <span class="n">cv_matrix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+                                    <span class="n">cv</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+    <span class="n">norm_corpus_tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">doc</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">norm_corpus</span><span class="p">]</span>
+    <span class="n">models</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">coherence_scores</span> <span class="o">=</span> <span class="p">[]</span>
 
-
-<span class="n">metric_coherence_gensim</span><span class="p">(</span><span class="n">measure</span><span class="o">=</span><span class="s1">&#39;c_v&#39;</span><span class="p">,</span> 
-                        <span class="n">top_n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> 
-                        <span class="n">topic_word_distrib</span><span class="o">=</span> <span class="n">best_lda</span><span class="o">.</span><span class="n">components_</span><span class="p">,</span> 
-                        <span class="n">dtm</span><span class="o">=</span><span class="n">cv</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">norm_corpus</span><span class="p">),</span> 
-                        <span class="n">vocab</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">()),</span> 
-                        <span class="n">texts</span><span class="o">=</span><span class="n">norm_corpus_tokens</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">topic_num_start</span><span class="p">,</span> <span class="n">topic_num_end</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">cur_lda</span> <span class="o">=</span> <span class="n">LatentDirichletAllocation</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">i</span><span class="p">,</span>
+                                            <span class="n">max_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
+                                            <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">cur_lda</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">cv_matrix</span><span class="p">)</span>
+        <span class="n">cur_coherence_score</span> <span class="o">=</span> <span class="n">metric_coherence_gensim</span><span class="p">(</span>
+            <span class="n">measure</span><span class="o">=</span><span class="s1">&#39;c_v&#39;</span><span class="p">,</span>
+            <span class="n">top_n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+            <span class="n">topic_word_distrib</span><span class="o">=</span><span class="n">cur_lda</span><span class="o">.</span><span class="n">components_</span><span class="p">,</span>
+            <span class="n">dtm</span><span class="o">=</span><span class="n">cv</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">norm_corpus</span><span class="p">),</span>
+            <span class="n">vocab</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">()),</span>
+            <span class="n">texts</span><span class="o">=</span><span class="n">norm_corpus_tokens</span><span class="p">)</span>
+        <span class="n">models</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cur_lda</span><span class="p">)</span>
+        <span class="n">coherence_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cur_coherence_score</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">models</span><span class="p">,</span> <span class="n">coherence_scores</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">te</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">models</span><span class="p">,</span> <span class="n">coherence_scores</span> <span class="o">=</span> <span class="n">topic_model_coherence_generator</span><span class="p">(</span>
+    <span class="n">ts</span><span class="p">,</span> <span class="n">te</span><span class="p">,</span> <span class="n">norm_corpus</span><span class="o">=</span><span class="n">norm_corpus</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span> <span class="n">cv_matrix</span><span class="o">=</span><span class="n">cv_matrix</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.7135226982433969, 0.9465611653451094, 1.0]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2
+3
+4
+5
+6
+7
+8
+9
+CPU times: user 58.5 s, sys: 451 ms, total: 58.9 s
+Wall time: 58.9 s
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">coherence_scores</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.6517493196892892,
+ 0.8866946211961687,
+ 0.765479848024043,
+ 0.8341252576008902,
+ 0.8572203857656319,
+ 0.7066394264220808,
+ 0.6391495323490347,
+ 0.6086551968156503]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">coherence_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;TOPIC_NUMBER&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">te</span><span class="p">)],</span>
+    <span class="s1">&#39;COHERENCE_SCORE&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">coherence_scores</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="p">})</span>
+
+<span class="n">coherence_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;COHERENCE_SCORE&quot;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>TOPIC_NUMBER</th>
+      <th>COHERENCE_SCORE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+      <td>0.8867</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>6</td>
+      <td>0.8572</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5</td>
+      <td>0.8341</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>4</td>
+      <td>0.7655</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>7</td>
+      <td>0.7066</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>0.6517</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>8</td>
+      <td>0.6391</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>9</td>
+      <td>0.6087</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">plotnine</span>
+<span class="kn">from</span> <span class="nn">plotnine</span> <span class="kn">import</span> <span class="n">ggplot</span><span class="p">,</span> <span class="n">aes</span><span class="p">,</span> <span class="n">geom_point</span><span class="p">,</span> <span class="n">geom_line</span><span class="p">,</span> <span class="n">labs</span>
+<span class="n">plotnine</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">dpi</span> <span class="o">=</span> <span class="mi">150</span>
+
+<span class="n">g</span> <span class="o">=</span> <span class="p">(</span><span class="n">ggplot</span><span class="p">(</span><span class="n">coherence_df</span><span class="p">)</span> <span class="o">+</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;TOPIC_NUMBER&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;COHERENCE_SCORE&quot;</span><span class="p">)</span> <span class="o">+</span>
+     <span class="n">geom_point</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="s2">&quot;identity&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">geom_line</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightgrey&quot;</span><span class="p">)</span> <span class="o">+</span>
+     <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;Number of Topics&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Average Coherence Score&quot;</span><span class="p">))</span>
+<span class="n">g</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/topic-modeling-naive_84_0.png" src="../_images/topic-modeling-naive_84_0.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ggplot: (8771317472702)&gt;
 </pre></div>
 </div>
 </div>
@@ -2364,7 +2628,7 @@ Topic #2 :
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="ml-sklearn-classification.html" title="previous page"><span class="section-number">1. </span>Sentiment Analysis Using Bag-of-Words</a>
-    <a class='right-next' id="next-link" href="../temp/dl-neural-network-from-scratch.html" title="next page">Neural Network From Scratch</a>
+    <a class='right-next' id="next-link" href="dl-neural-network-from-scratch.html" title="next page">Neural Network From Scratch</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

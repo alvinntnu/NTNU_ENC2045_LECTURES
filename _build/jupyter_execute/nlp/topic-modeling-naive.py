@@ -37,20 +37,22 @@ pd.options.display.max_colwidth = 200
 - We will be using again a simple corpus for illustration.
 - It is a corpus consisting of eight documents, each of which is a sentence.
 
-corpus = ['The sky is blue and beautiful.',
-          'Love this blue and beautiful sky!',
-          'The quick brown fox jumps over the lazy dog.',
-          "A king's breakfast has sausages, ham, bacon, eggs, toast and beans",
-          'I love green eggs, ham, sausages and bacon!',
-          'The brown fox is quick and the blue dog is lazy!',
-          'The sky is very blue and the sky is very beautiful today',
-          'The dog is lazy but the brown fox is quick!'    
+corpus = [
+    'The sky is blue and beautiful.', 'Love this blue and beautiful sky!',
+    'The quick brown fox jumps over the lazy dog.',
+    "A king's breakfast has sausages, ham, bacon, eggs, toast and beans",
+    'I love green eggs, ham, sausages and bacon!',
+    'The brown fox is quick and the blue dog is lazy!',
+    'The sky is very blue and the sky is very beautiful today',
+    'The dog is lazy but the brown fox is quick!'
 ]
-labels = ['weather', 'weather', 'animals', 'food', 'food', 'animals', 'weather', 'animals']
+labels = [
+    'weather', 'weather', 'animals', 'food', 'food', 'animals', 'weather',
+    'animals'
+]
 
 corpus = np.array(corpus)
-corpus_df = pd.DataFrame({'Document': corpus, 
-                          'Category': labels})
+corpus_df = pd.DataFrame({'Document': corpus, 'Category': labels})
 corpus_df = corpus_df[['Document', 'Category']]
 corpus_df
 
@@ -78,9 +80,10 @@ Other important considerations in text preprocessing include:
 wpt = nltk.WordPunctTokenizer()
 stop_words = nltk.corpus.stopwords.words('english')
 
+
 def normalize_document(doc):
     # lower case and remove special characters\whitespaces
-    doc = re.sub(r'[^a-zA-Z\s]', '', doc, re.I|re.A)
+    doc = re.sub(r'[^a-zA-Z\s]', '', doc, re.I | re.A)
     doc = doc.lower()
     doc = doc.strip()
     # tokeanize document
@@ -90,6 +93,7 @@ def normalize_document(doc):
     # re-create document from filtered tokens
     doc = ' '.join(filtered_tokens)
     return doc
+
 
 normalize_corpus = np.vectorize(normalize_document)
 
@@ -115,7 +119,7 @@ cv = CountVectorizer(min_df=0., max_df=1.)
 cv_matrix = cv.fit_transform(norm_corpus)
 cv_matrix
 
-# view dense representation 
+# view dense representation
 # warning might give a memory error if data is too big
 cv_matrix = cv_matrix.toarray()
 cv_matrix
@@ -178,7 +182,7 @@ print(lda.perplexity(cv_matrix))
 - In particular, the numbers refer to the probability value of a specific document being connected to a particular topic.
 
 ## doc-topic matrix
-doc_topic_df= pd.DataFrame(doc_topic_matrix, columns=['T1', 'T2', 'T3'])
+doc_topic_df = pd.DataFrame(doc_topic_matrix, columns=['T1', 'T2', 'T3'])
 doc_topic_df
 
 ### Topic-by-Word Matrix
@@ -202,25 +206,36 @@ pd.DataFrame(np.transpose(topic_word_matrix), index=vocab)
 
 ## This function sorts the words importances under each topic
 ## and the selectional criteria include (a) ranks based on weights, or (b) cutoff on weights
-def get_topics_meanings(tw_m, vocab, display_weights=False, topn = 5, weight_cutoff=0.6):
-    for i, topic_weights in enumerate(tw_m): ## for each topic row
-        topic = [(token, np.round(weight,2)) for token, weight in zip(vocab, topic_weights)] ## zip (word, importance_weight)
-        topic = sorted(topic, key=lambda x: -x[1]) ## rank words according to weights                  
+def get_topics_meanings(tw_m,
+                        vocab,
+                        display_weights=False,
+                        topn=5,
+                        weight_cutoff=0.6):
+    for i, topic_weights in enumerate(tw_m):  ## for each topic row
+        topic = [(token, np.round(weight, 2))
+                 for token, weight in zip(vocab, topic_weights)
+                 ]  ## zip (word, importance_weight)
+        topic = sorted(topic,
+                       key=lambda x: -x[1])  ## rank words according to weights
         if display_weights:
-            topic = [item for item in topic if item[1] > weight_cutoff] ## output words whose weights > 0.6
+            topic = [item for item in topic if item[1] > weight_cutoff
+                     ]  ## output words whose weights > 0.6
             print(f"Topic #{i} :\n{topic}")
-            print("="*20)
+            print("=" * 20)
         else:
             topic_topn = topic[:topn]
-            topic_topn = ' '.join([word for word,weight in topic_topn])
+            topic_topn = ' '.join([word for word, weight in topic_topn])
             print(f"Topic #{i} :\n{topic_topn}")
-            print('='*20)
+            print('=' * 20)
 
 - To use the above function:
   - If we are to display the weights of words, then we need to specify the `weight_cutoff`.
   - If we are to display only the top N words, then we need to specify the `topn`.
 
-get_topics_meanings(topic_word_matrix, vocab, display_weights=True, weight_cutoff=0.6)
+get_topics_meanings(topic_word_matrix,
+                    vocab,
+                    display_weights=True,
+                    weight_cutoff=0.6)
 
 get_topics_meanings(topic_word_matrix, vocab, display_weights=False, topn=10)
 
@@ -229,23 +244,23 @@ get_topics_meanings(topic_word_matrix, vocab, display_weights=False, topn=10)
 - After we determine the meanings of the topics, we can now analyze how each document is connected to these topics.
 - That is, we can now look at the **Document-by-Topic** Matrix.
 
-topics = ['weather','food','animal']
-doc_topic_df.columns=topics
-doc_topic_df['corpus']=norm_corpus
+topics = ['weather', 'food', 'animal']
+doc_topic_df.columns = topics
+doc_topic_df['corpus'] = norm_corpus
 doc_topic_df
 
 - We can visualize the topics distribution for each document using stack plot.
 
-x_axis = ['DOC'+str(i) for i in range(len(norm_corpus))]
-y_axis = doc_topic_df[['weather','food','animal']]
+x_axis = ['DOC' + str(i) for i in range(len(norm_corpus))]
+y_axis = doc_topic_df[['weather', 'food', 'animal']]
 
-fig, ax = plt.subplots(figsize=(15,8))
+fig, ax = plt.subplots(figsize=(15, 8))
 
 # Plot a stackplot - https://matplotlib.org/3.1.1/gallery/lines_bars_and_markers/stackplot_demo.html
 ax.stackplot(x_axis, y_axis.T, baseline='wiggle', labels=y_axis.columns)
 
 # Move the legend off of the chart
-ax.legend(loc=(1.04,0))
+ax.legend(loc=(1.04, 0))
 
 ## Clustering documents using topic model features
 
@@ -277,6 +292,9 @@ pyLDAvis.sklearn.prepare(lda, cv_matrix, cv, mds='mmds')
 - We can take this as a hyperparameter of the model and use **Grid Search** to find the most optimal number of topics.
 - Similarly, we can fine tune the other hyperparameters of LDA as well (e.g., `learning_decay`).
 
+- `learning_method`: The default is `batch`; that is, use all training data for parameter estimation. If it is `online`, the model will update the parameters on a token by token basis.
+- `learning_decay`: If the `learning_method` is `online`, we can specify a parameter that controls learning rate in the online learning method (usually set between (0.5, 1.0]). 
+
 :::{tip}
 
 Doing Grid Search with LDA models can be very slow. There are some other topic modeling algorithms that are a lot faster. Please refer to Sarkar (2019) Chapter 6 for more information.
@@ -291,16 +309,18 @@ from sklearn.model_selection import GridSearchCV
 
 # Options to try with our LDA
 # Beware it will try *all* of the combinations, so it'll take ages
-search_params = {
-  'n_components': [3,4,5],
-  'learning_decay': [.5, .7]
-}
+search_params = {'n_components': range(3,8), 'learning_decay': [.5, .7]}
 
 # Set up LDA with the options we'll keep static
-model = LatentDirichletAllocation(learning_method='batch', max_iter = 10000, random_state=0)
+model = LatentDirichletAllocation(learning_method='online', ## `online` for large datasets
+                                  max_iter=10000,
+                                  random_state=0)
 
 # Try all of the options
-gridsearch = GridSearchCV(model, param_grid=search_params, n_jobs=-1, verbose=1)
+gridsearch = GridSearchCV(model,
+                          param_grid=search_params,
+                          n_jobs=-1,
+                          verbose=1)
 gridsearch.fit(cv_matrix)
 
 ## Save the best model
@@ -317,50 +337,102 @@ cv_results_df = pd.DataFrame(gridsearch.cv_results_)
 cv_results_df
 
 import seaborn as sns
-sns.pointplot(x="param_n_components", y="mean_test_score", hue="param_learning_decay", data=cv_results_df)
+sns.set(rc={"figure.dpi":150, 'savefig.dpi':150})
+sns.pointplot(x="param_n_components",
+              y="mean_test_score",
+              hue="param_learning_decay",
+              data=cv_results_df)
 
-
-get_topics_meanings(best_lda.components_, vocab, display_weights=True, weight_cutoff=0.6)
+get_topics_meanings(best_lda.components_,
+                    vocab,
+                    display_weights=True,
+                    weight_cutoff=0.6)
 
 ## Topic Prediction
 
 - We can use our LDA to make predictions of topics for new documents.
 
-new_texts= ['The sky is so blue', 'Love burger with ham']
+new_texts = ['The sky is so blue', 'Love burger with ham']
 
 new_texts_norm = normalize_corpus(new_texts)
 new_texts_cv = cv.transform(new_texts_norm)
 new_texts_cv.shape
 
 new_texts_doc_topic_matrix = best_lda.transform(new_texts_cv)
-topics = ['weather','food','animal']
-new_texts_doc_topic_df = pd.DataFrame(new_texts_doc_topic_matrix, columns = topics)
-new_texts_doc_topic_df['predicted_topic'] = [topics[i] for i in np.argmax(new_texts_doc_topic_df.values, axis=1)]
+topics = ['weather', 'food', 'animal']
+new_texts_doc_topic_df = pd.DataFrame(new_texts_doc_topic_matrix,
+                                      columns=topics)
+new_texts_doc_topic_df['predicted_topic'] = [
+    topics[i] for i in np.argmax(new_texts_doc_topic_df.values, axis=1)
+]
 
-new_texts_doc_topic_df['corpus']=new_texts_norm
+new_texts_doc_topic_df['corpus'] = new_texts_norm
 new_texts_doc_topic_df
 
 ## Additional Notes
 
 - We can calculate a metric to evaluate the coherence of each topic.
 - The coherence computation is implemented in `gensim`. To apply the coherence comptuation to a `sklearn`-trained LDA, we need `tmtoolkit` (`tmtoolkit.topicmod.evaluate.metric_coherence_gensim`).
-- However, `tmtoolkit` does not support `spacy` 3+.
+
 - I leave notes here in case in the future we need to compute the coherence metrics.
 
-from tmtoolkit.topicmod.evaluate import metric_coherence_gensim
-# lda_model - LatentDirichletAllocation()
-# vect - CountVectorizer()
-# texts - the list of tokenized words
-norm_corpus
-norm_corpus_tokens = [doc.split() for doc in norm_corpus]
+:::{warning}
 
+`tmtoolkit` does not support `spacy` 3+. Also, `tmtoolkit` will downgrade several important packages to lower versions. Please use it with caution. I would suggest creating another virtual environment for this.
 
-metric_coherence_gensim(measure='c_v', 
-                        top_n=5, 
-                        topic_word_distrib= best_lda.components_, 
-                        dtm=cv.fit_transform(norm_corpus), 
-                        vocab=np.array(cv.get_feature_names()), 
-                        texts=norm_corpus_tokens)
+:::
+
+- The following codes demonstrate how to find the optimal topic number based on the coherence scores of the topic models.
+
+def topic_model_coherence_generator(topic_num_start=2,
+                                    topic_num_end=6,
+                                    norm_corpus='',
+                                    cv_matrix='',
+                                    cv=''):
+    norm_corpus_tokens = [doc.split() for doc in norm_corpus]
+    models = []
+    coherence_scores = []
+
+    for i in range(topic_num_start, topic_num_end):
+        print(i)
+        cur_lda = LatentDirichletAllocation(n_components=i,
+                                            max_iter=10000,
+                                            random_state=0)
+        cur_lda.fit_transform(cv_matrix)
+        cur_coherence_score = metric_coherence_gensim(
+            measure='c_v',
+            top_n=5,
+            topic_word_distrib=cur_lda.components_,
+            dtm=cv.fit_transform(norm_corpus),
+            vocab=np.array(cv.get_feature_names()),
+            texts=norm_corpus_tokens)
+        models.append(cur_lda)
+        coherence_scores.append(np.mean(cur_coherence_score))
+    return models, coherence_scores
+
+%%time
+ts = 2
+te = 10
+models, coherence_scores = topic_model_coherence_generator(
+    ts, te, norm_corpus=norm_corpus, cv=cv, cv_matrix=cv_matrix)
+
+coherence_scores
+
+coherence_df = pd.DataFrame({
+    'TOPIC_NUMBER': [str(i) for i in range(ts, te)],
+    'COHERENCE_SCORE': np.round(coherence_scores, 4)
+})
+
+coherence_df.sort_values(by=["COHERENCE_SCORE"], ascending=False)
+
+import plotnine
+from plotnine import ggplot, aes, geom_point, geom_line, labs
+plotnine.options.dpi = 150
+
+g = (ggplot(coherence_df) + aes(x="TOPIC_NUMBER", y="COHERENCE_SCORE") +
+     geom_point(stat="identity") + geom_line(group=1, color="lightgrey") +
+     labs(x="Number of Topics", y="Average Coherence Score"))
+g
 
 ## References
 
