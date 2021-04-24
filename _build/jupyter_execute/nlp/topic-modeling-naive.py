@@ -235,9 +235,9 @@ def get_topics_meanings(tw_m,
 get_topics_meanings(topic_word_matrix,
                     vocab,
                     display_weights=True,
-                    weight_cutoff=0.6)
+                    weight_cutoff=2)
 
-get_topics_meanings(topic_word_matrix, vocab, display_weights=False, topn=10)
+get_topics_meanings(topic_word_matrix, vocab, display_weights=False, topn=3)
 
 ## Topics in Documents
 
@@ -346,7 +346,7 @@ sns.pointplot(x="param_n_components",
 get_topics_meanings(best_lda.components_,
                     vocab,
                     display_weights=True,
-                    weight_cutoff=0.6)
+                    weight_cutoff=2)
 
 ## Topic Prediction
 
@@ -384,6 +384,8 @@ new_texts_doc_topic_df
 
 - The following codes demonstrate how to find the optimal topic number based on the coherence scores of the topic models.
 
+import tmtoolkit
+from tmtoolkit.topicmod.evaluate import metric_coherence_gensim
 def topic_model_coherence_generator(topic_num_start=2,
                                     topic_num_end=6,
                                     norm_corpus='',

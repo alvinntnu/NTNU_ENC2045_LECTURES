@@ -160,6 +160,16 @@ Similarly, when you add the self-defined conda environment to the notebook kerne
 
 You need to specify the conda environment name `XXX`.
 
+:::{warning}
+
+There are several important things here:
+
+- You need to install the relevant modules AFTER you activate the conda environment in the terminal.
+- You need to add the kernel name with `python -m ipykernel install --user --name=XXX` within the conda enviroment as well.
+- In other words, you need to install the module `ipykernel` in the target conda environment as well.
+
+:::
+
 For Windows users, it is highly recommended to run the installation of python-related modules in `Anaconda Prompt` instead of `cmd`.
 
 ## Windows Users

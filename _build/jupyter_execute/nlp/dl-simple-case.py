@@ -18,7 +18,9 @@ random.shuffle(labeled_names)
 ## Train-Test Split
 
 from sklearn.model_selection import train_test_split
-train_set, test_set = train_test_split(labeled_names, test_size = 0.2, random_state=42)
+train_set, test_set = train_test_split(labeled_names,
+                                       test_size=0.2,
+                                       random_state=42)
 print(len(train_set), len(test_set))
 
 import tensorflow as tf
@@ -33,7 +35,7 @@ from keras.layers import Embedding
 from keras.layers import SpatialDropout1D
 
 names = [n for (n, l) in train_set]
-labels = [l for (n, l) in train_set] 
+labels = [l for (n, l) in train_set]
 
 len(names)
 
@@ -88,16 +90,16 @@ tokenizer.word_index
 - When padding the all texts into uniform lengths, consider whether to Pre-padding or removing values from the beginning of the sequence (i.e., `pre`) or the other way (`post`).
 -  Check `padding` and `truncating` parameters in `pad_sequences`
 
-names_lens=[len(n) for n in names_ints]
+names_lens = [len(n) for n in names_ints]
 names_lens
 import seaborn as sns
 sns.displot(names_lens)
-print(names[np.argmax(names_lens)]) # longest name
+print(names[np.argmax(names_lens)])  # longest name
 
 max_len = names_lens[np.argmax(names_lens)]
 max_len
 
-names_ints_pad = sequence.pad_sequences(names_ints, maxlen = max_len)
+names_ints_pad = sequence.pad_sequences(names_ints, maxlen=max_len)
 names_ints_pad[:10]
 
 ### Define X and Y
@@ -105,12 +107,13 @@ names_ints_pad[:10]
 X_train = np.array(names_ints_pad).astype('int32')
 y_train = np.array(labels)
 
-X_test = np.array(sequence.pad_sequences(
-    tokenizer.texts_to_sequences([n for (n,l) in test_set]),
-    maxlen = max_len)).astype('int32')
-y_test = np.array([l for (n,l) in test_set])
+X_test = np.array(
+    sequence.pad_sequences(tokenizer.texts_to_sequences(
+        [n for (n, l) in test_set]),
+                           maxlen=max_len)).astype('int32')
+y_test = np.array([l for (n, l) in test_set])
 
-X_test_texts = [n for (n,l) in test_set]
+X_test_texts = [n for (n, l) in test_set]
 
 print(X_train.shape)
 print(y_train.shape)
@@ -131,7 +134,7 @@ names[2]
 - `names_matrix` in fact is a bag-of-characters representation of a name text.
 
 import pandas as pd
-pd.DataFrame(names_matrix[2,1:], 
+pd.DataFrame(names_matrix[2, 1:],
              columns=["ONE-HOT"],
              index=list(tokenizer.word_index.keys()))
 
@@ -140,10 +143,11 @@ pd.DataFrame(names_matrix[2,1:],
 X_train2 = np.array(names_matrix).astype('int32')
 y_train2 = np.array(labels)
 
-X_test2 = tokenizer.texts_to_matrix([n for (n,l) in test_set], mode="binary").astype('int32')
-y_test2 = np.array([l for (n,l) in test_set])
+X_test2 = tokenizer.texts_to_matrix([n for (n, l) in test_set],
+                                    mode="binary").astype('int32')
+y_test2 = np.array([l for (n, l) in test_set])
 
-X_test2_texts = [n for (n,l) in test_set]
+X_test2_texts = [n for (n, l) in test_set]
 
 print(X_train2.shape)
 print(y_train2.shape)
@@ -152,14 +156,22 @@ print(y_test2.shape)
 
 ## Model Definition
 
+- Three important steps for building a deep neural network:
+    - **Define** the model structure 
+    - **Compile** the model
+    - **Fit** the model
+
 - After we have defined our input and output tensors (X and y), we can define the architecture of our neural network model.
 - For the two ways of name vectorized representations, we try two different network structures.
-    - Text to Sequences: Embedding + RNN
     - Text to Matrix: Fully connected Dense Layers
+    - Text to Sequences: Embedding + RNN
+
 
 import matplotlib.pyplot as plt
 import matplotlib
 import pandas as pd
+
+
 # Plotting results
 def plot1(history):
 
@@ -169,7 +181,7 @@ def plot1(history):
     loss = history.history['loss']
     val_loss = history.history['val_loss']
 
-    epochs = range(1, len(acc)+1)
+    epochs = range(1, len(acc) + 1)
     ## Accuracy plot
     plt.plot(epochs, acc, 'bo', label='Training acc')
     plt.plot(epochs, val_acc, 'b', label='Validation acc')
@@ -184,194 +196,285 @@ def plot1(history):
     plt.legend()
     plt.show()
 
-    
+
 def plot2(history):
-    pd.DataFrame(history.history).plot(figsize=(8,5))
+    pd.DataFrame(history.history).plot(figsize=(8, 5))
     plt.grid(True)
     #plt.gca().set_ylim(0,1)
     plt.show()
 
 ### Model 1: Fully Connected Dense Layers
 
-- Two fully-connected dense layers with the Text-to-Matrix inputs
+- Let's try a simple neural network with two fully-connected dense layers with the Text-to-Matrix inputs.
+- That is, the input of this model is the bag-of-words representation of the entire name.
 
 ![](../images/name-gender-classifier-dl/name-gender-classifier-dl.002.jpeg)
 
+#### Dense Layer Operation
+
+- The transformation of each Dense layer will transform the input tensor into a tensor whose dimension size is the same as the node number of the Dense layer.
+
+![](../images/name-gender-classifier-dl/name-gender-classifier-dl.003.jpeg)
+
+## Define Model
 from keras import layers
 model1 = keras.Sequential()
-model1.add(keras.Input(shape=(vocab_size,), name="one_hot_input"))
+model1.add(keras.Input(shape=(vocab_size, ), name="one_hot_input"))
 model1.add(layers.Dense(16, activation="relu", name="dense_layer_1"))
 model1.add(layers.Dense(16, activation="relu", name="dense_layer_2"))
 model1.add(layers.Dense(1, activation="sigmoid", name="output"))
 
-model1.compile(
-    loss=keras.losses.BinaryCrossentropy(),
-    optimizer=keras.optimizers.Adam(lr=0.001),
-    metrics=["accuracy"]
-)
-
+## Compile Model
+model1.compile(loss=keras.losses.BinaryCrossentropy(),
+               optimizer=keras.optimizers.Adam(lr=0.001),
+               metrics=["accuracy"])
 
 plot_model(model1, show_shapes=True)
 
-### A few hyperparameters for network training
+#### A few hyperparameters for network training
 
-- Batch size
-- Epoch
-- Validation Split Ratio
+- Batch Size: The number of inputs needed per update of the model parameter (gradient descent)
+- Epoch: How many iterations needed for training
+- Validation Split Ratio: Proportion of validation and training data split
 
-BATCH_SIZE=128
-EPOCHS=20
-VALIDATION_SPLIT=0.2
+## Hyperparameters
+BATCH_SIZE = 128
+EPOCHS = 20
+VALIDATION_SPLIT = 0.2
 
-history1 = model1.fit(X_train2, y_train2, 
-                    batch_size=BATCH_SIZE, 
-                    epochs=EPOCHS, verbose=2,
-                   validation_split = VALIDATION_SPLIT)
+## Fit the model
+history1 = model1.fit(X_train2,
+                      y_train2,
+                      batch_size=BATCH_SIZE,
+                      epochs=EPOCHS,
+                      verbose=2,
+                      validation_split=VALIDATION_SPLIT)
 
-plot2(history1)
+plot1(history1)
 
 model1.evaluate(X_test2, y_test2, batch_size=128, verbose=2)
 
 ### Model 2: Embedding + RNN
 
-- One Embedding Layer + One RNN Layer 
-- With Text-to-Sequence inputs
+- Another possibility is to introduce an embedding layer in the network, which transforms each **character** in the name into a tensor (i.e., embeddings), and then to add a Recurrent Neural Network layer to process each character sequentially.
+- The strength of the RNN is that it iterates over the **timesteps** of a sequence, while maintaining an internal state that encodes information about the **timesteps** it has seen so far.
+- It is posited that after the RNN iterates through the entire sequence, it keeps important information of all previously iterated tokens for further operation.
+
+- The input of this network is a padded sequence of the original text (name).
 
 ![](../images/name-gender-classifier-dl/name-gender-classifier-dl.004.jpeg)
 
+#### Embedding Layer Operation
+
+![](../images/name-gender-classifier-dl/name-gender-classifier-dl.005.jpeg)
+
+#### RNN Layer Operation
+
+![](../images/name-gender-classifier-dl/name-gender-classifier-dl.006.jpeg)
+
+#### RNN Layer Operation
+
+![](../images/name-gender-classifier-dl/name-gender-classifier-dl.007.jpeg)
+
+#### Unrolled Version of RNN Operation
+
+![](../images/name-gender-classifier-dl/name-gender-classifier-dl.008.jpeg)
+
+#### Unrolled Version of RNN Operation
+
+![](../images/name-gender-classifier-dl/name-gender-classifier-dl.009.jpeg)
+
+## Define the embedding dimension
 EMBEDDING_DIM = 128
+
+## Define model
 model2 = Sequential()
-model2.add(Embedding(input_dim=vocab_size, 
-                     output_dim=EMBEDDING_DIM, 
-                     input_length=max_len, 
-                     mask_zero=True))
-model2.add(layers.SimpleRNN(16, activation="relu", name="lstm_layer"))
+model2.add(
+    Embedding(input_dim=vocab_size,
+              output_dim=EMBEDDING_DIM,
+              input_length=max_len,
+              mask_zero=True))
+model2.add(layers.SimpleRNN(16, activation="relu", name="RNN_layer"))
 model2.add(Dense(16, activation="relu", name="dense_layer"))
 model2.add(Dense(1, activation="sigmoid", name="output"))
 
-model2.compile(
-    loss=keras.losses.BinaryCrossentropy(),
-    optimizer=keras.optimizers.Adam(lr=0.001),
-    metrics=["accuracy"]
-)
+model2.compile(loss=keras.losses.BinaryCrossentropy(),
+               optimizer=keras.optimizers.Adam(lr=0.001),
+               metrics=["accuracy"])
 
 plot_model(model2, show_shapes=True)
 
-history2 = model2.fit(X_train, y_train, 
-                    batch_size=BATCH_SIZE, 
-                    epochs=EPOCHS, verbose=2,
-                    validation_split = VALIDATION_SPLIT)
+history2 = model2.fit(X_train,
+                      y_train,
+                      batch_size=BATCH_SIZE,
+                      epochs=EPOCHS,
+                      verbose=2,
+                      validation_split=VALIDATION_SPLIT)
 
-plot2(history2)
+plot1(history2)
 
 model2.evaluate(X_test, y_test, batch_size=128, verbose=2)
 
 ### Model 3: Regularization and Dropout
 
-- Previous two examples clearly show overfitting of the models because the model performance on the validation set starts to stall after the first few epochs.
-- We can implement regularization and dropouts in our network definition to avoid overfitting.
+- Based on the validation results of the previous two models, we can see that they are probably a bit overfit because the model performance on the validation set starts to stall after the first few epochs.
+- We can add **regularization** and **dropouts** in our network definition to avoid overfitting.
 
+## Define embedding dimension
 EMBEDDING_DIM = 128
+
+## Define model
 model3 = Sequential()
-model3.add(Embedding(input_dim=vocab_size, 
-                     output_dim=EMBEDDING_DIM, 
-                     input_length=max_len, 
-                     mask_zero=True))
-model3.add(layers.SimpleRNN(16, activation="relu", name="lstm_layer", dropout=0.2, recurrent_dropout=0.2))
+model3.add(
+    Embedding(input_dim=vocab_size,
+              output_dim=EMBEDDING_DIM,
+              input_length=max_len,
+              mask_zero=True))
+model3.add(
+    layers.SimpleRNN(16,
+                     activation="relu",
+                     name="RNN_layer",
+                     dropout=0.2,
+                     recurrent_dropout=0.2))  ## add dropout
 model3.add(Dense(16, activation="relu", name="dense_layer"))
 model3.add(Dense(1, activation="sigmoid", name="output"))
 
-model3.compile(
-    loss=keras.losses.BinaryCrossentropy(),
-    optimizer=keras.optimizers.Adam(lr=0.001),
-    metrics=["accuracy"]
-)
+model3.compile(loss=keras.losses.BinaryCrossentropy(),
+               optimizer=keras.optimizers.Adam(lr=0.001),
+               metrics=["accuracy"])
 
 plot_model(model3)
 
-history3 = model3.fit(X_train, y_train, 
-                    batch_size=BATCH_SIZE, 
-                    epochs=EPOCHS, verbose=2,
-                    validation_split = VALIDATION_SPLIT)
+history3 = model3.fit(X_train,
+                      y_train,
+                      batch_size=BATCH_SIZE,
+                      epochs=EPOCHS,
+                      verbose=2,
+                      validation_split=VALIDATION_SPLIT)
 
-plot2(history3)
+plot1(history3)
 
 model3.evaluate(X_test, y_test, batch_size=128, verbose=2)
 
 ### Model 4: Improve the Models
 
-- In addition to regularization and dropouts, we can further improve the model by increasing the model complexity.
-- In particular, we can increase the depths and widths of the network layers.
-- Let's try stack two RNN layers.
+- In addition to regularization and dropouts, we can further improve the model by increasing the model **complexity**.
+- In particular, we can increase the **depths** and **widths** of the network layers.
+- Let's try stacking two RNN layers.
 
-EMBEDDING_DIM = 128
+:::{tip}
+
+When we stack two sequence layers (e.g., RNN), we need to make sure that the hidden states (outputs) of the first sequence layer at **all timesteps** are properly passed onto the next sequence layer, not just the hidden state (output) of the last timestep.
+
+In keras, this usually means that we need to set the argument `return_sequences=True` in a sequence layer (e.g., `SimpleRNN`, `LSTM`, `GRU` etc).
+
+:::
+
+## Define embedding dimension
+MBEDDING_DIM = 128
+
+## Define model
 model4 = Sequential()
-model4.add(Embedding(input_dim=vocab_size, 
-                     output_dim=EMBEDDING_DIM, 
-                     input_length=max_len, 
-                     mask_zero=True))
-model4.add(layers.SimpleRNN(16, activation="relu", name="lstm_layer_1", 
-                            dropout=0.2, recurrent_dropout=0.2, return_sequences=True))
-model4.add(layers.SimpleRNN(16, activation="relu", name="lstm_layer_2", 
-                            dropout=0.2, recurrent_dropout=0.2))
+model4.add(
+    Embedding(input_dim=vocab_size,
+              output_dim=EMBEDDING_DIM,
+              input_length=max_len,
+              mask_zero=True))
+model4.add(
+    layers.SimpleRNN(16,
+                     activation="relu",
+                     name="RNN_layer_1",
+                     dropout=0.2,
+                     recurrent_dropout=0.5,
+                     return_sequences=True)) ## To ensure the hidden states of all timesteps are pased down to next layer
+model4.add(
+    layers.SimpleRNN(16,
+                     activation="relu",
+                     name="RNN_layer_2",
+                     dropout=0.2,
+                     recurrent_dropout=0.5))
 model4.add(Dense(1, activation="sigmoid", name="output"))
-model4.compile(
-    loss=keras.losses.BinaryCrossentropy(),
-    optimizer=keras.optimizers.Adam(lr=0.001),
-    metrics=["accuracy"]
-)
+
+## Compile model
+model4.compile(loss=keras.losses.BinaryCrossentropy(),
+               optimizer=keras.optimizers.Adam(lr=0.001),
+               metrics=["accuracy"])
 
 plot_model(model4)
 
-history4 = model4.fit(X_train, y_train, 
-                    batch_size=BATCH_SIZE, 
-                    epochs=EPOCHS, verbose=2,
-                    validation_split = VALIDATION_SPLIT)
+history4 = model4.fit(X_train,
+                      y_train,
+                      batch_size=BATCH_SIZE,
+                      epochs=EPOCHS,
+                      verbose=2,
+                      validation_split=VALIDATION_SPLIT)
 
-plot2(history4)
+plot1(history4)
 
 model4.evaluate(X_test, y_test, batch_size=128, verbose=2)
 
 ### Model 5: Bidirectional
 
-- Now let's try the more sophisticated RNN, LSTM, and with birectional computing.
-- And add more nodes to the LSTM layer.
+- We can also increase the model complexity in at least two possible ways:
+    - Use more advanced RNNs, such as LSTM or GRU
+    - Process the sequence in two directions
+    - Increase the hidden nodes of the RNN/LSTM
+- Now let's try the more sophisticated RNN, LSTM, and with bidirectional sequence processing and add more nodes to the LSTM layer.
 
+## Define embedding dimension
 EMBEDDING_DIM = 128
+
+## Define model
 model5 = Sequential()
-model5.add(Embedding(input_dim=vocab_size, 
-                     output_dim=EMBEDDING_DIM, 
-                     input_length=max_len, 
-                     mask_zero=True))
-model5.add(layers.Bidirectional(LSTM(32, activation="relu", name="lstm_layer", dropout=0.2, recurrent_dropout=0.2)))
+model5.add(
+    Embedding(input_dim=vocab_size,
+              output_dim=EMBEDDING_DIM,
+              input_length=max_len,
+              mask_zero=True))
+model5.add(
+    layers.Bidirectional(  ## Bidirectional sequence processing
+        LSTM(32,
+             activation="relu",
+             name="lstm_layer_1",
+             dropout=0.2,
+             recurrent_dropout=0.5,
+             return_sequences=True)))
+model5.add(
+    layers.Bidirectional(  ## Bidirectional sequence processing
+        LSTM(32,
+             activation="relu",
+             name="lstm_layer_2",
+             dropout=0.2,
+             recurrent_dropout=0.5)))
 model5.add(Dense(1, activation="sigmoid", name="output"))
 
-model5.compile(
-    loss=keras.losses.BinaryCrossentropy(),
-    optimizer=keras.optimizers.Adam(lr=0.001),
-    metrics=["accuracy"]
-)
+model5.compile(loss=keras.losses.BinaryCrossentropy(),
+               optimizer=keras.optimizers.Adam(lr=0.001),
+               metrics=["accuracy"])
 
 plot_model(model5)
 
-history5 = model5.fit(X_train, y_train, 
-                    batch_size=BATCH_SIZE, 
-                    epochs=EPOCHS, verbose=2,
-                    validation_split = VALIDATION_SPLIT)
+history5 = model5.fit(X_train,
+                      y_train,
+                      batch_size=BATCH_SIZE,
+                      epochs=EPOCHS,
+                      verbose=2,
+                      validation_split=VALIDATION_SPLIT)
 
-plot2(history5)
+plot1(history5)
 
 model5.evaluate(X_test, y_test, batch_size=128, verbose=2)
 
 ## Check Embeddings
 
-- Compared to one-hot encodings of characters, embeddings may include more information relating to the characteristics of the characters.
+- Compared to one-hot encodings of characters, embeddings may include more information relating to the characteristics (semantics?) of the characters.
 - We can extract the embedding layer and apply dimensional reduction techniques (i.e., TSNE) to see how embeddings capture the relationships in-between characters.
 
+## A name in sequence from test set
 X_test[10]
 
 ind2char = tokenizer.index_word
-[ind2char.get(i) for i in X_test[10] if ind2char.get(i)!= None ]
+[ind2char.get(i) for i in X_test[10] if ind2char.get(i) != None]
 
 tokenizer.texts_to_sequences('Alvin')
 
@@ -379,7 +482,7 @@ char_vectors = model5.layers[0].get_weights()[0]
 char_vectors.shape
 
 labels = [char for (ind, char) in tokenizer.index_word.items()]
-labels.insert(0,None)
+labels.insert(0, None)
 labels
 
 from sklearn.manifold import TSNE
@@ -392,12 +495,15 @@ labels = labels
 plt.figure(figsize=(10, 7), dpi=150)
 plt.scatter(T[:, 0], T[:, 1], c='orange', edgecolors='r')
 for label, x, y in zip(labels, T[:, 0], T[:, 1]):
-    plt.annotate(label, xy=(x+1, y+1), xytext=(0, 0), textcoords='offset points')
+    plt.annotate(label,
+                 xy=(x + 1, y + 1),
+                 xytext=(0, 0),
+                 textcoords='offset points')
 
 ## Issues of Word/Character Representations
 
 - One-hot encoding does not indicate semantic relationships between characters.
-- For deep learning NLP, it is preferred to convert one-hot encodings of words/characters into embeddings, which are argued to include more semantic information of the tokens.
+- For deep learning NLP, it is preferred to convert one-hot encodings of words/characters into **embeddings**, which are argued to include more semantic information of the tokens.
 - Now the question is how to train and create better word embeddings. We will come back to this issue later.
 
 ## Hyperparameter Tuning
@@ -405,8 +511,15 @@ for label, x, y in zip(labels, T[:, 0], T[:, 1]):
 :::{note}
 
 Please install keras tuner module in your current conda:
+
 ```
 pip install -U keras-tuner
+```
+
+or 
+
+```
+conda install -c conda-forge keras-tuner
 ```
 
 :::
@@ -415,15 +528,19 @@ pip install -U keras-tuner
 - Typical hyperparameters include:
     - Number of nodes for the layer
     - Learning Rates
-- We can utilize the module, [`keras-tuner`](https://keras-team.github.io/keras-tuner/documentation/tuners/), to fine-tune the hyperparameters.
+- We can utilize the module, [`keras-tuner`](https://keras-team.github.io/keras-tuner/documentation/tuners/), to fine-tune the hyperparameters (i.e., to find the values that optimize the model performance).
 
 - Steps for Keras Tuner
     - First, wrap the model definition in a function, which takes a single `hp` argument. 
     - Inside this function, replace any value we want to tune with a call to hyperparameter sampling methods, e.g. `hp.Int()` or `hp.Choice()`. The function should return a compiled model.
-    - Next, instantiate a tuner object specifying your optimization objective and other search parameters.
+    - Next, instantiate a `tuner` object specifying our optimization objective and other search parameters.
     - Finally, start the search with the `search()` method, which takes the same arguments as `Model.fit()` in keras.
-    - When search is over, we can retrieve the best model and a summary of the results from the `tunner`.
+    - When the search is over, we can retrieve the best model and a summary of the results from the `tunner`.
 
+
+## confirm if the right kernel is being used
+import sys
+sys.executable
 
 import kerastuner
 
@@ -443,24 +560,28 @@ import kerastuner
 #         metrics=['accuracy'])
 #     return model1
 
+
 def build_model(hp):
-    m= Sequential()
-    m.add(Embedding(input_dim=vocab_size, 
-                    output_dim=hp.Int('output_dim', min_value=32, max_value=128, step=32), 
-                    input_length=max_len, 
-                    mask_zero=True))
-    m.add(layers.Bidirectional(LSTM(
-        hp.Int('units', min_value=16, max_value=64, step=16),
-        activation="relu", 
-        dropout=0.2, 
-        recurrent_dropout=0.2)))
+    m = Sequential()
+    m.add(
+        Embedding(input_dim=vocab_size,
+                  output_dim=hp.Int('output_dim',  ## tuning 2
+                                    min_value=32,
+                                    max_value=128,
+                                    step=32),
+                  input_length=max_len,
+                  mask_zero=True))
+    m.add(
+        layers.Bidirectional(
+            LSTM(hp.Int('units', min_value=16, max_value=64, step=16), ## tuning 1
+                 activation="relu",
+                 dropout=0.2,
+                 recurrent_dropout=0.2)))
     m.add(Dense(1, activation="sigmoid", name="output"))
 
-    m.compile(
-        loss=keras.losses.BinaryCrossentropy(),
-        optimizer=keras.optimizers.Adam(lr=0.001),
-        metrics=["accuracy"]
-    )
+    m.compile(loss=keras.losses.BinaryCrossentropy(),
+              optimizer=keras.optimizers.Adam(lr=0.001),
+              metrics=["accuracy"])
     return m
 
 ## This is to clean up the temp dir from the tuner
@@ -471,19 +592,17 @@ import shutil
 
 if os.path.isdir('my_dir'):
     shutil.rmtree('my_dir')
-    
 
-- The `max_trials` variable represents the number of hyperparameter combinations that will be tested by the tuner.
+- The `max_trials` variable represents the maximum number of trials that a hyperparameter combination would run.
 - The `execution_per_trial` variable is the number of models that should be built and fit for each trial for robustness purposes.
 
 ## Instantiate the tunner
 
-tuner = kerastuner.tuners.RandomSearch(
-  build_model,
-  objective='val_accuracy',
-  max_trials=10,
-  executions_per_trial=2,
-  directory='my_dir')
+tuner = kerastuner.tuners.RandomSearch(build_model,
+                                       objective='val_accuracy',
+                                       max_trials=10,
+                                       executions_per_trial=2,
+                                       directory='my_dir')
 
 ## Check the tuner's search space
 tuner.search_space_summary()
@@ -504,26 +623,33 @@ tuner.results_summary()
 
 ### Train Model with the Tuned Hyperparameters
 
-EMBEDDING_DIM = 128
+EMBEDDING_DIM = 64
 model6 = Sequential()
-model6.add(Embedding(input_dim=vocab_size, 
-                     output_dim=EMBEDDING_DIM, 
-                     input_length=max_len, 
-                     mask_zero=True))
-model6.add(layers.Bidirectional(LSTM(64, activation="relu", name="lstm_layer", dropout=0.2, recurrent_dropout=0.2)))
+model6.add(
+    Embedding(input_dim=vocab_size,
+              output_dim=EMBEDDING_DIM,
+              input_length=max_len,
+              mask_zero=True))
+model6.add(
+    layers.Bidirectional(
+        LSTM(64,
+             activation="relu",
+             name="lstm_layer",
+             dropout=0.2,
+             recurrent_dropout=0.5)))
 model6.add(Dense(1, activation="sigmoid", name="output"))
 
-model6.compile(
-    loss=keras.losses.BinaryCrossentropy(),
-    optimizer=keras.optimizers.Adam(lr=0.001),
-    metrics=["accuracy"]
-)
+model6.compile(loss=keras.losses.BinaryCrossentropy(),
+               optimizer=keras.optimizers.Adam(lr=0.001),
+               metrics=["accuracy"])
 plot_model(model6)
 
-history6 = model6.fit(X_train, y_train, 
-                    batch_size=BATCH_SIZE, 
-                    epochs=EPOCHS, verbose=2,
-                    validation_split = VALIDATION_SPLIT)
+history6 = model6.fit(X_train,
+                      y_train,
+                      batch_size=BATCH_SIZE,
+                      epochs=EPOCHS,
+                      verbose=2,
+                      validation_split=VALIDATION_SPLIT)
 
 plot2(history6)
 
@@ -538,14 +664,14 @@ def model_predict_pipeline(text):
     return model6.predict(np.array(_seq_pad))
 
 
-
 # np.array(sequence.pad_sequences(
 #     tokenizer.texts_to_sequences([n for (n,l) in test_set]),
 #     maxlen = max_len)).astype('float32')
 
-reversed_word_index = dict([(index, word) for (word, index) in tokenizer.word_index.items()])
+reversed_word_index = dict([(index, word)
+                            for (word, index) in tokenizer.word_index.items()])
 
-text_id =305
+text_id = 305
 
 X_test[text_id]
 
@@ -555,31 +681,43 @@ X_test_texts[text_id]
 
 model_predict_pipeline([X_test_texts[text_id]])
 
-exp = explainer.explain_instance(
-X_test_texts[text_id], model_predict_pipeline, num_features=100, top_labels=1)
+exp = explainer.explain_instance(X_test_texts[text_id],
+                                 model_predict_pipeline,
+                                 num_features=100,
+                                 top_labels=1)
 
 exp.show_in_notebook(text=True)
 
 y_test[text_id]
 
-exp = explainer.explain_instance(
-'Tim', model_predict_pipeline, num_features=100, top_labels=1)
+exp = explainer.explain_instance('Tim',
+                                 model_predict_pipeline,
+                                 num_features=100,
+                                 top_labels=1)
 exp.show_in_notebook(text=True)
 
-exp = explainer.explain_instance(
-'Michaelis', model_predict_pipeline, num_features=100, top_labels=1)
+exp = explainer.explain_instance('Michaelis',
+                                 model_predict_pipeline,
+                                 num_features=100,
+                                 top_labels=1)
 exp.show_in_notebook(text=True)
 
-exp = explainer.explain_instance(
-'Sidney', model_predict_pipeline, num_features=100, top_labels=1)
+exp = explainer.explain_instance('Sidney',
+                                 model_predict_pipeline,
+                                 num_features=100,
+                                 top_labels=1)
 exp.show_in_notebook(text=True)
 
-exp = explainer.explain_instance(
-'Timber', model_predict_pipeline, num_features=100, top_labels=1)
+exp = explainer.explain_instance('Timber',
+                                 model_predict_pipeline,
+                                 num_features=100,
+                                 top_labels=1)
 exp.show_in_notebook(text=True)
 
-exp = explainer.explain_instance(
-'Alvin', model_predict_pipeline, num_features=100, top_labels=1)
+exp = explainer.explain_instance('Alvin',
+                                 model_predict_pipeline,
+                                 num_features=100,
+                                 top_labels=1)
 exp.show_in_notebook(text=True)
 
 ## References
