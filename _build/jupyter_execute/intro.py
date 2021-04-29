@@ -332,6 +332,7 @@ nlp/topic-modeling-naive
 ```{toctree}
 :hidden:
 :titlesonly:
+:numbered: 2
 :caption: Deep Learning NLP
 
 nlp/dl-neural-network-from-scratch
