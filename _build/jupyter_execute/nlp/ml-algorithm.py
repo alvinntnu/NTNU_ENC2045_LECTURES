@@ -10,9 +10,9 @@
     - That is, the training in generative models is based on the **joint** probability of the data and the class, i.e., $P(c,d)$
     - Examples: N-gram Language Models, Naive Bayes, Hidden Markov Model, Probabilistic Context-Free Grammars.
 
-- **Distriminative**: 
+- **Discriminative**: 
     - The goal of training is to directly find $P(c|d)$.
-    - Training is based on the **conditional** Probablity of the class given the data, i.e., $P(c|d)$.
+    - Training is based on the **conditional** Probability of the class given the data, i.e., $P(c|d)$.
     - Examples: Logistic regression, Maximum Entropy Models, Conditional Random Field, Support Vector Machine, Perceptron.
 
     
@@ -95,6 +95,7 @@ $$ (naive_bayes6)
     - For unseen features in a new document, e.g., $P(x|c)$, this would render the entire **posterior probability** of the class to be zero. 
     - Laplace smoothing (Add-one)
     - Lidstone smooting (Self-defined $\alpha$ < 1)
+    - cf. `sklearn.naive_bayes.GaussianNB(*, priors=None, var_smoothing=1e-09)`
 
 ## Logistic Regression
 
@@ -111,8 +112,8 @@ y = \beta_0 + \beta_1x_1 + \beta_2 x_2 + ... + \beta_ix_i
 = \sum_{i}\beta_ix_i
 $$
 
-- Each feature $x_i$ of the document is a function that chracterizes the relevant linguistic properties of the document. These features can be all manually annotated or created automatically.
-- These features are often in simple forms that are of binary values or numeric values within a range:
+- Each feature $x_i$ of the document is a function that characterizes the relevant linguistic properties of the document. These features can be all **manually** annotated or created **automatically**.
+- These features are often in simple forms that are of **binary** values or **numeric** values within a range:
 
     $$
     \begin{align*}
@@ -167,11 +168,13 @@ $$
     - Odds are defined as: 
     
     $$
-    odds =\frac{\textit{The probability that the event will occur}}{\textit{The probability that the event will NOT occur}} = \frac{P_{\textit{relevant class}}}{1 - P_{\textit{relevant class}}}
+    \begin{align}\\
+    odds &=\frac{\textit{The probability that the event will occur}}{\textit{The probability that the event will NOT occur}} \\&= \frac{P_{\textit{relevant class}}}{1 - P_{\textit{relevant class}}}
+    \end{align}
     $$
 
 
-- A quick example (based on Stefan Gries' data):
+- A quick example (based on Stefan Gries' data): (skipped)
     - We use the type of the subordinate clauses (`SUBORDTYPE`) to predict the `ORDER` of the main and subordinate clauses.
         - $X: \{caus, temp\}$
         - $y: \{mc-sc, sc-mc\}$
@@ -359,7 +362,7 @@ cat("Log Odds Ratios of subordtype=temp vs. subordtype=cause:", log_odds_ratio)
   - Trial and error is required by training and evaluating several SVMs on a validation dataset (i.e., ***k***-fold cross validation) 
   - The choice of kernel is often arbitrary because the performances with different kernels may vary only slightly.
 
-## Other Discriminative Models
+## Other Discriminative Models (skipped)
 
 There are many more ways to learn the weights (i.e., $\beta_i$) in the discriminative models. Different algorithms may prioritize different **link functions** to train the model parameters.
 
@@ -386,7 +389,7 @@ $$
 p(c|d,\lambda) = \frac{e^{\sum_{i}\lambda_if_i(c,x_i)}}{\sum_{c'}{e^{\sum_{i}\lambda_if_i(c',x_i)}}}\\
 $$
 
-## Other Classification Models
+## Other Classification Models (skipped)
 
 - There are other classification models that are not probabilistic
     - **Decision Tree**

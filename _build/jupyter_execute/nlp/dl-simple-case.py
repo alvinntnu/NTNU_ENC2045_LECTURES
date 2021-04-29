@@ -6,10 +6,38 @@
 
 ## Prepare Data
 
+## Packages Dependencies
+import os
+import shutil
 import numpy as np
 import nltk
 from nltk.corpus import names
 import random
+
+from sklearn.model_selection import train_test_split
+from sklearn.manifold import TSNE
+
+import seaborn as sns
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib
+
+from lime.lime_text import LimeTextExplainer
+
+import tensorflow as tf
+import tensorflow.keras as keras
+
+from keras.preprocessing.text import Tokenizer
+from keras.preprocessing import sequence
+from keras.utils import to_categorical, plot_model
+from keras.models import Sequential
+from keras import layers
+    # from keras.layers import Dense
+    # from keras.layers import LSTM, RNN, GRU
+    # from keras.layers import Embedding
+    # from keras.layers import SpatialDropout1D
+
+import kerastuner
 
 labeled_names = ([(name, 1) for name in names.words('male.txt')] +
                  [(name, 0) for name in names.words('female.txt')])
@@ -17,22 +45,10 @@ random.shuffle(labeled_names)
 
 ## Train-Test Split
 
-from sklearn.model_selection import train_test_split
 train_set, test_set = train_test_split(labeled_names,
                                        test_size=0.2,
                                        random_state=42)
 print(len(train_set), len(test_set))
-
-import tensorflow as tf
-import tensorflow.keras as keras
-from keras.preprocessing.text import Tokenizer
-from keras.preprocessing import sequence
-from keras.utils import to_categorical, plot_model
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.layers import LSTM, RNN, GRU
-from keras.layers import Embedding
-from keras.layers import SpatialDropout1D
 
 names = [n for (n, l) in train_set]
 labels = [l for (n, l) in train_set]
@@ -49,7 +65,7 @@ len(names)
 - If every character is treated as a token, specify `char_level=True`.
 
 tokenizer = Tokenizer(char_level=True)
-tokenizer.fit_on_texts(names)
+tokenizer.fit_on_texts(names) ## similar to CountVectorizer.fit_transform()
 
 ## Prepare Input and Output Tensors
 
@@ -92,7 +108,7 @@ tokenizer.word_index
 
 names_lens = [len(n) for n in names_ints]
 names_lens
-import seaborn as sns
+
 sns.displot(names_lens)
 print(names[np.argmax(names_lens)])  # longest name
 
@@ -133,7 +149,6 @@ names[2]
 
 - `names_matrix` in fact is a bag-of-characters representation of a name text.
 
-import pandas as pd
 pd.DataFrame(names_matrix[2, 1:],
              columns=["ONE-HOT"],
              index=list(tokenizer.word_index.keys()))
@@ -165,11 +180,6 @@ print(y_test2.shape)
 - For the two ways of name vectorized representations, we try two different network structures.
     - Text to Matrix: Fully connected Dense Layers
     - Text to Sequences: Embedding + RNN
-
-
-import matplotlib.pyplot as plt
-import matplotlib
-import pandas as pd
 
 
 # Plotting results
@@ -217,7 +227,7 @@ def plot2(history):
 ![](../images/name-gender-classifier-dl/name-gender-classifier-dl.003.jpeg)
 
 ## Define Model
-from keras import layers
+
 model1 = keras.Sequential()
 model1.add(keras.Input(shape=(vocab_size, ), name="one_hot_input"))
 model1.add(layers.Dense(16, activation="relu", name="dense_layer_1"))
@@ -290,13 +300,13 @@ EMBEDDING_DIM = 128
 ## Define model
 model2 = Sequential()
 model2.add(
-    Embedding(input_dim=vocab_size,
-              output_dim=EMBEDDING_DIM,
-              input_length=max_len,
-              mask_zero=True))
+    layers.Embedding(input_dim=vocab_size,
+                     output_dim=EMBEDDING_DIM,
+                     input_length=max_len,
+                     mask_zero=True))
 model2.add(layers.SimpleRNN(16, activation="relu", name="RNN_layer"))
-model2.add(Dense(16, activation="relu", name="dense_layer"))
-model2.add(Dense(1, activation="sigmoid", name="output"))
+model2.add(layers.Dense(16, activation="relu", name="dense_layer"))
+model2.add(layers.Dense(1, activation="sigmoid", name="output"))
 
 model2.compile(loss=keras.losses.BinaryCrossentropy(),
                optimizer=keras.optimizers.Adam(lr=0.001),
@@ -326,18 +336,18 @@ EMBEDDING_DIM = 128
 ## Define model
 model3 = Sequential()
 model3.add(
-    Embedding(input_dim=vocab_size,
-              output_dim=EMBEDDING_DIM,
-              input_length=max_len,
-              mask_zero=True))
+    layers.Embedding(input_dim=vocab_size,
+                     output_dim=EMBEDDING_DIM,
+                     input_length=max_len,
+                     mask_zero=True))
 model3.add(
     layers.SimpleRNN(16,
                      activation="relu",
                      name="RNN_layer",
                      dropout=0.2,
                      recurrent_dropout=0.2))  ## add dropout
-model3.add(Dense(16, activation="relu", name="dense_layer"))
-model3.add(Dense(1, activation="sigmoid", name="output"))
+model3.add(layers.Dense(16, activation="relu", name="dense_layer"))
+model3.add(layers.Dense(1, activation="sigmoid", name="output"))
 
 model3.compile(loss=keras.losses.BinaryCrossentropy(),
                optimizer=keras.optimizers.Adam(lr=0.001),
@@ -376,24 +386,25 @@ MBEDDING_DIM = 128
 ## Define model
 model4 = Sequential()
 model4.add(
-    Embedding(input_dim=vocab_size,
-              output_dim=EMBEDDING_DIM,
-              input_length=max_len,
-              mask_zero=True))
+    layers.Embedding(input_dim=vocab_size,
+                     output_dim=EMBEDDING_DIM,
+                     input_length=max_len,
+                     mask_zero=True))
 model4.add(
     layers.SimpleRNN(16,
                      activation="relu",
                      name="RNN_layer_1",
                      dropout=0.2,
                      recurrent_dropout=0.5,
-                     return_sequences=True)) ## To ensure the hidden states of all timesteps are pased down to next layer
+                     return_sequences=True)
+)  ## To ensure the hidden states of all timesteps are pased down to next layer
 model4.add(
     layers.SimpleRNN(16,
                      activation="relu",
                      name="RNN_layer_2",
                      dropout=0.2,
                      recurrent_dropout=0.5))
-model4.add(Dense(1, activation="sigmoid", name="output"))
+model4.add(layers.Dense(1, activation="sigmoid", name="output"))
 
 ## Compile model
 model4.compile(loss=keras.losses.BinaryCrossentropy(),
@@ -427,26 +438,26 @@ EMBEDDING_DIM = 128
 ## Define model
 model5 = Sequential()
 model5.add(
-    Embedding(input_dim=vocab_size,
-              output_dim=EMBEDDING_DIM,
-              input_length=max_len,
-              mask_zero=True))
+    layers.Embedding(input_dim=vocab_size,
+                      output_dim=EMBEDDING_DIM,
+                      input_length=max_len,
+                      mask_zero=True))
 model5.add(
     layers.Bidirectional(  ## Bidirectional sequence processing
-        LSTM(32,
-             activation="relu",
-             name="lstm_layer_1",
-             dropout=0.2,
-             recurrent_dropout=0.5,
-             return_sequences=True)))
+        layers.LSTM(32,
+                    activation="relu",
+                    name="lstm_layer_1",
+                    dropout=0.2,
+                    recurrent_dropout=0.5,
+                    return_sequences=True)))
 model5.add(
     layers.Bidirectional(  ## Bidirectional sequence processing
-        LSTM(32,
-             activation="relu",
-             name="lstm_layer_2",
-             dropout=0.2,
-             recurrent_dropout=0.5)))
-model5.add(Dense(1, activation="sigmoid", name="output"))
+        layers.LSTM(32,
+                    activation="relu",
+                    name="lstm_layer_2",
+                    dropout=0.2,
+                    recurrent_dropout=0.5)))
+model5.add(layers.Dense(1, activation="sigmoid", name="output"))
 
 model5.compile(loss=keras.losses.BinaryCrossentropy(),
                optimizer=keras.optimizers.Adam(lr=0.001),
@@ -484,8 +495,6 @@ char_vectors.shape
 labels = [char for (ind, char) in tokenizer.index_word.items()]
 labels.insert(0, None)
 labels
-
-from sklearn.manifold import TSNE
 
 tsne = TSNE(n_components=2, random_state=0, n_iter=5000, perplexity=3)
 np.set_printoptions(suppress=True)
@@ -539,10 +548,8 @@ conda install -c conda-forge keras-tuner
 
 
 ## confirm if the right kernel is being used
-import sys
-sys.executable
-
-import kerastuner
+# import sys
+# sys.executable
 
 ## Wrap model definition in a function
 ## and specify the parameters needed for tuning
@@ -560,24 +567,27 @@ import kerastuner
 #         metrics=['accuracy'])
 #     return model1
 
-
 def build_model(hp):
     m = Sequential()
     m.add(
-        Embedding(input_dim=vocab_size,
-                  output_dim=hp.Int('output_dim',  ## tuning 2
-                                    min_value=32,
-                                    max_value=128,
-                                    step=32),
-                  input_length=max_len,
-                  mask_zero=True))
+        layers.Embedding(
+            input_dim=vocab_size,
+            output_dim=hp.Int(
+                'output_dim',  ## tuning 2
+                min_value=32,
+                max_value=128,
+                step=32),
+            input_length=max_len,
+            mask_zero=True))
     m.add(
         layers.Bidirectional(
-            LSTM(hp.Int('units', min_value=16, max_value=64, step=16), ## tuning 1
-                 activation="relu",
-                 dropout=0.2,
-                 recurrent_dropout=0.2)))
-    m.add(Dense(1, activation="sigmoid", name="output"))
+            layers.LSTM(
+                hp.Int('units', min_value=16, max_value=64,
+                       step=16),  ## tuning 1
+                activation="relu",
+                dropout=0.2,
+                recurrent_dropout=0.2)))
+    m.add(layers.Dense(1, activation="sigmoid", name="output"))
 
     m.compile(loss=keras.losses.BinaryCrossentropy(),
               optimizer=keras.optimizers.Adam(lr=0.001),
@@ -586,9 +596,6 @@ def build_model(hp):
 
 ## This is to clean up the temp dir from the tuner
 ## Every time we re-start the tunner, it's better to keep the temp dir clean
-
-import os
-import shutil
 
 if os.path.isdir('my_dir'):
     shutil.rmtree('my_dir')
@@ -623,21 +630,22 @@ tuner.results_summary()
 
 ### Train Model with the Tuned Hyperparameters
 
-EMBEDDING_DIM = 64
+EMBEDDING_DIM = 128
+HIDDEN_STATE= 128
 model6 = Sequential()
 model6.add(
-    Embedding(input_dim=vocab_size,
-              output_dim=EMBEDDING_DIM,
-              input_length=max_len,
-              mask_zero=True))
+    layers.Embedding(input_dim=vocab_size,
+                     output_dim=EMBEDDING_DIM,
+                     input_length=max_len,
+                     mask_zero=True))
 model6.add(
     layers.Bidirectional(
-        LSTM(64,
-             activation="relu",
-             name="lstm_layer",
-             dropout=0.2,
-             recurrent_dropout=0.5)))
-model6.add(Dense(1, activation="sigmoid", name="output"))
+        layers.LSTM(HIDDEN_STATE,
+                    activation="relu",
+                    name="lstm_layer",
+                    dropout=0.2,
+                    recurrent_dropout=0.5)))
+model6.add(layers.Dense(1, activation="sigmoid", name="output"))
 
 model6.compile(loss=keras.losses.BinaryCrossentropy(),
                optimizer=keras.optimizers.Adam(lr=0.001),
@@ -653,8 +661,6 @@ history6 = model6.fit(X_train,
 
 plot2(history6)
 
-from lime.lime_text import LimeTextExplainer
-
 explainer = LimeTextExplainer(class_names=['male'], char_level=True)
 
 def model_predict_pipeline(text):
@@ -662,11 +668,6 @@ def model_predict_pipeline(text):
     _seq_pad = keras.preprocessing.sequence.pad_sequences(_seq, maxlen=max_len)
     #return np.array([[float(1-x), float(x)] for x in model.predict(np.array(_seq_pad))])
     return model6.predict(np.array(_seq_pad))
-
-
-# np.array(sequence.pad_sequences(
-#     tokenizer.texts_to_sequences([n for (n,l) in test_set]),
-#     maxlen = max_len)).astype('float32')
 
 reversed_word_index = dict([(index, word)
                             for (word, index) in tokenizer.word_index.items()])
