@@ -1,12 +1,18 @@
-# Text Vectorization Using Traditional Methods
+#!/usr/bin/env python
+# coding: utf-8
 
-- There are many ways to vectorize a text into **numeric** representations.
-- In traditional linguistic studies, linguists may **manually** annotate a text based on self-defined linguistic properties. These heuristics-based annotations can be easily converted into numeric values, thus in turn, vectorizing the text.
-- In statistical language processing, it is important to reduce the effort of manual annotation and come up with ways to **automatically** vectorize a text.
-- In this tutorial, we will look at the most widely-used method in machine learning NLP, the **bag-of-words** method for text vectorization.
+# # Text Vectorization Using Traditional Methods
 
+# - There are many ways to vectorize a text into **numeric** representations.
+# - In traditional linguistic studies, linguists may **manually** annotate a text based on self-defined linguistic properties. These heuristics-based annotations can be easily converted into numeric values, thus in turn, vectorizing the text.
+# - In statistical language processing, it is important to reduce the effort of manual annotation and come up with ways to **automatically** vectorize a text.
+# - In this tutorial, we will look at the most widely-used method in machine learning NLP, the **bag-of-words** method for text vectorization.
+# 
 
-## Import necessary dependencies and settings
+# ## Import necessary dependencies and settings
+
+# In[1]:
+
 
 # import warnings
 # warnings.filterwarnings('ignore')
@@ -22,10 +28,14 @@ matplotlib.rcParams['figure.dpi'] = 150
 pd.options.display.max_colwidth = 200
 #%matplotlib inline
 
-## Sample Corpus of Text Documents
 
-- To have a quick intuition of how bag-of-words work, we start with a naive corpus, one consisting of eight documents. Each document is in fact a simple sentence.
-- Each document in the corpus has a label (potentially referring to its **topic**).
+# ## Sample Corpus of Text Documents
+
+# - To have a quick intuition of how bag-of-words work, we start with a naive corpus, one consisting of eight documents. Each document is in fact a simple sentence.
+# - Each document in the corpus has a label (potentially referring to its **topic**).
+
+# In[2]:
+
 
 corpus = [
     'The sky is blue and beautiful.', 'Love this blue and beautiful sky!',
@@ -45,23 +55,27 @@ corpus = np.array(corpus) # np.array better than list
 corpus_df = pd.DataFrame({'Document': corpus, 'Category': labels})
 corpus_df
 
-:::{tip}
 
-In text processing, people often cast `list` into `np.array` for efficiency. A numpy array is a lot faster than the native `list` in Python. 
+# :::{tip}
+# 
+# In text processing, people often cast `list` into `np.array` for efficiency. A numpy array is a lot faster than the native `list` in Python. 
+# 
+# If you are interested, please check this [YouTube Numpy Crash Course](https://www.youtube.com/watch?v=9JUAPgtkKpI&t=1868s).
+# 
+# :::
 
-If you are interested, please check this [YouTube Numpy Crash Course](https://www.youtube.com/watch?v=9JUAPgtkKpI&t=1868s).
+# ## Simple Text Preprocessing
 
-:::
+# - A few steps for text preprocessing
+#     - Remove special characters
+#     - Normalize letter case
+#     - Remove redundant spaces
+#     - Tokenize each document into word-tokens
+#     - Remove stop words
+# - All these preprocessing steps are wrapped in one function, `normalize_document()`.
 
-## Simple Text Preprocessing
+# In[3]:
 
-- A few steps for text preprocessing
-    - Remove special characters
-    - Normalize letter case
-    - Remove redundant spaces
-    - Tokenize each document into word-tokens
-    - Remove stop words
-- All these preprocessing steps are wrapped in one function, `normalize_document()`.
 
 wpt = nltk.WordPunctTokenizer()
 stop_words = nltk.corpus.stopwords.words('english')
@@ -83,19 +97,27 @@ def normalize_document(doc):
 
 normalize_corpus = np.vectorize(normalize_document)
 
+
+# In[4]:
+
+
 norm_corpus = normalize_corpus(corpus)
 print(corpus)
 print("="*50)
 print(norm_corpus)
 
-## Bag of Words Model
 
-- Bag-of-words model is the simplest way (i.e., easy to be automated) to vectorize texts into numeric representations.
-- In short, it is a method to represent a text using its word frequency list.
+# ## Bag of Words Model
 
-![](../images/text-representation-bow.gif)
+# - Bag-of-words model is the simplest way (i.e., easy to be automated) to vectorize texts into numeric representations.
+# - In short, it is a method to represent a text using its word frequency list.
 
-### `CountVectorizer()` from `sklearn`
+# ![](../images/text-representation-bow.gif)
+
+# ### `CountVectorizer()` from `sklearn`
+
+# In[5]:
+
 
 from sklearn.feature_extraction.text import CountVectorizer
 # get bag of words features in sparse format
@@ -103,49 +125,65 @@ cv = CountVectorizer(min_df=0., max_df=1.)
 cv_matrix = cv.fit_transform(norm_corpus)
 cv_matrix
 
+
+# In[6]:
+
+
 # view non-zero feature positions in the sparse matrix
 print(cv_matrix)
+
+
+# In[7]:
+
 
 # view dense representation
 # warning might give a memory error if data is too big
 cv_matrix = cv_matrix.toarray()
 cv_matrix
 
+
+# In[8]:
+
+
 # get all unique words in the corpus
 vocab = cv.get_feature_names()
 # show document feature vectors
 pd.DataFrame(cv_matrix, columns=vocab)
 
-- Issues with Bag-of-Words Text Representation
-    - **Word order** is ignored.
-    - **Raw** absolute frequency counts of words do not necessarily represent the meaning of the text properly.
-    - **Marginal** frequencies play important roles. (Row and Columns)
 
+# - Issues with Bag-of-Words Text Representation
+#     - **Word order** is ignored.
+#     - **Raw** absolute frequency counts of words do not necessarily represent the meaning of the text properly.
+#     - **Marginal** frequencies play important roles. (Row and Columns)
+# 
 
-## Improving Bag-of-Words Text Representation
+# ## Improving Bag-of-Words Text Representation
 
-- In BOW text representation, the most crucial question is to identify words that are indeed **representative** of the semantics of texts.
-- To improve the BOW representation:
-    - We can extend from unigram-based BOW model to **n-gram** based BOW model to consider partially the word order in texts.
-    - We can **filter** words based on the distributional criteria (e.g., term frequencies) or morphosyntactic patterns (e.g., morphological endings).
-    - We can **weight** the BOW raw frequency counts.
+# - In BOW text representation, the most crucial question is to identify words that are indeed **representative** of the semantics of texts.
+# - To improve the BOW representation:
+#     - We can extend from unigram-based BOW model to **n-gram** based BOW model to consider partially the word order in texts.
+#     - We can **filter** words based on the distributional criteria (e.g., term frequencies) or morphosyntactic patterns (e.g., morphological endings).
+#     - We can **weight** the BOW raw frequency counts.
 
-In `CountVectorizer()`, we can utilize its parameters:
+# In `CountVectorizer()`, we can utilize its parameters:
+# 
+# - `max_df`: When building the vocabulary, the vectorizer will ignore terms that have a **document frequency** strictly higher than the given threshold (corpus-specific stop words). `float` = the parameter represents a proportion of documents; `integer` = absolute counts.
+# - `min_df`: When building the vocabulary, the vectorizer will ignore terms that have a **document frequency** strictly lower than the given threshold. `float` = the parameter represents a proportion of documents; `integer` = absolute counts.
+# - `max_features` : Build a vocabulary that only consider the top `max_features` ordered by term frequency across the corpus.
+# - `ngram_range` : The lower and upper boundary of the range of n-values for different word n-grams. `tuple` (min_n, max_n), default=(1, 1). 
+# - `token_pattern`: Regular expression denoting what constitutes a "token" in vocabulary. The default regexp select tokens of 2 or more alphanumeric characters (Note: **punctuation** is completely ignored and always treated as a token separator).
+# 
 
-- `max_df`: When building the vocabulary, the vectorizer will ignore terms that have a **document frequency** strictly higher than the given threshold (corpus-specific stop words). `float` = the parameter represents a proportion of documents; `integer` = absolute counts.
-- `min_df`: When building the vocabulary, the vectorizer will ignore terms that have a **document frequency** strictly lower than the given threshold. `float` = the parameter represents a proportion of documents; `integer` = absolute counts.
-- `max_features` : Build a vocabulary that only consider the top `max_features` ordered by term frequency across the corpus.
-- `ngram_range` : The lower and upper boundary of the range of n-values for different word n-grams. `tuple` (min_n, max_n), default=(1, 1). 
-- `token_pattern`: Regular expression denoting what constitutes a "token" in vocabulary. The default regexp select tokens of 2 or more alphanumeric characters (Note: **punctuation** is completely ignored and always treated as a token separator).
+# :::{tip}
+# 
+# When applying the `CountVectorizer()` to Chinese data, if you have word-segmented your corpus data, then remember to specify the `token_pattern` in `CountVectorizer()` to ensure the integrity of the original word tokens.
+# 
+# :::
 
+# ## N-gram Bag-of-Words Text Representation
 
-:::{tip}
+# In[9]:
 
-When applying the `CountVectorizer()` to Chinese data, if you have word-segmented your corpus data, then remember to specify the `token_pattern` in `CountVectorizer()` to ensure the integrity of the original word tokens.
-
-:::
-
-## N-gram Bag-of-Words Text Representation
 
 # you can set the n-gram range to 1,2 to get unigrams as well as bigrams
 bv = CountVectorizer(ngram_range=(2, 2))
@@ -155,50 +193,54 @@ bv_matrix = bv_matrix.toarray()
 vocab = bv.get_feature_names()
 pd.DataFrame(bv_matrix, columns=vocab)
 
-## TF-IDF Model
 
-- TF-IDF model is an extension of the bag-of-words model, whose main objective is to adjust the raw frequency counts by considering the **dispersion** of the words in the corpus.
-- **Disperson** refers to how evenly each word/term is distributed across different documents of the corpus.
+# ## TF-IDF Model
 
-- Interaction between Word Raw Frequency Counts and Dispersion:
-    - Given a **high-frequency** word:
-        - If the word is widely dispersed across different documents of the corpus (i.e., **high dispersion**)
-            - it is more likely to be semantically general.
-        - If the word is mostly centralized in a limited set of documents in the corpus (i.e., **low dispersion**)
-            - it is more likely to be topic-specific.
-- Dispersion rates of words can be used as weights for the importance of word frequency counts.
+# - TF-IDF model is an extension of the bag-of-words model, whose main objective is to adjust the raw frequency counts by considering the **dispersion** of the words in the corpus.
+# - **Disperson** refers to how evenly each word/term is distributed across different documents of the corpus.
 
-- **Document Frequency** (**DF**) is an intuitive metric for measuring word dispersion across the corpus. DF refers to the number of documents where the word occurs (at least once).
-- The inverse of the DF is referred to as **Inverse Document Frequency** (**IDF**). IDF is usually computed as follows:
+# - Interaction between Word Raw Frequency Counts and Dispersion:
+#     - Given a **high-frequency** word:
+#         - If the word is widely dispersed across different documents of the corpus (i.e., **high dispersion**)
+#             - it is more likely to be semantically general.
+#         - If the word is mostly centralized in a limited set of documents in the corpus (i.e., **low dispersion**)
+#             - it is more likely to be topic-specific.
+# - Dispersion rates of words can be used as weights for the importance of word frequency counts.
 
-$$ 
-\textit{IDF} = 1 + log\frac{N}{1+df}
-$$
+# - **Document Frequency** (**DF**) is an intuitive metric for measuring word dispersion across the corpus. DF refers to the number of documents where the word occurs (at least once).
+# - The inverse of the DF is referred to as **Inverse Document Frequency** (**IDF**). IDF is usually computed as follows:
+# 
+# $$ 
+# \textit{IDF} = 1 + log\frac{N}{1+df}
+# $$
+# 
+# :::{note}
+# 
+# All these plus-1's in the above formula are to avoid potential division-by-zero errors.
+# 
+# :::
 
-:::{note}
+# - The raw absolute frequency counts of words in the BOW model are referred to as **Term Frequency** (**TF**).
+# - The **TF-IDF** Weighting Scheme:
+# 
+# $$
+# \textit{TF-IDF}_{normalized} = \frac{tf \times idf}{\sqrt{(tf\times idf)^2}}
+# $$
+# 
+# - The `tfidf` is normalized using the L2 norm, i.e., the Euclidean norm (taking the square root of the sum of the square of `tfidf` metrics).
 
-All these plus-1's in the above formula are to avoid potential division-by-zero errors.
+# :::{tip}
+# 
+# - The L1 norm will drive some weights to 0, inducing sparsity in the weights. This can be beneficial for memory efficiency or when feature selection is needed (i.e., we want to select only certain weights).
+# 
+# - The L2 norm instead will reduce all weights but not all the way to 0. This is less memory efficient but can be useful if we want/need to retain all parameters.
+# 
+# :::
 
-:::
+# ### `TfidfTransformer()` from `sklearn`
 
-- The raw absolute frequency counts of words in the BOW model are referred to as **Term Frequency** (**TF**).
-- The **TF-IDF** Weighting Scheme:
+# In[10]:
 
-$$
-\textit{TF-IDF}_{normalized} = \frac{tf \times idf}{\sqrt{(tf\times idf)^2}}
-$$
-
-- The `tfidf` is normalized using the L2 norm, i.e., the Euclidean norm (taking the square root of the sum of the square of `tfidf` metrics).
-
-:::{tip}
-
-- The L1 norm will drive some weights to 0, inducing sparsity in the weights. This can be beneficial for memory efficiency or when feature selection is needed (i.e., we want to select only certain weights).
-
-- The L2 norm instead will reduce all weights but not all the way to 0. This is less memory efficient but can be useful if we want/need to retain all parameters.
-
-:::
-
-### `TfidfTransformer()` from `sklearn`
 
 from sklearn.feature_extraction.text import TfidfTransformer
 
@@ -209,7 +251,11 @@ tt_matrix = tt_matrix.toarray()
 vocab = cv.get_feature_names()
 pd.DataFrame(np.round(tt_matrix, 2), columns=vocab)
 
-### `TfidfVectorizer()` from `sklearn`
+
+# ### `TfidfVectorizer()` from `sklearn`
+
+# In[11]:
+
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 
@@ -224,11 +270,15 @@ tv_matrix = tv_matrix.toarray()
 vocab = tv.get_feature_names()
 pd.DataFrame(np.round(tv_matrix, 2), columns=vocab)
 
-## Intuition of TF-IDF
 
-The following shows the creation and computation of the TFIDF matrix step by step. Please go over the codes on your own if you are interested.
+# ## Intuition of TF-IDF
+# 
+# The following shows the creation and computation of the TFIDF matrix step by step. Please go over the codes on your own if you are interested.
 
-### Create Vocabulary Dictionary of the Corpus
+# ### Create Vocabulary Dictionary of the Corpus
+
+# In[12]:
+
 
 # get unique words as feature names
 unique_words = list(
@@ -241,7 +291,11 @@ def_feature_dict = {w: 0 for w in unique_words}
 print('Feature Names:', unique_words)
 print('Default Feature Dict:', def_feature_dict)
 
-### Create Document-Word Matrix (Bag-of-Word Frequencies)
+
+# ### Create Document-Word Matrix (Bag-of-Word Frequencies)
+
+# In[13]:
+
 
 from collections import Counter
 # build bag of words features for each document - term frequencies
@@ -260,7 +314,11 @@ for doc in norm_corpus:
 bow_features = pd.DataFrame(bow_features)
 bow_features
 
-### Compute Document Frequency of Words
+
+# ### Compute Document Frequency of Words
+
+# In[14]:
+
 
 import scipy.sparse as sp
 feature_names = list(bow_features.columns)
@@ -276,7 +334,11 @@ df = 1 + df  # adding 1 to smoothen idf later
 # show smoothened document frequencies
 pd.DataFrame([df], columns=feature_names)
 
-### Create Inverse Document Frequency of Words
+
+# ### Create Inverse Document Frequency of Words
+
+# In[15]:
+
 
 # compute inverse document frequencies for each term
 total_docs = 1 + len(norm_corpus)
@@ -285,7 +347,11 @@ idf = 1.0 + np.log(float(total_docs) / df)
 # show smoothened idfs
 pd.DataFrame([np.round(idf, 2)], columns=feature_names)
 
-### Compute Raw TF-IDF for Each Document
+
+# ### Compute Raw TF-IDF for Each Document
+
+# In[16]:
+
 
 # compute tfidf feature matrix
 tf = np.array(bow_features, dtype='float64')
@@ -293,7 +359,11 @@ tfidf = tf * idf  ## `tf.shape` = (8,20), `idf.shape`=(20,)
 # view raw tfidf feature matrix
 pd.DataFrame(np.round(tfidf, 2), columns=feature_names)
 
-### Get L2 Norms of TF-IDF
+
+# ### Get L2 Norms of TF-IDF
+
+# In[17]:
+
 
 from numpy.linalg import norm
 # compute L2 norms
@@ -302,7 +372,11 @@ norms = norm(tfidf, axis=1)  # get the L2 forms of tfidf according to columns
 # print norms for each document
 print(np.round(norms, 3))
 
-### Compute Normalized TF-IDF for Each Document
+
+# ### Compute Normalized TF-IDF for Each Document
+
+# In[18]:
+
 
 # compute normalized tfidf
 norm_tfidf = tfidf / norms[:, None]
@@ -310,89 +384,117 @@ norm_tfidf = tfidf / norms[:, None]
 # show final tfidf feature matrix
 pd.DataFrame(np.round(norm_tfidf, 2), columns=feature_names)
 
+
+# In[19]:
+
+
 new_doc = 'the sky is green today'
 
 pd.DataFrame(np.round(tv.transform([new_doc]).toarray(), 2),
              columns=tv.get_feature_names())
 
-## Document Similarity
 
-- Now each document in our corpus has been transformed into a **vectorized** representation using the naive Bag-of-Words method.
-- And we believe that these vectorized representations are indicators of textual **semantics**.
-- This vectorized text vectorization allows us to perform mathematical computation of the **semantic relationships** between documents.
+# ## Document Similarity
 
-## Similarity/Distance Metrics and Intuition
+# - Now each document in our corpus has been transformed into a **vectorized** representation using the naive Bag-of-Words method.
+# - And we believe that these vectorized representations are indicators of textual **semantics**.
+# - This vectorized text vectorization allows us to perform mathematical computation of the **semantic relationships** between documents.
 
-Take a two-dimensional space for instance. If we have vectors on this space, we can compute their distance/similarity mathematically:
+# ## Similarity/Distance Metrics and Intuition
 
-![](../images/text-vec/text-vec.001.jpeg)
+# Take a two-dimensional space for instance. If we have vectors on this space, we can compute their distance/similarity mathematically:
+
+# ![](../images/text-vec/text-vec.001.jpeg)
+
+# In[20]:
+
 
 from sklearn.metrics.pairwise import manhattan_distances, euclidean_distances, cosine_similarity
+
+
+# In[21]:
+
 
 xyz = np.array([[1, 9], [1, 3], [5, 1]])
 xyz
 
-In Math, there are in general two types of metrics to measure the relationship between vectors: **distance**-based vs. **similarity**-based metrics.
 
-### Distance-based Metrics
+# In Math, there are in general two types of metrics to measure the relationship between vectors: **distance**-based vs. **similarity**-based metrics.
 
-- Many distance measures of vectors are based on the following formula and differ in individual parameter settings.
+# ### Distance-based Metrics
 
-$$
-\big( \sum_{i = 1}^{n}{|x_i - y_i|^y}\big)^{\frac{1}{y}}
-$$
+# - Many distance measures of vectors are based on the following formula and differ in individual parameter settings.
+# 
+# $$
+# \big( \sum_{i = 1}^{n}{|x_i - y_i|^y}\big)^{\frac{1}{y}}
+# $$
+# 
+# - The *n* in the above formula refers to the number of dimensions of the vectors. (In other words, all the concepts we discuss here can be easily extended to vectors in multidimensional spaces.)
 
-- The *n* in the above formula refers to the number of dimensions of the vectors. (In other words, all the concepts we discuss here can be easily extended to vectors in multidimensional spaces.)
+# - When *y* is set to 2, it computes the famous **Euclidean distance** of two vectors, i.e., the direct spatial distance between two points on the *n*-dimensional space.
+# 
+# $$
+# \sqrt{\big( \sum_{i = 1}^{n}{|x_i - y_i|^2}\big)}
+# $$
 
-- When *y* is set to 2, it computes the famous **Euclidean distance** of two vectors, i.e., the direct spatial distance between two points on the *n*-dimensional space.
+# In[22]:
 
-$$
-\sqrt{\big( \sum_{i = 1}^{n}{|x_i - y_i|^2}\big)}
-$$
 
 euclidean_distances(xyz)
 
-- The geometrical meanings of the Euclidean distance are easy to conceptualize.
 
-![](../images/text-vec-euclidean.gif)
+# - The geometrical meanings of the Euclidean distance are easy to conceptualize.
 
-### Similarity-based Metrics
+# ![](../images/text-vec-euclidean.gif)
 
-- In addition to distance-based metrics, the other type is similarity-based metric, which often utilizes the idea of **correlations**. 
-- The most commonly used one is **Cosine Similarity**, which can be computed as follows:
+# ### Similarity-based Metrics
 
-$$
-cos(\vec{x},\vec{y}) = \frac{\sum_{i=1}^{n}{x_i\times y_i}}{\sqrt{\sum_{i=1}^{n}x_i^2}\times \sqrt{\sum_{i=1}^{n}y_i^2}}
-$$
+# - In addition to distance-based metrics, the other type is similarity-based metric, which often utilizes the idea of **correlations**. 
+# - The most commonly used one is **Cosine Similarity**, which can be computed as follows:
+# 
+# $$
+# cos(\vec{x},\vec{y}) = \frac{\sum_{i=1}^{n}{x_i\times y_i}}{\sqrt{\sum_{i=1}^{n}x_i^2}\times \sqrt{\sum_{i=1}^{n}y_i^2}}
+# $$
+# 
+
+# In[23]:
 
 
 cosine_similarity(xyz)
 
-- The geometric meanings of **cosines** of two vectors are connected to the **arcs** between the vectors. 
-- The greater their cosine similarity, the smaller the arcs, the closer (i.e., the more similar) they are.
 
-![](../images/text-vec-similarity2.png)
+# - The geometric meanings of **cosines** of two vectors are connected to the **arcs** between the vectors. 
+# - The greater their cosine similarity, the smaller the arcs, the closer (i.e., the more similar) they are.
 
-![](../images/text-vec-cosine.gif)
+# ![](../images/text-vec-similarity2.png)
 
-### Which Metrics to Use then?
+# ![](../images/text-vec-cosine.gif)
 
-- Please note that different metrics may lead to very different results. 
-- In our earlier examples, if we adopt **euclidean distance**, then y is closer to z than is to x.
-- But if we adopt **cosine similarity**, then y is closer to x than is to z.
-- The choice of distance/similarity metrics depends on:
-    - Whether the magnitude of value differences on each dimension of the vectors matters (distance-based preferred)
-    - Whether the values of each dimension of the vectors co-vary (cosine referred)
+# ### Which Metrics to Use then?
 
-## Pairwise Similarity Computation
+# - Please note that different metrics may lead to very different results. 
+# - In our earlier examples, if we adopt **euclidean distance**, then y is closer to z than is to x.
+# - But if we adopt **cosine similarity**, then y is closer to x than is to z.
+# - The choice of distance/similarity metrics depends on:
+#     - Whether the magnitude of value differences on each dimension of the vectors matters (distance-based preferred)
+#     - Whether the values of each dimension of the vectors co-vary (cosine referred)
 
-- The `cosine_similarity` automatically computes the **pairwise** similarities between the **rows** of the input matrix.
+# ## Pairwise Similarity Computation
+
+# - The `cosine_similarity` automatically computes the **pairwise** similarities between the **rows** of the input matrix.
+
+# In[24]:
+
 
 similarity_doc_matrix = cosine_similarity(tv_matrix)
 similarity_doc_df = pd.DataFrame(similarity_doc_matrix)
 similarity_doc_df
 
-## Clustering Documents Using Similarity Features
+
+# ## Clustering Documents Using Similarity Features
+
+# In[25]:
+
 
 from scipy.cluster.hierarchy import dendrogram, linkage
 
@@ -404,12 +506,20 @@ Z = linkage(similarity_doc_matrix, 'ward')
 #              ],
 #              dtype='object')
 
+
+# In[26]:
+
+
 plt.figure(figsize=(5, 3))
 plt.title('Hierarchical Clustering Dendrogram')
 plt.xlabel('Data point')
 plt.ylabel('Distance')
 dendrogram(Z)
 plt.axhline(y=1.0, c='k', ls='--', lw=0.5)
+
+
+# In[27]:
+
 
 ## Convert hierarchical cluster into a flat cluster structure
 
@@ -420,11 +530,15 @@ cluster_labels = fcluster(Z, max_dist, criterion='distance')
 cluster_labels = pd.DataFrame(cluster_labels, columns=['ClusterLabel'])
 pd.concat([corpus_df, cluster_labels], axis=1)
 
-## Clustering Words Using Similarity Features
 
-- We can also transpose the `tv_matrix` to get a Word-Document matrix.
-- Each word can be represented as vectors based on their document distributions.
-- Words that are semantically similar tend to show similar distributions.
+# ## Clustering Words Using Similarity Features
+
+# - We can also transpose the `tv_matrix` to get a Word-Document matrix.
+# - Each word can be represented as vectors based on their document distributions.
+# - Words that are semantically similar tend to show similar distributions.
+# 
+
+# In[28]:
 
 
 similarity_term_matrix = cosine_similarity(np.transpose(tv_matrix))
@@ -432,6 +546,10 @@ similarity_term_df = pd.DataFrame(similarity_term_matrix,
                                   columns=feature_names,
                                   index=feature_names)
 similarity_term_df
+
+
+# In[29]:
+
 
 Z2 = linkage(similarity_term_matrix, 'ward')
 # pd.DataFrame(Z2,
@@ -441,6 +559,10 @@ Z2 = linkage(similarity_term_matrix, 'ward')
 #              ],
 #              dtype='object')
 
+
+# In[30]:
+
+
 plt.figure(figsize=(7, 4))
 plt.title('Hierarchical Clustering Dendrogram')
 plt.xlabel('Data point')
@@ -448,22 +570,23 @@ plt.ylabel('Distance')
 dendrogram(Z2, labels=feature_names, leaf_rotation=90)
 plt.axhline(y=1.0, c='k', ls='--', lw=0.5)
 
-## Notes on Word Vectors
 
-- In the previous section, we talk about how we can utilize the **Word-Document Matrix** to create vectorized representations of words for a corpus. 
-- This initial effort of representing words using their frequency distributions is referred to as a traditional **count-based** approach to word representations.
-- This **count-base**d feature engineering strategy can be further sophisticated in several ways:
-    - We can further limit the Word-Document Matrix to a Word-Word Co-occurrence Matrix, where the counts refer to the number of times when the two words co-occur within a specific window frame.
-    - We can transform the sparse word vectors in the Word-Document Matrix or Word-Word Co-occurrence Matrix using statistical methods (e.g., Latent Semantic Analysis) and build the dense word vectors.
-- It should be noted that the count-based approach relies on the creation of the word distribution for the entire corpus in the first place. This can be difficult when we deal with a large corpus.
-- In contrast to the traditional count-based approach, **predicative methods** like neural network based language models try to predict words from their neighboring words by looking at word sequences in the corpus in a piecemeal fashion. Through this process the model learns the distributed representations of words, i.e, word embeddings.
-- We will come back to "word embeddings" when we work on the deep learning NLP.
-- Recommended Reading: [Don't count, predict! A systematic comparison of context-counting vs. context-predicting semantic vectors](https://www.aclweb.org/anthology/P14-1023.pdf) by Baroni et al.
+# ## Notes on Word Vectors
 
-:::{tip}
-Latent Semantic Analysis (aka. Latent Semantic Indexing) learns latent topics by performing a matrix decomposition on the document-term matrix using Singular value decomposition. LSA is typically used as a dimension reduction or noise reducing technique.
-:::
+# - In the previous section, we talk about how we can utilize the **Word-Document Matrix** to create vectorized representations of words for a corpus. 
+# - This initial effort of representing words using their frequency distributions is referred to as a traditional **count-based** approach to word representations.
+# - This **count-base**d feature engineering strategy can be further sophisticated in several ways:
+#     - We can further limit the Word-Document Matrix to a Word-Word Co-occurrence Matrix, where the counts refer to the number of times when the two words co-occur within a specific window frame.
+#     - We can transform the sparse word vectors in the Word-Document Matrix or Word-Word Co-occurrence Matrix using statistical methods (e.g., Latent Semantic Analysis) and build the dense word vectors.
+# - It should be noted that the count-based approach relies on the creation of the word distribution for the entire corpus in the first place. This can be difficult when we deal with a large corpus.
+# - In contrast to the traditional count-based approach, **predicative methods** like neural network based language models try to predict words from their neighboring words by looking at word sequences in the corpus in a piecemeal fashion. Through this process the model learns the distributed representations of words, i.e, word embeddings.
+# - We will come back to "word embeddings" when we work on the deep learning NLP.
+# - Recommended Reading: [Don't count, predict! A systematic comparison of context-counting vs. context-predicting semantic vectors](https://www.aclweb.org/anthology/P14-1023.pdf) by Baroni et al.
 
-## References
+# :::{tip}
+# Latent Semantic Analysis (aka. Latent Semantic Indexing) learns latent topics by performing a matrix decomposition on the document-term matrix using Singular value decomposition. LSA is typically used as a dimension reduction or noise reducing technique.
+# :::
 
-- Based on Sarkar (2020), Ch 4 Feature Engineering and Text Representation
+# ## References
+# 
+# - Based on Sarkar (2020), Ch 4 Feature Engineering and Text Representation

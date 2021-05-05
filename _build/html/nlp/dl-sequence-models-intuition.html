@@ -1,0 +1,889 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>1. Sequence Models Intuition &#8212; ENC2045 Computational Linguistics</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mycss.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2. Word Embeddings" href="../temp/text-vec-embedding.html" />
+    <link rel="prev" title="3. Deep Learning: Sentiment Analysis" href="dl-sentiment-case.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/ntnu-word-2.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">ENC2045 Computational Linguistics</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <p class="caption collapsible-parent">
+ <span class="caption-text">
+  INTRODUCTION
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="nlp-primer.html">
+   Natural Language Processing: A Primer
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="nlp-pipeline.html">
+   NLP Pipeline
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Preprocessing
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="text-preprocessing.html">
+   Text Preprocessing
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="text-normalization-eng.html">
+     Text Normalization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="text-tokenization.html">
+     Text Tokenization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="text-enrichment.html">
+     Text Enrichment
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="chinese-word-seg.html">
+     Chinese Word Segmentation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="google-colab.html">
+     Google Colab
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Text Vectorization
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="text-vec-traditional.html">
+   Text Vectorization Using Traditional Methods
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine Learning Basics
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-overview.html">
+   1. Machine Learning: Overview
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-simple-case.html">
+   2. Machine Learning: A Simple Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-algorithm.html">
+   3. Classification Models
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine-Learning NLP
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-sklearn-classification.html">
+   1. Sentiment Analysis Using Bag-of-Words
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="topic-modeling-naive.html">
+   2. Topic Modeling: A Naive Example
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Deep Learning NLP
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl-neural-network-from-scratch.html">
+   1. Neural Network From Scratch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl-simple-case.html">
+   2. Deep Learning: A Simple Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl-sentiment-case.html">
+   3. Deep Learning: Sentiment Analysis
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Neural Language Model and Embeddings
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   1. Sequence Models Intuition
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-vec-embedding.html">
+   2. Word Embeddings
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/text-vec-embedding-keras.html">
+   3. Word Embedding Using Keras
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-statistical-language-model.html">
+   4. Statistical Language Model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-neural-language-model-primer.html">
+   5. Neural Language Model: A Start
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Seq2Seq, Attention, Transformers, and Transfer Learning
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-seq-to-seq-types.html">
+   Attention: Intuition
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-seq-to-seq-attention-addition.html">
+   Seqeunce Model with Attention for Addition Learning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-transformers-intuition.html">
+   Transformers: Intuition
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../temp/dl-transformers-keras.html">
+   Text Classification with Transformer
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Exercises
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/1-python-basics.html">
+   Assignment I: Python Basics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/2-journal-review.html">
+   Assignment II: Journal Articles Review
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/3-preprocessing.html">
+   Assignment III: Preprocessing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/4-chinese-nlp.html">
+   Assignment IV: Chinese Language Processing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/5-text-vectorization.html">
+   Assignment V: Text Vectorization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/6-machine-learning.html">
+   Assignment VI: Machine Learning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/midterm-exam.html">
+   Midterm Exam
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/7-topic-modeling.html">
+   Assignment VII: Topic Modeling
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/8-dl-chinese-name-gender.html">
+   Assignment VIII: Deep Learning
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  <div style="text-align:center">
+<i class="fas fa-chalkboard-teacher fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinntnu.github.io/NTNU_ENC2045/" target='_blank'>ENC2045 Course Website</a><br>
+<i class="fas fa-home fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinchen.myftp.org/" target='_blank'>Alvin Chen's Homepage</a>
+</div>
+
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/nlp/dl-sequence-models-intuition.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alvinntnu/NTNU_ENC2045_LECTURES/main?urlpath=tree/nlp/dl-sequence-models-intuition.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alvinntnu/NTNU_ENC2045_LECTURES/blob/main/nlp/dl-sequence-models-intuition.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-sequence-models">
+   1.1. Why Sequence Models?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#neural-network">
+   1.2. Neural Network
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#word-representations-in-deep-learning">
+   1.3. Word Representations in Deep Learning
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#word-embeddings">
+   1.4. Word Embeddings
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#from-one-hot-to-embeddings">
+   1.5. From One-hot to Embeddings
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#recurrent-neural-network-rnn-language-model">
+   1.6. Recurrent Neural Network (RNN) Language Model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#back-propogation">
+   1.7. Back Propogation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#types-of-gradient-descent">
+   1.8. Types of Gradient Descent
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#from-vanilla-rnn-to-lstm-and-gru">
+   1.9. From Vanilla RNN to LSTM and GRU
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#issues-with-vanilla-rnn">
+     Issues with Vanilla RNN
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#why-is-vanishing-gradient-an-issue">
+     Why is vanishing gradient an issue?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lstm-long-short-term-memory">
+     LSTM (Long Short-Term Memory)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#gru-gated-recurrent-unit">
+     GRU (Gated Recurrent Unit)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#heuristics">
+     Heuristics
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#variations-of-sequence-models">
+   1.10. Variations of Sequence Models
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   1.11. References
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="sequence-models-intuition">
+<h1><span class="section-number">1. </span>Sequence Models Intuition<a class="headerlink" href="#sequence-models-intuition" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>In deep learning NLP, sequence models are often the most widely adopted methods.</p></li>
+<li><p>In this tutorial, we will go over the intuitions of sequence models.</p></li>
+</ul>
+<div class="section" id="why-sequence-models">
+<h2><span class="section-number">1.1. </span>Why Sequence Models?<a class="headerlink" href="#why-sequence-models" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Humans process texts in a sequential order (from left to right)</p></li>
+<li><p>When we process texts and make classification, we utilize our reasoning about previous sequences to inform later decision making.</p></li>
+</ul>
+<ul class="simple">
+<li><p><strong>Recurrent neural network</strong> (RNN) addresses this issue by implementing networks with loops that allow information to persist.</p></li>
+<li><p>The loop allows information to be passed from previous time step to the next time step.</p></li>
+</ul>
+<p><img alt="" src="../_images/s2s-rnn.jpeg" /></p>
+</div>
+<div class="section" id="neural-network">
+<h2><span class="section-number">1.2. </span>Neural Network<a class="headerlink" href="#neural-network" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Neural network expects an numeric input, i.e., a numeric representation of the input text.</p></li>
+<li><p>So the first step in deep learning is the same as traditional ML, which is text vectorization.</p></li>
+<li><p>And because a sequence model eats in one word as the input, word representation/vectorization is crucial.</p></li>
+</ul>
+</div>
+<div class="section" id="word-representations-in-deep-learning">
+<h2><span class="section-number">1.3. </span>Word Representations in Deep Learning<a class="headerlink" href="#word-representations-in-deep-learning" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Like in traditional machine learning, feature engineering is crucial to the success of the computational modeling.</p></li>
+<li><p>Of particular importance is the transformation of each text into numeric representation that has a significant portion of <strong>textual semantics</strong>.</p></li>
+</ul>
+<ul class="simple">
+<li><p>One-hot encoding is the most intuitive way to represent lexical words numerically.</p></li>
+<li><p>If the language vocabulary size is <em>V</em>, each word can be represented as a vector of size <em>V</em>, with its correpsonding dimension to be the value of <strong>1</strong> and the rest being <strong>0</strong>’s.</p></li>
+</ul>
+<p><img alt="" src="../_images/seq-1hot.png" /></p>
+<ul class="simple">
+<li><p>The main problem with is one-hot encoding is that the semantic distances in-between words are all the same, i.e., <span class="math notranslate nohighlight">\(D(mice,rats)=D(mice, horses)= 0\)</span>.</p></li>
+</ul>
+</div>
+<div class="section" id="word-embeddings">
+<h2><span class="section-number">1.4. </span>Word Embeddings<a class="headerlink" href="#word-embeddings" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Now via neural network, we can learn <strong>word embeddings</strong> automatically. (See Word Embeddings notes).</p></li>
+<li><p>These word embeddings allows us to perform computation of lexical semantics.</p></li>
+</ul>
+<p><img alt="" src="../_images/seq-embeddings.png" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sklearn</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">cosine_similarity</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">mice</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+<span class="n">rats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span><span class="mf">0.0</span><span class="p">])</span>
+<span class="n">horses</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mf">0.8</span><span class="p">])</span>
+<span class="n">cosine_similarity</span><span class="p">([</span><span class="n">mice</span><span class="p">,</span> <span class="n">rats</span><span class="p">,</span> <span class="n">horses</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[1.        , 0.97575491, 0.16937447],
+       [0.97575491, 1.        , 0.30567806],
+       [0.16937447, 0.30567806, 1.        ]])
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>While each dimension of the word embeddings may not have very transparent <strong>semantic fields</strong>, the results out of the semantic computation do reflect a lot the lexical semantic relations between words.</p></li>
+</ul>
+</div>
+<div class="section" id="from-one-hot-to-embeddings">
+<h2><span class="section-number">1.5. </span>From One-hot to Embeddings<a class="headerlink" href="#from-one-hot-to-embeddings" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Therefore, we often add <strong>Embedding Layer</strong> as the first layer of a sequence model to render all lexical items in a text into semantically informative embeddings (vectors).</p></li>
+<li><p>Weights of the Embedding Layer can be trained along with the sequence model.</p></li>
+<li><p>Or alternatively, we can use pre-trained word embeddings, which were trained in a different task based on a much larger corpus.</p></li>
+</ul>
+<p><img alt="" src="../_images/seq-1hot-to-embeddings.png" /></p>
+<ul class="simple">
+<li><p>This is how an Embedding Layer works in <code class="docutils literal notranslate"><span class="pre">keras.layers.Embedding</span></code>:</p></li>
+</ul>
+<p><img alt="" src="../_images/name-gender-classifier-dl.005.jpeg" /></p>
+</div>
+<div class="section" id="recurrent-neural-network-rnn-language-model">
+<h2><span class="section-number">1.6. </span>Recurrent Neural Network (RNN) Language Model<a class="headerlink" href="#recurrent-neural-network-rnn-language-model" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Words, as semantically represented by embeddings, can now be the input tensors for a RNN.</p></li>
+</ul>
+<p><img alt="" src="../_images/s2s-rnn.jpeg" /></p>
+<ul class="simple">
+<li><p>Moreover, we can create a RNN-based language model.</p></li>
+<li><p>A language model has two main objectives in its NLP applications:</p>
+<ul>
+<li><p>To estimate the probability of a given sentence (or any other meaningful linguistic units)</p></li>
+<li><p>To predict the upcoming word given limited linguistic inputs</p></li>
+</ul>
+</li>
+</ul>
+<p><img alt="" src="../_images/s2s-rnn-lm.jpeg" /></p>
+<ul class="simple">
+<li><p>The RNN Langage model takes one word at each time step as the input and output the predicted next word.</p></li>
+<li><p>And the output at time step <em>i</em> becomes the input of the RNN at time step <em>i+1</em>.</p></li>
+</ul>
+<ul class="simple">
+<li><p>The loss function of the RNN Language Model is the distance between the predicted word, <em>y</em>, and the correct next-word (in its one-hot form).</p></li>
+<li><p>The training of the RNN language model is thus to minimize the sum of the <strong>cross-entropy</strong> at all time steps.</p></li>
+</ul>
+<p><img alt="" src="../_images/s2s-rnn-lm-loss.jpeg" /></p>
+<ul class="simple">
+<li><p>For example, if the target next word is <em>dog</em>, it’s one-hot representation is <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">0,</span> <span class="pre">0</span> <span class="pre">,0,</span> <span class="pre">0]</span></code>, and the RNN LM predicted <em>y</em> is <code class="docutils literal notranslate"><span class="pre">[0.2,</span> <span class="pre">0.4,</span> <span class="pre">0.1,</span> <span class="pre">0.1,</span> <span class="pre">0.2,</span> <span class="pre">0.0]</span></code>, we can compute the <strong>cross-entropy</strong> at this time step as follows.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+E = - \sum_{k}t_k \log{y_k}
+\]</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- k: refers to the dimensions of the one-hot vectors
+- t: refers to the target next word
+- y: refers to the predicted y from the RNN LM
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cross_entropy</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="mf">1e-7</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">t</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="n">delta</span><span class="p">))</span>
+
+
+<span class="n">t</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+
+<span class="n">cross_entropy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9162904818741863
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>And we compute the average cross-entropy error across all time steps for a particular sample (i.e., for the entire sequence).</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+E = - \frac{1}{N}\sum_n\sum_{k}t_{nk} \log{y_{nk}}
+\]</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- N: the number of words in the input text
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>We can also compute the average cross-entropy error for samples of a batch size.</p></li>
+<li><p>We can also compute the average cross-entropy error for the entire training set.</p></li>
+</ul>
+</div>
+<div class="section" id="back-propogation">
+<h2><span class="section-number">1.7. </span>Back Propogation<a class="headerlink" href="#back-propogation" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>With the defined <strong>loss function</strong>, we can learn how good our current model is in the training process (i.e., the distance between the true target and the predicted label).</p></li>
+<li><p>In deep learning, we can use <strong>back propogation</strong> to find out:</p>
+<ul>
+<li><p>how each parameter of the RNN LM is connected to the loss function</p></li>
+<li><p>or, which parameter of the RNN LM contributes to the change of the loss function more</p></li>
+<li><p>And therefore, we can <strong>adjust</strong> the parameters of the RNN LM accordingly.</p></li>
+<li><p>The algorithm often used is called <strong>gradient descent</strong></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="types-of-gradient-descent">
+<h2><span class="section-number">1.8. </span>Types of Gradient Descent<a class="headerlink" href="#types-of-gradient-descent" title="Permalink to this headline">¶</a></h2>
+<p>As we can compute the cross entropy in different ways, we can perform the gradient descent in different ways as well.</p>
+<ul class="simple">
+<li><p><strong>Batch Gradient Descent</strong>: Update the model weights after we get the average cross entropy of all the sequences in the entire training set (as one epoch).</p></li>
+<li><p><strong>Stochastic Gradient Descent</strong>(SGD): Update the model weights after we get the cross entropy of every sequence of the training set (across all time steps of course) (online).</p></li>
+<li><p><strong>Mini-batch Gradient Descent</strong>: Update the model weights after we get the average cross entropy of a subset of the sequences in the training set. (Recommended!)</p></li>
+</ul>
+</div>
+<div class="section" id="from-vanilla-rnn-to-lstm-and-gru">
+<h2><span class="section-number">1.9. </span>From Vanilla RNN to LSTM and GRU<a class="headerlink" href="#from-vanilla-rnn-to-lstm-and-gru" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="issues-with-vanilla-rnn">
+<h3>Issues with Vanilla RNN<a class="headerlink" href="#issues-with-vanilla-rnn" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>An RNN on a sequence of words can be taken as a very deep neural network, where the depths of the network are the number of time steps of the sequence.</p></li>
+<li><p>In back propagation, for longer sequences, we would run into the <strong>vanishing gradient problems</strong>. To simply put, the gradients would become smaller and smaller as we back propagate further back to the previous contexts of the sequence.</p></li>
+<li><p>The further back the weights are, the more likely their gradients would approach zero.</p></li>
+</ul>
+</div>
+<div class="section" id="why-is-vanishing-gradient-an-issue">
+<h3>Why is vanishing gradient an issue?<a class="headerlink" href="#why-is-vanishing-gradient-an-issue" title="Permalink to this headline">¶</a></h3>
+<p>If the gradient becomes vanishingly small over longer distances:</p>
+<ul class="simple">
+<li><p>it is more difficult for RNN to learn the long-distance dependency relations between different time steps in the sequence.</p></li>
+<li><p>it is less likely that RNN would learn to preserve information over many timesteps.</p></li>
+<li><p>it is more likely that RNN would pay more attention to the effects of the recent time steps (i.e., biasing the RNN towards learning from <strong>sequential recency</strong>).</p></li>
+</ul>
+</div>
+<div class="section" id="lstm-long-short-term-memory">
+<h3>LSTM (Long Short-Term Memory)<a class="headerlink" href="#lstm-long-short-term-memory" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>A type of RNN proposed by <a class="reference external" href="https://www.bioinf.jku.at/publications/older/2604.pdf">Hochreiter and Schmidhuber in 1997</a> as a solution to the vanishing gradients problem.</p></li>
+<li><p>For every time step, LSTM keeps track of two states: a <strong>hidden</strong> state and a <strong>cell</strong> state</p>
+<ul>
+<li><p>Both are of the vector length <span class="math notranslate nohighlight">\(n\)</span> same as the node/neuron number of the LSTM.</p></li>
+<li><p>The <strong>cell</strong> state stores long-term information in the sequence.</p></li>
+<li><p>The LSTM can erase, write and read information from the <strong>cell</strong>.</p></li>
+</ul>
+</li>
+<li><p>The selection of which information is erased/written/read is controlled by three corresponding <strong>gates</strong>.</p>
+<ul>
+<li><p>There are three <strong>gates</strong> in LSTM: <strong>output</strong>, <strong>input</strong>, and <strong>forget</strong> gates.</p></li>
+<li><p>The gates are also of the vector length <span class="math notranslate nohighlight">\(n\)</span> same as the node/neuron number of the LSTM.</p></li>
+<li><p>On each time step, each element of the gates can be open(1),closed(0),or somewhere in-between.</p></li>
+<li><p>The gates are dynamic: their value is computed based on the current <strong>cell</strong> state.</p></li>
+</ul>
+</li>
+</ul>
+<ul class="simple">
+<li><p>Vanilla RNN</p></li>
+</ul>
+<p><img alt="" src="../_images/LSTM3-SimpleRNN.png" />
+(Source: <a class="reference external" href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">http://colah.github.io/posts/2015-08-Understanding-LSTMs/</a>)</p>
+<ul class="simple">
+<li><p>LSTM</p></li>
+</ul>
+<p><img alt="" src="../_images/LSTM3-chain-annotated.jpeg" />
+(Source: <a class="reference external" href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">http://colah.github.io/posts/2015-08-Understanding-LSTMs/</a>)</p>
+<ul class="simple">
+<li><p>LSTM gates:</p>
+<ul>
+<li><p><strong>Input</strong> gate controls how much of the input (<span class="math notranslate nohighlight">\(X_t\)</span>) is used in computing the new <strong>cell</strong> state (<span class="math notranslate nohighlight">\(C_t\)</span>)</p></li>
+<li><p><strong>Output</strong> gate determines how much of the new <strong>cell</strong> state (<span class="math notranslate nohighlight">\(C_t\)</span>) is used in the output <strong>hidden</strong> state</p></li>
+<li><p><strong>Forget</strong> gate determines how much of the old <strong>cell</strong> state (<span class="math notranslate nohighlight">\(C_{t-1}\)</span>) is used in the new <strong>cell</strong> state (<span class="math notranslate nohighlight">\(C_t\)</span>).</p></li>
+</ul>
+</li>
+</ul>
+<p><img alt="" src="../_images/s2s-lstm.png" /></p>
+</div>
+<div class="section" id="gru-gated-recurrent-unit">
+<h3>GRU (Gated Recurrent Unit)<a class="headerlink" href="#gru-gated-recurrent-unit" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Proposed by <a class="reference external" href="https://arxiv.org/pdf/1406.1078v3.pdf">Cho et al. in 2014</a> as a simpler alternative to the LSTM.</p></li>
+<li><p>On each time step, GRU keeps track of only the <strong>hidden</strong> state (no cell state).</p></li>
+</ul>
+<ul class="simple">
+<li><p>GRU</p></li>
+</ul>
+<p><img alt="" src="../_images/LSTM3-var-GRU.png" />
+(Source: <a class="reference external" href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">http://colah.github.io/posts/2015-08-Understanding-LSTMs/</a>)</p>
+<p><img alt="" src="../_images/s2s-gru.png" /></p>
+</div>
+<div class="section" id="heuristics">
+<h3>Heuristics<a class="headerlink" href="#heuristics" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>LSTM is a good default choice (especially if our data has particularly long dependencies, or we have lots of training data)</p></li>
+<li><p>We may switch to GRUs for <strong>speed</strong> and fewer parameters.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="variations-of-sequence-models">
+<h2><span class="section-number">1.10. </span>Variations of Sequence Models<a class="headerlink" href="#variations-of-sequence-models" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>There are four major variants of sequence models depending on the types of input and output of the RNN</p>
+<ul>
+<li><p>Many to Many (Same lengths for input and output sequences)</p>
+<ul>
+<li><p>Most of the tagging problems fall into this category.</p></li>
+</ul>
+</li>
+<li><p>Many to One</p>
+<ul>
+<li><p>Most of the classification problems fall into this category.</p></li>
+</ul>
+</li>
+<li><p>One to Many</p>
+<ul>
+<li><p>Image Captioning</p></li>
+</ul>
+</li>
+<li><p>Many to Many (Variable lengths for input and output sequences)</p>
+<ul>
+<li><p>Machine Translation</p></li>
+<li><p>Chatbot Q&amp;A</p></li>
+<li><p>Text Summarization</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<p><img alt="" src="../_images/seq2seq-m2m-s.jpeg" /></p>
+<hr class="docutils" />
+<p><img alt="" src="../_images/seq2seq-m21.jpeg" /></p>
+<hr class="docutils" />
+<p><img alt="" src="../_images/seq2seq-12m.jpeg" /></p>
+<hr class="docutils" />
+<p><img alt="" src="../_images/seq2seq-m2m-d.jpeg" /></p>
+</div>
+<div class="section" id="references">
+<h2><span class="section-number">1.11. </span>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>A must-read article on LSTM: Chris Olah’s blog post on <a class="reference external" href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understanding LSTM Networks</a></p></li>
+<li><p>Check Ch 5 and 6 in <a class="reference external" href="https://www.books.com.tw/products/0010817138">Deep Learning 2｜用Python進行自然語言處理的基礎理論實作</a></p></li>
+<li><p>These lecture notes are based on a talk presented by Ananth Sankar: <a class="reference external" href="https://confengine.com/conferences/odsc-india-2019/proposal/10176/sequence-to-sequence-learning-with-encoder-decoder-neural-network-models">Sequence to Sequence Learning with Encoder-Decoder Neural Network Models</a>. Some of the graphs used here are taken from Dr. Sankar’s slides. His talk is highly recommended!</p></li>
+<li><p><a class="reference external" href="https://papers.nips.cc/paper/2014/file/a14ac55a4f27472c5d894ec1c3c743d2-Paper.pdf">Sutskever et al. (2014). Sequence to sequence learning with neural networks.</a></p></li>
+<li><p>New York Times: <a class="reference external" href="https://www.nytimes.com/2016/12/14/magazine/the-great-ai-awakening.html">The Great A.I. Awakening</a></p></li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python-notes",
+            path: "./nlp"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python-notes'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="dl-sentiment-case.html" title="previous page"><span class="section-number">3. </span>Deep Learning: Sentiment Analysis</a>
+    <a class='right-next' id="next-link" href="../temp/text-vec-embedding.html" title="next page"><span class="section-number">2. </span>Word Embeddings</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Alvin Chen<br/>
+        
+            &copy; Copyright 2020 Alvin Chen.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

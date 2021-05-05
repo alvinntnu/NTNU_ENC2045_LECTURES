@@ -1,19 +1,33 @@
-# Assignment V: Text Vectorization
+#!/usr/bin/env python
+# coding: utf-8
 
-## Question 1
+# # Assignment V: Text Vectorization
 
-Use `nltk.corpus.inaugural` as the corpus data for this exercise. It is a collection of US presidential inaugural speeches over the years. Cluster all the inaugural speeches collected in the corpus based on their bag-of-words vectorized representations.
+# ## Question 1
+# 
+# Use `nltk.corpus.inaugural` as the corpus data for this exercise. It is a collection of US presidential inaugural speeches over the years. Cluster all the inaugural speeches collected in the corpus based on their bag-of-words vectorized representations.
+# 
+# Please consider the following settings for bag-of-words model:
+# - Use the English stopwords provided in `nltk.corpus.stopwords.words('english')` to remove uninformative words.
+# - Lemmatize word tokens using `WordNetLemmatizer()`.
+# - Normalize the letter casing.
+# - Include in the Bag-of-words model only words consisting as alphabets or hyphens.
+# - Use `TfIdfVectorizer()` for bag-of-word vectorization.
 
-Please consider the following settings for bag-of-words model:
-- Use the English stopwords provided in `nltk.corpus.stopwords.words('english')` to remove uninformative words.
-- Lemmatize word tokens using `WordNetLemmatizer()`.
-- Normalize the letter casing.
-- Include in the Bag-of-words model only words consisting as alphabets or hyphens.
-- Use `TfIdfVectorizer()` for bag-of-word vectorization.
+# In[11]:
+
 
 tfidf_df
 
+
+# In[12]:
+
+
 similarity_df
+
+
+# In[13]:
+
 
 plt.figure(figsize=(7, 5))
 plt.title('US Presidential Inaugural Speech Analysis')
@@ -23,23 +37,35 @@ color_threshold = 1.8
 dendrogram(Z, color_threshold = color_threshold, labels=textsid)
 plt.axhline(y=color_threshold, c='k', ls='--', lw=0.5)
 
-## Question 2
 
-Please use the Chinese song lyrics from the directory, `demo_data/ChineseSongLyrics`, as the corpus for this exercise. The directory is a collection of song lyrics from nine Chinese pop-song artists.
+# ## Question 2
+# 
+# Please use the Chinese song lyrics from the directory, `demo_data/ChineseSongLyrics`, as the corpus for this exercise. The directory is a collection of song lyrics from nine Chinese pop-song artists.
+# 
+# Please utilize the bag-of-words method to vectorize each artist's song lyrics and provide a cluster analysis of each artist in terms of their textual similarities in lyrics.
+# 
+# A few notes for data processing:
+# - Please use `ckip-transformers` for word segmentation and POS tagging.
+# - Please build the bag-of-words model using the `Tfidfvectorizer()`.
+# - Please include in the model only words (a) whose POS tags start with 'N' or 'V', and (b) which consist of NO digits, alphabets, symbols and punctuations.
+# - Please make sure you have the word tokens intact when doing the vectorization using `Tfidfvectorizer()`.
+# 
+# The expected result is a dendrogram as shown below. But please note that depending on how you preprocess the data and adjust the parameters of bag-of-words representations, we may have somewhat different results. Please indicate and justify your parameter settings in the bag-of-words model creation (i.e., using markdown cells in notebook).
 
-Please utilize the bag-of-words method to vectorize each artist's song lyrics and provide a cluster analysis of each artist in terms of their textual similarities in lyrics.
+# In[43]:
 
-A few notes for data processing:
-- Please use `ckip-transformers` for word segmentation and POS tagging.
-- Please build the bag-of-words model using the `Tfidfvectorizer()`.
-- Please include in the model only words (a) whose POS tags start with 'N' or 'V', and (b) which consist of NO digits, alphabets, symbols and punctuations.
-- Please make sure you have the word tokens intact when doing the vectorization using `Tfidfvectorizer()`.
-
-The expected result is a dendrogram as shown below. But please note that depending on how you preprocess the data and adjust the parameters of bag-of-words representations, we may have somewhat different results. Please indicate and justify your parameter settings in the bag-of-words model creation (i.e., using markdown cells in notebook).
 
 tv_df
 
+
+# In[44]:
+
+
 similarity_doc_df
+
+
+# In[45]:
+
 
 plt.figure(figsize=(7, 5))
 plt.title('Chinese Pop Song Artists')
@@ -49,12 +75,3 @@ color_threshold = 0.1
 dendrogram(Z, labels=fileids, leaf_rotation = 90, color_threshold = color_threshold, above_threshold_color='b')
 plt.axhline(y=color_threshold, c='k', ls='--', lw=0.5)
 
-
-```{toctree}
-:hidden:
-:titlesonly:
-
-
-../exercise-student/Assignment-5-1
-../exercise-student/Assignment-5-2
-```
