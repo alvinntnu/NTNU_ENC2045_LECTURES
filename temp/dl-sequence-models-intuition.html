@@ -58,8 +58,8 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Neural Language Model: A Start" href="dl-neural-language-model-primer.html" />
-    <link rel="prev" title="Statistical Language Model" href="dl-statistical-language-model.html" />
+    <link rel="next" title="Word Embeddings" href="text-vec-embedding.html" />
+    <link rel="prev" title="3. Deep Learning: Sentiment Analysis" href="../nlp/dl-sentiment-case.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -222,10 +222,15 @@
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
-  Embeddings and Language Model
+  Neural Language Model and Embeddings
  </span>
 </p>
 <ul class="current nav sidenav_l1">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Sequence Models Intuition
+  </a>
+ </li>
  <li class="toctree-l1">
   <a class="reference internal" href="text-vec-embedding.html">
    Word Embeddings
@@ -239,11 +244,6 @@
  <li class="toctree-l1">
   <a class="reference internal" href="dl-statistical-language-model.html">
    Statistical Language Model
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Sequence Models Intuition
   </a>
  </li>
  <li class="toctree-l1">
@@ -295,62 +295,20 @@
    Assignment II: Journal Articles Review
   </a>
  </li>
- <li class="toctree-l1 collapsible-parent">
+ <li class="toctree-l1">
   <a class="reference internal" href="../exercise/3-preprocessing.html">
    Assignment III: Preprocessing
   </a>
-  <ul class="collapse-ul">
-   <li class="toctree-l2">
-    <a class="reference internal" href="../exercise-student/Assignment-3-1.html">
-     Student Sample 1
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../exercise-student/Assignment-3-2.html">
-     Student Sample 2
-    </a>
-   </li>
-  </ul>
-  <i class="fas fa-chevron-down">
-  </i>
  </li>
- <li class="toctree-l1 collapsible-parent">
+ <li class="toctree-l1">
   <a class="reference internal" href="../exercise/4-chinese-nlp.html">
    Assignment IV: Chinese Language Processing
   </a>
-  <ul class="collapse-ul">
-   <li class="toctree-l2">
-    <a class="reference internal" href="../exercise-student/Assignment-4-1.html">
-     Student Sample 1
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../exercise-student/Assignment-4-2.html">
-     Student Sample 2
-    </a>
-   </li>
-  </ul>
-  <i class="fas fa-chevron-down">
-  </i>
  </li>
- <li class="toctree-l1 collapsible-parent">
+ <li class="toctree-l1">
   <a class="reference internal" href="../exercise/5-text-vectorization.html">
    Assignment V: Text Vectorization
   </a>
-  <ul class="collapse-ul">
-   <li class="toctree-l2">
-    <a class="reference internal" href="../exercise-student/Assignment-5-1.html">
-     Student Sample 1
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../exercise-student/Assignment-5-2.html">
-     Student Sample 2
-    </a>
-   </li>
-  </ul>
-  <i class="fas fa-chevron-down">
-  </i>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../exercise/6-machine-learning.html">
@@ -365,6 +323,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../exercise/7-topic-modeling.html">
    Assignment VII: Topic Modeling
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/8-dl-chinese-name-gender.html">
+   Assignment VIII: Deep Learning
   </a>
  </li>
 </ul>
@@ -494,9 +457,41 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#vanilla-rnn-lstm-and-gru">
-   Vanilla RNN, LSTM and GRU
+  <a class="reference internal nav-link" href="#types-of-gradient-descent">
+   Types of Gradient Descent
   </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#from-vanilla-rnn-to-lstm-and-gru">
+   From Vanilla RNN to LSTM and GRU
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#issues-with-vanilla-rnn">
+     Issues with Vanilla RNN
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#why-is-vanishing-gradient-an-issue">
+     Why is vanishing gradient an issue?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lstm-long-short-term-memory">
+     LSTM (Long Short-Term Memory)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#gru-gated-recurrent-unit">
+     GRU (Gated Recurrent Unit)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#heuristics">
+     Heuristics
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#variations-of-sequence-models">
@@ -583,35 +578,48 @@
 <div class="section" id="from-one-hot-to-embeddings">
 <h2>From One-hot to Embeddings<a class="headerlink" href="#from-one-hot-to-embeddings" title="Permalink to this headline">¶</a></h2>
 <p><img alt="" src="../_images/seq-1hot-to-embeddings.png" /></p>
+<ul class="simple">
+<li><p>This is how an Embedding Layer works in <code class="docutils literal notranslate"><span class="pre">keras.layers.Embedding</span></code>:</p></li>
+</ul>
+<p><img alt="" src="../_images/name-gender-classifier-dl.0051.jpeg" /></p>
 </div>
 <div class="section" id="recurrent-neural-network-rnn-language-model">
 <h2>Recurrent Neural Network (RNN) Language Model<a class="headerlink" href="#recurrent-neural-network-rnn-language-model" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Now that each word is represented by embeddings, we can represent words as ebmeddings, and build a RNN language model.</p></li>
+<li><p>Words, as semantically represented by embeddings, can now be the input tensors for a RNN.</p></li>
 </ul>
-<p><img alt="" src="../_images/seq-rnn1.png" /></p>
+<p><img alt="" src="../_images/s2s-rnn1.jpeg" /></p>
+<ul class="simple">
+<li><p>Moreover, we can create a RNN-based language model.</p></li>
+<li><p>A language model has two main objectives in its NLP applications:</p>
+<ul>
+<li><p>To estimate the probability of a given sentence (or any other meaningful linguistic units)</p></li>
+<li><p>To predict the upcoming word given limited linguistic inputs</p></li>
+</ul>
+</li>
+</ul>
+<p><img alt="" src="../_images/s2s-rnn-lm.jpeg" /></p>
 <ul class="simple">
 <li><p>The RNN Langage model takes the word at each time step as the input and output the predicted next word.</p></li>
 <li><p>And the output at time step <em>i</em> becomes the input of the RNN at time step <em>i+1</em>.</p></li>
 </ul>
-<p><img alt="" src="../_images/seq-rnn2.png" /></p>
 <ul class="simple">
 <li><p>The loss function of the RNN Language Model is the distance between the predicted word, <em>y</em>, and the correct next-word (in its one-hot form).</p></li>
 <li><p>The training of the RNN language model is thus to minimize the sum of the <strong>cross-entroy</strong> at all time steps.</p></li>
 </ul>
-<p><img alt="" src="../_images/seq-rnn3.png" /></p>
+<p><img alt="" src="../_images/s2s-rnn-lm-loss.jpeg" /></p>
 <ul class="simple">
-<li><p>For example, if the target next work is <em>cat</em>, it’s one-hot representation is <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">1</span> <span class="pre">,0]</span></code>, and the RNN LM predicted <em>y</em> is <code class="docutils literal notranslate"><span class="pre">[0.2,</span> <span class="pre">0.1,</span> <span class="pre">0.1,</span> <span class="pre">0.4,</span> <span class="pre">0.2]</span></code>, we can compute the <strong>cross-entropy</strong> at this time step as follows.</p></li>
+<li><p>For example, if the target next word is <em>dog</em>, it’s one-hot representation is <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">0,</span> <span class="pre">0</span> <span class="pre">,0,</span> <span class="pre">0]</span></code>, and the RNN LM predicted <em>y</em> is <code class="docutils literal notranslate"><span class="pre">[0.2,</span> <span class="pre">0.4,</span> <span class="pre">0.1,</span> <span class="pre">0.1,</span> <span class="pre">0.2,</span> <span class="pre">0.0]</span></code>, we can compute the <strong>cross-entropy</strong> at this time step as follows.</p></li>
 </ul>
 <div class="math notranslate nohighlight">
 \[
 E = - \sum_{k}t_k \log{y_k}
 \]</div>
-<ul class="simple">
-<li><p>k: refers to the dimensions of the one-hot vectors</p></li>
-<li><p>t: refers to the target next word</p></li>
-<li><p>y: refers to the predicted y from the RNN LM</p></li>
-</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- k: refers to the dimensions of the one-hot vectors
+- t: refers to the target next word
+- y: refers to the predicted y from the RNN LM
+</pre></div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cross_entropy</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
@@ -619,8 +627,8 @@ E = - \sum_{k}t_k \log{y_k}
     <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">t</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="n">delta</span><span class="p">))</span>
 
 
-<span class="n">t</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
-<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]</span>
+<span class="n">t</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
 
 <span class="n">cross_entropy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
 </pre></div>
@@ -633,14 +641,18 @@ E = - \sum_{k}t_k \log{y_k}
 </div>
 </div>
 <ul class="simple">
-<li><p>And we compute the average cross-entropy errors across all time steps.</p></li>
+<li><p>And we compute the average cross-entropy error across all time steps for a particular sample.</p></li>
 </ul>
 <div class="math notranslate nohighlight">
 \[
 E = - \frac{1}{N}\sum_n\sum_{k}t_{nk} \log{y_{nk}}
 \]</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- N: the number of words in the input text
+</pre></div>
+</div>
 <ul class="simple">
-<li><p>N: the number of words in the input text</p></li>
+<li><p>We can also compute the average cross-entropy error for samples of a batch size.</p></li>
+<li><p>We can also compute the average cross-entropy error for the entire training set.</p></li>
 </ul>
 </div>
 <div class="section" id="back-propogation">
@@ -656,13 +668,76 @@ E = - \frac{1}{N}\sum_n\sum_{k}t_{nk} \log{y_{nk}}
 </ul>
 </li>
 </ul>
-<p><img alt="" src="../_images/seq-rnn4.png" /></p>
 </div>
-<div class="section" id="vanilla-rnn-lstm-and-gru">
-<h2>Vanilla RNN, LSTM and GRU<a class="headerlink" href="#vanilla-rnn-lstm-and-gru" title="Permalink to this headline">¶</a></h2>
-<p><img alt="" src="../_images/s2s-rnn1.jpeg" /></p>
-<p><img alt="" src="../_images/s2s-lstm.png" />
-<img alt="" src="../_images/s2s-gru.png" /></p>
+<div class="section" id="types-of-gradient-descent">
+<h2>Types of Gradient Descent<a class="headerlink" href="#types-of-gradient-descent" title="Permalink to this headline">¶</a></h2>
+<p>As we can compute the cross entropy in different ways, we can perform the gradient descent in different ways as well.</p>
+<ul class="simple">
+<li><p><strong>Batch Gradient Descent</strong>: Update the model weights after we get the average cross entropy of the entire training set in one epoch.</p></li>
+<li><p><strong>Stochastic Gradient Descent</strong>(SGD): Update the model weights after we get the cross entropy of every instance of the training set (across all time steps of course) (online).</p></li>
+<li><p><strong>Mini-batch Gradient Descent</strong>: Update the model weights after we get the average cross entropy of a subset of the training set. (Recommended!)</p></li>
+</ul>
+</div>
+<div class="section" id="from-vanilla-rnn-to-lstm-and-gru">
+<h2>From Vanilla RNN to LSTM and GRU<a class="headerlink" href="#from-vanilla-rnn-to-lstm-and-gru" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="issues-with-vanilla-rnn">
+<h3>Issues with Vanilla RNN<a class="headerlink" href="#issues-with-vanilla-rnn" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>An RNN on a sequence of words can be taken as a deep deep neural network, where th depths of the network would be the number of time steps of the sequence.</p></li>
+<li><p>In back propagation, for longer sequences, we would run into the <strong>vanishing gradient problems</strong>. To simply put, the gradients would become smaller and smaller as we back propagate further back to the previous contexts of the sequence.</p></li>
+</ul>
+</div>
+<div class="section" id="why-is-vanishing-gradient-an-issue">
+<h3>Why is vanishing gradient an issue?<a class="headerlink" href="#why-is-vanishing-gradient-an-issue" title="Permalink to this headline">¶</a></h3>
+<p>If the gradient becomes vanishingly small over longer distances:</p>
+<ul class="simple">
+<li><p>it is more difficult for RNN to learn the long-distance dependency relations between different time steps in the sequence.</p></li>
+<li><p>it is less likely that RNN would learn to preserve information over many timesteps.</p></li>
+<li><p>it is more likely that RNN would pay more attention to the effects of the recent time steps (i.e., biasing the RNN towards learning from sequential recency).</p></li>
+</ul>
+</div>
+<div class="section" id="lstm-long-short-term-memory">
+<h3>LSTM (Long Short-Term Memory)<a class="headerlink" href="#lstm-long-short-term-memory" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>A type of RNN proposed by <a class="reference external" href="https://www.bioinf.jku.at/publications/older/2604.pdf">Hochreiter and Schmidhuber in 1997</a> as a solution to the vanishing gradients problem.</p></li>
+<li><p>For every time step, LSTM keeps track of two states: a hidden state and a cell state</p>
+<ul>
+<li><p>Both are of the vector length <span class="math notranslate nohighlight">\(n\)</span> same as the hidden state number of the LSTM.</p></li>
+<li><p>The cell state stores long-term information in the sequence.</p></li>
+<li><p>The LSTM can erase, write and read information from the cell.</p></li>
+</ul>
+</li>
+<li><p>The selection of which information is erased/written/read is controlled by three corresponding gates</p>
+<ul>
+<li><p>The gates are also of the vector length <span class="math notranslate nohighlight">\(n\)</span> same as the hidden state number of the LSTM.</p></li>
+<li><p>On each time step,each element of the gates can be open(1),closed(0),or somewhere in-between.</p></li>
+<li><p>The gates are dynamic: their value is computed based on the current context <span class="math notranslate nohighlight">\(c\)</span>.</p></li>
+</ul>
+</li>
+</ul>
+<p><img alt="" src="../_images/LSTM3-SimpleRNN.png" />
+(Source: <a class="reference external" href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">http://colah.github.io/posts/2015-08-Understanding-LSTMs/</a>)</p>
+<p><img alt="" src="../_images/LSTM3-chain.png" />
+(Source: <a class="reference external" href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">http://colah.github.io/posts/2015-08-Understanding-LSTMs/</a>)</p>
+<p><img alt="" src="../_images/s2s-lstm.png" /></p>
+</div>
+<div class="section" id="gru-gated-recurrent-unit">
+<h3>GRU (Gated Recurrent Unit)<a class="headerlink" href="#gru-gated-recurrent-unit" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Proposed by <a class="reference external" href="https://arxiv.org/pdf/1406.1078v3.pdf">Cho et al. in 2014</a> as a simpler alternative to the LSTM.</p></li>
+<li><p>On each time step, GRU keeps track of only the hidden state (no cell state).</p></li>
+</ul>
+<p><img alt="" src="../_images/LSTM3-var-GRU.png" />
+(Source: <a class="reference external" href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">http://colah.github.io/posts/2015-08-Understanding-LSTMs/</a>)</p>
+<p><img alt="" src="../_images/s2s-gru.png" /></p>
+</div>
+<div class="section" id="heuristics">
+<h3>Heuristics<a class="headerlink" href="#heuristics" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>LSTM is a good default choice (especially if your data has particularly long dependencies, or you have lots of training data)</p></li>
+<li><p>We may switch to GRUs for <strong>speed</strong> and fewer parameters.</p></li>
+</ul>
+</div>
 </div>
 <div class="section" id="variations-of-sequence-models">
 <h2>Variations of Sequence Models<a class="headerlink" href="#variations-of-sequence-models" title="Permalink to this headline">¶</a></h2>
@@ -741,8 +816,8 @@ E = - \frac{1}{N}\sum_n\sum_{k}t_{nk} \log{y_{nk}}
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="dl-statistical-language-model.html" title="previous page">Statistical Language Model</a>
-    <a class='right-next' id="next-link" href="dl-neural-language-model-primer.html" title="next page">Neural Language Model: A Start</a>
+    <a class='left-prev' id="prev-link" href="../nlp/dl-sentiment-case.html" title="previous page"><span class="section-number">3. </span>Deep Learning: Sentiment Analysis</a>
+    <a class='right-next' id="next-link" href="text-vec-embedding.html" title="next page">Word Embeddings</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

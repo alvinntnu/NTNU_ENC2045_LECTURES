@@ -220,33 +220,33 @@
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
-  Embeddings and Language Model
+  Neural Language Model and Embeddings
  </span>
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/dl-sequence-models-intuition.html">
+   1. Sequence Models Intuition
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="../temp/text-vec-embedding.html">
-   Word Embeddings
+   2. Word Embeddings
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../temp/text-vec-embedding-keras.html">
-   Word Embedding Using Keras
+   3. Word Embedding Using Keras
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../temp/dl-statistical-language-model.html">
-   Statistical Language Model
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../temp/dl-sequence-models-intuition.html">
-   Sequence Models Intuition
+   4. Statistical Language Model
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../temp/dl-neural-language-model-primer.html">
-   Neural Language Model: A Start
+   5. Neural Language Model: A Start
   </a>
  </li>
 </ul>
@@ -293,62 +293,20 @@
    Assignment II: Journal Articles Review
   </a>
  </li>
- <li class="toctree-l1 collapsible-parent">
+ <li class="toctree-l1">
   <a class="reference internal" href="../exercise/3-preprocessing.html">
    Assignment III: Preprocessing
   </a>
-  <ul class="collapse-ul">
-   <li class="toctree-l2">
-    <a class="reference internal" href="../exercise-student/Assignment-3-1.html">
-     Student Sample 1
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../exercise-student/Assignment-3-2.html">
-     Student Sample 2
-    </a>
-   </li>
-  </ul>
-  <i class="fas fa-chevron-down">
-  </i>
  </li>
- <li class="toctree-l1 collapsible-parent">
+ <li class="toctree-l1">
   <a class="reference internal" href="../exercise/4-chinese-nlp.html">
    Assignment IV: Chinese Language Processing
   </a>
-  <ul class="collapse-ul">
-   <li class="toctree-l2">
-    <a class="reference internal" href="../exercise-student/Assignment-4-1.html">
-     Student Sample 1
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../exercise-student/Assignment-4-2.html">
-     Student Sample 2
-    </a>
-   </li>
-  </ul>
-  <i class="fas fa-chevron-down">
-  </i>
  </li>
- <li class="toctree-l1 collapsible-parent">
+ <li class="toctree-l1">
   <a class="reference internal" href="../exercise/5-text-vectorization.html">
    Assignment V: Text Vectorization
   </a>
-  <ul class="collapse-ul">
-   <li class="toctree-l2">
-    <a class="reference internal" href="../exercise-student/Assignment-5-1.html">
-     Student Sample 1
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../exercise-student/Assignment-5-2.html">
-     Student Sample 2
-    </a>
-   </li>
-  </ul>
-  <i class="fas fa-chevron-down">
-  </i>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../exercise/6-machine-learning.html">
@@ -363,6 +321,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../exercise/7-topic-modeling.html">
    Assignment VII: Topic Modeling
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/8-dl-chinese-name-gender.html">
+   Assignment VIII: Deep Learning
   </a>
  </li>
 </ul>
@@ -476,14 +439,14 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 
-<span class="k">def</span> <span class="nf">perform_post_exec_cleanup</span><span class="p">(</span><span class="n">input_nb_name</span><span class="p">,</span><span class="n">tag_to_del</span><span class="o">=</span><span class="s1">&#39;injected-parameters&#39;</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">perform_post_exec_cleanup</span><span class="p">(</span><span class="n">input_nb_name</span><span class="p">,</span><span class="n">tag_to_del</span><span class="o">=</span><span class="s1">&#39;injected-parameters&#39;</span><span class="p">,</span> <span class="n">outdir</span><span class="o">=</span><span class="s1">&#39;../exercise/&#39;</span><span class="p">):</span>
 
     <span class="kn">import</span> <span class="nn">json</span>
     <span class="kn">from</span> <span class="nn">traitlets.config</span> <span class="kn">import</span> <span class="n">Config</span>
     <span class="kn">from</span> <span class="nn">nbconvert</span> <span class="kn">import</span> <span class="n">NotebookExporter</span>
     <span class="kn">import</span> <span class="nn">nbformat</span>
 
-    <span class="n">output_nb_name</span> <span class="o">=</span> <span class="s1">&#39;../exercise/&#39;</span><span class="o">+</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">input_nb_name</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-ans&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">output_nb_name</span> <span class="o">=</span> <span class="n">outdir</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">input_nb_name</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-ans&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
     
     <span class="n">c</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
     <span class="n">c</span><span class="o">.</span><span class="n">TagRemovePreprocessor</span><span class="o">.</span><span class="n">enabled</span><span class="o">=</span><span class="kc">True</span> <span class="c1"># to enable the preprocessor</span>
@@ -548,7 +511,21 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">perform_post_exec_cleanup</span><span class="p">(</span><span class="s1">&#39;7-topic-modeling-ans.ipynb&#39;</span><span class="p">,</span> <span class="s2">&quot;remove-input&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">perform_post_exec_cleanup</span><span class="p">(</span><span class="s1">&#39;7-topic-modeling-ans.ipynb&#39;</span><span class="p">,</span> <span class="s2">&quot;rembove-input&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">perform_post_exec_cleanup</span><span class="p">(</span><span class="s1">&#39;8-dl-chinese-name-gender-ans.ipynb&#39;</span><span class="p">,</span> <span class="s2">&quot;remove-input&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">perform_post_exec_cleanup</span><span class="p">(</span><span class="s1">&#39;midterm-exam-sample-ans.ipynb&#39;</span><span class="p">,</span> <span class="s2">&quot;remove-input&quot;</span><span class="p">,</span> <span class="s1">&#39;../exercise-student/&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
