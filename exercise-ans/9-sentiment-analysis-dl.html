@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sentiment Analysis based on Embeddings &#8212; ENC2045 Computational Linguistics</title>
+    <title>Assignment IV: Sentiment Analysis Using Deep Learning &#8212; ENC2045 Computational Linguistics</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -425,40 +425,13 @@
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#loading-packages">
-   Loading Packages
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#preparing-data">
-   Preparing Data
+  <a class="reference internal nav-link" href="#question-1">
+   Question 1
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#importing-data-into-python">
-     Importing Data into Python
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#text-preprocessing">
-     Text Preprocessing
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#text-tokenization-and-one-hot-encoding-labels">
-     Text Tokenization and One-Hot Encoding Labels
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#descriptive-statistics">
-   Descriptive Statistics
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#distribution-of-text-lengths">
-     Distribution of Text Lengths
+    <a class="reference internal nav-link" href="#not-used">
+     Not Used
     </a>
    </li>
   </ul>
@@ -516,19 +489,29 @@
         
               <div>
                 
-  <div class="section" id="sentiment-analysis-based-on-embeddings">
-<h1>Sentiment Analysis based on Embeddings<a class="headerlink" href="#sentiment-analysis-based-on-embeddings" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="assignment-iv-sentiment-analysis-using-deep-learning">
+<h1>Assignment IV: Sentiment Analysis Using Deep Learning<a class="headerlink" href="#assignment-iv-sentiment-analysis-using-deep-learning" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="question-1">
+<h2>Question 1<a class="headerlink" href="#question-1" title="Permalink to this headline">¶</a></h2>
+<p>Build a movie review classifier using the dataset in <code class="docutils literal notranslate"><span class="pre">demo_data/movie_reviews.csv</span></code>. The objective of the classifier is to automatically classify a movie review into either positive or negative category.</p>
+<p>The dataset is the famous IMBd moview reviews dataset. You can take a look at the SOTA classification performance on this dataset <a class="reference external" href="https://paperswithcode.com/sota/sentiment-analysis-on-imdb">here</a>.</p>
+<p>In your experiments, please include the following strategies in your considerations:</p>
+<ul class="simple">
+<li><p>Please use sequence models for this task.</p></li>
+<li><p>For embedding layers, please try both self-trained embedding layer along with the sentiment classifier, as well as pre-trained embeddings provided in <code class="docutils literal notranslate"><span class="pre">spacy</span></code>.</p></li>
+<li><p>Please include dropout and regularization layers to avoid overfitting.</p></li>
+</ul>
 <ul class="simple">
 <li><p>This tutorial uses Sarkar’s book example.</p></li>
 <li><p>Simple Multilayer Deep Neural Network on Sentiment Classification</p></li>
 <li><p>Use the average text embeddings based on word embeddings</p></li>
 <li><p>Use both self-trained word embeddings and spacy embeddings.</p></li>
 </ul>
-<div class="section" id="loading-packages">
-<h2>Loading Packages<a class="headerlink" href="#loading-packages" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+
+<span class="c1">## loading packages</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -536,6 +519,8 @@
 <span class="kn">import</span> <span class="nn">gensim</span>
 <span class="kn">import</span> <span class="nn">tensorflow</span>
 <span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
+<span class="kn">from</span> <span class="nn">keras.preprocessing.text</span> <span class="kn">import</span> <span class="n">Tokenizer</span>
+<span class="kn">from</span> <span class="nn">keras.preprocessing</span> <span class="kn">import</span> <span class="n">sequence</span>
 <span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
 <span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">Dropout</span><span class="p">,</span> <span class="n">Activation</span><span class="p">,</span> <span class="n">Dense</span>
 <span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span>
@@ -546,39 +531,29 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 4.91 s, sys: 1.33 s, total: 6.24 s
-Wall time: 2min 4s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1.17 ms, sys: 2.15 ms, total: 3.32 ms
+Wall time: 83.8 ms
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="preparing-data">
-<h2>Preparing Data<a class="headerlink" href="#preparing-data" title="Permalink to this headline">¶</a></h2>
-<p><img alt="" src="../_images/text-tokenization-embedding.gif" /></p>
-<p><img alt="" src="../_images/text-tokenization-embedding.png" /></p>
-<ul class="simple">
-<li><p>Important steps of text preprocessing for deep learning:</p>
-<ul>
-<li><p>Text Preprocessing (normalization, enrichment, and/or tokenization)</p></li>
-<li><p>Text to Sequences</p></li>
-<li><p>Pad Sequences</p></li>
-</ul>
-</li>
-</ul>
-<div class="section" id="importing-data-into-python">
-<h3>Importing Data into Python<a class="headerlink" href="#importing-data-into-python" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Loading the raw data and look at the structure of the data quickly</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tensorflow</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+
+<span class="c1">## Loading the raw data and look at the structure of the data quickly</span>
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../../RepositoryData/data/movie_reviews.csv&#39;</span><span class="p">)</span>
+
 <span class="c1"># take a peek at the data</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="c1">## split reviews and sentiments</span>
 <span class="n">reviews</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;review&#39;</span><span class="p">])</span>
-<span class="n">sentiments</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;sentiment&#39;</span><span class="p">])</span>
-<span class="nb">type</span><span class="p">(</span><span class="n">reviews</span><span class="p">)</span>
-<span class="n">reviews</span><span class="o">.</span><span class="n">shape</span>
-<span class="n">sentiments</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">sentiments</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span> <span class="k">if</span> <span class="n">l</span><span class="o">==</span><span class="s2">&quot;negative&quot;</span> <span class="k">else</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;sentiment&#39;</span><span class="p">]])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">reviews</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sentiments</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
 <span class="c1"># build train and test datasets</span>
 <span class="n">train_reviews</span> <span class="o">=</span> <span class="n">reviews</span><span class="p">[:</span><span class="mi">35000</span><span class="p">]</span>
 <span class="n">train_sentiments</span> <span class="o">=</span> <span class="n">sentiments</span><span class="p">[:</span><span class="mi">35000</span><span class="p">]</span>
@@ -588,19 +563,19 @@ Wall time: 2min 4s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                              review sentiment
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.4.1
+                                              review sentiment
 0  One of the other reviewers has mentioned that ...  positive
 1  A wonderful little production. &lt;br /&gt;&lt;br /&gt;The...  positive
 2  I thought this was a wonderful way to spend ti...  positive
 3  Basically there&#39;s a family where a little boy ...  negative
 4  Petter Mattei&#39;s &quot;Love in the Time of Money&quot; is...  positive
+(50000,)
+(50000,)
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="text-preprocessing">
-<h3>Text Preprocessing<a class="headerlink" href="#text-preprocessing" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">TAWP</span>
@@ -682,57 +657,563 @@ Wall time: 2min 4s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1min 43s, sys: 640 ms, total: 1min 43s
-Wall time: 1min 44s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1min 46s, sys: 979 ms, total: 1min 47s
+Wall time: 1min 49s
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="text-tokenization-and-one-hot-encoding-labels">
-<h3>Text Tokenization and One-Hot Encoding Labels<a class="headerlink" href="#text-tokenization-and-one-hot-encoding-labels" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><p>In this tutorial, Sarkar did not convert texts into sequences because he directly converts words into embeddings, either using self-trained word embeddings (skipgram) or from spacy.</p></li>
-</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.tokenize.toktok</span> <span class="kn">import</span> <span class="n">ToktokTokenizer</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">NUM_WORDS</span> <span class="o">=</span> <span class="mi">10000</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">ToktokTokenizer</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-<ul class="simple">
-<li><p>Tokenize texts into word tokens</p></li>
-</ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># tokenize train reviews &amp; encode train labels</span>
-<span class="n">tokenized_train</span> <span class="o">=</span> <span class="p">[</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-                   <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">norm_train_reviews</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-<ul class="simple">
-<li><p>One-hot encoding the class labels</p></li>
-</ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">le</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span> <span class="c1">## label to sequences</span>
-<span class="n">num_classes</span><span class="o">=</span><span class="mi">2</span> 
-<span class="n">y_tr</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">train_sentiments</span><span class="p">)</span>
-<span class="n">y_train</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">to_categorical</span><span class="p">(</span><span class="n">y_tr</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span> <span class="c1">## sequences to one-hot</span>
+<span class="n">tokenizer</span><span class="o">=</span><span class="n">Tokenizer</span><span class="p">(</span><span class="n">num_words</span><span class="o">=</span><span class="n">NUM_WORDS</span><span class="p">)</span>
+<span class="n">tokenizer</span><span class="o">.</span><span class="n">fit_on_texts</span><span class="p">(</span><span class="n">train_reviews</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">y_tr</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+<span class="c1"># vocab_size = len(tokenizer.word_index) + 1</span>
+<span class="n">VOCAB_SIZE</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">num_words</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Vocabulary Size: </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">vocab_size</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Vocabulary Size: 10001
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">word_index</span><span class="o">.</span><span class="n">items</span><span class="p">())[:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(&#39;the&#39;, 1),
+ (&#39;and&#39;, 2),
+ (&#39;a&#39;, 3),
+ (&#39;of&#39;, 4),
+ (&#39;to&#39;, 5),
+ (&#39;is&#39;, 6),
+ (&#39;br&#39;, 7),
+ (&#39;in&#39;, 8),
+ (&#39;it&#39;, 9),
+ (&#39;i&#39;, 10)]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">reviews_to_sequences</span><span class="p">(</span><span class="n">reviews</span><span class="p">,</span> <span class="n">MAX_LEN</span> <span class="o">=</span> <span class="mi">200</span><span class="p">):</span>
+    <span class="n">reviews_int</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">texts_to_sequences</span><span class="p">(</span><span class="n">reviews</span><span class="p">)</span>
+    <span class="n">reviews_pad</span> <span class="o">=</span> <span class="n">sequence</span><span class="o">.</span><span class="n">pad_sequences</span><span class="p">(</span><span class="n">reviews_int</span><span class="p">,</span>
+                           <span class="n">maxlen</span> <span class="o">=</span> <span class="n">MAX_LEN</span><span class="p">,</span> 
+                           <span class="n">truncating</span><span class="o">=</span><span class="s1">&#39;pre&#39;</span><span class="p">,</span> 
+                           <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;pre&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">reviews_pad</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+
+
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">reviews_to_sequences</span><span class="p">(</span><span class="n">train_reviews</span><span class="p">)</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">reviews_to_sequences</span><span class="p">(</span><span class="n">test_reviews</span><span class="p">)</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">to_categorical</span><span class="p">(</span><span class="n">train_sentiments</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span> <span class="c1">## sequences to one-hot</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">to_categorical</span><span class="p">(</span><span class="n">test_sentiments</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span> <span class="c1">## sequences to one-hot</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y_train</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(35000, 200)
+[[0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [1. 0.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [1. 0.]
+ [1. 0.]
+ [0. 1.]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="c1"># Plotting results</span>
+<span class="k">def</span> <span class="nf">plot1</span><span class="p">(</span><span class="n">history</span><span class="p">):</span>
+
+    <span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">acc</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span>
+    <span class="n">val_acc</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;val_accuracy&#39;</span><span class="p">]</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">]</span>
+    <span class="n">val_loss</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;val_loss&#39;</span><span class="p">]</span>
+
+    <span class="n">epochs</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">acc</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1">## Accuracy plot</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">acc</span><span class="p">,</span> <span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Training acc&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">val_acc</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Validation acc&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Training and validation accuracy&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="c1">## Loss plot</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Training loss&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">val_loss</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Validation loss&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Training and validation loss&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    
+<span class="k">def</span> <span class="nf">plot2</span><span class="p">(</span><span class="n">history</span><span class="p">):</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1">#plt.gca().set_ylim(0,1)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">build_model_lstm</span><span class="p">():</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+<span class="c1">#     model.add(Input(shape=(MAX_LEN,)))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Embedding</span><span class="p">(</span><span class="n">VOCAB_SIZE</span><span class="p">,</span> <span class="n">EMBED_DIM</span><span class="p">,</span> <span class="n">mask_zero</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">SpatialDropout1D</span><span class="p">(</span><span class="mf">0.2</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">LSTM</span><span class="p">(</span><span class="n">LSTM_DIM</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">recurrent_dropout</span><span class="o">=</span><span class="mf">0.2</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;softmax&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">model</span>
+<span class="k">def</span> <span class="nf">build_model_lstm_pretrained_emb</span><span class="p">(</span><span class="n">train_emb</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+<span class="c1">#     model.add(Input(shape=(MAX_LEN,)))</span>
+
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Embedding</span><span class="p">(</span><span class="n">VOCAB_SIZE</span><span class="p">,</span> <span class="n">EMBED_DIM</span><span class="p">,</span> <span class="n">mask_zero</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="n">embedding_matrix</span><span class="p">],</span> <span class="n">trainable</span><span class="o">=</span><span class="n">train_emb</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">SpatialDropout1D</span><span class="p">(</span><span class="mf">0.2</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">LSTM</span><span class="p">(</span><span class="n">LSTM_DIM</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">recurrent_dropout</span><span class="o">=</span><span class="mf">0.2</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;softmax&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">model</span>
+
+<span class="k">def</span> <span class="nf">build_model_bilstm_pretrain_emb</span><span class="p">(</span><span class="n">train_emb</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Embedding</span><span class="p">(</span><span class="n">VOCAB_SIZE</span><span class="p">,</span> <span class="n">EMBED_DIM</span><span class="p">,</span> <span class="n">mask_zero</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                       <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="n">embedding_matrix</span><span class="p">],</span> <span class="n">trainable</span><span class="o">=</span><span class="n">train_emb</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Bidirectional</span><span class="p">(</span><span class="n">LSTM</span><span class="p">(</span><span class="n">LSTM_DIM</span><span class="p">,</span> <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Bidirectional</span><span class="p">(</span><span class="n">LSTM</span><span class="p">(</span><span class="n">LSTM_DIM</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;softmax&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">model</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Using Spacy embeddings</span>
+
+<span class="kn">import</span> <span class="nn">spacy</span>
+<span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;en_core_web_lg&#39;</span><span class="p">,</span> <span class="n">disable</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;parser&#39;</span><span class="p">,</span> <span class="s1">&#39;tag&#39;</span><span class="p">,</span><span class="s1">&#39;entity&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w2id</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">word_index</span>
+<span class="n">id2w</span> <span class="o">=</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span><span class="n">w</span> <span class="k">for</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="nb">id</span><span class="p">)</span> <span class="ow">in</span> <span class="n">w2id</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## initialize word embedding matrix</span>
+<span class="n">EMBED_DIM</span> <span class="o">=</span> <span class="mi">300</span>
+<span class="n">embedding_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">VOCAB_SIZE</span><span class="p">,</span> <span class="n">EMBED_DIM</span><span class="p">))</span>
+<span class="n">embedding_matrix</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">unk_cnt</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">unk_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">w2id</span><span class="p">)</span>
+<span class="n">spacy_w2v</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">spacy_w2v</span> <span class="o">=</span> <span class="p">{</span><span class="n">nlp</span><span class="o">.</span><span class="n">vocab</span><span class="o">.</span><span class="n">strings</span><span class="p">[</span><span class="n">wid</span><span class="p">]:</span><span class="n">wvec</span> <span class="k">for</span> <span class="p">(</span><span class="n">wid</span><span class="p">,</span> <span class="n">wvec</span><span class="p">)</span> <span class="ow">in</span> <span class="n">nlp</span><span class="o">.</span><span class="n">vocab</span><span class="o">.</span><span class="n">vectors</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spacy_w2v</span><span class="p">[</span><span class="s1">&#39;the&#39;</span><span class="p">][:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0.27, -0.06, -0.19,  0.02, -0.02,  0.01, -0.14,  0.18,  0.18,  2.59],
+      dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nlp</span><span class="p">(</span><span class="s1">&#39;the&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">vector</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0.27, -0.06, -0.19,  0.02, -0.02,  0.01, -0.14,  0.18,  0.18,  2.59],
+      dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">unk_cnt</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">unk_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">w2id</span><span class="o">.</span><span class="n">keys</span><span class="p">())[:</span><span class="mi">10000</span><span class="p">]:</span>
+    <span class="n">cur_word_vec</span> <span class="o">=</span> <span class="n">spacy_w2v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">cur_word_vec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cur_word_id</span> <span class="o">=</span> <span class="n">w2id</span><span class="p">[</span><span class="n">word</span><span class="p">]</span>
+        <span class="n">embedding_matrix</span><span class="p">[</span><span class="n">cur_word_id</span><span class="p">]</span><span class="o">=</span><span class="n">cur_word_vec</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">unk_cnt</span> <span class="o">+=</span><span class="mi">1</span>
+        <span class="n">unk_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total Unkown Words in IMDB:&quot;</span><span class="p">,</span> <span class="n">unk_cnt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total Unkown Words in IMDB: 195
+CPU times: user 30.2 ms, sys: 8.25 ms, total: 38.4 ms
+Wall time: 37.4 ms
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Using GloVe Embeddings</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">glove_file</span> <span class="o">=</span> <span class="s2">&quot;../../../RepositoryData/data/glove/glove.6B/glove.6B.50d.txt&quot;</span>
+<span class="n">glove_w2v</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">glove_file</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">tokens</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">vector</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="mi">50</span><span class="p">:</span>
+            <span class="n">glove_w2v</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="n">vector</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;There was an issue with &quot;</span> <span class="o">+</span> <span class="n">word</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">glove_w2v</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>400000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="c1">## initialize word embedding matrix</span>
+<span class="n">EMBED_DIM</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">embedding_matrix_glove</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">VOCAB_SIZE</span><span class="p">,</span> <span class="n">EMBED_DIM</span><span class="p">))</span>
+<span class="n">embedding_matrix_glove</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">unk_cnt</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">unk_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">w2id</span><span class="o">.</span><span class="n">keys</span><span class="p">())[:</span><span class="mi">10000</span><span class="p">]:</span>
+    <span class="n">cur_word_vec</span> <span class="o">=</span> <span class="n">glove_w2v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">cur_word_vec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cur_word_id</span> <span class="o">=</span> <span class="n">w2id</span><span class="p">[</span><span class="n">word</span><span class="p">]</span>
+        <span class="n">embedding_matrix_glove</span><span class="p">[</span><span class="n">cur_word_id</span><span class="p">]</span><span class="o">=</span><span class="n">cur_word_vec</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">unk_cnt</span> <span class="o">+=</span><span class="mi">1</span>
+        <span class="n">unk_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total Unkown Words in IMDB (GloVe):&quot;</span><span class="p">,</span> <span class="n">unk_cnt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total Unkown Words in IMDB (GloVe): 184
+CPU times: user 22.1 ms, sys: 2.23 ms, total: 24.3 ms
+Wall time: 22.4 ms
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Model Building</span>
+
+<span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
+<span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Embedding</span><span class="p">,</span> <span class="n">Dropout</span><span class="p">,</span> <span class="n">SpatialDropout1D</span><span class="p">,</span> <span class="n">Input</span><span class="p">,</span> <span class="n">Bidirectional</span><span class="p">,</span> <span class="n">LSTM</span>
+
+<span class="n">LSTM_DIM</span> <span class="o">=</span> <span class="mi">64</span> <span class="c1"># total LSTM units</span>
+<span class="n">model1</span> <span class="o">=</span> <span class="n">build_model_lstm</span><span class="p">()</span>
+<span class="n">model2_1</span> <span class="o">=</span> <span class="n">build_model_lstm_pretrained_emb</span><span class="p">(</span><span class="n">train_emb</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">model2_2</span> <span class="o">=</span> <span class="n">build_model_lstm_pretrained_emb</span><span class="p">(</span><span class="n">train_emb</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">model3_1</span> <span class="o">=</span> <span class="n">build_model_bilstm_pretrain_emb</span><span class="p">(</span><span class="n">train_emb</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">model3_2</span> <span class="o">=</span> <span class="n">build_model_bilstm_pretrain_emb</span><span class="p">(</span><span class="n">train_emb</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">model1</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s2">&quot;categorical_crossentropy&quot;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;adam&quot;</span><span class="p">,</span>
+              <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;Precision&quot;</span><span class="p">,</span> <span class="s2">&quot;Recall&quot;</span><span class="p">])</span>
+<span class="n">model2_1</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s2">&quot;categorical_crossentropy&quot;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;adam&quot;</span><span class="p">,</span>
+              <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;Precision&quot;</span><span class="p">,</span> <span class="s2">&quot;Recall&quot;</span><span class="p">])</span>
+<span class="n">model2_2</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s2">&quot;categorical_crossentropy&quot;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;adam&quot;</span><span class="p">,</span>
+              <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;Precision&quot;</span><span class="p">,</span> <span class="s2">&quot;Recall&quot;</span><span class="p">])</span>
+<span class="n">model3_1</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s2">&quot;categorical_crossentropy&quot;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;adam&quot;</span><span class="p">,</span>
+              <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;Precision&quot;</span><span class="p">,</span> <span class="s2">&quot;Recall&quot;</span><span class="p">])</span>
+<span class="n">model3_2</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s2">&quot;categorical_crossentropy&quot;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;adam&quot;</span><span class="p">,</span>
+              <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;Precision&quot;</span><span class="p">,</span> <span class="s2">&quot;Recall&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">EPOCH</span><span class="o">=</span> <span class="mi">10</span>
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">256</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(35000, 200)
+(35000, 2)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Model fitting</span>
+<span class="n">history1</span> <span class="o">=</span> <span class="n">model1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span>
+                   <span class="n">epochs</span><span class="o">=</span><span class="n">EPOCH</span><span class="p">,</span>
+                   <span class="n">batch_size</span><span class="o">=</span> <span class="n">BATCH_SIZE</span><span class="p">,</span>
+                   <span class="n">validation_split</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/10
+110/110 [==============================] - 108s 950ms/step - loss: 0.5505 - accuracy: 0.6854 - precision: 0.6854 - recall: 0.6854 - val_loss: 0.2941 - val_accuracy: 0.8789 - val_precision: 0.8789 - val_recall: 0.8789
+Epoch 2/10
+110/110 [==============================] - 94s 856ms/step - loss: 0.2328 - accuracy: 0.9103 - precision: 0.9103 - recall: 0.9103 - val_loss: 0.2995 - val_accuracy: 0.8806 - val_precision: 0.8806 - val_recall: 0.8806
+Epoch 3/10
+110/110 [==============================] - 93s 847ms/step - loss: 0.1613 - accuracy: 0.9425 - precision: 0.9425 - recall: 0.9425 - val_loss: 0.3269 - val_accuracy: 0.8761 - val_precision: 0.8761 - val_recall: 0.8761
+Epoch 4/10
+110/110 [==============================] - 97s 879ms/step - loss: 0.1191 - accuracy: 0.9585 - precision: 0.9585 - recall: 0.9585 - val_loss: 0.3472 - val_accuracy: 0.8687 - val_precision: 0.8687 - val_recall: 0.8687
+Epoch 5/10
+110/110 [==============================] - 100s 906ms/step - loss: 0.0961 - accuracy: 0.9676 - precision: 0.9676 - recall: 0.9676 - val_loss: 0.4318 - val_accuracy: 0.8696 - val_precision: 0.8696 - val_recall: 0.8696
+Epoch 6/10
+110/110 [==============================] - 95s 864ms/step - loss: 0.0718 - accuracy: 0.9776 - precision: 0.9776 - recall: 0.9776 - val_loss: 0.5271 - val_accuracy: 0.8674 - val_precision: 0.8674 - val_recall: 0.8674
+Epoch 7/10
+110/110 [==============================] - 95s 863ms/step - loss: 0.0491 - accuracy: 0.9843 - precision: 0.9843 - recall: 0.9843 - val_loss: 0.6444 - val_accuracy: 0.8630 - val_precision: 0.8630 - val_recall: 0.8630
+Epoch 8/10
+110/110 [==============================] - 96s 870ms/step - loss: 0.0571 - accuracy: 0.9828 - precision: 0.9828 - recall: 0.9828 - val_loss: 0.6434 - val_accuracy: 0.8631 - val_precision: 0.8631 - val_recall: 0.8631
+Epoch 9/10
+110/110 [==============================] - 95s 862ms/step - loss: 0.0586 - accuracy: 0.9796 - precision: 0.9796 - recall: 0.9796 - val_loss: 0.6003 - val_accuracy: 0.8641 - val_precision: 0.8641 - val_recall: 0.8641
+Epoch 10/10
+110/110 [==============================] - 96s 869ms/step - loss: 0.0401 - accuracy: 0.9881 - precision: 0.9881 - recall: 0.9881 - val_loss: 0.6364 - val_accuracy: 0.8614 - val_precision: 0.8614 - val_recall: 0.8614
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Model fitting</span>
+<span class="n">history2_1</span> <span class="o">=</span> <span class="n">model2_1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span>
+                   <span class="n">epochs</span><span class="o">=</span><span class="n">EPOCH</span><span class="p">,</span>
+                   <span class="n">batch_size</span><span class="o">=</span> <span class="n">BATCH_SIZE</span><span class="p">,</span>
+                   <span class="n">validation_split</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="c1">## Model fitting</span>
+<span class="n">history2_2</span> <span class="o">=</span> <span class="n">model2_2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span>
+                   <span class="n">epochs</span><span class="o">=</span><span class="n">EPOCH</span><span class="p">,</span>
+                   <span class="n">batch_size</span><span class="o">=</span> <span class="n">BATCH_SIZE</span><span class="p">,</span>
+                   <span class="n">validation_split</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="c1">## Model fitting</span>
+<span class="n">history3_1</span> <span class="o">=</span> <span class="n">model3_1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span>
+                   <span class="n">epochs</span><span class="o">=</span><span class="n">EPOCH</span><span class="p">,</span>
+                   <span class="n">batch_size</span><span class="o">=</span> <span class="n">BATCH_SIZE</span><span class="p">,</span>
+                   <span class="n">validation_split</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="c1">## Model fitting</span>
+<span class="n">history3_2</span> <span class="o">=</span> <span class="n">model3_2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span>
+                   <span class="n">epochs</span><span class="o">=</span><span class="n">EPOCH</span><span class="p">,</span>
+                   <span class="n">batch_size</span><span class="o">=</span> <span class="n">BATCH_SIZE</span><span class="p">,</span>
+                   <span class="n">validation_split</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/10
+110/110 [==============================] - 72s 631ms/step - loss: 0.5914 - accuracy: 0.6749 - precision: 0.6749 - recall: 0.6749 - val_loss: 0.4497 - val_accuracy: 0.8114 - val_precision: 0.8114 - val_recall: 0.8114
+Epoch 2/10
+110/110 [==============================] - 69s 624ms/step - loss: 0.4381 - accuracy: 0.8005 - precision: 0.8005 - recall: 0.8005 - val_loss: 0.3674 - val_accuracy: 0.8436 - val_precision: 0.8436 - val_recall: 0.8436
+Epoch 3/10
+110/110 [==============================] - 67s 605ms/step - loss: 0.4047 - accuracy: 0.8185 - precision: 0.8185 - recall: 0.8185 - val_loss: 0.4159 - val_accuracy: 0.8387 - val_precision: 0.8387 - val_recall: 0.8387
+Epoch 4/10
+110/110 [==============================] - 67s 613ms/step - loss: 0.3609 - accuracy: 0.8424 - precision: 0.8424 - recall: 0.8424 - val_loss: 0.3186 - val_accuracy: 0.8666 - val_precision: 0.8666 - val_recall: 0.8666
+Epoch 5/10
+110/110 [==============================] - 70s 633ms/step - loss: 0.3333 - accuracy: 0.8537 - precision: 0.8537 - recall: 0.8537 - val_loss: 0.3276 - val_accuracy: 0.8671 - val_precision: 0.8671 - val_recall: 0.8671
+Epoch 6/10
+110/110 [==============================] - 70s 633ms/step - loss: 0.3136 - accuracy: 0.8661 - precision: 0.8661 - recall: 0.8661 - val_loss: 0.3086 - val_accuracy: 0.8704 - val_precision: 0.8704 - val_recall: 0.8704
+Epoch 7/10
+110/110 [==============================] - 69s 631ms/step - loss: 0.3100 - accuracy: 0.8701 - precision: 0.8701 - recall: 0.8701 - val_loss: 0.2856 - val_accuracy: 0.8823 - val_precision: 0.8823 - val_recall: 0.8823
+Epoch 8/10
+110/110 [==============================] - 69s 628ms/step - loss: 0.2950 - accuracy: 0.8782 - precision: 0.8782 - recall: 0.8782 - val_loss: 0.2882 - val_accuracy: 0.8821 - val_precision: 0.8821 - val_recall: 0.8821
+Epoch 9/10
+110/110 [==============================] - 70s 633ms/step - loss: 0.2751 - accuracy: 0.8845 - precision: 0.8845 - recall: 0.8845 - val_loss: 0.2682 - val_accuracy: 0.8874 - val_precision: 0.8874 - val_recall: 0.8874
+Epoch 10/10
+110/110 [==============================] - 69s 631ms/step - loss: 0.2803 - accuracy: 0.8826 - precision: 0.8826 - recall: 0.8826 - val_loss: 0.2666 - val_accuracy: 0.8920 - val_precision: 0.8920 - val_recall: 0.8920
+Epoch 1/10
+110/110 [==============================] - 95s 839ms/step - loss: 0.5951 - accuracy: 0.6600 - precision: 0.6600 - recall: 0.6600 - val_loss: 0.3901 - val_accuracy: 0.8399 - val_precision: 0.8399 - val_recall: 0.8399
+Epoch 2/10
+110/110 [==============================] - 96s 870ms/step - loss: 0.3689 - accuracy: 0.8423 - precision: 0.8423 - recall: 0.8423 - val_loss: 0.3005 - val_accuracy: 0.8759 - val_precision: 0.8759 - val_recall: 0.8759
+Epoch 3/10
+110/110 [==============================] - 90s 814ms/step - loss: 0.2839 - accuracy: 0.8844 - precision: 0.8844 - recall: 0.8844 - val_loss: 0.2827 - val_accuracy: 0.8826 - val_precision: 0.8826 - val_recall: 0.8826
+Epoch 4/10
+110/110 [==============================] - 89s 809ms/step - loss: 0.2422 - accuracy: 0.9041 - precision: 0.9041 - recall: 0.9041 - val_loss: 0.2937 - val_accuracy: 0.8849 - val_precision: 0.8849 - val_recall: 0.8849
+Epoch 5/10
+110/110 [==============================] - 88s 797ms/step - loss: 0.2032 - accuracy: 0.9195 - precision: 0.9195 - recall: 0.9195 - val_loss: 0.2842 - val_accuracy: 0.8919 - val_precision: 0.8919 - val_recall: 0.8919
+Epoch 6/10
+110/110 [==============================] - 88s 802ms/step - loss: 0.1677 - accuracy: 0.9367 - precision: 0.9367 - recall: 0.9367 - val_loss: 0.2786 - val_accuracy: 0.8931 - val_precision: 0.8931 - val_recall: 0.8931
+Epoch 7/10
+110/110 [==============================] - 92s 836ms/step - loss: 0.1488 - accuracy: 0.9445 - precision: 0.9445 - recall: 0.9445 - val_loss: 0.2931 - val_accuracy: 0.8913 - val_precision: 0.8913 - val_recall: 0.8913
+Epoch 8/10
+110/110 [==============================] - 89s 808ms/step - loss: 0.1286 - accuracy: 0.9544 - precision: 0.9544 - recall: 0.9544 - val_loss: 0.3373 - val_accuracy: 0.8914 - val_precision: 0.8914 - val_recall: 0.8914
+Epoch 9/10
+110/110 [==============================] - 89s 812ms/step - loss: 0.1097 - accuracy: 0.9612 - precision: 0.9612 - recall: 0.9612 - val_loss: 0.3927 - val_accuracy: 0.8863 - val_precision: 0.8863 - val_recall: 0.8863
+Epoch 10/10
+110/110 [==============================] - 89s 814ms/step - loss: 0.0859 - accuracy: 0.9696 - precision: 0.9696 - recall: 0.9696 - val_loss: 0.3883 - val_accuracy: 0.8891 - val_precision: 0.8891 - val_recall: 0.8891
+Epoch 1/10
+110/110 [==============================] - 180s 2s/step - loss: 0.5632 - accuracy: 0.6877 - precision: 0.6877 - recall: 0.6877 - val_loss: 0.4038 - val_accuracy: 0.8300 - val_precision: 0.8300 - val_recall: 0.8300
+Epoch 2/10
+110/110 [==============================] - 161s 1s/step - loss: 0.3872 - accuracy: 0.8305 - precision: 0.8305 - recall: 0.8305 - val_loss: 0.3760 - val_accuracy: 0.8443 - val_precision: 0.8443 - val_recall: 0.8443
+Epoch 3/10
+110/110 [==============================] - 161s 1s/step - loss: 0.3583 - accuracy: 0.8426 - precision: 0.8426 - recall: 0.8426 - val_loss: 0.3281 - val_accuracy: 0.8653 - val_precision: 0.8653 - val_recall: 0.8653
+Epoch 4/10
+110/110 [==============================] - 160s 1s/step - loss: 0.3193 - accuracy: 0.8642 - precision: 0.8642 - recall: 0.8642 - val_loss: 0.2916 - val_accuracy: 0.8764 - val_precision: 0.8764 - val_recall: 0.8764
+Epoch 5/10
+110/110 [==============================] - 160s 1s/step - loss: 0.3055 - accuracy: 0.8700 - precision: 0.8700 - recall: 0.8700 - val_loss: 0.2846 - val_accuracy: 0.8786 - val_precision: 0.8786 - val_recall: 0.8786
+Epoch 6/10
+110/110 [==============================] - 159s 1s/step - loss: 0.2948 - accuracy: 0.8748 - precision: 0.8748 - recall: 0.8748 - val_loss: 0.2854 - val_accuracy: 0.8831 - val_precision: 0.8831 - val_recall: 0.8831
+Epoch 7/10
+110/110 [==============================] - 160s 1s/step - loss: 0.2793 - accuracy: 0.8835 - precision: 0.8835 - recall: 0.8835 - val_loss: 0.2908 - val_accuracy: 0.8756 - val_precision: 0.8756 - val_recall: 0.8756
+Epoch 8/10
+110/110 [==============================] - 160s 1s/step - loss: 0.2680 - accuracy: 0.8898 - precision: 0.8898 - recall: 0.8898 - val_loss: 0.3139 - val_accuracy: 0.8746 - val_precision: 0.8746 - val_recall: 0.8746
+Epoch 9/10
+110/110 [==============================] - 159s 1s/step - loss: 0.2602 - accuracy: 0.8926 - precision: 0.8926 - recall: 0.8926 - val_loss: 0.2968 - val_accuracy: 0.8739 - val_precision: 0.8739 - val_recall: 0.8739
+Epoch 10/10
+110/110 [==============================] - 161s 1s/step - loss: 0.2485 - accuracy: 0.8964 - precision: 0.8964 - recall: 0.8964 - val_loss: 0.3286 - val_accuracy: 0.8629 - val_precision: 0.8629 - val_recall: 0.8629
+Epoch 1/10
+110/110 [==============================] - 209s 2s/step - loss: 0.5685 - accuracy: 0.6718 - precision: 0.6718 - recall: 0.6718 - val_loss: 0.3602 - val_accuracy: 0.8637 - val_precision: 0.8637 - val_recall: 0.8637
+Epoch 2/10
+110/110 [==============================] - 192s 2s/step - loss: 0.3002 - accuracy: 0.8747 - precision: 0.8747 - recall: 0.8747 - val_loss: 0.3376 - val_accuracy: 0.8814 - val_precision: 0.8814 - val_recall: 0.8814
+Epoch 3/10
+110/110 [==============================] - 192s 2s/step - loss: 0.2432 - accuracy: 0.9032 - precision: 0.9032 - recall: 0.9032 - val_loss: 0.3058 - val_accuracy: 0.8927 - val_precision: 0.8927 - val_recall: 0.8927
+Epoch 4/10
+110/110 [==============================] - 191s 2s/step - loss: 0.2138 - accuracy: 0.9174 - precision: 0.9174 - recall: 0.9174 - val_loss: 0.3465 - val_accuracy: 0.8860 - val_precision: 0.8860 - val_recall: 0.8860
+Epoch 5/10
+110/110 [==============================] - 191s 2s/step - loss: 0.1879 - accuracy: 0.9290 - precision: 0.9290 - recall: 0.9290 - val_loss: 0.3440 - val_accuracy: 0.8830 - val_precision: 0.8830 - val_recall: 0.8830
+Epoch 6/10
+110/110 [==============================] - 191s 2s/step - loss: 0.1704 - accuracy: 0.9338 - precision: 0.9338 - recall: 0.9338 - val_loss: 0.3493 - val_accuracy: 0.8900 - val_precision: 0.8900 - val_recall: 0.8900
+Epoch 7/10
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>110/110 [==============================] - 191s 2s/step - loss: 0.1355 - accuracy: 0.9492 - precision: 0.9492 - recall: 0.9492 - val_loss: 0.3669 - val_accuracy: 0.8934 - val_precision: 0.8934 - val_recall: 0.8934
+Epoch 8/10
+110/110 [==============================] - 192s 2s/step - loss: 0.1209 - accuracy: 0.9582 - precision: 0.9582 - recall: 0.9582 - val_loss: 0.3839 - val_accuracy: 0.8936 - val_precision: 0.8936 - val_recall: 0.8936
+Epoch 9/10
+110/110 [==============================] - 193s 2s/step - loss: 0.1027 - accuracy: 0.9629 - precision: 0.9629 - recall: 0.9629 - val_loss: 0.3863 - val_accuracy: 0.8921 - val_precision: 0.8921 - val_recall: 0.8921
+Epoch 10/10
+110/110 [==============================] - 191s 2s/step - loss: 0.0878 - accuracy: 0.9685 - precision: 0.9685 - recall: 0.9685 - val_loss: 0.4229 - val_accuracy: 0.8911 - val_precision: 0.8911 - val_recall: 0.8911
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot1</span><span class="p">(</span><span class="n">history1</span><span class="p">)</span>
+<span class="n">plot1</span><span class="p">(</span><span class="n">history2_1</span><span class="p">)</span>
+<span class="n">plot1</span><span class="p">(</span><span class="n">history3_1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/9-sentiment-analysis-dl_30_0.png" src="../_images/9-sentiment-analysis-dl_30_0.png" />
+<img alt="../_images/9-sentiment-analysis-dl_30_1.png" src="../_images/9-sentiment-analysis-dl_30_1.png" />
+<img alt="../_images/9-sentiment-analysis-dl_30_2.png" src="../_images/9-sentiment-analysis-dl_30_2.png" />
+<img alt="../_images/9-sentiment-analysis-dl_30_3.png" src="../_images/9-sentiment-analysis-dl_30_3.png" />
+<img alt="../_images/9-sentiment-analysis-dl_30_4.png" src="../_images/9-sentiment-analysis-dl_30_4.png" />
+<img alt="../_images/9-sentiment-analysis-dl_30_5.png" src="../_images/9-sentiment-analysis-dl_30_5.png" />
+</div>
+</div>
+<div class="section" id="not-used">
+<h3>Not Used<a class="headerlink" href="#not-used" title="Permalink to this headline">¶</a></h3>
+<p>The following codes are from Sarkar’s book. I am not going to use the following codes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># from nltk.tokenize.toktok import ToktokTokenizer</span>
+
+<span class="c1"># tokenizer = ToktokTokenizer()</span>
+
+<span class="c1"># # tokenize train reviews &amp; encode train labels</span>
+<span class="c1"># tokenized_train = [tokenizer.tokenize(text)</span>
+<span class="c1">#                    for text in norm_train_reviews]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Convert sentiments into one-hot encodings</span>
+<span class="c1">## labels to integers to one-hot</span>
+<span class="c1">#le = LabelEncoder() ## label to sequences</span>
+<span class="c1">#num_classes=2 </span>
+<span class="c1">#y_tr = le.fit_transform(train_sentiments)</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">to_categorical</span><span class="p">(</span><span class="n">train_sentiments</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span> <span class="c1">## sequences to one-hot</span>
+
+<span class="c1">#print(y_tr[:5])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">y_train</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1 1 1 0 1]
-[[0. 1.]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0. 1.]
  [0. 1.]
  [0. 1.]
  [1. 0.]
@@ -747,8 +1228,8 @@ Wall time: 1min 44s
 <span class="n">tokenized_test</span> <span class="o">=</span> <span class="p">[</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
                    <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">norm_test_reviews</span><span class="p">]</span>
 
-<span class="n">y_ts</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">test_sentiments</span><span class="p">)</span>
-<span class="n">y_test</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">to_categorical</span><span class="p">(</span><span class="n">y_ts</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span>
+<span class="c1">#y_ts = le.fit_transform(test_sentiments)</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">to_categorical</span><span class="p">(</span><span class="n">test_sentiments</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span>
 
 
 
@@ -764,7 +1245,7 @@ Wall time: 1min 44s
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sentiment class label map: {&#39;negative&#39;: 0, &#39;positive&#39;: 1}
 Sample test label transformation:
 ----------------------------------- 
-Actual Labels: [&#39;negative&#39; &#39;positive&#39; &#39;negative&#39;] 
+Actual Labels: [0 1 0] 
 Encoded Labels: [0 1 0] 
 One hot encoded Labels:
  [[1. 0.]
@@ -774,12 +1255,6 @@ One hot encoded Labels:
 </div>
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="descriptive-statistics">
-<h2>Descriptive Statistics<a class="headerlink" href="#descriptive-statistics" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="distribution-of-text-lengths">
-<h3>Distribution of Text Lengths<a class="headerlink" href="#distribution-of-text-lengths" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tokenized_train_len</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">tokenized_train</span><span class="p">]</span>
@@ -789,10 +1264,10 @@ One hot encoded Labels:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x7fac6cf25860&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x7ff630a27e80&gt;
 </pre></div>
 </div>
-<img alt="../_images/9-sentiment-analysis-dl_26_1.png" src="../_images/9-sentiment-analysis-dl_26_1.png" />
+<img alt="../_images/9-sentiment-analysis-dl_40_1.png" src="../_images/9-sentiment-analysis-dl_40_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -837,8 +1312,8 @@ One hot encoded Labels:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 51.1 s, sys: 383 ms, total: 51.5 s
-Wall time: 16.5 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 50.1 s, sys: 408 ms, total: 50.5 s
+Wall time: 16.9 s
 </pre></div>
 </div>
 </div>
@@ -886,8 +1361,8 @@ Wall time: 16.5 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 50.9 s, sys: 870 ms, total: 51.8 s
-Wall time: 51.2 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 54.7 s, sys: 605 ms, total: 55.3 s
+Wall time: 55.4 s
 </pre></div>
 </div>
 </div>
@@ -912,8 +1387,8 @@ Wall time: 51.2 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 2.09 s, sys: 360 ms, total: 2.45 s
-Wall time: 33.3 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1.87 s, sys: 428 ms, total: 2.3 s
+Wall time: 28.6 s
 </pre></div>
 </div>
 </div>
@@ -953,8 +1428,8 @@ Wall time: 33.3 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1min 58s, sys: 20.1 s, total: 2min 18s
-Wall time: 5min 33s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1min 57s, sys: 29 s, total: 2min 26s
+Wall time: 5min 34s
 </pre></div>
 </div>
 </div>
@@ -969,8 +1444,8 @@ Wall time: 5min 33s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 49.2 s, sys: 15.9 s, total: 1min 5s
-Wall time: 2min 26s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 48.7 s, sys: 17.6 s, total: 1min 6s
+Wall time: 2min 28s
 </pre></div>
 </div>
 </div>
@@ -1102,7 +1577,7 @@ GloVe model:&gt; Train features shape: (35000, 96)  Test features shape: (15000,
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/9-sentiment-analysis-dl_47_0.png" src="../_images/9-sentiment-analysis-dl_47_0.png" />
+<img alt="../_images/9-sentiment-analysis-dl_61_0.png" src="../_images/9-sentiment-analysis-dl_61_0.png" />
 </div>
 </div>
 </div>
@@ -1120,25 +1595,25 @@ GloVe model:&gt; Train features shape: (35000, 96)  Test features shape: (15000,
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/10
-247/247 [==============================] - 6s 16ms/step - loss: 0.5310 - accuracy: 0.7601 - val_loss: 0.4303 - val_accuracy: 0.8103
+247/247 [==============================] - 10s 17ms/step - loss: 0.5071 - accuracy: 0.7677 - val_loss: 0.4319 - val_accuracy: 0.8289
 Epoch 2/10
-247/247 [==============================] - 3s 11ms/step - loss: 0.4003 - accuracy: 0.8199 - val_loss: 0.3790 - val_accuracy: 0.8229
+247/247 [==============================] - 2s 10ms/step - loss: 0.3934 - accuracy: 0.8242 - val_loss: 0.3856 - val_accuracy: 0.8240
 Epoch 3/10
-247/247 [==============================] - 2s 10ms/step - loss: 0.3706 - accuracy: 0.8330 - val_loss: 0.3775 - val_accuracy: 0.8260
+247/247 [==============================] - 2s 10ms/step - loss: 0.3675 - accuracy: 0.8375 - val_loss: 0.3663 - val_accuracy: 0.8400
 Epoch 4/10
-247/247 [==============================] - 2s 10ms/step - loss: 0.3712 - accuracy: 0.8335 - val_loss: 0.3672 - val_accuracy: 0.8317
+247/247 [==============================] - 2s 10ms/step - loss: 0.3616 - accuracy: 0.8386 - val_loss: 0.3763 - val_accuracy: 0.8369
 Epoch 5/10
-247/247 [==============================] - 2s 10ms/step - loss: 0.3590 - accuracy: 0.8451 - val_loss: 0.3851 - val_accuracy: 0.8266
+247/247 [==============================] - 2s 10ms/step - loss: 0.3531 - accuracy: 0.8485 - val_loss: 0.3745 - val_accuracy: 0.8294
 Epoch 6/10
-247/247 [==============================] - 3s 11ms/step - loss: 0.3546 - accuracy: 0.8450 - val_loss: 0.3919 - val_accuracy: 0.8209
+247/247 [==============================] - 2s 10ms/step - loss: 0.3502 - accuracy: 0.8476 - val_loss: 0.4002 - val_accuracy: 0.8157
 Epoch 7/10
-247/247 [==============================] - 3s 10ms/step - loss: 0.3561 - accuracy: 0.8451 - val_loss: 0.3896 - val_accuracy: 0.8214
+247/247 [==============================] - 3s 10ms/step - loss: 0.3498 - accuracy: 0.8477 - val_loss: 0.3826 - val_accuracy: 0.8254
 Epoch 8/10
-247/247 [==============================] - 2s 10ms/step - loss: 0.3447 - accuracy: 0.8501 - val_loss: 0.3838 - val_accuracy: 0.8271
+247/247 [==============================] - 2s 10ms/step - loss: 0.3359 - accuracy: 0.8519 - val_loss: 0.4307 - val_accuracy: 0.8000
 Epoch 9/10
-247/247 [==============================] - 2s 10ms/step - loss: 0.3332 - accuracy: 0.8545 - val_loss: 0.3750 - val_accuracy: 0.8394
+247/247 [==============================] - 2s 10ms/step - loss: 0.3318 - accuracy: 0.8556 - val_loss: 0.4055 - val_accuracy: 0.8120
 Epoch 10/10
-247/247 [==============================] - 2s 10ms/step - loss: 0.3242 - accuracy: 0.8556 - val_loss: 0.3973 - val_accuracy: 0.8160
+247/247 [==============================] - 3s 10ms/step - loss: 0.3338 - accuracy: 0.8530 - val_loss: 0.3838 - val_accuracy: 0.8246
 </pre></div>
 </div>
 </div>
@@ -1150,7 +1625,7 @@ Epoch 10/10
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/9-sentiment-analysis-dl_51_0.png" src="../_images/9-sentiment-analysis-dl_51_0.png" />
+<img alt="../_images/9-sentiment-analysis-dl_65_0.png" src="../_images/9-sentiment-analysis-dl_65_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1241,29 +1716,29 @@ Epoch 10/10
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model Performance metrics:
 ------------------------------
-Accuracy: 0.8179
-Precision: 0.8217
-Recall: 0.8179
-F1 Score: 0.8174
+Accuracy: 0.8216
+Precision: 0.8253
+Recall: 0.8216
+F1 Score: 0.8211
 
 Model Classification report:
 ------------------------------
               precision    recall  f1-score   support
 
     negative       0.79      0.87      0.83      7490
-    positive       0.86      0.76      0.81      7510
+    positive       0.86      0.77      0.81      7510
 
     accuracy                           0.82     15000
-   macro avg       0.82      0.82      0.82     15000
-weighted avg       0.82      0.82      0.82     15000
+   macro avg       0.83      0.82      0.82     15000
+weighted avg       0.83      0.82      0.82     15000
 
 
 Prediction Confusion Matrix:
 ------------------------------
                  Predicted:         
                    negative positive
-Actual: negative       6527      963
-        positive       1768     5742
+Actual: negative       6548      942
+        positive       1734     5776
 </pre></div>
 </div>
 </div>
@@ -1288,25 +1763,25 @@ Actual: negative       6527      963
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/10
-247/247 [==============================] - 4s 11ms/step - loss: 0.7195 - accuracy: 0.6264 - val_loss: 0.6452 - val_accuracy: 0.6037
+247/247 [==============================] - 4s 11ms/step - loss: 0.7172 - accuracy: 0.6316 - val_loss: 0.6476 - val_accuracy: 0.6120
 Epoch 2/10
-247/247 [==============================] - 2s 10ms/step - loss: 0.5922 - accuracy: 0.6887 - val_loss: 0.5934 - val_accuracy: 0.6823
+247/247 [==============================] - 2s 10ms/step - loss: 0.5890 - accuracy: 0.6921 - val_loss: 0.6032 - val_accuracy: 0.6734
 Epoch 3/10
-247/247 [==============================] - 2s 10ms/step - loss: 0.5674 - accuracy: 0.7103 - val_loss: 0.6008 - val_accuracy: 0.6854
+247/247 [==============================] - 2s 10ms/step - loss: 0.5716 - accuracy: 0.7039 - val_loss: 0.5850 - val_accuracy: 0.6883
 Epoch 4/10
-247/247 [==============================] - 2s 10ms/step - loss: 0.5602 - accuracy: 0.7162 - val_loss: 0.5852 - val_accuracy: 0.6920
+247/247 [==============================] - 3s 11ms/step - loss: 0.5606 - accuracy: 0.7137 - val_loss: 0.6039 - val_accuracy: 0.6743
 Epoch 5/10
-247/247 [==============================] - 2s 10ms/step - loss: 0.5524 - accuracy: 0.7216 - val_loss: 0.5895 - val_accuracy: 0.6831
+247/247 [==============================] - 2s 10ms/step - loss: 0.5480 - accuracy: 0.7221 - val_loss: 0.6082 - val_accuracy: 0.6817
 Epoch 6/10
-247/247 [==============================] - 2s 10ms/step - loss: 0.5436 - accuracy: 0.7291 - val_loss: 0.5918 - val_accuracy: 0.6829
+247/247 [==============================] - 2s 10ms/step - loss: 0.5381 - accuracy: 0.7284 - val_loss: 0.5864 - val_accuracy: 0.6897
 Epoch 7/10
-247/247 [==============================] - 2s 10ms/step - loss: 0.5316 - accuracy: 0.7343 - val_loss: 0.5831 - val_accuracy: 0.6940
+247/247 [==============================] - 2s 10ms/step - loss: 0.5367 - accuracy: 0.7302 - val_loss: 0.5882 - val_accuracy: 0.6957
 Epoch 8/10
-247/247 [==============================] - 2s 10ms/step - loss: 0.5347 - accuracy: 0.7307 - val_loss: 0.6112 - val_accuracy: 0.6826
+247/247 [==============================] - 2s 10ms/step - loss: 0.5330 - accuracy: 0.7346 - val_loss: 0.6167 - val_accuracy: 0.6869
 Epoch 9/10
-247/247 [==============================] - 2s 10ms/step - loss: 0.5225 - accuracy: 0.7399 - val_loss: 0.6071 - val_accuracy: 0.6900
+247/247 [==============================] - 2s 10ms/step - loss: 0.5178 - accuracy: 0.7461 - val_loss: 0.6080 - val_accuracy: 0.6766
 Epoch 10/10
-247/247 [==============================] - 2s 10ms/step - loss: 0.5179 - accuracy: 0.7416 - val_loss: 0.6027 - val_accuracy: 0.6774
+247/247 [==============================] - 2s 10ms/step - loss: 0.5100 - accuracy: 0.7491 - val_loss: 0.5948 - val_accuracy: 0.6894
 </pre></div>
 </div>
 </div>
@@ -1318,7 +1793,7 @@ Epoch 10/10
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/9-sentiment-analysis-dl_58_0.png" src="../_images/9-sentiment-analysis-dl_58_0.png" />
+<img alt="../_images/9-sentiment-analysis-dl_72_0.png" src="../_images/9-sentiment-analysis-dl_72_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1345,29 +1820,29 @@ Epoch 10/10
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model Performance metrics:
 ------------------------------
-Accuracy: 0.6931
-Precision: 0.6978
-Recall: 0.6931
-F1 Score: 0.6911
+Accuracy: 0.7011
+Precision: 0.7012
+Recall: 0.7011
+F1 Score: 0.701
 
 Model Classification report:
 ------------------------------
               precision    recall  f1-score   support
 
-    negative       0.73      0.61      0.67      7490
-    positive       0.67      0.77      0.72      7510
+    negative       0.71      0.69      0.70      7490
+    positive       0.70      0.72      0.71      7510
 
-    accuracy                           0.69     15000
-   macro avg       0.70      0.69      0.69     15000
-weighted avg       0.70      0.69      0.69     15000
+    accuracy                           0.70     15000
+   macro avg       0.70      0.70      0.70     15000
+weighted avg       0.70      0.70      0.70     15000
 
 
 Prediction Confusion Matrix:
 ------------------------------
                  Predicted:         
                    negative positive
-Actual: negative       4602     2888
-        positive       1716     5794
+Actual: negative       5134     2356
+        positive       2128     5382
 </pre></div>
 </div>
 </div>

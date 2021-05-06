@@ -1174,6 +1174,51 @@ Wall time: 25.2 ms
 <li><p>Unzip the file and use the version you are interested.</p></li>
 <li><p>They differ in terms of the number of embedding dimensions.</p></li>
 </ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">glove_file</span> <span class="o">=</span> <span class="s2">&quot;../../../RepositoryData/data/glove/glove.6B/glove.6B.50d.txt&quot;</span>
+<span class="n">glove_w2v</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">glove_file</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">tokens</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">vector</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="mi">50</span><span class="p">:</span>
+            <span class="n">glove_w2v</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="n">vector</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;There was an issue with &quot;</span> <span class="o">+</span> <span class="n">word</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">glove_w2v</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="c1">## initialize word embedding matrix</span>
+<span class="n">EMBED_DIM</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">embedding_matrix_glove</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">VOCAB_SIZE</span><span class="p">,</span> <span class="n">EMBED_DIM</span><span class="p">))</span>
+<span class="n">embedding_matrix_glove</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">unk_cnt</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">unk_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">w2id</span><span class="o">.</span><span class="n">keys</span><span class="p">())[:</span><span class="mi">10000</span><span class="p">]:</span>
+    <span class="n">cur_word_vec</span> <span class="o">=</span> <span class="n">glove_w2v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">cur_word_vec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cur_word_id</span> <span class="o">=</span> <span class="n">w2id</span><span class="p">[</span><span class="n">word</span><span class="p">]</span>
+        <span class="n">embedding_matrix_glove</span><span class="p">[</span><span class="n">cur_word_id</span><span class="p">]</span><span class="o">=</span><span class="n">cur_word_vec</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">unk_cnt</span> <span class="o">+=</span><span class="mi">1</span>
+        <span class="n">unk_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total Unkown Words in IMDB (GloVe):&quot;</span><span class="p">,</span> <span class="n">unk_cnt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="model-defining">
 <h2>Model Defining<a class="headerlink" href="#model-defining" title="Permalink to this headline">¶</a></h2>
@@ -1462,8 +1507,8 @@ Epoch 10/10
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/sentiment-analysis-lstm-v1_75_0.png" src="../_images/sentiment-analysis-lstm-v1_75_0.png" />
-<img alt="../_images/sentiment-analysis-lstm-v1_75_1.png" src="../_images/sentiment-analysis-lstm-v1_75_1.png" />
+<img alt="../_images/sentiment-analysis-lstm-v1_76_0.png" src="../_images/sentiment-analysis-lstm-v1_76_0.png" />
+<img alt="../_images/sentiment-analysis-lstm-v1_76_1.png" src="../_images/sentiment-analysis-lstm-v1_76_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1474,10 +1519,10 @@ Epoch 10/10
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/sentiment-analysis-lstm-v1_76_0.png" src="../_images/sentiment-analysis-lstm-v1_76_0.png" />
-<img alt="../_images/sentiment-analysis-lstm-v1_76_1.png" src="../_images/sentiment-analysis-lstm-v1_76_1.png" />
-<img alt="../_images/sentiment-analysis-lstm-v1_76_2.png" src="../_images/sentiment-analysis-lstm-v1_76_2.png" />
-<img alt="../_images/sentiment-analysis-lstm-v1_76_3.png" src="../_images/sentiment-analysis-lstm-v1_76_3.png" />
+<img alt="../_images/sentiment-analysis-lstm-v1_77_0.png" src="../_images/sentiment-analysis-lstm-v1_77_0.png" />
+<img alt="../_images/sentiment-analysis-lstm-v1_77_1.png" src="../_images/sentiment-analysis-lstm-v1_77_1.png" />
+<img alt="../_images/sentiment-analysis-lstm-v1_77_2.png" src="../_images/sentiment-analysis-lstm-v1_77_2.png" />
+<img alt="../_images/sentiment-analysis-lstm-v1_77_3.png" src="../_images/sentiment-analysis-lstm-v1_77_3.png" />
 </div>
 </div>
 </div>
