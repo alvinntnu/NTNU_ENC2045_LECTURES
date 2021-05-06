@@ -169,6 +169,13 @@ plt.ylim(-1, 6)
 plt.show()
 
 
+# In[58]:
+
+
+x = [2, 5, 7, 10]
+print(np.round(softmax(x),2))
+
+
 # ### From Nodes to Layers
 # 
 # - A neural network can be defined in terms of **depths** and **widths** of its layers.
@@ -235,7 +242,7 @@ plt.show()
 #     - Sequential API (`keras.Sequential`)
 #     - Functional API (`keras.model`)
 
-# In[6]:
+# In[7]:
 
 
 import tensorflow as tf
@@ -258,7 +265,7 @@ model.add(layers.Dense(2, activation="relu", name="dense_layer_2"))
 # )
 
 
-# In[7]:
+# In[8]:
 
 
 # Functional API (A bit more flexible)
@@ -275,10 +282,10 @@ model = keras.Model(inputs=inputs, outputs=outputs)
 #     - `print_summary()`: Print the summary of the model
 #     - `plot_model()`: Plot the model structure
 
-# In[ ]:
+# In[10]:
 
 
-from keras.utils import to_categorical, print_summary, plot_model
+from keras.utils import to_categorical, plot_model
 
 plot_model
 
@@ -289,13 +296,13 @@ plot_model
 # 
 # :::
 
-# In[8]:
+# In[11]:
 
 
 print(model.summary())
 
 
-# In[9]:
+# In[12]:
 
 
 keras.utils.plot_model(model, show_shapes=True, show_layer_names=True)
@@ -308,7 +315,7 @@ keras.utils.plot_model(model, show_shapes=True, show_layer_names=True)
 # - `to_categorical()`: To convert a class/label list into a one-hot encoding matrix
 # - `plot_model()`: Plot the model structure
 
-# In[10]:
+# In[13]:
 
 
 from keras.utils import to_categorical, plot_model
@@ -316,7 +323,7 @@ from keras.utils import to_categorical, plot_model
 labels = ["X", "X", "Y", "Y", "Z", "Z"]
 
 
-# In[11]:
+# In[14]:
 
 
 ## Text Labels to Sequences
@@ -324,13 +331,13 @@ labels_dict = {x: i for i, x in enumerate(set(labels))}
 labels_int = [labels_dict[l] for l in labels]
 
 
-# In[12]:
+# In[15]:
 
 
 print(labels_int)
 
 
-# In[13]:
+# In[16]:
 
 
 ## Sequences to One-Hot Encoding
@@ -370,7 +377,7 @@ to_categorical(labels_int)
 # - Each sample is also labeled with a binary class label (e.g., fail or pass)
 # - We create three datasets: **training**, **validation**, and **testing** sets.
 
-# In[14]:
+# In[17]:
 
 
 import numpy
@@ -389,14 +396,14 @@ x_test = np.random.random((100, 2))
 y_test = np.random.randint(0, 2, (100, ))
 
 
-# In[15]:
+# In[18]:
 
 
 print(x_train.shape)
 print(y_train.shape)
 
 
-# In[16]:
+# In[19]:
 
 
 print(x_train[:5, ])
@@ -405,7 +412,7 @@ print(y_train[:5])
 
 # ### Model Training
 
-# In[ ]:
+# In[20]:
 
 
 # create
@@ -415,7 +422,7 @@ model.add(layers.Dense(16))
 model.add(layers.Dense(1, activation='sigmoid'))
 
 
-# In[ ]:
+# In[21]:
 
 
 # compile
@@ -424,7 +431,7 @@ model.compile(loss='binary_crossentropy',
               metrics=['accuracy'])
 
 
-# In[17]:
+# In[22]:
 
 
 # fit
@@ -435,19 +442,19 @@ history = model.fit(x_train,
                     validation_data=(x_val, y_val))
 
 
-# In[18]:
+# In[23]:
 
 
 model.summary()
 
 
-# In[19]:
+# In[24]:
 
 
 keras.utils.plot_model(model, show_shapes=True)
 
 
-# In[20]:
+# In[25]:
 
 
 ## Plot history from model.fit()
@@ -463,14 +470,14 @@ plt.show()
 
 # ### Evaluation and Prediction
 
-# In[21]:
+# In[26]:
 
 
 ## Evaludate
 model.evaluate(x_test, y_test)
 
 
-# In[22]:
+# In[27]:
 
 
 ## Predict
@@ -530,7 +537,7 @@ model.predict(x_new)
 #     - Learn embeddings jointly with the main task (i.e., `Embedding` layer)
 #     - Use pretrained word embeddings that were precomputed using a different machine learning task.
 
-# In[23]:
+# In[28]:
 
 
 ## Given Label
@@ -549,7 +556,7 @@ labels_oh = keras.utils.to_categorical(labels_int)
 print(labels_oh)
 
 
-# In[24]:
+# In[29]:
 
 
 ###########################################
@@ -593,7 +600,7 @@ print(labels_ohe.toarray())
 # 
 # - The following is a simple example showing how to compute the loss for a case of prediction.
 
-# In[25]:
+# In[30]:
 
 
 def mean_square_error(y, t):
@@ -605,7 +612,7 @@ def cross_entropy_error(y, t):
     return -np.sum(t * np.log(y + delta))
 
 
-# In[26]:
+# In[31]:
 
 
 ## mean square error
@@ -625,7 +632,7 @@ print(cross_entropy_error(np.array(y), np.array(t)))
 
 # - We can revise the `cross_entropy_error()` function to work with outputs from a min-batch sample.
 
-# In[27]:
+# In[32]:
 
 
 # adjust the function to for batch sample outputs
@@ -639,7 +646,7 @@ def cross_entropy_error(y, t):
 
 # - When the labels uses one-hot encoding, the function can be simplified as follows:
 
-# In[28]:
+# In[33]:
 
 
 def cross_entropy_error(y, t):
@@ -716,7 +723,7 @@ def cross_entropy_error(y, t):
 
 # In the following graph, each vector represents the gradient at a specific $(x_0, x_1)$, i.e., when $x_0 = p_0$ and $x_1 = p_1$:
 
-# In[29]:
+# In[34]:
 
 
 from mpl_toolkits.mplot3d import Axes3D
@@ -864,14 +871,14 @@ if __name__ == '__main__':
 # \end{pmatrix}
 # $$
 
-# In[30]:
+# In[35]:
 
 
 x = np.array([[1, 2], [3, 4], [4, 6]])
 x
 
 
-# In[31]:
+# In[36]:
 
 
 print(x + 1)
@@ -898,7 +905,7 @@ print(x / 5)
 # 
 # 
 
-# In[32]:
+# In[37]:
 
 
 x = np.array([[1, 2], [3, 4]])
@@ -928,7 +935,7 @@ print(x * y)
 # \end{pmatrix}
 # $$
 
-# In[33]:
+# In[38]:
 
 
 x = np.array([[1, 2], [3, 4]])
@@ -964,7 +971,7 @@ print(xy.shape)
 # \end{pmatrix}
 # $$
 
-# In[34]:
+# In[39]:
 
 
 x = np.array([[1, 2], [3, 4], [5, 6]])
@@ -1003,7 +1010,7 @@ print(xy_dot)
 # \end{pmatrix}
 # $$
 
-# In[35]:
+# In[40]:
 
 
 word_one_hot = np.array([0, 1, 0, 0, 0, 0]).reshape(6, 1)
@@ -1015,7 +1022,7 @@ model_parameters = np.array([[-2.8, 1.6, 0.9, 0.7, -0.7, -1.8],
                              [1.8, -0.5, -1.6, -2.8, -1.7, 1.7]])
 
 
-# In[36]:
+# In[41]:
 
 
 np.dot(model_parameters, word_one_hot)
@@ -1049,7 +1056,7 @@ np.dot(model_parameters, word_one_hot)
 #     - We use the derivative to determine how to update/modify the parameter, i.e., $x_{new} = x_{old} + \eta\frac{\partial f}{\partial x} $
 #     - The $\eta$ is commonly referred to as the **learning rate**.
 
-# In[37]:
+# In[42]:
 
 
 def numerical_diff(f, x):
@@ -1057,7 +1064,7 @@ def numerical_diff(f, x):
     return (f(x + h) - f(x - h)) / (2 * h)
 
 
-# In[38]:
+# In[43]:
 
 
 def tangent_line(f, x):
@@ -1072,14 +1079,14 @@ def tangent_line(f, x):
 # 
 # $$y = 4x^2 + 2x$$
 
-# In[39]:
+# In[44]:
 
 
 def fun_x(x):
     return 4.0 * x**2 + 2.0 * x
 
 
-# In[40]:
+# In[45]:
 
 
 # plot the function
@@ -1092,7 +1099,7 @@ tf10 = tangent_line(fun_x, 10)
 y10 = tf10(x)
 
 
-# In[41]:
+# In[46]:
 
 
 plt.xlabel("x")
@@ -1102,7 +1109,7 @@ plt.plot(x, y5)
 plt.show()
 
 
-# In[42]:
+# In[47]:
 
 
 plt.xlabel("x")
@@ -1112,7 +1119,7 @@ plt.plot(x, y10)
 plt.show()
 
 
-# In[43]:
+# In[48]:
 
 
 print(
@@ -1145,7 +1152,7 @@ print(
 # 
 # $$\frac{\partial f}{\partial x_1}$$
 
-# In[44]:
+# In[49]:
 
 
 ## fun_2 has two variables/weights
@@ -1155,7 +1162,7 @@ def fun_2(x):
 
 # - When $x_0=3$ and $x_1=4$, compute the partial derivative of $x_0$, $\frac{\partial f}{\partial x_0}$
 
-# In[45]:
+# In[50]:
 
 
 def fun_2_tmp1(x0):
@@ -1167,7 +1174,7 @@ numerical_diff(fun_2_tmp1, 3.0)
 
 # - When $x_0=3$ and $x_1=4$, compute the partial derivative of $x_1$, $\frac{\partial f}{\partial x_1}$
 
-# In[46]:
+# In[51]:
 
 
 def fun_2_tmp2(x1):

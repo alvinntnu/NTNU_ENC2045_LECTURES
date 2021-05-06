@@ -170,6 +170,8 @@
 # - You need to install the relevant modules AFTER you activate the conda environment in the terminal.
 # - You need to add the kernel name with `python -m ipykernel install --user --name=XXX` within the conda enviroment as well.
 # - In other words, you need to install the module `ipykernel` in the target conda environment as well.
+# - After a few trial-and-errors, I think the best environment setting is that you **only** add the kernel name (conda environment) to `ipykernel` within the conda environment. **Do not** add the conda environment **again** in your base python environment.
+# - What's even better is to install `jupyter` in your conda environment (`python-notes`) and run your notebook from this `python-notes` as well.
 # 
 # :::
 # 

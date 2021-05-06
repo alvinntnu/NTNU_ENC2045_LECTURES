@@ -607,7 +607,7 @@ model4.evaluate(X_test, y_test, batch_size=128, verbose=2)
 #     - Increase the hidden nodes of the RNN/LSTM
 # - Now let's try the more sophisticated RNN, LSTM, and with bidirectional sequence processing and add more nodes to the LSTM layer.
 
-# In[45]:
+# In[44]:
 
 
 ## Define embedding dimension
@@ -642,13 +642,13 @@ model5.compile(loss=keras.losses.BinaryCrossentropy(),
                metrics=["accuracy"])
 
 
-# In[46]:
+# In[45]:
 
 
 plot_model(model5)
 
 
-# In[47]:
+# In[46]:
 
 
 history5 = model5.fit(X_train,
@@ -659,13 +659,13 @@ history5 = model5.fit(X_train,
                       validation_split=VALIDATION_SPLIT)
 
 
-# In[48]:
+# In[47]:
 
 
 plot1(history5)
 
 
-# In[49]:
+# In[48]:
 
 
 model5.evaluate(X_test, y_test, batch_size=128, verbose=2)
@@ -676,34 +676,34 @@ model5.evaluate(X_test, y_test, batch_size=128, verbose=2)
 # - Compared to one-hot encodings of characters, embeddings may include more information relating to the characteristics (semantics?) of the characters.
 # - We can extract the embedding layer and apply dimensional reduction techniques (i.e., TSNE) to see how embeddings capture the relationships in-between characters.
 
-# In[50]:
+# In[49]:
 
 
 ## A name in sequence from test set
 X_test[10]
 
 
-# In[51]:
+# In[50]:
 
 
 ind2char = tokenizer.index_word
 [ind2char.get(i) for i in X_test[10] if ind2char.get(i) != None]
 
 
-# In[52]:
+# In[51]:
 
 
 tokenizer.texts_to_sequences('Alvin')
 
 
-# In[53]:
+# In[52]:
 
 
 char_vectors = model5.layers[0].get_weights()[0]
 char_vectors.shape
 
 
-# In[54]:
+# In[53]:
 
 
 labels = [char for (ind, char) in tokenizer.index_word.items()]
@@ -711,7 +711,7 @@ labels.insert(0, None)
 labels
 
 
-# In[55]:
+# In[54]:
 
 
 tsne = TSNE(n_components=2, random_state=0, n_iter=5000, perplexity=3)
@@ -766,7 +766,7 @@ for label, x, y in zip(labels, T[:, 0], T[:, 1]):
 #     - When the search is over, we can retrieve the best model and a summary of the results from the `tunner`.
 # 
 
-# In[56]:
+# In[55]:
 
 
 ## confirm if the right kernel is being used
@@ -774,7 +774,7 @@ for label, x, y in zip(labels, T[:, 0], T[:, 1]):
 # sys.executable
 
 
-# In[ ]:
+# In[56]:
 
 
 ## Wrap model definition in a function
@@ -887,7 +887,7 @@ tuner.results_summary()
 
 # ### Train Model with the Tuned Hyperparameters
 
-# In[84]:
+# In[65]:
 
 
 EMBEDDING_DIM = 128
@@ -913,7 +913,7 @@ model6.compile(loss=keras.losses.BinaryCrossentropy(),
 plot_model(model6)
 
 
-# In[85]:
+# In[66]:
 
 
 history6 = model6.fit(X_train,
@@ -924,19 +924,19 @@ history6 = model6.fit(X_train,
                       validation_split=VALIDATION_SPLIT)
 
 
-# In[86]:
+# In[67]:
 
 
 plot2(history6)
 
 
-# In[87]:
+# In[68]:
 
 
 explainer = LimeTextExplainer(class_names=['male'], char_level=True)
 
 
-# In[88]:
+# In[69]:
 
 
 def model_predict_pipeline(text):
@@ -946,44 +946,44 @@ def model_predict_pipeline(text):
     return model6.predict(np.array(_seq_pad))
 
 
-# In[89]:
+# In[70]:
 
 
 reversed_word_index = dict([(index, word)
                             for (word, index) in tokenizer.word_index.items()])
 
 
-# In[90]:
+# In[71]:
 
 
 text_id = 305
 
 
-# In[91]:
+# In[72]:
 
 
 X_test[text_id]
 
 
-# In[92]:
+# In[73]:
 
 
 X_test_texts[text_id]
 
 
-# In[93]:
+# In[74]:
 
 
 ' '.join([reversed_word_index.get(i, '?') for i in X_test[text_id]])
 
 
-# In[94]:
+# In[75]:
 
 
 model_predict_pipeline([X_test_texts[text_id]])
 
 
-# In[95]:
+# In[76]:
 
 
 exp = explainer.explain_instance(X_test_texts[text_id],
@@ -992,19 +992,19 @@ exp = explainer.explain_instance(X_test_texts[text_id],
                                  top_labels=1)
 
 
-# In[96]:
+# In[77]:
 
 
 exp.show_in_notebook(text=True)
 
 
-# In[97]:
+# In[78]:
 
 
 y_test[text_id]
 
 
-# In[98]:
+# In[79]:
 
 
 exp = explainer.explain_instance('Tim',
@@ -1014,7 +1014,7 @@ exp = explainer.explain_instance('Tim',
 exp.show_in_notebook(text=True)
 
 
-# In[99]:
+# In[80]:
 
 
 exp = explainer.explain_instance('Michaelis',
@@ -1024,7 +1024,7 @@ exp = explainer.explain_instance('Michaelis',
 exp.show_in_notebook(text=True)
 
 
-# In[100]:
+# In[81]:
 
 
 exp = explainer.explain_instance('Sidney',
@@ -1034,7 +1034,7 @@ exp = explainer.explain_instance('Sidney',
 exp.show_in_notebook(text=True)
 
 
-# In[101]:
+# In[82]:
 
 
 exp = explainer.explain_instance('Timber',
@@ -1044,7 +1044,7 @@ exp = explainer.explain_instance('Timber',
 exp.show_in_notebook(text=True)
 
 
-# In[102]:
+# In[83]:
 
 
 exp = explainer.explain_instance('Alvin',

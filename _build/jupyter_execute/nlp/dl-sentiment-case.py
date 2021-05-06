@@ -9,7 +9,7 @@
 
 # ## Prepare Data
 
-# In[327]:
+# In[1]:
 
 
 import numpy as np
@@ -18,7 +18,7 @@ from nltk.corpus import movie_reviews
 import random
 
 
-# In[328]:
+# In[2]:
 
 
 documents = [(' '.join(list(movie_reviews.words(fileid))), category)
@@ -34,7 +34,7 @@ random.shuffle(documents)
 # random.shuffle(labeled_names)
 
 
-# In[329]:
+# In[3]:
 
 
 documents[1]
@@ -42,7 +42,7 @@ documents[1]
 
 # ## Train-Test Split
 
-# In[330]:
+# In[4]:
 
 
 from sklearn.model_selection import train_test_split
@@ -60,7 +60,7 @@ print(len(train_set), len(test_set))
 #     - Padding each instance to be of same lengths
 #     
 
-# In[427]:
+# In[5]:
 
 
 import tensorflow as tf
@@ -76,14 +76,14 @@ from keras.layers import SpatialDropout1D
 from keras.layers import Bidirectional
 
 
-# In[378]:
+# In[6]:
 
 
 texts = [n for (n, l) in train_set]
 labels = [l for (n, l) in train_set] 
 
 
-# In[333]:
+# In[7]:
 
 
 print(len(texts))
@@ -99,7 +99,7 @@ print(len(labels))
 # - Tokenizer use whitespace as word delimiter.
 # - If every character is treated as a token, specify `char_level=True`.
 
-# In[334]:
+# In[8]:
 
 
 NUM_WORDS = 10000
@@ -112,7 +112,7 @@ tokenizer.fit_on_texts(texts)
 # - When computing the vocabulary size, the plus 1 is due to the addition of the padding token.
 # - if `oov_token` is specified, then the vocabulary size needs to be added one more.
 
-# In[335]:
+# In[9]:
 
 
 # determine the vocabulary size
@@ -121,13 +121,13 @@ vocab_size = tokenizer.num_words + 1
 print('Vocabulary Size: %d' % vocab_size)
 
 
-# In[336]:
+# In[10]:
 
 
-tokenizer.word_index
+list(tokenizer.word_index.items())[:20]
 
 
-# In[337]:
+# In[11]:
 
 
 len(tokenizer.word_index)
@@ -151,7 +151,7 @@ len(tokenizer.word_index)
 
 # #### Text to Sequences
 
-# In[397]:
+# In[12]:
 
 
 texts_ints = tokenizer.texts_to_sequences(texts)
@@ -161,7 +161,7 @@ texts_ints = tokenizer.texts_to_sequences(texts)
 # 
 # - To make sure each input text consists of the same number of tokens.
 
-# In[398]:
+# In[13]:
 
 
 texts_lens=[len(n) for n in texts_ints]
@@ -171,7 +171,7 @@ sns.displot(texts_lens)
 #print(texts[np.argmax(texts_lens)]) # longest name
 
 
-# In[399]:
+# In[14]:
 
 
 max_len = texts_lens[np.argmax(texts_lens)]
@@ -181,20 +181,20 @@ max_len
 # - We consider the final 400 tokens of each text.
 # - `padding` and `truncating` parameters in `pad_sequences`: whether to Pre-padding or removing values from the beginning of the sequence (i.e., `pre`) or the other way (`post`).
 
-# In[400]:
+# In[15]:
 
 
 max_len = 400
 
 
-# In[401]:
+# In[16]:
 
 
 texts_ints_pad = sequence.pad_sequences(texts_ints, maxlen = max_len, truncating='pre', padding='pre')
 texts_ints_pad[:10]
 
 
-# In[402]:
+# In[17]:
 
 
 X_train = np.array(texts_ints_pad).astype('int32')
@@ -211,7 +211,7 @@ y_test = np.array([l for (n, l) in test_set])
 X_test_texts = [n for (n, l) in test_set]
 
 
-# In[403]:
+# In[18]:
 
 
 print(X_train.shape)
@@ -225,13 +225,13 @@ print(y_test.shape)
 # - text to matrix (one-hot encode)
 # - choose modes for bag-of-words (binary, count, tfidf)
 
-# In[345]:
+# In[19]:
 
 
 texts_matrix = tokenizer.texts_to_matrix(texts, mode="count")
 
 
-# In[346]:
+# In[20]:
 
 
 X_train2 = np.array(texts_matrix).astype('int32')
@@ -243,7 +243,7 @@ y_test2 = np.array([l for (n,l) in test_set])
 X_test2_texts = [n for (n,l) in test_set]
 
 
-# In[347]:
+# In[21]:
 
 
 print(X_train2.shape)
@@ -254,7 +254,7 @@ print(y_test2.shape)
 
 # ## Model Definition
 
-# In[348]:
+# In[22]:
 
 
 import matplotlib.pyplot as plt
@@ -297,7 +297,7 @@ def plot2(history):
 # - Two layers of fully-connected dense layers
 # - The input is the one-hot encoding of the text from text-to-matrix.
 
-# In[349]:
+# In[23]:
 
 
 from keras import layers
@@ -314,13 +314,13 @@ model1.compile(
 )
 
 
-# In[350]:
+# In[24]:
 
 
 plot_model(model1, show_shapes=True )
 
 
-# In[351]:
+# In[25]:
 
 
 ## A few DL hyperparameters
@@ -329,7 +329,7 @@ EPOCHS = 25
 VALIDATION_SPLIT = 0.2
 
 
-# In[352]:
+# In[26]:
 
 
 history1 = model1.fit(X_train2, y_train2, 
@@ -338,13 +338,13 @@ history1 = model1.fit(X_train2, y_train2,
                    validation_split = VALIDATION_SPLIT)
 
 
-# In[353]:
+# In[27]:
 
 
 plot2(history1)
 
 
-# In[354]:
+# In[28]:
 
 
 model1.evaluate(X_test2, y_test2, batch_size=BATCH_SIZE, verbose=2)
@@ -355,7 +355,7 @@ model1.evaluate(X_test2, y_test2, batch_size=BATCH_SIZE, verbose=2)
 # - One Embedding Layer + Two layers of fully-connected dense layers
 # - The Input is the integer encodings of texts from the padded text-to-sequence.
 
-# In[355]:
+# In[29]:
 
 
 EMBEDDING_DIM = 128
@@ -373,13 +373,13 @@ model2.compile(
 )
 
 
-# In[356]:
+# In[30]:
 
 
 plot_model(model2, show_shapes=True)
 
 
-# In[357]:
+# In[31]:
 
 
 history2 = model2.fit(X_train, y_train, 
@@ -388,13 +388,13 @@ history2 = model2.fit(X_train, y_train,
                     validation_split = VALIDATION_SPLIT)
 
 
-# In[358]:
+# In[32]:
 
 
 plot2(history2)
 
 
-# In[359]:
+# In[33]:
 
 
 model2.evaluate(X_test, y_test, batch_size=128, verbose=2)
@@ -405,33 +405,33 @@ model2.evaluate(X_test, y_test, batch_size=128, verbose=2)
 # - Compared to one-hot encodings of characters, embeddings may include more information relating to the characteristics of the characters.
 # - We can extract the embedding layer and apply dimensional reduction techniques (i.e., TSNE) to see how embeddings capture the relationships in-between characters.
 
-# In[364]:
+# In[34]:
 
 
 ind2word = tokenizer.index_word
 
 
-# In[371]:
+# In[35]:
 
 
 # check first N words for text
 ' '.join([ind2word.get(i) for i in X_test[1][-50:] if ind2word.get(i)!= None])
 
 
-# In[374]:
+# In[36]:
 
 
 X_test_texts[1][-287:]
 
 
-# In[375]:
+# In[37]:
 
 
 word_vectors = model2.layers[0].get_weights()[0]
 word_vectors.shape
 
 
-# In[380]:
+# In[38]:
 
 
 token_labels = [word for (ind, word) in tokenizer.index_word.items()]
@@ -439,7 +439,7 @@ token_labels.insert(0,None)
 token_labels[:10]
 
 
-# In[387]:
+# In[39]:
 
 
 from sklearn.manifold import TSNE
@@ -460,6 +460,9 @@ for label, x, y in zip(token_labels, T[:, 0], T[:, 1]):
 # - One-hot encoding does not indicate semantic relationships between characters.
 # - For deep learning NLP, it is preferred to convert one-hot encodings of words/characters into embeddings, which are argued to include more semantic information of the tokens.
 # - Now the question is how to train and create better word embeddings. We will come back to this issue later.
+
+# - Generally speaking, we can train our word embeddings along with the downstream NLP task (e.g., the sentiment classification in our current case).
+# - Another common method is to train the word embeddings using unsupervised methods on a large amount of data and apply the pre-trained word embeddings to the current downstream NLP task. Typical methods include word2vec (CBOW or skipped-gram, GloVe etc). We will come back to these later.
 
 # ## Hyperparameter Tuning
 
@@ -486,13 +489,13 @@ for label, x, y in zip(token_labels, T[:, 0], T[:, 1]):
 #     - When search is over, we can retrieve the best model and a summary of the results from the `tunner`.
 # 
 
-# In[34]:
+# In[40]:
 
 
 import kerastuner
 
 
-# In[35]:
+# In[41]:
 
 
 ## Wrap model definition in a function
@@ -527,7 +530,7 @@ def build_model(hp):
 #     return model
 
 
-# In[36]:
+# In[42]:
 
 
 ## This is to clean up the temp dir from the tuner
@@ -541,7 +544,7 @@ if os.path.isdir('my_dir'):
     
 
 
-# In[37]:
+# In[43]:
 
 
 ## Instantiate the tunner
@@ -554,28 +557,28 @@ tuner = kerastuner.tuners.RandomSearch(
   directory='my_dir')
 
 
-# In[38]:
+# In[44]:
 
 
 ## Check the tuner's search space
 tuner.search_space_summary()
 
 
-# In[39]:
+# In[45]:
 
 
 ## Start tuning with the tuner
 tuner.search(X_train, y_train, validation_split=0.2, batch_size=128)
 
 
-# In[40]:
+# In[46]:
 
 
 ## Retrieve the best models from the tuner
 models = tuner.get_best_models(num_models=2)
 
 
-# In[41]:
+# In[47]:
 
 
 ## Retrieve the summary of results from the tuner
@@ -589,7 +592,7 @@ tuner.results_summary()
 # - One Embedding Layer + LSTM + Dense Layer
 # - Input: the padded text-to-sequences
 
-# In[411]:
+# In[48]:
 
 
 EMBEDDING_DIM = 128
@@ -606,13 +609,13 @@ model3.compile(
 )
 
 
-# In[412]:
+# In[49]:
 
 
 plot_model(model3, show_shapes=True)
 
 
-# In[413]:
+# In[50]:
 
 
 history3 = model3.fit(X_train, y_train, 
@@ -621,13 +624,13 @@ history3 = model3.fit(X_train, y_train,
                    validation_split = VALIDATION_SPLIT)
 
 
-# In[414]:
+# In[51]:
 
 
 plot2(history3)
 
 
-# In[416]:
+# In[52]:
 
 
 model3.evaluate(X_test, y_test, batch_size=128, verbose=2)
@@ -637,7 +640,7 @@ model3.evaluate(X_test, y_test, batch_size=128, verbose=2)
 # 
 # - One Embedding Layer + Two Stacked LSTM + Dense Layer
 
-# In[418]:
+# In[53]:
 
 
 EMBEDDING_DIM = 128
@@ -654,13 +657,13 @@ model4.compile(
 )
 
 
-# In[419]:
+# In[54]:
 
 
 plot_model(model4,show_shapes=True)
 
 
-# In[420]:
+# In[55]:
 
 
 history4 = model4.fit(X_train, y_train, 
@@ -669,7 +672,7 @@ history4 = model4.fit(X_train, y_train,
                    validation_split = 0.2)
 
 
-# In[424]:
+# In[56]:
 
 
 plot2(history4)
@@ -679,7 +682,7 @@ plot2(history4)
 
 # - Embedding Layer + Bidirectional LSTM + Dense Layer
 
-# In[428]:
+# In[57]:
 
 
 EMBEDDING_DIM = 128
@@ -696,13 +699,13 @@ model5.compile(
 )
 
 
-# In[429]:
+# In[58]:
 
 
 plot_model(model5)
 
 
-# In[430]:
+# In[59]:
 
 
 history5 = model5.fit(X_train, y_train, 
@@ -711,7 +714,7 @@ history5 = model5.fit(X_train, y_train,
                    validation_split = 0.2)
 
 
-# In[431]:
+# In[60]:
 
 
 plot2(history5)
@@ -721,7 +724,7 @@ plot2(history5)
 # 
 # - One Embedding Layer + LSTM [hidden state of last time step + cell state of last time step] + Dense Layer
 
-# In[435]:
+# In[61]:
 
 
 EMBEDDING_DIM = 128
@@ -747,7 +750,7 @@ model6 = keras.Model(inputs=inputs, outputs=outputs, name="mnist_model")
 plot_model(model6, show_shapes=True)
 
 
-# In[436]:
+# In[62]:
 
 
 model6.compile(
@@ -761,13 +764,13 @@ history6 = model6.fit(X_train, y_train,
                    validation_split = VALIDATION_SPLIT)
 
 
-# In[438]:
+# In[63]:
 
 
 plot2(history6)
 
 
-# In[439]:
+# In[64]:
 
 
 model6.evaluate(X_test, y_test, batch_size=128, verbose=2)
@@ -780,7 +783,7 @@ model6.evaluate(X_test, y_test, batch_size=128, verbose=2)
 #     - Check their attention
 #     - And use [attention out + hidden state h of the last time step] for decision
 
-# In[442]:
+# In[65]:
 
 
 EMBEDDING_DIM = 128
@@ -809,7 +812,7 @@ model7 = keras.Model(inputs=inputs, outputs=outputs, name="mnist_model")
 plot_model(model7, show_shapes=True)
 
 
-# In[443]:
+# In[66]:
 
 
 model7.compile(
@@ -823,7 +826,7 @@ history7 = model7.fit(X_train, y_train,
                    validation_split = VALIDATION_SPLIT)
 
 
-# In[229]:
+# In[67]:
 
 
 plot(history6)
@@ -831,7 +834,7 @@ plot(history6)
 
 # ## Explanation
 
-# In[230]:
+# In[68]:
 
 
 from lime.lime_text import LimeTextExplainer
@@ -839,7 +842,7 @@ from lime.lime_text import LimeTextExplainer
 explainer = LimeTextExplainer(class_names=['negative','positive'], char_level=False)
 
 
-# In[231]:
+# In[69]:
 
 
 def model_predict_pipeline(text):
@@ -855,56 +858,56 @@ def model_predict_pipeline(text):
 #     maxlen = max_len)).astype('float32')
 
 
-# In[232]:
+# In[70]:
 
 
 reversed_word_index = dict([(index, word) for (word, index) in tokenizer.word_index.items()])
 
 
-# In[233]:
+# In[71]:
 
 
 text_id =150
 
 
-# In[234]:
+# In[72]:
 
 
 X_test[text_id]
 
 
-# In[235]:
+# In[73]:
 
 
 X_test_texts[text_id]
 
 
-# In[236]:
+# In[74]:
 
 
 ' '.join([reversed_word_index.get(i, '?') for i in X_test[text_id]])
 
 
-# In[237]:
+# In[75]:
 
 
 print(X_test[22])
 print(X_test_texts[22])
 
 
-# In[238]:
+# In[76]:
 
 
 X_test_texts[text_id]
 
 
-# In[239]:
+# In[77]:
 
 
 model_predict_pipeline([X_test_texts[text_id]])
 
 
-# In[240]:
+# In[78]:
 
 
 text_id=3
@@ -913,13 +916,13 @@ X_test_texts[text_id], model_predict_pipeline, num_features=20, top_labels=1)
 exp.show_in_notebook(text=True)
 
 
-# In[241]:
+# In[79]:
 
 
 exp.show_in_notebook(text=True)
 
 
-# In[242]:
+# In[80]:
 
 
 y_test[text_id]
