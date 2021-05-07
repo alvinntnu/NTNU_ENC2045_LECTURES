@@ -1,44 +1,52 @@
-# Assignment II: Journal Articles Review
+#!/usr/bin/env python
+# coding: utf-8
 
-After we have gone through the fundamentals of natural language processing, you should have basic understanding of what people are doing in this sub-field of applied linguistics.
+# # Assignment II: Journal Articles Review
 
-In this assignment, please find **at least three** journal articles that fall into the discipline of natural language processing (or computational linguistics) and provide the information of each article requested below.
+# After we have gone through the fundamentals of natural language processing, you should have basic understanding of what people are doing in this sub-field of applied linguistics.
+# 
+# In this assignment, please find **at least three** journal articles that fall into the discipline of natural language processing (or computational linguistics) and provide the information of each article requested below.
+# 
+# You may find articles that are of particular interest to your current research projects.
+# 
+# Please find journal articles that have been published in **SSCI-** or **SCI-indexed** journals within the past **three** years (2019-2021).
+# 
+# 
+# ```{note}
+# For this assignment, you can also submit it as a MS-Word file if you prefer a normal document editor :)
+# ```
+# 
+# ---
+# 
 
-You may find articles that are of particular interest to your current research projects.
+# ## For each journal article, please include the following information:
 
-Please find journal articles that have been published in **SSCI-** or **SCI-indexed** journals within the past **three** years (2019-2021).
+# - Complete Citation of the Paper in APA Format
 
+# 
 
-```{note}
-For this assignment, you can also submit it as a MS-Word file if you prefer a normal document editor :)
-```
+# - Abstract of the Study
 
----
+# 
 
+# - Objectives and Research Question of the Study
 
-## For each journal article, please include the following information:
+# 
 
-- Complete Citation of the Paper in APA Format
+# - Description of the Data
+#     - Self-collected? Shared datasets?
+#     - Formats of the data (Raw texts, annotated texts etc.)
 
-
-
-- Abstract of the Study
-
-
-
-- Objectives and Research Question of the Study
+# In[ ]:
 
 
 
-- Description of the Data
-    - Self-collected? Shared datasets?
-    - Formats of the data (Raw texts, annotated texts etc.)
 
 
+# - Types of NLP Approach
 
-- Types of NLP Approach
+# 
 
+# - Limitations of the Study
 
-
-- Limitations of the Study
-
+# 

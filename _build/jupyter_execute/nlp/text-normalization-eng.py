@@ -1,9 +1,15 @@
-# Text Normalization
+#!/usr/bin/env python
+# coding: utf-8
 
+# # Text Normalization
+# 
 
-## Overview
+# ## Overview
 
-The objective of text normalization is to clean up the text by removing unnecessary and irrelevant components.
+# The objective of text normalization is to clean up the text by removing unnecessary and irrelevant components.
+
+# In[1]:
+
 
 import spacy
 import unicodedata
@@ -13,15 +19,19 @@ import collections
 from nltk.tokenize.toktok import ToktokTokenizer
 from bs4 import BeautifulSoup
 
-## HTML Tags
 
-- One of the most frequent data source is the Internet. Assuming that we web-crawl text data from a wikipedia page, we need to clean up the HTML codes quite a bit.
-- Important steps:
-    - Download and parse the HTML codes of the webpage
-    - Identify the elements from the page that we are interested in
-    - Extract the textual contents of the HTML elements
-    - Remove unnecessary HTML tags
-    - Remove extra spacing/spaces
+# ## HTML Tags
+
+# - One of the most frequent data source is the Internet. Assuming that we web-crawl text data from a wikipedia page, we need to clean up the HTML codes quite a bit.
+# - Important steps:
+#     - Download and parse the HTML codes of the webpage
+#     - Identify the elements from the page that we are interested in
+#     - Extract the textual contents of the HTML elements
+#     - Remove unnecessary HTML tags
+#     - Remove extra spacing/spaces
+
+# In[2]:
+
 
 import requests
 from bs4 import BeautifulSoup
@@ -29,6 +39,10 @@ from bs4 import BeautifulSoup
 data = requests.get('https://en.wikipedia.org/wiki/Python_(programming_language)')
 content = data.content
 print(content[:500])
+
+
+# In[3]:
+
 
 def strip_html_tags(text):
     soup = BeautifulSoup(text, "html.parser")
@@ -41,16 +55,20 @@ def strip_html_tags(text):
 clean_content = strip_html_tags(content)
 print(clean_content[:500])
 
-## Stemming
 
-- Stemming is the process where we standardize word forms into their base stem irrespective of their inflections.
-- The `nltk` provides several popular stemmers for English:
-    - `nltk.stem.PorterStemmer`
-    - `nltk.stem.LancasterStemmer`
-    - `nltk.stem.RegexpStemmer`
-    - `nltk.stem.SnowballStemmer`
+# ## Stemming
 
-- We can compare the results of different stemmers.
+# - Stemming is the process where we standardize word forms into their base stem irrespective of their inflections.
+# - The `nltk` provides several popular stemmers for English:
+#     - `nltk.stem.PorterStemmer`
+#     - `nltk.stem.LancasterStemmer`
+#     - `nltk.stem.RegexpStemmer`
+#     - `nltk.stem.SnowballStemmer`
+
+# - We can compare the results of different stemmers.
+
+# In[4]:
+
 
 import nltk
 from nltk.stem import PorterStemmer, LancasterStemmer, RegexpStemmer, SnowballStemmer
@@ -63,78 +81,125 @@ ss = SnowballStemmer('english')
 rs = RegexpStemmer('ing$|s$|ed$|y$', min=4) # set the minimum of the string to stem
 
 
+# In[5]:
+
+
 [ps.stem(w) for w in words]
+
+
+# In[6]:
+
 
 [ls.stem(w) for w in words]
 
+
+# In[7]:
+
+
 [ss.stem(w) for w in words]
+
+
+# In[8]:
+
 
 [rs.stem(w) for w in words]
 
-## Lemmatization
 
+# ## Lemmatization
+# 
 
-- Lemmatization is similar to stemmatization.
-- It is a process where we remove word affixes to get the **root word** but not the **root stem**.
-- These root words, i.e., lemmas, are lexicographically correct words and always present in the dictionary.
+# - Lemmatization is similar to stemmatization.
+# - It is a process where we remove word affixes to get the **root word** but not the **root stem**.
+# - These root words, i.e., lemmas, are lexicographically correct words and always present in the dictionary.
 
-```{admonition} Question
-:class: attention
-In terms of Lemmatization and Stemmatization, which one requires more computational cost? That is, which processing might be slower?
-```
+# ```{admonition} Question
+# :class: attention
+# In terms of Lemmatization and Stemmatization, which one requires more computational cost? That is, which processing might be slower?
+# ```
 
-- Two frequently-used lemmatizers
-    - `nltk.stem.WordNetLemmatizer`
-    - `spacy`
+# - Two frequently-used lemmatizers
+#     - `nltk.stem.WordNetLemmatizer`
+#     - `spacy`
 
-### WordNet Lemmatizer
+# ### WordNet Lemmatizer
 
-- WordNetLemmatizer utilizes the dictionary of WordNet.
-- It requires the **parts of speech** of the word for lemmatization.
-- I think right now only nouns, verbs and adjectives are important in `WordNetLemmatizer`.
+# - WordNetLemmatizer utilizes the dictionary of WordNet.
+# - It requires the **parts of speech** of the word for lemmatization.
+# - I think right now only nouns, verbs and adjectives are important in `WordNetLemmatizer`.
+
+# In[9]:
+
 
 from nltk.stem import WordNetLemmatizer
 wnl = WordNetLemmatizer()
+
+
+# In[10]:
+
 
 # nouns
 print(wnl.lemmatize('cars','n'))
 print(wnl.lemmatize('men', 'n'))
 
+
+# In[11]:
+
+
 # verbs
 print(wnl.lemmatize('running','v'))
 print(wnl.lemmatize('ate', 'v'))
+
+
+# In[12]:
+
 
 # adj
 print(wnl.lemmatize('saddest','a'))
 print(wnl.lemmatize('fancier','a'))
 print(wnl.lemmatize('jumpy','a'))
 
-### Spacy 
 
-```{warning}
-To use `spacy` properly, you need to download/install the language models of the English language first before you load the parameter files. Please see [spacy documentation](https://spacy.io/usage/models/) for installation steps.
+# ### Spacy 
 
-Also, please remember to install the language models in the right conda environment.
-```
+# ```{warning}
+# To use `spacy` properly, you need to download/install the language models of the English language first before you load the parameter files. Please see [spacy documentation](https://spacy.io/usage/models/) for installation steps.
+# 
+# Also, please remember to install the language models in the right conda environment.
+# ```
 
-- For example, in my Mac:
+# - For example, in my Mac:
+# 
+# ```
+# $ source activate python-notes
+# $ pip install spacy
+# $ python -m spacy download en_core_web_sm
+# ```
 
-```
-$ source activate python-notes
-$ pip install spacy
-$ python -m spacy download en_core_web_sm
-```
+# In[13]:
+
 
 import spacy
 nlp = spacy.load('en_core_web_sm', disable=['parse','entity'])
 
+
+# In[14]:
+
+
 text = 'My system keeps crashing his crashed yesterday, ours crashes daily'
 text_tagged = nlp(text)
 
-- `spacy` processes the text by tokenizing it into tokens and enriching the tokens with many annotations.
+
+# - `spacy` processes the text by tokenizing it into tokens and enriching the tokens with many annotations.
+
+# In[15]:
+
 
 for t in text_tagged:
     print(t.text+'/'+t.lemma_ + '/'+ t.pos_)
+
+
+# In[16]:
+
 
 def lemmatize_text(text):
     text = nlp(text)
@@ -144,18 +209,21 @@ def lemmatize_text(text):
 lemmatize_text("My system keeps crashing! his crashed yesterday, ours crashes daily")
 
 
-## Contractions
+# ## Contractions
 
-- For the English data, contractions are problematic sometimes. 
-- These may get even more complicated when different tokenizers deal with contractions differently.
-- A good way is to expand all contractions into their original independent word forms.
+# - For the English data, contractions are problematic sometimes. 
+# - These may get even more complicated when different tokenizers deal with contractions differently.
+# - A good way is to expand all contractions into their original independent word forms.
 
-```{note}
-Please download the `TAWP` directory from the `demo_data`. This directory includes code snippets provided in Sarkar's (2020) book.
+# ```{note}
+# Please download the `TAWP` directory from the `demo_data`. This directory includes code snippets provided in Sarkar's (2020) book.
+# 
+# Also, you need to put this `TAWP` under your working directory for importing.
+# 
+# ```
 
-Also, you need to put this `TAWP` under your working directory for importing.
+# In[17]:
 
-```
 
 import TAWP
 from TAWP.contractions import CONTRACTION_MAP
@@ -173,9 +241,7 @@ def expand_contractions(text, contraction_mapping=CONTRACTION_MAP):
 
         # if the matched contraction (=keys) exists in the dict,
         # get its corresponding uncontracted form (=values)
-        expanded_contraction = contraction_mapping.get(match)\
-                                if contraction_mapping.get(match)\
-                                else contraction_mapping.get(match.lower())
+        expanded_contraction = contraction_mapping.get(match)                                if contraction_mapping.get(match)                                else contraction_mapping.get(match.lower())
 
         return expanded_contraction
 
@@ -187,22 +253,38 @@ def expand_contractions(text, contraction_mapping=CONTRACTION_MAP):
     expanded_text = re.sub("'", "", expanded_text)
     return expanded_text
 
-:::{note}
-In `re.sub(repl, str)`, when `repl` is a function like above, the function is called for every non-overlapping occurrence of pattern `contractions_pattern`. The function `expand_match` takes a single matched contraction, and returns the replacement string, i.e., its uncontracted form in the dictionary. 
-:::
+
+# :::{note}
+# In `re.sub(repl, str)`, when `repl` is a function like above, the function is called for every non-overlapping occurrence of pattern `contractions_pattern`. The function `expand_match` takes a single matched contraction, and returns the replacement string, i.e., its uncontracted form in the dictionary. 
+# :::
+
+# In[18]:
+
 
 print(expand_contractions("Y'all can't expand contractions I'd think"))
 
 print(expand_contractions("I'm very glad he's here! And it ain't here!"))
 
+
+# In[19]:
+
+
 type(CONTRACTION_MAP)
+
+
+# In[20]:
+
 
 list(CONTRACTION_MAP.items())[:5] # check the first five items
 
-## Accented Characters (Non-ASCII)
 
-- The `unicodedata` module handles unicode characters very efficiently. Please check [unicodedata dcoumentation](https://docs.python.org/3/library/unicodedata.html) for more details.
-- When dealing with the English data, we may often encounter foreign characters in texts that are not part of the ASCII character set.
+# ## Accented Characters (Non-ASCII)
+# 
+# - The `unicodedata` module handles unicode characters very efficiently. Please check [unicodedata dcoumentation](https://docs.python.org/3/library/unicodedata.html) for more details.
+# - When dealing with the English data, we may often encounter foreign characters in texts that are not part of the ASCII character set.
+
+# In[21]:
+
 
 import unicodedata
 
@@ -221,12 +303,16 @@ remove_accented_chars('Sómě Áccěntěd těxt')
 # print(unicodedata.normalize('NFKD', 'Sómě Áccěntěd těxt').encode('ascii','ignore'))
 # print(unicodedata.normalize('NFKD', 'Sómě Áccěntěd těxt').encode('ascii','ignore').decode('utf-8', 'ignore'))
 
-:::{note}
-- `str.encode()` returns an encoded version of the string as a bytes object using the specified encoding.
-- `byes.decode()` returns a string decoded from the given bytes using the specified encoding.
-:::
 
-- Another common scenario is the case where texts include both English and Chinese characters. What's worse, the English characters are in full-width.
+# :::{note}
+# - `str.encode()` returns an encoded version of the string as a bytes object using the specified encoding.
+# - `byes.decode()` returns a string decoded from the given bytes using the specified encoding.
+# :::
+
+# - Another common scenario is the case where texts include both English and Chinese characters. What's worse, the English characters are in full-width.
+
+# In[22]:
+
 
 ## Chinese characters with full-width English letters and punctuations
 text = '中英文abc,，。.．ＡＢＣ１２３'
@@ -235,7 +321,11 @@ print(unicodedata.normalize('NFKC', text))  # recommended method
 print(unicodedata.normalize('NFC', text))
 print(unicodedata.normalize('NFD', text))
 
-- Sometimes, we may even want to keep characters of one language only.
+
+# - Sometimes, we may even want to keep characters of one language only.
+
+# In[23]:
+
 
 text = "中文ＣＨＩＮＥＳＥ。！＝=.= ＾o＾ 2020/5/20 alvin@gmal.cob@%&*"
 
@@ -253,25 +343,29 @@ print(''.join(
 # select Chinese chars?
 print(''.join([c for c in text if unicodedata.category(c)[:2] in ["Lo"]]))
 
-```{note}
-Please check [this page](https://www.fileformat.info/info/unicode/category/index.htm) for unicode category names.
 
-It seems that the unicode catetory `Lo` is good to identify Chinese characters?
+# ```{note}
+# Please check [this page](https://www.fileformat.info/info/unicode/category/index.htm) for unicode category names.
+# 
+# It seems that the unicode catetory `Lo` is good to identify Chinese characters?
+# 
+# We can also make use of the category names to identify punctuations.
+# ```
 
-We can also make use of the category names to identify punctuations.
-```
+# ```{note}
+# [This page](https://www.compart.com/en/unicode/) shows how unicode deals with combining or decomposing character classes. 
+# ```
 
-```{note}
-[This page](https://www.compart.com/en/unicode/) shows how unicode deals with combining or decomposing character classes. 
-```
+# ## Special Characters
 
-## Special Characters
+# - Depending on the research questions and the defined tasks, we often need to decide whether to remove irrelevant characters.
+# - Common irrelevant (aka. non-informative) characters may include:
+#     - Punctuation marks and symbols
+#     - Digits
+#     - Any other non-alphanumeric characters 
 
-- Depending on the research questions and the defined tasks, we often need to decide whether to remove irrelevant characters.
-- Common irrelevant (aka. non-informative) characters may include:
-    - Punctuation marks and symbols
-    - Digits
-    - Any other non-alphanumeric characters 
+# In[24]:
+
 
 def remove_special_characters(text, remove_digits=False):
     pattern = r'[^a-zA-Z0-9\s]' if not remove_digits else r'[^a-zA-Z\s]'
@@ -282,20 +376,28 @@ s = "This is a simple case! Removing 1 or 2 symbols is probably ok...:)"
 print(remove_special_characters(s))
 print(remove_special_characters(s, True))
 
-:::{warning}
-In the following example, if we use the same `remove_special_characters()` to pre-process the text, what additional problems will we encounter?
 
-Any suggestions or better alternative methods?
-:::
+# :::{warning}
+# In the following example, if we use the same `remove_special_characters()` to pre-process the text, what additional problems will we encounter?
+# 
+# Any suggestions or better alternative methods?
+# :::
+
+# In[25]:
+
 
 s = "It's a complex sentences, and I'm not sure if it's ok to replace all symbols then :( What now!!??)"
 print(remove_special_characters(s))
 
-## Stopwords
 
-- At the word-token level, there are words that have little semantic information and are usually removed from text in text preprocessing. These words are often referred to as **stopwords**.
-- However, there is no universal stopword list. Whether a word is informative or not depends on your research/project objective. It is a linguistic decision.
-- The `nltk.corpus.stopwords.words()` provides a standard English language stopwords list.
+# ## Stopwords
+
+# - At the word-token level, there are words that have little semantic information and are usually removed from text in text preprocessing. These words are often referred to as **stopwords**.
+# - However, there is no universal stopword list. Whether a word is informative or not depends on your research/project objective. It is a linguistic decision.
+# - The `nltk.corpus.stopwords.words()` provides a standard English language stopwords list.
+
+# In[26]:
+
 
 import nltk
 from nltk.tokenize.toktok import ToktokTokenizer
@@ -314,40 +416,53 @@ def remove_stopwords(text, is_lower_case=False, stopwords=stopword_list):
 
 remove_stopwords("The, and, if are stopwords, computer is not")
 
-- We can check the languages of the stopwords lists provided by `nltk`.
+
+# - We can check the languages of the stopwords lists provided by `nltk`.
+
+# In[27]:
+
 
 nltk.corpus.stopwords.fileids()
 
-## Redundant Whitespaces
 
-- Very often we would see redundant duplicate whitespaces in texts. 
-- Sometimes, when we remove special characters (punctuations, digits etc.), we may replace those characters with whitespaces (not empty string), which may lead to duplicate whitespaces in texts.
+# ## Redundant Whitespaces
+
+# - Very often we would see redundant duplicate whitespaces in texts. 
+# - Sometimes, when we remove special characters (punctuations, digits etc.), we may replace those characters with whitespaces (not empty string), which may lead to duplicate whitespaces in texts.
+
+# In[28]:
+
 
 def remove_redundant_whitespaces(text):
     text = re.sub(r'\s+'," ", text)
     return text.strip()
 
+
+# In[29]:
+
+
 s = "We are humans  and we   often have typos.  "
 remove_redundant_whitespaces(s)
 
-## Packing things together
 
-- Ideally, we can wrap all the relevant steps of text preprocessing in one coherent procedure.
+# ## Packing things together
 
-- Please study Sarkar's `text_normalizer.py`
+# - Ideally, we can wrap all the relevant steps of text preprocessing in one coherent procedure.
+# 
+# - Please study Sarkar's `text_normalizer.py`
+# 
+# ```
+# def normalize_corpus(corpus, html_stripping=True, contraction_expansion=True,
+#                      accented_char_removal=True, text_lower_case=True, 
+#                      text_stemming=False, text_lemmatization=True, 
+#                      special_char_removal=True, remove_digits=True,
+#                      stopword_removal=True, stopwords=stopword_list):
+#                      
+#                      ## Your codes here
+#     return corpus_normalized
+# ```
+#     
 
-```
-def normalize_corpus(corpus, html_stripping=True, contraction_expansion=True,
-                     accented_char_removal=True, text_lower_case=True, 
-                     text_stemming=False, text_lemmatization=True, 
-                     special_char_removal=True, remove_digits=True,
-                     stopword_removal=True, stopwords=stopword_list):
-                     
-                     ## Your codes here
-    return corpus_normalized
-```
-    
+# ## References
 
-## References
-
-- Sarkar (2020), Chapter 3.
+# - Sarkar (2020), Chapter 3.
