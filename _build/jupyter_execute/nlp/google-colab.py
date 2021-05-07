@@ -1,110 +1,82 @@
-#!/usr/bin/env python
-# coding: utf-8
+# Google Colab
 
-# # Google Colab
+- As we are working with more and more data, we may need GPU computing for quicker processing.
+- This lecture note shows how we can capitalize on the free GPU computing provided by Google Colab and speed up the Chinese word segmentation of `ckip-transformers`.
 
-# - As we are working with more and more data, we may need GPU computing for quicker processing.
-# - This lecture note shows how we can capitalize on the free GPU computing provided by Google Colab and speed up the Chinese word segmentation of `ckip-transformers`.
+## Prepare Google Drive
 
-# ## Prepare Google Drive
+- Create a working directory under your Google Drive, named `ENC2045_DEMO_DATA`.
+- Save the corpus files needed in that Google Drive directory.
+- We can access the files on our Google Drive from Google Colab. This can be useful when you need to load your own data in Google Colab.
 
-# - Create a working directory under your Google Drive, named `ENC2045_DEMO_DATA`.
-# - Save the corpus files needed in that Google Drive directory.
-# - We can access the files on our Google Drive from Google Colab. This can be useful when you need to load your own data in Google Colab.
+:::{note}
 
-# :::{note}
-# 
-# You can of course name the directory in which ever ways you like. The key is that we need to put the data files on the Google Drive so that we can access these files through Google Colab.
-# 
-# :::
+You can of course name the directory in which ever ways you like. The key is that we need to put the data files on the Google Drive so that we can access these files through Google Colab.
 
-# ## Run Notebook in Google Colab
+:::
 
-# - Click on the button on top of the lecture notes website to open this notebook in Google Colab.
+## Run Notebook in Google Colab
 
-# ## Setting Google Colab Environment
+- Click on the button on top of the lecture notes website to open this notebook in Google Colab.
 
-# - Important Steps for Google Colab Environment Setting
-#     - Change the Runtime for GPU
-#     - Install Modules
-#     - Mount Google Drive
-#     - Set Working Directory
+## Setting Google Colab Environment
 
-# ## Change Runtime for GPU
+- Important Steps for Google Colab Environment Setting
+    - Change the Runtime for GPU
+    - Install Modules
+    - Mount Google Drive
+    - Set Working Directory
 
-# - [Runtime] -> [Change runtime type]
-# - For [Hardware accelerator], choose [GPU]
+## Change Runtime for GPU
 
-# In[1]:
+- [Runtime] -> [Change runtime type]
+- For [Hardware accelerator], choose [GPU]
 
+!nvidia-smi
 
-get_ipython().system('nvidia-smi')
+## Install Modules
 
+- Google Colab has been pre-instralled with several popular modules for machine learning and deep learning (e.g., `nltk`, `sklearn`, `tensorflow`, `pytorch`,`numpy`, `spacy`).
+- We can check the pre-installed modules here.
 
-# ## Install Modules
+!pip list
 
-# - Google Colab has been pre-instralled with several popular modules for machine learning and deep learning (e.g., `nltk`, `sklearn`, `tensorflow`, `pytorch`,`numpy`, `spacy`).
-# - We can check the pre-installed modules here.
-
-# In[2]:
-
-
-get_ipython().system('pip list')
-
-
-# - We only need to install modules that are not pre-installed in Google Colab (e.g., `ckip-transformers`).
-# - This installation has to be done every time we work with Google Colab. But don't worry. It's quick.
-# - This is how we install the package on Google Colab, exactly the same as we do in our terminal.
-
-# In[3]:
-
+- We only need to install modules that are not pre-installed in Google Colab (e.g., `ckip-transformers`).
+- This installation has to be done every time we work with Google Colab. But don't worry. It's quick.
+- This is how we install the package on Google Colab, exactly the same as we do in our terminal.
 
 ## Google Drive Setting
-get_ipython().system('pip install ckip-transformers')
+!pip install ckip-transformers
 
+## Mount Google Drive
+    
 
-# ## Mount Google Drive
-#     
-
-# - To mount our Google Drive to the current Google Colab server, we need the following codes.
-
-# In[4]:
-
+- To mount our Google Drive to the current Google Colab server, we need the following codes.
 
 from google.colab import drive
 drive.mount('/content/drive')
 
+- After we run the above codes, we need to click on the link presented, log in with our Google Account in the new window and get the authorization code.
+- Then copy the authorization code from the new window and paste it back to the text box in the notebook window.
 
-# - After we run the above codes, we need to click on the link presented, log in with our Google Account in the new window and get the authorization code.
-# - Then copy the authorization code from the new window and paste it back to the text box in the notebook window.
+## Set Working Directory
 
-# ## Set Working Directory
-
-# - Change Colab working directory to the `ENC2045_demo_data` of the Google Drive
-
-# In[5]:
-
+- Change Colab working directory to the `ENC2045_demo_data` of the Google Drive
 
 import os
 os.chdir('/content/drive/MyDrive/ENC2045_demo_data')
 print(os.getcwd())
 
 
-# ## Try `ckip-transformers` with GPU
+## Try `ckip-transformers` with GPU
 
-# ### Initialize the `ckip-transformers`
-
-# In[6]:
-
+### Initialize the `ckip-transformers`
 
 import ckip_transformers
 from ckip_transformers.nlp import CkipWordSegmenter, CkipPosTagger
 # Initialize drivers
 ws_driver = CkipWordSegmenter(level=3, device=0)
 pos_driver = CkipPosTagger(level=3, device=0)
-
-
-# In[7]:
 
 
 def my_tokenizer(doc):
@@ -114,11 +86,7 @@ def my_tokenizer(doc):
     doc_seg = [[(x,y) for (x,y) in zip(w,p)]  for (w,p) in zip(cur_ws, cur_pos)]
     return doc_seg
 
-
-# ### Tokenization Chinese Texts
-
-# In[8]:
-
+### Tokenization Chinese Texts
 
 import pandas as pd
 
@@ -127,15 +95,7 @@ df.head()
 corpus = df['content']
 corpus[:10]
 
-
-# In[9]:
-
-
-get_ipython().run_cell_magic('time', '', 'corpus_seg = my_tokenizer(corpus)')
-
-
-# In[10]:
-
+%%time
+corpus_seg = my_tokenizer(corpus)
 
 corpus_seg[0][:50]
-

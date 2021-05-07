@@ -1,9 +1,6 @@
-#!/usr/bin/env python
-# coding: utf-8
+# References
 
-# # References
-# 
-# ```{bibliography} book.bib
-# :style: plain
-# :filter: docname in docnames
-# ```
+```{bibliography} book.bib
+:style: plain
+:filter: docname in docnames
+```
