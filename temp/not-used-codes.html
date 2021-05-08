@@ -509,6 +509,13 @@
     <a class="reference internal nav-link" href="#evaluation-on-test-data">
      Evaluation on Test Data
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#model-7">
+       Model 7
+      </a>
+     </li>
+    </ul>
    </li>
   </ul>
  </li>
@@ -1398,6 +1405,135 @@
 <span class="n">test</span><span class="p">(</span><span class="n">full_model</span><span class="p">,</span> <span class="n">ts_enc_text</span> <span class="o">=</span> <span class="n">ts_enc_text</span><span class="p">,</span> <span class="n">ts_dec_text</span> <span class="o">=</span> <span class="n">ts_dec_text</span><span class="p">,</span> 
      <span class="n">enc_tokenizer</span> <span class="o">=</span> <span class="n">enc_tokenizer</span><span class="p">,</span> <span class="n">dec_tokenizer</span> <span class="o">=</span> <span class="n">dec_tokenizer</span><span class="p">,</span> <span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="model-7">
+<h3>Model 7<a class="headerlink" href="#model-7" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>All of the previous RNN-based models only utilize the output of the last time step from the RNN as the input of the subsequent layers.</p></li>
+<li><p>We can also make all the hidden outputs at all time steps from the RNN available to the subsequent layers.</p></li>
+<li><p>This is the idea of <strong>Attention</strong>.</p></li>
+<li><p>Here we add one <code class="docutils literal notranslate"><span class="pre">AttentionLayer</span></code>, which gives us a weighted version of all the hidden states from the RNN. These outputs from AttentionLayer indicate how relevant each hidden state is to computation of the subsequent layer.</p>
+<ul>
+<li><p>Use the hidden state h of the last time step and the cell state c of the last time step</p></li>
+<li><p>Check their attention</p></li>
+<li><p>And use [attention out + hidden state h of the last time step] for decision</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">EMBEDDING_DIM</span> <span class="o">=</span> <span class="mi">128</span>
+
+<span class="n">inputs</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">max_len</span><span class="p">,))</span>
+<span class="n">x</span><span class="o">=</span><span class="n">layers</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="n">EMBEDDING_DIM</span><span class="p">,</span> <span class="n">input_length</span><span class="o">=</span><span class="n">max_len</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="c1">#x=layers.SpatialDropout1D(0.2)(x)</span>
+<span class="n">x_all_hs</span><span class="p">,</span> <span class="n">x_last_h</span><span class="p">,</span> <span class="n">x_last_c</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> 
+                               <span class="n">recurrent_dropout</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> 
+                               <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_state</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="c1">## LSTM Parameters:</span>
+<span class="c1">#     `return_seqeunces=True`: return the hidden states for each time step</span>
+<span class="c1">#     `return_state=True`: return the cell state of the last time step</span>
+<span class="c1">#     When both are set True, the return values of LSTM are:</span>
+<span class="c1">#     (1) the hidden states of all time steps (when `return_sequences=True`) or the hidden state of the last time step</span>
+<span class="c1">#     (2) the hidden state of the last time step</span>
+<span class="c1">#     (3) the cell state of the last time step</span>
+
+
+
+<span class="n">atten_out</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Attention</span><span class="p">()([</span><span class="n">x_last_h</span><span class="p">,</span> <span class="n">x_last_c</span><span class="p">])</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Concatenate</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)([</span><span class="n">x_last_h</span><span class="p">,</span> <span class="n">atten_out</span><span class="p">])</span>
+<span class="n">outputs</span><span class="o">=</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;softmax&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">model7</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mnist_model&quot;</span><span class="p">)</span>
+
+<span class="n">plot_model</span><span class="p">(</span><span class="n">model7</span><span class="p">,</span> <span class="n">show_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/not-used-codes_64_0.png" src="../_images/not-used-codes_64_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model7</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+    <span class="n">loss</span><span class="o">=</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">SparseCategoricalCrossentropy</span><span class="p">(),</span>
+    <span class="n">optimizer</span><span class="o">=</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">),</span>
+    <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">history7</span> <span class="o">=</span> <span class="n">model7</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> 
+                    <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span> 
+                    <span class="n">epochs</span><span class="o">=</span><span class="n">EPOCHS</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                   <span class="n">validation_split</span> <span class="o">=</span> <span class="n">VALIDATION_SPLIT</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/25
+12/12 - 7s - loss: 0.6929 - accuracy: 0.5014 - val_loss: 0.6910 - val_accuracy: 0.5333
+Epoch 2/25
+12/12 - 4s - loss: 0.6765 - accuracy: 0.7354 - val_loss: 0.6849 - val_accuracy: 0.6028
+Epoch 3/25
+12/12 - 4s - loss: 0.6472 - accuracy: 0.8146 - val_loss: 0.6715 - val_accuracy: 0.6083
+Epoch 4/25
+12/12 - 4s - loss: 0.5726 - accuracy: 0.8674 - val_loss: 0.6309 - val_accuracy: 0.6583
+Epoch 5/25
+12/12 - 4s - loss: 0.4044 - accuracy: 0.8931 - val_loss: 0.5842 - val_accuracy: 0.7278
+Epoch 6/25
+12/12 - 4s - loss: 0.2294 - accuracy: 0.9201 - val_loss: 0.5840 - val_accuracy: 0.7111
+Epoch 7/25
+12/12 - 4s - loss: 0.1235 - accuracy: 0.9715 - val_loss: 0.6370 - val_accuracy: 0.7333
+Epoch 8/25
+12/12 - 4s - loss: 0.0688 - accuracy: 0.9812 - val_loss: 1.0467 - val_accuracy: 0.6750
+Epoch 9/25
+12/12 - 4s - loss: 0.0735 - accuracy: 0.9771 - val_loss: 0.6922 - val_accuracy: 0.7333
+Epoch 10/25
+12/12 - 4s - loss: 0.0415 - accuracy: 0.9889 - val_loss: 0.8119 - val_accuracy: 0.7250
+Epoch 11/25
+12/12 - 4s - loss: 0.0257 - accuracy: 0.9958 - val_loss: 0.9059 - val_accuracy: 0.7278
+Epoch 12/25
+12/12 - 4s - loss: 0.0124 - accuracy: 0.9979 - val_loss: 0.9853 - val_accuracy: 0.7111
+Epoch 13/25
+12/12 - 4s - loss: 0.0104 - accuracy: 0.9979 - val_loss: 1.0854 - val_accuracy: 0.7139
+Epoch 14/25
+12/12 - 4s - loss: 0.0048 - accuracy: 1.0000 - val_loss: 1.1790 - val_accuracy: 0.7056
+Epoch 15/25
+12/12 - 4s - loss: 0.0039 - accuracy: 1.0000 - val_loss: 1.1571 - val_accuracy: 0.7194
+Epoch 16/25
+12/12 - 4s - loss: 0.0027 - accuracy: 1.0000 - val_loss: 1.2239 - val_accuracy: 0.7194
+Epoch 17/25
+12/12 - 4s - loss: 0.0021 - accuracy: 1.0000 - val_loss: 1.3120 - val_accuracy: 0.7083
+Epoch 18/25
+12/12 - 4s - loss: 0.0040 - accuracy: 0.9993 - val_loss: 1.2168 - val_accuracy: 0.7278
+Epoch 19/25
+12/12 - 4s - loss: 0.0058 - accuracy: 0.9993 - val_loss: 1.1890 - val_accuracy: 0.7194
+Epoch 20/25
+12/12 - 4s - loss: 0.0028 - accuracy: 0.9993 - val_loss: 1.3320 - val_accuracy: 0.7167
+Epoch 21/25
+12/12 - 4s - loss: 0.0037 - accuracy: 0.9986 - val_loss: 1.2355 - val_accuracy: 0.7111
+Epoch 22/25
+12/12 - 4s - loss: 0.0021 - accuracy: 1.0000 - val_loss: 1.2154 - val_accuracy: 0.7222
+Epoch 23/25
+12/12 - 4s - loss: 0.0021 - accuracy: 1.0000 - val_loss: 1.2940 - val_accuracy: 0.7167
+Epoch 24/25
+12/12 - 4s - loss: 0.0011 - accuracy: 1.0000 - val_loss: 1.3835 - val_accuracy: 0.7139
+Epoch 25/25
+12/12 - 4s - loss: 0.0096 - accuracy: 0.9972 - val_loss: 1.3439 - val_accuracy: 0.7167
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">history6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/not-used-codes_66_0.png" src="../_images/not-used-codes_66_0.png" />
+<img alt="../_images/not-used-codes_66_1.png" src="../_images/not-used-codes_66_1.png" />
 </div>
 </div>
 </div>
