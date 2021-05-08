@@ -28,6 +28,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
 
+matplotlib.rcParams['figure.dpi'] = 150
+    
 from lime.lime_text import LimeTextExplainer
 
 import tensorflow as tf
@@ -68,8 +70,8 @@ print(len(train_set), len(test_set))
 # In[4]:
 
 
-names = [n for (n, l) in train_set]
-labels = [l for (n, l) in train_set]
+names = [n for (n, l) in train_set] ## X
+labels = [l for (n, l) in train_set] ## y
 
 
 # In[5]:
@@ -80,12 +82,21 @@ len(names)
 
 # ## Tokenizer
 
-# - By default, the token index 0 is reserved for padding token.
-# - If `oov_token` is specified, it is default to index 1.
-# - Specify `num_words` for tokenizer to include only top N words in the model
-# - Tokenizer will automatically remove puntuations.
-# - Tokenizer use whitespace as word delimiter.
-# - If every character is treated as a token, specify `char_level=True`.
+# - `keras.preprocessing.text.Tokenizer` is a very useful tokenizer for text processing in deep learning.
+# - `Tokenizer` assumes that the **word tokens** of the input texts have been delimited by whitespaces.
+# - `Tokenizer` provides the following functions:
+#     - It will first create a dictionary for the entire corpus (a mapping of each word token and its unique integer index index) (`Tokenizer.fit_on_text()`)
+#     - It can then use the corpus dictionary to convert **words** in each corpus text into **integer sequences** (`Tokenizer.texts_to_sequences()`)
+#     - The dictionary is in `Tokenizer.word_index`
+
+# - Notes on `Tokenizer`:
+#     - By default, the token index 0 is reserved for **padding token**.
+#     - If `oov_token` is specified, it is default to index 1. (Default: `oov_token=False`)
+#     - Specify `num_words=N` for `Tokenizer` to include only top N words in converting texts to sequences.
+#     - `Tokenizer` will automatically remove punctuations.
+#     - `Tokenizer` use the **whitespace** as word-token delimiter.
+#     - If every character is treated as a token, specify `char_level=True`.
+#     - Please read `Tokenizer` documentation very carefully. Very important!!
 
 # In[6]:
 
@@ -94,43 +105,11 @@ tokenizer = Tokenizer(char_level=True)
 tokenizer.fit_on_texts(names) ## similar to CountVectorizer.fit_transform()
 
 
-# ## Prepare Input and Output Tensors
-
-# - Like in feature-based machine translation, a computational model only accepts numeric values. It is necessary to convert raw text to numeric tensor for neural network.
-# - After we create the Tokenizer, we use the Tokenizer to perform text vectorization, i.e., converting texts into tensors.
-# - In deep learning, words or characters are automatically converted into numeric representations.
-# - In other words, the feature engineering step is fully automatic.
-
-# ### Two Ways of Text Vectorization
+# ### Vocabulary
 # 
-# - Texts to Sequences: **Integer encoding** of tokens in texts and learn token **embeddings**
-# - Texts to Matrix: **One-hot encoding** of texts (similar to bag-of-words model)
-# 
-
-# ## Method 1: Text to Sequences
-
-# ### From Texts and Sequences
-# 
-# - Text to Sequences
-# - Padding to uniform lengths for each text
+# After we `Tokenizer.fit_on_texts()`, we can take a look at the corpus dictionary, i.e., the mapping of words and their unique integer indices.
 
 # In[7]:
-
-
-names_ints = tokenizer.texts_to_sequences(names)
-
-
-# In[8]:
-
-
-print(names[:10])
-print(names_ints[:10])
-print(labels[:10])
-
-
-# ### Vocabulary
-
-# In[9]:
 
 
 # determine the vocabulary size
@@ -138,19 +117,62 @@ vocab_size = len(tokenizer.word_index) + 1
 print('Vocabulary Size: %d' % vocab_size)
 
 
-# In[10]:
+# In[8]:
 
 
 tokenizer.word_index
 
 
+# ## Prepare Input and Output Tensors
+
+# - Like in feature-based machine translation, a computational model only accepts numeric values. It is necessary to convert raw texts to numeric tensors for neural network.
+# - After we create the `Tokenizer`, we use the `Tokenizer` to perform text vectorization, i.e., converting texts into tensors.
+# - In deep learning, words or characters are automatically converted into numeric representations. In other words, the feature engineering step is fully automatic.
+
+# ### Two Ways of Text Vectorization
+# 
+# - Texts to Sequences:
+#     - For each text, we convert all word tokens into **integer sequences**.
+#     - These integer sequences will then be transformed into **embeddings** in the deep learning network.
+#     - These embeddings are usually the basis for deep learning sequence models (i.e., RNN).
+# - Texts to Matrix: 
+#     - For each text, we vectorize the entire text into a vector of bag-of-words representation.
+#     - A **One-hot encoding** of the entire text would have all values of the text vector to be either 0 or 1, indicating the occurrence of all the words in the dictionary.
+#     - We can of course use the frequency-based bag-of-words representation (similar to `CountVectorizer()`).
+# 
+
+# ## Method 1: Text to Sequences
+
+# ### From Texts and Sequences
+# 
+# - We can convert our corpus texts into integer sequences using `Tokenizer.texts_to_sequences()`.
+# - Because texts vary in lengths, we use `keras.preprocessing.sequence.pad_sequence()` to pad all texts into a uniform length.
+# - This step is important. This ensures that every text, when pushed into the network, has exactly the same **tensor shape**.
+
+# In[9]:
+
+
+names_ints = tokenizer.texts_to_sequences(names)
+
+
+# In[10]:
+
+
+print(names[:5])
+print(names_ints[:5])
+print(labels[:5])
+
+
 # ### Padding
 # 
 # - When padding the all texts into uniform lengths, consider whether to Pre-padding or removing values from the beginning of the sequence (i.e., `pre`) or the other way (`post`).
-# -  Check `padding` and `truncating` parameters in `pad_sequences`
+# - Check `padding` and `truncating` parameters in `pad_sequences`
+# - In this tutorial, we first identify the longest name, and use its length as the `max_len` and pad all names into the `max_len`.
 
 # In[11]:
 
+
+## We can check the length distribution of texts in corpus
 
 names_lens = [len(n) for n in names_ints]
 names_lens
@@ -174,20 +196,25 @@ names_ints_pad[:10]
 
 
 # ### Define X and Y
+# 
+# - So for names, we convert names into integer sequences, and pad them into the uniform length.
+# - We perform exactly the same processing to the names in test data.
+# - We convert both the names (X) and labels (y) into `numpy.array`.
 
 # In[14]:
 
 
+## training data
 X_train = np.array(names_ints_pad).astype('int32')
 y_train = np.array(labels)
 
+
+## testing data
+X_test_texts = [n for (n, l) in test_set]
 X_test = np.array(
-    sequence.pad_sequences(tokenizer.texts_to_sequences(
-        [n for (n, l) in test_set]),
+    sequence.pad_sequences(tokenizer.texts_to_sequences(X_test_texts),
                            maxlen=max_len)).astype('int32')
 y_test = np.array([l for (n, l) in test_set])
-
-X_test_texts = [n for (n, l) in test_set]
 
 
 # In[15]:
@@ -201,31 +228,30 @@ print(y_test.shape)
 
 # ## Method 2: Text to Matrix
 
-# ### One-Hot Encoding
+# ### One-Hot Encoding (Bag-of-Words)
 
-# - Text to Matrix (to create bag-of-word representation of each text)
-# - Choose modes: binary, count, or tfidf
+# - We can convert each text to a bag-of-words vector using `Tokenzier.texts_to_matrix()`.
+# - In particular, we can specify the parameter `mode`: `binary`, `count`, or `tfidf`.
+# - When the `mode="binary"`, the text vector is a one-hot encoding vector, indicating whether a character occurs in the text or not.
 
 # In[16]:
 
 
 names_matrix = tokenizer.texts_to_matrix(names, mode="binary")
+print(names_matrix.shape)
 
 
 # In[17]:
 
 
-names[2]
+print(names[2])
+print(names_matrix[2,:])
 
-
-# - `names_matrix` in fact is a bag-of-characters representation of a name text.
 
 # In[18]:
 
 
-pd.DataFrame(names_matrix[2, 1:],
-             columns=["ONE-HOT"],
-             index=list(tokenizer.word_index.keys()))
+tokenizer.word_index
 
 
 # ### Define X and Y
@@ -236,11 +262,9 @@ pd.DataFrame(names_matrix[2, 1:],
 X_train2 = np.array(names_matrix).astype('int32')
 y_train2 = np.array(labels)
 
-X_test2 = tokenizer.texts_to_matrix([n for (n, l) in test_set],
+X_test2 = tokenizer.texts_to_matrix(X_test_texts,
                                     mode="binary").astype('int32')
 y_test2 = np.array([l for (n, l) in test_set])
-
-X_test2_texts = [n for (n, l) in test_set]
 
 
 # In[20]:
@@ -260,7 +284,7 @@ print(y_test2.shape)
 #     - **Fit** the model
 
 # - After we have defined our input and output tensors (X and y), we can define the architecture of our neural network model.
-# - For the two ways of name vectorized representations, we try two different network structures.
+# - For the two ways of name vectorized representations, we try two different types of networks.
 #     - Text to Matrix: Fully connected Dense Layers
 #     - Text to Sequences: Embedding + RNN
 # 
@@ -268,10 +292,8 @@ print(y_test2.shape)
 # In[21]:
 
 
-# Plotting results
+# Two Versions of Plotting Functions for `history` from `model.fit()`
 def plot1(history):
-
-    matplotlib.rcParams['figure.dpi'] = 100
     acc = history.history['accuracy']
     val_acc = history.history['val_accuracy']
     loss = history.history['loss']
@@ -317,7 +339,6 @@ def plot2(history):
 
 
 ## Define Model
-
 model1 = keras.Sequential()
 model1.add(keras.Input(shape=(vocab_size, ), name="one_hot_input"))
 model1.add(layers.Dense(16, activation="relu", name="dense_layer_1"))
@@ -384,30 +405,9 @@ model1.evaluate(X_test2, y_test2, batch_size=128, verbose=2)
 # - Another possibility is to introduce an embedding layer in the network, which transforms each **character** in the name into a tensor (i.e., embeddings), and then to add a Recurrent Neural Network layer to process each character sequentially.
 # - The strength of the RNN is that it iterates over the **timesteps** of a sequence, while maintaining an internal state that encodes information about the **timesteps** it has seen so far.
 # - It is posited that after the RNN iterates through the entire sequence, it keeps important information of all previously iterated tokens for further operation.
-
 # - The input of this network is a padded sequence of the original text (name).
 
 # ![](../images/name-gender-classifier-dl/name-gender-classifier-dl.004.jpeg)
-
-# #### Embedding Layer Operation
-# 
-# ![](../images/name-gender-classifier-dl/name-gender-classifier-dl.005.jpeg)
-
-# #### RNN Layer Operation
-# 
-# ![](../images/name-gender-classifier-dl/name-gender-classifier-dl.006.jpeg)
-
-# #### RNN Layer Operation
-# 
-# ![](../images/name-gender-classifier-dl/name-gender-classifier-dl.007.jpeg)
-
-# #### Unrolled Version of RNN Operation
-# 
-# ![](../images/name-gender-classifier-dl/name-gender-classifier-dl.008.jpeg)
-
-# #### Unrolled Version of RNN Operation
-# 
-# ![](../images/name-gender-classifier-dl/name-gender-classifier-dl.009.jpeg)
 
 # In[29]:
 
@@ -430,6 +430,26 @@ model2.compile(loss=keras.losses.BinaryCrossentropy(),
                optimizer=keras.optimizers.Adam(lr=0.001),
                metrics=["accuracy"])
 
+
+# #### Embedding Layer Operation
+# 
+# ![](../images/name-gender-classifier-dl/name-gender-classifier-dl.005.jpeg)
+
+# #### RNN Layer Operation
+# 
+# ![](../images/name-gender-classifier-dl/name-gender-classifier-dl.006.jpeg)
+
+# #### RNN Layer Operation
+# 
+# ![](../images/name-gender-classifier-dl/name-gender-classifier-dl.007.jpeg)
+
+# #### Unrolled Version of RNN Operation
+# 
+# ![](../images/name-gender-classifier-dl/name-gender-classifier-dl.008.jpeg)
+
+# #### Unrolled Version of RNN Operation
+# 
+# ![](../images/name-gender-classifier-dl/name-gender-classifier-dl.009.jpeg)
 
 # In[30]:
 
@@ -462,7 +482,7 @@ model2.evaluate(X_test, y_test, batch_size=128, verbose=2)
 
 # ### Model 3: Regularization and Dropout
 
-# - Based on the validation results of the previous two models, we can see that they are probably a bit overfit because the model performance on the validation set starts to stall after the first few epochs.
+# - Based on the validation results of the previous two models (esp. the RNN-based model), we can see that they are probably a bit overfit because the model performance on the validation set starts to stall after the first few epochs.
 # - We can add **regularization** and **dropouts** in our network definition to avoid overfitting.
 
 # In[34]:
@@ -482,8 +502,8 @@ model3.add(
     layers.SimpleRNN(16,
                      activation="relu",
                      name="RNN_layer",
-                     dropout=0.2,
-                     recurrent_dropout=0.2))  ## add dropout
+                     dropout=0.2, ## dropout for input character
+                     recurrent_dropout=0.2))  ## dropout for previous state
 model3.add(layers.Dense(16, activation="relu", name="dense_layer"))
 model3.add(layers.Dense(1, activation="sigmoid", name="output"))
 
@@ -553,15 +573,15 @@ model4.add(
                      activation="relu",
                      name="RNN_layer_1",
                      dropout=0.2,
-                     recurrent_dropout=0.5,
-                     return_sequences=True)
+                     recurrent_dropout=0.2,
+                     return_sequences=True) 
 )  ## To ensure the hidden states of all timesteps are pased down to next layer
 model4.add(
     layers.SimpleRNN(16,
                      activation="relu",
                      name="RNN_layer_2",
                      dropout=0.2,
-                     recurrent_dropout=0.5))
+                     recurrent_dropout=0.2))
 model4.add(layers.Dense(1, activation="sigmoid", name="output"))
 
 ## Compile model
@@ -573,7 +593,7 @@ model4.compile(loss=keras.losses.BinaryCrossentropy(),
 # In[40]:
 
 
-plot_model(model4)
+plot_model(model4, show_shapes=True)
 
 
 # In[41]:
@@ -645,7 +665,7 @@ model5.compile(loss=keras.losses.BinaryCrossentropy(),
 # In[45]:
 
 
-plot_model(model5)
+plot_model(model5, show_shapes=True)
 
 
 # In[46]:
@@ -680,12 +700,14 @@ model5.evaluate(X_test, y_test, batch_size=128, verbose=2)
 
 
 ## A name in sequence from test set
-X_test[10]
+print(X_test_texts[10])
+print(X_test[10])
 
 
 # In[50]:
 
 
+## Extract Corpus Dictionary (mapping of chars and integer indices)
 ind2char = tokenizer.index_word
 [ind2char.get(i) for i in X_test[10] if ind2char.get(i) != None]
 
@@ -693,17 +715,13 @@ ind2char = tokenizer.index_word
 # In[51]:
 
 
-tokenizer.texts_to_sequences('Alvin')
+## Extract the embedding layer (its weights matrix)
+char_vectors = model5.layers[0].get_weights()[0]
+print(char_vectors.shape) ## embedding shape (vocab_size, embed_dim)
+print(char_vectors[1,:]) ## first char embeddings
 
 
 # In[52]:
-
-
-char_vectors = model5.layers[0].get_weights()[0]
-char_vectors.shape
-
-
-# In[53]:
 
 
 labels = [char for (ind, char) in tokenizer.index_word.items()]
@@ -711,11 +729,14 @@ labels.insert(0, None)
 labels
 
 
-# In[54]:
+# In[53]:
 
+
+## Visulizing char embeddings via dimensional reduction techniques
 
 tsne = TSNE(n_components=2, random_state=0, n_iter=5000, perplexity=3)
 np.set_printoptions(suppress=True)
+
 T = tsne.fit_transform(char_vectors)
 labels = labels
 
@@ -732,7 +753,11 @@ for label, x, y in zip(labels, T[:, 0], T[:, 1]):
 
 # - One-hot encoding does not indicate semantic relationships between characters.
 # - For deep learning NLP, it is preferred to convert one-hot encodings of words/characters into **embeddings**, which are argued to include more semantic information of the tokens.
-# - Now the question is how to train and create better word embeddings. We will come back to this issue later.
+# - Now the question is how to train and create better word embeddings. 
+# - There are at least two alternatives:
+#     - We can train the embeddings along with our current NLP task.
+#     - We can use pre-trained embeddings from other unsupervised learning (transfer learning).
+# - We will come back to this issue later.
 
 # ## Hyperparameter Tuning
 
@@ -752,11 +777,11 @@ for label, x, y in zip(labels, T[:, 0], T[:, 1]):
 # 
 # :::
 
-# - Like feature-based ML methods, neural networks also come with many hyperparameters, which require default values.
+# - Like feature-based ML methods, neural networks also come with many **hyperparameters**, which require default values.
 # - Typical hyperparameters include:
 #     - Number of nodes for the layer
 #     - Learning Rates
-# - We can utilize the module, [`keras-tuner`](https://keras-team.github.io/keras-tuner/documentation/tuners/), to fine-tune the hyperparameters (i.e., to find the values that optimize the model performance).
+# - We can utilize the module, [`keras-tuner`](https://keras-team.github.io/keras-tuner/documentation/tuners/), to fine-tune these hyperparameters (i.e., to find the values that optimize the model performance).
 
 # - Steps for Keras Tuner
 #     - First, wrap the model definition in a function, which takes a single `hp` argument. 
@@ -766,7 +791,7 @@ for label, x, y in zip(labels, T[:, 0], T[:, 1]):
 #     - When the search is over, we can retrieve the best model and a summary of the results from the `tunner`.
 # 
 
-# In[55]:
+# In[54]:
 
 
 ## confirm if the right kernel is being used
@@ -774,7 +799,7 @@ for label, x, y in zip(labels, T[:, 0], T[:, 1]):
 # sys.executable
 
 
-# In[56]:
+# In[55]:
 
 
 ## Wrap model definition in a function
@@ -794,8 +819,10 @@ for label, x, y in zip(labels, T[:, 0], T[:, 1]):
 #     return model1
 
 
-# In[57]:
+# In[56]:
 
+
+## wrap model definition and compiling
 
 def build_model(hp):
     m = Sequential()
@@ -825,7 +852,7 @@ def build_model(hp):
     return m
 
 
-# In[58]:
+# In[57]:
 
 
 ## This is to clean up the temp dir from the tuner
@@ -838,7 +865,7 @@ if os.path.isdir('my_dir'):
 # - The `max_trials` variable represents the maximum number of trials that a hyperparameter combination would run.
 # - The `execution_per_trial` variable is the number of models that should be built and fit for each trial for robustness purposes.
 
-# In[59]:
+# In[58]:
 
 
 ## Instantiate the tunner
@@ -850,33 +877,33 @@ tuner = kerastuner.tuners.RandomSearch(build_model,
                                        directory='my_dir')
 
 
-# In[60]:
+# In[59]:
 
 
 ## Check the tuner's search space
 tuner.search_space_summary()
 
 
-# In[61]:
+# In[60]:
 
 
 get_ipython().run_cell_magic('time', '', '## Start tuning with the tuner\ntuner.search(X_train, y_train, validation_split=0.2, batch_size=128)')
 
 
-# In[62]:
+# In[61]:
 
 
 ## Retrieve the best models from the tuner
 models = tuner.get_best_models(num_models=2)
 
 
-# In[63]:
+# In[62]:
 
 
 plot_model(models[0], show_shapes=True)
 
 
-# In[64]:
+# In[63]:
 
 
 ## Retrieve the summary of results from the tuner
@@ -887,11 +914,11 @@ tuner.results_summary()
 
 # ### Train Model with the Tuned Hyperparameters
 
-# In[65]:
+# In[64]:
 
 
 EMBEDDING_DIM = 128
-HIDDEN_STATE= 128
+HIDDEN_STATE= 48
 model6 = Sequential()
 model6.add(
     layers.Embedding(input_dim=vocab_size,
@@ -913,7 +940,7 @@ model6.compile(loss=keras.losses.BinaryCrossentropy(),
 plot_model(model6)
 
 
-# In[66]:
+# In[65]:
 
 
 history6 = model6.fit(X_train,
@@ -924,19 +951,19 @@ history6 = model6.fit(X_train,
                       validation_split=VALIDATION_SPLIT)
 
 
-# In[67]:
+# In[66]:
 
 
 plot2(history6)
 
 
-# In[68]:
+# In[67]:
 
 
 explainer = LimeTextExplainer(class_names=['male'], char_level=True)
 
 
-# In[69]:
+# In[68]:
 
 
 def model_predict_pipeline(text):
@@ -946,44 +973,15 @@ def model_predict_pipeline(text):
     return model6.predict(np.array(_seq_pad))
 
 
-# In[70]:
+# In[69]:
 
 
-reversed_word_index = dict([(index, word)
-                            for (word, index) in tokenizer.word_index.items()])
-
-
-# In[71]:
-
-
-text_id = 305
-
-
-# In[72]:
-
-
-X_test[text_id]
-
-
-# In[73]:
-
-
-X_test_texts[text_id]
-
-
-# In[74]:
-
-
-' '.join([reversed_word_index.get(i, '?') for i in X_test[text_id]])
-
-
-# In[75]:
-
-
+text_id = 12
+print(X_test_texts[text_id])
 model_predict_pipeline([X_test_texts[text_id]])
 
 
-# In[76]:
+# In[70]:
 
 
 exp = explainer.explain_instance(X_test_texts[text_id],
@@ -992,19 +990,19 @@ exp = explainer.explain_instance(X_test_texts[text_id],
                                  top_labels=1)
 
 
-# In[77]:
+# In[71]:
 
 
 exp.show_in_notebook(text=True)
 
 
-# In[78]:
+# In[72]:
 
 
 y_test[text_id]
 
 
-# In[79]:
+# In[73]:
 
 
 exp = explainer.explain_instance('Tim',
@@ -1014,7 +1012,7 @@ exp = explainer.explain_instance('Tim',
 exp.show_in_notebook(text=True)
 
 
-# In[80]:
+# In[74]:
 
 
 exp = explainer.explain_instance('Michaelis',
@@ -1024,7 +1022,7 @@ exp = explainer.explain_instance('Michaelis',
 exp.show_in_notebook(text=True)
 
 
-# In[81]:
+# In[75]:
 
 
 exp = explainer.explain_instance('Sidney',
@@ -1034,7 +1032,7 @@ exp = explainer.explain_instance('Sidney',
 exp.show_in_notebook(text=True)
 
 
-# In[82]:
+# In[76]:
 
 
 exp = explainer.explain_instance('Timber',
@@ -1044,7 +1042,7 @@ exp = explainer.explain_instance('Timber',
 exp.show_in_notebook(text=True)
 
 
-# In[83]:
+# In[77]:
 
 
 exp = explainer.explain_instance('Alvin',

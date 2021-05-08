@@ -455,15 +455,29 @@ model.summary()
 keras.utils.plot_model(model, show_shapes=True)
 
 
-# In[23]:
+# In[55]:
 
 
-## Plot history from model.fit()
+## Plot accuracy changes from model.fit()
 from matplotlib import pyplot as plt
 plt.plot(history.history['accuracy'])
 plt.plot(history.history['val_accuracy'])
-plt.title('model accuracy')
+plt.title('Model Accuracy')
 plt.ylabel('accuracy')
+plt.xlabel('epoch')
+plt.legend(['train', 'val'], loc='upper left')
+plt.show()
+
+
+# In[56]:
+
+
+## Plot loss changes from model.fit()
+from matplotlib import pyplot as plt
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('Model Loss')
+plt.ylabel('loss')
 plt.xlabel('epoch')
 plt.legend(['train', 'val'], loc='upper left')
 plt.show()
@@ -471,14 +485,14 @@ plt.show()
 
 # ### Evaluation and Prediction
 
-# In[52]:
+# In[24]:
 
 
 ## Evaludate
 model.evaluate(x_test, y_test)
 
 
-# In[53]:
+# In[25]:
 
 
 ## Predict
