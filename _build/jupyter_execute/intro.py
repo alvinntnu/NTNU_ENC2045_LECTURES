@@ -353,10 +353,8 @@
 # :caption: Neural Language Model and Embeddings
 # 
 # nlp/dl-sequence-models-intuition
+# nlp/dl-neural-language-model-primer
 # temp/text-vec-embedding
-# temp/text-vec-embedding-keras
-# temp/dl-statistical-language-model
-# temp/dl-neural-language-model-primer
 # ```
 # 
 # 
@@ -386,5 +384,8 @@
 # exercise/midterm-exam
 # exercise/7-topic-modeling
 # exercise/8-dl-chinese-name-gender
+# exercise/9-sentiment-analysis-dl
+# exercise/10-neural-language-model
+# exercise/11-word2vec
 # ```
 # 

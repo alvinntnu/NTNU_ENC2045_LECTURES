@@ -426,7 +426,7 @@ model.compile(loss='binary_crossentropy',
 
 
 # - **epochs**: the number of times that the entire training set is passed forward and backward through the neural network.
-# - **batch_size**: the number of samples that are used for parameter updates each time
+# - **batch_size**: the number of samples that are used for parameter updates each time (i.e., passed through the network forward and backward)
 
 # If we specify `batch_size = 10` and `epochs=50`, the model will try to train the model parameters (i.e., all the weights in the layers) by running through the entire training set **50** times (epochs, or iterations).
 # 
@@ -734,6 +734,12 @@ def cross_entropy_error(y, t):
 # - **Stochastic** Gradient Descent (SGD): Update the model weights after every instance of the training set (online).
 # - **Mini-batch** Gradient Descent: Update the model weights after a subset of the training set. (Recommended!)
 
+# ![](../images/dl-gradient-stochastic.gif)
+
+# ![](../images/dl-gradient-mini.gif)
+
+# ![](../images/dl-gradient-batch.gif)
+
 # ### Gradients in Python (skipped)
 
 # In the following graph, each vector represents the gradient at a specific $(x_0, x_1)$, i.e., when $x_0 = p_0$ and $x_1 = p_1$:
@@ -853,6 +859,20 @@ if __name__ == '__main__':
 # - Applying dropout before a recurrent layer hinders learning rather than helping with regularization.
 # - The same dropout mask (the same pattern of dropped units) should be applied at every time step, instead of a dropout mask that varies randomly from timestep to timestep. (Yarin Gal)
 # - In order to regularize the representations formed by the recurrent gates of layers (e.g., LSTM and GRU), a temporally constant dropout mask should be applied to the inner activations of the layer (a recurrent dropout mask). (Yarin Gal)
+
+# ### Normalization
+# 
+# - **Normalization** is to make sure that sets of numeric values are of a uniform scale (e.g., 0 to 1).
+# - If the dataset contains numeric data varying in a huge range, it will skew the learning process, resulting in a bad model.
+# - To properly add normalization layers can help speed up the model convergence for more effective training.
+
+# ### Batch Normalization and Layer Normalization
+# 
+# - In Batch Normalization, input values of the same neuron for all the samples in the mini-batch are normalized.
+# - In Layer Normalization, input values for all neurons in the same layer are normalized for each data sample.
+# - Heuristics
+#     - Batch Normalization depends on mini-batch size while Layer Normalization doesn't.
+#     - Batch Normalization works better with CNN while Layer Normalization works better with RNN.
 
 # ## Some Math (Skipped)
 

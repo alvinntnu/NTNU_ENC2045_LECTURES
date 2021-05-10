@@ -627,7 +627,7 @@ model6.evaluate(X_test, y_test, batch_size=128, verbose=2)
 
 # ![](../images/movie-review-classifier-dl/movie-review-classifier-dl.016.jpeg)
 
-# In[53]:
+# In[55]:
 
 
 EMBEDDING_DIM = 128
@@ -659,7 +659,7 @@ model7 = keras.Model(inputs=inputs, outputs=outputs)
 plot_model(model7, show_shapes=True)
 
 
-# In[54]:
+# In[56]:
 
 
 model7.compile(
@@ -673,13 +673,13 @@ history7 = model7.fit(X_train, y_train,
                    validation_split = VALIDATION_SPLIT)
 
 
-# In[55]:
+# In[57]:
 
 
 plot(history7)
 
 
-# In[56]:
+# In[58]:
 
 
 model7.evaluate(X_test, y_test, batch_size=BATCH_SIZE, verbose=2)
@@ -687,7 +687,7 @@ model7.evaluate(X_test, y_test, batch_size=BATCH_SIZE, verbose=2)
 
 # ## Explanation
 
-# In[57]:
+# In[60]:
 
 
 from lime.lime_text import LimeTextExplainer
@@ -695,7 +695,7 @@ from lime.lime_text import LimeTextExplainer
 explainer = LimeTextExplainer(class_names=['negative','positive'], char_level=False)
 
 
-# In[58]:
+# In[61]:
 
 
 ## Select the best model so far
@@ -708,14 +708,14 @@ def model_predict_pipeline(text):
     return np.array([[float(1-x), float(x)] for x in best_model.predict(np.array(_seq_pad))])
 
 
-# In[59]:
+# In[62]:
 
 
 text_id = 3
 model_predict_pipeline([X_test_texts[text_id]])
 
 
-# In[60]:
+# In[63]:
 
 
 text_id=3
@@ -724,7 +724,7 @@ X_test_texts[text_id], model_predict_pipeline, num_features=20, top_labels=1)
 exp.show_in_notebook(text=True)
 
 
-# In[61]:
+# In[64]:
 
 
 exp.show_in_notebook(text=True)
@@ -734,14 +734,14 @@ exp.show_in_notebook(text=True)
 
 # - Let's check the word embeddings learned along with the Sentiment Classifier.
 
-# In[62]:
+# In[65]:
 
 
 word_vectors = best_model.layers[0].get_weights()[0]
 word_vectors.shape
 
 
-# In[63]:
+# In[66]:
 
 
 token_labels = [word for (ind, word) in tokenizer.index_word.items() if ind < word_vectors.shape[0]]
@@ -749,7 +749,7 @@ token_labels.insert(0,"PAD")
 token_labels[:10]
 
 
-# In[64]:
+# In[67]:
 
 
 len(token_labels)
@@ -757,27 +757,27 @@ len(token_labels)
 
 # - Check embeddings of words that are not on the stopword list and whose word length >= 5 (characters)
 
-# In[65]:
+# In[68]:
 
 
 from sklearn.manifold import TSNE
 stopword_list = nltk.corpus.stopwords.words('english')
 
 
-# In[66]:
+# In[69]:
 
 
 out_index = [i for i, w in enumerate(token_labels) if len(w)>=5 and w not in stopword_list]
 len(out_index)
 
 
-# In[67]:
+# In[70]:
 
 
 out_index[:10]
 
 
-# In[68]:
+# In[71]:
 
 
 tsne = TSNE(n_components=2, random_state=0, n_iter=5000, perplexity=50)

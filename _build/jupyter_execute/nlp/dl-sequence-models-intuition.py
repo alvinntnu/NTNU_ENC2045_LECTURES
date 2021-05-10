@@ -127,7 +127,7 @@ cross_entropy(np.array(y), np.array(t))
 # - We can also compute the average cross-entropy error for samples of a batch size.
 # - We can also compute the average cross-entropy error for the entire training set.
 
-# ## Back Propogation
+# ## Back Propogation (skipped)
 
 # - With the defined **loss function**, we can learn how good our current model is in the training process (i.e., the distance between the true target and the predicted label).
 # - In deep learning, we can use **back propogation** to find out:
@@ -136,8 +136,8 @@ cross_entropy(np.array(y), np.array(t))
 #     - And therefore, we can **adjust** the parameters of the RNN LM accordingly.
 #     - The algorithm often used is called **gradient descent**
 
-# ## Types of Gradient Descent
-# 
+# ## Types of Gradient Descent (skipped)
+
 # As we can compute the cross entropy in different ways, we can perform the gradient descent in different ways as well.
 # 
 # - **Batch Gradient Descent**: Update the model weights after we get the average cross entropy of all the sequences in the entire training set (as one epoch).
@@ -145,8 +145,6 @@ cross_entropy(np.array(y), np.array(t))
 # - **Stochastic Gradient Descent**(SGD): Update the model weights after we get the cross entropy of every sequence of the training set (across all time steps of course) (online).
 # 
 # - **Mini-batch Gradient Descent**: Update the model weights after we get the average cross entropy of a subset of the sequences in the training set. (Recommended!)
-# 
-# 
 
 # ## From Vanilla RNN to LSTM and GRU
 

@@ -232,23 +232,13 @@
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="dl-neural-language-model-primer.html">
+   2. Neural Language Model: A Start
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="../temp/text-vec-embedding.html">
-   2. Word Embeddings
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../temp/text-vec-embedding-keras.html">
-   3. Word Embedding Using Keras
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../temp/dl-statistical-language-model.html">
-   4. Statistical Language Model
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../temp/dl-neural-language-model-primer.html">
-   5. Neural Language Model: A Start
+   3. Word Embeddings
   </a>
  </li>
 </ul>
@@ -328,6 +318,21 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../exercise/8-dl-chinese-name-gender.html">
    Assignment VIII: Deep Learning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/9-sentiment-analysis-dl.html">
+   Assignment IX: Sentiment Analysis Using Deep Learning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/10-neural-language-model.html">
+   Assignment X: Neural Language Model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/11-word2vec.html">
+   Assignment XI: Word Embeddings
   </a>
  </li>
 </ul>
@@ -684,6 +689,16 @@
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#heuristics-for-regularization">
      Heuristics for Regularization
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#normalization">
+     Normalization
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#batch-normalization-and-layer-normalization">
+     Batch Normalization and Layer Normalization
     </a>
    </li>
   </ul>
@@ -1338,7 +1353,7 @@ None
 </div>
 <ul class="simple">
 <li><p><strong>epochs</strong>: the number of times that the entire training set is passed forward and backward through the neural network.</p></li>
-<li><p><strong>batch_size</strong>: the number of samples that are used for parameter updates each time</p></li>
+<li><p><strong>batch_size</strong>: the number of samples that are used for parameter updates each time (i.e., passed through the network forward and backward)</p></li>
 </ul>
 <p>If we specify <code class="docutils literal notranslate"><span class="pre">batch_size</span> <span class="pre">=</span> <span class="pre">10</span></code> and <code class="docutils literal notranslate"><span class="pre">epochs=50</span></code>, the model will try to train the model parameters (i.e., all the weights in the layers) by running through the entire training set <strong>50</strong> times (epochs, or iterations).</p>
 <p>And in each epoch, the model will update the model parameters according to the average loss values based on a batch of <strong>10</strong> samples.</p>
@@ -1911,13 +1926,16 @@ x_1 = x_1 + \eta\frac{\partial f}{\partial x_1}
 <li><p><strong>Stochastic</strong> Gradient Descent (SGD): Update the model weights after every instance of the training set (online).</p></li>
 <li><p><strong>Mini-batch</strong> Gradient Descent: Update the model weights after a subset of the training set. (Recommended!)</p></li>
 </ul>
+<p><img alt="" src="../_images/dl-gradient-stochastic.gif" /></p>
+<p><img alt="" src="../_images/dl-gradient-mini.gif" /></p>
+<p><img alt="" src="../_images/dl-gradient-batch.gif" /></p>
 </div>
 <div class="section" id="gradients-in-python-skipped">
 <h3>Gradients in Python (skipped)<a class="headerlink" href="#gradients-in-python-skipped" title="Permalink to this headline">¶</a></h3>
 <p>In the following graph, each vector represents the gradient at a specific <span class="math notranslate nohighlight">\((x_0, x_1)\)</span>, i.e., when <span class="math notranslate nohighlight">\(x_0 = p_0\)</span> and <span class="math notranslate nohighlight">\(x_1 = p_1\)</span>:</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<img alt="../_images/dl-neural-network-from-scratch_107_0.png" src="../_images/dl-neural-network-from-scratch_107_0.png" />
+<img alt="../_images/dl-neural-network-from-scratch_110_0.png" src="../_images/dl-neural-network-from-scratch_110_0.png" />
 </div>
 </div>
 </div>
@@ -1985,6 +2003,27 @@ x_1 = x_1 + \eta\frac{\partial f}{\partial x_1}
 <li><p>Applying dropout before a recurrent layer hinders learning rather than helping with regularization.</p></li>
 <li><p>The same dropout mask (the same pattern of dropped units) should be applied at every time step, instead of a dropout mask that varies randomly from timestep to timestep. (Yarin Gal)</p></li>
 <li><p>In order to regularize the representations formed by the recurrent gates of layers (e.g., LSTM and GRU), a temporally constant dropout mask should be applied to the inner activations of the layer (a recurrent dropout mask). (Yarin Gal)</p></li>
+</ul>
+</div>
+<div class="section" id="normalization">
+<h3>Normalization<a class="headerlink" href="#normalization" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Normalization</strong> is to make sure that sets of numeric values are of a uniform scale (e.g., 0 to 1).</p></li>
+<li><p>If the dataset contains numeric data varying in a huge range, it will skew the learning process, resulting in a bad model.</p></li>
+<li><p>To properly add normalization layers can help speed up the model convergence for more effective training.</p></li>
+</ul>
+</div>
+<div class="section" id="batch-normalization-and-layer-normalization">
+<h3>Batch Normalization and Layer Normalization<a class="headerlink" href="#batch-normalization-and-layer-normalization" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>In Batch Normalization, input values of the same neuron for all the samples in the mini-batch are normalized.</p></li>
+<li><p>In Layer Normalization, input values for all neurons in the same layer are normalized for each data sample.</p></li>
+<li><p>Heuristics</p>
+<ul>
+<li><p>Batch Normalization depends on mini-batch size while Layer Normalization doesn’t.</p></li>
+<li><p>Batch Normalization works better with CNN while Layer Normalization works better with RNN.</p></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -2353,7 +2392,7 @@ x_1 = x_1 + \eta\frac{\partial f}{\partial x_1}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-neural-network-from-scratch_148_0.png" src="../_images/dl-neural-network-from-scratch_148_0.png" />
+<img alt="../_images/dl-neural-network-from-scratch_153_0.png" src="../_images/dl-neural-network-from-scratch_153_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -2367,7 +2406,7 @@ x_1 = x_1 + \eta\frac{\partial f}{\partial x_1}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-neural-network-from-scratch_149_0.png" src="../_images/dl-neural-network-from-scratch_149_0.png" />
+<img alt="../_images/dl-neural-network-from-scratch_154_0.png" src="../_images/dl-neural-network-from-scratch_154_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
