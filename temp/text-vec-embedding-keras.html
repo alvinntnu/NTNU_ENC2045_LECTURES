@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>3. Word Embedding Using Keras &#8212; ENC2045 Computational Linguistics</title>
+    <title>Word Embedding Using Keras &#8212; ENC2045 Computational Linguistics</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -58,8 +58,6 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="4. Statistical Language Model" href="dl-statistical-language-model.html" />
-    <link rel="prev" title="2. Word Embeddings" href="text-vec-embedding.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -225,30 +223,20 @@
   Neural Language Model and Embeddings
  </span>
 </p>
-<ul class="current nav sidenav_l1">
+<ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../nlp/dl-sequence-models-intuition.html">
    1. Sequence Models Intuition
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="../nlp/dl-neural-language-model-primer.html">
+   2. Neural Language Model: A Start
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="text-vec-embedding.html">
-   2. Word Embeddings
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   3. Word Embedding Using Keras
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-statistical-language-model.html">
-   4. Statistical Language Model
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-neural-language-model-primer.html">
-   5. Neural Language Model: A Start
+   3. Word Embeddings
   </a>
  </li>
 </ul>
@@ -328,6 +316,21 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../exercise/8-dl-chinese-name-gender.html">
    Assignment VIII: Deep Learning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/9-sentiment-analysis-dl.html">
+   Assignment IX: Sentiment Analysis Using Deep Learning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/10-neural-language-model.html">
+   Assignment X: Neural Language Model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/11-word2vec.html">
+   Assignment XI: Word Embeddings
   </a>
  </li>
 </ul>
@@ -428,22 +431,22 @@
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#sample-corpus-of-text-documents">
-   3.1. Sample corpus of text documents
+   Sample corpus of text documents
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#simple-text-pre-processing">
-   3.2. Simple text pre-processing
+   Simple text pre-processing
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#load-up-sample-corpus-bible">
-   3.3. Load up sample corpus - Bible
+   Load up sample corpus - Bible
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#implementing-a-word2vec-model-using-a-cbow-continuous-bag-of-words-neural-network-architecture">
-   3.4. Implementing a word2vec model using a CBOW (Continuous Bag of Words) neural network architecture
+   Implementing a word2vec model using a CBOW (Continuous Bag of Words) neural network architecture
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -480,7 +483,7 @@
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#implementing-a-word2vec-model-using-a-skip-gram-neural-network-architecture">
-   3.5. Implementing a word2vec model using a skip-gram neural network architecture
+   Implementing a word2vec model using a skip-gram neural network architecture
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -522,7 +525,7 @@
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#references">
-   3.6. References
+   References
   </a>
  </li>
 </ul>
@@ -537,7 +540,7 @@
               <div>
                 
   <div class="section" id="word-embedding-using-keras">
-<h1><span class="section-number">3. </span>Word Embedding Using Keras<a class="headerlink" href="#word-embedding-using-keras" title="Permalink to this headline">¶</a></h1>
+<h1>Word Embedding Using Keras<a class="headerlink" href="#word-embedding-using-keras" title="Permalink to this headline">¶</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -606,7 +609,7 @@ Required-by: fastai, en-core-web-sm
 </div>
 </div>
 <div class="section" id="sample-corpus-of-text-documents">
-<h2><span class="section-number">3.1. </span>Sample corpus of text documents<a class="headerlink" href="#sample-corpus-of-text-documents" title="Permalink to this headline">¶</a></h2>
+<h2>Sample corpus of text documents<a class="headerlink" href="#sample-corpus-of-text-documents" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corpus</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;The sky is blue and beautiful.&#39;</span><span class="p">,</span>
@@ -698,7 +701,7 @@ Required-by: fastai, en-core-web-sm
 </div>
 </div>
 <div class="section" id="simple-text-pre-processing">
-<h2><span class="section-number">3.2. </span>Simple text pre-processing<a class="headerlink" href="#simple-text-pre-processing" title="Permalink to this headline">¶</a></h2>
+<h2>Simple text pre-processing<a class="headerlink" href="#simple-text-pre-processing" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wpt</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">WordPunctTokenizer</span><span class="p">()</span>
@@ -742,7 +745,7 @@ Required-by: fastai, en-core-web-sm
 </div>
 </div>
 <div class="section" id="load-up-sample-corpus-bible">
-<h2><span class="section-number">3.3. </span>Load up sample corpus - Bible<a class="headerlink" href="#load-up-sample-corpus-bible" title="Permalink to this headline">¶</a></h2>
+<h2>Load up sample corpus - Bible<a class="headerlink" href="#load-up-sample-corpus-bible" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">gutenberg</span>
@@ -774,7 +777,7 @@ Processed line: god said let firmament midst waters let divide waters waters
 </div>
 </div>
 <div class="section" id="implementing-a-word2vec-model-using-a-cbow-continuous-bag-of-words-neural-network-architecture">
-<h2><span class="section-number">3.4. </span>Implementing a word2vec model using a CBOW (Continuous Bag of Words) neural network architecture<a class="headerlink" href="#implementing-a-word2vec-model-using-a-cbow-continuous-bag-of-words-neural-network-architecture" title="Permalink to this headline">¶</a></h2>
+<h2>Implementing a word2vec model using a CBOW (Continuous Bag of Words) neural network architecture<a class="headerlink" href="#implementing-a-word2vec-model-using-a-cbow-continuous-bag-of-words-neural-network-architecture" title="Permalink to this headline">¶</a></h2>
 <p><img alt="" src="../_images/text-tokenization-embedding.gif" /></p>
 <p><img alt="" src="../_images/word2vec-text-to-sequences.gif" /></p>
 <div class="section" id="build-vocabulary">
@@ -1555,7 +1558,7 @@ Wall time: 3h 41min 2s
 </div>
 </div>
 <div class="section" id="implementing-a-word2vec-model-using-a-skip-gram-neural-network-architecture">
-<h2><span class="section-number">3.5. </span>Implementing a word2vec model using a skip-gram neural network architecture<a class="headerlink" href="#implementing-a-word2vec-model-using-a-skip-gram-neural-network-architecture" title="Permalink to this headline">¶</a></h2>
+<h2>Implementing a word2vec model using a skip-gram neural network architecture<a class="headerlink" href="#implementing-a-word2vec-model-using-a-skip-gram-neural-network-architecture" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id1">
 <h3>Build Vocabulary<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
@@ -2352,7 +2355,7 @@ Epoch: 5 Loss: 3578.9555171455722
 </div>
 </div>
 <div class="section" id="references">
-<h2><span class="section-number">3.6. </span>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Sarkar (2020) Ch 4 Feature Engineering for Text Representation</p></li>
 </ul>
@@ -2387,8 +2390,6 @@ Epoch: 5 Loss: 3578.9555171455722
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="text-vec-embedding.html" title="previous page"><span class="section-number">2. </span>Word Embeddings</a>
-    <a class='right-next' id="next-link" href="dl-statistical-language-model.html" title="next page"><span class="section-number">4. </span>Statistical Language Model</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
