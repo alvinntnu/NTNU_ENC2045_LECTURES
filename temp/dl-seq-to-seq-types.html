@@ -58,7 +58,7 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Seqeunce Model with Attention for Addition Learning" href="dl-seq-to-seq-attention-addition.html" />
+    <link rel="next" title="Sequence Model with Attention for Addition Learning" href="dl-seq-to-seq-attention-addition.html" />
     <link rel="prev" title="3. Word Embeddings" href="text-vec-embedding.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -255,7 +255,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="dl-seq-to-seq-attention-addition.html">
-   Seqeunce Model with Attention for Addition Learning
+   Sequence Model with Attention for Addition Learning
   </a>
  </li>
  <li class="toctree-l1">
@@ -432,28 +432,40 @@
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#rnn">
-   RNN
+  <a class="reference internal nav-link" href="#self-attention">
+   Self-Attention
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#lstm-vs-gru">
-   LSTM vs GRU
+  <a class="reference internal nav-link" href="#sequence-model-with-attention">
+   Sequence Model with Attention
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#vanillar-encoder-decoder-model">
+     Vanillar Encoder-Decoder Model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#peeky-encoder-decoder-model">
+     Peeky Encoder-Decoder Model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#attention-based-encoder-decoder-model">
+     Attention-based Encoder-Decoder Model
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#usage-of-attention-layer-in-keras">
+   Usage of Attention Layer in keras
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#simple-sequence-to-sequence-model">
-   Simple Sequence-to-Sequence Model
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#peeky-sequence-to-sequence">
-   Peeky Sequence-to-Sequence
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#sequence-to-sequence-with-attention">
-   Sequence-to-Sequence with Attention
+  <a class="reference internal nav-link" href="#references">
+   References
   </a>
  </li>
 </ul>
@@ -469,31 +481,45 @@
                 
   <div class="section" id="attention-intuition">
 <h1>Attention: Intuition<a class="headerlink" href="#attention-intuition" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="rnn">
-<h2>RNN<a class="headerlink" href="#rnn" title="Permalink to this headline">¶</a></h2>
-<p><img alt="" src="../_images/s2s-rnn1.jpeg" /></p>
 <ul class="simple">
-<li><p>Vanishing gradient problems when modeling long-distance relationships</p></li>
+<li><p>The state-of-the-art NLP features the use of <strong>Attention</strong> or its sophisticated application, <strong>transformers</strong>.</p></li>
+<li><p>In this unit, we will provide an intuitive understanding of <strong>Attention</strong> mechanism in deep learning.</p></li>
+</ul>
+<div class="section" id="self-attention">
+<h2>Self-Attention<a class="headerlink" href="#self-attention" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Self-attention operation is fundamental to the SOTA NLP.</p></li>
+<li><p>It is a simple sequence-to-sequence operation: a sequence of vectors (<strong>input vectors</strong>) goes in, and a sequence of vectors comes out.</p></li>
+<li><p>The self-attention operation builds upon the assumption that among all the input vectors, some are more similar to each other.</p></li>
+<li><p>Therefore, the Self-Attention layer may give more weights to those input vectors that are more similar to each other when generating the output vectors.</p></li>
+</ul>
+<ul class="simple">
+<li><p>How do we know which input vectors are more similar or more connected to each ther? The simplest way is to compute the <strong>dot-product</strong> of the two vectors (i.e., similar to Cosine Similarity).</p></li>
+<li><p>Therefore, in Self-Attention, each input vector (<strong>Query</strong>) is compared to all the other input vectors (<strong>Keys</strong>) to get the weights or similarity measures.</p></li>
+<li><p>And its output vector is a weighted sum over all the input vectors, weighted by the similarity measures (in-between input vectors).</p></li>
+</ul>
+<p><img alt="" src="../_images/seq2seq-self-atten.gif" /></p>
+<ul class="simple">
+<li><p>For instance, in the following example, the word <span class="math notranslate nohighlight">\(walks\)</span> may be more relevant to <em>who</em> is doing the walking, i.e., <span class="math notranslate nohighlight">\(cats\)</span>, or, <em>where</em> the agent is walking, i.e, <span class="math notranslate nohighlight">\(street\)</span>, and less relevant to grammatical words like <span class="math notranslate nohighlight">\(the\)</span>.</p></li>
+<li><p>Therefore, an effective Self-Attention layer should create the output vector of <span class="math notranslate nohighlight">\(walks\)</span> (i.e., the weighted sum) by assigning higher weights on these relevant tokens (as indicated by the widths of the arrows) and lower weights on those irrelevant tokens.</p></li>
+</ul>
+<ul class="simple">
+<li><p>To simply put, the Self-Attention layer transforms each input vector into the output vector by taking into consideration how the input vector (Query) is connected to the rest of the input vectors (Keys).</p></li>
 </ul>
 </div>
-<div class="section" id="lstm-vs-gru">
-<h2>LSTM vs GRU<a class="headerlink" href="#lstm-vs-gru" title="Permalink to this headline">¶</a></h2>
-<p><img alt="" src="../_images/s2s-lstm1.png" />
-<img alt="" src="../_images/s2s-gru1.png" /></p>
+<div class="section" id="sequence-model-with-attention">
+<h2>Sequence Model with Attention<a class="headerlink" href="#sequence-model-with-attention" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="vanillar-encoder-decoder-model">
+<h3>Vanillar Encoder-Decoder Model<a class="headerlink" href="#vanillar-encoder-decoder-model" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Possible solutions to the issues of vanishing gradients</p></li>
-<li><p>Better modeling of long-term relationships</p></li>
-<li><p>GRU is a simpler version of LSTM, rendering it easier to train computationally</p></li>
+<li><p>Attention arises as an effective mechanism for many-to-many sequence-to-sequence model.</p></li>
+<li><p>A typical application is machine translation.</p></li>
+<li><p>In the vanilla RNN Encoder-Decoder model, after the decoder processes the input sequences in all time steps, the decoder takes the output of the last time step from the encoder as the input for decoding.</p></li>
 </ul>
-</div>
-<div class="section" id="simple-sequence-to-sequence-model">
-<h2>Simple Sequence-to-Sequence Model<a class="headerlink" href="#simple-sequence-to-sequence-model" title="Permalink to this headline">¶</a></h2>
 <p><img alt="" src="../_images/seq2seq-vanilla-rnn.jpeg" /></p>
 <ul class="simple">
-<li><p>A schematic model representation of many-to-many sequence model</p></li>
-<li><p>The input and output sizes can be different</p></li>
-<li><p>A typical task is machine translation</p></li>
-<li><p>Two sequence models need to be trained: encoder and decoder</p></li>
+<li><p>Two sequence models need to be trained: encoder and decoder:</p>
+<ul>
 <li><p>Encoder:</p>
 <ul>
 <li><p>A vanilla version of the seq-to-seq model takes the <strong>last</strong> return state <span class="math notranslate nohighlight">\(h_t\)</span> of the encoder as the initial and only input for the decoder</p></li>
@@ -507,34 +533,58 @@
 </ul>
 </li>
 </ul>
-</div>
-<div class="section" id="peeky-sequence-to-sequence">
-<h2>Peeky Sequence-to-Sequence<a class="headerlink" href="#peeky-sequence-to-sequence" title="Permalink to this headline">¶</a></h2>
-<p><img alt="" src="../_images/seq2seq-peeky.jpeg" /></p>
-<ul class="simple">
-<li><p>A variant of the seq-to-seq model, which makes available the last return state <span class="math notranslate nohighlight">\(h_{t}\)</span> from the encoder to every time step in the decoder.</p></li>
-<li><p>An intuitive understanding of this peeky approach is that when decoding the contexts from the source input should be made available to all decoding steps.</p></li>
+</li>
 </ul>
 </div>
-<div class="section" id="sequence-to-sequence-with-attention">
-<h2>Sequence-to-Sequence with Attention<a class="headerlink" href="#sequence-to-sequence-with-attention" title="Permalink to this headline">¶</a></h2>
-<p><img alt="" src="../_images/seq2seq-attention.jpeg" /></p>
+<div class="section" id="peeky-encoder-decoder-model">
+<h3>Peeky Encoder-Decoder Model<a class="headerlink" href="#peeky-encoder-decoder-model" title="Permalink to this headline">¶</a></h3>
+<p><img alt="" src="../_images/seq2seq-peeky.jpeg" /></p>
+<ul class="simple">
+<li><p>In the vanilla encoder-decoder model, decoder can only access the last hidden state from the encoder.</p></li>
+<li><p>A variant of the seq-to-seq model is to makes available the last return state <span class="math notranslate nohighlight">\(h_{t}\)</span> from the encoder to every time step in the decoder.</p></li>
+<li><p>An intuitive understanding of this <strong>peeky</strong> approach is that during the decoding stage (i.e., translation), the contexts from the source input should be made available to all decoding steps.</p></li>
+</ul>
+</div>
+<div class="section" id="attention-based-encoder-decoder-model">
+<h3>Attention-based Encoder-Decoder Model<a class="headerlink" href="#attention-based-encoder-decoder-model" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Compared to Peeky Encoder-Decoder Model, the Attention-based Encoder-Decoder Model goes one step further by allowing the decoder to access not only the hidden state of the last time step from encoder, but all the hidden states from the encoder.</p></li>
+<li><p>This is where the Attention mechanism comes in.</p></li>
+</ul>
+<p><img alt="" src="../_images/seq2seq-enc-dec-attn.gif" /></p>
 <ul class="simple">
 <li><p>Attention mechansim can be seen as much more sophisticated design of the peeky approach.</p></li>
 <li><p>The idea is that during the decoding stage, we need to consider the pairwise relationship (similarity) in-between the decoder state <span class="math notranslate nohighlight">\(h_{t}\)</span> and <strong>ALL</strong> the return states from the encoder.</p></li>
 <li><p>An intuitive understanding is as follows. When decoding the translation of <span class="math notranslate nohighlight">\(Y_{1}\)</span>, it is very likely that its translation is more relevant to some of the input words and less relevant to the others.</p></li>
-<li><p>Therefore, the attention mechanism first needs to determine the relative pairwise relationship in-between the decoder <span class="math notranslate nohighlight">\(h_{1}\)</span> and all the encoder return states in order to get the <strong>attention weights</strong>.</p></li>
-<li><p>There are many proposals regarding how to compute the attention weights. Please see a very nice review of Lilian Weng’s <a class="reference external" href="https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html">Attention? Attention!</a>.</p></li>
+<li><p>Therefore, the Attention mechanism first needs to determine the relative pairwise relationship in-between the decoder <span class="math notranslate nohighlight">\(h_{1}\)</span> and all the encoder hidden states in order to generate the <strong>attention outputs</strong>.</p></li>
+</ul>
+<p><img alt="" src="../_images/seq2seq-attention-weights.jpeg" /></p>
+<ul class="simple">
+<li><p>There are many proposals regarding how to compute the attention weights.</p></li>
 <li><p>In the current Tensorflow implementation, there are three types of <a class="reference external" href="https://keras.io/api/layers/attention_layers/">Attention layers</a>:</p>
 <ul>
-<li><p>AdditiveAttention Layer: Bahdanau’s style attention <a class="reference external" href="https://arxiv.org/pdf/1409.0473.pdf">Bahdanau2015</a></p></li>
-<li><p>Attention Layer: Luong’s style attention <a class="reference external" href="https://arxiv.org/pdf/1508.4025.pdf">Luong2015</a></p></li>
-<li><p>MultiHeadAttention Layer: transformer’s style attention <a class="reference external" href="http://papers.nips.cc/paper/7181-attention-is-all-you-need.pdf">“Attention is All you Need” (Vaswani, et al., 2017)</a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Attention</span></code> Layer: Luong’s style attention (i.e., simple dot-product) <a class="reference external" href="https://arxiv.org/pdf/1508.4025.pdf">Luong2015</a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AdditiveAttention</span></code> Layer: Bahdanau’s style attention <a class="reference external" href="https://arxiv.org/pdf/1409.0473.pdf">Bahdanau2015</a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MultiHeadAttention</span></code> Layer: transformer’s style attention <a class="reference external" href="http://papers.nips.cc/paper/7181-attention-is-all-you-need.pdf">“Attention is All you Need” (Vaswani, et al., 2017)</a></p></li>
 </ul>
 </li>
-<li><p>With the attention weights, we can compute a context vector, which is like a weighted sum of the encoder return states.</p></li>
-<li><p>We then use this weighted sum, along of the decoder return state <span class="math notranslate nohighlight">\(h_{1}\)</span>, to compute the final output <span class="math notranslate nohighlight">\(Y_{1}\)</span>.</p></li>
-<li><p>This attention-mediated mechanism applies to every time step in the decoder.</p></li>
+<li><p>The <strong>Attention</strong> layer then will transform all the hidden states of the encoder into <strong>context vectors</strong>, indicating how the decoding step is relevant to all the input sequences.</p></li>
+<li><p>These context vectors (from the Attention layer) can contribute to the decoding process (translation).</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="usage-of-attention-layer-in-keras">
+<h2>Usage of Attention Layer in keras<a class="headerlink" href="#usage-of-attention-layer-in-keras" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>When defining the Attention layer, we need to specify the <strong>Query</strong> tensors and the <strong>Key</strong> tensors.</p></li>
+<li><p>In Self-Attention layers, the Query is all the input vectors, and the Key is also the input vectors.</p></li>
+<li><p>In Attention Layer in sequence-to-sequence model, the Query is the hidden state from the Decoder; the keys are all the input states from the Encoder.</p></li>
+</ul>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Please see a very nice review of Lilian Weng’s <a class="reference external" href="https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html">Attention? Attention!</a>.</p></li>
 </ul>
 </div>
 </div>
@@ -568,7 +618,7 @@
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="text-vec-embedding.html" title="previous page"><span class="section-number">3. </span>Word Embeddings</a>
-    <a class='right-next' id="next-link" href="dl-seq-to-seq-attention-addition.html" title="next page">Seqeunce Model with Attention for Addition Learning</a>
+    <a class='right-next' id="next-link" href="dl-seq-to-seq-attention-addition.html" title="next page">Sequence Model with Attention for Addition Learning</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
