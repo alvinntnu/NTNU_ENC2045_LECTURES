@@ -3,7 +3,7 @@
 
 # # Deep Learning: Sentiment Analysis
 
-# - Let's get back to the Senitment Analysis on the NLTK Movie Reviews datasets 
+# - In this unit, we will build a deep-learning-based sentiment classifier on the movie reviews from `ntlk`.
 
 # ![](../images/keras-workflow.png)
 
@@ -25,7 +25,8 @@ documents = [(' '.join(list(movie_reviews.words(fileid))), category)
              for category in movie_reviews.categories()
              for fileid in movie_reviews.fileids(category)]
 
-documents = [(text,1) if label=="pos" else (text, 0) for (text, label) in documents]
+documents = [(text, 1) if label == "pos" else (text, 0)
+             for (text, label) in documents]
 
 random.shuffle(documents)
 
@@ -42,41 +43,52 @@ documents[1]
 
 
 from sklearn.model_selection import train_test_split
-train_set, test_set = train_test_split(documents, test_size = 0.1, random_state=42)
+train_set, test_set = train_test_split(documents,
+                                       test_size=0.1,
+                                       random_state=42)
 print(len(train_set), len(test_set))
 
 
 # ## Prepare Input and Output Tensors
 
-# - In deep learning, words or characters are automatically converted into numeric representations.
-# - In other words, the feature engineering step is fully automatic.
+# - For text vectorization, we will implement two alternatives:
+#     - Texts to Matrix: **One-hot encoding** of texts (similar to bag-of-words model)
+#     - Texts to Sequences: **Integer encoding** of all word tokens in texts and we will learn token **embeddings** along with the networks
 
-# - Steps:
-#     - Text to Integers
-#     - Padding each instance to be of same lengths
+# - Important Steps:
+#     - Split data into X (texts) and y
+#     - Initialize `Tokenizer`
+#     - Use the `Tokenizer` for `text_to_sequences()` or `text_to_matrix`
+#     - Padding the squences to unigram lengths if needed
 #     
 
 # In[5]:
 
 
+## Dependencies
 import tensorflow as tf
 import tensorflow.keras as keras
-from keras.preprocessing.text import Tokenizer
-from keras.preprocessing import sequence
-from keras.utils import to_categorical, plot_model
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.layers import LSTM
-from keras.layers import Embedding
-from keras.layers import SpatialDropout1D
-from keras.layers import Bidirectional
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing import sequence
+from tensorflow.keras.utils import to_categorical, plot_model
+from tensorflow.keras import layers, Model
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Input
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import LSTM
+from tensorflow.keras.layers import Embedding
+from tensorflow.keras.layers import Bidirectional
+from tensorflow.keras.layers import Concatenate
+from tensorflow.keras.layers import Attention
+from tensorflow.keras.layers import GlobalAveragePooling1D
 
 
 # In[6]:
 
 
+## Split data into X (texts) and y (labels)
 texts = [n for (n, l) in train_set]
-labels = [l for (n, l) in train_set] 
+labels = [l for (n, l) in train_set]
 
 
 # In[7]:
@@ -88,18 +100,15 @@ print(len(labels))
 
 # ### Tokenizer
 
-# - By default, the token index 0 is reserved for padding token.
-# - If `oov_token` is specified, it is default to index 1.
-# - Specify `num_words` for tokenizer to include only top N words in the model
-# - Tokenizer will automatically remove puntuations.
-# - Tokenizer use whitespace as word delimiter.
-# - If every character is treated as a token, specify `char_level=True`.
+# - Important Notes:
+#     - We set the `num_words` at **10000**, meaning that the `Tokenizer` will automatically include only the most frequent **10000** words in the vocabulary for analysis.
+#     - In other words, when we perform `text_to_sequences()` later, the `Tokenizer` will automatically remove words that are NOT in the vocabulary (top 10000 words).
 
 # In[8]:
 
 
 NUM_WORDS = 10000
-tokenizer = Tokenizer(num_words = NUM_WORDS)
+tokenizer = Tokenizer(num_words=NUM_WORDS)
 tokenizer.fit_on_texts(texts)
 
 
@@ -131,13 +140,6 @@ len(tokenizer.word_index)
 
 # ## Define X and Y (Text Vectorization)
 
-# ### From Texts and Tensors
-# 
-# - There are two main ways of text vectorization:
-#     - Texts to Matrix: **One-hot encoding** of texts (similar to bag-of-words model)
-#     - Texts to Sequences: **Integer encoding** of all word tokens in texts and we will learn token **embeddings** along with the networks
-#     
-
 # ### Method 1: Text to Sequences
 # 
 # - Text to sequences (integers)
@@ -151,50 +153,62 @@ len(tokenizer.word_index)
 texts_ints = tokenizer.texts_to_sequences(texts)
 
 
+# In[13]:
+
+
+print(len(texts[1000].split(' '))) ## original text word number
+print(len(texts_ints[1000])) ## sequence token number
+
+
 # #### Padding
 
 # :::{tip}
 # When dealing with texts and documents, padding each text to the maximum length may not be ideal. For example, for sentiment classification, it is usually the case that authors would highlight more his/her sentiment at the end of the text. Therefore, we can specify an arbitrary `max_len` in padding the sequences to (a) reduce the risk of including too much noise in our model, and (b) speed up the training steps.
 # :::
 
-# In[13]:
+# In[14]:
 
 
-texts_lens=[len(n) for n in texts_ints]
+## Check the text len distribution
+texts_lens = [len(n) for n in texts_ints]
 texts_lens
 import seaborn as sns
 sns.displot(texts_lens)
 
 
-# In[14]:
+# In[15]:
 
 
+## Find the maxlen of the texts
 max_len = texts_lens[np.argmax(texts_lens)]
 max_len
 
 
-# - In this tutorial, we consider only the **final** 400 tokens of each text.
-# - `padding` and `truncating` parameters in `pad_sequences`: whether to Pre-padding or removing values from the beginning of the sequence (i.e., `pre`) or the other way (`post`).
-
-# In[15]:
-
-
-max_len = 400
-
+# - In this tutorial, we consider only the **final** 400 tokens of each text, using the following parameters for `pad_sequences()`.
+#     - We keep the final 400 tokens from the text (`truncating='pre'`)
+#     - If the text is short than 400 tokens, we pad the text to 400 tokens at the beginning of the text (`padding='pre'`)
 
 # In[16]:
 
 
-texts_ints_pad = sequence.pad_sequences(texts_ints, maxlen = max_len, truncating='pre', padding='pre')
+## Padding
+max_len = 400
+texts_ints_pad = sequence.pad_sequences(texts_ints,
+                                        maxlen=max_len,
+                                        truncating='pre',
+                                        padding='pre')
 texts_ints_pad[:10]
 
 
 # In[17]:
 
 
+## Gereate X and y for training 
 X_train = np.array(texts_ints_pad).astype('int32')
 y_train = np.array(labels)
 
+
+## Gereate X and y for testing in the same way
 X_test_texts = [n for (n, l) in test_set]
 X_test = np.array(
     sequence.pad_sequences(tokenizer.texts_to_sequences(X_test_texts),
@@ -218,26 +232,37 @@ print(y_test.shape)
 # In[19]:
 
 
+## Texts to One-Hot Encoding (bag of words)
 texts_matrix = tokenizer.texts_to_matrix(texts, mode="binary")
-
-
-# In[20]:
-
-
 X_train2 = np.array(texts_matrix).astype('int32')
 y_train2 = np.array(labels)
 
-X_test2 = tokenizer.texts_to_matrix(X_test_texts, mode="binary").astype('int32')
-y_test2 = np.array([l for (n,l) in test_set])
+
+## Same for Testing Data
+X_test2 = tokenizer.texts_to_matrix(X_test_texts,
+                                    mode="binary").astype('int32')
+y_test2 = np.array([l for (n, l) in test_set])
 
 
-# In[21]:
+# In[20]:
 
 
 print(X_train2.shape)
 print(y_train2.shape)
 print(X_test2.shape)
 print(y_test2.shape)
+
+
+# ## Hyperparameters
+
+# In[21]:
+
+
+## A few DL hyperparameters
+BATCH_SIZE = 128
+EPOCHS = 25
+VALIDATION_SPLIT = 0.2
+EMBEDDING_DIM = 128
 
 
 # ## Model Definition
@@ -251,14 +276,15 @@ import pandas as pd
 
 matplotlib.rcParams['figure.dpi'] = 150
 
+
 # Plotting results
-def plot(history):
+def plot1(history):
     acc = history.history['accuracy']
     val_acc = history.history['val_accuracy']
     loss = history.history['loss']
     val_loss = history.history['val_loss']
 
-    epochs = range(1, len(acc)+1)
+    epochs = range(1, len(acc) + 1)
     ## Accuracy plot
     plt.plot(epochs, acc, 'bo', label='Training acc')
     plt.plot(epochs, val_acc, 'b', label='Validation acc')
@@ -273,9 +299,9 @@ def plot(history):
     plt.legend()
     plt.show()
 
-    
+
 def plot2(history):
-    pd.DataFrame(history.history).plot(figsize=(8,5))
+    pd.DataFrame(history.history).plot(figsize=(8, 5))
     plt.grid(True)
     #plt.gca().set_ylim(0,1)
     plt.show()
@@ -291,18 +317,16 @@ def plot2(history):
 # In[23]:
 
 
-from keras import layers
-model1 = keras.Sequential()
-model1.add(keras.Input(shape=(NUM_WORDS,)))
-model1.add(layers.Dense(16, activation="relu", name="dense_layer_1"))
-model1.add(layers.Dense(16, activation="relu", name="dense_layer_2"))
-model1.add(layers.Dense(1, activation="sigmoid", name="output"))
+## Model 1
+model1 = Sequential()
+model1.add(Input(shape=(NUM_WORDS, )))
+model1.add(Dense(16, activation="relu", name="dense_layer_1"))
+model1.add(Dense(16, activation="relu", name="dense_layer_2"))
+model1.add(Dense(1, activation="sigmoid", name="output"))
 
-model1.compile(
-    loss=keras.losses.BinaryCrossentropy(),
-    optimizer=keras.optimizers.Adam(lr=0.001),
-    metrics=["accuracy"]
-)
+model1.compile(loss='binary_crossentropy',
+               optimizer='adam',
+               metrics=["accuracy"])
 
 
 # In[24]:
@@ -314,46 +338,41 @@ plot_model(model1, show_shapes=True)
 # In[25]:
 
 
-## A few DL hyperparameters
-BATCH_SIZE = 128
-EPOCHS = 25
-VALIDATION_SPLIT = 0.2
+history1 = model1.fit(X_train2,
+                      y_train2,
+                      batch_size=BATCH_SIZE,
+                      epochs=EPOCHS,
+                      verbose=2,
+                      validation_split=VALIDATION_SPLIT)
 
 
 # In[26]:
 
 
-history1 = model1.fit(X_train2, y_train2, 
-                    batch_size=BATCH_SIZE, 
-                    epochs=EPOCHS, verbose=2,
-                   validation_split = VALIDATION_SPLIT)
+## Plot Training History
+plot1(history1)
 
 
 # In[27]:
 
 
-plot2(history1)
-
-
-# In[28]:
-
-
+## Model Evaluation
 model1.evaluate(X_test2, y_test2, batch_size=BATCH_SIZE, verbose=2)
 
 
 # ### Model 2
 # 
-# - One Embedding Layer + Two layers of fully-connected dense layers
-# - The Input is the integer encodings of texts from the padded text-to-sequence.
+# - One Embedding Layer + Two fully-connected dense layers
+# - The Inputs are the sequences (integers) of texts.
 
 # ![](../images/movie-review-classifier-dl/movie-review-classifier-dl.004.jpeg)
 
 # ![](../images/movie-review-classifier-dl/movie-review-classifier-dl.008.jpeg)
 
-# In[29]:
+# In[28]:
 
 
-EMBEDDING_DIM = 128
+## Model 2
 model2 = Sequential()
 model2.add(
     Embedding(input_dim=vocab_size,
@@ -361,42 +380,44 @@ model2.add(
               input_length=max_len,
               mask_zero=True))
 model2.add(
-    layers.GlobalAveragePooling1D()
+    GlobalAveragePooling1D()
 )  ## The GlobalAveragePooling1D layer returns a fixed-length output vector for each example by averaging over the sequence dimension. This allows the model to handle input of variable length, in the simplest way possible.
-model2.add(layers.Dense(16, activation="relu", name="dense_layer_1"))
-model2.add(layers.Dense(16, activation="relu", name="dense_layer_2"))
-model2.add(layers.Dense(1, activation="sigmoid", name="output"))
+model2.add(Dense(16, activation="relu", name="dense_layer_1"))
+model2.add(Dense(16, activation="relu", name="dense_layer_2"))
+model2.add(Dense(1, activation="sigmoid", name="output"))
 
-model2.compile(loss=keras.losses.BinaryCrossentropy(),
-               optimizer=keras.optimizers.Adam(lr=0.001),
+model2.compile(loss='binary_crossentropy',
+               optimizer='adam',
                metrics=["accuracy"])
 
 
-# In[30]:
+# In[29]:
 
 
 plot_model(model2, show_shapes=True)
 
 
+# In[30]:
+
+
+history2 = model2.fit(X_train,
+                      y_train,
+                      batch_size=BATCH_SIZE,
+                      epochs=EPOCHS,
+                      verbose=2,
+                      validation_split=VALIDATION_SPLIT)
+
+
 # In[31]:
 
 
-history2 = model2.fit(X_train, y_train, 
-                    batch_size=BATCH_SIZE, 
-                    epochs=EPOCHS, verbose=2,
-                    validation_split = VALIDATION_SPLIT)
+plot1(history2)
 
 
 # In[32]:
 
 
-plot2(history2)
-
-
-# In[33]:
-
-
-model2.evaluate(X_test, y_test, batch_size=128, verbose=2)
+model2.evaluate(X_test, y_test, batch_size=BATCH_SIZE, verbose=2)
 
 
 # ## Issues of Word/Character Representations
@@ -409,98 +430,108 @@ model2.evaluate(X_test, y_test, batch_size=128, verbose=2)
 # ### Model 3
 # 
 # - One Embedding Layer + LSTM + Dense Layer
-# - Input: the padded text-to-sequences
+# - Input: the text sequences (padded)
 
 # ![](../images/movie-review-classifier-dl/movie-review-classifier-dl.012.jpeg)
 
-# In[34]:
+# In[33]:
 
 
-EMBEDDING_DIM = 128
+## Model 3
 model3 = Sequential()
-model3.add(Embedding(input_dim=vocab_size, output_dim=EMBEDDING_DIM, input_length=max_len, mask_zero=True))
-model3.add(LSTM(16, dropout=0.2, recurrent_dropout=0.5))
+model3.add(
+    Embedding(input_dim=vocab_size,
+              output_dim=EMBEDDING_DIM,
+              input_length=max_len,
+              mask_zero=True))
+model3.add(LSTM(16, dropout=0.2, recurrent_dropout=0.2))
 model3.add(Dense(1, activation="sigmoid"))
 
-model3.compile(
-    loss=keras.losses.BinaryCrossentropy(),
-    optimizer=keras.optimizers.Adam(lr=0.001),
-    metrics=["accuracy"]
-)
+model3.compile(loss='binary_crossentropy',
+               optimizer='adam',
+               metrics=["accuracy"])
 
 
-# In[35]:
+# In[34]:
 
 
 plot_model(model3, show_shapes=True)
 
 
+# In[35]:
+
+
+history3 = model3.fit(X_train,
+                      y_train,
+                      batch_size=BATCH_SIZE,
+                      epochs=EPOCHS,
+                      verbose=2,
+                      validation_split=VALIDATION_SPLIT)
+
+
 # In[36]:
 
 
-history3 = model3.fit(X_train, y_train, 
-                    batch_size=BATCH_SIZE, 
-                    epochs=EPOCHS, verbose=2,
-                   validation_split = VALIDATION_SPLIT)
+plot1(history3)
 
 
 # In[37]:
 
 
-plot2(history3)
-
-
-# In[38]:
-
-
-model3.evaluate(X_test, y_test, batch_size=128, verbose=2)
+model3.evaluate(X_test, y_test, batch_size=BATCH_SIZE, verbose=2)
 
 
 # ### Model 4
 # 
 # - One Embedding Layer + Two Stacked LSTM + Dense Layer
+# - Inputs: text sequences (padded)
 
 # ![](../images/movie-review-classifier-dl/movie-review-classifier-dl.013.jpeg)
+
+# In[38]:
+
+
+## Model 4
+model4 = Sequential()
+model4.add(
+    Embedding(input_dim=vocab_size,
+              output_dim=EMBEDDING_DIM,
+              input_length=max_len,
+              mask_zero=True))
+model4.add(LSTM(16, return_sequences=True, dropout=0.2,
+                recurrent_dropout=0.2))  #)
+model4.add(LSTM(16, dropout=0.2, recurrent_dropout=0.2))
+model4.add(Dense(1, activation="sigmoid"))
+
+model4.compile(loss='binary_crossentropy',
+               optimizer='adam',
+               metrics=["accuracy"])
+
 
 # In[39]:
 
 
-EMBEDDING_DIM = 128
-model4 = Sequential()
-model4.add(Embedding(input_dim=vocab_size, output_dim=EMBEDDING_DIM, input_length=max_len, mask_zero=True))
-model4.add(LSTM(16, return_sequences=True, dropout=0.2, recurrent_dropout=0.5)) #)
-model4.add(LSTM(16, dropout=0.2, recurrent_dropout=0.5))
-model4.add(Dense(1, activation="sigmoid"))
-
-model4.compile(
-    loss=keras.losses.BinaryCrossentropy(),
-    optimizer=keras.optimizers.Adam(lr=0.001),
-    metrics=["accuracy"]
-)
+plot_model(model4, show_shapes=True)
 
 
 # In[40]:
 
 
-plot_model(model4,show_shapes=True)
+history4 = model4.fit(X_train,
+                      y_train,
+                      batch_size=BATCH_SIZE,
+                      epochs=EPOCHS,
+                      verbose=2,
+                      validation_split=0.2)
 
 
 # In[41]:
 
 
-history4 = model4.fit(X_train, y_train, 
-                    batch_size=BATCH_SIZE, 
-                    epochs=EPOCHS, verbose=2,
-                   validation_split = 0.2)
+plot1(history4)
 
 
 # In[42]:
-
-
-plot2(history4)
-
-
-# In[43]:
 
 
 model4.evaluate(X_test, y_test, batch_size=BATCH_SIZE, verbose=2)
@@ -509,47 +540,52 @@ model4.evaluate(X_test, y_test, batch_size=BATCH_SIZE, verbose=2)
 # ### Model 5
 
 # - Embedding Layer + Bidirectional LSTM + Dense Layer
+# - Inputs: Text sequences (padded)
 
 # ![](../images/movie-review-classifier-dl/movie-review-classifier-dl.014.jpeg)
 
-# In[44]:
+# In[43]:
 
 
-EMBEDDING_DIM = 128
+## Model 5
 model5 = Sequential()
-model5.add(Embedding(input_dim=vocab_size, output_dim=EMBEDDING_DIM, input_length=max_len, mask_zero=True))
-model5.add(Bidirectional(LSTM(16, dropout=0.2, recurrent_dropout=0.5)))
+model5.add(
+    Embedding(input_dim=vocab_size,
+              output_dim=EMBEDDING_DIM,
+              input_length=max_len,
+              mask_zero=True))
+model5.add(Bidirectional(LSTM(16, dropout=0.2, recurrent_dropout=0.2)))
 model5.add(Dense(1, activation="sigmoid"))
 
-model5.compile(
-    loss=keras.losses.BinaryCrossentropy(),
-    optimizer=keras.optimizers.Adam(lr=0.001),
-    metrics=["accuracy"]
-)
+model5.compile(loss='binary_crossentropy',
+               optimizer='adam',
+               metrics=["accuracy"])
 
 
-# In[45]:
+# In[44]:
 
 
 plot_model(model5, show_shapes=True)
 
 
+# In[45]:
+
+
+history5 = model5.fit(X_train,
+                      y_train,
+                      batch_size=BATCH_SIZE,
+                      epochs=EPOCHS,
+                      verbose=2,
+                      validation_split=0.2)
+
+
 # In[46]:
 
 
-history5 = model5.fit(X_train, y_train, 
-                    batch_size=BATCH_SIZE, 
-                    epochs=EPOCHS, verbose=2,
-                   validation_split = 0.2)
+plot1(history5)
 
 
 # In[47]:
-
-
-plot2(history5)
-
-
-# In[48]:
 
 
 model5.evaluate(X_test, y_test, batch_size=BATCH_SIZE, verbose=2)
@@ -560,20 +596,26 @@ model5.evaluate(X_test, y_test, batch_size=BATCH_SIZE, verbose=2)
 # ### Model 6
 # 
 # - One Embedding Layer + LSTM [hidden state of last time step + cell state of last time step] + Dense Layer
+# - Inputs: Text sequences (padded)
 
 # ![](../images/movie-review-classifier-dl/movie-review-classifier-dl.015.jpeg)
 
-# In[49]:
+# In[48]:
 
 
-EMBEDDING_DIM = 128
+## Model 6
 
 ## Functional API
-inputs = keras.Input(shape=(max_len,))
-x=layers.Embedding(input_dim=vocab_size, output_dim=EMBEDDING_DIM, input_length=max_len, mask_zero=True)(inputs)
-_,x_last_h, x_c = layers.LSTM(16, dropout=0.2, 
-                               recurrent_dropout=0.5, 
-                               return_sequences=False, return_state=True)(x)
+inputs = Input(shape=(max_len, ))
+x = Embedding(input_dim=vocab_size,
+              output_dim=EMBEDDING_DIM,
+              input_length=max_len,
+              mask_zero=True)(inputs)
+_, x_last_h, x_c = LSTM(16,
+                        dropout=0.2,
+                        recurrent_dropout=0.2,
+                        return_sequences=False,
+                        return_state=True)(x)
 ## LSTM Parameters:
 #     `return_seqeunces=True`: return the hidden states for each time step
 #     `return_state=True`: return the cell state of the last time step
@@ -582,61 +624,69 @@ _,x_last_h, x_c = layers.LSTM(16, dropout=0.2,
 #     (2) the hidden state of the last time step
 #     (3) the cell state of the last time step
 
-x = layers.Concatenate(axis=1)([x_last_h, x_c])
-outputs=layers.Dense(1, activation='sigmoid')(x)
-model6 = keras.Model(inputs=inputs, outputs=outputs)
+x = Concatenate(axis=1)([x_last_h, x_c])
+outputs = Dense(1, activation='sigmoid')(x)
+model6 = Model(inputs=inputs, outputs=outputs)
 
 plot_model(model6, show_shapes=True)
+
+
+# In[49]:
+
+
+model6.compile(loss='binary_crossentropy',
+               optimizer='adam',
+               metrics=["accuracy"])
+history6 = model6.fit(X_train,
+                      y_train,
+                      batch_size=BATCH_SIZE,
+                      epochs=EPOCHS,
+                      verbose=2,
+                      validation_split=VALIDATION_SPLIT)
 
 
 # In[50]:
 
 
-model6.compile(
-    loss=keras.losses.BinaryCrossentropy(),
-    optimizer=keras.optimizers.Adam(lr=0.001),
-    metrics=["accuracy"]
-)
-history6 = model6.fit(X_train, y_train, 
-                    batch_size=BATCH_SIZE, 
-                    epochs=EPOCHS, verbose=2,
-                   validation_split = VALIDATION_SPLIT)
+plot1(history6)
 
 
 # In[51]:
 
 
-plot2(history6)
-
-
-# In[52]:
-
-
-model6.evaluate(X_test, y_test, batch_size=128, verbose=2)
+model6.evaluate(X_test, y_test, batch_size=BATCH_SIZE, verbose=2)
 
 
 # ### Model 7
 # 
-# - All of the previous RNN-based models only utilize the output of the last time step from the RNN as the input of the subsequent layers.
-# - We can also make all the hidden outputs at all time steps from the RNN available to the subsequent layers.
+# - Embedding + LSTM + Self-Attention + Dense
+# - Inputs: Text sequences
+
+# - All of the previous RNN-based models only utilize the output of the last time step from the RNN as the input of the decision-making Dense layer.
+# - We can also make all the hidden outputs at all time steps from the RNN available to decision-marking Dense layer.
 # - This is the idea of **Attention**.
-# - Here we add one `AttentionLayer`, which gives us a weighted version of all the hidden states from the RNN. These outputs from AttentionLayer indicate how relevant each hidden state is to computation of the subsequent layer.
-#     - Use the hidden state h as the **query** and the **key** is all the hidden states from LSTM.
-#     - The Attention layer shows how the last state (query) is connected to all the previous hidden states (key).
-#     - The Attention layer will return a weighted version of all the hidden states.
+
+# - Here we add one `Attention` layer, which gives us a weighted version of all the hidden states from the RNN. 
+# - This is a Self-Attention mechansim.
+# - The outputs of the self `Attention` layer include information that how each hidden states are connected to each other.
 
 # ![](../images/movie-review-classifier-dl/movie-review-classifier-dl.016.jpeg)
 
-# In[55]:
+# In[52]:
 
 
-EMBEDDING_DIM = 128
+## Model 7 (Self-Attention)
 
-inputs = keras.Input(shape=(max_len,))
-x=layers.Embedding(input_dim=vocab_size, output_dim=EMBEDDING_DIM, input_length=max_len,mask_zero=True)(inputs)
-x_all_hs, x_last_h, x_last_c = layers.LSTM(32, dropout=0.2, 
-                               recurrent_dropout=0.5, 
-                               return_sequences=True, return_state=True)(x)
+inputs = Input(shape=(max_len,))
+x = Embedding(input_dim=vocab_size,
+              output_dim=EMBEDDING_DIM,
+              input_length=max_len,
+              mask_zero=True)(inputs)
+x_all_hs, x_last_h, x_last_c = LSTM(32,
+                                    dropout=0.2,
+                                    recurrent_dropout=0.2,
+                                    return_sequences=True,
+                                    return_state=True)(x)
 ## LSTM Parameters:
 #     `return_seqeunces=True`: return the hidden states for each time step
 #     `return_state=True`: return the cell state of the last time step
@@ -646,40 +696,73 @@ x_all_hs, x_last_h, x_last_c = layers.LSTM(32, dropout=0.2,
 #     (3) the cell state of the last time step
 
 ## Self Attention
-atten_out = layers.Attention()([x_all_hs, x_all_hs]) # query and key 
-#x_all_hs_weighted = layers.GlobalAveragePooling1D()(atten_out)
-#x_last_h_plus_x_all_hs_weighted = layers.Concatenate(axis=1)([x_last_h, x_all_hs_weighted])
-atten_out_flat = layers.GlobalAveragePooling1D()(atten_out)
-x = layers.Dropout(0.1)(atten_out_flat)
-x = layers.Dense(16, activation="relu")(x)
-x = layers.Dropout(0.1)(x)
-outputs=layers.Dense(1, activation='sigmoid')(x)
-model7 = keras.Model(inputs=inputs, outputs=outputs)
+atten_out = Attention()([x_all_hs, x_all_hs])  # query and key
+atten_out_average = GlobalAveragePooling1D()(atten_out)
+
+x_last_h_plus_atten = Concatenate()([x_last_h, atten_out_average])
+x = Dense(16, activation="relu")(x_last_h_plus_atten)
+outputs = Dense(1, activation='sigmoid')(x)
+model7 = Model(inputs=inputs, outputs=outputs)
 
 plot_model(model7, show_shapes=True)
+
+
+# In[53]:
+
+
+# ## Model 7 (Attention)
+
+# inputs = Input(shape=(max_len,))
+# x = Embedding(input_dim=vocab_size,
+#               output_dim=EMBEDDING_DIM,
+#               input_length=max_len,
+#               mask_zero=True)(inputs)
+# x_all_hs, x_last_h, x_last_c = LSTM(32,
+#                                     dropout=0.2,
+#                                     recurrent_dropout=0.2,
+#                                     return_sequences=True,
+#                                     return_state=True)(x)
+# ## LSTM Parameters:
+# #     `return_seqeunces=True`: return the hidden states for each time step
+# #     `return_state=True`: return the cell state of the last time step
+# #     When both are set True, the return values of LSTM are:
+# #     (1) the hidden states of all time steps (when `return_sequences=True`) or the hidden state of the last time step
+# #     (2) the hidden state of the last time step
+# #     (3) the cell state of the last time step
+
+# ## Self Attention
+# atten_out = Attention()([x_last_h, x_all_hs])  # Attention of last hidden states on all preceding states
+# atten_out_average = layers.GlobalMaxPooling1D()(atten_out)
+
+# x_last_h_plus_atten = Concatenate()([x_last_h, atten_out_average])
+# x = Dense(16, activation="relu")(x_last_h_plus_atten)
+# outputs = Dense(1, activation='sigmoid')(x)
+# model7 = Model(inputs=inputs, outputs=outputs)
+
+# plot_model(model7, show_shapes=True)
+
+
+# In[54]:
+
+
+model7.compile(loss='binary_crossentropy',
+               optimizer='adam',
+               metrics=["accuracy"])
+history7 = model7.fit(X_train,
+                      y_train,
+                      batch_size=BATCH_SIZE,
+                      epochs=EPOCHS,
+                      verbose=2,
+                      validation_split=VALIDATION_SPLIT)
 
 
 # In[56]:
 
 
-model7.compile(
-    loss=keras.losses.BinaryCrossentropy(),
-    optimizer=keras.optimizers.Adam(lr=0.001),
-    metrics=["accuracy"]
-)
-history7 = model7.fit(X_train, y_train, 
-                    batch_size=BATCH_SIZE, 
-                    epochs=EPOCHS, verbose=2,
-                   validation_split = VALIDATION_SPLIT)
+plot1(history7)
 
 
 # In[57]:
-
-
-plot(history7)
-
-
-# In[58]:
 
 
 model7.evaluate(X_test, y_test, batch_size=BATCH_SIZE, verbose=2)
@@ -687,44 +770,43 @@ model7.evaluate(X_test, y_test, batch_size=BATCH_SIZE, verbose=2)
 
 # ## Explanation
 
-# In[60]:
+# - We use LIME for model explanation.
+# - Let's inspect the Attention-based Model (model7).
+
+# In[58]:
 
 
 from lime.lime_text import LimeTextExplainer
-
-explainer = LimeTextExplainer(class_names=['negative','positive'], char_level=False)
-
-
-# In[61]:
-
+explainer = LimeTextExplainer(class_names=['negative', 'positive'],
+                              char_level=False)
 
 ## Select the best model so far
-best_model = model2
+best_model = model7
+
+
+# In[59]:
+
 
 ## Pipeline for LIME
 def model_predict_pipeline(text):
     _seq = tokenizer.texts_to_sequences(text)
     _seq_pad = keras.preprocessing.sequence.pad_sequences(_seq, maxlen=max_len)
-    return np.array([[float(1-x), float(x)] for x in best_model.predict(np.array(_seq_pad))])
+    return np.array([[float(1 - x), float(x)]
+                     for x in best_model.predict(np.array(_seq_pad))])
 
 
-# In[62]:
+# In[60]:
 
 
 text_id = 3
-model_predict_pipeline([X_test_texts[text_id]])
-
-
-# In[63]:
-
-
-text_id=3
-exp = explainer.explain_instance(
-X_test_texts[text_id], model_predict_pipeline, num_features=20, top_labels=1)
+exp = explainer.explain_instance(X_test_texts[text_id],
+                                 model_predict_pipeline,
+                                 num_features=20,
+                                 top_labels=1)
 exp.show_in_notebook(text=True)
 
 
-# In[64]:
+# In[61]:
 
 
 exp.show_in_notebook(text=True)
@@ -732,63 +814,152 @@ exp.show_in_notebook(text=True)
 
 # ## Check Embeddings
 
-# - Let's check the word embeddings learned along with the Sentiment Classifier.
+# - We can also examine the word embeddings learned along with our Classifier.
+# - Steps include:
+#     - Extract the embedding weights from the trained model.
+#     - Determine words we would like to inspect.
+#     - Extract the embeddings of these words.
+#     - Use dimensional reduction techniques to plot word embeddings in a 2D graph.
 
-# In[65]:
+# In[62]:
 
 
-word_vectors = best_model.layers[0].get_weights()[0]
+word_vectors = best_model.layers[1].get_weights()[0]
 word_vectors.shape
 
 
-# In[66]:
+# In[63]:
 
 
-token_labels = [word for (ind, word) in tokenizer.index_word.items() if ind < word_vectors.shape[0]]
-token_labels.insert(0,"PAD")
+## Mapping of embeddings and word-labels
+token_labels = [
+    word for (ind, word) in tokenizer.index_word.items()
+    if ind < word_vectors.shape[0]
+]
+token_labels.insert(0, "PAD")
 token_labels[:10]
 
 
-# In[67]:
+# In[64]:
 
 
 len(token_labels)
 
 
-# - Check embeddings of words that are not on the stopword list and whose word length >= 5 (characters)
+# - Because there are many words, we select words for visualization based on the following criteria:
+#     - Include embeddings of words that are not on the English stopword list (`nltk.corpus.stopwords.words('english')`) and whose word length >= 5 (characters)
 
-# In[68]:
+# In[65]:
 
 
 from sklearn.manifold import TSNE
 stopword_list = nltk.corpus.stopwords.words('english')
 
 
-# In[69]:
+# In[66]:
 
 
-out_index = [i for i, w in enumerate(token_labels) if len(w)>=5 and w not in stopword_list]
+out_index = [
+    i for i, w in enumerate(token_labels)
+    if len(w) >= 5 and w not in stopword_list
+]
 len(out_index)
 
 
-# In[70]:
+# In[67]:
 
 
 out_index[:10]
 
 
-# In[71]:
+# In[79]:
 
 
-tsne = TSNE(n_components=2, random_state=0, n_iter=5000, perplexity=50)
+tsne = TSNE(n_components=2, random_state=0, n_iter=5000, perplexity=3)
 np.set_printoptions(suppress=True)
-T = tsne.fit_transform(word_vectors[out_index[:100],])
+T = tsne.fit_transform(word_vectors[out_index[:100], ])
 labels = list(np.array(token_labels)[out_index[:100]])
 
 len(labels)
 
-plt.figure(figsize=(10, 7), dpi=150)
+plt.figure(figsize=(10, 10), dpi=150)
 plt.scatter(T[:, 0], T[:, 1], c='orange', edgecolors='r')
 for label, x, y in zip(labels, T[:, 0], T[:, 1]):
-    plt.annotate(label, xy=(x+0.01, y+0.01), xytext=(0, 0), textcoords='offset points')
+    plt.annotate(label,
+                 xy=(x + 0.01, y + 0.01),
+                 xytext=(0, 0),
+                 textcoords='offset points')
+
+
+# ## Model Comparisons
+
+# - Let's compare the learning performance of all the models by examining their changes of accuracies and losses in each epoch of training.
+
+# In[69]:
+
+
+history = [
+    history1, history2, history3, history4, history5, history6, history7
+]
+history = [i.history for i in history]
+model_names = [
+    'One-hot-dense', 'Embedding-dense', 'RNN', 'Two-RNN', 'Bidirect',
+    'Hidden-Cell', 'Self-attention'
+]
+
+## Set color pallete
+import seaborn as sns
+qualitative_colors = sns.color_palette("Paired", len(history))
+
+
+# In[70]:
+
+
+## Accuracy
+acc = [i['accuracy'] for i in history]
+val_acc = [i['val_accuracy'] for i in history]
+
+plt.figure(figsize=(10, 8))
+plt.style.use('ggplot')
+for i, a in enumerate(acc):
+    plt.plot(range(len(a) + 1), [0] + a,
+             linestyle='--',
+             marker='o',
+             color=qualitative_colors[i],
+             linewidth=1,
+             label=model_names[i])
+plt.legend()
+plt.title('Comparing Different Sequence Models')
+plt.xlabel('epochs')
+plt.ylabel('accuracy')
+plt.tight_layout()
+plt.show()
+
+
+# - General Observations
+#     - Fully-connected network works better with one-hot encoding of texts (i.e., bag-of-words vectorizaed representations of texts)
+#     - Embeddings are more useful when working with sequence models (e.g., RNN).
+#     - The self-attention layer, in our current case, is on the entire input sequence, and therefore is limited in its effects.
+
+# In[71]:
+
+
+loss = [i['loss'] for i in history]
+
+plt.figure(figsize=(10, 8))
+plt.style.use('ggplot')
+for i, a in enumerate(loss):
+    plt.plot(range(len(a)),
+             a,
+             linestyle='--',
+             marker='o',
+             color=qualitative_colors[i],
+             linewidth=1,
+             label=model_names[i])
+plt.legend()
+plt.title('Comparing Different Sequence Models')
+plt.xlabel('epochs')
+plt.ylabel('loss')
+plt.tight_layout()
+plt.show()
 

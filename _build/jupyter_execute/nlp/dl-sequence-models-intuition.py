@@ -159,8 +159,8 @@ cross_entropy(np.array(y), np.array(t))
 # 
 # If the gradient becomes vanishingly small over longer distances:
 # 
-# - it is more difficult for RNN to learn the long-distance dependency relations between different time steps in the sequence.
-# - it is less likely that RNN would learn to preserve information over many timesteps.
+# - it is more difficult for RNN to learn the **long-distance dependency relations** between different time steps in the sequence.
+# - it is less likely that RNN would learn to **preserve** information over many timesteps.
 # - it is more likely that RNN would pay more attention to the effects of the recent time steps (i.e., biasing the RNN towards learning from **sequential recency**).
 # 
 
