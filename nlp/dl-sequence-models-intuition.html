@@ -255,7 +255,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../temp/dl-seq-to-seq-attention-addition.html">
-   Seqeunce Model with Attention for Addition Learning
+   Sequence Model with Attention for Addition Learning
   </a>
  </li>
  <li class="toctree-l1">
@@ -442,8 +442,8 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#word-representations-in-deep-learning">
-   1.3. Word Representations in Deep Learning
+  <a class="reference internal nav-link" href="#word-representations-in-sequence-models">
+   1.3. Word Representations in Sequence Models
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -460,6 +460,13 @@
   <a class="reference internal nav-link" href="#recurrent-neural-network-rnn-language-model">
    1.6. Recurrent Neural Network (RNN) Language Model
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-do-we-compute-the-loss-of-the-rnn-lm">
+     How do we compute the loss of the RNN LM?
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#back-propogation-skipped">
@@ -507,6 +514,33 @@
   <a class="reference internal nav-link" href="#variations-of-sequence-models">
    1.10. Variations of Sequence Models
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sequence-models">
+     Sequence Models
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#many-to-many-same-lengths-for-input-and-output-sequences">
+     Many to Many (Same lengths for input and output sequences)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#many-to-one">
+     Many to One
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#one-to-many">
+     One to Many
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#many-to-many-variable-lengths-for-input-and-output-sequences">
+     Many to Many (Variable lengths for input and output sequences)
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#references">
@@ -533,42 +567,43 @@
 <div class="section" id="why-sequence-models">
 <h2><span class="section-number">1.1. </span>Why Sequence Models?<a class="headerlink" href="#why-sequence-models" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Humans process texts in a sequential order (from left to right)</p></li>
+<li><p>Humans process texts in a sequential order (from left to right).</p></li>
 <li><p>When we process texts and make classification, we utilize our reasoning about previous sequences to inform later decision making.</p></li>
 </ul>
 <ul class="simple">
 <li><p><strong>Recurrent neural network</strong> (RNN) addresses this issue by implementing networks with loops that allow information to persist.</p></li>
-<li><p>The loop allows information to be passed from previous time step to the next time step.</p></li>
+<li><p>The loop allows information to be passed from the previous time step to the next time step.</p></li>
 </ul>
 <p><img alt="" src="../_images/s2s-rnn.jpeg" /></p>
 </div>
 <div class="section" id="neural-network">
 <h2><span class="section-number">1.2. </span>Neural Network<a class="headerlink" href="#neural-network" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Neural network expects an numeric input, i.e., a numeric representation of the input text.</p></li>
+<li><p>Neural network expects an numeric input, i.e., a numeric representation of the input text/word.</p></li>
 <li><p>So the first step in deep learning is the same as traditional ML, which is text vectorization.</p></li>
-<li><p>And because a sequence model eats in one word as the input, word representation/vectorization is crucial.</p></li>
+<li><p>And because a sequence model like RNN eats in one <strong>word</strong> at a time, <strong>word vectorization</strong> is necessary and crucial.</p></li>
 </ul>
 </div>
-<div class="section" id="word-representations-in-deep-learning">
-<h2><span class="section-number">1.3. </span>Word Representations in Deep Learning<a class="headerlink" href="#word-representations-in-deep-learning" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="word-representations-in-sequence-models">
+<h2><span class="section-number">1.3. </span>Word Representations in Sequence Models<a class="headerlink" href="#word-representations-in-sequence-models" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Like in traditional machine learning, feature engineering is crucial to the success of the computational modeling.</p></li>
-<li><p>Of particular importance is the transformation of each text into numeric representation that has a significant portion of <strong>textual semantics</strong>.</p></li>
+<li><p>Of particular importance is the transformation of each text/word into numeric representation that has a significant portion of its <strong>semantics</strong>.</p></li>
 </ul>
 <ul class="simple">
-<li><p>One-hot encoding is the most intuitive way to represent lexical words numerically.</p></li>
-<li><p>If the language vocabulary size is <em>V</em>, each word can be represented as a vector of size <em>V</em>, with its correpsonding dimension to be the value of <strong>1</strong> and the rest being <strong>0</strong>’s.</p></li>
+<li><p><strong>One-hot encoding</strong> is the simplest way to represent texts/words numerically.</p></li>
+<li><p>If the corpus vocabulary size is <em>V</em>, each word can be represented as a vector of size <em>V</em>, with its corresponding dimension to be the value of <strong>1</strong> and the rest being <strong>0</strong>’s.</p></li>
+<li><p>A text can also be represented as a vector of size <em>V</em>, with each dimension to be the occurrence (or frequencies) of the words on each dimension (i.e., bag-of-words text vectorization).</p></li>
 </ul>
 <p><img alt="" src="../_images/seq-1hot.png" /></p>
 <ul class="simple">
-<li><p>The main problem with is one-hot encoding is that the semantic distances in-between words are all the same, i.e., <span class="math notranslate nohighlight">\(D(mice,rats)=D(mice, horses)= 0\)</span>.</p></li>
+<li><p>The main problem with this one-hot encoding of words is that the semantic distances in-between words are all the same, i.e., <span class="math notranslate nohighlight">\(D(mice,rats)=D(mice, horses)= 0\)</span>.</p></li>
 </ul>
 </div>
 <div class="section" id="word-embeddings">
 <h2><span class="section-number">1.4. </span>Word Embeddings<a class="headerlink" href="#word-embeddings" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Now via neural network, we can learn <strong>word embeddings</strong> automatically. (See Word Embeddings notes).</p></li>
+<li><p>Now via neural network, we can learn <strong>word embeddings</strong> automatically. (See Word Embeddings lecture notes).</p></li>
 <li><p>These word embeddings allows us to perform computation of lexical semantics.</p></li>
 </ul>
 <p><img alt="" src="../_images/seq-embeddings.png" /></p>
@@ -595,14 +630,20 @@
 </div>
 <ul class="simple">
 <li><p>While each dimension of the word embeddings may not have very transparent <strong>semantic fields</strong>, the results out of the semantic computation do reflect a lot the lexical semantic relations between words.</p></li>
+<li><p>Please see Mikolov et al’s seminal works:</p>
+<ul>
+<li><p><a class="reference external" href="https://arxiv.org/pdf/1301.3781.pdf">Efficient Estimation of Word Representations in Vector Space</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/pdf/1310.4546.pdf">Distributed Representations of Words and Phrases and their Compositionality</a></p></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="section" id="from-one-hot-to-embeddings">
 <h2><span class="section-number">1.5. </span>From One-hot to Embeddings<a class="headerlink" href="#from-one-hot-to-embeddings" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Therefore, we often add <strong>Embedding Layer</strong> as the first layer of a sequence model to render all lexical items in a text into semantically informative embeddings (vectors).</p></li>
-<li><p>Weights of the Embedding Layer can be trained along with the sequence model.</p></li>
-<li><p>Or alternatively, we can use pre-trained word embeddings, which were trained in a different task based on a much larger corpus.</p></li>
+<li><p>Weights of the Embedding Layer can be trained along with the sequence model of the downstream NLP task.</p></li>
+<li><p>Or alternatively, we can use <strong>pre-trained</strong> word embeddings, which were trained in a different task based on a much larger corpus.</p></li>
 </ul>
 <p><img alt="" src="../_images/seq-1hot-to-embeddings.png" /></p>
 <ul class="simple">
@@ -613,7 +654,7 @@
 <div class="section" id="recurrent-neural-network-rnn-language-model">
 <h2><span class="section-number">1.6. </span>Recurrent Neural Network (RNN) Language Model<a class="headerlink" href="#recurrent-neural-network-rnn-language-model" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Words, as semantically represented by embeddings, can now be the input tensors for a RNN.</p></li>
+<li><p>Words, as vectorized into embeddings, can now be the input tensors for a RNN.</p></li>
 </ul>
 <p><img alt="" src="../_images/s2s-rnn.jpeg" /></p>
 <ul class="simple">
@@ -621,32 +662,39 @@
 <li><p>A language model has two main objectives in its NLP applications:</p>
 <ul>
 <li><p>To estimate the probability of a given sentence (or any other meaningful linguistic units)</p></li>
-<li><p>To predict the upcoming word given limited linguistic inputs</p></li>
+<li><p>To predict the upcoming word given the previous limited linguistic inputs</p></li>
 </ul>
 </li>
 </ul>
 <p><img alt="" src="../_images/s2s-rnn-lm.jpeg" /></p>
 <ul class="simple">
-<li><p>The RNN Langage model takes one word at each time step as the input and output the predicted next word.</p></li>
-<li><p>And the output at time step <em>i</em> becomes the input of the RNN at time step <em>i+1</em>.</p></li>
+<li><p>The RNN Langage model takes in one word at a time at each timestep and returns a tensor as the output (hidden state).</p></li>
+<li><p>And the output at timestep <em>i</em> becomes the input of the RNN at timestep <em>i+1</em>.</p></li>
 </ul>
+<div class="section" id="how-do-we-compute-the-loss-of-the-rnn-lm">
+<h3>How do we compute the loss of the RNN LM?<a class="headerlink" href="#how-do-we-compute-the-loss-of-the-rnn-lm" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>The loss function of the RNN Language Model is the distance between the predicted word, <em>y</em>, and the correct next-word (in its one-hot form).</p></li>
-<li><p>The training of the RNN language model is thus to minimize the sum of the <strong>cross-entropy</strong> at all time steps.</p></li>
+<li><p>To evaluate the language model, we know the correct next-word, and we have the output tensor from the RNN, we just need a method to compute the difference.</p>
+<ul>
+<li><p>First, we convert the correct answer (next word) into <strong>one-hot encoding</strong>.</p></li>
+<li><p>Second, we make sure that our RNN LM returns a vector of the same size as the one-hot word vector.</p></li>
+<li><p>Finally, we compute the loss using <strong>cross-entropy</strong>.</p></li>
+</ul>
+</li>
 </ul>
 <p><img alt="" src="../_images/s2s-rnn-lm-loss.jpeg" /></p>
 <ul class="simple">
-<li><p>For example, if the target next word is <em>dog</em>, it’s one-hot representation is <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">0,</span> <span class="pre">0</span> <span class="pre">,0,</span> <span class="pre">0]</span></code>, and the RNN LM predicted <em>y</em> is <code class="docutils literal notranslate"><span class="pre">[0.2,</span> <span class="pre">0.4,</span> <span class="pre">0.1,</span> <span class="pre">0.1,</span> <span class="pre">0.2,</span> <span class="pre">0.0]</span></code>, we can compute the <strong>cross-entropy</strong> at this time step as follows.</p></li>
+<li><p>For example, if the target next word is <em>dog</em>, whose one-hot representation is <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">0,</span> <span class="pre">0</span> <span class="pre">,0,</span> <span class="pre">0]</span></code>, and the RNN LM predicted <span class="math notranslate nohighlight">\(\hat{y}\)</span> is <code class="docutils literal notranslate"><span class="pre">[0.2,</span> <span class="pre">0.4,</span> <span class="pre">0.1,</span> <span class="pre">0.1,</span> <span class="pre">0.2,</span> <span class="pre">0.0]</span></code>, we can compute the <strong>cross-entropy</strong> at this time step as follows.</p></li>
 </ul>
 <div class="math notranslate nohighlight">
 \[
 E = - \sum_{k}t_k \log{y_k}
 \]</div>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- k: refers to the dimensions of the one-hot vectors
-- t: refers to the target next word
-- y: refers to the predicted y from the RNN LM
-</pre></div>
-</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(k\)</span>: refers to the dimensions of the one-hot vectors</p></li>
+<li><p><span class="math notranslate nohighlight">\(t\)</span>: refers to the target next-word vector</p></li>
+<li><p><span class="math notranslate nohighlight">\(y\)</span>: refers to the predicted <span class="math notranslate nohighlight">\(\hat{y}\)</span> from the RNN LM</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cross_entropy</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
@@ -668,19 +716,18 @@ E = - \sum_{k}t_k \log{y_k}
 </div>
 </div>
 <ul class="simple">
-<li><p>And we compute the average cross-entropy error across all time steps for a particular sample (i.e., for the entire sequence).</p></li>
+<li><p>And we compute the average cross-entropy loss values across all time steps for a particular sample (i.e., for the entire input sequence).</p></li>
 </ul>
 <div class="math notranslate nohighlight">
 \[
 E = - \frac{1}{N}\sum_n\sum_{k}t_{nk} \log{y_{nk}}
 \]</div>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- N: the number of words in the input text
-</pre></div>
-</div>
 <ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(N\)</span>: the number of words in the input text</p></li>
 <li><p>We can also compute the average cross-entropy error for samples of a batch size.</p></li>
 <li><p>We can also compute the average cross-entropy error for the entire training set.</p></li>
 </ul>
+</div>
 </div>
 <div class="section" id="back-propogation-skipped">
 <h2><span class="section-number">1.7. </span>Back Propogation (skipped)<a class="headerlink" href="#back-propogation-skipped" title="Permalink to this headline">¶</a></h2>
@@ -711,7 +758,11 @@ E = - \frac{1}{N}\sum_n\sum_{k}t_{nk} \log{y_{nk}}
 <h3>Issues with Vanilla RNN<a class="headerlink" href="#issues-with-vanilla-rnn" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>An RNN on a sequence of words can be taken as a very deep neural network, where the depths of the network are the number of time steps of the sequence.</p></li>
-<li><p>In back propagation, for longer sequences, we would run into the <strong>vanishing gradient problems</strong>. To simply put, the gradients would become smaller and smaller as we back propagate further back to the previous contexts of the sequence.</p></li>
+</ul>
+<p><img alt="" src="../_images/name-gender-classifier-dl.009.jpeg" /></p>
+<ul class="simple">
+<li><p>In back propagation, for longer sequences, we would run into the <strong>vanishing gradient problems</strong>.</p></li>
+<li><p>Simply put, the gradients would become smaller and smaller as we back propagate further back to the previous time steps of the sequence.</p></li>
 <li><p>The further back the weights are, the more likely their gradients would approach zero.</p></li>
 </ul>
 </div>
@@ -728,21 +779,6 @@ E = - \frac{1}{N}\sum_n\sum_{k}t_{nk} \log{y_{nk}}
 <h3>LSTM (Long Short-Term Memory)<a class="headerlink" href="#lstm-long-short-term-memory" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>A type of RNN proposed by <a class="reference external" href="https://www.bioinf.jku.at/publications/older/2604.pdf">Hochreiter and Schmidhuber in 1997</a> as a solution to the vanishing gradients problem.</p></li>
-<li><p>For every time step, LSTM keeps track of two states: a <strong>hidden</strong> state and a <strong>cell</strong> state</p>
-<ul>
-<li><p>Both are of the vector length <span class="math notranslate nohighlight">\(n\)</span> same as the node/neuron number of the LSTM.</p></li>
-<li><p>The <strong>cell</strong> state stores long-term information in the sequence.</p></li>
-<li><p>The LSTM can erase, write and read information from the <strong>cell</strong>.</p></li>
-</ul>
-</li>
-<li><p>The selection of which information is erased/written/read is controlled by three corresponding <strong>gates</strong>.</p>
-<ul>
-<li><p>There are three <strong>gates</strong> in LSTM: <strong>output</strong>, <strong>input</strong>, and <strong>forget</strong> gates.</p></li>
-<li><p>The gates are also of the vector length <span class="math notranslate nohighlight">\(n\)</span> same as the node/neuron number of the LSTM.</p></li>
-<li><p>On each time step, each element of the gates can be open(1),closed(0),or somewhere in-between.</p></li>
-<li><p>The gates are dynamic: their value is computed based on the current <strong>cell</strong> state.</p></li>
-</ul>
-</li>
 </ul>
 <ul class="simple">
 <li><p>Vanilla RNN</p></li>
@@ -754,6 +790,25 @@ E = - \frac{1}{N}\sum_n\sum_{k}t_{nk} \log{y_{nk}}
 </ul>
 <p><img alt="" src="../_images/LSTM3-chain-annotated.jpeg" />
 (Source: <a class="reference external" href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">http://colah.github.io/posts/2015-08-Understanding-LSTMs/</a>)</p>
+<ul class="simple">
+<li><p>For every time step, LSTM keeps track of two states: a <strong>hidden</strong> state and a <strong>cell</strong> state</p>
+<ul>
+<li><p>Both are of the vector length <span class="math notranslate nohighlight">\(n\)</span> same as the node/neuron number of the LSTM.</p></li>
+<li><p>The <strong>cell</strong> state stores long-term information in the sequence.</p></li>
+<li><p>The LSTM can erase, write and read information from the <strong>cell</strong>.</p></li>
+</ul>
+</li>
+</ul>
+<ul class="simple">
+<li><p>The selection of which information is erased/written/read is controlled by three corresponding <strong>gates</strong>.</p>
+<ul>
+<li><p>There are three <strong>gates</strong> in LSTM: <strong>output</strong>, <strong>input</strong>, and <strong>forget</strong> gates.</p></li>
+<li><p>The gates are also of the vector length <span class="math notranslate nohighlight">\(n\)</span> same as the node/neuron number of the LSTM.</p></li>
+<li><p>On each time step, each element of the gates can be open(1),closed(0),or somewhere in-between.</p></li>
+<li><p>The gates are dynamic: their value is computed based on the current cell state, hidden state, and the input x.</p></li>
+</ul>
+</li>
+</ul>
 <ul class="simple">
 <li><p>LSTM gates:</p>
 <ul>
@@ -781,49 +836,63 @@ E = - \frac{1}{N}\sum_n\sum_{k}t_{nk} \log{y_{nk}}
 <div class="section" id="heuristics">
 <h3>Heuristics<a class="headerlink" href="#heuristics" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
+<li><p>LSTM is more complex than GRU.</p></li>
 <li><p>LSTM is a good default choice (especially if our data has particularly long dependencies, or we have lots of training data)</p></li>
-<li><p>We may switch to GRUs for <strong>speed</strong> and fewer parameters.</p></li>
+<li><p>We may switch to GRU for <strong>speed</strong> and fewer parameters.</p></li>
 </ul>
 </div>
 </div>
 <div class="section" id="variations-of-sequence-models">
 <h2><span class="section-number">1.10. </span>Variations of Sequence Models<a class="headerlink" href="#variations-of-sequence-models" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="sequence-models">
+<h3>Sequence Models<a class="headerlink" href="#sequence-models" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>There are four major variants of sequence models depending on the types of input and output of the RNN</p>
+<li><p>Most of the NLP tasks are sequence-to-sequence problems.</p></li>
+<li><p>Depending on the nature of the tasks as well as their inputs and outputs, we can classify sequence models into four types:</p>
 <ul>
-<li><p>Many to Many (Same lengths for input and output sequences)</p>
-<ul>
-<li><p>Most of the tagging problems fall into this category.</p></li>
+<li><p>Many-to-Many</p></li>
+<li><p>Many-to-One</p></li>
+<li><p>One-to-Many</p></li>
+<li><p>Many-to-Many</p></li>
 </ul>
 </li>
-<li><p>Many to One</p>
-<ul>
+</ul>
+</div>
+<div class="section" id="many-to-many-same-lengths-for-input-and-output-sequences">
+<h3>Many to Many (Same lengths for input and output sequences)<a class="headerlink" href="#many-to-many-same-lengths-for-input-and-output-sequences" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Most of the tagging problems fall into this category (e.g., POS Tagging, Word Segmentation, Named Entity Recognition)</p></li>
+</ul>
+<hr class="docutils" />
+<p><img alt="" src="../_images/seq2seq-m2m-s.jpeg" /></p>
+</div>
+<div class="section" id="many-to-one">
+<h3>Many to One<a class="headerlink" href="#many-to-one" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
 <li><p>Most of the classification problems fall into this category.</p></li>
 </ul>
-</li>
-<li><p>One to Many</p>
-<ul>
+<hr class="docutils" />
+<p><img alt="" src="../_images/seq2seq-m21.jpeg" /></p>
+</div>
+<div class="section" id="one-to-many">
+<h3>One to Many<a class="headerlink" href="#one-to-many" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Text Generation</p></li>
 <li><p>Image Captioning</p></li>
 </ul>
-</li>
-<li><p>Many to Many (Variable lengths for input and output sequences)</p>
-<ul>
+<hr class="docutils" />
+<p><img alt="" src="../_images/seq2seq-12m.jpeg" /></p>
+</div>
+<div class="section" id="many-to-many-variable-lengths-for-input-and-output-sequences">
+<h3>Many to Many (Variable lengths for input and output sequences)<a class="headerlink" href="#many-to-many-variable-lengths-for-input-and-output-sequences" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
 <li><p>Machine Translation</p></li>
 <li><p>Chatbot Q&amp;A</p></li>
 <li><p>Text Summarization</p></li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
-<hr class="docutils" />
-<p><img alt="" src="../_images/seq2seq-m2m-s.jpeg" /></p>
-<hr class="docutils" />
-<p><img alt="" src="../_images/seq2seq-m21.jpeg" /></p>
-<hr class="docutils" />
-<p><img alt="" src="../_images/seq2seq-12m.jpeg" /></p>
 <hr class="docutils" />
 <p><img alt="" src="../_images/seq2seq-m2m-d.jpeg" /></p>
+</div>
 </div>
 <div class="section" id="references">
 <h2><span class="section-number">1.11. </span>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
