@@ -125,21 +125,22 @@ tokenizer.word_index
 
 # ## Prepare Input and Output Tensors
 
-# - Like in feature-based machine translation, a computational model only accepts numeric values. It is necessary to convert raw texts to numeric tensors for neural network.
+# - Like in feature-based machine learning, a computational model only accepts numeric values. It is necessary to convert raw texts to numeric tensors for neural network.
 # - After we create the `Tokenizer`, we use the `Tokenizer` to perform text vectorization, i.e., converting texts into tensors.
 # - In deep learning, words or characters are automatically converted into numeric representations. In other words, the feature engineering step is fully automatic.
 
 # ### Two Ways of Text Vectorization
-# 
+
 # - Texts to Sequences:
 #     - For each text, we convert all word tokens into **integer sequences**.
 #     - These integer sequences will then be transformed into **embeddings** in the deep learning network.
 #     - These embeddings are usually the basis for deep learning sequence models (i.e., RNN).
+#     
+
 # - Texts to Matrix: 
 #     - For each text, we vectorize the entire text into a vector of bag-of-words representation.
 #     - A **One-hot encoding** of the entire text would have all values of the text vector to be either 0 or 1, indicating the occurrence of all the words in the dictionary.
 #     - We can of course use the frequency-based bag-of-words representation (similar to `CountVectorizer()`).
-# 
 
 # ## Method 1: Text to Sequences
 
@@ -165,7 +166,7 @@ print(labels[:5])
 
 # ### Padding
 # 
-# - When padding the all texts into uniform lengths, consider whether to Pre-padding or removing values from the beginning of the sequence (i.e., `pre`) or the other way (`post`).
+# - When padding the all texts into uniform lengths, consider whether to pad or remove values from the beginning of the sequence (i.e., `pre`) or the other way (`post`).
 # - Check `padding` and `truncating` parameters in `pad_sequences`
 # - In this tutorial, we first identify the longest name, and use its length as the `max_len` and pad all names into the `max_len`.
 
@@ -195,10 +196,10 @@ names_ints_pad = sequence.pad_sequences(names_ints, maxlen=max_len)
 names_ints_pad[:10]
 
 
-# ### Define X and Y
+# ### Define X and y
 # 
 # - So for names, we convert names into integer sequences, and pad them into the uniform length.
-# - We perform exactly the same processing to the names in test data.
+# - We perform exactly the same processing to the names in testing data.
 # - We convert both the names (X) and labels (y) into `numpy.array`.
 
 # In[14]:
@@ -232,7 +233,7 @@ print(y_test.shape)
 
 # - We can convert each text to a bag-of-words vector using `Tokenzier.texts_to_matrix()`.
 # - In particular, we can specify the parameter `mode`: `binary`, `count`, or `tfidf`.
-# - When the `mode="binary"`, the text vector is a one-hot encoding vector, indicating whether a character occurs in the text or not.
+# - When the `mode="binary"`, the text vector is a **one-hot encoding** vector, indicating whether a character occurs in the text or not.
 
 # In[16]:
 
@@ -283,10 +284,10 @@ print(y_test2.shape)
 #     - **Compile** the model
 #     - **Fit** the model
 
-# - After we have defined our input and output tensors (X and y), we can define the architecture of our neural network model.
-# - For the two ways of name vectorized representations, we try two different types of networks.
-#     - Text to Matrix: Fully connected Dense Layers
-#     - Text to Sequences: Embedding + RNN
+# - After we have defined our input and output tensors (X and y), we can define the **architecture** of our neural network model.
+# - For the two ways of *name* vectorized representations, we try two different types of networks.
+#     - **Text to Matrix**: Fully connected Dense Layers
+#     - **Text to Sequences**: Embedding + RNN
 # 
 
 # In[21]:
@@ -350,8 +351,8 @@ model1.add(layers.Dense(1, activation="sigmoid", name="output"))
 
 
 ## Compile Model
-model1.compile(loss=keras.losses.BinaryCrossentropy(),
-               optimizer=keras.optimizers.Adam(lr=0.001),
+model1.compile(loss='binary_crossentropy',
+               optimizer='adam',
                metrics=["accuracy"])
 
 
@@ -397,12 +398,12 @@ plot1(history1)
 # In[28]:
 
 
-model1.evaluate(X_test2, y_test2, batch_size=128, verbose=2)
+model1.evaluate(X_test2, y_test2, batch_size=BATCH_SIZE, verbose=2)
 
 
 # ### Model 2: Embedding + RNN
 
-# - Another possibility is to introduce an embedding layer in the network, which transforms each **character** in the name into a tensor (i.e., embeddings), and then to add a Recurrent Neural Network layer to process each character sequentially.
+# - Another possibility is to introduce an embedding layer in the network, which transforms each **character** of the name into a tensor (i.e., embeddings), and then we add a Recurrent Neural Network (RNN) layer to process each character sequentially.
 # - The strength of the RNN is that it iterates over the **timesteps** of a sequence, while maintaining an internal state that encodes information about the **timesteps** it has seen so far.
 # - It is posited that after the RNN iterates through the entire sequence, it keeps important information of all previously iterated tokens for further operation.
 # - The input of this network is a padded sequence of the original text (name).
@@ -426,8 +427,8 @@ model2.add(layers.SimpleRNN(16, activation="relu", name="RNN_layer"))
 model2.add(layers.Dense(16, activation="relu", name="dense_layer"))
 model2.add(layers.Dense(1, activation="sigmoid", name="output"))
 
-model2.compile(loss=keras.losses.BinaryCrossentropy(),
-               optimizer=keras.optimizers.Adam(lr=0.001),
+model2.compile(loss='binary_crossentropy',
+               optimizer='adam',
                metrics=["accuracy"])
 
 
@@ -477,12 +478,12 @@ plot1(history2)
 # In[33]:
 
 
-model2.evaluate(X_test, y_test, batch_size=128, verbose=2)
+model2.evaluate(X_test, y_test, batch_size=BATCH_SIZE, verbose=2)
 
 
 # ### Model 3: Regularization and Dropout
 
-# - Based on the validation results of the previous two models (esp. the RNN-based model), we can see that they are probably a bit overfit because the model performance on the validation set starts to stall after the first few epochs.
+# - Based on the validation results of the previous two models (esp. the RNN-based model), we can see that they are probably a bit overfit because the model performance on the validation set starts to **stall** after the first few epochs.
 # - We can add **regularization** and **dropouts** in our network definition to avoid overfitting.
 
 # In[34]:
@@ -507,15 +508,15 @@ model3.add(
 model3.add(layers.Dense(16, activation="relu", name="dense_layer"))
 model3.add(layers.Dense(1, activation="sigmoid", name="output"))
 
-model3.compile(loss=keras.losses.BinaryCrossentropy(),
-               optimizer=keras.optimizers.Adam(lr=0.001),
+model3.compile(loss='binary_crossentropy',
+               optimizer='adam',
                metrics=["accuracy"])
 
 
 # In[35]:
 
 
-plot_model(model3)
+plot_model(model3, show_shapes=True)
 
 
 # In[36]:
@@ -538,7 +539,7 @@ plot1(history3)
 # In[38]:
 
 
-model3.evaluate(X_test, y_test, batch_size=128, verbose=2)
+model3.evaluate(X_test, y_test, batch_size=BATCH_SIZE, verbose=2)
 
 
 # ### Model 4: Improve the Models
@@ -585,8 +586,8 @@ model4.add(
 model4.add(layers.Dense(1, activation="sigmoid", name="output"))
 
 ## Compile model
-model4.compile(loss=keras.losses.BinaryCrossentropy(),
-               optimizer=keras.optimizers.Adam(lr=0.001),
+model4.compile(loss='binary_crossentropy',
+               optimizer='adam',
                metrics=["accuracy"])
 
 
@@ -616,7 +617,7 @@ plot1(history4)
 # In[43]:
 
 
-model4.evaluate(X_test, y_test, batch_size=128, verbose=2)
+model4.evaluate(X_test, y_test, batch_size=BATCH_SIZE, verbose=2)
 
 
 # ### Model 5: Bidirectional
@@ -657,8 +658,8 @@ model5.add(
                     recurrent_dropout=0.5)))
 model5.add(layers.Dense(1, activation="sigmoid", name="output"))
 
-model5.compile(loss=keras.losses.BinaryCrossentropy(),
-               optimizer=keras.optimizers.Adam(lr=0.001),
+model5.compile(loss='binary_crossentropy',
+               optimizer='adam',
                metrics=["accuracy"])
 
 
@@ -685,10 +686,10 @@ history5 = model5.fit(X_train,
 plot1(history5)
 
 
-# In[48]:
+# In[78]:
 
 
-model5.evaluate(X_test, y_test, batch_size=128, verbose=2)
+model5.evaluate(X_test, y_test, batch_size=BATCH_SIZE, verbose=2)
 
 
 # ## Check Embeddings
@@ -846,8 +847,8 @@ def build_model(hp):
                 recurrent_dropout=0.2)))
     m.add(layers.Dense(1, activation="sigmoid", name="output"))
 
-    m.compile(loss=keras.losses.BinaryCrossentropy(),
-              optimizer=keras.optimizers.Adam(lr=0.001),
+    m.compile(loss='binary_crossentropy',
+              optimizer='adam',
               metrics=["accuracy"])
     return m
 
@@ -862,8 +863,8 @@ if os.path.isdir('my_dir'):
     shutil.rmtree('my_dir')
 
 
-# - The `max_trials` variable represents the maximum number of trials that a hyperparameter combination would run.
-# - The `execution_per_trial` variable is the number of models that should be built and fit for each trial for robustness purposes.
+# - The `max_trials` variable represents the maximum number of the hyperparameter combinations that will be tested by the tuner (because sometimes the combinations are too many and the max number can limit the time in fine-tuning).
+# - The `execution_per_trial` variable is the number of models that should be built and fit for each trial for robustness purposes (i.e., consistent results).
 
 # In[58]:
 
@@ -887,7 +888,7 @@ tuner.search_space_summary()
 # In[60]:
 
 
-get_ipython().run_cell_magic('time', '', '## Start tuning with the tuner\ntuner.search(X_train, y_train, validation_split=0.2, batch_size=128)')
+get_ipython().run_cell_magic('time', '', '## Start tuning with the tuner\ntuner.search(X_train, y_train, validation_split=VALIDATION_SPLIT, batch_size=BATCH_SIZE)')
 
 
 # In[61]:
@@ -914,11 +915,11 @@ tuner.results_summary()
 
 # ### Train Model with the Tuned Hyperparameters
 
-# In[64]:
+# In[79]:
 
 
 EMBEDDING_DIM = 128
-HIDDEN_STATE= 48
+HIDDEN_STATE=32
 model6 = Sequential()
 model6.add(
     layers.Embedding(input_dim=vocab_size,
@@ -934,13 +935,13 @@ model6.add(
                     recurrent_dropout=0.5)))
 model6.add(layers.Dense(1, activation="sigmoid", name="output"))
 
-model6.compile(loss=keras.losses.BinaryCrossentropy(),
-               optimizer=keras.optimizers.Adam(lr=0.001),
+model6.compile(loss='binary_crossentropy',
+               optimizer='adam',
                metrics=["accuracy"])
 plot_model(model6)
 
 
-# In[65]:
+# In[80]:
 
 
 history6 = model6.fit(X_train,
@@ -951,29 +952,29 @@ history6 = model6.fit(X_train,
                       validation_split=VALIDATION_SPLIT)
 
 
-# In[66]:
+# In[81]:
 
 
 plot2(history6)
 
 
-# In[67]:
+# In[93]:
 
 
-explainer = LimeTextExplainer(class_names=['male'], char_level=True)
+explainer = LimeTextExplainer(class_names=['female','male'], char_level=True)
 
 
-# In[68]:
+# In[96]:
 
 
 def model_predict_pipeline(text):
     _seq = tokenizer.texts_to_sequences(text)
     _seq_pad = keras.preprocessing.sequence.pad_sequences(_seq, maxlen=max_len)
-    #return np.array([[float(1-x), float(x)] for x in model.predict(np.array(_seq_pad))])
-    return model6.predict(np.array(_seq_pad))
+    return np.array([[float(1-x), float(x)] for x in model6.predict(np.array(_seq_pad))])
+    #return model6.predict(np.array(_seq_pad))
 
 
-# In[69]:
+# In[97]:
 
 
 text_id = 12
@@ -981,77 +982,77 @@ print(X_test_texts[text_id])
 model_predict_pipeline([X_test_texts[text_id]])
 
 
-# In[70]:
+# In[106]:
 
 
 exp = explainer.explain_instance(X_test_texts[text_id],
                                  model_predict_pipeline,
-                                 num_features=100,
+                                 num_features=10,
                                  top_labels=1)
 
 
-# In[71]:
+# In[99]:
 
 
 exp.show_in_notebook(text=True)
 
 
-# In[72]:
+# In[100]:
 
 
 y_test[text_id]
 
 
-# In[73]:
+# In[107]:
 
 
 exp = explainer.explain_instance('Tim',
                                  model_predict_pipeline,
-                                 num_features=100,
+                                 num_features=10,
                                  top_labels=1)
 exp.show_in_notebook(text=True)
 
 
-# In[74]:
+# In[108]:
 
 
 exp = explainer.explain_instance('Michaelis',
                                  model_predict_pipeline,
-                                 num_features=100,
+                                 num_features=10,
                                  top_labels=1)
 exp.show_in_notebook(text=True)
 
 
-# In[75]:
+# In[109]:
 
 
 exp = explainer.explain_instance('Sidney',
                                  model_predict_pipeline,
-                                 num_features=100,
+                                 num_features=10,
                                  top_labels=1)
 exp.show_in_notebook(text=True)
 
 
-# In[76]:
+# In[112]:
 
 
 exp = explainer.explain_instance('Timber',
                                  model_predict_pipeline,
-                                 num_features=100,
+                                 num_features=10,
                                  top_labels=1)
 exp.show_in_notebook(text=True)
 
 
-# In[77]:
+# In[113]:
 
 
 exp = explainer.explain_instance('Alvin',
                                  model_predict_pipeline,
-                                 num_features=100,
+                                 num_features=10,
                                  top_labels=1)
 exp.show_in_notebook(text=True)
 
 
 # ## References
-
+# 
 # - Chollet (2017), Ch 3 and  Ch 4

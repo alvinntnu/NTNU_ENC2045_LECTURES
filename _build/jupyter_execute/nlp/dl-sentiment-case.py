@@ -56,10 +56,10 @@ print(len(train_set), len(test_set))
 #     - Texts to Sequences: **Integer encoding** of all word tokens in texts and we will learn token **embeddings** along with the networks
 
 # - Important Steps:
-#     - Split data into X (texts) and y
+#     - Split data into **X** (texts) and **y** (sentiment labels)
 #     - Initialize `Tokenizer`
-#     - Use the `Tokenizer` for `text_to_sequences()` or `text_to_matrix`
-#     - Padding the squences to unigram lengths if needed
+#     - Use the `Tokenizer` for `text_to_sequences()` or `text_to_matrix()`
+#     - Padding the sequences to uniform lengths if needed (this can be either the max length of the sequences or any arbitrary length)
 #     
 
 # In[5]:
@@ -73,12 +73,8 @@ from tensorflow.keras.preprocessing import sequence
 from tensorflow.keras.utils import to_categorical, plot_model
 from tensorflow.keras import layers, Model
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Input
-from tensorflow.keras.layers import Dense
-from tensorflow.keras.layers import LSTM
-from tensorflow.keras.layers import Embedding
-from tensorflow.keras.layers import Bidirectional
-from tensorflow.keras.layers import Concatenate
+from tensorflow.keras.layers import Input, Dense, LSTM, Embedding
+from tensorflow.keras.layers import Bidirectional, Concatenate
 from tensorflow.keras.layers import Attention
 from tensorflow.keras.layers import GlobalAveragePooling1D
 
@@ -101,8 +97,9 @@ print(len(labels))
 # ### Tokenizer
 
 # - Important Notes:
-#     - We set the `num_words` at **10000**, meaning that the `Tokenizer` will automatically include only the most frequent **10000** words in the vocabulary for analysis.
-#     - In other words, when we perform `text_to_sequences()` later, the `Tokenizer` will automatically remove words that are NOT in the vocabulary (top 10000 words).
+#     - We set the `num_words` at **10000**, meaning that the `Tokenizer` will automatically include only the most frequent **10000** words in the later text vectorization.
+#     - In other words, when we perform `text_to_sequences()` later, the `Tokenizer` will automatically remove words that are NOT in the top 10000 words.
+#     - However, the `tokenizer` still keeps the integer indices of all the words in the training texts (i.e., `tokenizer.word_index`)
 
 # In[8]:
 
@@ -115,7 +112,8 @@ tokenizer.fit_on_texts(texts)
 # ### Vocabulary
 
 # - When computing the vocabulary size, the plus 1 is due to the addition of the padding token.
-# - if `oov_token` is specified, then the vocabulary size needs to be added one more.
+# - If `oov_token` is specified, then the vocabulary size needs to be added one more.
+# - When `oov_token` is specified, the unknown word tokens (i.e., words that are not in the top 10000 words) will be replaced with this `oov_token` token, instead of being removed from the texts.
 
 # In[9]:
 
@@ -156,15 +154,15 @@ texts_ints = tokenizer.texts_to_sequences(texts)
 # In[13]:
 
 
-print(len(texts[1000].split(' '))) ## original text word number
-print(len(texts_ints[1000])) ## sequence token number
+print(len(texts[1000].split(' ')))  ## original text word number
+print(len(texts_ints[1000]))  ## sequence token number
 
 
 # #### Padding
 
-# :::{tip}
-# When dealing with texts and documents, padding each text to the maximum length may not be ideal. For example, for sentiment classification, it is usually the case that authors would highlight more his/her sentiment at the end of the text. Therefore, we can specify an arbitrary `max_len` in padding the sequences to (a) reduce the risk of including too much noise in our model, and (b) speed up the training steps.
-# :::
+# - When dealing with texts and documents, padding each text to the **maximum length** may not be ideal. 
+# - For example, for sentiment classification, it is usually the case that authors would more clearly reveal/highlight his/her sentiment at the end of the text. 
+# - Therefore, we can specify an arbitrary `max_len` in padding the sequences to (a) reduce the risk of including too much noise in our model, and (b) speed up the training steps.
 
 # In[14]:
 
@@ -185,8 +183,8 @@ max_len
 
 
 # - In this tutorial, we consider only the **final** 400 tokens of each text, using the following parameters for `pad_sequences()`.
-#     - We keep the final 400 tokens from the text (`truncating='pre'`)
-#     - If the text is short than 400 tokens, we pad the text to 400 tokens at the beginning of the text (`padding='pre'`)
+#     - We keep the final 400 tokens from the text (`truncating='pre'`).
+#     - If the text is shorter than 400 tokens, we pad the text to 400 tokens at the beginning of the text (`padding='pre'`).
 
 # In[16]:
 
@@ -203,10 +201,9 @@ texts_ints_pad[:10]
 # In[17]:
 
 
-## Gereate X and y for training 
+## Gereate X and y for training
 X_train = np.array(texts_ints_pad).astype('int32')
 y_train = np.array(labels)
-
 
 ## Gereate X and y for testing in the same way
 X_test_texts = [n for (n, l) in test_set]
@@ -236,7 +233,6 @@ print(y_test.shape)
 texts_matrix = tokenizer.texts_to_matrix(texts, mode="binary")
 X_train2 = np.array(texts_matrix).astype('int32')
 y_train2 = np.array(labels)
-
 
 ## Same for Testing Data
 X_test2 = tokenizer.texts_to_matrix(X_test_texts,
@@ -422,8 +418,8 @@ model2.evaluate(X_test, y_test, batch_size=BATCH_SIZE, verbose=2)
 
 # ## Issues of Word/Character Representations
 
-# - Generally speaking, we can train our word embeddings along with the downstream NLP task (e.g., the sentiment classification in our current case).
-# - Another common method is to train the word embeddings using unsupervised methods on a large amount of data and apply the pre-trained word embeddings to the current downstream NLP task. Typical methods include word2vec (CBOW or skipped-gram, GloVe etc). We will come back to these later.
+# - Generally speaking, we can train our **word embeddings** along with the downstream NLP task (e.g., the sentiment classification in our current case).
+# - Another common method is to train the word embeddings using unsupervised methods on a large amount of data and apply the pre-trained word embeddings to the current downstream NLP task. Typical methods include word2vec (CBOW or skipped-gram, GloVe etc). We will come back to these unsupervised methods later.
 
 # ## Sequence Models
 
@@ -598,6 +594,9 @@ model5.evaluate(X_test, y_test, batch_size=BATCH_SIZE, verbose=2)
 # - One Embedding Layer + LSTM [hidden state of last time step + cell state of last time step] + Dense Layer
 # - Inputs: Text sequences (padded)
 
+# ![](../images/chris-olah/LSTM3-chain-annotated.jpeg)
+# (Source: https://colah.github.io/posts/2015-08-Understanding-LSTMs/)
+
 # ![](../images/movie-review-classifier-dl/movie-review-classifier-dl.015.jpeg)
 
 # In[48]:
@@ -662,22 +661,25 @@ model6.evaluate(X_test, y_test, batch_size=BATCH_SIZE, verbose=2)
 # - Embedding + LSTM + Self-Attention + Dense
 # - Inputs: Text sequences
 
-# - All of the previous RNN-based models only utilize the output of the last time step from the RNN as the input of the decision-making Dense layer.
-# - We can also make all the hidden outputs at all time steps from the RNN available to decision-marking Dense layer.
+# - All of the previous RNN-based models only utilize the output of the **last time step** from the RNN as the input of the decision-making Dense layer.
+# - We can also make **all the hidden outputs** at all time steps from the RNN available to decision-marking Dense layer.
 # - This is the idea of **Attention**.
 
-# - Here we add one `Attention` layer, which gives us a weighted version of all the hidden states from the RNN. 
-# - This is a Self-Attention mechansim.
-# - The outputs of the self `Attention` layer include information that how each hidden states are connected to each other.
+# ![](../images/seq2seq-self-atten.gif)
+
+# - Here we add one `Self-Attention` layer, which gives us a weighted version of all the hidden states from the RNN.
+# - Self Attention layer is a simple sequence-to-sequence layer, which takes in a set of input tensors and returns a set of output tensors. 
+# - In Self Attention Layer, each output vector is transformed by considering the pairwise similarities of its corresponding input vector and all the other input vectors. 
+# - We will come back to the Attention mechanism in the later unit for more details.
 
 # ![](../images/movie-review-classifier-dl/movie-review-classifier-dl.016.jpeg)
 
-# In[52]:
+# In[73]:
 
 
 ## Model 7 (Self-Attention)
 
-inputs = Input(shape=(max_len,))
+inputs = Input(shape=(max_len, ))
 x = Embedding(input_dim=vocab_size,
               output_dim=EMBEDDING_DIM,
               input_length=max_len,
@@ -707,10 +709,10 @@ model7 = Model(inputs=inputs, outputs=outputs)
 plot_model(model7, show_shapes=True)
 
 
-# In[53]:
+# In[74]:
 
 
-# ## Model 7 (Attention)
+# ## Model 7 (Attention of lasth on allh)
 
 # inputs = Input(shape=(max_len,))
 # x = Embedding(input_dim=vocab_size,
@@ -742,7 +744,40 @@ plot_model(model7, show_shapes=True)
 # plot_model(model7, show_shapes=True)
 
 
-# In[54]:
+# In[75]:
+
+
+# ## Model 7 (Self-Attention before RNN)
+
+# inputs = Input(shape=(max_len, ))
+# x = Embedding(input_dim=vocab_size,
+#               output_dim=EMBEDDING_DIM,
+#               input_length=max_len,
+#               mask_zero=True)(inputs)
+
+# atten_out = Attention()([x,x])
+
+# x_all_hs, x_last_h, x_last_c = LSTM(32,
+#                                     dropout=0.2,
+#                                     recurrent_dropout=0.2,
+#                                     return_sequences=True,
+#                                     return_state=True)(atten_out)
+# ## LSTM Parameters:
+# #     `return_seqeunces=True`: return the hidden states for each time step
+# #     `return_state=True`: return the cell state of the last time step
+# #     When both are set True, the return values of LSTM are:
+# #     (1) the hidden states of all time steps (when `return_sequences=True`) or the hidden state of the last time step
+# #     (2) the hidden state of the last time step
+# #     (3) the cell state of the last time step
+
+# x = Dense(16, activation="relu")(x_last_h)
+# outputs = Dense(1, activation='sigmoid')(x)
+# model7 = Model(inputs=inputs, outputs=outputs)
+
+# plot_model(model7, show_shapes=True)
+
+
+# In[76]:
 
 
 model7.compile(loss='binary_crossentropy',
@@ -756,13 +791,13 @@ history7 = model7.fit(X_train,
                       validation_split=VALIDATION_SPLIT)
 
 
-# In[56]:
+# In[77]:
 
 
 plot1(history7)
 
 
-# In[57]:
+# In[78]:
 
 
 model7.evaluate(X_test, y_test, batch_size=BATCH_SIZE, verbose=2)
@@ -772,8 +807,12 @@ model7.evaluate(X_test, y_test, batch_size=BATCH_SIZE, verbose=2)
 
 # - We use LIME for model explanation.
 # - Let's inspect the Attention-based Model (model7).
+# 
+# :::{warning}
+# In our current experiments, we have not considered very carefully the issue of model over-fitting. To optimize the network, it is necessary to include **regularization** and **dropouts** to reduce the variation of the model performance on unseen datasets (i.e., **generalization**).
+# :::
 
-# In[58]:
+# In[79]:
 
 
 from lime.lime_text import LimeTextExplainer
@@ -784,7 +823,7 @@ explainer = LimeTextExplainer(class_names=['negative', 'positive'],
 best_model = model7
 
 
-# In[59]:
+# In[80]:
 
 
 ## Pipeline for LIME
@@ -795,7 +834,7 @@ def model_predict_pipeline(text):
                      for x in best_model.predict(np.array(_seq_pad))])
 
 
-# In[60]:
+# In[81]:
 
 
 text_id = 3
@@ -806,7 +845,7 @@ exp = explainer.explain_instance(X_test_texts[text_id],
 exp.show_in_notebook(text=True)
 
 
-# In[61]:
+# In[82]:
 
 
 exp.show_in_notebook(text=True)
@@ -821,14 +860,14 @@ exp.show_in_notebook(text=True)
 #     - Extract the embeddings of these words.
 #     - Use dimensional reduction techniques to plot word embeddings in a 2D graph.
 
-# In[62]:
+# In[83]:
 
 
 word_vectors = best_model.layers[1].get_weights()[0]
 word_vectors.shape
 
 
-# In[63]:
+# In[84]:
 
 
 ## Mapping of embeddings and word-labels
@@ -840,7 +879,7 @@ token_labels.insert(0, "PAD")
 token_labels[:10]
 
 
-# In[64]:
+# In[85]:
 
 
 len(token_labels)
@@ -849,14 +888,14 @@ len(token_labels)
 # - Because there are many words, we select words for visualization based on the following criteria:
 #     - Include embeddings of words that are not on the English stopword list (`nltk.corpus.stopwords.words('english')`) and whose word length >= 5 (characters)
 
-# In[65]:
+# In[86]:
 
 
 from sklearn.manifold import TSNE
 stopword_list = nltk.corpus.stopwords.words('english')
 
 
-# In[66]:
+# In[87]:
 
 
 out_index = [
@@ -866,13 +905,13 @@ out_index = [
 len(out_index)
 
 
-# In[67]:
+# In[88]:
 
 
 out_index[:10]
 
 
-# In[79]:
+# In[89]:
 
 
 tsne = TSNE(n_components=2, random_state=0, n_iter=5000, perplexity=3)
@@ -895,7 +934,7 @@ for label, x, y in zip(labels, T[:, 0], T[:, 1]):
 
 # - Let's compare the learning performance of all the models by examining their changes of accuracies and losses in each epoch of training.
 
-# In[69]:
+# In[90]:
 
 
 history = [
@@ -912,7 +951,7 @@ import seaborn as sns
 qualitative_colors = sns.color_palette("Paired", len(history))
 
 
-# In[70]:
+# In[91]:
 
 
 ## Accuracy
@@ -941,7 +980,7 @@ plt.show()
 #     - Embeddings are more useful when working with sequence models (e.g., RNN).
 #     - The self-attention layer, in our current case, is on the entire input sequence, and therefore is limited in its effects.
 
-# In[71]:
+# In[92]:
 
 
 loss = [i['loss'] for i in history]
