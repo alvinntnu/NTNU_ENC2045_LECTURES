@@ -208,7 +208,7 @@ cross_entropy(np.array(y), np.array(t))
 #     - **Output** gate determines how much of the new **cell** state ($C_t$) is used in the output **hidden** state 
 #     - **Forget** gate determines how much of the old **cell** state ($C_{t-1}$) is used in the new **cell** state ($C_t$).
 
-# ![](../images/s2s-lstm.png)
+# ![](../images/s2s-lstm.jpeg)
 
 # ### GRU (Gated Recurrent Unit)
 # 
@@ -220,7 +220,7 @@ cross_entropy(np.array(y), np.array(t))
 # ![](../images/chris-olah/LSTM3-var-GRU.png)
 # (Source: http://colah.github.io/posts/2015-08-Understanding-LSTMs/)
 
-# ![](../images/s2s-gru.png)
+# ![](../images/s2s-gru.jpeg)
 
 # ### Heuristics
 # 

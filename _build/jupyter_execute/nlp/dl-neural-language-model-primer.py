@@ -4,7 +4,7 @@
 # # Neural Language Model: A Start
 # 
 
-# - In this tutorial, we will look at a naive example of neural language model building.
+# - In this tutorial, we will look at a naive example of **neural language model**.
 # - Given a corpus, we can build a neural language model, which will learn to predict the next word given a specified limited context.
 # - Depending on the size of the **limited context**, we can implement different types of neural language model:
 #     - Bigram-based neural language model: The LM model only uses one preceding word for the next-word prediction.
