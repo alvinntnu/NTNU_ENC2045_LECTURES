@@ -662,7 +662,7 @@ model6.evaluate(X_test, y_test, batch_size=BATCH_SIZE, verbose=2)
 # - Inputs: Text sequences
 
 # - All of the previous RNN-based models only utilize the output of the **last time step** from the RNN as the input of the decision-making Dense layer.
-# - We can also make **all the hidden outputs** at all time steps from the RNN available to decision-marking Dense layer.
+# - We can also make **all the hidden outputs** at all time steps from the RNN available to decision-making Dense layer.
 # - This is the idea of **Attention**.
 
 # ![](../images/seq2seq-self-atten.gif)
@@ -976,7 +976,7 @@ plt.show()
 
 
 # - General Observations
-#     - Fully-connected network works better with one-hot encoding of texts (i.e., bag-of-words vectorizaed representations of texts)
+#     - Fully-connected network works better with one-hot encoding of texts (i.e., bag-of-words vectorized representations of texts)
 #     - Embeddings are more useful when working with sequence models (e.g., RNN).
 #     - The self-attention layer, in our current case, is on the entire input sequence, and therefore is limited in its effects.
 
