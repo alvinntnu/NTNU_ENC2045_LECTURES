@@ -6,10 +6,12 @@
 
 # - In this tutorial, we will look at a naive example of **neural language model**.
 # - Given a corpus, we can build a neural language model, which will learn to predict the next word given a specified limited context.
+
 # - Depending on the size of the **limited context**, we can implement different types of neural language model:
-#     - Bigram-based neural language model: The LM model only uses one preceding word for the next-word prediction.
-#     - Trigram-based neural language model: The model will use two preceding words for the next-word prediction.
-#     - *Line*-based neural language model: The model with use all the existing fore-going words for the next-word prediction
+#     - **Bigram**-based neural language model: The model uses one preceding word for the next-word prediction.
+#     - **Trigram**-based neural language model: The model uses two preceding words for the next-word prediction.
+#     - **Line**-based neural language model: The model uses all the existing fore-going words in the "sequence" for the next-word prediction.
+#     - **Discourse**-based neural language model: The model uses inter-sentential information for next-word prediction (e.g., BERT).
 
 # - This tutorial will demonstarte how to build a bigram-based language model.
 # - In the Assignments, you need to extend the same rationale to other types of language models.
@@ -20,7 +22,7 @@
 
 # ## Bigram Model
 
-# - A bigram-based language model assumes that the next word (to be predicted) depends only on the previous word.
+# - A bigram-based language model assumes that the next word (to be predicted) depends only on one preceding word.
 
 # In[1]:
 
@@ -37,12 +39,12 @@ from tensorflow.keras.layers import Dense, LSTM, Embedding
 # ### Tokenization
 # 
 # - A quick reminder of important parameters for `Tokenzier()`:
-#    - `num_words`: the maximum number of words to keep, based on word frequency. Only the most common `num_words-1` words will be kept.
-#    - `filters`: a string where each element is a character that will be filtered from the texts. The default is all punctuation, plus tabs and line breaks, minus the `'` character.
-#    - `lower`: boolean. Whether to convert the texts to lowercase.
-#    - `split`: str. Separator for word splitting.
-#    - `char_level`: if True, every character will be treated as a token.
-#    - `oov_token`: if given, it will be added to word_index and used to replace out-of-vocabulary words during text_to_sequence calls
+#    - **`num_words`**: the maximum number of words to keep, based on word frequency. Only the most common `num_words-1` words will be kept.
+#    - **`filters`**: a string where each element is a character that will be filtered from the texts. The default includes all punctuations, plus tabs and line breaks (except for the `'` character).
+#    - **`lower`**: boolean. Whether to convert the texts to lowercase.
+#    - **`split`**: string. Separator for word splitting.
+#    - **`char_level`**: if True, every character will be treated as a token.
+#    - **`oov_token`**: if given, it will be added to `word_index` and used to replace out-of-vocabulary words during `text_to_sequence` calls
 
 # In[2]:
 
@@ -170,9 +172,9 @@ plot_model(model)
 
 # ### Text Generation Using the Model
 
-# - After we trained the bigram-based LM, we can use the model for text generation.
-# - we can implement a simple text generator: the model always outputs the next-word that has the highest predicted probability values.
-# - At every timestep, the model will use the newly predicted word as the input for another next-word prediction.
+# - After we trained the bigram-based LM, we can use the model for text generation (e.g., a one-to-many sequence-to-sequence application).
+# - We can implement a simple text generator: the model always outputs the next-word that has the highest predicted probability value from the neural LM.
+# - At every time step, the model will use the newly predicted word as the input for another next-word prediction.
 
 # In[13]:
 
@@ -200,9 +202,9 @@ def generate_seq(model, tokenizer, seed_text, n_words):
     return result
 
 
-# ```{tip}
-# When we generate the output sequence, we use a **greedy search**, which selects the most likely word at each time step in the output sequence. While this approach features its efficiency, the quality of the final output sequences may not be necessarily optimal.
-# ```
+# - In the above `generate_seq()`, we use a **greedy search**, which selects the most likely word at each time step in the output sequence. 
+# - While this approach features its efficiency, the quality of the final output sequences may not necessarily be optimal.
+# 
 
 # In[19]:
 
@@ -213,11 +215,12 @@ print(generate_seq(model, tokenizer, 'Jill', 10))
 
 # ### Sampling Strategies for Text Generation
 
-# - Given a trained language model and a seed text chunk, we can generate new text by greedy-search like we've seen above.
-# - But we may sometimes like to add a bit vibe to the robotic texts.
+# - Given a trained language model and a **seed** text chunk, we can generate new text by greedy-search like we've seen above.
+# - But we may sometimes have to add a certain degree of **variation** to the robotic texts for linguistic **creativity**.
+
 # - Possible alternatives:
-#     - We can re-normalize the predicted probability distributions of all next-words to reduce probability differences between the highest and the lowest. (Please see Ch.8.1 Text Generation with LSTM in Chollet's Deep Learning with Python. You will need this for the assignment.)
-#     - We can use non-greedy search by keeping the top *k* probable candidates in the list for next-word prediction. (cf. **Beam Search** below).
+#     - We can re-normalize the predicted probability distributions of all next-words to reduce probability differences between the highest and the lowest. (Please see Ch.8.1 Text Generation with LSTM in Chollet's Deep Learning with Python. You will need this strategy for the assignment.)
+#     - We can use non-greedy search by keeping the top *k* probable candidates in the list for next-word prediction. (cf. **Beam Search** below) and determine the tokens by choosing the sequence of the maximum probability.
 
 # ## Beam Search (skipped)
 

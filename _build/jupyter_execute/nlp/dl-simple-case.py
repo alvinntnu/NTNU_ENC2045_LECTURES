@@ -32,14 +32,14 @@ matplotlib.rcParams['figure.dpi'] = 150
     
 from lime.lime_text import LimeTextExplainer
 
-import tensorflow as tf
+import tensorflow
 import tensorflow.keras as keras
 
-from keras.preprocessing.text import Tokenizer
-from keras.preprocessing import sequence
-from keras.utils import to_categorical, plot_model
-from keras.models import Sequential
-from keras import layers
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing import sequence
+from tensorflow.keras.utils import to_categorical, plot_model
+from tensorflow.keras.models import Sequential
+from tensorflow.keras import layers
     # from keras.layers import Dense
     # from keras.layers import LSTM, RNN, GRU
     # from keras.layers import Embedding
@@ -686,7 +686,7 @@ history5 = model5.fit(X_train,
 plot1(history5)
 
 
-# In[78]:
+# In[48]:
 
 
 model5.evaluate(X_test, y_test, batch_size=BATCH_SIZE, verbose=2)
@@ -915,7 +915,7 @@ tuner.results_summary()
 
 # ### Train Model with the Tuned Hyperparameters
 
-# In[79]:
+# In[64]:
 
 
 EMBEDDING_DIM = 128
@@ -941,7 +941,7 @@ model6.compile(loss='binary_crossentropy',
 plot_model(model6)
 
 
-# In[80]:
+# In[65]:
 
 
 history6 = model6.fit(X_train,
@@ -952,19 +952,19 @@ history6 = model6.fit(X_train,
                       validation_split=VALIDATION_SPLIT)
 
 
-# In[81]:
+# In[66]:
 
 
 plot2(history6)
 
 
-# In[93]:
+# In[67]:
 
 
 explainer = LimeTextExplainer(class_names=['female','male'], char_level=True)
 
 
-# In[96]:
+# In[68]:
 
 
 def model_predict_pipeline(text):
@@ -974,7 +974,7 @@ def model_predict_pipeline(text):
     #return model6.predict(np.array(_seq_pad))
 
 
-# In[97]:
+# In[69]:
 
 
 text_id = 12
@@ -982,7 +982,7 @@ print(X_test_texts[text_id])
 model_predict_pipeline([X_test_texts[text_id]])
 
 
-# In[106]:
+# In[70]:
 
 
 exp = explainer.explain_instance(X_test_texts[text_id],
@@ -991,19 +991,19 @@ exp = explainer.explain_instance(X_test_texts[text_id],
                                  top_labels=1)
 
 
-# In[99]:
+# In[71]:
 
 
 exp.show_in_notebook(text=True)
 
 
-# In[100]:
+# In[72]:
 
 
 y_test[text_id]
 
 
-# In[107]:
+# In[73]:
 
 
 exp = explainer.explain_instance('Tim',
@@ -1013,7 +1013,7 @@ exp = explainer.explain_instance('Tim',
 exp.show_in_notebook(text=True)
 
 
-# In[108]:
+# In[74]:
 
 
 exp = explainer.explain_instance('Michaelis',
@@ -1023,7 +1023,7 @@ exp = explainer.explain_instance('Michaelis',
 exp.show_in_notebook(text=True)
 
 
-# In[109]:
+# In[75]:
 
 
 exp = explainer.explain_instance('Sidney',
@@ -1033,7 +1033,7 @@ exp = explainer.explain_instance('Sidney',
 exp.show_in_notebook(text=True)
 
 
-# In[112]:
+# In[76]:
 
 
 exp = explainer.explain_instance('Timber',
@@ -1043,7 +1043,7 @@ exp = explainer.explain_instance('Timber',
 exp.show_in_notebook(text=True)
 
 
-# In[113]:
+# In[77]:
 
 
 exp = explainer.explain_instance('Alvin',

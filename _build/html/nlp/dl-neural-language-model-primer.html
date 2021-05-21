@@ -58,7 +58,7 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="3. Word Embeddings" href="../temp/text-vec-embedding.html" />
+    <link rel="next" title="Attention: Intuition" href="../temp/dl-seq-to-seq-types.html" />
     <link rel="prev" title="1. Sequence Models Intuition" href="dl-sequence-models-intuition.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -234,11 +234,6 @@
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    2. Neural Language Model: A Start
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../temp/text-vec-embedding.html">
-   3. Word Embeddings
   </a>
  </li>
 </ul>
@@ -511,11 +506,14 @@
 <ul class="simple">
 <li><p>In this tutorial, we will look at a naive example of <strong>neural language model</strong>.</p></li>
 <li><p>Given a corpus, we can build a neural language model, which will learn to predict the next word given a specified limited context.</p></li>
+</ul>
+<ul class="simple">
 <li><p>Depending on the size of the <strong>limited context</strong>, we can implement different types of neural language model:</p>
 <ul>
-<li><p>Bigram-based neural language model: The LM model only uses one preceding word for the next-word prediction.</p></li>
-<li><p>Trigram-based neural language model: The model will use two preceding words for the next-word prediction.</p></li>
-<li><p><em>Line</em>-based neural language model: The model with use all the existing fore-going words for the next-word prediction</p></li>
+<li><p><strong>Bigram</strong>-based neural language model: The model uses one preceding word for the next-word prediction.</p></li>
+<li><p><strong>Trigram</strong>-based neural language model: The model uses two preceding words for the next-word prediction.</p></li>
+<li><p><strong>Line</strong>-based neural language model: The model uses all the existing fore-going words in the “sequence” for the next-word prediction.</p></li>
+<li><p><strong>Discourse</strong>-based neural language model: The model uses inter-sentential information for next-word prediction (e.g., BERT).</p></li>
 </ul>
 </li>
 </ul>
@@ -530,7 +528,7 @@
 <div class="section" id="bigram-model">
 <h2><span class="section-number">2.2. </span>Bigram Model<a class="headerlink" href="#bigram-model" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>A bigram-based language model assumes that the next word (to be predicted) depends only on the previous word.</p></li>
+<li><p>A bigram-based language model assumes that the next word (to be predicted) depends only on one preceding word.</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -550,12 +548,12 @@
 <ul class="simple">
 <li><p>A quick reminder of important parameters for <code class="docutils literal notranslate"><span class="pre">Tokenzier()</span></code>:</p>
 <ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">num_words</span></code>: the maximum number of words to keep, based on word frequency. Only the most common <code class="docutils literal notranslate"><span class="pre">num_words-1</span></code> words will be kept.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">filters</span></code>: a string where each element is a character that will be filtered from the texts. The default is all punctuation, plus tabs and line breaks, minus the <code class="docutils literal notranslate"><span class="pre">'</span></code> character.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">lower</span></code>: boolean. Whether to convert the texts to lowercase.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">split</span></code>: str. Separator for word splitting.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">char_level</span></code>: if True, every character will be treated as a token.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">oov_token</span></code>: if given, it will be added to word_index and used to replace out-of-vocabulary words during text_to_sequence calls</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">num_words</span></code></strong>: the maximum number of words to keep, based on word frequency. Only the most common <code class="docutils literal notranslate"><span class="pre">num_words-1</span></code> words will be kept.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">filters</span></code></strong>: a string where each element is a character that will be filtered from the texts. The default includes all punctuations, plus tabs and line breaks (except for the <code class="docutils literal notranslate"><span class="pre">'</span></code> character).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">lower</span></code></strong>: boolean. Whether to convert the texts to lowercase.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">split</span></code></strong>: string. Separator for word splitting.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">char_level</span></code></strong>: if True, every character will be treated as a token.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">oov_token</span></code></strong>: if given, it will be added to <code class="docutils literal notranslate"><span class="pre">word_index</span></code> and used to replace out-of-vocabulary words during <code class="docutils literal notranslate"><span class="pre">text_to_sequence</span></code> calls</p></li>
 </ul>
 </li>
 </ul>
@@ -1780,16 +1778,16 @@ Epoch 500/500
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-neural-language-model-primer_24_0.png" src="../_images/dl-neural-language-model-primer_24_0.png" />
+<img alt="../_images/dl-neural-language-model-primer_25_0.png" src="../_images/dl-neural-language-model-primer_25_0.png" />
 </div>
 </div>
 </div>
 <div class="section" id="text-generation-using-the-model">
 <h3>Text Generation Using the Model<a class="headerlink" href="#text-generation-using-the-model" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>After we trained the bigram-based LM, we can use the model for text generation.</p></li>
-<li><p>we can implement a simple text generator: the model always outputs the next-word that has the highest predicted probability values.</p></li>
-<li><p>At every timestep, the model will use the newly predicted word as the input for another next-word prediction.</p></li>
+<li><p>After we trained the bigram-based LM, we can use the model for text generation (e.g., a one-to-many sequence-to-sequence application).</p></li>
+<li><p>We can implement a simple text generator: the model always outputs the next-word that has the highest predicted probability value from the neural LM.</p></li>
+<li><p>At every time step, the model will use the newly predicted word as the input for another next-word prediction.</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1818,10 +1816,10 @@ Epoch 500/500
 </div>
 </div>
 </div>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>When we generate the output sequence, we use a <strong>greedy search</strong>, which selects the most likely word at each time step in the output sequence. While this approach features its efficiency, the quality of the final output sequences may not be necessarily optimal.</p>
-</div>
+<ul class="simple">
+<li><p>In the above <code class="docutils literal notranslate"><span class="pre">generate_seq()</span></code>, we use a <strong>greedy search</strong>, which selects the most likely word at each time step in the output sequence.</p></li>
+<li><p>While this approach features its efficiency, the quality of the final output sequences may not necessarily be optimal.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># evaluate</span>
@@ -1839,12 +1837,14 @@ Epoch 500/500
 <div class="section" id="sampling-strategies-for-text-generation">
 <h3>Sampling Strategies for Text Generation<a class="headerlink" href="#sampling-strategies-for-text-generation" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Given a trained language model and a seed text chunk, we can generate new text by greedy-search like we’ve seen above.</p></li>
-<li><p>But we may sometimes like to add a bit vibe to the robotic texts.</p></li>
+<li><p>Given a trained language model and a <strong>seed</strong> text chunk, we can generate new text by greedy-search like we’ve seen above.</p></li>
+<li><p>But we may sometimes have to add a certain degree of <strong>variation</strong> to the robotic texts for linguistic <strong>creativity</strong>.</p></li>
+</ul>
+<ul class="simple">
 <li><p>Possible alternatives:</p>
 <ul>
-<li><p>We can re-normalize the predicted probability distributions of all next-words to reduce probability differences between the highest and the lowest. (Please see Ch.8.1 Text Generation with LSTM in Chollet’s Deep Learning with Python. You will need this for the assignment.)</p></li>
-<li><p>We can use non-greedy search by keeping the top <em>k</em> probable candidates in the list for next-word prediction. (cf. <strong>Beam Search</strong> below).</p></li>
+<li><p>We can re-normalize the predicted probability distributions of all next-words to reduce probability differences between the highest and the lowest. (Please see Ch.8.1 Text Generation with LSTM in Chollet’s Deep Learning with Python. You will need this strategy for the assignment.)</p></li>
+<li><p>We can use non-greedy search by keeping the top <em>k</em> probable candidates in the list for next-word prediction. (cf. <strong>Beam Search</strong> below) and determine the tokens by choosing the sequence of the maximum probability.</p></li>
 </ul>
 </li>
 </ul>
@@ -1991,7 +1991,7 @@ The following codes are based on Jason&#39;s code.
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="dl-sequence-models-intuition.html" title="previous page"><span class="section-number">1. </span>Sequence Models Intuition</a>
-    <a class='right-next' id="next-link" href="../temp/text-vec-embedding.html" title="next page"><span class="section-number">3. </span>Word Embeddings</a>
+    <a class='right-next' id="next-link" href="../temp/dl-seq-to-seq-types.html" title="next page">Attention: Intuition</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
