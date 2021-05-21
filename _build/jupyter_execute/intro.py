@@ -354,7 +354,7 @@
 # 
 # nlp/dl-sequence-models-intuition
 # nlp/dl-neural-language-model-primer
-# temp/text-vec-embedding
+# nlp/text-vec-embedding
 # ```
 # 
 # 
