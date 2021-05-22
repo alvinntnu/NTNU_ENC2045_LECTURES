@@ -3,7 +3,7 @@
 
 # # Word Embeddings
 
-# - The state-of-art of vectorizing texts is to learn the numeric representations of words using deep learning methods.
+# - The state-of-art method of vectorizing texts is to learn the numeric representations of words using deep learning methods.
 # - These deep-learning based numeric representations of linguistic units are commonly referred to as **embeddings**.
 # - Word embeddings can be learned either along with the target NLP task (e.g., the `Embedding` layer in RNN Language Model) or via an **unsupervised** method based on a large number of texts.
 # - In this tutorial, we will look at two main algorithms in `word2vec` that allow us to learn the word embeddings in an **unsupervised** manner from a large collection of texts.
@@ -32,7 +32,7 @@
 # ### Main training algorithms of `word2vec`
 # 
 # - Continuous Bag-of-Words (**CBOW**): The general language modeling task for embeddings training is to learn a model that is capable of using the ***context*** words to predict a ***target*** word.
-# - **Skip-Gram**: The general language modeling task for embeddings training is to learn a model that is capable of using a ***target word*** to predict its context words.
+# - **Skip-Gram**: The general language modeling task for embeddings training is to learn a model that is capable of using a ***target word*** to predict its ***context*** words.
 
 # ![](../images/word2vec.png)
 
@@ -153,7 +153,7 @@ print(corpus_tokens)
 # In[6]:
 
 
-get_ipython().run_cell_magic('time', '', '\nfrom gensim.models import word2vec\n\n# Set values for various parameters\nfeature_size = 10  \nwindow_context = 5  \nmin_word_count = 1  \n\nw2v_model = word2vec.Word2Vec(\n    corpus_tokens,\n    size=feature_size,        # Word embeddings dimensionality\n    window=window_context,    # Context window size\n    min_count=min_word_count, # Minimum word count\n    sg=1,                     # `1` for skip-gram; otherwise CBOW.\n    seed = 123,               # random seed\n    workers=1,                # number of cores to use\n    negative = 5,             # how many negative samples should be drawn\n    cbow_mean = 1,            # whether to use the average of context word embeddings or sum(concat)\n    iter=100,                 # number of epochs for the entire corpus\n    batch_words=10000,        # batch size\n)')
+get_ipython().run_cell_magic('time', '', '\nfrom gensim.models import word2vec\n\n# Set values for various parameters\nfeature_size = 10  \nwindow_context = 5  \nmin_word_count = 1  \n\nw2v_model = word2vec.Word2Vec(\n    corpus_tokens,\n    size=feature_size,        # Word embeddings dimensionality\n    window=window_context,    # Context window size\n    min_count=min_word_count, # Minimum word count\n    sg=1,                     # `1` for skip-gram; otherwise CBOW.\n    seed = 123,               # random seed\n    workers=1,                # number of cores to use\n    negative = 5,             # how many negative samples should be drawn\n    cbow_mean = 1,            # whether to use the average of context word embeddings or sum(concat)\n    iter=10000,               # number of epochs for the entire corpus\n    batch_words=10000,        # batch size\n)')
 
 
 # ### Visualizing Word Embeddings
