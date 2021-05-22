@@ -562,7 +562,7 @@
   <div class="section" id="word-embeddings">
 <h1><span class="section-number">3. </span>Word Embeddings<a class="headerlink" href="#word-embeddings" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><p>The state-of-art of vectorizing texts is to learn the numeric representations of words using deep learning methods.</p></li>
+<li><p>The state-of-art method of vectorizing texts is to learn the numeric representations of words using deep learning methods.</p></li>
 <li><p>These deep-learning based numeric representations of linguistic units are commonly referred to as <strong>embeddings</strong>.</p></li>
 <li><p>Word embeddings can be learned either along with the target NLP task (e.g., the <code class="docutils literal notranslate"><span class="pre">Embedding</span></code> layer in RNN Language Model) or via an <strong>unsupervised</strong> method based on a large number of texts.</p></li>
 <li><p>In this tutorial, we will look at two main algorithms in <code class="docutils literal notranslate"><span class="pre">word2vec</span></code> that allow us to learn the word embeddings in an <strong>unsupervised</strong> manner from a large collection of texts.</p></li>
@@ -600,7 +600,7 @@
 <h3>Main training algorithms of <code class="docutils literal notranslate"><span class="pre">word2vec</span></code><a class="headerlink" href="#main-training-algorithms-of-word2vec" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Continuous Bag-of-Words (<strong>CBOW</strong>): The general language modeling task for embeddings training is to learn a model that is capable of using the <em><strong>context</strong></em> words to predict a <em><strong>target</strong></em> word.</p></li>
-<li><p><strong>Skip-Gram</strong>: The general language modeling task for embeddings training is to learn a model that is capable of using a <em><strong>target word</strong></em> to predict its context words.</p></li>
+<li><p><strong>Skip-Gram</strong>: The general language modeling task for embeddings training is to learn a model that is capable of using a <em><strong>target word</strong></em> to predict its <em><strong>context</strong></em> words.</p></li>
 </ul>
 <p><img alt="" src="../_images/word2vec.png" /></p>
 <ul class="simple">
@@ -832,15 +832,15 @@
     <span class="n">workers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                <span class="c1"># number of cores to use</span>
     <span class="n">negative</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>             <span class="c1"># how many negative samples should be drawn</span>
     <span class="n">cbow_mean</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>            <span class="c1"># whether to use the average of context word embeddings or sum(concat)</span>
-    <span class="nb">iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>                 <span class="c1"># number of epochs for the entire corpus</span>
+    <span class="nb">iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>               <span class="c1"># number of epochs for the entire corpus</span>
     <span class="n">batch_words</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>        <span class="c1"># batch size</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 251 ms, sys: 79.8 ms, total: 331 ms
-Wall time: 327 ms
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 3.75 s, sys: 1.11 s, total: 4.85 s
+Wall time: 8.88 s
 </pre></div>
 </div>
 </div>
@@ -902,20 +902,20 @@ Wall time: 327 ms
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[array([ 0.00939679,  0.06829984, -0.0175484 ,  0.02132299, -0.05242665,
-        -0.03304851,  0.04419975, -0.06251208, -0.02399454,  0.09599195],
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[array([ 0.784301  ,  0.25009292,  1.4975246 , -1.0075508 ,  0.61629665,
+         0.6063493 ,  0.15591188, -0.8170678 ,  0.36189288,  0.4369783 ],
        dtype=float32),
- array([ 0.01285591,  0.03140358,  0.0112119 ,  0.018492  ,  0.03044026,
-        -0.02544665, -0.0126411 , -0.05758382, -0.01122566, -0.00204952],
+ array([ 1.1491109 ,  0.71390206,  1.6037664 , -1.4727064 ,  0.11018104,
+         0.34038126,  0.5746719 , -0.900755  , -0.10498449,  0.32840192],
        dtype=float32),
- array([ 0.03643429,  0.0134499 , -0.03855488,  0.01903728, -0.03877831,
-         0.02132287, -0.01270146, -0.02069955, -0.00287414,  0.08943592],
+ array([ 0.42948523,  0.46259484,  0.7993391 ,  0.26920947,  1.0111133 ,
+        -0.24869905, -0.32832903,  0.8455077 , -0.17631389, -0.55040485],
        dtype=float32),
- array([ 0.04386635, -0.03208053,  0.02133289, -0.01361762,  0.02044106,
-         0.03751241, -0.02182892, -0.05563217, -0.01761477,  0.07301468],
+ array([ 1.2447667 ,  2.4593425 ,  0.61004704, -0.84361315, -0.20513304,
+         0.30263227,  0.47103634,  0.55743533,  0.8404286 , -0.9310767 ],
        dtype=float32),
- array([ 0.05441866,  0.04495171, -0.05245401, -0.03693994,  0.00800954,
-         0.01502647,  0.02184348, -0.06037745,  0.04196955,  0.07094096],
+ array([-0.33282068,  1.8938363 ,  1.8055332 , -0.63900596, -0.49224195,
+         0.5072632 ,  0.13565086,  0.12676433,  0.64882666,  0.4231832 ],
        dtype=float32)]
 </pre></div>
 </div>
@@ -1005,107 +1005,107 @@ Wall time: 327 ms
   <tbody>
     <tr>
       <th>the sky is blue and beautiful</th>
-      <td>0.024933</td>
-      <td>0.027873</td>
-      <td>-0.014866</td>
-      <td>0.010272</td>
-      <td>0.000929</td>
-      <td>0.005070</td>
-      <td>-0.002073</td>
-      <td>-0.049160</td>
-      <td>-0.009556</td>
-      <td>0.055261</td>
+      <td>0.881949</td>
+      <td>1.282482</td>
+      <td>1.169370</td>
+      <td>-0.766623</td>
+      <td>0.046958</td>
+      <td>0.318763</td>
+      <td>0.103750</td>
+      <td>0.160109</td>
+      <td>0.445177</td>
+      <td>-0.037771</td>
     </tr>
     <tr>
       <th>love this blue and beautiful sky</th>
-      <td>0.025177</td>
-      <td>0.008866</td>
-      <td>-0.019504</td>
-      <td>0.005455</td>
-      <td>0.010112</td>
-      <td>0.011062</td>
-      <td>-0.019272</td>
-      <td>-0.034388</td>
-      <td>-0.006778</td>
-      <td>0.058303</td>
+      <td>0.993389</td>
+      <td>1.442332</td>
+      <td>0.907495</td>
+      <td>-0.437124</td>
+      <td>0.158677</td>
+      <td>0.673241</td>
+      <td>0.480995</td>
+      <td>0.830446</td>
+      <td>0.618259</td>
+      <td>-0.151463</td>
     </tr>
     <tr>
       <th>the quick brown fox jumps over the lazy dog</th>
-      <td>0.025583</td>
-      <td>0.018072</td>
-      <td>-0.004801</td>
-      <td>0.012446</td>
-      <td>-0.020033</td>
-      <td>0.009032</td>
-      <td>0.003629</td>
-      <td>-0.024342</td>
-      <td>-0.005160</td>
-      <td>0.043575</td>
+      <td>0.800939</td>
+      <td>0.774233</td>
+      <td>0.671456</td>
+      <td>-1.122219</td>
+      <td>1.047285</td>
+      <td>-0.288948</td>
+      <td>-0.183970</td>
+      <td>-1.174881</td>
+      <td>0.382866</td>
+      <td>1.032578</td>
     </tr>
     <tr>
       <th>a kings breakfast has sausages ham bacon eggs toast and beans</th>
-      <td>0.031809</td>
-      <td>0.035237</td>
-      <td>-0.018374</td>
-      <td>0.027024</td>
-      <td>-0.036935</td>
-      <td>0.013074</td>
-      <td>0.008338</td>
-      <td>-0.014993</td>
-      <td>-0.001698</td>
-      <td>0.062499</td>
+      <td>0.855796</td>
+      <td>1.194596</td>
+      <td>-0.217047</td>
+      <td>1.199348</td>
+      <td>0.968665</td>
+      <td>0.441076</td>
+      <td>-0.001284</td>
+      <td>0.060136</td>
+      <td>-0.823116</td>
+      <td>0.794330</td>
     </tr>
     <tr>
       <th>i love green eggs ham sausages and bacon</th>
-      <td>0.022282</td>
-      <td>0.022551</td>
-      <td>-0.013670</td>
-      <td>0.024269</td>
-      <td>-0.031003</td>
-      <td>0.006596</td>
-      <td>-0.004233</td>
-      <td>-0.018123</td>
-      <td>-0.014158</td>
-      <td>0.066728</td>
+      <td>0.498210</td>
+      <td>1.100473</td>
+      <td>0.000850</td>
+      <td>0.787160</td>
+      <td>1.128485</td>
+      <td>0.799985</td>
+      <td>0.501790</td>
+      <td>0.930674</td>
+      <td>-0.078503</td>
+      <td>0.863962</td>
     </tr>
     <tr>
       <th>the brown fox is quick and the blue dog is lazy</th>
-      <td>0.022720</td>
-      <td>0.026896</td>
-      <td>-0.002897</td>
-      <td>0.013197</td>
-      <td>-0.018552</td>
-      <td>-0.000074</td>
-      <td>0.004398</td>
-      <td>-0.042001</td>
-      <td>-0.003830</td>
-      <td>0.048475</td>
+      <td>0.808819</td>
+      <td>0.703581</td>
+      <td>0.927804</td>
+      <td>-1.018162</td>
+      <td>0.665659</td>
+      <td>0.047246</td>
+      <td>0.053088</td>
+      <td>-0.788958</td>
+      <td>0.434566</td>
+      <td>0.594682</td>
     </tr>
     <tr>
       <th>the sky is very blue and the sky is very beautiful today</th>
-      <td>0.020343</td>
-      <td>0.022317</td>
-      <td>-0.009557</td>
-      <td>0.016949</td>
-      <td>-0.008518</td>
-      <td>0.002390</td>
-      <td>0.008193</td>
-      <td>-0.049766</td>
-      <td>-0.004874</td>
-      <td>0.048264</td>
+      <td>1.178684</td>
+      <td>1.438528</td>
+      <td>1.165024</td>
+      <td>-0.811881</td>
+      <td>-0.052740</td>
+      <td>0.396082</td>
+      <td>0.169894</td>
+      <td>-0.133908</td>
+      <td>0.448993</td>
+      <td>-0.253550</td>
     </tr>
     <tr>
       <th>the dog is lazy but the brown fox is quick</th>
-      <td>0.021527</td>
-      <td>0.021070</td>
-      <td>0.003986</td>
-      <td>0.017852</td>
-      <td>-0.018527</td>
-      <td>-0.004804</td>
-      <td>0.006598</td>
-      <td>-0.039903</td>
-      <td>-0.011737</td>
-      <td>0.034825</td>
+      <td>0.875077</td>
+      <td>0.730577</td>
+      <td>0.911616</td>
+      <td>-1.165358</td>
+      <td>0.759716</td>
+      <td>-0.055843</td>
+      <td>0.023659</td>
+      <td>-1.040530</td>
+      <td>0.533149</td>
+      <td>0.764571</td>
     </tr>
   </tbody>
 </table>
@@ -1158,89 +1158,89 @@ Wall time: 327 ms
     <tr>
       <th>0</th>
       <td>1.000000</td>
-      <td>0.924964</td>
-      <td>0.907416</td>
-      <td>0.804161</td>
-      <td>0.843127</td>
-      <td>0.949765</td>
-      <td>0.973641</td>
-      <td>0.895263</td>
+      <td>0.912405</td>
+      <td>0.571349</td>
+      <td>0.170281</td>
+      <td>0.321300</td>
+      <td>0.763058</td>
+      <td>0.981439</td>
+      <td>0.699931</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>0.924964</td>
+      <td>0.912405</td>
       <td>1.000000</td>
-      <td>0.817265</td>
-      <td>0.712207</td>
-      <td>0.798200</td>
-      <td>0.809972</td>
-      <td>0.845174</td>
-      <td>0.715360</td>
+      <td>0.317095</td>
+      <td>0.287722</td>
+      <td>0.560264</td>
+      <td>0.533041</td>
+      <td>0.879302</td>
+      <td>0.454163</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>0.907416</td>
-      <td>0.817265</td>
+      <td>0.571349</td>
+      <td>0.317095</td>
       <td>1.000000</td>
-      <td>0.953124</td>
-      <td>0.953098</td>
-      <td>0.963551</td>
-      <td>0.927403</td>
-      <td>0.921641</td>
+      <td>0.224509</td>
+      <td>0.158110</td>
+      <td>0.951416</td>
+      <td>0.570610</td>
+      <td>0.973488</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>0.804161</td>
-      <td>0.712207</td>
-      <td>0.953124</td>
+      <td>0.170281</td>
+      <td>0.287722</td>
+      <td>0.224509</td>
       <td>1.000000</td>
-      <td>0.961228</td>
-      <td>0.883486</td>
-      <td>0.829823</td>
-      <td>0.822652</td>
+      <td>0.826242</td>
+      <td>0.158243</td>
+      <td>0.173629</td>
+      <td>0.139257</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>0.843127</td>
-      <td>0.798200</td>
-      <td>0.953098</td>
-      <td>0.961228</td>
+      <td>0.321300</td>
+      <td>0.560264</td>
+      <td>0.158110</td>
+      <td>0.826242</td>
       <td>1.000000</td>
-      <td>0.895851</td>
-      <td>0.849802</td>
-      <td>0.846301</td>
+      <td>0.179381</td>
+      <td>0.253323</td>
+      <td>0.134353</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>0.949765</td>
-      <td>0.809972</td>
-      <td>0.963551</td>
-      <td>0.883486</td>
-      <td>0.895851</td>
+      <td>0.763058</td>
+      <td>0.533041</td>
+      <td>0.951416</td>
+      <td>0.158243</td>
+      <td>0.179381</td>
       <td>1.000000</td>
-      <td>0.978434</td>
-      <td>0.971061</td>
+      <td>0.762788</td>
+      <td>0.994132</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>0.973641</td>
-      <td>0.845174</td>
-      <td>0.927403</td>
-      <td>0.829823</td>
-      <td>0.849802</td>
-      <td>0.978434</td>
+      <td>0.981439</td>
+      <td>0.879302</td>
+      <td>0.570610</td>
+      <td>0.173629</td>
+      <td>0.253323</td>
+      <td>0.762788</td>
       <td>1.000000</td>
-      <td>0.949926</td>
+      <td>0.704748</td>
     </tr>
     <tr>
       <th>7</th>
-      <td>0.895263</td>
-      <td>0.715360</td>
-      <td>0.921641</td>
-      <td>0.822652</td>
-      <td>0.846301</td>
-      <td>0.971061</td>
-      <td>0.949926</td>
+      <td>0.699931</td>
+      <td>0.454163</td>
+      <td>0.973488</td>
+      <td>0.139257</td>
+      <td>0.134353</td>
+      <td>0.994132</td>
+      <td>0.704748</td>
       <td>1.000000</td>
     </tr>
   </tbody>
@@ -1266,7 +1266,7 @@ Wall time: 327 ms
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x7feb1856ef98&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x7fa328bb0128&gt;
 </pre></div>
 </div>
 <img alt="../_images/text-vec-embedding_35_1.png" src="../_images/text-vec-embedding_35_1.png" />
