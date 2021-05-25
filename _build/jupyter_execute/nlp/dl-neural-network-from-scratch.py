@@ -524,9 +524,13 @@ model.predict(x_new)
 # Problem Type | Last-Layer Activation | Loss Function in Keras| `y` Encoding |
 # --|--|--|--|
 # Binary Classification | sigmoid | `binary_crossentropy()`| Integer Encoding |
-# Binary Classification | softmax | `SparseCategoricalCrossentropy(from_logits=False)`| Integer Encoding |
+# Binary/Multiclass Classification | softmax | `SparseCategoricalCrossentropy(from_logits=False)`| Integer Encoding |
 # Multiclass Classification | softmax | `categorical_crossentropy()`| One-hot Encoding |
 # Regression|None|`mes`| Floating-point|
+# 
+# :::{tip}
+# For multi-class classification, as long as the label is in **integer** encodings, then we use the `sparse_categorical_crossentropy` for loss; if the label is in **one-hot** encodings, then we use the `categorical_crossentropy` for loss.
+# :::
 
 # ## Categorical Variables Encoding
 

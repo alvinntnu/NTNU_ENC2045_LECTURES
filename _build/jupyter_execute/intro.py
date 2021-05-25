@@ -361,12 +361,13 @@
 # ```{toctree}
 # :hidden:
 # :titlesonly:
+# :numbered: 2
 # :caption: Seq2Seq, Attention, Transformers, and Transfer Learning
 # 
-# temp/dl-seq-to-seq-types
+# temp/dl-attention-transformer-intuition
 # temp/dl-seq-to-seq-attention-addition
-# temp/dl-transformers-intuition
 # temp/dl-transformers-keras
+# temp/sentiment-analysis-using-bert-keras-movie-reviews
 # ```
 # 
 # 
@@ -381,11 +382,12 @@
 # exercise/4-chinese-nlp
 # exercise/5-text-vectorization
 # exercise/6-machine-learning
-# exercise/midterm-exam
 # exercise/7-topic-modeling
 # exercise/8-dl-chinese-name-gender
 # exercise/9-sentiment-analysis-dl
 # exercise/10-neural-language-model
 # exercise/11-word2vec
+# exercise/12-encoder-decoder
+# exercise/13-attention
 # ```
 # 
