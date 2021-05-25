@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Text Classification with Transformer &#8212; ENC2045 Computational Linguistics</title>
+    <title>3. Sentiment Classification with Transformer (Self-Study) &#8212; ENC2045 Computational Linguistics</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -58,8 +58,8 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Assignment I: Python Basics" href="../exercise/1-python-basics.html" />
-    <link rel="prev" title="Transformers: Intuition" href="dl-transformers-intuition.html" />
+    <link rel="next" title="4. Transfer Learning With BERT (Self-Study)" href="sentiment-analysis-using-bert-keras-movie-reviews.html" />
+    <link rel="prev" title="2. Sequence Model with Attention for Addition Learning" href="dl-seq-to-seq-attention-addition.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -249,23 +249,23 @@
 </p>
 <ul class="current nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="dl-seq-to-seq-types.html">
-   Attention: Intuition
+  <a class="reference internal" href="dl-attention-transformer-intuition.html">
+   1. Attention and Transformers: Intuitions
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="dl-seq-to-seq-attention-addition.html">
-   Sequence Model with Attention for Addition Learning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-transformers-intuition.html">
-   Transformers: Intuition
+   2. Sequence Model with Attention for Addition Learning
   </a>
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Text Classification with Transformer
+   3. Sentiment Classification with Transformer (Self-Study)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="sentiment-analysis-using-bert-keras-movie-reviews.html">
+   4. Transfer Learning With BERT (Self-Study)
   </a>
  </li>
 </ul>
@@ -306,11 +306,6 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/midterm-exam.html">
-   Midterm Exam
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="../exercise/7-topic-modeling.html">
    Assignment VII: Topic Modeling
   </a>
@@ -333,6 +328,16 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../exercise/11-word2vec.html">
    Assignment XI: Word Embeddings
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/12-encoder-decoder.html">
+   Assignment XII: Encoder-Decoder Sequence Models
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/13-attention.html">
+   Assignment XIII: Attention
   </a>
  </li>
 </ul>
@@ -432,60 +437,55 @@
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#setup">
-   Setup
+  <a class="reference internal nav-link" href="#dependencies">
+   3.1. Dependencies
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#transformer-block">
-   Transformer Block
+   3.2. Transformer Block
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#embedding-and-position">
-   Embedding and Position
+   3.3. Embedding and Position
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#data">
-   Data
+   3.4. Data
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#using-nltk-dataset">
-     Using NLTK Dataset
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#using-original-keras-tutorial-dataset">
-     Using Original Keras Tutorial Dataset
+    <a class="reference internal nav-link" href="#preprocessing-steps">
+     Preprocessing Steps
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#define-classifier-architecture">
-   Define Classifier Architecture
+   3.5. Define Classifier Architecture
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#training">
-   Training
+   3.6. Training
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#ploting-training-results">
-   Ploting Training Results
+   3.7. Ploting Training Results
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#explanation">
-   Explanation
+   3.8. Explanation
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#references">
-   References
+   3.9. References
   </a>
  </li>
 </ul>
@@ -499,25 +499,29 @@
         
               <div>
                 
-  <div class="section" id="text-classification-with-transformer">
-<h1>Text Classification with Transformer<a class="headerlink" href="#text-classification-with-transformer" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="setup">
-<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="sentiment-classification-with-transformer-self-study">
+<h1><span class="section-number">3. </span>Sentiment Classification with Transformer (Self-Study)<a class="headerlink" href="#sentiment-classification-with-transformer-self-study" title="Permalink to this headline">¶</a></h1>
+<p>In this unit, we implement a transformer-based Sentiment Classifier for the NLTK movie reviews dataset.</p>
+<div class="section" id="dependencies">
+<h2><span class="section-number">3.1. </span>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nltk</span><span class="o">,</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">movie_reviews</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
 <span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
 <span class="kn">from</span> <span class="nn">tensorflow.keras</span> <span class="kn">import</span> <span class="n">layers</span>
-<span class="kn">import</span> <span class="nn">matplotlib</span>
-<span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">300</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">lime.lime_text</span> <span class="kn">import</span> <span class="n">LimeTextExplainer</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## checking tf version</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -529,46 +533,55 @@
 </div>
 </div>
 <div class="section" id="transformer-block">
-<h2>Transformer Block<a class="headerlink" href="#transformer-block" title="Permalink to this headline">¶</a></h2>
-<p><img alt="" src="../_images/transformer-block.svg" />
-(<small>Source: <a class="reference external" href="http://peterbloem.nl/blog/transformers">Transformers From Scratch</a><small>)</p>
+<h2><span class="section-number">3.2. </span>Transformer Block<a class="headerlink" href="#transformer-block" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>A Transformer block consists of layers of Self Attention, Normalization, and feed-forward networks (i.e., MLP or Dense)).</p></li>
+<li><p>We use the <code class="docutils literal notranslate"><span class="pre">TransformerBlock</span></code> provided by <code class="docutils literal notranslate"><span class="pre">keras</span></code> (See keras official tutorial on <a class="reference external" href="https://keras.io/examples/nlp/text_classification_with_transformer/">Text Classification with Transformer</a>.
+<img alt="" src="../_images/transformer-block.svg" />
+(<small>Source: <a class="reference external" href="http://peterbloem.nl/blog/transformers">Transformers From Scratch</a><small>)</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TransformerBlock</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Layer</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># soruce:(https://keras.io/examples/nlp/text_classification_with_transformer/)</span>
+<span class="k">class</span> <span class="nc">TransformerBlock</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Layer</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">embed_dim</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">ff_dim</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">TransformerBlock</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">att</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">MultiHeadAttention</span><span class="p">(</span><span class="n">num_heads</span><span class="o">=</span><span class="n">num_heads</span><span class="p">,</span> <span class="n">key_dim</span><span class="o">=</span><span class="n">embed_dim</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ffn</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">ff_dim</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">),</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">embed_dim</span><span class="p">),]</span>
-        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">att</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">MultiHeadAttention</span><span class="p">(</span><span class="n">num_heads</span><span class="o">=</span><span class="n">num_heads</span><span class="p">,</span>
+                                             <span class="n">key_dim</span><span class="o">=</span><span class="n">embed_dim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ffn</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span>
+            <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">ff_dim</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">),</span>
+            <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">embed_dim</span><span class="p">),</span>
+        <span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">layernorm1</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">LayerNormalization</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">layernorm2</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">LayerNormalization</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dropout1</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">rate</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dropout2</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">rate</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">training</span><span class="p">):</span>
-        <span class="n">attn_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">att</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">inputs</span><span class="p">)</span> <span class="c1"># self-attention layer</span>
+        <span class="n">attn_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">att</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">inputs</span><span class="p">)</span>  <span class="c1"># self-attention layer</span>
         <span class="n">attn_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout1</span><span class="p">(</span><span class="n">attn_output</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">training</span><span class="p">)</span>
-        <span class="n">out1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layernorm1</span><span class="p">(</span><span class="n">inputs</span> <span class="o">+</span> <span class="n">attn_output</span><span class="p">)</span> <span class="c1"># layer norm</span>
-        <span class="n">ffn_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ffn</span><span class="p">(</span><span class="n">out1</span><span class="p">)</span> <span class="c1">#feed-forward layer</span>
+        <span class="n">out1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layernorm1</span><span class="p">(</span><span class="n">inputs</span> <span class="o">+</span> <span class="n">attn_output</span><span class="p">)</span>  <span class="c1"># layer norm</span>
+        <span class="n">ffn_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ffn</span><span class="p">(</span><span class="n">out1</span><span class="p">)</span>  <span class="c1">#feed-forward layer</span>
         <span class="n">ffn_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout2</span><span class="p">(</span><span class="n">ffn_output</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">training</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">layernorm2</span><span class="p">(</span><span class="n">out1</span> <span class="o">+</span> <span class="n">ffn_output</span><span class="p">)</span> <span class="c1"># layer norm</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">layernorm2</span><span class="p">(</span><span class="n">out1</span> <span class="o">+</span> <span class="n">ffn_output</span><span class="p">)</span>  <span class="c1"># layer norm</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="embedding-and-position">
-<h2>Embedding and Position<a class="headerlink" href="#embedding-and-position" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.3. </span>Embedding and Position<a class="headerlink" href="#embedding-and-position" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li></li>
+<li><p>And in Transformer-based networks, we need to include positional information of the tokens in the embeddings.</p></li>
+<li><p>Again, we use the <code class="docutils literal notranslate"><span class="pre">TokenAndPositionEmbedding</span></code> provided in <code class="docutils literal notranslate"><span class="pre">keras</span></code>’s tutorial.</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TokenAndPositionEmbedding</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Layer</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maxlen</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">,</span> <span class="n">embed_dim</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">TokenAndPositionEmbedding</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">token_emb</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="n">embed_dim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">token_emb</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">vocab_size</span><span class="p">,</span>
+                                          <span class="n">output_dim</span><span class="o">=</span><span class="n">embed_dim</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pos_emb</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">maxlen</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="n">embed_dim</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
@@ -583,52 +596,34 @@
 </div>
 </div>
 <div class="section" id="data">
-<h2>Data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h2>
-<p>No matter what data we are working with, we need to transform the text data as follows for deep learning computation:</p>
+<h2><span class="section-number">3.4. </span>Data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h2>
+<p>Now let us re-cap the important steps of data preparation for deep learning NLP:</p>
 <ul class="simple">
 <li><p>Texts in the corpus need to be randomized in order.</p></li>
-<li><p>All the input texts need to be transformed into integer sequences</p></li>
-<li><p>All the class labels need to be coded in numeric integers.</p></li>
-<li><p>Determine the vocabulary size and the maximum length of the input sequences.</p></li>
-<li><p>Padding the input sequences to ones of uniform lengths (i.e., the <code class="docutils literal notranslate"><span class="pre">max_len</span></code>).</p></li>
-<li><p>Do the train-test split.</p></li>
+<li><p>Perform the data splitting of <strong>training and testing</strong> sets (sometimes, validation set).</p></li>
+<li><p>Build <code class="docutils literal notranslate"><span class="pre">tokenizer</span></code> using the training set.</p></li>
+<li><p>All the input texts need to be transformed into integer sequences.</p></li>
+<li><p>All the class labels need to be coded in <strong>numeric integers</strong>(as logits for <code class="docutils literal notranslate"><span class="pre">binary_crossentropy</span></code> or labels for <code class="docutils literal notranslate"><span class="pre">sparse_categorical_crossentropy</span></code>) or <strong>one-hot encodings</strong> (for <code class="docutils literal notranslate"><span class="pre">categorical_crossentropy</span></code> of the  multi-class labels).</p></li>
+<li><p>Determine the <strong>vocabulary size</strong> and the <strong>maximum length</strong> of the input sequences.</p></li>
+<li><p><strong>Padding</strong> the input sequences to uniform lengths (i.e., the <code class="docutils literal notranslate"><span class="pre">max_len</span></code>).</p></li>
 </ul>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Categorical variable, like the class labels (i.e., <code class="docutils literal notranslate"><span class="pre">y</span></code>), can often be encoded in at least three ways:
-- Integer Encoding
-- One-hot Encoding
-- Learned Embedding (from pretrained models)
-Please see Jason Brownlee’s blog post, <a class="reference external" href="https://machinelearningmastery.com/how-to-prepare-categorical-data-for-deep-learning-in-python/">How to prepare categorical data for deep learning in python</a> for more detail.</p>
-</div>
-<div class="section" id="using-nltk-dataset">
-<h3>Using NLTK Dataset<a class="headerlink" href="#using-nltk-dataset" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="preprocessing-steps">
+<h3>Preprocessing Steps<a class="headerlink" href="#preprocessing-steps" title="Permalink to this headline">¶</a></h3>
+<p>Procedures:</p>
 <ul class="simple">
-<li><p>Use the NLTK <code class="docutils literal notranslate"><span class="pre">movie_reviews</span></code> to start from the text proprocessing step.</p></li>
-<li><p>In deep learning, the general steps are as follows:</p>
-<ul>
-<li><p>Load the corpus texts</p></li>
-<li><p>Build the keras tokenizer</p></li>
-<li><p>Fit the tokenizer on the corpus texts</p></li>
-<li><p>Convert the word sequences of texts into integer sentences</p></li>
+<li><p>Load the corpus texts (<code class="docutils literal notranslate"><span class="pre">nltk.corpus.movie_reviews</span></code>)</p></li>
+<li><p>Build the keras <code class="docutils literal notranslate"><span class="pre">tokenizer()</span></code></p></li>
+<li><p>Fit the <code class="docutils literal notranslate"><span class="pre">tokenizer</span></code> on the corpus texts</p></li>
+<li><p>Convert the word sequences of texts into integer sentences with the <code class="docutils literal notranslate"><span class="pre">tokenizer</span></code></p></li>
 <li><p>Pad input lengths to uniform sizes</p></li>
 </ul>
-</li>
-</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nltk</span><span class="o">,</span> <span class="nn">random</span>
-<span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">movie_reviews</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">documents</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">movie_reviews</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="n">fileid</span><span class="p">)),</span> <span class="n">category</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## loading corpus</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">movie_reviews</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="n">fileid</span><span class="p">)),</span> <span class="n">category</span><span class="p">)</span>
              <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">movie_reviews</span><span class="o">.</span><span class="n">categories</span><span class="p">()</span>
              <span class="k">for</span> <span class="n">fileid</span> <span class="ow">in</span> <span class="n">movie_reviews</span><span class="o">.</span><span class="n">fileids</span><span class="p">(</span><span class="n">category</span><span class="p">)]</span>
-<span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span> <span class="c1">#in-place shuffle</span>
+<span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>  <span class="c1">#in-place shuffle</span>
 </pre></div>
 </div>
 </div>
@@ -637,8 +632,8 @@ Please see Jason Brownlee’s blog post, <a class="reference external" href="htt
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of Reviews/Documents: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">documents</span><span class="p">)))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sample Text of Doc 1:&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">documents</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][:</span><span class="mi">50</span><span class="p">])</span> <span class="c1"># first 50 words of the first document</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">30</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">documents</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][:</span><span class="mi">50</span><span class="p">])</span>  <span class="c1"># first 50 words of the first document</span>
 </pre></div>
 </div>
 </div>
@@ -646,106 +641,68 @@ Please see Jason Brownlee’s blog post, <a class="reference external" href="htt
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Reviews/Documents: 2000
 Sample Text of Doc 1:
 ------------------------------
-` bats &#39; is an insulting slap across the face for 
+set in the wild west , this carry on centres aroun
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vocab_size</span><span class="o">=</span> <span class="mi">20000</span>
-<span class="n">maxlen</span> <span class="o">=</span> <span class="mi">400</span>  <span class="c1"># Only consider the first 200 words of each movie review</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Train-Test Split</span>
+<span class="n">train_set</span><span class="p">,</span> <span class="n">test_set</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">documents</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Hyperparameters fot tokenizer</span>
+<span class="n">vocab_size</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">maxlen</span> <span class="o">=</span> <span class="mi">200</span>  <span class="c1"># Only consider the last 200 words of each movie review</span>
 
-<span class="n">texts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">t</span> <span class="k">for</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">l</span><span class="p">)</span> <span class="ow">in</span> <span class="n">documents</span><span class="p">])</span>
-<span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span> <span class="k">if</span> <span class="n">l</span><span class="o">==</span><span class="s1">&#39;pos&#39;</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">l</span><span class="p">)</span> <span class="ow">in</span> <span class="n">documents</span><span class="p">])</span>
+<span class="c1">## texts vs. labels</span>
+<span class="n">texts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">t</span> <span class="k">for</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span> <span class="ow">in</span> <span class="n">train_set</span><span class="p">])</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span> <span class="k">if</span> <span class="n">l</span> <span class="o">==</span> <span class="s1">&#39;pos&#39;</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span> <span class="ow">in</span> <span class="n">train_set</span><span class="p">])</span>
+<span class="c1">## tokenizer</span>
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">preprocessing</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">Tokenizer</span><span class="p">(</span><span class="n">num_words</span><span class="o">=</span><span class="n">vocab_size</span><span class="p">)</span>
+<span class="c1">## fit tokenizer</span>
 <span class="n">tokenizer</span><span class="o">.</span><span class="n">fit_on_texts</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># now the data consists of a sequence of word index integers</span>
+<span class="c1">## text to sequences</span>
 <span class="n">texts_to_int</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">texts_to_sequences</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+<span class="c1">## pad sequences</span>
+<span class="n">texts_to_int_pad</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">preprocessing</span><span class="o">.</span><span class="n">sequence</span><span class="o">.</span><span class="n">pad_sequences</span><span class="p">(</span><span class="n">texts_to_int</span><span class="p">,</span>
+                                                              <span class="n">maxlen</span><span class="o">=</span><span class="n">maxlen</span><span class="p">,</span>
+                                                              <span class="n">truncating</span><span class="o">=</span><span class="s1">&#39;pre&#39;</span><span class="p">,</span>
+                                                              <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;pre&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">texts_len</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">texts_to_int</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## X and y for train and val</span>
+<span class="n">x_train</span> <span class="o">=</span> <span class="n">texts_to_int_pad</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">labels</span>
+
+
+<span class="c1">## Perform same vectorization on testing set</span>
+<span class="n">x_val_text</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">t</span> <span class="k">for</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">l</span><span class="p">)</span> <span class="ow">in</span> <span class="n">test_set</span><span class="p">])</span>
+
+<span class="n">x_val</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">preprocessing</span><span class="o">.</span><span class="n">sequence</span><span class="o">.</span><span class="n">pad_sequences</span><span class="p">(</span>
+    <span class="n">tokenizer</span><span class="o">.</span><span class="n">texts_to_sequences</span><span class="p">(</span><span class="n">x_val_text</span><span class="p">),</span>
+    <span class="n">maxlen</span><span class="o">=</span><span class="n">maxlen</span><span class="p">,</span>
+    <span class="n">truncating</span><span class="o">=</span><span class="s1">&#39;pre&#39;</span><span class="p">,</span>
+    <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;pre&#39;</span>
+<span class="p">)</span>
+    
+<span class="n">y_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span> <span class="k">if</span> <span class="n">l</span> <span class="o">==</span> <span class="s1">&#39;pos&#39;</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span> <span class="ow">in</span> <span class="n">test_set</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>To determine the <code class="docutils literal notranslate"><span class="pre">max_len</span></code> for training can be important sometimes.</p>
-<p>A good heuristic is to take a look at the text length distribution of the corpus and see how much proportion of the texts you would like to disregard.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s1">&#39;whitegrid&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">texts_len</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/Alvin/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/seaborn/distributions.py:2551: FutureWarning: `distplot` is a deprecated function and will be removed in a future version. Please adapt your code to use either `displot` (a figure-level function with similar flexibility) or `histplot` (an axes-level function for histograms).
-  warnings.warn(msg, FutureWarning)
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel=&#39;Density&#39;&gt;
-</pre></div>
-</div>
-<img alt="../_images/dl-transformers-keras_22_2.png" src="../_images/dl-transformers-keras_22_2.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">texts_to_int_pad</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">preprocessing</span><span class="o">.</span><span class="n">sequence</span><span class="o">.</span><span class="n">pad_sequences</span><span class="p">(</span><span class="n">texts_to_int</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="n">maxlen</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">texts_to_int_pad</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>400
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">document2</span><span class="o">=</span> <span class="p">[(</span><span class="n">t</span><span class="p">,</span><span class="n">s</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">texts_to_int_pad</span><span class="p">,</span> <span class="n">labels</span><span class="p">)]</span> <span class="c1"># texts, integer-sequence texts, labels</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">document2</span><span class="p">,</span> <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="p">(</span><span class="n">_</span> <span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="n">train</span><span class="p">])</span>
-<span class="n">y_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">y</span> <span class="k">for</span> <span class="p">(</span><span class="n">_</span> <span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="n">train</span><span class="p">])</span>
-<span class="n">x_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="p">(</span><span class="n">_</span> <span class="p">,</span> <span class="n">x</span> <span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="n">test</span><span class="p">])</span>
-<span class="n">y_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">y</span> <span class="k">for</span> <span class="p">(</span><span class="n">_</span> <span class="p">,</span><span class="n">x</span> <span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="n">test</span><span class="p">])</span>
-<span class="n">x_val_text</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span> <span class="p">,</span> <span class="n">_</span> <span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="n">test</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>It would be better if we can wrap the text vectorization into one functional call.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -757,9 +714,9 @@ Sample Text of Doc 1:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1800, 400)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1800, 200)
 (1800,)
-(200, 400)
+(200, 200)
 (200,)
 </pre></div>
 </div>
@@ -767,30 +724,16 @@ Sample Text of Doc 1:
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check Vocab Size</span>
-<span class="n">vocab_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">word_index</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Vocabulary Size: </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">vocab_size</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check Total Vocab Size</span>
+<span class="n">total_vocab_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">word_index</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total Vocabulary Size (Untrimmed): </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">total_vocab_size</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Vocabulary Size (trimmed): </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">vocab_size</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Vocabulary Size: 39408
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="using-original-keras-tutorial-dataset">
-<h3>Using Original Keras Tutorial Dataset<a class="headerlink" href="#using-original-keras-tutorial-dataset" title="Permalink to this headline">¶</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># vocab_size= 20000</span>
-<span class="c1"># maxlen = 200  # Only consider the first 200 words of each movie review</span>
-<span class="c1"># (x_train, y_train), (x_val, y_val) = keras.datasets.imdb.load_data(num_words=vocab_size)</span>
-<span class="c1"># print(len(x_train), &quot;Training sequences&quot;)</span>
-<span class="c1"># print(len(x_val), &quot;Validation sequences&quot;)</span>
-<span class="c1"># x_train = keras.preprocessing.sequence.pad_sequences(x_train, maxlen=maxlen)</span>
-<span class="c1"># x_val = keras.preprocessing.sequence.pad_sequences(x_val, maxlen=maxlen)</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total Vocabulary Size (Untrimmed): 37952
+Vocabulary Size (trimmed): 10000
 </pre></div>
 </div>
 </div>
@@ -798,162 +741,175 @@ Sample Text of Doc 1:
 </div>
 </div>
 <div class="section" id="define-classifier-architecture">
-<h2>Define Classifier Architecture<a class="headerlink" href="#define-classifier-architecture" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.5. </span>Define Classifier Architecture<a class="headerlink" href="#define-classifier-architecture" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>We then define the architecture of the network like before using <code class="docutils literal notranslate"><span class="pre">keras</span></code> Sequential or Functional API.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">TransformerBlock</span></code> and <code class="docutils literal notranslate"><span class="pre">TokenAndPositionEmbedding</span></code> function as like the other <code class="docutils literal notranslate"><span class="pre">keras.layers</span></code>.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">embed_dim</span> <span class="o">=</span> <span class="mi">32</span>  <span class="c1"># Embedding size for each token</span>
 <span class="n">num_heads</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># Number of attention heads</span>
 <span class="n">ff_dim</span> <span class="o">=</span> <span class="mi">32</span>  <span class="c1"># Hidden layer size in feed forward network inside transformer</span>
 
-<span class="n">inputs</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">maxlen</span><span class="p">,))</span>
-<span class="n">embedding_layer</span> <span class="o">=</span> <span class="n">TokenAndPositionEmbedding</span><span class="p">(</span><span class="n">maxlen</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">,</span> <span class="n">embed_dim</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">embedding_layer</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
-<span class="n">transformer_block</span> <span class="o">=</span> <span class="n">TransformerBlock</span><span class="p">(</span><span class="n">embed_dim</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">ff_dim</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">transformer_block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">GlobalAveragePooling1D</span><span class="p">()(</span><span class="n">x</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
-<span class="n">outputs</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;softmax&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
-
-<span class="n">model</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">)</span>
+<span class="c1">## Using Sequential API</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">maxlen</span><span class="p">,</span> <span class="p">)))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">TokenAndPositionEmbedding</span><span class="p">(</span><span class="n">maxlen</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">,</span> <span class="n">embed_dim</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">TransformerBlock</span><span class="p">(</span><span class="n">embed_dim</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">ff_dim</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">GlobalAveragePooling1D</span><span class="p">())</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.1</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">ff_dim</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.1</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ## Using Functional API</span>
+<span class="c1"># inputs = layers.Input(shape=(maxlen,))</span>
+<span class="c1"># embedding_layer = TokenAndPositionEmbedding(maxlen, vocab_size, embed_dim)</span>
+<span class="c1"># x = embedding_layer(inputs)</span>
+
+<span class="c1"># transformer_block = TransformerBlock(embed_dim, num_heads, ff_dim)</span>
+<span class="c1"># x = transformer_block(x)</span>
+<span class="c1"># x = layers.GlobalAveragePooling1D()(x)</span>
+<span class="c1"># x = layers.Dropout(0.1)(x)</span>
+<span class="c1"># x = layers.Dense(20, activation=&quot;relu&quot;)(x)</span>
+<span class="c1"># x = layers.Dropout(0.1)(x)</span>
+<span class="c1"># outputs = layers.Dense(1, activation=&quot;sigmoid&quot;)(x)</span>
+<span class="c1"># model = keras.Model(inputs=inputs, outputs=outputs)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">show_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-transformers-keras_34_0.png" src="../_images/dl-transformers-keras_34_0.png" />
+<img alt="../_images/dl-transformers-keras_24_0.png" src="../_images/dl-transformers-keras_24_0.png" />
 </div>
 </div>
 </div>
 <div class="section" id="training">
-<h2>Training<a class="headerlink" href="#training" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.6. </span>Training<a class="headerlink" href="#training" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;adam&quot;</span><span class="p">,</span> <span class="s2">&quot;sparse_categorical_crossentropy&quot;</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;adam&quot;</span><span class="p">,</span>
+              <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;binary_crossentropy&quot;</span><span class="p">,</span>
+              <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">])</span>
 
-<span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
-    <span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">x_val</span><span class="p">,</span> <span class="n">y_val</span><span class="p">)</span>
-<span class="p">)</span>
+<span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span>
+                    <span class="n">y_train</span><span class="p">,</span>
+                    <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+                    <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                    <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">x_val</span><span class="p">,</span> <span class="n">y_val</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/20
-57/57 [==============================] - 21s 325ms/step - loss: 0.6930 - accuracy: 0.5449 - val_loss: 0.6774 - val_accuracy: 0.6950
-Epoch 2/20
-57/57 [==============================] - 13s 234ms/step - loss: 0.6247 - accuracy: 0.6994 - val_loss: 0.4403 - val_accuracy: 0.7850
-Epoch 3/20
-57/57 [==============================] - 14s 239ms/step - loss: 0.2975 - accuracy: 0.8853 - val_loss: 0.3705 - val_accuracy: 0.8350
-Epoch 4/20
-57/57 [==============================] - 12s 219ms/step - loss: 0.0682 - accuracy: 0.9855 - val_loss: 0.3609 - val_accuracy: 0.8700
-Epoch 5/20
-57/57 [==============================] - 13s 225ms/step - loss: 0.0136 - accuracy: 0.9978 - val_loss: 0.3252 - val_accuracy: 0.8800
-Epoch 6/20
-57/57 [==============================] - 14s 239ms/step - loss: 0.0055 - accuracy: 1.0000 - val_loss: 0.4530 - val_accuracy: 0.8700
-Epoch 7/20
-57/57 [==============================] - 13s 233ms/step - loss: 0.0014 - accuracy: 1.0000 - val_loss: 0.4347 - val_accuracy: 0.8650
-Epoch 8/20
-57/57 [==============================] - 14s 243ms/step - loss: 9.9254e-04 - accuracy: 1.0000 - val_loss: 0.4242 - val_accuracy: 0.8750
-Epoch 9/20
-57/57 [==============================] - 14s 252ms/step - loss: 8.0368e-04 - accuracy: 1.0000 - val_loss: 0.5099 - val_accuracy: 0.8600
-Epoch 10/20
-57/57 [==============================] - 15s 263ms/step - loss: 7.3618e-04 - accuracy: 1.0000 - val_loss: 0.5154 - val_accuracy: 0.8700
-Epoch 11/20
-57/57 [==============================] - 16s 274ms/step - loss: 8.4282e-04 - accuracy: 1.0000 - val_loss: 0.5061 - val_accuracy: 0.8650
-Epoch 12/20
-57/57 [==============================] - 13s 230ms/step - loss: 4.4781e-04 - accuracy: 1.0000 - val_loss: 0.5258 - val_accuracy: 0.8700
-Epoch 13/20
-57/57 [==============================] - 14s 238ms/step - loss: 4.2759e-04 - accuracy: 1.0000 - val_loss: 0.5383 - val_accuracy: 0.8700
-Epoch 14/20
-57/57 [==============================] - 14s 240ms/step - loss: 3.2062e-04 - accuracy: 1.0000 - val_loss: 0.5695 - val_accuracy: 0.8700
-Epoch 15/20
-57/57 [==============================] - 14s 238ms/step - loss: 2.3546e-04 - accuracy: 1.0000 - val_loss: 0.5752 - val_accuracy: 0.8750
-Epoch 16/20
-57/57 [==============================] - 14s 244ms/step - loss: 2.2181e-04 - accuracy: 1.0000 - val_loss: 0.6175 - val_accuracy: 0.8650
-Epoch 17/20
-57/57 [==============================] - 14s 247ms/step - loss: 1.7528e-04 - accuracy: 1.0000 - val_loss: 0.6078 - val_accuracy: 0.8700
-Epoch 18/20
-57/57 [==============================] - 14s 249ms/step - loss: 1.4718e-04 - accuracy: 1.0000 - val_loss: 0.6245 - val_accuracy: 0.8700
-Epoch 19/20
-57/57 [==============================] - 13s 232ms/step - loss: 1.6517e-04 - accuracy: 1.0000 - val_loss: 0.6557 - val_accuracy: 0.8650
-Epoch 20/20
-57/57 [==============================] - 14s 241ms/step - loss: 1.5647e-04 - accuracy: 1.0000 - val_loss: 0.6680 - val_accuracy: 0.8650
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/10
+15/15 [==============================] - 7s 347ms/step - loss: 0.6916 - accuracy: 0.5175 - val_loss: 0.7068 - val_accuracy: 0.4550
+Epoch 2/10
+15/15 [==============================] - 4s 249ms/step - loss: 0.6803 - accuracy: 0.5600 - val_loss: 0.6700 - val_accuracy: 0.5250
+Epoch 3/10
+15/15 [==============================] - 4s 245ms/step - loss: 0.6176 - accuracy: 0.6970 - val_loss: 0.5602 - val_accuracy: 0.7700
+Epoch 4/10
+15/15 [==============================] - 4s 247ms/step - loss: 0.4289 - accuracy: 0.8680 - val_loss: 0.4742 - val_accuracy: 0.7800
+Epoch 5/10
+15/15 [==============================] - 4s 247ms/step - loss: 0.2257 - accuracy: 0.9376 - val_loss: 0.4804 - val_accuracy: 0.8100
+Epoch 6/10
+15/15 [==============================] - 4s 253ms/step - loss: 0.0936 - accuracy: 0.9771 - val_loss: 0.4481 - val_accuracy: 0.8200
+Epoch 7/10
+15/15 [==============================] - 4s 251ms/step - loss: 0.0368 - accuracy: 0.9954 - val_loss: 0.5075 - val_accuracy: 0.8450
+Epoch 8/10
+15/15 [==============================] - 4s 249ms/step - loss: 0.0145 - accuracy: 0.9970 - val_loss: 0.5629 - val_accuracy: 0.8100
+Epoch 9/10
+15/15 [==============================] - 4s 266ms/step - loss: 0.0060 - accuracy: 1.0000 - val_loss: 0.6316 - val_accuracy: 0.8100
+Epoch 10/10
+15/15 [==============================] - 4s 271ms/step - loss: 0.0041 - accuracy: 1.0000 - val_loss: 0.6257 - val_accuracy: 0.8150
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="ploting-training-results">
-<h2>Ploting Training Results<a class="headerlink" href="#ploting-training-results" title="Permalink to this headline">¶</a></h2>
-<p>Loss Function</p>
+<h2><span class="section-number">3.7. </span>Ploting Training Results<a class="headerlink" href="#ploting-training-results" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
 <span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">150</span>
-<span class="n">history_dict</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span>
-<span class="n">loss_values</span> <span class="o">=</span> <span class="n">history_dict</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">]</span> 
-<span class="n">val_loss_values</span> <span class="o">=</span> <span class="n">history_dict</span><span class="p">[</span><span class="s1">&#39;val_loss&#39;</span><span class="p">]</span>
-<span class="n">epochs</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">val_loss_values</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 
 
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">loss_values</span><span class="p">,</span> <span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Training loss&#39;</span><span class="p">)</span> 
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">val_loss_values</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Validation loss&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Training and validation loss&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Epochs&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Loss&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="c1"># Plotting results</span>
+<span class="k">def</span> <span class="nf">plot1</span><span class="p">(</span><span class="n">history</span><span class="p">):</span>
+    <span class="n">acc</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span>
+    <span class="n">val_acc</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;val_accuracy&#39;</span><span class="p">]</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">]</span>
+    <span class="n">val_loss</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;val_loss&#39;</span><span class="p">]</span>
+
+    <span class="n">epochs</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">acc</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="c1">## Accuracy plot</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">acc</span><span class="p">,</span> <span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Training acc&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">val_acc</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Validation acc&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Training and validation accuracy&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="c1">## Loss plot</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Training loss&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">val_loss</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Validation loss&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Training and validation loss&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">plot2</span><span class="p">(</span><span class="n">history</span><span class="p">):</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1">#plt.gca().set_ylim(0,1)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/dl-transformers-keras_39_0.png" src="../_images/dl-transformers-keras_39_0.png" />
 </div>
-</div>
-<p>Validation</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">acc_values</span> <span class="o">=</span> <span class="n">history_dict</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span> 
-<span class="n">val_acc_values</span> <span class="o">=</span> <span class="n">history_dict</span><span class="p">[</span><span class="s1">&#39;val_accuracy&#39;</span><span class="p">]</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">acc_values</span><span class="p">,</span> <span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Training acc&#39;</span><span class="p">)</span> 
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">val_acc_values</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Validation acc&#39;</span><span class="p">)</span> 
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Training and validation accuracy&#39;</span><span class="p">)</span> 
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Epochs&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Loss&#39;</span><span class="p">)</span> 
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot1</span><span class="p">(</span><span class="n">history</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-transformers-keras_41_0.png" src="../_images/dl-transformers-keras_41_0.png" />
+<img alt="../_images/dl-transformers-keras_29_0.png" src="../_images/dl-transformers-keras_29_0.png" />
+<img alt="../_images/dl-transformers-keras_29_1.png" src="../_images/dl-transformers-keras_29_1.png" />
 </div>
 </div>
-<p>Given the small corpus size, it is clear to see that our model starts to overfit the training set quite a bit after the first few epoches.</p>
-<p>In real application development, we may improve the model by:</p>
 <ul class="simple">
+<li><p>Given the small corpus size, it is clear to see that our model starts to overfit the training set quite a bit after the first few epochs (e.g, after the fourth epoch).</p></li>
+<li><p>In real application development, we may improve the model by:</p>
+<ul>
 <li><p>increasing the datasets</p></li>
-<li><p>inceasing the embedding dimensions</p></li>
-<li><p>using pretrained embeddings</p></li>
+<li><p>increasing the embedding dimensions</p></li>
+<li><p>using pre-trained embeddings</p></li>
 <li><p>playing with the transformer blocks in terms of depths and widths of the layers</p></li>
+<li><p>including dropouts, regularization, and normalization</p></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="section" id="explanation">
-<h2>Explanation<a class="headerlink" href="#explanation" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.8. </span>Explanation<a class="headerlink" href="#explanation" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lime.lime_text</span> <span class="kn">import</span> <span class="n">LimeTextExplainer</span>
-
-<span class="n">explainer</span> <span class="o">=</span> <span class="n">LimeTextExplainer</span><span class="p">(</span><span class="n">class_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;negative&quot;</span><span class="p">,</span><span class="s2">&quot;positive&quot;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">explainer</span> <span class="o">=</span> <span class="n">LimeTextExplainer</span><span class="p">(</span><span class="n">class_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;negative&quot;</span><span class="p">,</span> <span class="s2">&quot;positive&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -963,142 +919,47 @@ Epoch 20/20
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model_predict_pipeline</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
     <span class="n">_seq</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">texts_to_sequences</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
     <span class="n">_seq_pad</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">preprocessing</span><span class="o">.</span><span class="n">sequence</span><span class="o">.</span><span class="n">pad_sequences</span><span class="p">(</span><span class="n">_seq</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="n">maxlen</span><span class="p">)</span>
-    <span class="c1">#return np.array([[float(1-x), float(x)] for x in model.predict(np.array(_seq_pad))])</span>
-    <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">_seq_pad</span><span class="p">))</span>
-    
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="nb">float</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span>
+                     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">_seq_pad</span><span class="p">))])</span>
+    <span class="c1">#return model.predict(np.array(_seq_pad)) ## use this for logits</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">reversed_word_index</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">index</span><span class="p">,</span> <span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">word_index</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">text_id</span> <span class="o">=</span> <span class="mi">22</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_val</span><span class="p">[</span><span class="n">text_id</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">text_id</span> <span class="o">=</span> <span class="mi">123</span>
+<span class="n">model_predict_pipeline</span><span class="p">(</span><span class="n">x_val_text</span><span class="p">[[</span><span class="n">text_id</span><span class="p">]])</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([    2,   654,  4573,     8,  1048,     4,    58,    15,   289,
-         204,   138,     3,     7,   105,  2080,   223,    57,    22,
-         993, 18608,    13,    39,     4,    16,     3,    57,   121,
-          10,     7,     2,   203,    20,   886,    93,    30,     3,
-          10,     7,    54,     2,  1769, 12399,    11,   111,   170,
-        8061,  1102,     7,   414,     5, 11084,    15,   178,     5,
-         304,     2,   468,   166,     8,     2,   468,   469,  2701,
-        8584,     7,  3459,    12,     1,   421,  5043,   246,    51,
-         201,    38,   166,    12,     3,  9019,   200,     5,     2,
-         216,   533,  4156,    93,    30,    88,     1,   197,   411,
-           3,    52,  1221,   582,   554,     5,   886,     6,     9,
-         908,     1,    69,  4566,   318,     1,   203,   277,    91,
-         135,     3,   275,  4573,   150,   402,  1102,     6,     9,
-        3601,     1,   113,   162,     8,     1,   886,   203,  5045,
-           7,   668,     8,    24,  1460,  2289,    29,   201,     1,
-         558,     4,   886,     6,     9,   140,    19,  3346,     1,
-        5143,    19,     7,   394,     1,   140,    19,    37,   858,
-          19,   277,    42,  3876,    11,    19,  1747,    19,     7,
-           2,   558,     3,    11,   886,    37,    58,     5,  3374,
-          14,    15,  8869,     4,     2,    89,     1,   127,   998,
-          33,     2,    64,  1163,     3,  1363,   170,  8061,    20,
-           1,   352,   216,     4,     1,    17,     7,    98,    10,
-         309,    41,     2,   633,   203,    10,    94,   145,    31,
-         175,   409,   171,   522,     7,    28,   269,   409,   171,
-         113,   342,     7,     8,  9230,  5596, 11303,     5,   892,
-          21,     1,   203,    53,     4,     1,   113,   692,     4,
-           1,    17,    22,    48,   886,  7914,    59,     1,   370,
-        6466,     3,  1039,   197,   952,  2901,  3739,     3,   712,
-          50,    48,   886,  3422,    59,     1,   370,  1520,     3,
-        4154,  3146,   112,   401,    14,   886,     6,     9,  3411,
-           3,    48,  6132,  2671,     8,    21,   886,     3, 11359,
-           1,   739,   292,    12,  5898,  9161,  3878,  1104,    15,
-         739,   316,    39,     4,   114,   979,    22,    54,   411,
-          14,     1,    17,     3,   556,  4743,    18,    34,    30,
-          61,  3065,     1,    17,    18,    34,  9298,    24,  1782,
-           4,    10,   896,     1,   886,   203,     7,    26,     4,
-           1, 17042,     3,  4743,    97,     5,   194,    43,     4,
-         255,   768,  1102,   339,    11,    19,     7,    30,    54,
-           2,   107,     4,     2,   771,  1390,    20,     2,  7631,
-         269,    29,   104,   132,   150,    12,    26,     4,     1,
-         113,  2088,  5369,     7,  1926,    14,     1,   472,     3,
-         533,  4156,  2080,    10,    90,     5,  2838,     1,   886,
-         203,     7,     2,   236,    85,    14,   329,    29,  1411,
-         124,     8,   740,    87,    36,    68,    25,  1942,  3079,
-          24,    16,  1957,    17], dtype=int32)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[9.99470592e-01, 5.29378653e-04]])
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_val_text</span><span class="p">[</span><span class="n">text_id</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## correct label</span>
+<span class="n">y_val</span><span class="p">[</span><span class="n">text_id</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;who would have thought ? jim carrey does drama . when i first saw the advertisement for the truman show , i thought , &quot; what a hilarious idea for a movie ! &quot; however , it was an even better premise for a drama . the truman show takes us into a world that revolves around one man . that man is truman burbank ( jim carrey ) . truman has no clue what is really going on in his world and frankly , cristof wants to keep it that way . christof is the &quot; god &quot; of this made - up world . he keeps everything running and gives the actors their roles . there were a few attempts to tell truman about his world , but they failed and life went on as normal . the opening parts of the film introduce to truman \&#39; s world . we see what he is doing at his current age , then we get a flashback at his past . it may seem a tad boring , but it is so intriguing that you will fall in love with the film right from the start . the film can be described in one word : weird . it seems like such a simple idea , yet it is something that a majority of us would never think of , but andrew niccol did . it seems like a warped idea , but it is andrew \&#39; s idea and he did wonders with it . jim carrey actually lived up to the hype . the hype , whether good or bad , always focused on carrey \&#39; s ability to do drama . no one doubted how extraordinary this film could be , the only thing they doubted was carrey . and he showed them all up . jim carrey was snubbed at the oscars . i do not think he was the best actor , but he deserved the nomination . he plays truman burbank , the unsuspecting star of the most popular television show in the world . he has lived a normal life for almost thirty years , but then strange things start happening . he ventures into the wrong elevator . a light crashes in front of him . his father comes back and is then pulled away . we are constantly teased with all of this and we know it is a show , but truman does not . and it is just a constant progression that never gets sluggish . carrey is able to shed his comedy to play a major role in a major drama . laura linney is magnificent as the camera hungry wife . she plays her role as advertiser and budding star to a point . peter weir does not make the cast perfect , and their flaws eventually lead to truman \&#39; s escape . the story unfolds until the show becomes too big and everything crashes down . despite carrey \&#39; s greatness , the best performance in the truman show undoubtedly is turned in by ed harris , who plays the &quot; god &quot; of truman \&#39; s world . he displays the pressure he is under , the world he has created . he becomes so paranoid that he believes he is a god and that truman has him to thank for his sham of a life . the action moves at a good pace , and rarely gets sluggish . but , the main point of the film is how it looks like a television show . it really makes you think . maybe your brother is an actor , maybe your best friend is in heated contract negotiations to stay on the show . some of the best parts of the film are when truman ventures into the wrong elevator and sees cast members drinking coffee and talking . or when truman tunes into the wrong station and hears orders being said for truman \&#39; s arrival . and when christof focuses in on truman and cues the dramatic music as marlon ( noah emmerich ) delivers his dramatic line . all of these ideas are just perfect for the film and extremely innovative . i was not only enjoying the film , i was overwhelmed by genius of it . overall , the truman show is one of the freshest and innovative films to come out of hollywood . jim carrey shows that he is not just a man of a million faces , but a legitimate actor who could go down as one of the best . andrew niccol is responsible for the screenplay and peter weir pulled it off to perfection . the truman show is a must see for anyone who likes movies in general because they will be thoroughly impressed by this creative film .&#39;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">reversed_word_index</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;?&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x_val</span><span class="p">[</span><span class="n">text_id</span><span class="p">]])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;a light crashes in front of him his father comes back and is then pulled away we are constantly teased with all of this and we know it is a show but truman does not and it is just a constant progression that never gets sluggish carrey is able to shed his comedy to play a major role in a major drama laura linney is magnificent as the camera hungry wife she plays her role as and budding star to a point peter weir does not make the cast perfect and their flaws eventually lead to truman &#39; s escape the story unfolds until the show becomes too big and everything crashes down despite carrey &#39; s greatness the best performance in the truman show undoubtedly is turned in by ed harris who plays the god of truman &#39; s world he displays the pressure he is under the world he has created he becomes so paranoid that he believes he is a god and that truman has him to thank for his sham of a life the action moves at a good pace and rarely gets sluggish but the main point of the film is how it looks like a television show it really makes you think maybe your brother is an actor maybe your best friend is in heated contract negotiations to stay on the show some of the best parts of the film are when truman ventures into the wrong elevator and sees cast members drinking coffee and talking or when truman tunes into the wrong station and hears orders being said for truman &#39; s arrival and when christof focuses in on truman and cues the dramatic music as marlon noah emmerich delivers his dramatic line all of these ideas are just perfect for the film and extremely innovative i was not only enjoying the film i was overwhelmed by genius of it overall the truman show is one of the freshest and innovative films to come out of hollywood jim carrey shows that he is not just a man of a million faces but a legitimate actor who could go down as one of the best andrew niccol is responsible for the screenplay and peter weir pulled it off to perfection the truman show is a must see for anyone who likes movies in general because they will be thoroughly impressed by this creative film&quot;
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_val</span><span class="p">[[</span><span class="n">text_id</span><span class="p">]])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[4.4272532e-08, 1.0000000e+00]], dtype=float32)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_predict_pipeline</span><span class="p">(</span><span class="n">x_val_text</span><span class="p">[[</span><span class="n">text_id</span><span class="p">]])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[4.4272532e-08, 1.0000000e+00]], dtype=float32)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exp</span> <span class="o">=</span> <span class="n">explainer</span><span class="o">.</span><span class="n">explain_instance</span><span class="p">(</span>
-<span class="n">x_val_text</span><span class="p">[</span><span class="n">text_id</span><span class="p">],</span> <span class="n">model_predict_pipeline</span><span class="p">,</span> <span class="n">num_features</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">top_labels</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exp</span><span class="o">.</span><span class="n">show_in_notebook</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exp</span> <span class="o">=</span> <span class="n">explainer</span><span class="o">.</span><span class="n">explain_instance</span><span class="p">(</span><span class="n">x_val_text</span><span class="p">[</span><span class="n">text_id</span><span class="p">],</span>
+                                 <span class="n">model_predict_pipeline</span><span class="p">,</span>
+                                 <span class="n">num_features</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                                 <span class="n">top_labels</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">exp</span><span class="o">.</span><span class="n">show_in_notebook</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -38194,35 +38055,35 @@ Epoch 20/20
 /***/ })
 /******/ ]);
 //# sourceMappingURL=bundle.js.map </script></head><body>
-        <div class="lime top_div" id="top_divJ5NSP8EZG2T0ANC"></div>
+        <div class="lime top_div" id="top_divH0QC0N5J4AMWS1Y"></div>
 
         <script>
-        var top_div = d3.select('#top_divJ5NSP8EZG2T0ANC').classed('lime top_div', true);
+        var top_div = d3.select('#top_divH0QC0N5J4AMWS1Y').classed('lime top_div', true);
 
             var pp_div = top_div.append('div')
                                 .classed('lime predict_proba', true);
             var pp_svg = pp_div.append('svg').style('width', '100%');
-            var pp = new lime.PredictProba(pp_svg, ["negative", "positive"], [4.427244704174882e-08, 1.0]);
+            var pp = new lime.PredictProba(pp_svg, ["negative", "positive"], [0.999470591545105, 0.0005293786525726318]);
 
 
         var exp_div;
             var exp = new lime.Explanation(["negative", "positive"]);
 
                 exp_div = top_div.append('div').classed('lime explanation', true);
-                exp.show([["truman", 0.045718087309573587], ["is", 0.038117528768059426], ["and", 0.030944249628984732], ["the", 0.030541129226693522], ["he", 0.018729446035628275], ["jim", -0.017262370116648922], ["perfect", 0.015307025137042629], ["turned", -0.015056543662603726], ["only", -0.014169443857396755], ["was", -0.014148448439716948], ["your", 0.014013246608839201], ["pace", 0.013746417351345592], ["on", -0.013164923110737088], ["focuses", 0.012353175268578247], ["laura", 0.012338440935658963], ["comes", 0.012328387671143477], ["carrey", 0.01230127124407428], ["wife", 0.011975083146795068], ["s", -0.011863265058051072], ["drama", 0.011709105821806145], ["would", -0.01134180685525868], ["moves", -0.011279581908784439], ["point", -0.011278404441253215], ["see", 0.011004583362024627], ["innovative", 0.01068058169669456], ["niccol", 0.010567979558272468], ["line", 0.010505020074052669], ["almost", 0.010416180397854741], ["flaws", 0.010353378045837285], ["went", -0.010304678175817017], ["too", -0.010243322382191054], ["running", -0.01014828173541515], ["to", -0.010031078040594912], ["best", 0.009928433785748937], ["pulled", 0.009879834349612105], ["idea", -0.009873375356259317], ["love", 0.009858829508623683], ["elevator", 0.009821017330938228], ["normal", 0.009627811100548247], ["majority", -0.009559965181727722], ["linney", 0.009445791865329962], ["just", -0.009415455832611145], ["showed", -0.009322976089443527], ["did", -0.00930627243563745], ["hilarious", 0.009059819570332816], ["takes", 0.008995969626969894], ["these", 0.008989272769699125], ["frankly", -0.008881546216641962], ["plays", 0.008741879175270483], ["television", -0.008691921286057317], ["front", -0.008619750277019951], ["light", 0.008553448368815185], ["by", -0.008482803310522197], ["sees", 0.008456017450270414], ["have", -0.008380190436048611], ["impressed", 0.008319161628530006], ["does", 0.008279674766306156], ["could", -0.008199031555885587], ["burbank", 0.00819283155634445], ["world", 0.008082448676438633], ["with", 0.007991757387819985], ["will", 0.007985209885587215], ["unsuspecting", -0.007914550442464424], ["thank", 0.007909017174956519], ["seem", -0.007827631448147337], ["one", 0.007681729755797443], ["doubted", 0.00765225128767336], ["doing", 0.007507265295211393], ["overall", 0.0074731182633586074], ["performance", 0.0072762726575543975], ["screenplay", -0.00718104706832315], ["then", -0.007036730443755742], ["thoroughly", 0.007034315183413818], ["marlon", -0.007026443770038549], ["unfolds", 0.007008831951064234], ["legitimate", 0.006989204930700706], ["overwhelmed", 0.006647347860549625], ["a", 0.00661577994833268], ["us", 0.006480623624777789], ["flashback", 0.006439513389647136], ["station", 0.006349098806983454], ["in", -0.006077564948050873], ["sluggish", -0.006076560399773739], ["of", -0.0059950147796973986], ["even", -0.005923662576582786], ["movie", 0.005814155774497402], ["created", -0.005759754495503517], ["lived", -0.005739105815383607], ["out", 0.005714842406434035], ["this", -0.005686197131214641], ["tell", -0.00561778740506601], ["what", -0.005617411787873211], ["despite", 0.005489183253855309], ["role", 0.005476839682321483], ["off", -0.005369485524340119], ["deserved", 0.005148596469747749], ["contract", -0.005045379435526862], ["music", -0.005011029656328967], ["age", -0.004907439277937061], ["greatness", -0.004267596137018782]], 1, exp_div);
+                exp.show([["stereotypical", 0.04886816696208081], ["falls", 0.02796195839011313], ["if", 0.024005135824963112], ["the", -0.016133834554773976], ["very", -0.013040101084015385], ["well", -0.009446236245739563], ["brown", -0.008352904519496659], ["is", -0.0076307761802331285], ["cross", -0.00708115592941828], ["you", -0.004096039375778777]], 0, exp_div);
 
         var raw_div = top_div.append('div');
-            exp.show_raw_text([["truman", 92, 0.045718087309573587], ["truman", 216, 0.045718087309573587], ["truman", 293, 0.045718087309573587], ["truman", 325, 0.045718087309573587], ["truman", 578, 0.045718087309573587], ["truman", 691, 0.045718087309573587], ["truman", 1535, 0.045718087309573587], ["truman", 1913, 0.045718087309573587], ["truman", 2268, 0.045718087309573587], ["truman", 2426, 0.045718087309573587], ["truman", 2503, 0.045718087309573587], ["truman", 2649, 0.045718087309573587], ["truman", 3018, 0.045718087309573587], ["truman", 3118, 0.045718087309573587], ["truman", 3186, 0.045718087309573587], ["truman", 3239, 0.045718087309573587], ["truman", 3492, 0.045718087309573587], ["truman", 3798, 0.045718087309573587], ["is", 290, 0.038117528768059426], ["is", 349, 0.038117528768059426], ["is", 440, 0.038117528768059426], ["is", 725, 0.038117528768059426], ["is", 827, 0.038117528768059426], ["is", 998, 0.038117528768059426], ["is", 1117, 0.038117528768059426], ["is", 1818, 0.038117528768059426], ["is", 1897, 0.038117528768059426], ["is", 1938, 0.038117528768059426], ["is", 2003, 0.038117528768059426], ["is", 2083, 0.038117528768059426], ["is", 2450, 0.038117528768059426], ["is", 2550, 0.038117528768059426], ["is", 2631, 0.038117528768059426], ["is", 2792, 0.038117528768059426], ["is", 2880, 0.038117528768059426], ["is", 2917, 0.038117528768059426], ["is", 3504, 0.038117528768059426], ["is", 3600, 0.038117528768059426], ["is", 3715, 0.038117528768059426], ["is", 3810, 0.038117528768059426], ["and", 381, 0.030944249628984732], ["and", 509, 0.030944249628984732], ["and", 619, 0.030944249628984732], ["and", 1136, 0.030944249628984732], ["and", 1387, 0.030944249628984732], ["and", 1814, 0.030944249628984732], ["and", 1882, 0.030944249628984732], ["and", 1931, 0.030944249628984732], ["and", 2159, 0.030944249628984732], ["and", 2233, 0.030944249628984732], ["and", 2337, 0.030944249628984732], ["and", 2640, 0.030944249628984732], ["and", 2732, 0.030944249628984732], ["and", 3058, 0.030944249628984732], ["and", 3096, 0.030944249628984732], ["and", 3154, 0.030944249628984732], ["and", 3207, 0.030944249628984732], ["and", 3246, 0.030944249628984732], ["and", 3380, 0.030944249628984732], ["and", 3527, 0.030944249628984732], ["and", 3749, 0.030944249628984732], ["the", 66, 0.030541129226693522], ["the", 88, 0.030541129226693522], ["the", 212, 0.030541129226693522], ["the", 443, 0.030541129226693522], ["the", 519, 0.030541129226693522], ["the", 648, 0.030541129226693522], ["the", 669, 0.030541129226693522], ["the", 876, 0.030541129226693522], ["the", 896, 0.030541129226693522], ["the", 908, 0.030541129226693522], ["the", 1197, 0.030541129226693522], ["the", 1208, 0.030541129226693522], ["the", 1346, 0.030541129226693522], ["the", 1441, 0.030541129226693522], ["the", 1476, 0.030541129226693522], ["the", 1509, 0.030541129226693522], ["the", 1552, 0.030541129226693522], ["the", 1577, 0.030541129226693522], ["the", 1613, 0.030541129226693522], ["the", 1737, 0.030541129226693522], ["the", 2101, 0.030541129226693522], ["the", 2214, 0.030541129226693522], ["the", 2288, 0.030541129226693522], ["the", 2312, 0.030541129226693522], ["the", 2398, 0.030541129226693522], ["the", 2422, 0.030541129226693522], ["the", 2488, 0.030541129226693522], ["the", 2534, 0.030541129226693522], ["the", 2561, 0.030541129226693522], ["the", 2698, 0.030541129226693522], ["the", 2765, 0.030541129226693522], ["the", 2783, 0.030541129226693522], ["the", 2963, 0.030541129226693522], ["the", 2982, 0.030541129226693522], ["the", 3000, 0.030541129226693522], ["the", 3039, 0.030541129226693522], ["the", 3136, 0.030541129226693522], ["the", 3255, 0.030541129226693522], ["the", 3371, 0.030541129226693522], ["the", 3431, 0.030541129226693522], ["the", 3488, 0.030541129226693522], ["the", 3514, 0.030541129226693522], ["the", 3690, 0.030541129226693522], ["the", 3734, 0.030541129226693522], ["the", 3794, 0.030541129226693522], ["he", 481, 0.018729446035628275], ["he", 722, 0.018729446035628275], ["he", 1140, 0.018729446035628275], ["he", 1391, 0.018729446035628275], ["he", 1469, 0.018729446035628275], ["he", 1497, 0.018729446035628275], ["he", 1526, 0.018729446035628275], ["he", 1625, 0.018729446035628275], ["he", 1720, 0.018729446035628275], ["he", 2522, 0.018729446035628275], ["he", 2547, 0.018729446035628275], ["he", 2571, 0.018729446035628275], ["he", 2588, 0.018729446035628275], ["he", 2616, 0.018729446035628275], ["he", 2628, 0.018729446035628275], ["he", 3597, 0.018729446035628275], ["jim", 25, -0.017262370116648922], ["jim", 310, -0.017262370116648922], ["jim", 1165, -0.017262370116648922], ["jim", 1415, -0.017262370116648922], ["jim", 3575, -0.017262370116648922], ["perfect", 2223, 0.015307025137042629], ["perfect", 3359, 0.015307025137042629], ["turned", 2453, -0.015056543662603726], ["only", 1350, -0.014169443857396755], ["only", 3417, -0.014169443857396755], ["was", 171, -0.014148448439716948], ["was", 1374, -0.014148448439716948], ["was", 1426, -0.014148448439716948], ["was", 1472, -0.014148448439716948], ["was", 3409, -0.014148448439716948], ["was", 3444, -0.014148448439716948], ["your", 2867, 0.014013246608839201], ["your", 2900, 0.014013246608839201], ["pace", 2725, 0.013746417351345592], ["on", 365, -0.013164923110737088], ["on", 633, -0.013164923110737088], ["on", 1256, -0.013164923110737088], ["on", 2960, -0.013164923110737088], ["on", 3236, -0.013164923110737088], ["focuses", 3225, 0.012353175268578247], ["laura", 2070, 0.012338440935658963], ["comes", 1803, 0.012328387671143477], ["carrey", 29, 0.01230127124407428], ["carrey", 314, 0.01230127124407428], ["carrey", 1169, 0.01230127124407428], ["carrey", 1259, 0.01230127124407428], ["carrey", 1378, 0.01230127124407428], ["carrey", 1419, 0.01230127124407428], ["carrey", 1996, 0.01230127124407428], ["carrey", 2375, 0.01230127124407428], ["carrey", 3579, 0.01230127124407428], ["wife", 2119, 0.011975083146795068], ["s", 700, -0.011863265058051072], ["s", 1129, -0.011863265058051072], ["s", 1268, -0.011863265058051072], ["s", 2277, -0.011863265058051072], ["s", 2384, -0.011863265058051072], ["s", 2512, -0.011863265058051072], ["s", 3195, -0.011863265058051072], ["drama", 41, 0.011709105821806145], ["drama", 204, 0.011709105821806145], ["drama", 1284, 0.011709105821806145], ["drama", 2062, 0.011709105821806145], ["would", 4, -0.01134180685525868], ["would", 1033, -0.01134180685525868], ["moves", 2709, -0.011279581908784439], ["point", 2181, -0.011278404441253215], ["point", 2774, -0.011278404441253215], ["see", 713, 0.011004583362024627], ["see", 3820, 0.011004583362024627], ["innovative", 3394, 0.01068058169669456], ["innovative", 3531, 0.01068058169669456], ["niccol", 1067, 0.010567979558272468], ["niccol", 3708, 0.010567979558272468], ["line", 3324, 0.010505020074052669], ["almost", 1656, 0.010416180397854741], ["flaws", 2243, 0.010353378045837285], ["went", 628, -0.010304678175817017], ["too", 2329, -0.010243322382191054], ["running", 501, -0.01014828173541515], ["to", 409, -0.010031078040594912], ["to", 570, -0.010031078040594912], ["to", 688, -0.010031078040594912], ["to", 1194, -0.010031078040594912], ["to", 1278, -0.010031078040594912], ["to", 2011, -0.010031078040594912], ["to", 2030, -0.010031078040594912], ["to", 2176, -0.010031078040594912], ["to", 2265, -0.010031078040594912], ["to", 2664, -0.010031078040594912], ["to", 2952, -0.010031078040594912], ["to", 3548, -0.010031078040594912], ["to", 3778, -0.010031078040594912], ["best", 1480, 0.009928433785748937], ["best", 2402, 0.009928433785748937], ["best", 2905, 0.009928433785748937], ["best", 2986, 0.009928433785748937], ["best", 3694, 0.009928433785748937], ["pulled", 1826, 0.009879834349612105], ["pulled", 3764, 0.009879834349612105], ["idea", 137, -0.009873375356259317], ["idea", 984, -0.009873375356259317], ["idea", 1103, -0.009873375356259317], ["idea", 1131, -0.009873375356259317], ["love", 866, 0.009858829508623683], ["elevator", 1747, 0.009821017330938228], ["elevator", 3049, 0.009821017330938228], ["normal", 639, 0.009627811100548247], ["normal", 1640, 0.009627811100548247], ["majority", 1018, -0.009559965181727722], ["linney", 2076, 0.009445791865329962], ["just", 1941, -0.009415455832611145], ["just", 3354, -0.009415455832611145], ["just", 3607, -0.009415455832611145], ["showed", 1394, -0.009322976089443527], ["did", 1074, -0.00930627243563745], ["did", 1143, -0.00930627243563745], ["hilarious", 127, 0.009059819570332816], ["takes", 228, 0.008995969626969894], ["these", 3338, 0.008989272769699125], ["frankly", 385, -0.008881546216641962], ["plays", 1529, 0.008741879175270483], ["plays", 2130, 0.008741879175270483], ["plays", 2482, 0.008741879175270483], ["television", 1594, -0.008691921286057317], ["television", 2815, -0.008691921286057317], ["front", 1777, -0.008619750277019951], ["light", 1760, 0.008553448368815185], ["by", 2463, -0.008482803310522197], ["by", 3460, -0.008482803310522197], ["by", 3905, -0.008482803310522197], ["sees", 3062, 0.008456017450270414], ["have", 10, -0.008380190436048611], ["impressed", 3895, 0.008319161628530006], ["does", 36, 0.008279674766306156], ["does", 1920, 0.008279674766306156], ["does", 2200, 0.008279674766306156], ["could", 1335, -0.008199031555885587], ["could", 3666, -0.008199031555885587], ["burbank", 300, 0.00819283155634445], ["burbank", 1542, 0.00819283155634445], ["world", 244, 0.008082448676438633], ["world", 375, 0.008082448676438633], ["world", 473, 0.008082448676438633], ["world", 595, 0.008082448676438633], ["world", 702, 0.008082448676438633], ["world", 1617, 0.008082448676438633], ["world", 2514, 0.008082448676438633], ["world", 2565, 0.008082448676438633], ["with", 871, 0.007991757387819985], ["with", 1155, 0.007991757387819985], ["with", 1865, 0.007991757387819985], ["will", 853, 0.007985209885587215], ["will", 3876, 0.007985209885587215], ["unsuspecting", 1556, -0.007914550442464424], ["thank", 2667, 0.007909017174956519], ["seem", 800, -0.007827631448147337], ["one", 271, 0.007681729755797443], ["one", 937, 0.007681729755797443], ["one", 1295, 0.007681729755797443], ["one", 3507, 0.007681729755797443], ["one", 3683, 0.007681729755797443], ["doubted", 1299, 0.00765225128767336], ["doubted", 1366, 0.00765225128767336], ["doing", 728, 0.007507265295211393], ["overall", 3478, 0.0074731182633586074], ["performance", 2407, 0.0072762726575543975], ["screenplay", 3738, -0.00718104706832315], ["then", 755, -0.007036730443755742], ["then", 1682, -0.007036730443755742], ["then", 1821, -0.007036730443755742], ["thoroughly", 3884, 0.007034315183413818], ["marlon", 3277, -0.007026443770038549], ["unfolds", 2298, 0.007008831951064234], ["legitimate", 3645, 0.006989204930700706], ["overwhelmed", 3448, 0.006647347860549625], ["a", 125, 0.00661577994833268], ["a", 146, 0.00661577994833268], ["a", 202, 0.00661577994833268], ["a", 242, 0.00661577994833268], ["a", 555, 0.00661577994833268], ["a", 767, 0.00661577994833268], ["a", 805, 0.00661577994833268], ["a", 975, 0.00661577994833268], ["a", 1016, 0.00661577994833268], ["a", 1094, 0.00661577994833268], ["a", 1638, 0.00661577994833268], ["a", 1758, 0.00661577994833268], ["a", 1900, 0.00661577994833268], ["a", 1946, 0.00661577994833268], ["a", 2038, 0.00661577994833268], ["a", 2054, 0.00661577994833268], ["a", 2179, 0.00661577994833268], ["a", 2634, 0.00661577994833268], ["a", 2689, 0.00661577994833268], ["a", 2718, 0.00661577994833268], ["a", 2813, 0.00661577994833268], ["a", 3612, 0.00661577994833268], ["a", 3621, 0.00661577994833268], ["a", 3643, 0.00661577994833268], ["a", 3813, 0.00661577994833268], ["us", 234, 0.006480623624777789], ["us", 1030, 0.006480623624777789], ["flashback", 769, 0.006439513389647136], ["station", 3146, 0.006349098806983454], ["in", 368, -0.006077564948050873], ["in", 863, -0.006077564948050873], ["in", 934, -0.006077564948050873], ["in", 1610, -0.006077564948050873], ["in", 1774, -0.006077564948050873], ["in", 2051, -0.006077564948050873], ["in", 2419, -0.006077564948050873], ["in", 2460, -0.006077564948050873], ["in", 2920, -0.006077564948050873], ["in", 3233, -0.006077564948050873], ["in", 3852, -0.006077564948050873], ["sluggish", 1985, -0.006076560399773739], ["sluggish", 2748, -0.006076560399773739], ["of", 455, -0.0059950147796973986], ["of", 666, -0.0059950147796973986], ["of", 1027, -0.0059950147796973986], ["of", 1051, -0.0059950147796973986], ["of", 1574, -0.0059950147796973986], ["of", 1783, -0.0059950147796973986], ["of", 1874, -0.0059950147796973986], ["of", 2500, -0.0059950147796973986], ["of", 2686, -0.0059950147796973986], ["of", 2780, -0.0059950147796973986], ["of", 2979, -0.0059950147796973986], ["of", 2997, -0.0059950147796973986], ["of", 3335, -0.0059950147796973986], ["of", 3470, -0.0059950147796973986], ["of", 3511, -0.0059950147796973986], ["of", 3560, -0.0059950147796973986], ["of", 3618, -0.0059950147796973986], ["of", 3687, -0.0059950147796973986], ["even", 178, -0.005923662576582786], ["movie", 148, 0.005814155774497402], ["created", 2578, -0.005759754495503517], ["lived", 1185, -0.005739105815383607], ["lived", 1632, -0.005739105815383607], ["out", 3556, 0.005714842406434035], ["this", 458, -0.005686197131214641], ["this", 1325, -0.005686197131214641], ["this", 1877, -0.005686197131214641], ["this", 3908, -0.005686197131214641], ["tell", 573, -0.00561778740506601], ["what", 120, -0.005617411787873211], ["what", 344, -0.005617411787873211], ["what", 717, -0.005617411787873211], ["despite", 2367, 0.005489183253855309], ["role", 2046, 0.005476839682321483], ["role", 2140, 0.005476839682321483], ["off", 3774, -0.005369485524340119], ["deserved", 1500, 0.005148596469747749], ["contract", 2930, -0.005045379435526862], ["music", 3268, -0.005011029656328967], ["age", 749, -0.004907439277937061], ["greatness", 2386, -0.004267596137018782]], 1, "who would have thought ? jim carrey does drama . when i first saw the advertisement for the truman show , i thought , \" what a hilarious idea for a movie ! \" however , it was an even better premise for a drama . the truman show takes us into a world that revolves around one man . that man is truman burbank ( jim carrey ) . truman has no clue what is really going on in his world and frankly , cristof wants to keep it that way . christof is the \" god \" of this made - up world . he keeps everything running and gives the actors their roles . there were a few attempts to tell truman about his world , but they failed and life went on as normal . the opening parts of the film introduce to truman ' s world . we see what he is doing at his current age , then we get a flashback at his past . it may seem a tad boring , but it is so intriguing that you will fall in love with the film right from the start . the film can be described in one word : weird . it seems like such a simple idea , yet it is something that a majority of us would never think of , but andrew niccol did . it seems like a warped idea , but it is andrew ' s idea and he did wonders with it . jim carrey actually lived up to the hype . the hype , whether good or bad , always focused on carrey ' s ability to do drama . no one doubted how extraordinary this film could be , the only thing they doubted was carrey . and he showed them all up . jim carrey was snubbed at the oscars . i do not think he was the best actor , but he deserved the nomination . he plays truman burbank , the unsuspecting star of the most popular television show in the world . he has lived a normal life for almost thirty years , but then strange things start happening . he ventures into the wrong elevator . a light crashes in front of him . his father comes back and is then pulled away . we are constantly teased with all of this and we know it is a show , but truman does not . and it is just a constant progression that never gets sluggish . carrey is able to shed his comedy to play a major role in a major drama . laura linney is magnificent as the camera hungry wife . she plays her role as advertiser and budding star to a point . peter weir does not make the cast perfect , and their flaws eventually lead to truman ' s escape . the story unfolds until the show becomes too big and everything crashes down . despite carrey ' s greatness , the best performance in the truman show undoubtedly is turned in by ed harris , who plays the \" god \" of truman ' s world . he displays the pressure he is under , the world he has created . he becomes so paranoid that he believes he is a god and that truman has him to thank for his sham of a life . the action moves at a good pace , and rarely gets sluggish . but , the main point of the film is how it looks like a television show . it really makes you think . maybe your brother is an actor , maybe your best friend is in heated contract negotiations to stay on the show . some of the best parts of the film are when truman ventures into the wrong elevator and sees cast members drinking coffee and talking . or when truman tunes into the wrong station and hears orders being said for truman ' s arrival . and when christof focuses in on truman and cues the dramatic music as marlon ( noah emmerich ) delivers his dramatic line . all of these ideas are just perfect for the film and extremely innovative . i was not only enjoying the film , i was overwhelmed by genius of it . overall , the truman show is one of the freshest and innovative films to come out of hollywood . jim carrey shows that he is not just a man of a million faces , but a legitimate actor who could go down as one of the best . andrew niccol is responsible for the screenplay and peter weir pulled it off to perfection . the truman show is a must see for anyone who likes movies in general because they will be thoroughly impressed by this creative film .", raw_div, true);
+            exp.show_raw_text([["stereotypical", 564, 0.04886816696208081], ["stereotypical", 631, 0.04886816696208081], ["stereotypical", 782, 0.04886816696208081], ["stereotypical", 857, 0.04886816696208081], ["stereotypical", 945, 0.04886816696208081], ["falls", 594, 0.02796195839011313], ["falls", 822, 0.02796195839011313], ["if", 158, 0.024005135824963112], ["if", 228, 0.024005135824963112], ["if", 358, 0.024005135824963112], ["if", 730, 0.024005135824963112], ["the", 84, -0.016133834554773976], ["the", 300, -0.016133834554773976], ["the", 534, -0.016133834554773976], ["the", 560, -0.016133834554773976], ["the", 627, -0.016133834554773976], ["the", 778, -0.016133834554773976], ["the", 853, -0.016133834554773976], ["the", 916, -0.016133834554773976], ["the", 936, -0.016133834554773976], ["the", 995, -0.016133834554773976], ["the", 1028, -0.016133834554773976], ["the", 1074, -0.016133834554773976], ["the", 1206, -0.016133834554773976], ["the", 1224, -0.016133834554773976], ["the", 1301, -0.016133834554773976], ["the", 1378, -0.016133834554773976], ["the", 1572, -0.016133834554773976], ["very", 749, -0.013040101084015385], ["very", 1258, -0.013040101084015385], ["well", 151, -0.009446236245739563], ["well", 1086, -0.009446236245739563], ["brown", 844, -0.008352904519496659], ["brown", 1156, -0.008352904519496659], ["is", 297, -0.0076307761802331285], ["is", 480, -0.0076307761802331285], ["is", 557, -0.0076307761802331285], ["is", 624, -0.0076307761802331285], ["is", 775, -0.0076307761802331285], ["is", 850, -0.0076307761802331285], ["is", 1004, -0.0076307761802331285], ["is", 1060, -0.0076307761802331285], ["is", 1338, -0.0076307761802331285], ["is", 1399, -0.0076307761802331285], ["cross", 5, -0.00708115592941828], ["cross", 551, -0.00708115592941828], ["you", 161, -0.004096039375778777], ["you", 231, -0.004096039375778777], ["you", 276, -0.004096039375778777], ["you", 361, -0.004096039375778777], ["you", 395, -0.004096039375778777]], 0, "arye cross and courteney cox star as a pair of bostonians who meet in a bar , go to the movies , fall in love , move in together , etc . review ====== well , if you haven ' t seen when harry met sally or he said , she said , or if you don ' t watch love | war on television , you might think this is the most inventive film to come along in ages . however , if you ' ve seen any of these , than you have seen most of this film . this of course doesn ' t mean its bad . some of it is amusing , but overall , i just had to ask what ' s the point ? arye cross is the stereotypical single male who falls in love . kevin pollack is the stereotypical female - fearing best friend who make a lot of rather sexist and vulgar jokes , most if which weren ' t very funny . couteney cox is the stereotypical career - minded woman who falls in love . julie brown is the stereotypical bizarre best friend of said woman . ( notice the frequent use of the word stereotypical . this film uses a lot of formula , the plot is basically known from the opening credits . ) so what is good about the movie ? well as i said there are a few amusing moments . surprisingly , julie brown , who i usually find just plain goofy , was the best thing in the film . also there are several very funny sequences involving analysis of the human mating ritual . gee , this is really short . not much to say about the film really . it is just kind of there . watching it on video might not be a complete waste of time , but i wouldn ' t recommend hiring a baby sitter or spending a lot of money to see it at the theatre .", raw_div, true);
 
         </script>
         </body></html></div></div>
 </div>
 </div>
 <div class="section" id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.9. </span>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="https://keras.io/examples/nlp/text_classification_with_transformer/">Text classification with transfomer</a></p></li>
-<li><p><a class="reference external" href="http://peterbloem.nl/blog/transformers">Transformers From Scratch</a></p></li>
+<li><p>This unit is based on the official keras tutorial: <a class="reference external" href="https://keras.io/examples/nlp/text_classification_with_transformer/">Text classification with transfomer</a></p></li>
+<li><p>Please read Peter Bloem’s blog post on Transformers: <a class="reference external" href="http://peterbloem.nl/blog/transformers">Transformers From Scratch</a>. Highly recommended! Very comprehensive introduction of the attention mechanism and transformers.</p></li>
 </ul>
 </div>
 </div>
@@ -38255,8 +38116,8 @@ Epoch 20/20
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="dl-transformers-intuition.html" title="previous page">Transformers: Intuition</a>
-    <a class='right-next' id="next-link" href="../exercise/1-python-basics.html" title="next page">Assignment I: Python Basics</a>
+    <a class='left-prev' id="prev-link" href="dl-seq-to-seq-attention-addition.html" title="previous page"><span class="section-number">2. </span>Sequence Model with Attention for Addition Learning</a>
+    <a class='right-next' id="next-link" href="sentiment-analysis-using-bert-keras-movie-reviews.html" title="next page"><span class="section-number">4. </span>Transfer Learning With BERT (Self-Study)</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
