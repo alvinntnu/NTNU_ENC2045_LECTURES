@@ -5,7 +5,7 @@
 
 # ## Question 1
 # 
-# Please download the dataset, `demo_data/data-student-version.csv`, which includes a two-column data frame. The first column, `INPUT`, includes dates representations in variable ways, and the second column, `OUTPUT`, includes their uniform representations.
+# Please download the dataset, `demo_data/date-student-version.csv`, which includes a two-column data frame. The first column, `INPUT`, includes dates representations in variable ways, and the second column, `OUTPUT`, includes their uniform representations.
 # 
 # Please create a Sequence Model using Encoder-Decoder architecture as shown in the Number Addition examples in our lecture, whose objective is to perform date conversion, i.e., to convert the dates in variable formats (INPUT) to dates in a consistent format (OUTPUT).
 # 
