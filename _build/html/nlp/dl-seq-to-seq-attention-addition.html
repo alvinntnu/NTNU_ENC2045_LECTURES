@@ -1,0 +1,2697 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2. Sequence Model with Attention for Addition Learning &#8212; ENC2045 Computational Linguistics</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mycss.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. Sentiment Classification with Transformer (Self-Study)" href="dl-transformers-keras.html" />
+    <link rel="prev" title="1. Attention and Transformers: Intuitions" href="dl-attention-transformer-intuition.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/ntnu-word-2.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">ENC2045 Computational Linguistics</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <p class="caption collapsible-parent">
+ <span class="caption-text">
+  INTRODUCTION
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="nlp-primer.html">
+   Natural Language Processing: A Primer
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="nlp-pipeline.html">
+   NLP Pipeline
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Preprocessing
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="text-preprocessing.html">
+   Text Preprocessing
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="text-normalization-eng.html">
+     Text Normalization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="text-tokenization.html">
+     Text Tokenization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="text-enrichment.html">
+     Text Enrichment
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="chinese-word-seg.html">
+     Chinese Word Segmentation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="google-colab.html">
+     Google Colab
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Text Vectorization
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="text-vec-traditional.html">
+   Text Vectorization Using Traditional Methods
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine Learning Basics
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-overview.html">
+   1. Machine Learning: Overview
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-simple-case.html">
+   2. Machine Learning: A Simple Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-algorithm.html">
+   3. Classification Models
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine-Learning NLP
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml-sklearn-classification.html">
+   1. Sentiment Analysis Using Bag-of-Words
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="topic-modeling-naive.html">
+   2. Topic Modeling: A Naive Example
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Deep Learning NLP
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl-neural-network-from-scratch.html">
+   1. Neural Network From Scratch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl-simple-case.html">
+   2. Deep Learning: A Simple Example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl-sentiment-case.html">
+   3. Deep Learning: Sentiment Analysis
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Neural Language Model and Embeddings
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl-sequence-models-intuition.html">
+   1. Sequence Models Intuition
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl-neural-language-model-primer.html">
+   2. Neural Language Model: A Start
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="text-vec-embedding.html">
+   3. Word Embeddings
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Seq2Seq, Attention, Transformers, and Transfer Learning
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl-attention-transformer-intuition.html">
+   1. Attention and Transformers: Intuitions
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   2. Sequence Model with Attention for Addition Learning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl-transformers-keras.html">
+   3. Sentiment Classification with Transformer (Self-Study)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="sentiment-analysis-using-bert-keras-movie-reviews.html">
+   4. Transfer Learning With BERT (Self-Study)
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Exercises
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/1-python-basics.html">
+   Assignment I: Python Basics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/2-journal-review.html">
+   Assignment II: Journal Articles Review
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/3-preprocessing.html">
+   Assignment III: Preprocessing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/4-chinese-nlp.html">
+   Assignment IV: Chinese Language Processing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/5-text-vectorization.html">
+   Assignment V: Text Vectorization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/6-machine-learning.html">
+   Assignment VI: Machine Learning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/7-topic-modeling.html">
+   Assignment VII: Topic Modeling
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/8-dl-chinese-name-gender.html">
+   Assignment VIII: Deep Learning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/9-sentiment-analysis-dl.html">
+   Assignment IX: Sentiment Analysis Using Deep Learning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/10-neural-language-model.html">
+   Assignment X: Neural Language Model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/11-word2vec.html">
+   Assignment XI: Word Embeddings
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/12-encoder-decoder.html">
+   Assignment XII: Encoder-Decoder Sequence Models
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../exercise/13-attention.html">
+   Assignment XIII: Attention
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  <div style="text-align:center">
+<i class="fas fa-chalkboard-teacher fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinntnu.github.io/NTNU_ENC2045/" target='_blank'>ENC2045 Course Website</a><br>
+<i class="fas fa-home fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinchen.myftp.org/" target='_blank'>Alvin Chen's Homepage</a>
+</div>
+
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/nlp/dl-seq-to-seq-attention-addition.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/alvinntnu/NTNU_ENC2045_LECTURES/main?urlpath=tree/nlp/dl-seq-to-seq-attention-addition.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/alvinntnu/NTNU_ENC2045_LECTURES/blob/main/nlp/dl-seq-to-seq-attention-addition.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-up-dependencies">
+   2.1. Set up Dependencies
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#deep-learning-hyperparameters">
+   2.2. Deep Learning Hyperparameters
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data">
+   2.3. Data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#train-test-split">
+   2.4. Train-Test Split
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-preprocessing">
+   2.5. Data Preprocessing
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#text-to-sequences">
+     Text to Sequences
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#special-considerations-for-decoder-s-input-and-output">
+     Special Considerations for Decoder’s Input and Output
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sequences-to-one-hot-encoding">
+     Sequences to One-Hot Encoding
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#token-indices">
+     Token Indices
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-training">
+   2.6. Model Training
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-1-vanilla-rnn">
+   2.7. Model 1 (Vanilla RNN)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#define-model">
+     Define Model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#training">
+     Training
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-2-gru">
+   2.8. Model 2 (GRU)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Define Model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     Training
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-3-birdirectional">
+   2.9. Model 3 (Birdirectional)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     Define Model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     Training
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-4-peeky-decoder">
+   2.10. Model 4 (Peeky Decoder)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     Define Model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     Training
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-5-attention">
+   2.11. Model 5 (Attention)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     Define Model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id8">
+     Training
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#save-models">
+   2.12. Save Models
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#interim-comparison">
+   2.13. Interim Comparison
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#attention-model-analysis">
+   2.14. Attention Model Analysis
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#inference">
+   2.15. Inference
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#inference-encoder">
+     Inference Encoder
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#inference-decoder">
+     Inference Decoder
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#decoding-input-sequences">
+     Decoding Input Sequences
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plotting-attention">
+   2.16. Plotting Attention
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#evaluation-on-testing-data">
+   2.17. Evaluation on Testing Data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   2.18. References
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="sequence-model-with-attention-for-addition-learning">
+<h1><span class="section-number">2. </span>Sequence Model with Attention for Addition Learning<a class="headerlink" href="#sequence-model-with-attention-for-addition-learning" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>In this unit, we will practice on the sequence-to-sequence model using a naive example of numbers addition.</p></li>
+<li><p>The inputs are sequences of two numbers adding together (e.g., 123+23); the outputs are the correct answers, i.e., the sum of the two numbers (i.e., 125).</p></li>
+<li><p>This type of sequence model is also referred to as Encoder-Decoder Models.</p></li>
+<li><p>This task is to simulate the machine translation task (i.e, the sequence to the left of the equation is the source language while the sequence to the right of the equation is the target language).</p></li>
+<li><p>In particular, we will implement not only a vanilla RNN-based sequence-to-sequence model but also a few extended variants of the RNN, including:</p>
+<ul>
+<li><p>GRU</p></li>
+<li><p>Bidirectional GRU</p></li>
+<li><p>Peeky Decoder</p></li>
+<li><p>Attention-based Decoder</p></li>
+</ul>
+</li>
+</ul>
+<div class="section" id="set-up-dependencies">
+<h2><span class="section-number">2.1. </span>Set up Dependencies<a class="headerlink" href="#set-up-dependencies" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+
+<span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.preprocessing.text</span> <span class="kn">import</span> <span class="n">Tokenizer</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.preprocessing.sequence</span> <span class="kn">import</span> <span class="n">pad_sequences</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Input</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">LSTM</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">GRU</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">SimpleRNN</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Bidirectional</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Concatenate</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">TimeDistributed</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">RepeatVector</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Attention</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">AdditiveAttention</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">GlobalAveragePooling1D</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras</span> <span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.utils</span> <span class="kn">import</span> <span class="n">to_categorical</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.utils</span> <span class="kn">import</span> <span class="n">plot_model</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Tensorflow Version: &#39;</span><span class="p">,</span> <span class="n">tensorflow</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tensorflow Version:  2.4.1
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="deep-learning-hyperparameters">
+<h2><span class="section-number">2.2. </span>Deep Learning Hyperparameters<a class="headerlink" href="#deep-learning-hyperparameters" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">128</span>  <span class="c1"># Batch size for training.</span>
+<span class="n">epochs</span> <span class="o">=</span> <span class="mi">30</span>  <span class="c1"># Epochs for training</span>
+<span class="n">latent_dim</span> <span class="o">=</span> <span class="mi">256</span>  <span class="c1"># Encoder-Decoder latent dimensions</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="data">
+<h2><span class="section-number">2.3. </span>Data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Please download the data set from <code class="docutils literal notranslate"><span class="pre">demo_data/addition-student-version.csv</span></code>, where each line is a training sample, consisting of the input sequence (e.g., <code class="docutils literal notranslate"><span class="pre">16+75</span></code>) and the target sequence (e.g., <code class="docutils literal notranslate"><span class="pre">91</span></code>) separated by a comma.</p></li>
+<li><p>We load the data and add initial and ending token to all the target sequences (<code class="docutils literal notranslate"><span class="pre">_</span></code>).</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_path</span> <span class="o">=</span> <span class="s1">&#39;../../../RepositoryData/data/deep-learning-2/addition-student-version.csv&#39;</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">l</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lines</span> <span class="k">if</span> <span class="n">l</span><span class="o">!=</span><span class="s1">&#39;&#39;</span><span class="p">]</span>
+    
+<span class="n">input_texts</span> <span class="o">=</span> <span class="p">[</span><span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+<span class="n">target_texts</span> <span class="o">=</span> <span class="p">[</span><span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+
+<span class="n">target_texts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">sent</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">target_texts</span><span class="p">]</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+
+<span class="n">inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">input_texts</span><span class="p">))</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">inds</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">input_texts</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">target_texts</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Data Size:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_texts</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;16+75&#39;, &#39;52+607&#39;, &#39;75+22&#39;, &#39;63+22&#39;, &#39;795+3&#39;]
+[&#39;_91_&#39;, &#39;_659_&#39;, &#39;_97_&#39;, &#39;_85_&#39;, &#39;_798_&#39;]
+Data Size: 50000
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="train-test-split">
+<h2><span class="section-number">2.4. </span>Train-Test Split<a class="headerlink" href="#train-test-split" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_test_ratio</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">train_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">*</span> <span class="n">train_test_ratio</span><span class="p">))</span>
+<span class="n">train_inds</span> <span class="o">=</span> <span class="n">inds</span><span class="p">[:</span><span class="n">train_size</span><span class="p">]</span>
+<span class="n">test_inds</span> <span class="o">=</span> <span class="n">inds</span><span class="p">[</span><span class="n">train_size</span><span class="p">:]</span>
+
+<span class="n">tr_input_texts</span> <span class="o">=</span> <span class="p">[</span><span class="n">input_texts</span><span class="p">[</span><span class="n">ti</span><span class="p">]</span> <span class="k">for</span> <span class="n">ti</span> <span class="ow">in</span> <span class="n">train_inds</span><span class="p">]</span>
+<span class="n">tr_target_texts</span> <span class="o">=</span> <span class="p">[</span><span class="n">target_texts</span><span class="p">[</span><span class="n">ti</span><span class="p">]</span> <span class="k">for</span> <span class="n">ti</span> <span class="ow">in</span> <span class="n">train_inds</span><span class="p">]</span>
+
+<span class="n">ts_input_texts</span> <span class="o">=</span> <span class="p">[</span><span class="n">input_texts</span><span class="p">[</span><span class="n">ti</span><span class="p">]</span> <span class="k">for</span> <span class="n">ti</span> <span class="ow">in</span> <span class="n">test_inds</span><span class="p">]</span>
+<span class="n">ts_target_texts</span> <span class="o">=</span> <span class="p">[</span><span class="n">target_texts</span><span class="p">[</span><span class="n">ti</span><span class="p">]</span> <span class="k">for</span> <span class="n">ti</span> <span class="ow">in</span> <span class="n">test_inds</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr_input_texts</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;27+673&#39;,
+ &#39;153+27&#39;,
+ &#39;93+901&#39;,
+ &#39;243+678&#39;,
+ &#39;269+46&#39;,
+ &#39;235+891&#39;,
+ &#39;46+290&#39;,
+ &#39;324+947&#39;,
+ &#39;721+49&#39;,
+ &#39;535+7&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr_target_texts</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;_700_&#39;,
+ &#39;_180_&#39;,
+ &#39;_994_&#39;,
+ &#39;_921_&#39;,
+ &#39;_315_&#39;,
+ &#39;_1126_&#39;,
+ &#39;_336_&#39;,
+ &#39;_1271_&#39;,
+ &#39;_770_&#39;,
+ &#39;_542_&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of Samples:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of Samples in Training:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">tr_input_texts</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of Samples in Testing:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ts_input_texts</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Samples: 50000
+Number of Samples in Training: 45000
+Number of Samples in Testing: 5000
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="data-preprocessing">
+<h2><span class="section-number">2.5. </span>Data Preprocessing<a class="headerlink" href="#data-preprocessing" title="Permalink to this headline">¶</a></h2>
+<p><img alt="" src="../_images/text-seq-onehot-embedding.jpeg" /></p>
+<div class="section" id="text-to-sequences">
+<h3>Text to Sequences<a class="headerlink" href="#text-to-sequences" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Tokenization of input and target texts invovles the following important steps:</p>
+<ul>
+<li><p>Create a <code class="docutils literal notranslate"><span class="pre">Tokenizer</span></code></p></li>
+<li><p>Fit the <code class="docutils literal notranslate"><span class="pre">Tokenizer</span></code> on the training sets</p></li>
+<li><p>Tokenize input and target texts of the training set into sequences</p></li>
+<li><p>Identify the maxlen of the input and target sequences</p></li>
+<li><p>Pad input and target sequences to uniform lengths</p></li>
+</ul>
+</li>
+<li><p>Note that we need to create a <strong>character-based</strong> <code class="docutils literal notranslate"><span class="pre">Tokenizer</span></code>.</p></li>
+<li><p>There will be two Tokenizers, one for input texts and the other for target texts.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># &quot;&quot;&quot; Defining tokenizers &quot;&quot;&quot;</span>
+<span class="n">input_tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">(</span><span class="n">char_level</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">input_tokenizer</span><span class="o">.</span><span class="n">fit_on_texts</span><span class="p">(</span><span class="n">tr_input_texts</span><span class="p">)</span>
+<span class="n">encoder_input_sequences</span> <span class="o">=</span> <span class="n">input_tokenizer</span><span class="o">.</span><span class="n">texts_to_sequences</span><span class="p">(</span><span class="n">tr_input_texts</span><span class="p">)</span>
+<span class="n">input_maxlen</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">encoder_input_sequences</span><span class="p">])</span>
+<span class="n">encoder_input_sequences</span> <span class="o">=</span> <span class="n">pad_sequences</span><span class="p">(</span><span class="n">encoder_input_sequences</span><span class="p">,</span>
+                                        <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;post&#39;</span><span class="p">,</span>
+                                        <span class="n">maxlen</span><span class="o">=</span><span class="n">input_maxlen</span><span class="p">)</span>
+
+<span class="n">target_tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">(</span><span class="n">char_level</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">target_tokenizer</span><span class="o">.</span><span class="n">fit_on_texts</span><span class="p">(</span><span class="n">tr_target_texts</span><span class="p">)</span>
+<span class="n">target_sequences</span> <span class="o">=</span> <span class="n">target_tokenizer</span><span class="o">.</span><span class="n">texts_to_sequences</span><span class="p">(</span><span class="n">tr_target_texts</span><span class="p">)</span>
+<span class="n">target_maxlen</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">target_sequences</span><span class="p">])</span>
+<span class="n">target_sequences</span> <span class="o">=</span> <span class="n">pad_sequences</span><span class="p">(</span><span class="n">target_sequences</span><span class="p">,</span>
+                                 <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;post&#39;</span><span class="p">,</span>
+                                 <span class="n">maxlen</span><span class="o">=</span><span class="n">target_maxlen</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Shapes of Input and Target Sequences</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">encoder_input_sequences</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">target_sequences</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(45000, 7)
+(45000, 6)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ### vocab size</span>
+<span class="n">input_vsize</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">input_tokenizer</span><span class="o">.</span><span class="n">index_word</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">target_vsize</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">target_tokenizer</span><span class="o">.</span><span class="n">index_word</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The plus 1 for vocabulary size is to include the padding character, whose index is the reserved <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">input_vsize</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">target_vsize</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>12
+12
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tr_input_texts</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">encoder_input_sequences</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;27+673&#39;, &#39;153+27&#39;, &#39;93+901&#39;]
+[[ 9 10  1  7 10  5  0]
+ [ 8  6  5  1  9 10  0]
+ [ 2  5  1  2 11  8  0]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_tokenizer</span><span class="o">.</span><span class="n">word_index</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;+&#39;: 1,
+ &#39;9&#39;: 2,
+ &#39;4&#39;: 3,
+ &#39;8&#39;: 4,
+ &#39;3&#39;: 5,
+ &#39;5&#39;: 6,
+ &#39;6&#39;: 7,
+ &#39;1&#39;: 8,
+ &#39;2&#39;: 9,
+ &#39;7&#39;: 10,
+ &#39;0&#39;: 11}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tr_target_texts</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">target_sequences</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;_700_&#39;, &#39;_180_&#39;, &#39;_994_&#39;]
+[[ 1  4 11 11  1  0]
+ [ 1  2 10 11  1  0]
+ [ 1  7  7  8  1  0]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_tokenizer</span><span class="o">.</span><span class="n">word_index</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;_&#39;: 1,
+ &#39;1&#39;: 2,
+ &#39;2&#39;: 3,
+ &#39;7&#39;: 4,
+ &#39;6&#39;: 5,
+ &#39;3&#39;: 6,
+ &#39;9&#39;: 7,
+ &#39;4&#39;: 8,
+ &#39;5&#39;: 9,
+ &#39;8&#39;: 10,
+ &#39;0&#39;: 11}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="special-considerations-for-decoder-s-input-and-output">
+<h3>Special Considerations for Decoder’s Input and Output<a class="headerlink" href="#special-considerations-for-decoder-s-input-and-output" title="Permalink to this headline">¶</a></h3>
+<p><img alt="" src="../_images/seq2seq-vanilla-rnn.jpeg" /></p>
+<ul class="simple">
+<li><p>In the training stage, we give the Decoder the correct target sequences for <strong>teacher forcing</strong>.</p></li>
+<li><p>Input and Output Sequences for Decoder</p>
+<ul>
+<li><p>Decoder input and output sequences have one time-step difference (i.e., the decoder’s output at <span class="math notranslate nohighlight">\(t-1\)</span> is the decoder’s input at <span class="math notranslate nohighlight">\(t\)</span>)</p></li>
+<li><p>We create decoder input and output sequences as different sets of data.</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">decoder_input_sequences</span> <span class="o">=</span> <span class="n">target_sequences</span><span class="p">[:,:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">decoder_output_sequences</span> <span class="o">=</span> <span class="n">target_sequences</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">decoder_input_sequences</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">decoder_output_sequences</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ 1  4 11 11  1]
+ [ 1  2 10 11  1]
+ [ 1  7  7  8  1]
+ [ 1  7  3  2  1]
+ [ 1  6  2  9  1]]
+[[ 4 11 11  1  0]
+ [ 2 10 11  1  0]
+ [ 7  7  8  1  0]
+ [ 7  3  2  1  0]
+ [ 6  2  9  1  0]]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="sequences-to-one-hot-encoding">
+<h3>Sequences to One-Hot Encoding<a class="headerlink" href="#sequences-to-one-hot-encoding" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>To simplify the matter, we convert each sequence/integer token into one-hot encoding, which will be the input of the Encoder directly.</p></li>
+<li><p>Normally we would add an Embedding layer to convert sequence tokens to embeddings before sending them to the Encoder.</p></li>
+<li><p>Please note that this step renders the text representation of the entire training data from 2D (<code class="docutils literal notranslate"><span class="pre">batch_size</span></code>, <code class="docutils literal notranslate"><span class="pre">max_length</span></code>) to 3D tensors (<code class="docutils literal notranslate"><span class="pre">batch_size</span></code>, <code class="docutils literal notranslate"><span class="pre">max_length</span></code>, <code class="docutils literal notranslate"><span class="pre">vocab_size</span></code>).</p></li>
+</ul>
+<p><img alt="" src="../_images/text-seq-onehot-embedding.jpeg" /></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For neural machine translations, the vocabulary sizes of the input and target languages are usually very large. It is more effective to implement an <strong>Embedding</strong> layer to convert sequences (integers) into embeddings, rather than one-hot encodings.</p>
+<p>For this tutorial, we have a limited vocabulary size (only digits and math symbols). One-hot encodings should be fine.</p>
+<p>However, in the assignment, you will practice on how to add embedding layers for both Encoder and Decoder.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">encoder_input_sequences</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">decoder_input_sequences</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">decoder_output_sequences</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(45000, 7)
+(45000, 5)
+(45000, 5)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">encoder_input_onehot</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="n">encoder_input_sequences</span><span class="p">,</span>
+                                      <span class="n">num_classes</span><span class="o">=</span><span class="n">input_vsize</span><span class="p">)</span>
+<span class="n">decoder_input_onehot</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="n">decoder_input_sequences</span><span class="p">,</span>
+                                      <span class="n">num_classes</span><span class="o">=</span><span class="n">target_vsize</span><span class="p">)</span>
+<span class="n">decoder_output_onehot</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="n">decoder_output_sequences</span><span class="p">,</span>
+                                       <span class="n">num_classes</span><span class="o">=</span><span class="n">target_vsize</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">encoder_input_onehot</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">decoder_input_onehot</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">decoder_output_onehot</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(45000, 7, 12)
+(45000, 5, 12)
+(45000, 5, 12)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="token-indices">
+<h3>Token Indices<a class="headerlink" href="#token-indices" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>We create the integer-to-character dictionaries for later use.</p></li>
+<li><p>Two dictionaries, one for the input sequence and one for the target sequence.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot; Index2word &quot;&quot;&quot;</span>
+<span class="n">enc_index2word</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="nb">zip</span><span class="p">(</span><span class="n">input_tokenizer</span><span class="o">.</span><span class="n">word_index</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span>
+        <span class="n">input_tokenizer</span><span class="o">.</span><span class="n">word_index</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+<span class="n">dec_index2word</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="nb">zip</span><span class="p">(</span><span class="n">target_tokenizer</span><span class="o">.</span><span class="n">word_index</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span>
+        <span class="n">target_tokenizer</span><span class="o">.</span><span class="n">word_index</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">enc_index2word</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{1: &#39;+&#39;,
+ 2: &#39;9&#39;,
+ 3: &#39;4&#39;,
+ 4: &#39;8&#39;,
+ 5: &#39;3&#39;,
+ 6: &#39;5&#39;,
+ 7: &#39;6&#39;,
+ 8: &#39;1&#39;,
+ 9: &#39;2&#39;,
+ 10: &#39;7&#39;,
+ 11: &#39;0&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dec_index2word</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{1: &#39;_&#39;,
+ 2: &#39;1&#39;,
+ 3: &#39;2&#39;,
+ 4: &#39;7&#39;,
+ 5: &#39;6&#39;,
+ 6: &#39;3&#39;,
+ 7: &#39;9&#39;,
+ 8: &#39;4&#39;,
+ 9: &#39;5&#39;,
+ 10: &#39;8&#39;,
+ 11: &#39;0&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">150</span>
+
+
+<span class="c1"># Plotting results</span>
+<span class="k">def</span> <span class="nf">plot1</span><span class="p">(</span><span class="n">history</span><span class="p">):</span>
+
+    <span class="n">acc</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span>
+    <span class="n">val_acc</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;val_accuracy&#39;</span><span class="p">]</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">]</span>
+    <span class="n">val_loss</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;val_loss&#39;</span><span class="p">]</span>
+
+    <span class="n">epochs</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">acc</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="c1">## Accuracy plot</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">acc</span><span class="p">,</span> <span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Training acc&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">val_acc</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Validation acc&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Training and validation accuracy&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="c1">## Loss plot</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Training loss&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">val_loss</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Validation loss&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Training and validation loss&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">plot2</span><span class="p">(</span><span class="n">history</span><span class="p">):</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1">#plt.gca().set_ylim(0,1)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="model-training">
+<h2><span class="section-number">2.6. </span>Model Training<a class="headerlink" href="#model-training" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Define the model architecture</p></li>
+<li><p>Train the model</p></li>
+</ul>
+<ul class="simple">
+<li><p>Sequence-to-Sequence can go from simple RNNs to complex models with attention mechanisms.</p></li>
+<li><p>In this tutorial, we will try the following:</p>
+<ul>
+<li><p>Sequence-to-sequence model with <strong>vanilla RNN</strong> Encoder and Decoder</p></li>
+<li><p>Sequence-to-sequence model with <strong>GRU</strong> Encoder and Decoder</p></li>
+<li><p>Sequence-to-sequence model with <strong>bidirectional</strong> RNN Encoder</p></li>
+<li><p>Sequence-to-sequence model with <strong>peeky</strong> Decoder</p></li>
+<li><p>Sequence-to-sequence model with <strong>attention-based</strong> Decoder</p></li>
+</ul>
+</li>
+</ul>
+<ul class="simple">
+<li><p>Sequential vs. Functional API in <code class="docutils literal notranslate"><span class="pre">keras</span></code></p>
+<ul>
+<li><p>We have been using the Sequential API to create the network models, where each layer’s output is the input of the subsequent layer.</p></li>
+<li><p>However, for Encoder-Decoder Models, sometimes not all the outputs of the previous layer are the inputs of the subsequent layer.</p></li>
+<li><p>We need more flexibility in the ways of connecting the inputs and outputs of the model layers.</p></li>
+<li><p>Therefore, here we will use the Functional API for model definition.</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="model-1-vanilla-rnn">
+<h2><span class="section-number">2.7. </span>Model 1 (Vanilla RNN)<a class="headerlink" href="#model-1-vanilla-rnn" title="Permalink to this headline">¶</a></h2>
+<p><img alt="" src="../_images/seq2seq-vanilla-rnn.jpeg" /></p>
+<div class="section" id="define-model">
+<h3>Define Model<a class="headerlink" href="#define-model" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Important Highlights:</p>
+<ul>
+<li><p>In the training stage, we feed the decoder the correct answer at each time step as the input sequence.</p></li>
+<li><p>In the testing stage, the decoder will take the hidden state from the previous time step as the input sequence.</p></li>
+<li><p>This type of training is referred to as <strong>teacher forcing</strong> learning strategy. This can help the model converge more effectively.</p></li>
+<li><p>The decoder uses encoder’s last hidden state as the initial hidden state.</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define Model Inputs</span>
+<span class="n">encoder_inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">input_maxlen</span><span class="p">,</span> <span class="n">input_vsize</span><span class="p">),</span>
+                       <span class="n">name</span><span class="o">=</span><span class="s1">&#39;encoder_inputs&#39;</span><span class="p">)</span>
+<span class="n">decoder_inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">target_maxlen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">target_vsize</span><span class="p">),</span>
+                       <span class="n">name</span><span class="o">=</span><span class="s1">&#39;decoder_inputs&#39;</span><span class="p">)</span>
+
+<span class="c1"># Encoder RNN</span>
+    <span class="c1">## first return is the hidden states of all timesteps of encoder</span>
+    <span class="c1">## second return is the last hidden state of encoder</span>
+<span class="n">encoder_rnn</span> <span class="o">=</span> <span class="n">SimpleRNN</span><span class="p">(</span><span class="n">latent_dim</span><span class="p">,</span>
+                        <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">return_state</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;encoder_rnn&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">encoder_state</span> <span class="o">=</span> <span class="n">encoder_rnn</span><span class="p">(</span><span class="n">encoder_inputs</span><span class="p">)</span>
+
+
+<span class="c1"># Decoder RNN</span>
+    <span class="c1">## using `encoder_state` (last h) as initial state.</span>
+    <span class="c1">## using `decoder_inputs` for teacher forcing learning</span>
+<span class="n">decoder_rnn</span> <span class="o">=</span> <span class="n">SimpleRNN</span><span class="p">(</span><span class="n">latent_dim</span><span class="p">,</span>
+                        <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">return_state</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;decoder_rnn&#39;</span><span class="p">)</span>
+<span class="n">decoder_out</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">decoder_rnn</span><span class="p">(</span><span class="n">decoder_inputs</span><span class="p">,</span> <span class="n">initial_state</span><span class="o">=</span><span class="n">encoder_state</span><span class="p">)</span>
+
+<span class="c1"># Dense layer</span>
+<span class="n">dense</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="n">target_vsize</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;softmax&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;softmax_layer&#39;</span><span class="p">)</span>
+<span class="n">dense_time</span> <span class="o">=</span> <span class="n">TimeDistributed</span><span class="p">(</span><span class="n">dense</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;time_distributed_layer&#39;</span><span class="p">)</span>
+<span class="n">decoder_pred</span> <span class="o">=</span> <span class="n">dense_time</span><span class="p">(</span><span class="n">decoder_out</span><span class="p">)</span>
+
+<span class="c1"># Full model</span>
+<span class="n">full_model1</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">encoder_inputs</span><span class="p">,</span> <span class="n">decoder_inputs</span><span class="p">],</span>
+                    <span class="n">outputs</span><span class="o">=</span><span class="n">decoder_pred</span><span class="p">)</span>
+<span class="n">full_model1</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model: &quot;model&quot;
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+encoder_inputs (InputLayer)     [(None, 7, 12)]      0                                            
+__________________________________________________________________________________________________
+decoder_inputs (InputLayer)     [(None, 5, 12)]      0                                            
+__________________________________________________________________________________________________
+encoder_rnn (SimpleRNN)         [(None, 7, 256), (No 68864       encoder_inputs[0][0]             
+__________________________________________________________________________________________________
+decoder_rnn (SimpleRNN)         [(None, 5, 256), (No 68864       decoder_inputs[0][0]             
+                                                                 encoder_rnn[0][1]                
+__________________________________________________________________________________________________
+time_distributed_layer (TimeDis (None, 5, 12)        3084        decoder_rnn[0][0]                
+==================================================================================================
+Total params: 140,812
+Trainable params: 140,812
+Non-trainable params: 0
+__________________________________________________________________________________________________
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_model</span><span class="p">(</span><span class="n">full_model1</span><span class="p">,</span> <span class="n">show_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/dl-seq-to-seq-attention-addition_51_0.png" src="../_images/dl-seq-to-seq-attention-addition_51_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="training">
+<h3>Training<a class="headerlink" href="#training" title="Permalink to this headline">¶</a></h3>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run training</span>
+<span class="n">full_model1</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>
+                    <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">,</span>
+                    <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+<span class="n">history1</span> <span class="o">=</span> <span class="n">full_model1</span><span class="o">.</span><span class="n">fit</span><span class="p">([</span><span class="n">encoder_input_onehot</span><span class="p">,</span> <span class="n">decoder_input_onehot</span><span class="p">],</span>
+                           <span class="n">decoder_output_onehot</span><span class="p">,</span>
+                           <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+                           <span class="n">epochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">,</span>
+                           <span class="n">validation_split</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/30
+282/282 [==============================] - 6s 18ms/step - loss: 1.4381 - accuracy: 0.4772 - val_loss: 1.2027 - val_accuracy: 0.5463
+Epoch 2/30
+282/282 [==============================] - 4s 14ms/step - loss: 1.1515 - accuracy: 0.5703 - val_loss: 1.0187 - val_accuracy: 0.6145
+Epoch 3/30
+282/282 [==============================] - 4s 13ms/step - loss: 0.9641 - accuracy: 0.6353 - val_loss: 0.8675 - val_accuracy: 0.6631
+Epoch 4/30
+282/282 [==============================] - 4s 13ms/step - loss: 0.7778 - accuracy: 0.7006 - val_loss: 0.6676 - val_accuracy: 0.7382
+Epoch 5/30
+282/282 [==============================] - 4s 13ms/step - loss: 0.6133 - accuracy: 0.7656 - val_loss: 0.5297 - val_accuracy: 0.7950
+Epoch 6/30
+282/282 [==============================] - 4s 13ms/step - loss: 0.4924 - accuracy: 0.8125 - val_loss: 0.4788 - val_accuracy: 0.8073
+Epoch 7/30
+282/282 [==============================] - 4s 13ms/step - loss: 0.4017 - accuracy: 0.8469 - val_loss: 0.3664 - val_accuracy: 0.8606
+Epoch 8/30
+282/282 [==============================] - 4s 13ms/step - loss: 0.3236 - accuracy: 0.8785 - val_loss: 0.3241 - val_accuracy: 0.8713
+Epoch 9/30
+282/282 [==============================] - 4s 13ms/step - loss: 0.2702 - accuracy: 0.9006 - val_loss: 0.2862 - val_accuracy: 0.8865
+Epoch 10/30
+282/282 [==============================] - 4s 13ms/step - loss: 0.2376 - accuracy: 0.9129 - val_loss: 0.2563 - val_accuracy: 0.8998
+Epoch 11/30
+282/282 [==============================] - 4s 13ms/step - loss: 0.2150 - accuracy: 0.9216 - val_loss: 0.2413 - val_accuracy: 0.9053
+Epoch 12/30
+282/282 [==============================] - 4s 14ms/step - loss: 0.1915 - accuracy: 0.9306 - val_loss: 0.2324 - val_accuracy: 0.9094
+Epoch 13/30
+282/282 [==============================] - 4s 14ms/step - loss: 0.1726 - accuracy: 0.9368 - val_loss: 0.2059 - val_accuracy: 0.9189
+Epoch 14/30
+282/282 [==============================] - 4s 13ms/step - loss: 0.1542 - accuracy: 0.9443 - val_loss: 0.1909 - val_accuracy: 0.9263
+Epoch 15/30
+282/282 [==============================] - 4s 13ms/step - loss: 0.1517 - accuracy: 0.9442 - val_loss: 0.1730 - val_accuracy: 0.9346
+Epoch 16/30
+282/282 [==============================] - 4s 14ms/step - loss: 0.1301 - accuracy: 0.9545 - val_loss: 0.1708 - val_accuracy: 0.9344
+Epoch 17/30
+282/282 [==============================] - 4s 14ms/step - loss: 0.1391 - accuracy: 0.9491 - val_loss: 0.1521 - val_accuracy: 0.9422
+Epoch 18/30
+282/282 [==============================] - 4s 14ms/step - loss: 0.1173 - accuracy: 0.9585 - val_loss: 0.1605 - val_accuracy: 0.9391
+Epoch 19/30
+282/282 [==============================] - 4s 13ms/step - loss: 0.1132 - accuracy: 0.9592 - val_loss: 0.1502 - val_accuracy: 0.9416
+Epoch 20/30
+282/282 [==============================] - 4s 13ms/step - loss: 0.0986 - accuracy: 0.9654 - val_loss: 0.1500 - val_accuracy: 0.9437
+Epoch 21/30
+282/282 [==============================] - 4s 14ms/step - loss: 0.1062 - accuracy: 0.9617 - val_loss: 0.2019 - val_accuracy: 0.9241
+Epoch 22/30
+282/282 [==============================] - 4s 13ms/step - loss: 0.1048 - accuracy: 0.9624 - val_loss: 0.1514 - val_accuracy: 0.9419
+Epoch 23/30
+282/282 [==============================] - 4s 14ms/step - loss: 0.0954 - accuracy: 0.9658 - val_loss: 0.1427 - val_accuracy: 0.9450
+Epoch 24/30
+282/282 [==============================] - 4s 14ms/step - loss: 0.0902 - accuracy: 0.9680 - val_loss: 0.1463 - val_accuracy: 0.9453
+Epoch 25/30
+282/282 [==============================] - 5s 16ms/step - loss: 0.1045 - accuracy: 0.9618 - val_loss: 0.1242 - val_accuracy: 0.9530
+Epoch 26/30
+282/282 [==============================] - 5s 17ms/step - loss: 0.0781 - accuracy: 0.9730 - val_loss: 0.1561 - val_accuracy: 0.9412
+Epoch 27/30
+282/282 [==============================] - 4s 14ms/step - loss: 0.0914 - accuracy: 0.9663 - val_loss: 0.1405 - val_accuracy: 0.9470
+Epoch 28/30
+282/282 [==============================] - 4s 14ms/step - loss: 0.0828 - accuracy: 0.9704 - val_loss: 0.1462 - val_accuracy: 0.9456
+Epoch 29/30
+282/282 [==============================] - 4s 14ms/step - loss: 0.0723 - accuracy: 0.9751 - val_loss: 0.1581 - val_accuracy: 0.9415
+Epoch 30/30
+282/282 [==============================] - 4s 14ms/step - loss: 0.0878 - accuracy: 0.9681 - val_loss: 0.1689 - val_accuracy: 0.9377
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="model-2-gru">
+<h2><span class="section-number">2.8. </span>Model 2 (GRU)<a class="headerlink" href="#model-2-gru" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Define Model<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Important highlights:</p>
+<ul>
+<li><p>In Model 2, we replace vanilla RNN with GRU, which deals with the issue of long-distance dependencies between sequences.</p></li>
+<li><p>You can try LSTM as well.</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define Model Inputs</span>
+<span class="n">encoder_inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">input_maxlen</span><span class="p">,</span> <span class="n">input_vsize</span><span class="p">),</span>
+                       <span class="n">name</span><span class="o">=</span><span class="s1">&#39;encoder_inputs&#39;</span><span class="p">)</span>
+<span class="n">decoder_inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">target_maxlen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">target_vsize</span><span class="p">),</span>
+                       <span class="n">name</span><span class="o">=</span><span class="s1">&#39;decoder_inputs&#39;</span><span class="p">)</span>
+
+<span class="c1"># Encoder GRU</span>
+    <span class="c1">## first return is the hidden states of all timesteps of encoder</span>
+    <span class="c1">## second return is the last hidden state of encoder</span>
+<span class="n">encoder_gru</span> <span class="o">=</span> <span class="n">GRU</span><span class="p">(</span><span class="n">latent_dim</span><span class="p">,</span>
+                  <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">return_state</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">name</span><span class="o">=</span><span class="s1">&#39;encoder_gru&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">encoder_state</span> <span class="o">=</span> <span class="n">encoder_gru</span><span class="p">(</span><span class="n">encoder_inputs</span><span class="p">)</span>
+
+<span class="c1"># Decoder RNN</span>
+    <span class="c1">## using `encoder_state` (last h) as initial state.</span>
+    <span class="c1">## using `decoder_inputs` for teacher forcing learning</span>
+<span class="n">decoder_gru</span> <span class="o">=</span> <span class="n">GRU</span><span class="p">(</span><span class="n">latent_dim</span><span class="p">,</span>
+                  <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">return_state</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">name</span><span class="o">=</span><span class="s1">&#39;decoder_gru&#39;</span><span class="p">)</span>
+<span class="n">decoder_out</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">decoder_gru</span><span class="p">(</span><span class="n">decoder_inputs</span><span class="p">,</span> <span class="n">initial_state</span><span class="o">=</span><span class="n">encoder_state</span><span class="p">)</span>
+
+<span class="c1"># Dense layer</span>
+<span class="n">dense</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="n">target_vsize</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;softmax&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;softmax_layer&#39;</span><span class="p">)</span>
+<span class="n">dense_time</span> <span class="o">=</span> <span class="n">TimeDistributed</span><span class="p">(</span><span class="n">dense</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;time_distributed_layer&#39;</span><span class="p">)</span>
+<span class="n">decoder_pred</span> <span class="o">=</span> <span class="n">dense_time</span><span class="p">(</span><span class="n">decoder_out</span><span class="p">)</span>
+
+<span class="c1"># Full model</span>
+<span class="n">full_model2</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">encoder_inputs</span><span class="p">,</span> <span class="n">decoder_inputs</span><span class="p">],</span>
+                    <span class="n">outputs</span><span class="o">=</span><span class="n">decoder_pred</span><span class="p">)</span>
+<span class="n">full_model2</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model: &quot;model_1&quot;
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+encoder_inputs (InputLayer)     [(None, 7, 12)]      0                                            
+__________________________________________________________________________________________________
+decoder_inputs (InputLayer)     [(None, 5, 12)]      0                                            
+__________________________________________________________________________________________________
+encoder_gru (GRU)               [(None, 7, 256), (No 207360      encoder_inputs[0][0]             
+__________________________________________________________________________________________________
+decoder_gru (GRU)               [(None, 5, 256), (No 207360      decoder_inputs[0][0]             
+                                                                 encoder_gru[0][1]                
+__________________________________________________________________________________________________
+time_distributed_layer (TimeDis (None, 5, 12)        3084        decoder_gru[0][0]                
+==================================================================================================
+Total params: 417,804
+Trainable params: 417,804
+Non-trainable params: 0
+__________________________________________________________________________________________________
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_model</span><span class="p">(</span><span class="n">full_model2</span><span class="p">,</span> <span class="n">show_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/dl-seq-to-seq-attention-addition_57_0.png" src="../_images/dl-seq-to-seq-attention-addition_57_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>Training<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run training</span>
+<span class="n">full_model2</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>
+                    <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">,</span>
+                    <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+<span class="n">history2</span> <span class="o">=</span> <span class="n">full_model2</span><span class="o">.</span><span class="n">fit</span><span class="p">([</span><span class="n">encoder_input_onehot</span><span class="p">,</span> <span class="n">decoder_input_onehot</span><span class="p">],</span>
+                           <span class="n">decoder_output_onehot</span><span class="p">,</span>
+                           <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+                           <span class="n">epochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">,</span>
+                           <span class="n">validation_split</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/30
+282/282 [==============================] - 15s 41ms/step - loss: 1.6741 - accuracy: 0.4298 - val_loss: 1.3807 - val_accuracy: 0.4797
+Epoch 2/30
+282/282 [==============================] - 10s 37ms/step - loss: 1.3570 - accuracy: 0.4876 - val_loss: 1.2359 - val_accuracy: 0.5358
+Epoch 3/30
+282/282 [==============================] - 10s 37ms/step - loss: 1.1740 - accuracy: 0.5549 - val_loss: 1.0431 - val_accuracy: 0.6041
+Epoch 4/30
+282/282 [==============================] - 11s 38ms/step - loss: 1.0069 - accuracy: 0.6182 - val_loss: 0.9273 - val_accuracy: 0.6492
+Epoch 5/30
+282/282 [==============================] - 11s 38ms/step - loss: 0.8949 - accuracy: 0.6601 - val_loss: 0.8019 - val_accuracy: 0.6991
+Epoch 6/30
+282/282 [==============================] - 11s 38ms/step - loss: 0.7825 - accuracy: 0.7055 - val_loss: 0.7418 - val_accuracy: 0.7175
+Epoch 7/30
+282/282 [==============================] - 11s 37ms/step - loss: 0.7193 - accuracy: 0.7296 - val_loss: 0.6848 - val_accuracy: 0.7386
+Epoch 8/30
+282/282 [==============================] - 11s 37ms/step - loss: 0.6616 - accuracy: 0.7529 - val_loss: 0.6420 - val_accuracy: 0.7577
+Epoch 9/30
+282/282 [==============================] - 11s 37ms/step - loss: 0.6194 - accuracy: 0.7652 - val_loss: 0.5948 - val_accuracy: 0.7697
+Epoch 10/30
+282/282 [==============================] - 11s 38ms/step - loss: 0.5769 - accuracy: 0.7806 - val_loss: 0.5939 - val_accuracy: 0.7626
+Epoch 11/30
+282/282 [==============================] - 11s 38ms/step - loss: 0.5427 - accuracy: 0.7925 - val_loss: 0.5238 - val_accuracy: 0.7942
+Epoch 12/30
+282/282 [==============================] - 11s 38ms/step - loss: 0.4977 - accuracy: 0.8093 - val_loss: 0.4988 - val_accuracy: 0.8008
+Epoch 13/30
+282/282 [==============================] - 11s 38ms/step - loss: 0.4652 - accuracy: 0.8203 - val_loss: 0.4432 - val_accuracy: 0.8276
+Epoch 14/30
+282/282 [==============================] - 11s 38ms/step - loss: 0.4127 - accuracy: 0.8397 - val_loss: 0.3641 - val_accuracy: 0.8566
+Epoch 15/30
+282/282 [==============================] - 11s 40ms/step - loss: 0.3344 - accuracy: 0.8739 - val_loss: 0.3037 - val_accuracy: 0.8810
+Epoch 16/30
+282/282 [==============================] - 12s 42ms/step - loss: 0.2560 - accuracy: 0.9070 - val_loss: 0.2081 - val_accuracy: 0.9239
+Epoch 17/30
+282/282 [==============================] - 11s 40ms/step - loss: 0.1846 - accuracy: 0.9365 - val_loss: 0.1693 - val_accuracy: 0.9386
+Epoch 18/30
+282/282 [==============================] - 11s 40ms/step - loss: 0.1471 - accuracy: 0.9495 - val_loss: 0.1273 - val_accuracy: 0.9556
+Epoch 19/30
+282/282 [==============================] - 11s 39ms/step - loss: 0.1071 - accuracy: 0.9669 - val_loss: 0.1022 - val_accuracy: 0.9657
+Epoch 20/30
+282/282 [==============================] - 11s 39ms/step - loss: 0.0847 - accuracy: 0.9752 - val_loss: 0.0810 - val_accuracy: 0.9739
+Epoch 21/30
+282/282 [==============================] - 11s 38ms/step - loss: 0.0669 - accuracy: 0.9814 - val_loss: 0.0973 - val_accuracy: 0.9646
+Epoch 22/30
+282/282 [==============================] - 11s 38ms/step - loss: 0.0819 - accuracy: 0.9727 - val_loss: 0.0619 - val_accuracy: 0.9805
+Epoch 23/30
+282/282 [==============================] - 11s 38ms/step - loss: 0.0446 - accuracy: 0.9891 - val_loss: 0.0739 - val_accuracy: 0.9738
+Epoch 24/30
+282/282 [==============================] - 11s 38ms/step - loss: 0.0472 - accuracy: 0.9863 - val_loss: 0.0718 - val_accuracy: 0.9744
+Epoch 25/30
+282/282 [==============================] - 11s 38ms/step - loss: 0.0457 - accuracy: 0.9869 - val_loss: 0.0724 - val_accuracy: 0.9752
+Epoch 26/30
+282/282 [==============================] - 11s 39ms/step - loss: 0.0468 - accuracy: 0.9857 - val_loss: 0.0486 - val_accuracy: 0.9840
+Epoch 27/30
+282/282 [==============================] - 11s 38ms/step - loss: 0.0255 - accuracy: 0.9940 - val_loss: 0.0339 - val_accuracy: 0.9888
+Epoch 28/30
+282/282 [==============================] - 11s 38ms/step - loss: 0.0174 - accuracy: 0.9966 - val_loss: 0.0636 - val_accuracy: 0.9782
+Epoch 29/30
+282/282 [==============================] - 11s 38ms/step - loss: 0.0625 - accuracy: 0.9786 - val_loss: 0.0401 - val_accuracy: 0.9864
+Epoch 30/30
+282/282 [==============================] - 11s 38ms/step - loss: 0.0248 - accuracy: 0.9932 - val_loss: 0.0343 - val_accuracy: 0.9883
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="model-3-birdirectional">
+<h2><span class="section-number">2.9. </span>Model 3 (Birdirectional)<a class="headerlink" href="#model-3-birdirectional" title="Permalink to this headline">¶</a></h2>
+<p><img alt="" src="../_images/seq2seq-bidirectional.jpeg" /></p>
+<div class="section" id="id3">
+<h3>Define Model<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Important highlights:</p>
+<ul>
+<li><p>In Model 3, we implement a bi-directional Encoder.</p></li>
+<li><p>At each encoding step, there will be two hidden states (i.e., forward and backward passes)</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define Model Inputs</span>
+<span class="n">encoder_inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">input_maxlen</span><span class="p">,</span> <span class="n">input_vsize</span><span class="p">),</span>
+                       <span class="n">name</span><span class="o">=</span><span class="s1">&#39;encoder_inputs&#39;</span><span class="p">)</span>
+<span class="n">decoder_inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">target_maxlen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">target_vsize</span><span class="p">),</span>
+                       <span class="n">name</span><span class="o">=</span><span class="s1">&#39;decoder_inputs&#39;</span><span class="p">)</span>
+
+<span class="c1"># Encoder GRU</span>
+<span class="n">encoder_gru</span> <span class="o">=</span> <span class="n">Bidirectional</span><span class="p">(</span>
+    <span class="n">GRU</span><span class="p">(</span><span class="n">latent_dim</span><span class="p">,</span>
+        <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">return_state</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;encoder_gru&#39;</span><span class="p">))</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">encoder_state_fwd</span><span class="p">,</span> <span class="n">encoder_state_bwd</span> <span class="o">=</span> <span class="n">encoder_gru</span><span class="p">(</span><span class="n">encoder_inputs</span><span class="p">)</span>
+
+<span class="c1"># Combine forward and backward state (last h&#39;s) from encoder</span>
+<span class="n">encoder_state</span> <span class="o">=</span> <span class="n">Concatenate</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)([</span><span class="n">encoder_state_fwd</span><span class="p">,</span> <span class="n">encoder_state_bwd</span><span class="p">])</span>
+
+<span class="c1"># Decoder GRU</span>
+    <span class="c1"># using `encoder_state` as initial state</span>
+    <span class="c1"># the latent_dim *2 because we use two last states from the bidirectional encoder</span>
+<span class="n">decoder_gru</span> <span class="o">=</span> <span class="n">GRU</span><span class="p">(</span><span class="n">latent_dim</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
+                  <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">return_state</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">name</span><span class="o">=</span><span class="s1">&#39;decoder_gru&#39;</span><span class="p">)</span>
+<span class="n">decoder_out</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">decoder_gru</span><span class="p">(</span><span class="n">decoder_inputs</span><span class="p">,</span> <span class="n">initial_state</span><span class="o">=</span><span class="n">encoder_state</span><span class="p">)</span>
+
+<span class="c1"># Dense layer</span>
+<span class="n">dense</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="n">target_vsize</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;softmax&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;softmax_layer&#39;</span><span class="p">)</span>
+<span class="n">dense_time</span> <span class="o">=</span> <span class="n">TimeDistributed</span><span class="p">(</span><span class="n">dense</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;time_distributed_layer&#39;</span><span class="p">)</span>
+<span class="n">decoder_pred</span> <span class="o">=</span> <span class="n">dense_time</span><span class="p">(</span><span class="n">decoder_out</span><span class="p">)</span>
+
+<span class="c1"># Full model</span>
+<span class="n">full_model3</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">encoder_inputs</span><span class="p">,</span> <span class="n">decoder_inputs</span><span class="p">],</span>
+                    <span class="n">outputs</span><span class="o">=</span><span class="n">decoder_pred</span><span class="p">)</span>
+<span class="n">full_model3</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model: &quot;model_2&quot;
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+encoder_inputs (InputLayer)     [(None, 7, 12)]      0                                            
+__________________________________________________________________________________________________
+bidirectional (Bidirectional)   [(None, 7, 512), (No 414720      encoder_inputs[0][0]             
+__________________________________________________________________________________________________
+decoder_inputs (InputLayer)     [(None, 5, 12)]      0                                            
+__________________________________________________________________________________________________
+concatenate (Concatenate)       (None, 512)          0           bidirectional[0][1]              
+                                                                 bidirectional[0][2]              
+__________________________________________________________________________________________________
+decoder_gru (GRU)               [(None, 5, 512), (No 807936      decoder_inputs[0][0]             
+                                                                 concatenate[0][0]                
+__________________________________________________________________________________________________
+time_distributed_layer (TimeDis (None, 5, 12)        6156        decoder_gru[0][0]                
+==================================================================================================
+Total params: 1,228,812
+Trainable params: 1,228,812
+Non-trainable params: 0
+__________________________________________________________________________________________________
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_model</span><span class="p">(</span><span class="n">full_model3</span><span class="p">,</span> <span class="n">show_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/dl-seq-to-seq-attention-addition_64_0.png" src="../_images/dl-seq-to-seq-attention-addition_64_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>Training<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run training</span>
+<span class="n">full_model3</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>
+                    <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">,</span>
+                    <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+<span class="n">history3</span> <span class="o">=</span> <span class="n">full_model3</span><span class="o">.</span><span class="n">fit</span><span class="p">([</span><span class="n">encoder_input_onehot</span><span class="p">,</span> <span class="n">decoder_input_onehot</span><span class="p">],</span>
+                           <span class="n">decoder_output_onehot</span><span class="p">,</span>
+                           <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+                           <span class="n">epochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">,</span>
+                           <span class="n">validation_split</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/30
+282/282 [==============================] - 33s 103ms/step - loss: 1.6079 - accuracy: 0.4403 - val_loss: 1.3156 - val_accuracy: 0.5128
+Epoch 2/30
+282/282 [==============================] - 27s 95ms/step - loss: 1.1885 - accuracy: 0.5518 - val_loss: 0.9492 - val_accuracy: 0.6399
+Epoch 3/30
+282/282 [==============================] - 27s 97ms/step - loss: 0.8935 - accuracy: 0.6571 - val_loss: 0.7808 - val_accuracy: 0.6945
+Epoch 4/30
+282/282 [==============================] - 27s 97ms/step - loss: 0.7333 - accuracy: 0.7202 - val_loss: 0.6747 - val_accuracy: 0.7417
+Epoch 5/30
+282/282 [==============================] - 28s 99ms/step - loss: 0.6354 - accuracy: 0.7590 - val_loss: 0.5728 - val_accuracy: 0.7769
+Epoch 6/30
+282/282 [==============================] - 27s 97ms/step - loss: 0.5219 - accuracy: 0.8037 - val_loss: 0.4832 - val_accuracy: 0.8168
+Epoch 7/30
+282/282 [==============================] - 28s 99ms/step - loss: 0.4519 - accuracy: 0.8306 - val_loss: 0.4275 - val_accuracy: 0.8352
+Epoch 8/30
+282/282 [==============================] - 28s 99ms/step - loss: 0.3422 - accuracy: 0.8701 - val_loss: 0.1728 - val_accuracy: 0.9397
+Epoch 9/30
+282/282 [==============================] - 27s 97ms/step - loss: 0.1435 - accuracy: 0.9542 - val_loss: 0.1069 - val_accuracy: 0.9650
+Epoch 10/30
+282/282 [==============================] - 28s 99ms/step - loss: 0.0759 - accuracy: 0.9804 - val_loss: 0.1172 - val_accuracy: 0.9587
+Epoch 11/30
+282/282 [==============================] - 27s 97ms/step - loss: 0.0760 - accuracy: 0.9765 - val_loss: 0.0372 - val_accuracy: 0.9914
+Epoch 12/30
+282/282 [==============================] - 29s 104ms/step - loss: 0.0314 - accuracy: 0.9938 - val_loss: 0.2150 - val_accuracy: 0.9321
+Epoch 13/30
+282/282 [==============================] - 30s 105ms/step - loss: 0.0997 - accuracy: 0.9688 - val_loss: 0.0280 - val_accuracy: 0.9932
+Epoch 14/30
+282/282 [==============================] - 30s 107ms/step - loss: 0.0184 - accuracy: 0.9968 - val_loss: 0.0299 - val_accuracy: 0.9907
+Epoch 15/30
+282/282 [==============================] - 29s 103ms/step - loss: 0.0411 - accuracy: 0.9874 - val_loss: 0.0220 - val_accuracy: 0.9946
+Epoch 16/30
+282/282 [==============================] - 28s 101ms/step - loss: 0.0143 - accuracy: 0.9974 - val_loss: 0.0168 - val_accuracy: 0.9954
+Epoch 17/30
+282/282 [==============================] - 30s 106ms/step - loss: 0.0137 - accuracy: 0.9969 - val_loss: 0.1130 - val_accuracy: 0.9617
+Epoch 18/30
+282/282 [==============================] - 30s 106ms/step - loss: 0.0519 - accuracy: 0.9834 - val_loss: 0.0137 - val_accuracy: 0.9964
+Epoch 19/30
+282/282 [==============================] - 30s 108ms/step - loss: 0.0073 - accuracy: 0.9990 - val_loss: 0.0128 - val_accuracy: 0.9964
+Epoch 20/30
+282/282 [==============================] - 30s 107ms/step - loss: 0.0317 - accuracy: 0.9897 - val_loss: 0.0216 - val_accuracy: 0.9934
+Epoch 21/30
+282/282 [==============================] - 30s 108ms/step - loss: 0.0147 - accuracy: 0.9964 - val_loss: 0.0442 - val_accuracy: 0.9854
+Epoch 22/30
+282/282 [==============================] - 30s 106ms/step - loss: 0.0246 - accuracy: 0.9921 - val_loss: 0.0129 - val_accuracy: 0.9960
+Epoch 23/30
+282/282 [==============================] - 30s 108ms/step - loss: 0.0072 - accuracy: 0.9986 - val_loss: 0.0363 - val_accuracy: 0.9874
+Epoch 24/30
+282/282 [==============================] - 30s 105ms/step - loss: 0.0499 - accuracy: 0.9830 - val_loss: 0.0080 - val_accuracy: 0.9979
+Epoch 25/30
+282/282 [==============================] - 30s 106ms/step - loss: 0.0036 - accuracy: 0.9997 - val_loss: 0.0084 - val_accuracy: 0.9976
+Epoch 26/30
+282/282 [==============================] - 30s 106ms/step - loss: 0.0091 - accuracy: 0.9976 - val_loss: 0.0495 - val_accuracy: 0.9825
+Epoch 27/30
+282/282 [==============================] - 29s 104ms/step - loss: 0.0271 - accuracy: 0.9911 - val_loss: 0.0102 - val_accuracy: 0.9972
+Epoch 28/30
+282/282 [==============================] - 31s 111ms/step - loss: 0.0088 - accuracy: 0.9977 - val_loss: 0.0421 - val_accuracy: 0.9854
+Epoch 29/30
+282/282 [==============================] - 30s 107ms/step - loss: 0.0404 - accuracy: 0.9876 - val_loss: 0.0074 - val_accuracy: 0.9980
+Epoch 30/30
+282/282 [==============================] - 30s 107ms/step - loss: 0.0058 - accuracy: 0.9986 - val_loss: 0.0093 - val_accuracy: 0.9970
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="model-4-peeky-decoder">
+<h2><span class="section-number">2.10. </span>Model 4 (Peeky Decoder)<a class="headerlink" href="#model-4-peeky-decoder" title="Permalink to this headline">¶</a></h2>
+<p><img alt="" src="../_images/seq2seq-peeky.jpeg" /></p>
+<div class="section" id="id5">
+<h3>Define Model<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Important highlights:</p>
+<ul>
+<li><p>In the previous models, Decoder only utilizes Encoder’s last hidden state for the decoding of the <strong>first</strong> output. As for the subsequent decoding time steps, Decoder does not have any information from Encoder.</p></li>
+<li><p>In Model 4, we implement a <strong>peeky</strong> Decoder. This strategy allows Decoder to access the information (last hidden state) of the Encoder in every decoding time step.</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define Model Inputs</span>
+<span class="n">encoder_inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">input_maxlen</span><span class="p">,</span> <span class="n">input_vsize</span><span class="p">),</span>
+                       <span class="n">name</span><span class="o">=</span><span class="s1">&#39;encoder_inputs&#39;</span><span class="p">)</span>
+<span class="n">decoder_inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">target_maxlen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">target_vsize</span><span class="p">),</span>
+                       <span class="n">name</span><span class="o">=</span><span class="s1">&#39;decoder_inputs&#39;</span><span class="p">)</span>
+
+<span class="c1"># Encoder GRU</span>
+<span class="n">encoder_gru</span> <span class="o">=</span> <span class="n">Bidirectional</span><span class="p">(</span>
+    <span class="n">GRU</span><span class="p">(</span><span class="n">latent_dim</span><span class="p">,</span>
+        <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">return_state</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;encoder_gru&#39;</span><span class="p">))</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">encoder_state_fwd</span><span class="p">,</span> <span class="n">encoder_state_bwd</span> <span class="o">=</span> <span class="n">encoder_gru</span><span class="p">(</span><span class="n">encoder_inputs</span><span class="p">)</span>
+
+<span class="c1"># Combine forward and backward state (last h&#39;s) from encoder</span>
+<span class="n">encoder_state</span> <span class="o">=</span> <span class="n">Concatenate</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)([</span><span class="n">encoder_state_fwd</span><span class="p">,</span> <span class="n">encoder_state_bwd</span><span class="p">])</span>
+
+
+<span class="c1"># Repeat the last-hidden-state of Encoder</span>
+<span class="n">encoder_state_repeated</span> <span class="o">=</span> <span class="n">RepeatVector</span><span class="p">(</span><span class="n">target_maxlen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)(</span><span class="n">encoder_state</span><span class="p">)</span>
+
+<span class="c1">## Concatenate every decoder input with the encoder_state</span>
+<span class="n">decoder_inputs_peeky</span> <span class="o">=</span> <span class="n">Concatenate</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)(</span>
+    <span class="p">[</span><span class="n">decoder_inputs</span><span class="p">,</span> <span class="n">encoder_state_repeated</span><span class="p">])</span>
+
+<span class="c1"># Decoder GRU</span>
+<span class="n">decoder_gru</span> <span class="o">=</span> <span class="n">GRU</span><span class="p">(</span><span class="n">latent_dim</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
+                  <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">return_state</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">name</span><span class="o">=</span><span class="s1">&#39;decoder_gru&#39;</span><span class="p">)</span>
+<span class="n">decoder_out</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">decoder_gru</span><span class="p">(</span><span class="n">decoder_inputs_peeky</span><span class="p">,</span> <span class="n">initial_state</span><span class="o">=</span><span class="n">encoder_state</span><span class="p">)</span>
+
+<span class="c1"># Dense layer</span>
+<span class="n">dense</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="n">target_vsize</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;softmax&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;softmax_layer&#39;</span><span class="p">)</span>
+<span class="n">dense_time</span> <span class="o">=</span> <span class="n">TimeDistributed</span><span class="p">(</span><span class="n">dense</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;time_distributed_layer&#39;</span><span class="p">)</span>
+<span class="n">decoder_pred</span> <span class="o">=</span> <span class="n">dense_time</span><span class="p">(</span><span class="n">decoder_out</span><span class="p">)</span>
+
+<span class="c1"># Full model</span>
+<span class="n">full_model4</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">encoder_inputs</span><span class="p">,</span> <span class="n">decoder_inputs</span><span class="p">],</span>
+                    <span class="n">outputs</span><span class="o">=</span><span class="n">decoder_pred</span><span class="p">)</span>
+
+<span class="n">full_model4</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model: &quot;model_3&quot;
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+encoder_inputs (InputLayer)     [(None, 7, 12)]      0                                            
+__________________________________________________________________________________________________
+bidirectional_1 (Bidirectional) [(None, 7, 512), (No 414720      encoder_inputs[0][0]             
+__________________________________________________________________________________________________
+concatenate_1 (Concatenate)     (None, 512)          0           bidirectional_1[0][1]            
+                                                                 bidirectional_1[0][2]            
+__________________________________________________________________________________________________
+decoder_inputs (InputLayer)     [(None, 5, 12)]      0                                            
+__________________________________________________________________________________________________
+repeat_vector (RepeatVector)    (None, 5, 512)       0           concatenate_1[0][0]              
+__________________________________________________________________________________________________
+concatenate_2 (Concatenate)     (None, 5, 524)       0           decoder_inputs[0][0]             
+                                                                 repeat_vector[0][0]              
+__________________________________________________________________________________________________
+decoder_gru (GRU)               [(None, 5, 512), (No 1594368     concatenate_2[0][0]              
+                                                                 concatenate_1[0][0]              
+__________________________________________________________________________________________________
+time_distributed_layer (TimeDis (None, 5, 12)        6156        decoder_gru[0][0]                
+==================================================================================================
+Total params: 2,015,244
+Trainable params: 2,015,244
+Non-trainable params: 0
+__________________________________________________________________________________________________
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_model</span><span class="p">(</span><span class="n">full_model4</span><span class="p">,</span> <span class="n">show_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/dl-seq-to-seq-attention-addition_71_0.png" src="../_images/dl-seq-to-seq-attention-addition_71_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id6">
+<h3>Training<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run training</span>
+<span class="n">full_model4</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>
+                    <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">,</span>
+                    <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+<span class="n">history4</span> <span class="o">=</span> <span class="n">full_model4</span><span class="o">.</span><span class="n">fit</span><span class="p">([</span><span class="n">encoder_input_onehot</span><span class="p">,</span> <span class="n">decoder_input_onehot</span><span class="p">],</span>
+                           <span class="n">decoder_output_onehot</span><span class="p">,</span>
+                           <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+                           <span class="n">epochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">,</span>
+                           <span class="n">validation_split</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/30
+282/282 [==============================] - 50s 162ms/step - loss: 1.5986 - accuracy: 0.4271 - val_loss: 1.2786 - val_accuracy: 0.5222
+Epoch 2/30
+282/282 [==============================] - 42s 150ms/step - loss: 1.1654 - accuracy: 0.5591 - val_loss: 0.9077 - val_accuracy: 0.6633
+Epoch 3/30
+282/282 [==============================] - 43s 151ms/step - loss: 0.8362 - accuracy: 0.6821 - val_loss: 0.6661 - val_accuracy: 0.7411
+Epoch 4/30
+282/282 [==============================] - 41s 146ms/step - loss: 0.6143 - accuracy: 0.7663 - val_loss: 0.4927 - val_accuracy: 0.8118
+Epoch 5/30
+282/282 [==============================] - 41s 147ms/step - loss: 0.4099 - accuracy: 0.8465 - val_loss: 0.2593 - val_accuracy: 0.9028
+Epoch 6/30
+282/282 [==============================] - 42s 147ms/step - loss: 0.1960 - accuracy: 0.9337 - val_loss: 0.1425 - val_accuracy: 0.9537
+Epoch 7/30
+282/282 [==============================] - 41s 146ms/step - loss: 0.1075 - accuracy: 0.9707 - val_loss: 0.1618 - val_accuracy: 0.9408
+Epoch 8/30
+282/282 [==============================] - 42s 147ms/step - loss: 0.0851 - accuracy: 0.9751 - val_loss: 0.0522 - val_accuracy: 0.9863
+Epoch 9/30
+282/282 [==============================] - 42s 149ms/step - loss: 0.0640 - accuracy: 0.9817 - val_loss: 0.0374 - val_accuracy: 0.9918
+Epoch 10/30
+282/282 [==============================] - 41s 145ms/step - loss: 0.0339 - accuracy: 0.9923 - val_loss: 0.0791 - val_accuracy: 0.9717
+Epoch 11/30
+282/282 [==============================] - 40s 141ms/step - loss: 0.0620 - accuracy: 0.9803 - val_loss: 0.0206 - val_accuracy: 0.9959
+Epoch 12/30
+282/282 [==============================] - 40s 141ms/step - loss: 0.0148 - accuracy: 0.9977 - val_loss: 0.0166 - val_accuracy: 0.9960
+Epoch 13/30
+282/282 [==============================] - 41s 145ms/step - loss: 0.0557 - accuracy: 0.9829 - val_loss: 0.0198 - val_accuracy: 0.9957
+Epoch 14/30
+282/282 [==============================] - 43s 151ms/step - loss: 0.0119 - accuracy: 0.9984 - val_loss: 0.0168 - val_accuracy: 0.9952
+Epoch 15/30
+282/282 [==============================] - 41s 144ms/step - loss: 0.0140 - accuracy: 0.9966 - val_loss: 0.1039 - val_accuracy: 0.9615
+Epoch 16/30
+282/282 [==============================] - 40s 140ms/step - loss: 0.0588 - accuracy: 0.9795 - val_loss: 0.0114 - val_accuracy: 0.9972
+Epoch 17/30
+282/282 [==============================] - 40s 143ms/step - loss: 0.0085 - accuracy: 0.9984 - val_loss: 0.0370 - val_accuracy: 0.9867
+Epoch 18/30
+282/282 [==============================] - 40s 144ms/step - loss: 0.0661 - accuracy: 0.9778 - val_loss: 0.0124 - val_accuracy: 0.9970
+Epoch 19/30
+282/282 [==============================] - 40s 141ms/step - loss: 0.0062 - accuracy: 0.9991 - val_loss: 0.0195 - val_accuracy: 0.9936
+Epoch 20/30
+282/282 [==============================] - 41s 144ms/step - loss: 0.0441 - accuracy: 0.9851 - val_loss: 0.0096 - val_accuracy: 0.9979
+Epoch 21/30
+282/282 [==============================] - 40s 143ms/step - loss: 0.0280 - accuracy: 0.9909 - val_loss: 0.0191 - val_accuracy: 0.9945
+Epoch 22/30
+282/282 [==============================] - 41s 145ms/step - loss: 0.0089 - accuracy: 0.9981 - val_loss: 0.0064 - val_accuracy: 0.9984
+Epoch 23/30
+282/282 [==============================] - 39s 139ms/step - loss: 0.0055 - accuracy: 0.9987 - val_loss: 0.0730 - val_accuracy: 0.9732
+Epoch 24/30
+282/282 [==============================] - 40s 142ms/step - loss: 0.0567 - accuracy: 0.9802 - val_loss: 0.0076 - val_accuracy: 0.9982
+Epoch 25/30
+282/282 [==============================] - 39s 139ms/step - loss: 0.0030 - accuracy: 0.9997 - val_loss: 0.0048 - val_accuracy: 0.9986
+Epoch 26/30
+282/282 [==============================] - 39s 139ms/step - loss: 0.0022 - accuracy: 0.9997 - val_loss: 0.0069 - val_accuracy: 0.9979
+Epoch 27/30
+282/282 [==============================] - 40s 140ms/step - loss: 0.0652 - accuracy: 0.9788 - val_loss: 0.0092 - val_accuracy: 0.9978
+Epoch 28/30
+282/282 [==============================] - 39s 138ms/step - loss: 0.0041 - accuracy: 0.9994 - val_loss: 0.0051 - val_accuracy: 0.9989
+Epoch 29/30
+282/282 [==============================] - 39s 139ms/step - loss: 0.0044 - accuracy: 0.9991 - val_loss: 0.0062 - val_accuracy: 0.9982
+Epoch 30/30
+282/282 [==============================] - 40s 142ms/step - loss: 0.0079 - accuracy: 0.9976 - val_loss: 0.0614 - val_accuracy: 0.9776
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="model-5-attention">
+<h2><span class="section-number">2.11. </span>Model 5 (Attention)<a class="headerlink" href="#model-5-attention" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h3>Define Model<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Important highlights:</p>
+<ul>
+<li><p>In Model 5, we implement an Attention-based Decoder.</p></li>
+<li><p>This Attention mechanism allows the Decoder to use Encoder’s all hidden states.</p></li>
+</ul>
+</li>
+</ul>
+<p><img alt="" src="../_images/seq2seq-attention-weights.jpeg" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define an input sequence and process it.</span>
+<span class="n">encoder_inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">input_maxlen</span><span class="p">,</span> <span class="n">input_vsize</span><span class="p">),</span>
+                       <span class="n">name</span><span class="o">=</span><span class="s1">&#39;encoder_inputs&#39;</span><span class="p">)</span>
+<span class="n">decoder_inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">target_maxlen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">target_vsize</span><span class="p">),</span>
+                       <span class="n">name</span><span class="o">=</span><span class="s1">&#39;decoder_inputs&#39;</span><span class="p">)</span>
+<span class="c1"># Encoder GRU</span>
+<span class="n">encoder_gru</span> <span class="o">=</span> <span class="n">GRU</span><span class="p">(</span><span class="n">latent_dim</span><span class="p">,</span>
+                  <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">return_state</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">name</span><span class="o">=</span><span class="s1">&#39;encoder_gru&#39;</span><span class="p">)</span>
+<span class="n">encoder_out</span><span class="p">,</span> <span class="n">encoder_state</span> <span class="o">=</span> <span class="n">encoder_gru</span><span class="p">(</span><span class="n">encoder_inputs</span><span class="p">)</span>
+
+<span class="c1"># Decoder GRU</span>
+<span class="n">decoder_gru</span> <span class="o">=</span> <span class="n">GRU</span><span class="p">(</span><span class="n">latent_dim</span><span class="p">,</span>
+                  <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">return_state</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">name</span><span class="o">=</span><span class="s1">&#39;decoder_gru&#39;</span><span class="p">)</span>
+<span class="n">decoder_out</span><span class="p">,</span> <span class="n">decoder_state</span> <span class="o">=</span> <span class="n">decoder_gru</span><span class="p">(</span><span class="n">decoder_inputs</span><span class="p">,</span>
+                                         <span class="n">initial_state</span><span class="o">=</span><span class="n">encoder_state</span><span class="p">)</span>
+
+<span class="c1"># Attention layer</span>
+<span class="n">attn_layer</span> <span class="o">=</span> <span class="n">Attention</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;attention_layer&quot;</span><span class="p">)</span>
+
+<span class="c1">## The inputs for Attention:</span>
+<span class="c1">##  `query`: the `decoder_out` = decoder&#39;s hidden state at the decoding step</span>
+<span class="c1">##  `value` &amp; `key`: the `encoder_out` = encoder&#39;s all hidden states</span>
+<span class="c1">## It returns a tensor of shape as `query`, i.e., context tensor</span>
+
+<span class="n">attn_out</span><span class="p">,</span> <span class="n">attn_weights</span> <span class="o">=</span> <span class="n">attn_layer</span><span class="p">([</span><span class="n">decoder_out</span><span class="p">,</span> <span class="n">encoder_out</span><span class="p">],</span>
+                                    <span class="n">return_attention_scores</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Concat context tensor + decoder_out</span>
+<span class="n">decoder_concat_input</span> <span class="o">=</span> <span class="n">Concatenate</span><span class="p">(</span>
+    <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;concat_layer&#39;</span><span class="p">)([</span><span class="n">decoder_out</span><span class="p">,</span> <span class="n">attn_out</span><span class="p">])</span>
+
+<span class="c1"># Dense layer</span>
+<span class="n">dense</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="n">target_vsize</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;softmax&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;softmax_layer&#39;</span><span class="p">)</span>
+<span class="n">dense_time</span> <span class="o">=</span> <span class="n">TimeDistributed</span><span class="p">(</span><span class="n">dense</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;time_distributed_layer&#39;</span><span class="p">)</span>
+<span class="n">decoder_pred</span> <span class="o">=</span> <span class="n">dense_time</span><span class="p">(</span><span class="n">decoder_concat_input</span><span class="p">)</span>
+
+<span class="c1"># Full model</span>
+<span class="n">full_model5</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">encoder_inputs</span><span class="p">,</span> <span class="n">decoder_inputs</span><span class="p">],</span>
+                    <span class="n">outputs</span><span class="o">=</span><span class="n">decoder_pred</span><span class="p">)</span>
+<span class="n">full_model5</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model: &quot;model_4&quot;
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+encoder_inputs (InputLayer)     [(None, 7, 12)]      0                                            
+__________________________________________________________________________________________________
+decoder_inputs (InputLayer)     [(None, 5, 12)]      0                                            
+__________________________________________________________________________________________________
+encoder_gru (GRU)               [(None, 7, 256), (No 207360      encoder_inputs[0][0]             
+__________________________________________________________________________________________________
+decoder_gru (GRU)               [(None, 5, 256), (No 207360      decoder_inputs[0][0]             
+                                                                 encoder_gru[0][1]                
+__________________________________________________________________________________________________
+attention_layer (Attention)     ((None, 5, 256), (No 0           decoder_gru[0][0]                
+                                                                 encoder_gru[0][0]                
+__________________________________________________________________________________________________
+concat_layer (Concatenate)      (None, 5, 512)       0           decoder_gru[0][0]                
+                                                                 attention_layer[0][0]            
+__________________________________________________________________________________________________
+time_distributed_layer (TimeDis (None, 5, 12)        6156        concat_layer[0][0]               
+==================================================================================================
+Total params: 420,876
+Trainable params: 420,876
+Non-trainable params: 0
+__________________________________________________________________________________________________
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_model</span><span class="p">(</span><span class="n">full_model5</span><span class="p">,</span> <span class="n">show_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/dl-seq-to-seq-attention-addition_78_0.png" src="../_images/dl-seq-to-seq-attention-addition_78_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id8">
+<h3>Training<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run training</span>
+<span class="n">full_model5</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>
+                    <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">,</span>
+                    <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+<span class="n">history5</span> <span class="o">=</span> <span class="n">full_model5</span><span class="o">.</span><span class="n">fit</span><span class="p">([</span><span class="n">encoder_input_onehot</span><span class="p">,</span> <span class="n">decoder_input_onehot</span><span class="p">],</span>
+                           <span class="n">decoder_output_onehot</span><span class="p">,</span>
+                           <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+                           <span class="n">epochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">,</span>
+                           <span class="n">validation_split</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/30
+282/282 [==============================] - 15s 42ms/step - loss: 1.6877 - accuracy: 0.4021 - val_loss: 1.3822 - val_accuracy: 0.4808
+Epoch 2/30
+282/282 [==============================] - 11s 39ms/step - loss: 1.3569 - accuracy: 0.4933 - val_loss: 1.2155 - val_accuracy: 0.5394
+Epoch 3/30
+282/282 [==============================] - 11s 39ms/step - loss: 1.1449 - accuracy: 0.5621 - val_loss: 1.0299 - val_accuracy: 0.6038
+Epoch 4/30
+282/282 [==============================] - 11s 39ms/step - loss: 1.0067 - accuracy: 0.6153 - val_loss: 0.9458 - val_accuracy: 0.6377
+Epoch 5/30
+282/282 [==============================] - 11s 39ms/step - loss: 0.9173 - accuracy: 0.6472 - val_loss: 0.8299 - val_accuracy: 0.6754
+Epoch 6/30
+282/282 [==============================] - 11s 39ms/step - loss: 0.8073 - accuracy: 0.6889 - val_loss: 0.7581 - val_accuracy: 0.7086
+Epoch 7/30
+282/282 [==============================] - 11s 39ms/step - loss: 0.7421 - accuracy: 0.7178 - val_loss: 0.7211 - val_accuracy: 0.7213
+Epoch 8/30
+282/282 [==============================] - 11s 40ms/step - loss: 0.7009 - accuracy: 0.7345 - val_loss: 0.6750 - val_accuracy: 0.7449
+Epoch 9/30
+282/282 [==============================] - 11s 39ms/step - loss: 0.6572 - accuracy: 0.7516 - val_loss: 0.6387 - val_accuracy: 0.7535
+Epoch 10/30
+282/282 [==============================] - 11s 39ms/step - loss: 0.6150 - accuracy: 0.7649 - val_loss: 0.6060 - val_accuracy: 0.7602
+Epoch 11/30
+282/282 [==============================] - 11s 39ms/step - loss: 0.5754 - accuracy: 0.7778 - val_loss: 0.5544 - val_accuracy: 0.7815
+Epoch 12/30
+282/282 [==============================] - 11s 39ms/step - loss: 0.5373 - accuracy: 0.7911 - val_loss: 0.5174 - val_accuracy: 0.7938
+Epoch 13/30
+282/282 [==============================] - 11s 39ms/step - loss: 0.4893 - accuracy: 0.8087 - val_loss: 0.4801 - val_accuracy: 0.8064
+Epoch 14/30
+282/282 [==============================] - 11s 39ms/step - loss: 0.4277 - accuracy: 0.8358 - val_loss: 0.3971 - val_accuracy: 0.8439
+Epoch 15/30
+282/282 [==============================] - 11s 38ms/step - loss: 0.3748 - accuracy: 0.8565 - val_loss: 0.3449 - val_accuracy: 0.8666
+Epoch 16/30
+282/282 [==============================] - 11s 39ms/step - loss: 0.3049 - accuracy: 0.8856 - val_loss: 0.2822 - val_accuracy: 0.8943
+Epoch 17/30
+282/282 [==============================] - 11s 39ms/step - loss: 0.2494 - accuracy: 0.9105 - val_loss: 0.2310 - val_accuracy: 0.9134
+Epoch 18/30
+282/282 [==============================] - 11s 39ms/step - loss: 0.1963 - accuracy: 0.9309 - val_loss: 0.1759 - val_accuracy: 0.9363
+Epoch 19/30
+282/282 [==============================] - 11s 40ms/step - loss: 0.1470 - accuracy: 0.9511 - val_loss: 0.1480 - val_accuracy: 0.9485
+Epoch 20/30
+282/282 [==============================] - 11s 40ms/step - loss: 0.1082 - accuracy: 0.9688 - val_loss: 0.1172 - val_accuracy: 0.9612
+Epoch 21/30
+282/282 [==============================] - 12s 44ms/step - loss: 0.0887 - accuracy: 0.9750 - val_loss: 0.1146 - val_accuracy: 0.9598
+Epoch 22/30
+282/282 [==============================] - 13s 46ms/step - loss: 0.0738 - accuracy: 0.9805 - val_loss: 0.0870 - val_accuracy: 0.9717
+Epoch 23/30
+282/282 [==============================] - 13s 45ms/step - loss: 0.0655 - accuracy: 0.9821 - val_loss: 0.0683 - val_accuracy: 0.9788
+Epoch 24/30
+282/282 [==============================] - 13s 46ms/step - loss: 0.0520 - accuracy: 0.9871 - val_loss: 0.0820 - val_accuracy: 0.9724
+Epoch 25/30
+282/282 [==============================] - 13s 45ms/step - loss: 0.0640 - accuracy: 0.9802 - val_loss: 0.0594 - val_accuracy: 0.9820
+Epoch 26/30
+282/282 [==============================] - 12s 43ms/step - loss: 0.0428 - accuracy: 0.9892 - val_loss: 0.0678 - val_accuracy: 0.9772
+Epoch 27/30
+282/282 [==============================] - 11s 39ms/step - loss: 0.0400 - accuracy: 0.9892 - val_loss: 0.0724 - val_accuracy: 0.9751
+Epoch 28/30
+282/282 [==============================] - 11s 40ms/step - loss: 0.0531 - accuracy: 0.9843 - val_loss: 0.0412 - val_accuracy: 0.9878
+Epoch 29/30
+282/282 [==============================] - 12s 42ms/step - loss: 0.0284 - accuracy: 0.9936 - val_loss: 0.0672 - val_accuracy: 0.9770
+Epoch 30/30
+282/282 [==============================] - 11s 39ms/step - loss: 0.0516 - accuracy: 0.9840 - val_loss: 0.0346 - val_accuracy: 0.9903
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_model</span><span class="p">(</span><span class="n">full_model5</span><span class="p">,</span> <span class="n">show_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/dl-seq-to-seq-attention-addition_81_0.png" src="../_images/dl-seq-to-seq-attention-addition_81_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot1</span><span class="p">(</span><span class="n">history5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/dl-seq-to-seq-attention-addition_82_0.png" src="../_images/dl-seq-to-seq-attention-addition_82_0.png" />
+<img alt="../_images/dl-seq-to-seq-attention-addition_82_1.png" src="../_images/dl-seq-to-seq-attention-addition_82_1.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="save-models">
+<h2><span class="section-number">2.12. </span>Save Models<a class="headerlink" href="#save-models" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># # Save model</span>
+<span class="n">full_model5</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;keras_models/s2s-addition-attention.h5&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="interim-comparison">
+<h2><span class="section-number">2.13. </span>Interim Comparison<a class="headerlink" href="#interim-comparison" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">history</span> <span class="o">=</span> <span class="p">[</span><span class="n">history1</span><span class="p">,</span> <span class="n">history2</span><span class="p">,</span> <span class="n">history3</span><span class="p">,</span> <span class="n">history4</span><span class="p">,</span> <span class="n">history5</span><span class="p">]</span>
+<span class="n">history</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">history</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">history</span><span class="p">]</span>
+<span class="n">model_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;VanilaRNN&#39;</span><span class="p">,</span> <span class="s1">&#39;GRU&#39;</span><span class="p">,</span> <span class="s1">&#39;Birdirectional&#39;</span><span class="p">,</span> <span class="s1">&#39;Peeky&#39;</span><span class="p">,</span> <span class="s1">&#39;Attention&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ## Saving all training histories</span>
+<span class="c1"># import pickle</span>
+<span class="c1"># with open(&#39;keras_models/s2s-attention-addition-history&#39;, &#39;wb&#39;) as f:</span>
+<span class="c1">#     pickle.dump(history, f)</span>
+<span class="c1"># with open(&#39;keras_models/s2s-attention-addition-history&#39;, &#39;rb&#39;) as f:</span>
+<span class="c1">#     history = pickle.load(f)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">acc</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">history</span><span class="p">]</span>
+<span class="n">val_acc</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;val_accuracy&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">history</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;fivethirtyeight&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">acc</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">,</span>
+             <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span>
+             <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span>
+             <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="n">model_names</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Comparing Different Sequence Models&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;epochs&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;accuracy&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/dl-seq-to-seq-attention-addition_88_0.png" src="../_images/dl-seq-to-seq-attention-addition_88_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">history</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;fivethirtyeight&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">loss</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)),</span>
+             <span class="n">a</span><span class="p">,</span>
+             <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span>
+             <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span>
+             <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="n">model_names</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Comparing Different Sequence Models&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;epochs&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;loss&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/dl-seq-to-seq-attention-addition_89_0.png" src="../_images/dl-seq-to-seq-attention-addition_89_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="attention-model-analysis">
+<h2><span class="section-number">2.14. </span>Attention Model Analysis<a class="headerlink" href="#attention-model-analysis" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ## If the model is loaded via external files</span>
+<span class="c1"># ## Load the encoder_model, decoder_model this way</span>
+<span class="c1"># from keras.models import load_model</span>
+<span class="c1"># full_model5.load_weights(&#39;keras_models/s2s-addition-attention.h5&#39;)</span>
+<span class="c1"># full_model5.compile(optimizer=&#39;adam&#39;,</span>
+<span class="c1">#                     loss=&#39;categorical_crossentropy&#39;,</span>
+<span class="c1">#                     metrics=[&#39;accuracy&#39;])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Let&#39;s look at the attention-based model</span>
+<span class="n">full_model</span> <span class="o">=</span> <span class="n">full_model5</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="inference">
+<h2><span class="section-number">2.15. </span>Inference<a class="headerlink" href="#inference" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>At the inference stage, we use the trained model to decode input sequences.</p></li>
+<li><p>In decoding, it should be noted that Decoder would decode one word at a time.</p></li>
+<li><p>We set up <strong>Inference-Encoder</strong> and <strong>Inference-Decoder</strong> based on the trained model. We need to identify the right layer from the trained model for the use in inference.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">full_model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model: &quot;model_4&quot;
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+encoder_inputs (InputLayer)     [(None, 7, 12)]      0                                            
+__________________________________________________________________________________________________
+decoder_inputs (InputLayer)     [(None, 5, 12)]      0                                            
+__________________________________________________________________________________________________
+encoder_gru (GRU)               [(None, 7, 256), (No 207360      encoder_inputs[0][0]             
+__________________________________________________________________________________________________
+decoder_gru (GRU)               [(None, 5, 256), (No 207360      decoder_inputs[0][0]             
+                                                                 encoder_gru[0][1]                
+__________________________________________________________________________________________________
+attention_layer (Attention)     ((None, 5, 256), (No 0           decoder_gru[0][0]                
+                                                                 encoder_gru[0][0]                
+__________________________________________________________________________________________________
+concat_layer (Concatenate)      (None, 5, 512)       0           decoder_gru[0][0]                
+                                                                 attention_layer[0][0]            
+__________________________________________________________________________________________________
+time_distributed_layer (TimeDis (None, 5, 12)        6156        concat_layer[0][0]               
+==================================================================================================
+Total params: 420,876
+Trainable params: 420,876
+Non-trainable params: 0
+__________________________________________________________________________________________________
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="inference-encoder">
+<h3>Inference Encoder<a class="headerlink" href="#inference-encoder" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Inference-Encoder</span>
+<span class="n">encoder_inf_inputs</span> <span class="o">=</span> <span class="n">full_model</span><span class="o">.</span><span class="n">input</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">encoder_inf_out</span><span class="p">,</span> <span class="n">encoder_inf_state</span> <span class="o">=</span> <span class="n">full_model</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">output</span>
+<span class="n">encoder_inf_model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">encoder_inf_inputs</span><span class="p">,</span>
+                          <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="n">encoder_inf_out</span><span class="p">,</span> <span class="n">encoder_inf_state</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_model</span><span class="p">(</span><span class="n">encoder_inf_model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/dl-seq-to-seq-attention-addition_97_0.png" src="../_images/dl-seq-to-seq-attention-addition_97_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="inference-decoder">
+<h3>Inference Decoder<a class="headerlink" href="#inference-decoder" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Inference-Decoder requires two inputs:</p>
+<ul>
+<li><p>Encoder’s last hidden state as its initial hidden state</p></li>
+<li><p>The input token of the target sequence (default start token: <code class="docutils literal notranslate"><span class="pre">_</span></code>)</p></li>
+</ul>
+</li>
+<li><p>Inference-Attention requires two inputs:</p>
+<ul>
+<li><p>Encoder’s all hidden states as the <strong>values</strong> and <strong>keys</strong></p></li>
+<li><p>Inference-Decoder’s hidden state as the <strong>query</strong></p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Inference-Decoder Input (1): The input token from the target sequence </span>
+    <span class="c1">## one token at each time</span>
+    <span class="c1">## the default is the start token &#39;_&#39;</span>
+<span class="n">decoder_inf_inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span>
+    <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">target_vsize</span><span class="p">),</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;decoder_inf_inputs&#39;</span><span class="p">)</span>  <span class="c1">## Initial Decoder&#39;s Output Token &#39;_&#39;</span>
+
+<span class="c1">## Inference-Decoder Input (2): All hidden states from Inference-Encoder</span>
+<span class="n">encoder_inf_states</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span>
+    <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">input_maxlen</span><span class="p">,</span> <span class="n">latent_dim</span><span class="p">),</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;encoder_inf_states&#39;</span><span class="p">)</span>
+
+<span class="c1">## Inference-Decoder Initial Hidden State = Inference-Encoder&#39;s last h</span>
+<span class="n">decoder_init_state</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">latent_dim</span><span class="p">),</span>
+                           <span class="n">name</span><span class="o">=</span><span class="s1">&#39;decoder_init&#39;</span><span class="p">)</span>  <span class="c1">## initial c from encoder</span>
+
+<span class="c1">## Inference-Decoder</span>
+<span class="n">decoder_inf_gru</span> <span class="o">=</span> <span class="n">full_model</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">decoder_inf_out</span><span class="p">,</span> <span class="n">decoder_inf_state</span> <span class="o">=</span> <span class="n">decoder_inf_gru</span><span class="p">(</span>
+    <span class="n">decoder_inf_inputs</span><span class="p">,</span> <span class="n">initial_state</span><span class="o">=</span><span class="n">decoder_init_state</span><span class="p">)</span>
+
+
+<span class="c1">## Inference-Attention</span>
+<span class="n">decoder_inf_attention</span> <span class="o">=</span> <span class="n">full_model</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">attn_inf_out</span><span class="p">,</span> <span class="n">attn_inf_weights</span> <span class="o">=</span> <span class="n">decoder_inf_attention</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">decoder_inf_out</span><span class="p">,</span> <span class="n">encoder_inf_states</span><span class="p">],</span> <span class="n">return_attention_scores</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1">## Inference-Concatenate</span>
+<span class="n">decoder_inf_concat</span> <span class="o">=</span> <span class="n">Concatenate</span><span class="p">(</span>
+    <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;concat&#39;</span><span class="p">)([</span><span class="n">decoder_inf_out</span><span class="p">,</span> <span class="n">attn_inf_out</span><span class="p">])</span>
+
+<span class="c1">## Inference-Dense</span>
+<span class="n">decoder_inf_timedense</span> <span class="o">=</span> <span class="n">full_model</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
+<span class="n">decoder_inf_pred</span> <span class="o">=</span> <span class="n">decoder_inf_timedense</span><span class="p">(</span><span class="n">decoder_inf_concat</span><span class="p">)</span>
+
+<span class="c1">## Inference-Model</span>
+<span class="n">decoder_inf_model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span>
+    <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">encoder_inf_states</span><span class="p">,</span> <span class="n">decoder_init_state</span><span class="p">,</span> <span class="n">decoder_inf_inputs</span><span class="p">],</span>
+    <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="n">decoder_inf_pred</span><span class="p">,</span> <span class="n">attn_inf_weights</span><span class="p">,</span> <span class="n">decoder_inf_state</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_model</span><span class="p">(</span><span class="n">decoder_inf_model</span><span class="p">,</span> <span class="n">show_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/dl-seq-to-seq-attention-addition_100_0.png" src="../_images/dl-seq-to-seq-attention-addition_100_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="decoding-input-sequences">
+<h3>Decoding Input Sequences<a class="headerlink" href="#decoding-input-sequences" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>The Inference-Encoder processes the tokens of input sequences to get (a) all hidden states, and (b) the last hidden state.</p></li>
+<li><p>The Inference-Decoder uses the Inference-Encoder’s last hidden state as the initial hidden state.</p></li>
+<li><p>The Inference-Decoder uses the token <code class="docutils literal notranslate"><span class="pre">_</span></code> as the initial token of the target sequence for decoding.</p></li>
+<li><p>At the subsequent decoding steps, Inference-Decoder updates its hidden state and the decoded token as inputs for the next-round decoding.</p></li>
+</ul>
+<ul class="simple">
+<li><p>Inference-Decoder is different from the training Decoder in that:</p>
+<ul>
+<li><p>The latter takes in <strong>all the correct target sequences</strong> (i.e., <code class="docutils literal notranslate"><span class="pre">decoder_input_onehot</span></code>) for <strong>teacher forcing</strong>.</p></li>
+<li><p>The former takes in <strong>one</strong> target token, which is predicted by the Inference-Decoder at the previous decoding step.</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">decode_sequence</span><span class="p">(</span><span class="n">input_seq</span><span class="p">):</span>
+
+    <span class="c1">## Initialize target output character &quot;_&quot;</span>
+    <span class="n">initial_text</span> <span class="o">=</span> <span class="s1">&#39;_&#39;</span>
+    <span class="n">initial_seq</span> <span class="o">=</span> <span class="n">target_tokenizer</span><span class="o">.</span><span class="n">texts_to_sequences</span><span class="p">(</span><span class="n">initial_text</span><span class="p">)</span>
+    <span class="n">test_dec_onehot_seq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span>
+        <span class="n">to_categorical</span><span class="p">(</span><span class="n">initial_seq</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="n">target_vsize</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1">## Inference-Encoder processes input sequence</span>
+    <span class="n">enc_outs</span><span class="p">,</span> <span class="n">enc_last_state</span> <span class="o">=</span> <span class="n">encoder_inf_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">input_seq</span><span class="p">)</span>
+
+    <span class="c1">## Update Inference-Decoder initial hidden state</span>
+    <span class="n">dec_state</span> <span class="o">=</span> <span class="n">enc_last_state</span>
+
+    
+    <span class="c1">## Holder for attention weights and decoded texts</span>
+    <span class="n">attention_weights</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">dec_text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+    <span class="c1">## Inference-Decoder decoding step-by-step</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">target_maxlen</span><span class="p">):</span>
+        <span class="n">dec_out</span><span class="p">,</span> <span class="n">attention</span><span class="p">,</span> <span class="n">dec_state</span> <span class="o">=</span> <span class="n">decoder_inf_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">enc_outs</span><span class="p">,</span> <span class="n">dec_state</span><span class="p">,</span> <span class="n">test_dec_onehot_seq</span><span class="p">])</span>
+         
+        <span class="c1">## Decoded Output (one-hot to integer)</span>
+        <span class="n">dec_ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">dec_out</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1">## Stopping Condition</span>
+        <span class="k">if</span> <span class="n">dec_ind</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">break</span>
+
+        <span class="c1">## Decoded Output (integer to char)</span>
+        <span class="n">initial_text</span> <span class="o">=</span> <span class="n">dec_index2word</span><span class="p">[</span><span class="n">dec_ind</span><span class="p">]</span>
+        
+        <span class="c1">## Decoded Output for next-round decoding</span>
+        <span class="n">initial_seq</span> <span class="o">=</span> <span class="p">[</span><span class="n">dec_ind</span><span class="p">]</span> <span class="c1">#target_tokenizer.texts_to_sequences(initial_text)</span>
+        <span class="n">test_dec_onehot_seq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span>
+            <span class="n">to_categorical</span><span class="p">(</span><span class="n">initial_seq</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="n">target_vsize</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+        
+        <span class="c1">## Keep track of attention weights for current decoded output</span>
+        <span class="n">attention_weights</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">dec_ind</span><span class="p">,</span> <span class="n">attention</span><span class="p">))</span>
+
+        <span class="c1">## Append the predicted char</span>
+        <span class="n">dec_text</span> <span class="o">+=</span> <span class="n">dec_index2word</span><span class="p">[</span><span class="n">dec_ind</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">dec_text</span><span class="p">,</span> <span class="n">attention_weights</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Test sequence-decoding function</span>
+<span class="c1">## on first 20 training samples</span>
+
+<span class="k">for</span> <span class="n">seq_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+    <span class="n">decoded_sentence</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">decode_sequence</span><span class="p">(</span>
+        <span class="n">encoder_input_onehot</span><span class="p">[</span><span class="n">seq_index</span><span class="p">:</span><span class="n">seq_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Input sentence:&#39;</span><span class="p">,</span> <span class="n">tr_input_texts</span><span class="p">[</span><span class="n">seq_index</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Decoded sentence:&#39;</span><span class="p">,</span> <span class="n">decoded_sentence</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-
+Input sentence: 27+673
+Decoded sentence: 700_
+-
+Input sentence: 153+27
+Decoded sentence: 180_
+-
+Input sentence: 93+901
+Decoded sentence: 994_
+-
+Input sentence: 243+678
+Decoded sentence: 921_
+-
+Input sentence: 269+46
+Decoded sentence: 315_
+-
+Input sentence: 235+891
+Decoded sentence: 1126_
+-
+Input sentence: 46+290
+Decoded sentence: 336_
+-
+Input sentence: 324+947
+Decoded sentence: 1271_
+-
+Input sentence: 721+49
+Decoded sentence: 770_
+-
+Input sentence: 535+7
+Decoded sentence: 542_
+-
+Input sentence: 45+117
+Decoded sentence: 162_
+-
+Input sentence: 669+174
+Decoded sentence: 843_
+-
+Input sentence: 904+7
+Decoded sentence: 911_
+-
+Input sentence: 22+731
+Decoded sentence: 753_
+-
+Input sentence: 83+742
+Decoded sentence: 825_
+-
+Input sentence: 678+983
+Decoded sentence: 1661_
+-
+Input sentence: 240+42
+Decoded sentence: 282_
+-
+Input sentence: 18+44
+Decoded sentence: 62_
+-
+Input sentence: 4+166
+Decoded sentence: 170_
+-
+Input sentence: 731+13
+Decoded sentence: 744_
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="plotting-attention">
+<h2><span class="section-number">2.16. </span>Plotting Attention<a class="headerlink" href="#plotting-attention" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ind</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">doc_inputs</span><span class="p">,</span> <span class="n">attention_weights</span> <span class="o">=</span> <span class="n">decode_sequence</span><span class="p">(</span><span class="n">encoder_input_onehot</span><span class="p">[</span><span class="n">ind</span><span class="p">:</span><span class="n">ind</span> <span class="o">+</span>
+                                                                     <span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])</span>
+<span class="n">mats</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">dec_inputs</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">dec_ind</span><span class="p">,</span> <span class="n">attn</span> <span class="ow">in</span> <span class="n">attention_weights</span><span class="p">:</span>
+    <span class="n">mats</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attn</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">dec_inputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dec_ind</span><span class="p">)</span>
+
+<span class="n">attention_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mats</span><span class="p">))</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">attention_mat</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">attention_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">attention_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">dec_index2word</span><span class="p">[</span><span class="n">inp</span><span class="p">]</span> <span class="k">if</span> <span class="n">inp</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;&lt;PAD&gt;&quot;</span> <span class="k">for</span> <span class="n">inp</span> <span class="ow">in</span> <span class="n">dec_inputs</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([</span>
+    <span class="n">enc_index2word</span><span class="p">[</span><span class="n">inp</span><span class="p">]</span> <span class="k">if</span> <span class="n">inp</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;&lt;PAD&gt;&quot;</span>
+    <span class="k">for</span> <span class="n">inp</span> <span class="ow">in</span> <span class="n">encoder_input_sequences</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span>
+<span class="p">])</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">labelrotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/dl-seq-to-seq-attention-addition_106_0.png" src="../_images/dl-seq-to-seq-attention-addition_106_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="evaluation-on-testing-data">
+<h2><span class="section-number">2.17. </span>Evaluation on Testing Data<a class="headerlink" href="#evaluation-on-testing-data" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Wrap text vectorization in a function.</p></li>
+<li><p>Vectorize the testing data in the same way as the training data</p>
+<ul>
+<li><p>Texts to sequences</p></li>
+<li><p>Pad sequences</p></li>
+<li><p>One-hot encode sequences</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">preprocess_data</span><span class="p">(</span><span class="n">enc_tokenizer</span><span class="p">,</span> <span class="n">dec_tokenizer</span><span class="p">,</span> <span class="n">enc_text</span><span class="p">,</span> <span class="n">dec_text</span><span class="p">,</span>
+                    <span class="n">enc_maxlen</span><span class="p">,</span> <span class="n">dec_maxlen</span><span class="p">,</span> <span class="n">enc_vsize</span><span class="p">,</span> <span class="n">dec_vsize</span><span class="p">):</span>
+    <span class="n">enc_seq</span> <span class="o">=</span> <span class="n">enc_tokenizer</span><span class="o">.</span><span class="n">texts_to_sequences</span><span class="p">(</span><span class="n">enc_text</span><span class="p">)</span>
+    <span class="n">enc_seq</span> <span class="o">=</span> <span class="n">pad_sequences</span><span class="p">(</span><span class="n">enc_seq</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="n">enc_maxlen</span><span class="p">)</span>
+    <span class="n">enc_onehot</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="n">enc_seq</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="n">enc_vsize</span><span class="p">)</span>
+
+    <span class="n">dec_seq</span> <span class="o">=</span> <span class="n">dec_tokenizer</span><span class="o">.</span><span class="n">texts_to_sequences</span><span class="p">(</span><span class="n">dec_text</span><span class="p">)</span>
+    <span class="n">dec_seq</span> <span class="o">=</span> <span class="n">pad_sequences</span><span class="p">(</span><span class="n">dec_seq</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="n">dec_maxlen</span><span class="p">)</span>
+    <span class="n">dec_onehot</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="n">dec_seq</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="n">dec_vsize</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">enc_onehot</span><span class="p">,</span> <span class="n">dec_onehot</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_encoder_input_onehot</span><span class="p">,</span> <span class="n">ts_decoder_target_onehot</span> <span class="o">=</span> <span class="n">preprocess_data</span><span class="p">(</span>
+    <span class="n">input_tokenizer</span><span class="p">,</span> <span class="n">target_tokenizer</span><span class="p">,</span> <span class="n">ts_input_texts</span><span class="p">,</span> <span class="n">ts_target_texts</span><span class="p">,</span>
+    <span class="n">input_maxlen</span><span class="p">,</span> <span class="n">target_maxlen</span><span class="p">,</span> <span class="n">input_vsize</span><span class="p">,</span> <span class="n">target_vsize</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">ts_encoder_input_onehot</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ts_decoder_target_onehot</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(5000, 7, 12)
+(5000, 6, 12)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">full_model5</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">ts_encoder_input_onehot</span><span class="p">,</span> <span class="n">ts_decoder_target_onehot</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]],</span>
+    <span class="n">ts_decoder_target_onehot</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:,</span> <span class="p">:],</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>40/40 - 1s - loss: 0.0353 - accuracy: 0.9894
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.035290032625198364, 0.9894400238990784]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="references">
+<h2><span class="section-number">2.18. </span>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>This unit is based on Chapter 7 of <a class="reference external" href="https://www.tenlong.com.tw/products/9789865020675">Deep Learning 2用 Python 進行自然語言處理的基礎理論實作</a> and the original dataset is provided in the book and modified for this unit.</p></li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python-notes",
+            path: "./nlp"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python-notes'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="dl-attention-transformer-intuition.html" title="previous page"><span class="section-number">1. </span>Attention and Transformers: Intuitions</a>
+    <a class='right-next' id="next-link" href="dl-transformers-keras.html" title="next page"><span class="section-number">3. </span>Sentiment Classification with Transformer (Self-Study)</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Alvin Chen<br/>
+        
+            &copy; Copyright 2020 Alvin Chen.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

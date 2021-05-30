@@ -364,10 +364,10 @@
 # :numbered: 2
 # :caption: Seq2Seq, Attention, Transformers, and Transfer Learning
 # 
-# temp/dl-attention-transformer-intuition
-# temp/dl-seq-to-seq-attention-addition
-# temp/dl-transformers-keras
-# temp/sentiment-analysis-using-bert-keras-movie-reviews
+# nlp/dl-attention-transformer-intuition
+# nlp/dl-seq-to-seq-attention-addition
+# nlp/dl-transformers-keras
+# nlp/sentiment-analysis-using-bert-keras-movie-reviews
 # ```
 # 
 # 
