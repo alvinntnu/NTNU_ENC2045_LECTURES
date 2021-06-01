@@ -389,5 +389,6 @@
 # exercise/11-word2vec
 # exercise/12-encoder-decoder
 # exercise/13-attention
+# temp/final-project
 # ```
 # 
