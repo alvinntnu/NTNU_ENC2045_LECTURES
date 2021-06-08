@@ -79,7 +79,7 @@ print(' | '.join(text_jb))
 # pip install -U ckip-transformers
 # ```
 
-# In[2]:
+# In[1]:
 
 
 import ckip_transformers

@@ -31,17 +31,3 @@
 # :::{warning}
 # These three preprocessing steps do NOT necessarily proceed in a serial fashion. The seqential ordering of these steps can be very crucial.
 # :::
-
-# 
-# ```{toctree}
-# :hidden:
-# :titlesonly:
-# 
-# 
-# text-normalization-eng
-# text-tokenization
-# text-enrichment
-# chinese-word-seg
-# google-colab
-# ```
-# 
