@@ -2,11 +2,21 @@
 # coding: utf-8
 
 # # ENC2045 Computational Linguistics
+
+# In[6]:
+
+
+from datetime import datetime
+print('Last Updated: '+ datetime.today().strftime('%Y-%m-%d'))
+
+
 # 
-# ```{warning}
-# These lecture notes are still work-in-progress. There will always be last-minute changes to the files and notebooks. Please ALWAYS download the most recent version of the notebooks before the class of each week.
+# ```{admonition} Contributing to the Lecture Notes!
+# :class: tip
+# This website now supports [Hypothe.is](https://web.hypothes.is/), which is an amazing tool for website annotations. If you would like to contribute to the lecture notes (e.g., error corrections), please leave your comments and suggestions as annotations. Corrections of the materials will be made on a regular basis. And your contributions will be greatly appreciated:)
 # ```
 # 
+
 # ## Introduction
 # 
 # Computational Linguistics (CL) is now a very active sub-discipline in applied linguistics. Its main focus is on the computational text analytics, which is essentially about leveraging computational tools, techniques, and algorithms to process and understand natural language data (in spoken or textual formats). Therefore, this course aims to introduce useful strategies and common workflows that have been widely adopted by data scientists to extract useful insights from natural language data. In this course, we will focus on textual data.
@@ -66,35 +76,44 @@
 # 
 # The course materials are mainly based on the following readings.
 # 
+# ````{panels}
+# 
 # ```{image} images/book-nltk.jpg 
 # :alt: ntlk 
-# :width: 200px 
+# :width: 100% 
 # :align: center
 # ```
+# 
+# ---
 # 
 # ```{image} images/book-pnlp.jpg 
 # :alt: ntlk 
-# :width: 200px 
+# :width: 100%
 # :align: center
 # ```
+# 
+# ---
 # 
 # ```{image} images/book-text-analytics.jpg 
 # :alt: text-analytics 
-# :width: 200px 
+# :width: 100%
 # :align: center
 # ```
+# ---
 # 
 # ```{image} images/book-sklearn.jpg 
 # :alt: sklearn 
-# :width: 200px 
+# :width: 100%
 # :align: center
 # ```
+# ---
 # 
 # ```{image} images/book-dl.jpg 
 # :alt: dl 
-# :width: 200px 
+# :width: 100%
 # :align: center
 # ```
+# ````
 
 # ## Recommended Books
 # 
