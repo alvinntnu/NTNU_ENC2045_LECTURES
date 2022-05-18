@@ -10,6 +10,10 @@ from datetime import datetime
 print('Last Updated: '+ datetime.today().strftime('%Y-%m-%d'))
 
 
+# ```{admonition}
+# I am currently updating these lecture notes so that they could work with the more recent versions of the packages.
+# ```
+# 
 # 
 # ```{admonition} Contributing to the Lecture Notes!
 # :class: tip
