@@ -10,16 +10,15 @@ from datetime import datetime
 print('Last Updated: '+ datetime.today().strftime('%Y-%m-%d'))
 
 
-# ```{admonition}
+# ```{admonition} Under Construction...
+# :class: tip
 # I am currently updating these lecture notes so that they could work with the more recent versions of the packages.
 # ```
-# 
-# 
+
 # ```{admonition} Contributing to the Lecture Notes!
 # :class: tip
 # This website now supports [Hypothe.is](https://web.hypothes.is/), which is an amazing tool for website annotations. If you would like to contribute to the lecture notes (e.g., error corrections), please leave your comments and suggestions as annotations. Corrections of the materials will be made on a regular basis. And your contributions will be greatly appreciated:)
 # ```
-# 
 
 # ## Introduction
 # 
