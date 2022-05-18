@@ -11,11 +11,11 @@ print('Last Updated: '+ datetime.today().strftime('%Y-%m-%d'))
 
 
 # :::{attention}
-# I am currently updating these lecture notes so that they could work with the more recent versions of the packages.
+# I am currently updating these lecture notes so that they could work with the more recent versions of the packages. So some of the codes may not be compatible with the recent updates. 
 # :::
 
 # ```{admonition} Contributing to the Lecture Notes!
-# :class: tip
+# :class: note
 # This website now supports [Hypothe.is](https://web.hypothes.is/), which is an amazing tool for website annotations. If you would like to contribute to the lecture notes (e.g., error corrections), please leave your comments and suggestions as annotations. Corrections of the materials will be made on a regular basis. And your contributions will be greatly appreciated:)
 # ```
 
@@ -27,31 +27,36 @@ print('Last Updated: '+ datetime.today().strftime('%Y-%m-%d'))
 # 
 # A selective collection of potential topics may include:
 # 
-# <i class="fa fa-check fa-1x" style="color:DarkTurquoise;margin-right:5px"></i> A Pipeline for Natural Language Processing
 # 
+# ````{panels}
+# :header: bg-jb-one
+# <i class="fa fa-check fa-1x" style="color:DarkTurquoise;margin-right:5px"></i> A Pipeline for Natural Language Processing
+# ^^^
 # -   Text Normalization
 # -   Text Tokenization
 # -   Parsing and Chunking
-# 
+# ---
 # <i class="fa fa-check fa-1x" style="color:DarkTurquoise;margin-right:5px"></i> Chinese Processing
-# 
+# ^^^
 # -   Issues for Chinese Language Processing (Word Segmentation)
+# -   Different word segmentation tools/packages
 # 
+# ---
 # <i class="fa fa-check fa-1x" style="color:DarkTurquoise;margin-right:5px"></i> Machine Learning Basics
-# 
+# ^^^
 # -   Feature Engineering and Text Vectorization
 # -   Traditional Machine Learning
 # -   Classification Models (Naive Bayes, SVM, Logistic Regression)
 # 
-# <i class="fa fa-check fa-1x" style="color:DarkTurquoise;margin-right:5px"></i>
-# Common Computational Tasks
-# 
+# ---
+# <i class="fa fa-check fa-1x" style="color:DarkTurquoise;margin-right:5px"></i> Common Computational Tasks
+# ^^^
 # -   Sentiment Analysis
 # -   Tex Clustering and Topic Modeling
 # 
-# <i class="fa fa-check fa-1x" style="color:DarkTurquoise;margin-right:5px"></i>
-# Deep Learning NLP
-# 
+# ----
+# <i class="fa fa-check fa-1x" style="color:DarkTurquoise;margin-right:5px"></i> Deep Learning NLP
+# ^^^
 # -   Neural Language Model
 # -   Sequence Models
 # -   RNN
@@ -59,6 +64,8 @@ print('Last Updated: '+ datetime.today().strftime('%Y-%m-%d'))
 # -   Sequence-to-sequence Model
 # -   Attention-based Models
 # -   Explainable Artificial Intelligence and Computational Linguistics
+# 
+# ````
 # 
 # This course is extremely hands-on and will guide the students through classic examples of many task-oriented implementations via in-class theme-based tutorial sessions. The main coding language used in this course is Python. We will make extensive use of the language. It is assumed that you know or will quickly learn how to code in **Python**. In fact, this course assumes that every enrolled student has working knowledge of Python. (If you are not sure whether you fulfill the prerequisite, please contact the instructor first.)
 # 
