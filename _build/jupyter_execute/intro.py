@@ -10,10 +10,9 @@ from datetime import datetime
 print('Last Updated: '+ datetime.today().strftime('%Y-%m-%d'))
 
 
-# ```{admonition} Under Construction...
-# :class: tip
+# :::{attention}
 # I am currently updating these lecture notes so that they could work with the more recent versions of the packages.
-# ```
+# :::
 
 # ```{admonition} Contributing to the Lecture Notes!
 # :class: tip
@@ -175,7 +174,7 @@ print('Last Updated: '+ datetime.today().strftime('%Y-%m-%d'))
 # 
 # For example, when you create the conda environment:
 # 
-# `conda create --name XXX`
+# `conda create --name XXX python=3.7`
 # 
 # You need to specify the conda environment name `XXX` on your own.
 # 

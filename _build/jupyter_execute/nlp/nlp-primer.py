@@ -3,8 +3,7 @@
 
 # # Natural Language Processing: A Primer
 
-# - Computational Linguistics is a very active subject in linguistics.
-# - Natural Language Processing (NLP): It is a sub-field of computer science that deals with methods to analyze, model, and understand human language.
+# This section provides a quick overview of natural language processing, or, more broadly speaking, computational linguistics. This is a very active field in applied linguistics because it is closely connected to the development of human language technology. The term **natural language processing** is a more specific term referring to the sub-field  of computer science that deals with methods to **analyze**, **model**, and **understand** human language.
 # 
 
 # ## NLP Applications
@@ -78,7 +77,7 @@
 #     - Recurrent Neural Network (RNN)
 #     - Long-Term Short-Term Memory (LSTM)
 
-# ![rnn](../images/s2s-rnn.png)
+# ![rnn](../images/s2s-rnn.jpeg)
 
 # - Strengths of Sequence Models
 #     - It reflects the fact that a sentence in language flows from one direction to another.
@@ -90,11 +89,11 @@
 #     - It models the textual context in a non-sequential manner.
 #     - Given a word in the input, the model looks at all the words around it and represent each word with respect to its context. This is referred to as *self-attention*. 
 
-# ```{tip}
+# :::{note}
 # Simply put, now the deep learning NLP capitalizes on the power of **attention**.
 # 
 # It is a mechanism that allows the network to focus its attention on some parts of the input when it's producing the output.
-# ```
+# :::
 
 # - Transfer Learning
 #     - It is a technique in AI where the knowledge gained while solving one problem is applied to a different but related problem.
