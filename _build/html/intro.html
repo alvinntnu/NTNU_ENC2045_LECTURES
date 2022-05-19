@@ -799,34 +799,77 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="section" id="environment-setup">
 <h2>Environment Setup<a class="headerlink" href="#environment-setup" title="Permalink to this headline">¶</a></h2>
-<ol class="simple">
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>The following installation codes are terminal codes.</p>
+</div>
+<ol>
 <li><p>We assume that you have created and set up your python environment as follows:</p>
-<ul class="simple">
-<li><p>Install the python with <a class="reference external" href="https://www.anaconda.com/products/individual">Anaconda</a></p></li>
-<li><p>Create a conda environment named <code class="docutils literal notranslate"><span class="pre">python-notes</span></code> with <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">3.7</span></code></p></li>
-<li><p>Run the notebooks provided in the course materials in this self-defined conda environment</p></li>
+<ul>
+<li><p>Install the python with <a class="reference external" href="https://www.anaconda.com/products/individual">Anaconda</a>.</p></li>
+<li><p>Create a conda environment named <code class="docutils literal notranslate"><span class="pre">python-notes</span></code> with <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">3.7</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda create --name python-notes <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.7
+</pre></div>
+</div>
+</li>
+<li><p>Activate the conda environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span> activate python-notes
+</pre></div>
+</div>
+</li>
+<li><p>Install Jupyter notebook:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install notebook
+</pre></div>
+</div>
+</li>
+<li><p>Install ipykernel package:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install ipykernel
+</pre></div>
+</div>
+</li>
+<li><p>Add this new conda environment to IPython kernel list:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m ipykernel install --user --name<span class="o">=</span>python-notes
+</pre></div>
+</div>
+</li>
+<li><p>Run the notebooks provided in the course materials in this self-defined conda environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupyter notebook
+</pre></div>
+</div>
+</li>
 </ul>
 </li>
 <li><p>We will use <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">notebook</span></code> for python scripting in this course. All the assignments have to be submitted in the format of jupyter notebooks. (See <a class="reference external" href="https://jupyter.org/install">Jupyter Notebook installation documentation</a>).</p></li>
 <li><p>We assume you have created a conda virtual environment, named, <code class="docutils literal notranslate"><span class="pre">python-notes</span></code>, for all the scripting, and you are able to run the notebooks in the conda environment kernel in Jupyter.</p></li>
 <li><p>You can also run the notebooks directly in Google Colab, or alternatively download the <code class="docutils literal notranslate"><span class="pre">.ipynb</span></code> notebook files onto your hard drive or Google Drive for further changes.</p></li>
 </ol>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you cannot find the conda environment kernal in your Jupyter Notebook. Please instal the module <code class="docutils literal notranslate"><span class="pre">ipykernel</span></code>. For more details on how to use specific conda environments in Jupyter, please see <a class="reference external" href="https://medium.com/&#64;nrk25693/how-to-add-your-conda-environment-to-your-jupyter-notebook-in-just-4-steps-abeab8b8d084">this article</a>.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>When you run the installation of the python modules and other packages in the terminal, please remember to change the arguments of the parameters when you follow the instructions provided online.</p>
 <p>For example, when you create the conda environment:</p>
-<p><code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">create</span> <span class="pre">--name</span> <span class="pre">XXX</span> <span class="pre">python=3.7</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda create --name XXX <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.7
+</pre></div>
+</div>
 <p>You need to specify the conda environment name <code class="docutils literal notranslate"><span class="pre">XXX</span></code> on your own.</p>
 <p>Similarly, when you add the self-defined conda environment to the notebook kernel list:</p>
-<p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">ipykernel</span> <span class="pre">install</span> <span class="pre">--user</span> <span class="pre">--name=XXX</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m ipykernel install --user --name<span class="o">=</span>XXX
+</pre></div>
+</div>
 <p>You need to specify the conda environment name <code class="docutils literal notranslate"><span class="pre">XXX</span></code>.</p>
+</div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>There are several important things here:</p>
 <ul class="simple">
 <li><p>You need to install the relevant modules AFTER you activate the conda environment in the terminal.</p></li>
-<li><p>You need to add the kernel name with <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">ipykernel</span> <span class="pre">install</span> <span class="pre">--user</span> <span class="pre">--name=XXX</span></code> within the conda enviroment as well.</p></li>
-<li><p>In other words, you need to install the module <code class="docutils literal notranslate"><span class="pre">ipykernel</span></code> in the target conda environment as well.</p></li>
-<li><p>After a few trial-and-errors, I think the best environment setting is that you <strong>only</strong> add the kernel name (conda environment) to <code class="docutils literal notranslate"><span class="pre">ipykernel</span></code> within the conda environment. <strong>Do not</strong> add the conda environment <strong>again</strong> in your base python environment.</p></li>
-<li><p>What’s even better is to install <code class="docutils literal notranslate"><span class="pre">jupyter</span></code> in your conda environment (<code class="docutils literal notranslate"><span class="pre">python-notes</span></code>) and run your notebook from this <code class="docutils literal notranslate"><span class="pre">python-notes</span></code> as well.</p></li>
+<li><p>You need to add the kernel name with <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">ipykernel</span> <span class="pre">install</span> <span class="pre">--user</span> <span class="pre">--name=XXX</span></code> within the conda enviroment as well (i.e., actviate the conda environment first).</p></li>
+<li><p>In other words, you need to activate the conda environment <code class="docutils literal notranslate"><span class="pre">python-notes</span></code>, install the module <code class="docutils literal notranslate"><span class="pre">ipykernel</span></code>, and add the kernel <code class="docutils literal notranslate"><span class="pre">python-notes</span></code> to IPython kernel list.</p></li>
+<li><p>After a few trial-and-errors, I think the best environment setting is that you <strong>only</strong> add the kernel name (conda environment) to <code class="docutils literal notranslate"><span class="pre">ipykernel</span></code> within the <code class="docutils literal notranslate"><span class="pre">python-notes</span></code> conda environment. <strong>Do not</strong> add the conda environment <strong>again</strong> in your base python environment.</p></li>
+<li><p>Please install <code class="docutils literal notranslate"><span class="pre">jupyter</span></code> in your conda environment (<code class="docutils literal notranslate"><span class="pre">python-notes</span></code>) and run your notebook from this <code class="docutils literal notranslate"><span class="pre">python-notes</span></code> as well.</p></li>
 </ul>
 </div>
 <p>For Windows users, it is highly recommended to run the installation of python-related modules in <code class="docutils literal notranslate"><span class="pre">Anaconda</span> <span class="pre">Prompt</span></code> instead of <code class="docutils literal notranslate"><span class="pre">cmd</span></code>.</p>
@@ -834,46 +877,52 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="section" id="windows-users">
 <h2>Windows Users<a class="headerlink" href="#windows-users" title="Permalink to this headline">¶</a></h2>
 <p>Because some of the window’s users are suffering from the problem that the notebook cannot find the correct path of your <code class="docutils literal notranslate"><span class="pre">python-notes</span></code> environment. Could you please try the following?</p>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
 <p>We assume you run the following steps in Anaconda Powershell Prompt.</p>
 </div>
-<ul class="simple">
-<li><p>Create the new conda environment, <code class="docutils literal notranslate"><span class="pre">python-notes</span></code> (if you have done this, ignore)</p></li>
-</ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ conda create --name python-notes python=3.7
+<ul>
+<li><p>Create the new conda environment, <code class="docutils literal notranslate"><span class="pre">python-notes</span></code> (if you have done this, ignore)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ conda create --name python-notes <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.7
 </pre></div>
 </div>
-<ul class="simple">
-<li><p>Activate the newly-created <code class="docutils literal notranslate"><span class="pre">python-notes</span></code> conda environment</p></li>
-</ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ conda activate python-notes
+</li>
+<li><p>Activate the newly-created <code class="docutils literal notranslate"><span class="pre">python-notes</span></code> conda environment</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ conda activate python-notes
 </pre></div>
 </div>
-<ul class="simple">
-<li><p>Within the <code class="docutils literal notranslate"><span class="pre">python-notes</span></code> environment, install the module <code class="docutils literal notranslate"><span class="pre">ipykernel</span></code></p></li>
-</ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ conda install ipykernel
+</li>
+<li><p>Within the <code class="docutils literal notranslate"><span class="pre">python-notes</span></code> environment, install the module <code class="docutils literal notranslate"><span class="pre">ipykernel</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ conda install ipykernel
 </pre></div>
 </div>
-<ul class="simple">
-<li><p>Deactivate the conda environment</p></li>
-</ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ conda deactivate
+</li>
+<li><p>Within the <code class="docutils literal notranslate"><span class="pre">python-notes</span></code> environment, install Jupyter notebook:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda install notebook
 </pre></div>
 </div>
-<ul class="simple">
-<li><p>Install the module <code class="docutils literal notranslate"><span class="pre">nb_conda_kernels</span></code> in your Anaconda base python (This is crucial to the use of self-defined conda environments in notebook.)</p></li>
-</ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ conda install nb_conda_kernels
+</li>
+<li><p>Add this new conda environment to IPython kernel list:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m ipykernel install --user --name<span class="o">=</span>python-notes
 </pre></div>
 </div>
-<ul class="simple">
-<li><p>Then check if the system detects your <code class="docutils literal notranslate"><span class="pre">python-notes</span></code> environment</p></li>
-</ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python -m nb_conda_kernels list
+</li>
+<li><p>Deactivate the conda environment</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ conda deactivate
 </pre></div>
 </div>
+</li>
+<li><p>Install the module <code class="docutils literal notranslate"><span class="pre">nb_conda_kernels</span></code> in your Anaconda base python (This is crucial to the use of self-defined conda environments in notebook.)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ conda install nb_conda_kernels
+</pre></div>
+</div>
+</li>
+<li><p>Then check if the system detects your <code class="docutils literal notranslate"><span class="pre">python-notes</span></code> environment</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python -m nb_conda_kernels list
+</pre></div>
+</div>
+</li>
+</ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Ideally, you should see your <code class="docutils literal notranslate"><span class="pre">python-notes</span></code> popping up in the results like:</p>
@@ -881,13 +930,12 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<ul class="simple">
-<li><p>If you see the new conda environment name, then it should work. Next, initiate your jupyter notebook</p></li>
-</ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ jupyter notebook
+<ul>
+<li><p>If you see the new conda environment name, then it should work. Next, initiate your jupyter notebook</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ jupyter notebook
 </pre></div>
 </div>
-<ul class="simple">
+</li>
 <li><p>Now you should be able to see you conda environment <code class="docutils literal notranslate"><span class="pre">python-notes</span></code> in your notebook, but the kernel name would be something like <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">[conda</span> <span class="pre">evn:</span> <span class="pre">python-notes]</span></code>.</p></li>
 </ul>
 </div>

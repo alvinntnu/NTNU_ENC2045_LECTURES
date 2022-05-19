@@ -165,41 +165,89 @@ print('Last Updated: '+ datetime.today().strftime('%Y-%m-%d'))
 
 # ## Environment Setup
 # 
+# :::{attention}
+# The following installation codes are terminal codes.
+# :::
+# 
 # 1.  We assume that you have created and set up your python environment as follows:
-#     -   Install the python with [Anaconda](https://www.anaconda.com/products/individual)
-#     -   Create a conda environment named `python-notes` with `python 3.7`
-#     -   Run the notebooks provided in the course materials in this self-defined conda environment
+# 
+#     -   Install the python with [Anaconda](https://www.anaconda.com/products/individual).
+# 
+#     -   Create a conda environment named `python-notes` with `python 3.7`:
+# 
+#         ```bash
+#         conda create --name python-notes python=3.7
+#         ```
+# 
+#     -   Activate the conda environment:
+# 
+#         ```bash
+#         source activate python-notes
+#         ```
+# 
+#     -   Install Jupyter notebook:
+# 
+#         ```bash
+#         pip install notebook
+#         ````
+# 
+#     -   Install ipykernel package:
+# 
+#         ```bash
+#         pip install ipykernel
+#         ```
+# 
+#     -   Add this new conda environment to IPython kernel list:
+# 
+#         ```bash
+#         python -m ipykernel install --user --name=python-notes
+#         ```
+# 
+#     -   Run the notebooks provided in the course materials in this self-defined conda environment:
+# 
+#         ```bash
+#         jupyter notebook
+#         ```   
+#         
 # 2.  We will use `jupyter notebook` for python scripting in this course. All the assignments have to be submitted in the format of jupyter notebooks. (See [Jupyter Notebook installation documentation](https://jupyter.org/install)).
 # 3.  We assume you have created a conda virtual environment, named, `python-notes`, for all the scripting, and you are able to run the notebooks in the conda environment kernel in Jupyter.
 # 4.  You can also run the notebooks directly in Google Colab, or alternatively download the `.ipynb` notebook files onto your hard drive or Google Drive for further changes.
 # 
-# ``` {.tip}
+# ```{tip}
 # If you cannot find the conda environment kernal in your Jupyter Notebook. Please instal the module `ipykernel`. For more details on how to use specific conda environments in Jupyter, please see [this article](https://medium.com/@nrk25693/how-to-add-your-conda-environment-to-your-jupyter-notebook-in-just-4-steps-abeab8b8d084).
 # ```
 # 
+# 
+# :::{note}
 # When you run the installation of the python modules and other packages in the terminal, please remember to change the arguments of the parameters when you follow the instructions provided online.
 # 
 # For example, when you create the conda environment:
 # 
-# `conda create --name XXX python=3.7`
+# ```bash
+# conda create --name XXX python=3.7
+# ```
 # 
 # You need to specify the conda environment name `XXX` on your own.
 # 
 # Similarly, when you add the self-defined conda environment to the notebook kernel list:
 # 
-# `python -m ipykernel install --user --name=XXX`
+# ```bash
+# python -m ipykernel install --user --name=XXX
+# ```
 # 
 # You need to specify the conda environment name `XXX`.
+# :::
+# 
 # 
 # :::{warning}
 # 
 # There are several important things here:
 # 
 # - You need to install the relevant modules AFTER you activate the conda environment in the terminal.
-# - You need to add the kernel name with `python -m ipykernel install --user --name=XXX` within the conda enviroment as well.
-# - In other words, you need to install the module `ipykernel` in the target conda environment as well.
-# - After a few trial-and-errors, I think the best environment setting is that you **only** add the kernel name (conda environment) to `ipykernel` within the conda environment. **Do not** add the conda environment **again** in your base python environment.
-# - What's even better is to install `jupyter` in your conda environment (`python-notes`) and run your notebook from this `python-notes` as well.
+# - You need to add the kernel name with `python -m ipykernel install --user --name=XXX` within the conda enviroment as well (i.e., actviate the conda environment first).
+# - In other words, you need to activate the conda environment `python-notes`, install the module `ipykernel`, and add the kernel `python-notes` to IPython kernel list.
+# - After a few trial-and-errors, I think the best environment setting is that you **only** add the kernel name (conda environment) to `ipykernel` within the `python-notes` conda environment. **Do not** add the conda environment **again** in your base python environment.
+# - Please install `jupyter` in your conda environment (`python-notes`) and run your notebook from this `python-notes` as well.
 # 
 # :::
 # 
@@ -209,45 +257,57 @@ print('Last Updated: '+ datetime.today().strftime('%Y-%m-%d'))
 # 
 # Because some of the window's users are suffering from the problem that the notebook cannot find the correct path of your `python-notes` environment. Could you please try the following?
 # 
-# ```{tip}
+# ```{attention}
 # We assume you run the following steps in Anaconda Powershell Prompt.
 # ```
 # 
 # - Create the new conda environment, `python-notes` (if you have done this, ignore)
 # 
-# ```
-# $ conda create --name python-notes python=3.7
-# ```
+#     ```bash
+#     $ conda create --name python-notes python=3.7
+#     ```
 # 
 # - Activate the newly-created `python-notes` conda environment
 # 
-# ```
-# $ conda activate python-notes
-# ```
+#     ```bash
+#     $ conda activate python-notes
+#     ```
 # 
 # - Within the `python-notes` environment, install the module `ipykernel`
 # 
-# ```
-# $ conda install ipykernel
-# ```
+#     ```bash
+#     $ conda install ipykernel
+#     ```
+# 
+# - Within the `python-notes` environment, install Jupyter notebook:
+# 
+#     ```bash
+#     conda install notebook
+#     ````
+#     
+# -   Add this new conda environment to IPython kernel list:
+# 
+#     ```bash
+#     python -m ipykernel install --user --name=python-notes
+#     ```
 # 
 # - Deactivate the conda environment
 # 
-# ```
-# $ conda deactivate
-# ```
+#     ```bash
+#     $ conda deactivate
+#     ```
 # 
 # - Install the module `nb_conda_kernels` in your Anaconda base python (This is crucial to the use of self-defined conda environments in notebook.)
 # 
-# ```
-# $ conda install nb_conda_kernels
-# ```
+#     ```bash
+#     $ conda install nb_conda_kernels
+#     ```
 # 
 # - Then check if the system detects your `python-notes` environment
 # 
-# ```
-# $ python -m nb_conda_kernels list
-# ```
+#     ```bash
+#     $ python -m nb_conda_kernels list
+#     ```
 # 
 # :::{note}
 # Ideally, you should see your `python-notes` popping up in the results like:
@@ -259,9 +319,9 @@ print('Last Updated: '+ datetime.today().strftime('%Y-%m-%d'))
 # 
 # - If you see the new conda environment name, then it should work. Next, initiate your jupyter notebook
 # 
-# ```
-# $ jupyter notebook
-# ```
+#     ```bash
+#     $ jupyter notebook
+#     ```
 # 
 # - Now you should be able to see you conda environment `python-notes` in your notebook, but the kernel name would be something like `python [conda evn: python-notes]`. 
 # 
