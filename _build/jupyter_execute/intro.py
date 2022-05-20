@@ -166,7 +166,7 @@ print('Last Updated: '+ datetime.today().strftime('%Y-%m-%d'))
 # ## Environment Setup
 # 
 # :::{attention}
-# The following installation codes are terminal codes.
+# The following installation codes are terminal codes.   
 # :::
 # 
 # 1.  We assume that you have created and set up your python environment as follows:
@@ -359,7 +359,7 @@ print('Last Updated: '+ datetime.today().strftime('%Y-%m-%d'))
 # 2.  Please name your files in the following format: `Assignment-X-NAME.ipynb` and `Assignment-X-NAME.html`.
 # 3.  Please always submit both the Jupyter notebook file and its HTML version.
 # 
-# ``` {.{.{warning}}}
+# ```{attention}
 # Unless otherwise specified in class, all assignments will be due on the date/time given on Moodle. Late work within **7 calendar days** of the original due date will be accepted by the instructor at the instructor's discretion. After that, no late work will not be accepted.
 # ```
 
