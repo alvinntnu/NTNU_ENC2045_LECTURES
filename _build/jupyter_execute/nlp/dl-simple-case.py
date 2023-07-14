@@ -888,7 +888,7 @@ tuner.search_space_summary()
 # In[60]:
 
 
-get_ipython().run_cell_magic('time', '', '## Start tuning with the tuner\ntuner.search(X_train, y_train, validation_split=VALIDATION_SPLIT, batch_size=BATCH_SIZE)')
+get_ipython().run_cell_magic('time', '', '## Start tuning with the tuner\ntuner.search(X_train, y_train, validation_split=VALIDATION_SPLIT, batch_size=BATCH_SIZE)\n')
 
 
 # In[61]:

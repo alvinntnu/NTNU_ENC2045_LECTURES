@@ -205,13 +205,13 @@ csv
 # In[3]:
 
 
-get_ipython().run_cell_magic('R', '-i csv', "\n# library(readr)\n# csv= read_delim('../../../RepositoryData/data/gries_sflwr/_inputfiles/05-3_clauseorders.csv','\\t')\nprint(head(csv))\nprint(table(csv$SUBORDTYPE, csv$ORDER))")
+get_ipython().run_cell_magic('R', '-i csv', "\n# library(readr)\n# csv= read_delim('../../../RepositoryData/data/gries_sflwr/_inputfiles/05-3_clauseorders.csv','\\t')\nprint(head(csv))\nprint(table(csv$SUBORDTYPE, csv$ORDER))\n")
 
 
 # In[4]:
 
 
-get_ipython().run_cell_magic('R', '', 'lg = glm(factor(csv$ORDER)~factor(csv$SUBORDTYPE), family="binomial")\nsummary(lg) ')
+get_ipython().run_cell_magic('R', '', 'lg = glm(factor(csv$ORDER)~factor(csv$SUBORDTYPE), family="binomial")\nsummary(lg) \n')
 
 
 # - Based on the model parameters, we get the formula for the probability prediction of our response variable:
@@ -302,7 +302,7 @@ get_ipython().run_cell_magic('R', '', 'lg = glm(factor(csv$ORDER)~factor(csv$SUB
 # In[35]:
 
 
-get_ipython().run_cell_magic('R', '', 'y1= 1/(1+exp(-(-2.50 + 2.72*0))) # prob of sc-mc when SUBORDTYPE = 0 (caus)\ny2= 1/(1+exp(-(-2.50 + 2.72*1))) # prob of sc-mc when SUBORDTYPE = 1 (temp)\nodds1 = y1/(1-y1) # odds when SUBORDTYPE = 0\nodds2 = y2/(1-y2) # odds when SUBORDTYPE = 1\n\ncat("Prob(type=sc-mc|subordtype=cause):", y1, "\\n")\ncat("The odds of Prob(type=mc-sc|subordtype=cause) vs. Prob(type=sc-mc|subordtype=cause):", odds1,"\\n\\n")\n\ncat("Prob(type=sc-mc|subordtype=temp):", y2, "\\n")\ncat("The odds of Prob(type=mc-sc|subordtype=temp) vs. Prob(type=sc-mc|subordtype=temp):", odds2, "\\n\\n")\n\nodds_ratio = odds2/odds1\nlog_odds_ratio = log(odds_ratio)\ncat("Odds Ratioos of subordtype=temp vs. subordtype=cause:", odds_ratio, "\\n")\ncat("Log Odds Ratios of subordtype=temp vs. subordtype=cause:", log_odds_ratio)')
+get_ipython().run_cell_magic('R', '', 'y1= 1/(1+exp(-(-2.50 + 2.72*0))) # prob of sc-mc when SUBORDTYPE = 0 (caus)\ny2= 1/(1+exp(-(-2.50 + 2.72*1))) # prob of sc-mc when SUBORDTYPE = 1 (temp)\nodds1 = y1/(1-y1) # odds when SUBORDTYPE = 0\nodds2 = y2/(1-y2) # odds when SUBORDTYPE = 1\n\ncat("Prob(type=sc-mc|subordtype=cause):", y1, "\\n")\ncat("The odds of Prob(type=mc-sc|subordtype=cause) vs. Prob(type=sc-mc|subordtype=cause):", odds1,"\\n\\n")\n\ncat("Prob(type=sc-mc|subordtype=temp):", y2, "\\n")\ncat("The odds of Prob(type=mc-sc|subordtype=temp) vs. Prob(type=sc-mc|subordtype=temp):", odds2, "\\n\\n")\n\nodds_ratio = odds2/odds1\nlog_odds_ratio = log(odds_ratio)\ncat("Odds Ratioos of subordtype=temp vs. subordtype=cause:", odds_ratio, "\\n")\ncat("Log Odds Ratios of subordtype=temp vs. subordtype=cause:", log_odds_ratio)\n')
 
 
 # ## Support Vector Machine (SVM)

@@ -1,38 +1,46 @@
 
+
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Text Vectorization Using Traditional Methods &#8212; ENC2045 Computational Linguistics</title>
-    
-  <link href="../_static/css/theme.css" rel="stylesheet">
-  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mycss.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
-    
-  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -40,13 +48,14 @@
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -55,797 +64,393 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'nlp/text-vec-traditional';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="1. Machine Learning: Overview" href="ml-overview.html" />
     <link rel="prev" title="Google Colab" href="google-colab.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
-
-    <div class="container-xl">
-      <div class="row">
-          
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+      <div class="bd-sidebar-primary bd-sidebar">
         
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+    
+    
       
-      
-      <img src="../_static/ntnu-word-2.png" class="logo" alt="logo">
-      
-      
-      <h1 class="site-logo" id="site-title">ENC2045 Computational Linguistics</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  INTRODUCTION
- </span>
-</p>
+    
+    
+    <img src="../_static/ntnu-word-2.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/ntnu-word-2.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">INTRODUCTION</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="nlp-primer.html">
-   Natural Language Processing: A Primer
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="nlp-pipeline.html">
-   NLP Pipeline
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="nlp-primer.html">Natural Language Processing: A Primer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nlp-pipeline.html">NLP Pipeline</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Preprocessing
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Preprocessing</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="text-preprocessing.html">
-   Text Preprocessing
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
-  <label for="toctree-checkbox-1">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="text-normalization-eng.html">
-     Text Normalization
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="text-tokenization.html">
-     Text Tokenization
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="text-enrichment.html">
-     Text Enrichment
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="chinese-word-seg.html">
-     Chinese Word Segmentation
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="google-colab.html">
-     Google Colab
-    </a>
-   </li>
-  </ul>
- </li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="text-preprocessing.html">Text Preprocessing</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="text-normalization-eng.html">Text Normalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="text-tokenization.html">Text Tokenization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="text-enrichment.html">Text Enrichment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chinese-word-seg.html">Chinese Word Segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="google-colab.html">Google Colab</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Text Vectorization
- </span>
-</p>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Text Vectorization</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Text Vectorization Using Traditional Methods
-  </a>
- </li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Text Vectorization Using Traditional Methods</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Machine Learning Basics
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning Basics</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="ml-overview.html">
-   1. Machine Learning: Overview
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="ml-simple-case.html">
-   2. Machine Learning: A Simple Example
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="ml-algorithm.html">
-   3. Classification Models
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="ml-overview.html">1. Machine Learning: Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ml-simple-case.html">2. Machine Learning: A Simple Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ml-algorithm.html">3. Classification Models</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Machine-Learning NLP
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine-Learning NLP</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="ml-sklearn-classification.html">
-   1. Sentiment Analysis Using Bag-of-Words
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="topic-modeling-naive.html">
-   2. Topic Modeling: A Naive Example
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="ml-sklearn-classification.html">1. Sentiment Analysis Using Bag-of-Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topic-modeling-naive.html">2. Topic Modeling: A Naive Example</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Deep Learning NLP
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning NLP</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-neural-network-from-scratch.html">
-   1. Neural Network From Scratch
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-simple-case.html">
-   2. Deep Learning: A Simple Example
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-sentiment-case.html">
-   3. Deep Learning: Sentiment Analysis
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="dl-neural-network-from-scratch.html">1. Neural Network From Scratch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-simple-case.html">2. Deep Learning: A Simple Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-sentiment-case.html">3. Deep Learning: Sentiment Analysis</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Neural Language Model and Embeddings
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Neural Language Model and Embeddings</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-sequence-models-intuition.html">
-   1. Sequence Models Intuition
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-neural-language-model-primer.html">
-   2. Neural Language Model: A Start
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="text-vec-embedding.html">
-   3. Word Embeddings
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="dl-sequence-models-intuition.html">1. Sequence Models Intuition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-neural-language-model-primer.html">2. Neural Language Model: A Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="text-vec-embedding.html">3. Word Embeddings</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Seq2Seq, Attention, Transformers, and Transfer Learning
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Seq2Seq, Attention, Transformers, and Transfer Learning</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-attention-transformer-intuition.html">
-   1. Attention and Transformers: Intuitions
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-seq-to-seq-attention-addition.html">
-   2. Sequence Model with Attention for Addition Learning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-transformers-keras.html">
-   3. Sentiment Classification with Transformer (Self-Study)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="sentiment-analysis-using-bert-keras-movie-reviews.html">
-   4. Transfer Learning With BERT (Self-Study)
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="dl-attention-transformer-intuition.html">1. Attention and Transformers: Intuitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-seq-to-seq-attention-addition.html">2. Sequence Model with Attention for Addition Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-transformers-keras.html">3. Sentiment Classification with Transformer (Self-Study)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sentiment-analysis-using-bert-keras-movie-reviews.html">4. Transfer Learning With BERT (Self-Study)</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Exercises
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Exercises</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/1-python-basics.html">
-   Assignment I: Python Basics
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/2-journal-review.html">
-   Assignment II: Journal Articles Review
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/3-preprocessing.html">
-   Assignment III: Preprocessing
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/4-chinese-nlp.html">
-   Assignment IV: Chinese Language Processing
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/5-text-vectorization.html">
-   Assignment V: Text Vectorization
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/6-machine-learning.html">
-   Assignment VI: Machine Learning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/7-topic-modeling.html">
-   Assignment VII: Topic Modeling
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/8-dl-chinese-name-gender.html">
-   Assignment VIII: Deep Learning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/9-sentiment-analysis-dl.html">
-   Assignment IX: Sentiment Analysis Using Deep Learning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/10-neural-language-model.html">
-   Assignment X: Neural Language Model
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/11-word2vec.html">
-   Assignment XI: Word Embeddings
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/12-encoder-decoder.html">
-   Assignment XII: Encoder-Decoder Sequence Models
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/13-attention.html">
-   Assignment XIII: Attention
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../temp/final-project.html">
-   Final Exam
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/1-python-basics.html">Assignment I: Python Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/2-journal-review.html">Assignment II: Journal Articles Review</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/3-preprocessing.html">Assignment III: Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/4-chinese-nlp.html">Assignment IV: Chinese Language Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/5-text-vectorization.html">Assignment V: Text Vectorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/6-machine-learning.html">Assignment VI: Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/7-topic-modeling.html">Assignment VII: Topic Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/8-dl-chinese-name-gender.html">Assignment VIII: Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/9-sentiment-analysis-dl.html">Assignment IX: Sentiment Analysis Using Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/10-neural-language-model.html">Assignment X: Neural Language Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/11-word2vec.html">Assignment XI: Word Embeddings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/12-encoder-decoder.html">Assignment XII: Encoder-Decoder Sequence Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/13-attention.html">Assignment XIII: Attention</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../temp/final-project.html">Final Exam</a></li>
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  <div style="text-align:center">
-<i class="fas fa-chalkboard-teacher fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinntnu.github.io/NTNU_ENC2045/" target='_blank'>ENC2045 Course Website</a><br>
-<i class="fas fa-home fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinchen.myftp.org/" target='_blank'>Alvin Chen's Homepage</a>
-</div>
-
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/nlp/text-vec-traditional.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+</nav></div>
     </div>
-</div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
 
-            <!-- Source interaction buttons -->
 
-            <!-- Full screen (wrap in <a> to have style consistency -->
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
 
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
+<div class="sbt-scroll-pixel-helper"></div>
 
-            <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/alvinntnu/NTNU_ENC2045_LECTURES/main?urlpath=tree/nlp/text-vec-traditional.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="../_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        <a class="colab-button" href="https://colab.research.google.com/github/alvinntnu/NTNU_ENC2045_LECTURES/blob/main/nlp/text-vec-traditional.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
-                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
-                    src="../_static/images/logo_colab.png"
-                    alt="Interact on Colab">Colab</button></a>
-        
-        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
     </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/alvinntnu/NTNU_ENC2045_LECTURES/blob/main/nlp/text-vec-traditional.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
 </div>
 
-        </div>
 
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/nlp/text-vec-traditional.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Text Vectorization Using Traditional Methods</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
             
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div>
+                <h2> Contents </h2>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
+            <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#import-necessary-dependencies-and-settings">
-   Import necessary dependencies and settings
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#sample-corpus-of-text-documents">
-   Sample Corpus of Text Documents
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#simple-text-preprocessing">
-   Simple Text Preprocessing
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#bag-of-words-model">
-   Bag of Words Model
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#countvectorizer-from-sklearn">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       CountVectorizer()
-      </span>
-     </code>
-     from
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       sklearn
-      </span>
-     </code>
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#improving-bag-of-words-text-representation">
-   Improving Bag-of-Words Text Representation
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#n-gram-bag-of-words-text-representation">
-   N-gram Bag-of-Words Text Representation
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#tf-idf-model">
-   TF-IDF Model
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#tfidftransformer-from-sklearn">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       TfidfTransformer()
-      </span>
-     </code>
-     from
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       sklearn
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#tfidfvectorizer-from-sklearn">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       TfidfVectorizer()
-      </span>
-     </code>
-     from
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       sklearn
-      </span>
-     </code>
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#intuition-of-tf-idf">
-   Intuition of TF-IDF
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#create-vocabulary-dictionary-of-the-corpus">
-     Create Vocabulary Dictionary of the Corpus
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#create-document-word-matrix-bag-of-word-frequencies">
-     Create Document-Word Matrix (Bag-of-Word Frequencies)
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#compute-document-frequency-of-words">
-     Compute Document Frequency of Words
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#create-inverse-document-frequency-of-words">
-     Create Inverse Document Frequency of Words
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#compute-raw-tf-idf-for-each-document">
-     Compute Raw TF-IDF for Each Document
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#get-l2-norms-of-tf-idf">
-     Get L2 Norms of TF-IDF
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#compute-normalized-tf-idf-for-each-document">
-     Compute Normalized TF-IDF for Each Document
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#document-similarity">
-   Document Similarity
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#similarity-distance-metrics-and-intuition">
-   Similarity/Distance Metrics and Intuition
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#distance-based-metrics">
-     Distance-based Metrics
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#similarity-based-metrics">
-     Similarity-based Metrics
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#which-metrics-to-use-then">
-     Which Metrics to Use then?
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#pairwise-similarity-computation">
-   Pairwise Similarity Computation
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#clustering-documents-using-similarity-features">
-   Clustering Documents Using Similarity Features
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#clustering-words-using-similarity-features">
-   Clustering Words Using Similarity Features
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#notes-on-word-vectors">
-   Notes on Word Vectors
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#references">
-   References
-  </a>
- </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-necessary-dependencies-and-settings">Import necessary dependencies and settings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sample-corpus-of-text-documents">Sample Corpus of Text Documents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-text-preprocessing">Simple Text Preprocessing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bag-of-words-model">Bag of Words Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#countvectorizer-from-sklearn"><code class="docutils literal notranslate"><span class="pre">CountVectorizer()</span></code> from <code class="docutils literal notranslate"><span class="pre">sklearn</span></code></a></li>
 </ul>
-
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#improving-bag-of-words-text-representation">Improving Bag-of-Words Text Representation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#n-gram-bag-of-words-text-representation">N-gram Bag-of-Words Text Representation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tf-idf-model">TF-IDF Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tfidftransformer-from-sklearn"><code class="docutils literal notranslate"><span class="pre">TfidfTransformer()</span></code> from <code class="docutils literal notranslate"><span class="pre">sklearn</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tfidfvectorizer-from-sklearn"><code class="docutils literal notranslate"><span class="pre">TfidfVectorizer()</span></code> from <code class="docutils literal notranslate"><span class="pre">sklearn</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intuition-of-tf-idf">Intuition of TF-IDF</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-vocabulary-dictionary-of-the-corpus">Create Vocabulary Dictionary of the Corpus</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-document-word-matrix-bag-of-word-frequencies">Create Document-Word Matrix (Bag-of-Word Frequencies)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-document-frequency-of-words">Compute Document Frequency of Words</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-inverse-document-frequency-of-words">Create Inverse Document Frequency of Words</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-raw-tf-idf-for-each-document">Compute Raw TF-IDF for Each Document</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#get-l2-norms-of-tf-idf">Get L2 Norms of TF-IDF</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-normalized-tf-idf-for-each-document">Compute Normalized TF-IDF for Each Document</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#document-similarity">Document Similarity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#similarity-distance-metrics-and-intuition">Similarity/Distance Metrics and Intuition</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distance-based-metrics">Distance-based Metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#similarity-based-metrics">Similarity-based Metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#which-metrics-to-use-then">Which Metrics to Use then?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pairwise-similarity-computation">Pairwise Similarity Computation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering-documents-using-similarity-features">Clustering Documents Using Similarity Features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering-words-using-similarity-features">Clustering Words Using Similarity Features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notes-on-word-vectors">Notes on Word Vectors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
             </nav>
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Text Vectorization Using Traditional Methods</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#import-necessary-dependencies-and-settings">
-   Import necessary dependencies and settings
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#sample-corpus-of-text-documents">
-   Sample Corpus of Text Documents
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#simple-text-preprocessing">
-   Simple Text Preprocessing
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#bag-of-words-model">
-   Bag of Words Model
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#countvectorizer-from-sklearn">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       CountVectorizer()
-      </span>
-     </code>
-     from
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       sklearn
-      </span>
-     </code>
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#improving-bag-of-words-text-representation">
-   Improving Bag-of-Words Text Representation
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#n-gram-bag-of-words-text-representation">
-   N-gram Bag-of-Words Text Representation
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#tf-idf-model">
-   TF-IDF Model
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#tfidftransformer-from-sklearn">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       TfidfTransformer()
-      </span>
-     </code>
-     from
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       sklearn
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#tfidfvectorizer-from-sklearn">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       TfidfVectorizer()
-      </span>
-     </code>
-     from
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       sklearn
-      </span>
-     </code>
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#intuition-of-tf-idf">
-   Intuition of TF-IDF
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#create-vocabulary-dictionary-of-the-corpus">
-     Create Vocabulary Dictionary of the Corpus
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#create-document-word-matrix-bag-of-word-frequencies">
-     Create Document-Word Matrix (Bag-of-Word Frequencies)
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#compute-document-frequency-of-words">
-     Compute Document Frequency of Words
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#create-inverse-document-frequency-of-words">
-     Create Inverse Document Frequency of Words
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#compute-raw-tf-idf-for-each-document">
-     Compute Raw TF-IDF for Each Document
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#get-l2-norms-of-tf-idf">
-     Get L2 Norms of TF-IDF
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#compute-normalized-tf-idf-for-each-document">
-     Compute Normalized TF-IDF for Each Document
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#document-similarity">
-   Document Similarity
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#similarity-distance-metrics-and-intuition">
-   Similarity/Distance Metrics and Intuition
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#distance-based-metrics">
-     Distance-based Metrics
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#similarity-based-metrics">
-     Similarity-based Metrics
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#which-metrics-to-use-then">
-     Which Metrics to Use then?
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#pairwise-similarity-computation">
-   Pairwise Similarity Computation
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#clustering-documents-using-similarity-features">
-   Clustering Documents Using Similarity Features
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#clustering-words-using-similarity-features">
-   Clustering Words Using Similarity Features
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#notes-on-word-vectors">
-   Notes on Word Vectors
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#references">
-   References
-  </a>
- </li>
-</ul>
 
-                        </nav>
-                    </div>
-                </div>
-            </div>
-            
-              <div>
+              
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="text-vectorization-using-traditional-methods">
-<h1>Text Vectorization Using Traditional Methods<a class="headerlink" href="#text-vectorization-using-traditional-methods" title="Permalink to this headline">¶</a></h1>
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="text-vectorization-using-traditional-methods">
+<h1>Text Vectorization Using Traditional Methods<a class="headerlink" href="#text-vectorization-using-traditional-methods" title="Permalink to this headline">#</a></h1>
 <ul class="simple">
 <li><p>There are many ways to vectorize a text into <strong>numeric</strong> representations.</p></li>
 <li><p>In traditional linguistic studies, linguists may <strong>manually</strong> annotate a text based on self-defined linguistic properties. These heuristics-based annotations can be easily converted into numeric values, thus in turn, vectorizing the text.</p></li>
 <li><p>In statistical language processing, it is important to reduce the effort of manual annotation and come up with ways to <strong>automatically</strong> vectorize a text.</p></li>
 <li><p>In this tutorial, we will look at the most widely-used method in machine learning NLP, the <strong>bag-of-words</strong> method for text vectorization.</p></li>
 </ul>
-<div class="section" id="import-necessary-dependencies-and-settings">
-<h2>Import necessary dependencies and settings<a class="headerlink" href="#import-necessary-dependencies-and-settings" title="Permalink to this headline">¶</a></h2>
+<section id="import-necessary-dependencies-and-settings">
+<h2>Import necessary dependencies and settings<a class="headerlink" href="#import-necessary-dependencies-and-settings" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import warnings</span>
@@ -865,9 +470,9 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="sample-corpus-of-text-documents">
-<h2>Sample Corpus of Text Documents<a class="headerlink" href="#sample-corpus-of-text-documents" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="sample-corpus-of-text-documents">
+<h2>Sample Corpus of Text Documents<a class="headerlink" href="#sample-corpus-of-text-documents" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>To have a quick intuition of how bag-of-words work, we start with a naive corpus, one consisting of eight documents. Each document is in fact a simple sentence.</p></li>
 <li><p>Each document in the corpus has a label (potentially referring to its <strong>topic</strong>).</p></li>
@@ -967,9 +572,9 @@ const thebe_selector_output = ".output, .cell_output"
 <p>In text processing, people often cast <code class="docutils literal notranslate"><span class="pre">list</span></code> into <code class="docutils literal notranslate"><span class="pre">np.array</span></code> for efficiency. A numpy array is a lot faster than the native <code class="docutils literal notranslate"><span class="pre">list</span></code> in Python.</p>
 <p>If you are interested, please check this <a class="reference external" href="https://www.youtube.com/watch?v=9JUAPgtkKpI&amp;t=1868s">YouTube Numpy Crash Course</a>.</p>
 </div>
-</div>
-<div class="section" id="simple-text-preprocessing">
-<h2>Simple Text Preprocessing<a class="headerlink" href="#simple-text-preprocessing" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="simple-text-preprocessing">
+<h2>Simple Text Preprocessing<a class="headerlink" href="#simple-text-preprocessing" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>A few steps for text preprocessing</p>
 <ul>
@@ -1034,16 +639,16 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="bag-of-words-model">
-<h2>Bag of Words Model<a class="headerlink" href="#bag-of-words-model" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="bag-of-words-model">
+<h2>Bag of Words Model<a class="headerlink" href="#bag-of-words-model" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Bag-of-words model is the simplest way (i.e., easy to be automated) to vectorize texts into numeric representations.</p></li>
 <li><p>In short, it is a method to represent a text using its word frequency list.</p></li>
 </ul>
 <p><img alt="" src="../_images/text-representation-bow.gif" /></p>
-<div class="section" id="countvectorizer-from-sklearn">
-<h3><code class="docutils literal notranslate"><span class="pre">CountVectorizer()</span></code> from <code class="docutils literal notranslate"><span class="pre">sklearn</span></code><a class="headerlink" href="#countvectorizer-from-sklearn" title="Permalink to this headline">¶</a></h3>
+<section id="countvectorizer-from-sklearn">
+<h3><code class="docutils literal notranslate"><span class="pre">CountVectorizer()</span></code> from <code class="docutils literal notranslate"><span class="pre">sklearn</span></code><a class="headerlink" href="#countvectorizer-from-sklearn" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">CountVectorizer</span>
@@ -1385,10 +990,10 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 </li>
 </ul>
-</div>
-</div>
-<div class="section" id="improving-bag-of-words-text-representation">
-<h2>Improving Bag-of-Words Text Representation<a class="headerlink" href="#improving-bag-of-words-text-representation" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="improving-bag-of-words-text-representation">
+<h2>Improving Bag-of-Words Text Representation<a class="headerlink" href="#improving-bag-of-words-text-representation" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>In BOW text representation, the most crucial question is to identify words that are indeed <strong>representative</strong> of the semantics of texts.</p></li>
 <li><p>To improve the BOW representation:</p>
@@ -1411,9 +1016,9 @@ const thebe_selector_output = ".output, .cell_output"
 <p class="admonition-title">Tip</p>
 <p>When applying the <code class="docutils literal notranslate"><span class="pre">CountVectorizer()</span></code> to Chinese data, if you have word-segmented your corpus data, then remember to specify the <code class="docutils literal notranslate"><span class="pre">token_pattern</span></code> in <code class="docutils literal notranslate"><span class="pre">CountVectorizer()</span></code> to ensure the integrity of the original word tokens.</p>
 </div>
-</div>
-<div class="section" id="n-gram-bag-of-words-text-representation">
-<h2>N-gram Bag-of-Words Text Representation<a class="headerlink" href="#n-gram-bag-of-words-text-representation" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="n-gram-bag-of-words-text-representation">
+<h2>N-gram Bag-of-Words Text Representation<a class="headerlink" href="#n-gram-bag-of-words-text-representation" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># you can set the n-gram range to 1,2 to get unigrams as well as bigrams</span>
@@ -1666,9 +1271,9 @@ const thebe_selector_output = ".output, .cell_output"
 <p>8 rows × 29 columns</p>
 </div></div></div>
 </div>
-</div>
-<div class="section" id="tf-idf-model">
-<h2>TF-IDF Model<a class="headerlink" href="#tf-idf-model" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="tf-idf-model">
+<h2>TF-IDF Model<a class="headerlink" href="#tf-idf-model" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>TF-IDF model is an extension of the bag-of-words model, whose main objective is to adjust the raw frequency counts by considering the <strong>dispersion</strong> of the words in the corpus.</p></li>
 <li><p><strong>Disperson</strong> refers to how evenly each word/term is distributed across different documents of the corpus.</p></li>
@@ -1724,8 +1329,8 @@ const thebe_selector_output = ".output, .cell_output"
 <li><p>The L2 norm instead will reduce all weights but not all the way to 0. This is less memory efficient but can be useful if we want/need to retain all parameters.</p></li>
 </ul>
 </div>
-<div class="section" id="tfidftransformer-from-sklearn">
-<h3><code class="docutils literal notranslate"><span class="pre">TfidfTransformer()</span></code> from <code class="docutils literal notranslate"><span class="pre">sklearn</span></code><a class="headerlink" href="#tfidftransformer-from-sklearn" title="Permalink to this headline">¶</a></h3>
+<section id="tfidftransformer-from-sklearn">
+<h3><code class="docutils literal notranslate"><span class="pre">TfidfTransformer()</span></code> from <code class="docutils literal notranslate"><span class="pre">sklearn</span></code><a class="headerlink" href="#tfidftransformer-from-sklearn" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfTransformer</span>
@@ -1969,9 +1574,9 @@ const thebe_selector_output = ".output, .cell_output"
 </table>
 </div></div></div>
 </div>
-</div>
-<div class="section" id="tfidfvectorizer-from-sklearn">
-<h3><code class="docutils literal notranslate"><span class="pre">TfidfVectorizer()</span></code> from <code class="docutils literal notranslate"><span class="pre">sklearn</span></code><a class="headerlink" href="#tfidfvectorizer-from-sklearn" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="tfidfvectorizer-from-sklearn">
+<h3><code class="docutils literal notranslate"><span class="pre">TfidfVectorizer()</span></code> from <code class="docutils literal notranslate"><span class="pre">sklearn</span></code><a class="headerlink" href="#tfidfvectorizer-from-sklearn" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
@@ -2219,13 +1824,13 @@ const thebe_selector_output = ".output, .cell_output"
 </table>
 </div></div></div>
 </div>
-</div>
-</div>
-<div class="section" id="intuition-of-tf-idf">
-<h2>Intuition of TF-IDF<a class="headerlink" href="#intuition-of-tf-idf" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="intuition-of-tf-idf">
+<h2>Intuition of TF-IDF<a class="headerlink" href="#intuition-of-tf-idf" title="Permalink to this headline">#</a></h2>
 <p>The following shows the creation and computation of the TFIDF matrix step by step. Please go over the codes on your own if you are interested.</p>
-<div class="section" id="create-vocabulary-dictionary-of-the-corpus">
-<h3>Create Vocabulary Dictionary of the Corpus<a class="headerlink" href="#create-vocabulary-dictionary-of-the-corpus" title="Permalink to this headline">¶</a></h3>
+<section id="create-vocabulary-dictionary-of-the-corpus">
+<h3>Create Vocabulary Dictionary of the Corpus<a class="headerlink" href="#create-vocabulary-dictionary-of-the-corpus" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get unique words as feature names</span>
@@ -2248,9 +1853,9 @@ Default Feature Dict: {&#39;ham&#39;: 0, &#39;quick&#39;: 0, &#39;brown&#39;: 0,
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="create-document-word-matrix-bag-of-word-frequencies">
-<h3>Create Document-Word Matrix (Bag-of-Word Frequencies)<a class="headerlink" href="#create-document-word-matrix-bag-of-word-frequencies" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="create-document-word-matrix-bag-of-word-frequencies">
+<h3>Create Document-Word Matrix (Bag-of-Word Frequencies)<a class="headerlink" href="#create-document-word-matrix-bag-of-word-frequencies" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
@@ -2502,9 +2107,9 @@ Default Feature Dict: {&#39;ham&#39;: 0, &#39;quick&#39;: 0, &#39;brown&#39;: 0,
 </table>
 </div></div></div>
 </div>
-</div>
-<div class="section" id="compute-document-frequency-of-words">
-<h3>Compute Document Frequency of Words<a class="headerlink" href="#compute-document-frequency-of-words" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="compute-document-frequency-of-words">
+<h3>Compute Document Frequency of Words<a class="headerlink" href="#compute-document-frequency-of-words" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
@@ -2592,9 +2197,9 @@ Default Feature Dict: {&#39;ham&#39;: 0, &#39;quick&#39;: 0, &#39;brown&#39;: 0,
 </table>
 </div></div></div>
 </div>
-</div>
-<div class="section" id="create-inverse-document-frequency-of-words">
-<h3>Create Inverse Document Frequency of Words<a class="headerlink" href="#create-inverse-document-frequency-of-words" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="create-inverse-document-frequency-of-words">
+<h3>Create Inverse Document Frequency of Words<a class="headerlink" href="#create-inverse-document-frequency-of-words" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># compute inverse document frequencies for each term</span>
@@ -2675,9 +2280,9 @@ Default Feature Dict: {&#39;ham&#39;: 0, &#39;quick&#39;: 0, &#39;brown&#39;: 0,
 </table>
 </div></div></div>
 </div>
-</div>
-<div class="section" id="compute-raw-tf-idf-for-each-document">
-<h3>Compute Raw TF-IDF for Each Document<a class="headerlink" href="#compute-raw-tf-idf-for-each-document" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="compute-raw-tf-idf-for-each-document">
+<h3>Compute Raw TF-IDF for Each Document<a class="headerlink" href="#compute-raw-tf-idf-for-each-document" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># compute tfidf feature matrix</span>
@@ -2918,9 +2523,9 @@ Default Feature Dict: {&#39;ham&#39;: 0, &#39;quick&#39;: 0, &#39;brown&#39;: 0,
 </table>
 </div></div></div>
 </div>
-</div>
-<div class="section" id="get-l2-norms-of-tf-idf">
-<h3>Get L2 Norms of TF-IDF<a class="headerlink" href="#get-l2-norms-of-tf-idf" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="get-l2-norms-of-tf-idf">
+<h3>Get L2 Norms of TF-IDF<a class="headerlink" href="#get-l2-norms-of-tf-idf" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">norm</span>
@@ -2938,9 +2543,9 @@ Default Feature Dict: {&#39;ham&#39;: 0, &#39;quick&#39;: 0, &#39;brown&#39;: 0,
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="compute-normalized-tf-idf-for-each-document">
-<h3>Compute Normalized TF-IDF for Each Document<a class="headerlink" href="#compute-normalized-tf-idf-for-each-document" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="compute-normalized-tf-idf-for-each-document">
+<h3>Compute Normalized TF-IDF for Each Document<a class="headerlink" href="#compute-normalized-tf-idf-for-each-document" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># compute normalized tfidf</span>
@@ -3259,18 +2864,18 @@ Default Feature Dict: {&#39;ham&#39;: 0, &#39;quick&#39;: 0, &#39;brown&#39;: 0,
 </table>
 </div></div></div>
 </div>
-</div>
-</div>
-<div class="section" id="document-similarity">
-<h2>Document Similarity<a class="headerlink" href="#document-similarity" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="document-similarity">
+<h2>Document Similarity<a class="headerlink" href="#document-similarity" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Now each document in our corpus has been transformed into a <strong>vectorized</strong> representation using the naive Bag-of-Words method.</p></li>
 <li><p>And we believe that these vectorized representations are indicators of textual <strong>semantics</strong>.</p></li>
 <li><p>This vectorized text vectorization allows us to perform mathematical computation of the <strong>semantic relationships</strong> between documents.</p></li>
 </ul>
-</div>
-<div class="section" id="similarity-distance-metrics-and-intuition">
-<h2>Similarity/Distance Metrics and Intuition<a class="headerlink" href="#similarity-distance-metrics-and-intuition" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="similarity-distance-metrics-and-intuition">
+<h2>Similarity/Distance Metrics and Intuition<a class="headerlink" href="#similarity-distance-metrics-and-intuition" title="Permalink to this headline">#</a></h2>
 <p>Take a two-dimensional space for instance. If we have vectors on this space, we can compute their distance/similarity mathematically:</p>
 <p><img alt="" src="../_images/text-vec.001.jpeg" /></p>
 <div class="cell docutils container">
@@ -3296,8 +2901,8 @@ Default Feature Dict: {&#39;ham&#39;: 0, &#39;quick&#39;: 0, &#39;brown&#39;: 0,
 </div>
 </div>
 <p>In Math, there are in general two types of metrics to measure the relationship between vectors: <strong>distance</strong>-based vs. <strong>similarity</strong>-based metrics.</p>
-<div class="section" id="distance-based-metrics">
-<h3>Distance-based Metrics<a class="headerlink" href="#distance-based-metrics" title="Permalink to this headline">¶</a></h3>
+<section id="distance-based-metrics">
+<h3>Distance-based Metrics<a class="headerlink" href="#distance-based-metrics" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Many distance measures of vectors are based on the following formula and differ in individual parameter settings.</p></li>
 </ul>
@@ -3333,9 +2938,9 @@ Default Feature Dict: {&#39;ham&#39;: 0, &#39;quick&#39;: 0, &#39;brown&#39;: 0,
 <li><p>The geometrical meanings of the Euclidean distance are easy to conceptualize.</p></li>
 </ul>
 <p><img alt="" src="../_images/text-vec-euclidean.gif" /></p>
-</div>
-<div class="section" id="similarity-based-metrics">
-<h3>Similarity-based Metrics<a class="headerlink" href="#similarity-based-metrics" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="similarity-based-metrics">
+<h3>Similarity-based Metrics<a class="headerlink" href="#similarity-based-metrics" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>In addition to distance-based metrics, the other type is similarity-based metric, which often utilizes the idea of <strong>correlations</strong>.</p></li>
 <li><p>The most commonly used one is <strong>Cosine Similarity</strong>, which can be computed as follows:</p></li>
@@ -3364,9 +2969,9 @@ cos(\vec{x},\vec{y}) = \frac{\sum_{i=1}^{n}{x_i\times y_i}}{\sqrt{\sum_{i=1}^{n}
 </ul>
 <p><img alt="" src="../_images/text-vec-similarity2.png" /></p>
 <p><img alt="" src="../_images/text-vec-cosine.gif" /></p>
-</div>
-<div class="section" id="which-metrics-to-use-then">
-<h3>Which Metrics to Use then?<a class="headerlink" href="#which-metrics-to-use-then" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="which-metrics-to-use-then">
+<h3>Which Metrics to Use then?<a class="headerlink" href="#which-metrics-to-use-then" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Please note that different metrics may lead to very different results.</p></li>
 <li><p>In our earlier examples, if we adopt <strong>euclidean distance</strong>, then y is closer to z than is to x.</p></li>
@@ -3378,10 +2983,10 @@ cos(\vec{x},\vec{y}) = \frac{\sum_{i=1}^{n}{x_i\times y_i}}{\sqrt{\sum_{i=1}^{n}
 </ul>
 </li>
 </ul>
-</div>
-</div>
-<div class="section" id="pairwise-similarity-computation">
-<h2>Pairwise Similarity Computation<a class="headerlink" href="#pairwise-similarity-computation" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="pairwise-similarity-computation">
+<h2>Pairwise Similarity Computation<a class="headerlink" href="#pairwise-similarity-computation" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>The <code class="docutils literal notranslate"><span class="pre">cosine_similarity</span></code> automatically computes the <strong>pairwise</strong> similarities between the <strong>rows</strong> of the input matrix.</p></li>
 </ul>
@@ -3515,9 +3120,9 @@ cos(\vec{x},\vec{y}) = \frac{\sum_{i=1}^{n}{x_i\times y_i}}{\sqrt{\sum_{i=1}^{n}
 </table>
 </div></div></div>
 </div>
-</div>
-<div class="section" id="clustering-documents-using-similarity-features">
-<h2>Clustering Documents Using Similarity Features<a class="headerlink" href="#clustering-documents-using-similarity-features" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="clustering-documents-using-similarity-features">
+<h2>Clustering Documents Using Similarity Features<a class="headerlink" href="#clustering-documents-using-similarity-features" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.cluster.hierarchy</span> <span class="kn">import</span> <span class="n">dendrogram</span><span class="p">,</span> <span class="n">linkage</span>
@@ -3548,7 +3153,7 @@ cos(\vec{x},\vec{y}) = \frac{\sum_{i=1}^{n}{x_i\times y_i}}{\sqrt{\sum_{i=1}^{n}
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x7fab99f4ce10&gt;
 </pre></div>
 </div>
-<img alt="../_images/text-vec-traditional_80_1.png" src="../_images/text-vec-traditional_80_1.png" />
+<img alt="../_images/8e91368a4a577b5eef3a8f8a44aaf4edc1fe32ef6015045145dad21d440f749f.png" src="../_images/8e91368a4a577b5eef3a8f8a44aaf4edc1fe32ef6015045145dad21d440f749f.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -3641,9 +3246,9 @@ cos(\vec{x},\vec{y}) = \frac{\sum_{i=1}^{n}{x_i\times y_i}}{\sqrt{\sum_{i=1}^{n}
 </table>
 </div></div></div>
 </div>
-</div>
-<div class="section" id="clustering-words-using-similarity-features">
-<h2>Clustering Words Using Similarity Features<a class="headerlink" href="#clustering-words-using-similarity-features" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="clustering-words-using-similarity-features">
+<h2>Clustering Words Using Similarity Features<a class="headerlink" href="#clustering-words-using-similarity-features" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>We can also transpose the <code class="docutils literal notranslate"><span class="pre">tv_matrix</span></code> to get a Word-Document matrix.</p></li>
 <li><p>Each word can be represented as vectors based on their document distributions.</p></li>
@@ -4193,12 +3798,12 @@ cos(\vec{x},\vec{y}) = \frac{\sum_{i=1}^{n}{x_i\times y_i}}{\sqrt{\sum_{i=1}^{n}
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x7fab88f979b0&gt;
 </pre></div>
 </div>
-<img alt="../_images/text-vec-traditional_86_1.png" src="../_images/text-vec-traditional_86_1.png" />
+<img alt="../_images/0f7101e2776e094ee062f696cc61cdc31d94005c9340ab8203f550c2a68639cb.png" src="../_images/0f7101e2776e094ee062f696cc61cdc31d94005c9340ab8203f550c2a68639cb.png" />
 </div>
 </div>
-</div>
-<div class="section" id="notes-on-word-vectors">
-<h2>Notes on Word Vectors<a class="headerlink" href="#notes-on-word-vectors" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="notes-on-word-vectors">
+<h2>Notes on Word Vectors<a class="headerlink" href="#notes-on-word-vectors" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>In the previous section, we talk about how we can utilize the <strong>Word-Document Matrix</strong> to create vectorized representations of words for a corpus.</p></li>
 <li><p>This initial effort of representing words using their frequency distributions is referred to as a traditional <strong>count-based</strong> approach to word representations.</p></li>
@@ -4217,14 +3822,14 @@ cos(\vec{x},\vec{y}) = \frac{\sum_{i=1}^{n}{x_i\times y_i}}{\sqrt{\sum_{i=1}^{n}
 <p class="admonition-title">Tip</p>
 <p>Latent Semantic Analysis (aka. Latent Semantic Indexing) learns latent topics by performing a matrix decomposition on the document-term matrix using Singular value decomposition. LSA is typically used as a dimension reduction or noise reducing technique.</p>
 </div>
-</div>
-<div class="section" id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Based on Sarkar (2020), Ch 4 Feature Engineering and Text Representation</p></li>
 </ul>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -4238,7 +3843,7 @@ cos(\vec{x},\vec{y}) = \frac{\sum_{i=1}^{n}{x_i\times y_i}}{\sqrt{\sum_{i=1}^{n}
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python-notes",
+            name: "python-notes",
             path: "./nlp"
         },
         predefinedOutput: true
@@ -4246,44 +3851,140 @@ cos(\vec{x},\vec{y}) = \frac{\sum_{i=1}^{n}{x_i\times y_i}}{\sqrt{\sum_{i=1}^{n}
     </script>
     <script>kernelName = 'python-notes'</script>
 
-              </div>
+                </article>
               
-            
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="google-colab.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Google Colab</p>
-        </div>
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="google-colab.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Google Colab</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="ml-overview.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="ml-overview.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title"><span class="section-number">1. </span>Machine Learning: Overview</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
-</div>
-            
-        </div>
-    </div>
-    <footer class="footer">
-  <p>
-    
-      By Alvin Chen<br/>
-    
-        &copy; Copyright 2020 Alvin Chen.<br/>
-  </p>
-</footer>
-</main>
-
-
       </div>
-    </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
   
-  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+</div>
 
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-necessary-dependencies-and-settings">Import necessary dependencies and settings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sample-corpus-of-text-documents">Sample Corpus of Text Documents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-text-preprocessing">Simple Text Preprocessing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bag-of-words-model">Bag of Words Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#countvectorizer-from-sklearn"><code class="docutils literal notranslate"><span class="pre">CountVectorizer()</span></code> from <code class="docutils literal notranslate"><span class="pre">sklearn</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#improving-bag-of-words-text-representation">Improving Bag-of-Words Text Representation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#n-gram-bag-of-words-text-representation">N-gram Bag-of-Words Text Representation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tf-idf-model">TF-IDF Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tfidftransformer-from-sklearn"><code class="docutils literal notranslate"><span class="pre">TfidfTransformer()</span></code> from <code class="docutils literal notranslate"><span class="pre">sklearn</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tfidfvectorizer-from-sklearn"><code class="docutils literal notranslate"><span class="pre">TfidfVectorizer()</span></code> from <code class="docutils literal notranslate"><span class="pre">sklearn</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intuition-of-tf-idf">Intuition of TF-IDF</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-vocabulary-dictionary-of-the-corpus">Create Vocabulary Dictionary of the Corpus</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-document-word-matrix-bag-of-word-frequencies">Create Document-Word Matrix (Bag-of-Word Frequencies)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-document-frequency-of-words">Compute Document Frequency of Words</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-inverse-document-frequency-of-words">Create Inverse Document Frequency of Words</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-raw-tf-idf-for-each-document">Compute Raw TF-IDF for Each Document</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#get-l2-norms-of-tf-idf">Get L2 Norms of TF-IDF</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-normalized-tf-idf-for-each-document">Compute Normalized TF-IDF for Each Document</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#document-similarity">Document Similarity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#similarity-distance-metrics-and-intuition">Similarity/Distance Metrics and Intuition</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distance-based-metrics">Distance-based Metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#similarity-based-metrics">Similarity-based Metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#which-metrics-to-use-then">Which Metrics to Use then?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pairwise-similarity-computation">Pairwise Similarity Computation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering-documents-using-similarity-features">Clustering Documents Using Similarity Features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering-words-using-similarity-features">Clustering Words Using Similarity Features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notes-on-word-vectors">Notes on Word Vectors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Alvin Chen
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2020 Alvin Chen.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>

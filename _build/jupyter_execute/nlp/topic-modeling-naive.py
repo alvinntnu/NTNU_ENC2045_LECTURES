@@ -187,7 +187,7 @@ pd.DataFrame(cv_matrix, columns=vocab)
 # In[8]:
 
 
-get_ipython().run_cell_magic('time', '', 'from sklearn.decomposition import LatentDirichletAllocation\n\nlda = LatentDirichletAllocation(n_components=3, max_iter=10000, random_state=0)\ndoc_topic_matrix = lda.fit_transform(cv_matrix)')
+get_ipython().run_cell_magic('time', '', 'from sklearn.decomposition import LatentDirichletAllocation\n\nlda = LatentDirichletAllocation(n_components=3, max_iter=10000, random_state=0)\ndoc_topic_matrix = lda.fit_transform(cv_matrix)\n')
 
 
 # ### Model Performance Metrics
@@ -389,7 +389,7 @@ pyLDAvis.sklearn.prepare(lda, cv_matrix, cv, mds='mmds')
 # In[22]:
 
 
-get_ipython().run_cell_magic('time', '', "from sklearn.decomposition import LatentDirichletAllocation\nfrom sklearn.model_selection import GridSearchCV\n\n# Options to try with our LDA\n# Beware it will try *all* of the combinations, so it'll take ages\nsearch_params = {'n_components': range(3,8), 'learning_decay': [.5, .7]}\n\n# Set up LDA with the options we'll keep static\nmodel = LatentDirichletAllocation(learning_method='online', ## `online` for large datasets\n                                  max_iter=10000,\n                                  random_state=0)\n\n# Try all of the options\ngridsearch = GridSearchCV(model,\n                          param_grid=search_params,\n                          n_jobs=-1,\n                          verbose=1)\ngridsearch.fit(cv_matrix)\n\n## Save the best model\nbest_lda = gridsearch.best_estimator_")
+get_ipython().run_cell_magic('time', '', "from sklearn.decomposition import LatentDirichletAllocation\nfrom sklearn.model_selection import GridSearchCV\n\n# Options to try with our LDA\n# Beware it will try *all* of the combinations, so it'll take ages\nsearch_params = {'n_components': range(3,8), 'learning_decay': [.5, .7]}\n\n# Set up LDA with the options we'll keep static\nmodel = LatentDirichletAllocation(learning_method='online', ## `online` for large datasets\n                                  max_iter=10000,\n                                  random_state=0)\n\n# Try all of the options\ngridsearch = GridSearchCV(model,\n                          param_grid=search_params,\n                          n_jobs=-1,\n                          verbose=1)\ngridsearch.fit(cv_matrix)\n\n## Save the best model\nbest_lda = gridsearch.best_estimator_\n")
 
 
 # In[23]:
@@ -509,7 +509,7 @@ def topic_model_coherence_generator(topic_num_start=2,
 # In[30]:
 
 
-get_ipython().run_cell_magic('time', '', 'ts = 2\nte = 10\nmodels, coherence_scores = topic_model_coherence_generator(\n    ts, te, norm_corpus=norm_corpus, cv=cv, cv_matrix=cv_matrix)')
+get_ipython().run_cell_magic('time', '', 'ts = 2\nte = 10\nmodels, coherence_scores = topic_model_coherence_generator(\n    ts, te, norm_corpus=norm_corpus, cv=cv, cv_matrix=cv_matrix)\n')
 
 
 # In[31]:

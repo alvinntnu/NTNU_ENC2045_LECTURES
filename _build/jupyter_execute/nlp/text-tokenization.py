@@ -122,7 +122,6 @@ from nltk.tokenize import RegexpTokenizer
 # In[12]:
 
 
-
 retok1 = RegexpTokenizer(pattern= "[a-zA-Z_'-]+")
 retok2 = RegexpTokenizer(pattern= "[a-zA-Z_-]+")
 retok3 = RegexpTokenizer(pattern= "\s+", gaps=True)

@@ -153,7 +153,7 @@ print(corpus_tokens)
 # In[6]:
 
 
-get_ipython().run_cell_magic('time', '', '\nfrom gensim.models import word2vec\n\n# Set values for various parameters\nfeature_size = 10  \nwindow_context = 5  \nmin_word_count = 1  \n\nw2v_model = word2vec.Word2Vec(\n    corpus_tokens,\n    size=feature_size,        # Word embeddings dimensionality\n    window=window_context,    # Context window size\n    min_count=min_word_count, # Minimum word count\n    sg=1,                     # `1` for skip-gram; otherwise CBOW.\n    seed = 123,               # random seed\n    workers=1,                # number of cores to use\n    negative = 5,             # how many negative samples should be drawn\n    cbow_mean = 1,            # whether to use the average of context word embeddings or sum(concat)\n    iter=10000,               # number of epochs for the entire corpus\n    batch_words=10000,        # batch size\n)')
+get_ipython().run_cell_magic('time', '', '\nfrom gensim.models import word2vec\n\n# Set values for various parameters\nfeature_size = 10  \nwindow_context = 5  \nmin_word_count = 1  \n\nw2v_model = word2vec.Word2Vec(\n    corpus_tokens,\n    size=feature_size,        # Word embeddings dimensionality\n    window=window_context,    # Context window size\n    min_count=min_word_count, # Minimum word count\n    sg=1,                     # `1` for skip-gram; otherwise CBOW.\n    seed = 123,               # random seed\n    workers=1,                # number of cores to use\n    negative = 5,             # how many negative samples should be drawn\n    cbow_mean = 1,            # whether to use the average of context word embeddings or sum(concat)\n    iter=10000,               # number of epochs for the entire corpus\n    batch_words=10000,        # batch size\n)\n')
 
 
 # ### Visualizing Word Embeddings
@@ -408,7 +408,7 @@ brown_tokens = [brown.words(fileids=f) for f in brown.fileids()]
 # In[21]:
 
 
-get_ipython().run_cell_magic('time', '', '# Set values for various parameters\nfeature_size = 100  # Word vector dimensionality\nwindow_context = 5  # Context window size\nmin_word_count = 5  # Minimum word count\n\nft_model = FastText(brown_tokens,\n                    size=feature_size,\n                    window=window_context,\n                    min_count=min_word_count,\n                    sg=1,\n                    iter=50)')
+get_ipython().run_cell_magic('time', '', '# Set values for various parameters\nfeature_size = 100  # Word vector dimensionality\nwindow_context = 5  # Context window size\nmin_word_count = 5  # Minimum word count\n\nft_model = FastText(brown_tokens,\n                    size=feature_size,\n                    window=window_context,\n                    min_count=min_word_count,\n                    sg=1,\n                    iter=50)\n')
 
 
 # - We can use the trained embeddings model to identify words that are similar to a set of seed words.

@@ -269,7 +269,7 @@ model_dbert = AutoModelForMaskedLM.from_pretrained("distilbert-base-cased")
 # In[4]:
 
 
-get_ipython().run_cell_magic('time', '', 'text = f"China has been very {tokenizer_dbert.mask_token} toward Taiwan."\ninput = tokenizer_dbert.encode(text, return_tensors="pt")\n\nmask_token_index = torch.where(input == tokenizer_dbert.mask_token_id)[1]\ntoken_logits = model_dbert(input).logits\nmask_token_logits = token_logits[0, mask_token_index, :]\ntop_5_tokens = torch.topk(mask_token_logits, 5, dim=1).indices[0].tolist()')
+get_ipython().run_cell_magic('time', '', 'text = f"China has been very {tokenizer_dbert.mask_token} toward Taiwan."\ninput = tokenizer_dbert.encode(text, return_tensors="pt")\n\nmask_token_index = torch.where(input == tokenizer_dbert.mask_token_id)[1]\ntoken_logits = model_dbert(input).logits\nmask_token_logits = token_logits[0, mask_token_index, :]\ntop_5_tokens = torch.topk(mask_token_logits, 5, dim=1).indices[0].tolist()\n')
 
 
 # In[5]:
@@ -296,7 +296,7 @@ model_zh_albert = AutoModelForMaskedLM.from_pretrained(
 # In[22]:
 
 
-get_ipython().run_cell_magic('time', '', 'text = f"疫情持續{tokenizer_zh_albert.mask_token}，考驗北市醫療量能。"\ninput = tokenizer_zh_albert.encode(text, return_tensors="pt")\n\nmask_token_index = torch.where(input == tokenizer_zh_albert.mask_token_id)[1]\ntoken_logits = model_zh_albert(input).logits\nmask_token_logits = token_logits[0, mask_token_index, :]\ntop_5_tokens = torch.topk(mask_token_logits, 5, dim=1).indices[0].tolist()')
+get_ipython().run_cell_magic('time', '', 'text = f"疫情持續{tokenizer_zh_albert.mask_token}，考驗北市醫療量能。"\ninput = tokenizer_zh_albert.encode(text, return_tensors="pt")\n\nmask_token_index = torch.where(input == tokenizer_zh_albert.mask_token_id)[1]\ntoken_logits = model_zh_albert(input).logits\nmask_token_logits = token_logits[0, mask_token_index, :]\ntop_5_tokens = torch.topk(mask_token_logits, 5, dim=1).indices[0].tolist()\n')
 
 
 # In[23]:
@@ -337,7 +337,7 @@ model_en_gpt2 = AutoModelForCausalLM.from_pretrained("gpt2",
 # In[10]:
 
 
-get_ipython().run_cell_magic('time', '', 'text = "Taiwan and China are two independent countries"\n\n# Tokenize the input string\ninput = tokenizer_en_gpt2.encode(text, return_tensors="pt")\n\n# Run the model\noutput = model_en_gpt2.generate(input,\n                                max_length=100,\n                                do_sample=True,\n                                top_p=0.95,\n                                top_k=60)\n\n# Print the output\nprint(textwrap.fill(\'\\n\' + tokenizer_en_gpt2.decode(output[0]), 40))')
+get_ipython().run_cell_magic('time', '', 'text = "Taiwan and China are two independent countries"\n\n# Tokenize the input string\ninput = tokenizer_en_gpt2.encode(text, return_tensors="pt")\n\n# Run the model\noutput = model_en_gpt2.generate(input,\n                                max_length=100,\n                                do_sample=True,\n                                top_p=0.95,\n                                top_k=60)\n\n# Print the output\nprint(textwrap.fill(\'\\n\' + tokenizer_en_gpt2.decode(output[0]), 40))\n')
 
 
 # #### Chinese
@@ -367,8 +367,8 @@ output = model_zh_gpt2.generate(input, max_length=500,
                                 do_sample=True,top_p=0.95, top_k=60)
 
 
-# In[13]:
 
+# In[13]:
 
 
 # Print the output

@@ -354,7 +354,7 @@ np.mean(acc_kf)
 # In[25]:
 
 
-get_ipython().run_cell_magic('time', '', "from nltk.classify import MaxentClassifier\nclassifier_maxent = MaxentClassifier.train(train_set,\n                                           algorithm='iis',\n                                           trace=0,\n                                           max_iter=10000,\n                                           min_lldelta=0.001)")
+get_ipython().run_cell_magic('time', '', "from nltk.classify import MaxentClassifier\nclassifier_maxent = MaxentClassifier.train(train_set,\n                                           algorithm='iis',\n                                           trace=0,\n                                           max_iter=10000,\n                                           min_lldelta=0.001)\n")
 
 
 # ```{note}
@@ -382,7 +382,7 @@ createCM(classifier_maxent, test_set)
 # In[29]:
 
 
-get_ipython().run_cell_magic('time', '', 'for train_index, test_index in kf.split(train_set):\n    #print("TRAIN:", train_index, "TEST:", test_index)\n    classifier = MaxentClassifier.train(\n        train_set[train_index[0]:train_index[len(train_index) - 1]],\n        algorithm=\'gis\',\n        trace=0,\n        max_iter=100,\n        min_lldelta=0.01) ## set smaller value for `min_lldelta`\n    print(\n        \'accuracy:\',\n        nltk.classify.util.accuracy(\n            classifier,\n            train_set[test_index[0]:test_index[len(test_index) - 1]]))')
+get_ipython().run_cell_magic('time', '', 'for train_index, test_index in kf.split(train_set):\n    #print("TRAIN:", train_index, "TEST:", test_index)\n    classifier = MaxentClassifier.train(\n        train_set[train_index[0]:train_index[len(train_index) - 1]],\n        algorithm=\'gis\',\n        trace=0,\n        max_iter=100,\n        min_lldelta=0.01) ## set smaller value for `min_lldelta`\n    print(\n        \'accuracy:\',\n        nltk.classify.util.accuracy(\n            classifier,\n            train_set[test_index[0]:test_index[len(test_index) - 1]]))\n')
 
 
 # ### Try Decision Tree
@@ -398,7 +398,7 @@ get_ipython().run_cell_magic('time', '', 'for train_index, test_index in kf.spli
 # In[30]:
 
 
-get_ipython().run_cell_magic('time', '', 'from nltk.classify import DecisionTreeClassifier\nclassifier_dt = DecisionTreeClassifier.train(train_set,\n                                             binary=True,\n                                             entropy_cutoff=0.7,\n                                             depth_cutoff=5,\n                                             support_cutoff=5)')
+get_ipython().run_cell_magic('time', '', 'from nltk.classify import DecisionTreeClassifier\nclassifier_dt = DecisionTreeClassifier.train(train_set,\n                                             binary=True,\n                                             entropy_cutoff=0.7,\n                                             depth_cutoff=5,\n                                             support_cutoff=5)\n')
 
 
 # In[31]:
@@ -416,7 +416,7 @@ createCM(classifier_dt, test_set)
 # In[33]:
 
 
-get_ipython().run_cell_magic('time', '', '\nfor train_index, test_index in kf.split(train_set):\n    #print("TRAIN:", train_index, "TEST:", test_index)\n    classifier = DecisionTreeClassifier.train(\n        train_set[train_index[0]:train_index[len(train_index) - 1]],\n        binary=True,\n        entropy_cutoff=0.7,\n        depth_cutoff=5,\n        support_cutoff=5)\n    print(\n        \'accuracy:\',\n        nltk.classify.util.accuracy(\n            classifier,\n            train_set[test_index[0]:test_index[len(test_index) - 1]]))')
+get_ipython().run_cell_magic('time', '', '\nfor train_index, test_index in kf.split(train_set):\n    #print("TRAIN:", train_index, "TEST:", test_index)\n    classifier = DecisionTreeClassifier.train(\n        train_set[train_index[0]:train_index[len(train_index) - 1]],\n        binary=True,\n        entropy_cutoff=0.7,\n        depth_cutoff=5,\n        support_cutoff=5)\n    print(\n        \'accuracy:\',\n        nltk.classify.util.accuracy(\n            classifier,\n            train_set[test_index[0]:test_index[len(test_index) - 1]]))\n')
 
 
 # ### Try `sklearn` Classifiers

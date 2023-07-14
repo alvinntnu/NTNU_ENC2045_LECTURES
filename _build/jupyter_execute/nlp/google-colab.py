@@ -131,7 +131,7 @@ corpus[:10]
 # In[9]:
 
 
-get_ipython().run_cell_magic('time', '', 'corpus_seg = my_tokenizer(corpus)')
+get_ipython().run_cell_magic('time', '', 'corpus_seg = my_tokenizer(corpus)\n')
 
 
 # In[10]:

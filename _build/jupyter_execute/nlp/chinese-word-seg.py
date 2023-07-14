@@ -92,7 +92,7 @@ from ckip_transformers.nlp import CkipWordSegmenter, CkipPosTagger, CkipNerChunk
 # In[3]:
 
 
-get_ipython().run_cell_magic('time', '', '\n# Initialize drivers\nws_driver = CkipWordSegmenter(level=3, device=-1)\npos_driver = CkipPosTagger(level=3, device=-1)\nner_driver = CkipNerChunker(level=3, device=-1)')
+get_ipython().run_cell_magic('time', '', '\n# Initialize drivers\nws_driver = CkipWordSegmenter(level=3, device=-1)\npos_driver = CkipPosTagger(level=3, device=-1)\nner_driver = CkipNerChunker(level=3, device=-1)\n')
 
 
 # - We usually break the texts into smaller chunks for word segmentation.

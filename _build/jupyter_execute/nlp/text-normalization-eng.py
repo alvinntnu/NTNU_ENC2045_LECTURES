@@ -241,7 +241,9 @@ def expand_contractions(text, contraction_mapping=CONTRACTION_MAP):
 
         # if the matched contraction (=keys) exists in the dict,
         # get its corresponding uncontracted form (=values)
-        expanded_contraction = contraction_mapping.get(match)                                if contraction_mapping.get(match)                                else contraction_mapping.get(match.lower())
+        expanded_contraction = contraction_mapping.get(match)\
+                                if contraction_mapping.get(match)\
+                                else contraction_mapping.get(match.lower())
 
         return expanded_contraction
 

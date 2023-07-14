@@ -1,38 +1,46 @@
 
+
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>2. Machine Learning: A Simple Example &#8212; ENC2045 Computational Linguistics</title>
-    
-  <link href="../_static/css/theme.css" rel="stylesheet">
-  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mycss.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
-    
-  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -40,13 +48,14 @@
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -55,703 +64,382 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'nlp/ml-simple-case';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="3. Classification Models" href="ml-algorithm.html" />
     <link rel="prev" title="1. Machine Learning: Overview" href="ml-overview.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
-
-    <div class="container-xl">
-      <div class="row">
-          
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+      <div class="bd-sidebar-primary bd-sidebar">
         
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+    
+    
       
-      
-      <img src="../_static/ntnu-word-2.png" class="logo" alt="logo">
-      
-      
-      <h1 class="site-logo" id="site-title">ENC2045 Computational Linguistics</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  INTRODUCTION
- </span>
-</p>
+    
+    
+    <img src="../_static/ntnu-word-2.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/ntnu-word-2.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">INTRODUCTION</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="nlp-primer.html">
-   Natural Language Processing: A Primer
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="nlp-pipeline.html">
-   NLP Pipeline
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="nlp-primer.html">Natural Language Processing: A Primer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nlp-pipeline.html">NLP Pipeline</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Preprocessing
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Preprocessing</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="text-preprocessing.html">
-   Text Preprocessing
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
-  <label for="toctree-checkbox-1">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="text-normalization-eng.html">
-     Text Normalization
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="text-tokenization.html">
-     Text Tokenization
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="text-enrichment.html">
-     Text Enrichment
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="chinese-word-seg.html">
-     Chinese Word Segmentation
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="google-colab.html">
-     Google Colab
-    </a>
-   </li>
-  </ul>
- </li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="text-preprocessing.html">Text Preprocessing</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="text-normalization-eng.html">Text Normalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="text-tokenization.html">Text Tokenization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="text-enrichment.html">Text Enrichment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chinese-word-seg.html">Chinese Word Segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="google-colab.html">Google Colab</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Text Vectorization
- </span>
-</p>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Text Vectorization</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="text-vec-traditional.html">
-   Text Vectorization Using Traditional Methods
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="text-vec-traditional.html">Text Vectorization Using Traditional Methods</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Machine Learning Basics
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning Basics</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="ml-overview.html">
-   1. Machine Learning: Overview
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   2. Machine Learning: A Simple Example
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="ml-algorithm.html">
-   3. Classification Models
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="ml-overview.html">1. Machine Learning: Overview</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. Machine Learning: A Simple Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ml-algorithm.html">3. Classification Models</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Machine-Learning NLP
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine-Learning NLP</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="ml-sklearn-classification.html">
-   1. Sentiment Analysis Using Bag-of-Words
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="topic-modeling-naive.html">
-   2. Topic Modeling: A Naive Example
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="ml-sklearn-classification.html">1. Sentiment Analysis Using Bag-of-Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topic-modeling-naive.html">2. Topic Modeling: A Naive Example</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Deep Learning NLP
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning NLP</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-neural-network-from-scratch.html">
-   1. Neural Network From Scratch
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-simple-case.html">
-   2. Deep Learning: A Simple Example
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-sentiment-case.html">
-   3. Deep Learning: Sentiment Analysis
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="dl-neural-network-from-scratch.html">1. Neural Network From Scratch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-simple-case.html">2. Deep Learning: A Simple Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-sentiment-case.html">3. Deep Learning: Sentiment Analysis</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Neural Language Model and Embeddings
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Neural Language Model and Embeddings</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-sequence-models-intuition.html">
-   1. Sequence Models Intuition
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-neural-language-model-primer.html">
-   2. Neural Language Model: A Start
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="text-vec-embedding.html">
-   3. Word Embeddings
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="dl-sequence-models-intuition.html">1. Sequence Models Intuition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-neural-language-model-primer.html">2. Neural Language Model: A Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="text-vec-embedding.html">3. Word Embeddings</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Seq2Seq, Attention, Transformers, and Transfer Learning
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Seq2Seq, Attention, Transformers, and Transfer Learning</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-attention-transformer-intuition.html">
-   1. Attention and Transformers: Intuitions
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-seq-to-seq-attention-addition.html">
-   2. Sequence Model with Attention for Addition Learning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-transformers-keras.html">
-   3. Sentiment Classification with Transformer (Self-Study)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="sentiment-analysis-using-bert-keras-movie-reviews.html">
-   4. Transfer Learning With BERT (Self-Study)
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="dl-attention-transformer-intuition.html">1. Attention and Transformers: Intuitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-seq-to-seq-attention-addition.html">2. Sequence Model with Attention for Addition Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-transformers-keras.html">3. Sentiment Classification with Transformer (Self-Study)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sentiment-analysis-using-bert-keras-movie-reviews.html">4. Transfer Learning With BERT (Self-Study)</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Exercises
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Exercises</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/1-python-basics.html">
-   Assignment I: Python Basics
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/2-journal-review.html">
-   Assignment II: Journal Articles Review
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/3-preprocessing.html">
-   Assignment III: Preprocessing
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/4-chinese-nlp.html">
-   Assignment IV: Chinese Language Processing
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/5-text-vectorization.html">
-   Assignment V: Text Vectorization
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/6-machine-learning.html">
-   Assignment VI: Machine Learning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/7-topic-modeling.html">
-   Assignment VII: Topic Modeling
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/8-dl-chinese-name-gender.html">
-   Assignment VIII: Deep Learning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/9-sentiment-analysis-dl.html">
-   Assignment IX: Sentiment Analysis Using Deep Learning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/10-neural-language-model.html">
-   Assignment X: Neural Language Model
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/11-word2vec.html">
-   Assignment XI: Word Embeddings
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/12-encoder-decoder.html">
-   Assignment XII: Encoder-Decoder Sequence Models
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/13-attention.html">
-   Assignment XIII: Attention
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../temp/final-project.html">
-   Final Exam
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/1-python-basics.html">Assignment I: Python Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/2-journal-review.html">Assignment II: Journal Articles Review</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/3-preprocessing.html">Assignment III: Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/4-chinese-nlp.html">Assignment IV: Chinese Language Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/5-text-vectorization.html">Assignment V: Text Vectorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/6-machine-learning.html">Assignment VI: Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/7-topic-modeling.html">Assignment VII: Topic Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/8-dl-chinese-name-gender.html">Assignment VIII: Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/9-sentiment-analysis-dl.html">Assignment IX: Sentiment Analysis Using Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/10-neural-language-model.html">Assignment X: Neural Language Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/11-word2vec.html">Assignment XI: Word Embeddings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/12-encoder-decoder.html">Assignment XII: Encoder-Decoder Sequence Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/13-attention.html">Assignment XIII: Attention</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../temp/final-project.html">Final Exam</a></li>
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  <div style="text-align:center">
-<i class="fas fa-chalkboard-teacher fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinntnu.github.io/NTNU_ENC2045/" target='_blank'>ENC2045 Course Website</a><br>
-<i class="fas fa-home fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinchen.myftp.org/" target='_blank'>Alvin Chen's Homepage</a>
-</div>
-
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/nlp/ml-simple-case.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+</nav></div>
     </div>
-</div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
 
-            <!-- Source interaction buttons -->
 
-            <!-- Full screen (wrap in <a> to have style consistency -->
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
 
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
+<div class="sbt-scroll-pixel-helper"></div>
 
-            <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/alvinntnu/NTNU_ENC2045_LECTURES/main?urlpath=tree/nlp/ml-simple-case.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="../_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        <a class="colab-button" href="https://colab.research.google.com/github/alvinntnu/NTNU_ENC2045_LECTURES/blob/main/nlp/ml-simple-case.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
-                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
-                    src="../_static/images/logo_colab.png"
-                    alt="Interact on Colab">Colab</button></a>
-        
-        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
     </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/alvinntnu/NTNU_ENC2045_LECTURES/blob/main/nlp/ml-simple-case.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
 </div>
 
-        </div>
 
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/nlp/ml-simple-case.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Machine Learning: A Simple Example</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
             
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div>
+                <h2> Contents </h2>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
+            <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#a-quick-example-name-gender-prediction">
-   2.1. A Quick Example: Name Gender Prediction
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#prepare-data">
-     Prepare Data
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#feature-engineering">
-     Feature Engineering
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#train-test-split">
-     Train-Test Split
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#train-the-model">
-     Train the Model
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#model-prediction">
-     Model Prediction
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#post-hoc-analysis">
-     Post-hoc Analysis
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#how-can-we-improve-the-model-classifier">
-   2.2. How can we improve the model/classifier?
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#more-sophisticated-feature-engineering">
-   2.3. More Sophisticated Feature Engineering
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#train-development-test-data-splits-for-error-analysis">
-   2.4. Train-Development-Test Data Splits for Error Analysis
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#evaluation">
-   2.5. Evaluation
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#cross-validation">
-   2.6. Cross Validation
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#try-different-machine-learning-algorithms">
-   2.7. Try Different Machine Learning Algorithms
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#try-maxent-classifier">
-     Try Maxent Classifier
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#try-decision-tree">
-     Try Decision Tree
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#try-sklearn-classifiers">
-     Try
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       sklearn
-      </span>
-     </code>
-     Classifiers
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#naive-bayes-in-sklearn">
-       Naive Bayes in
-       <code class="docutils literal notranslate">
-        <span class="pre">
-         sklearn
-        </span>
-       </code>
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#logistic-regression-in-sklearn">
-       Logistic Regression in
-       <code class="docutils literal notranslate">
-        <span class="pre">
-         sklearn
-        </span>
-       </code>
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#support-vector-machine-in-sklearn">
-       Support Vector Machine in
-       <code class="docutils literal notranslate">
-        <span class="pre">
-         sklearn
-        </span>
-       </code>
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#remaining-issues">
-   2.8. Remaining Issues
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#references">
-   2.9. References
-  </a>
- </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-quick-example-name-gender-prediction">2.1. A Quick Example: Name Gender Prediction</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-data">Prepare Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-engineering">Feature Engineering</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train-test-split">Train-Test Split</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train-the-model">Train the Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-prediction">Model Prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#post-hoc-analysis">Post-hoc Analysis</a></li>
 </ul>
-
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-can-we-improve-the-model-classifier">2.2. How can we improve the model/classifier?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#more-sophisticated-feature-engineering">2.3. More Sophisticated Feature Engineering</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-development-test-data-splits-for-error-analysis">2.4. Train-Development-Test Data Splits for Error Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation">2.5. Evaluation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-validation">2.6. Cross Validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#try-different-machine-learning-algorithms">2.7. Try Different Machine Learning Algorithms</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#try-maxent-classifier">Try Maxent Classifier</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#try-decision-tree">Try Decision Tree</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#try-sklearn-classifiers">Try <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> Classifiers</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#naive-bayes-in-sklearn">Naive Bayes in <code class="docutils literal notranslate"><span class="pre">sklearn</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression-in-sklearn">Logistic Regression in <code class="docutils literal notranslate"><span class="pre">sklearn</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#support-vector-machine-in-sklearn">Support Vector Machine in <code class="docutils literal notranslate"><span class="pre">sklearn</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#remaining-issues">2.8. Remaining Issues</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">2.9. References</a></li>
+</ul>
             </nav>
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Machine Learning: A Simple Example</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#a-quick-example-name-gender-prediction">
-   2.1. A Quick Example: Name Gender Prediction
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#prepare-data">
-     Prepare Data
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#feature-engineering">
-     Feature Engineering
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#train-test-split">
-     Train-Test Split
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#train-the-model">
-     Train the Model
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#model-prediction">
-     Model Prediction
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#post-hoc-analysis">
-     Post-hoc Analysis
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#how-can-we-improve-the-model-classifier">
-   2.2. How can we improve the model/classifier?
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#more-sophisticated-feature-engineering">
-   2.3. More Sophisticated Feature Engineering
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#train-development-test-data-splits-for-error-analysis">
-   2.4. Train-Development-Test Data Splits for Error Analysis
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#evaluation">
-   2.5. Evaluation
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#cross-validation">
-   2.6. Cross Validation
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#try-different-machine-learning-algorithms">
-   2.7. Try Different Machine Learning Algorithms
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#try-maxent-classifier">
-     Try Maxent Classifier
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#try-decision-tree">
-     Try Decision Tree
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#try-sklearn-classifiers">
-     Try
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       sklearn
-      </span>
-     </code>
-     Classifiers
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#naive-bayes-in-sklearn">
-       Naive Bayes in
-       <code class="docutils literal notranslate">
-        <span class="pre">
-         sklearn
-        </span>
-       </code>
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#logistic-regression-in-sklearn">
-       Logistic Regression in
-       <code class="docutils literal notranslate">
-        <span class="pre">
-         sklearn
-        </span>
-       </code>
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#support-vector-machine-in-sklearn">
-       Support Vector Machine in
-       <code class="docutils literal notranslate">
-        <span class="pre">
-         sklearn
-        </span>
-       </code>
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#remaining-issues">
-   2.8. Remaining Issues
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#references">
-   2.9. References
-  </a>
- </li>
-</ul>
 
-                        </nav>
-                    </div>
-                </div>
-            </div>
-            
-              <div>
+              
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="machine-learning-a-simple-example">
-<h1><span class="section-number">2. </span>Machine Learning: A Simple Example<a class="headerlink" href="#machine-learning-a-simple-example" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="a-quick-example-name-gender-prediction">
-<h2><span class="section-number">2.1. </span>A Quick Example: Name Gender Prediction<a class="headerlink" href="#a-quick-example-name-gender-prediction" title="Permalink to this headline">¶</a></h2>
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="machine-learning-a-simple-example">
+<h1><span class="section-number">2. </span>Machine Learning: A Simple Example<a class="headerlink" href="#machine-learning-a-simple-example" title="Permalink to this headline">#</a></h1>
+<section id="a-quick-example-name-gender-prediction">
+<h2><span class="section-number">2.1. </span>A Quick Example: Name Gender Prediction<a class="headerlink" href="#a-quick-example-name-gender-prediction" title="Permalink to this headline">#</a></h2>
 <p>Let’s assume that we have collected a list of personal names and we have their corresponding gender labels, i.e., whether the name is a male or female one.</p>
 <p>The goal of this example is to create a classifier that would automatically classify a given name into either male or female.</p>
-<div class="section" id="prepare-data">
-<h3>Prepare Data<a class="headerlink" href="#prepare-data" title="Permalink to this headline">¶</a></h3>
+<section id="prepare-data">
+<h3>Prepare Data<a class="headerlink" href="#prepare-data" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>We use the data provided in NLTK. Please download the corpus data if necessary.</p></li>
 <li><p>We load the corpus, <code class="docutils literal notranslate"><span class="pre">nltk.corpus.names</span></code> and randomize it before we proceed.</p></li>
@@ -775,9 +463,9 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="feature-engineering">
-<h3>Feature Engineering<a class="headerlink" href="#feature-engineering" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="feature-engineering">
+<h3>Feature Engineering<a class="headerlink" href="#feature-engineering" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Now our unit for classification is a name.</p></li>
 <li><p>In <strong>feature engineering</strong>, our goal is to transform the texts (i.e., names) into vectorized representations.</p></li>
@@ -799,9 +487,9 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="train-test-split">
-<h3>Train-Test Split<a class="headerlink" href="#train-test-split" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="train-test-split">
+<h3>Train-Test Split<a class="headerlink" href="#train-test-split" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>We then apply the feature engineering method to every text in the data and split the data into <strong>training</strong> and <strong>testing</strong> sets.</p></li>
 </ul>
@@ -813,9 +501,9 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="train-the-model">
-<h3>Train the Model<a class="headerlink" href="#train-the-model" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="train-the-model">
+<h3>Train the Model<a class="headerlink" href="#train-the-model" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>A good start is to try the simple Naive Bayes Classifier.</p></li>
 </ul>
@@ -826,9 +514,9 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="model-prediction">
-<h3>Model Prediction<a class="headerlink" href="#model-prediction" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="model-prediction">
+<h3>Model Prediction<a class="headerlink" href="#model-prediction" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">classifier</span><span class="o">.</span><span class="n">classify</span><span class="p">(</span><span class="n">text_vectorizer</span><span class="p">(</span><span class="s1">&#39;Neo&#39;</span><span class="p">)))</span>
@@ -852,14 +540,14 @@ male
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.752
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.736
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="post-hoc-analysis">
-<h3>Post-hoc Analysis<a class="headerlink" href="#post-hoc-analysis" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="post-hoc-analysis">
+<h3>Post-hoc Analysis<a class="headerlink" href="#post-hoc-analysis" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>One of the most important steps after model training is to examine which features contribute the most to the classifier prediction of the class.</p></li>
 </ul>
@@ -871,11 +559,11 @@ male
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Most Informative Features
-             last_letter = &#39;a&#39;            female : male   =     34.9 : 1.0
-             last_letter = &#39;k&#39;              male : female =     31.9 : 1.0
-             last_letter = &#39;f&#39;              male : female =     16.5 : 1.0
-             last_letter = &#39;p&#39;              male : female =     11.1 : 1.0
-             last_letter = &#39;v&#39;              male : female =     10.4 : 1.0
+             last_letter = &#39;k&#39;              male : female =     45.5 : 1.0
+             last_letter = &#39;a&#39;            female : male   =     33.1 : 1.0
+             last_letter = &#39;f&#39;              male : female =     16.8 : 1.0
+             last_letter = &#39;p&#39;              male : female =     12.0 : 1.0
+             last_letter = &#39;m&#39;              male : female =     10.8 : 1.0
 </pre></div>
 </div>
 </div>
@@ -900,10 +588,10 @@ male
 </div>
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="how-can-we-improve-the-model-classifier">
-<h2><span class="section-number">2.2. </span>How can we improve the model/classifier?<a class="headerlink" href="#how-can-we-improve-the-model-classifier" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="how-can-we-improve-the-model-classifier">
+<h2><span class="section-number">2.2. </span>How can we improve the model/classifier?<a class="headerlink" href="#how-can-we-improve-the-model-classifier" title="Permalink to this headline">#</a></h2>
 <p>In the following, we will talk about methods that we may consider to further improve the model training.</p>
 <ul class="simple">
 <li><p>Feature Engineering</p></li>
@@ -912,9 +600,9 @@ male
 <li><p>Try Different Machine-Learning Algorithms</p></li>
 <li><p>(Ensemble Methods)</p></li>
 </ul>
-</div>
-<div class="section" id="more-sophisticated-feature-engineering">
-<h2><span class="section-number">2.3. </span>More Sophisticated Feature Engineering<a class="headerlink" href="#more-sophisticated-feature-engineering" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="more-sophisticated-feature-engineering">
+<h2><span class="section-number">2.3. </span>More Sophisticated Feature Engineering<a class="headerlink" href="#more-sophisticated-feature-engineering" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>We can extract more features from the names.</p></li>
 <li><p>Use the following features for vectorized representations of names:</p>
@@ -1074,7 +762,7 @@ male
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.764
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.774
 </pre></div>
 </div>
 </div>
@@ -1087,33 +775,33 @@ male
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Most Informative Features
-             last_letter = &#39;a&#39;            female : male   =     34.9 : 1.0
-             last_letter = &#39;k&#39;              male : female =     31.9 : 1.0
-             last_letter = &#39;f&#39;              male : female =     16.5 : 1.0
-             last_letter = &#39;p&#39;              male : female =     11.1 : 1.0
-             last_letter = &#39;v&#39;              male : female =     10.4 : 1.0
-             last_letter = &#39;d&#39;              male : female =      9.5 : 1.0
-             last_letter = &#39;m&#39;              male : female =      9.4 : 1.0
-                count(v) = 2              female : male   =      9.3 : 1.0
-             last_letter = &#39;o&#39;              male : female =      9.0 : 1.0
-                count(i) = 3                male : female =      8.4 : 1.0
-             last_letter = &#39;r&#39;              male : female =      6.8 : 1.0
-             last_letter = &#39;g&#39;              male : female =      5.4 : 1.0
-             last_letter = &#39;w&#39;              male : female =      5.3 : 1.0
-                count(a) = 3              female : male   =      5.0 : 1.0
-             last_letter = &#39;b&#39;              male : female =      4.8 : 1.0
-            first_letter = &#39;w&#39;              male : female =      4.8 : 1.0
-                count(w) = 1                male : female =      4.4 : 1.0
-                  has(w) = True             male : female =      4.4 : 1.0
-             last_letter = &#39;z&#39;              male : female =      4.3 : 1.0
-             last_letter = &#39;s&#39;              male : female =      4.1 : 1.0
+             last_letter = &#39;k&#39;              male : female =     45.5 : 1.0
+             last_letter = &#39;a&#39;            female : male   =     33.1 : 1.0
+             last_letter = &#39;f&#39;              male : female =     16.8 : 1.0
+             last_letter = &#39;p&#39;              male : female =     12.0 : 1.0
+             last_letter = &#39;m&#39;              male : female =     10.8 : 1.0
+             last_letter = &#39;v&#39;              male : female =      9.9 : 1.0
+             last_letter = &#39;d&#39;              male : female =      9.2 : 1.0
+                count(v) = 2              female : male   =      9.1 : 1.0
+             last_letter = &#39;o&#39;              male : female =      8.9 : 1.0
+             last_letter = &#39;r&#39;              male : female =      6.5 : 1.0
+             last_letter = &#39;w&#39;              male : female =      5.9 : 1.0
+             last_letter = &#39;g&#39;              male : female =      5.7 : 1.0
+             last_letter = &#39;z&#39;              male : female =      5.6 : 1.0
+                count(w) = 2                male : female =      5.1 : 1.0
+                count(a) = 3              female : male   =      5.1 : 1.0
+            first_letter = &#39;w&#39;              male : female =      4.6 : 1.0
+                  has(w) = True             male : female =      4.3 : 1.0
+                count(w) = 1                male : female =      4.3 : 1.0
+             last_letter = &#39;t&#39;              male : female =      4.3 : 1.0
+             last_letter = &#39;s&#39;              male : female =      4.0 : 1.0
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="train-development-test-data-splits-for-error-analysis">
-<h2><span class="section-number">2.4. </span>Train-Development-Test Data Splits for Error Analysis<a class="headerlink" href="#train-development-test-data-splits-for-error-analysis" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="train-development-test-data-splits-for-error-analysis">
+<h2><span class="section-number">2.4. </span>Train-Development-Test Data Splits for Error Analysis<a class="headerlink" href="#train-development-test-data-splits-for-error-analysis" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Normally we have <strong>training</strong>-<strong>testing</strong> splits of data</p></li>
 <li><p>Sometimes we can use <strong>development (dev)</strong> set for error analysis and feature engineering.</p></li>
@@ -1140,7 +828,7 @@ male
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.798
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.767
 </pre></div>
 </div>
 </div>
@@ -1210,129 +898,129 @@ male
       <th>0</th>
       <td>male</td>
       <td>female</td>
-      <td>Joe</td>
+      <td>Lynn</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>male</td>
       <td>female</td>
-      <td>Kendal</td>
+      <td>male</td>
+      <td>Ines</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>female</td>
       <td>male</td>
-      <td>Shanon</td>
+      <td>female</td>
+      <td>Kenny</td>
     </tr>
     <tr>
       <th>3</th>
       <td>female</td>
       <td>male</td>
-      <td>Fallon</td>
+      <td>Gray</td>
     </tr>
     <tr>
       <th>4</th>
       <td>male</td>
       <td>female</td>
-      <td>Reggie</td>
+      <td>Dickie</td>
     </tr>
     <tr>
       <th>5</th>
       <td>female</td>
       <td>male</td>
-      <td>Jourdan</td>
+      <td>Rose</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>female</td>
       <td>male</td>
-      <td>Rosalynd</td>
+      <td>female</td>
+      <td>Avi</td>
     </tr>
     <tr>
       <th>7</th>
       <td>male</td>
       <td>female</td>
-      <td>Durante</td>
+      <td>Marty</td>
     </tr>
     <tr>
       <th>8</th>
-      <td>male</td>
       <td>female</td>
-      <td>Mel</td>
+      <td>male</td>
+      <td>Joell</td>
     </tr>
     <tr>
       <th>9</th>
       <td>male</td>
       <td>female</td>
-      <td>Vasilis</td>
+      <td>Averell</td>
     </tr>
     <tr>
-      <th>192</th>
+      <th>223</th>
+      <td>male</td>
+      <td>female</td>
+      <td>Abdel</td>
+    </tr>
+    <tr>
+      <th>224</th>
+      <td>female</td>
+      <td>male</td>
+      <td>Amargo</td>
+    </tr>
+    <tr>
+      <th>225</th>
+      <td>male</td>
+      <td>female</td>
+      <td>Siddhartha</td>
+    </tr>
+    <tr>
+      <th>226</th>
+      <td>female</td>
+      <td>male</td>
+      <td>Rhody</td>
+    </tr>
+    <tr>
+      <th>227</th>
+      <td>female</td>
+      <td>male</td>
+      <td>Orel</td>
+    </tr>
+    <tr>
+      <th>228</th>
+      <td>female</td>
+      <td>male</td>
+      <td>Shell</td>
+    </tr>
+    <tr>
+      <th>229</th>
+      <td>female</td>
+      <td>male</td>
+      <td>Meris</td>
+    </tr>
+    <tr>
+      <th>230</th>
+      <td>male</td>
+      <td>female</td>
+      <td>Nils</td>
+    </tr>
+    <tr>
+      <th>231</th>
+      <td>male</td>
+      <td>female</td>
+      <td>Pierce</td>
+    </tr>
+    <tr>
+      <th>232</th>
       <td>female</td>
       <td>male</td>
       <td>Carmon</td>
-    </tr>
-    <tr>
-      <th>193</th>
-      <td>male</td>
-      <td>female</td>
-      <td>Vasili</td>
-    </tr>
-    <tr>
-      <th>194</th>
-      <td>female</td>
-      <td>male</td>
-      <td>Betsey</td>
-    </tr>
-    <tr>
-      <th>195</th>
-      <td>female</td>
-      <td>male</td>
-      <td>Honor</td>
-    </tr>
-    <tr>
-      <th>196</th>
-      <td>female</td>
-      <td>male</td>
-      <td>Roseann</td>
-    </tr>
-    <tr>
-      <th>197</th>
-      <td>female</td>
-      <td>male</td>
-      <td>Margurite</td>
-    </tr>
-    <tr>
-      <th>198</th>
-      <td>male</td>
-      <td>female</td>
-      <td>Gayle</td>
-    </tr>
-    <tr>
-      <th>199</th>
-      <td>male</td>
-      <td>female</td>
-      <td>Clinten</td>
-    </tr>
-    <tr>
-      <th>200</th>
-      <td>male</td>
-      <td>female</td>
-      <td>Etienne</td>
-    </tr>
-    <tr>
-      <th>201</th>
-      <td>female</td>
-      <td>male</td>
-      <td>Hildy</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-</div>
-<div class="section" id="evaluation">
-<h2><span class="section-number">2.5. </span>Evaluation<a class="headerlink" href="#evaluation" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="evaluation">
+<h2><span class="section-number">2.5. </span>Evaluation<a class="headerlink" href="#evaluation" title="Permalink to this headline">#</a></h2>
 <p><img alt="" src="../_images/confusion-matrix.jpeg" /></p>
 <ul class="simple">
 <li><p>Confusion Matrix:</p>
@@ -1367,7 +1055,7 @@ F= \frac{(2 × Precision × Recall)}{(Precision + Recall)}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.77
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.79
 </pre></div>
 </div>
 </div>
@@ -1398,8 +1086,8 @@ F= \frac{(2 × Precision × Recall)}{(Precision + Recall)}
        |      l      l |
        |      e      e |
 -------+---------------+
-female | &lt;52.2%&gt; 14.0% |
-  male |   9.2% &lt;24.6%&gt;|
+female | &lt;51.6%&gt;  8.6% |
+  male |  12.8% &lt;27.0%&gt;|
 -------+---------------+
 (row = reference; col = test)
 </pre></div>
@@ -1432,17 +1120,17 @@ female | &lt;52.2%&gt; 14.0% |
        |      l      l |
        |      e      e |
 -------+---------------+
-female | &lt;52.2%&gt; 14.0% |
-  male |   9.2% &lt;24.6%&gt;|
+female | &lt;51.6%&gt;  8.6% |
+  male |  12.8% &lt;27.0%&gt;|
 -------+---------------+
 (row = reference; col = test)
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="cross-validation">
-<h2><span class="section-number">2.6. </span>Cross Validation<a class="headerlink" href="#cross-validation" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="cross-validation">
+<h2><span class="section-number">2.6. </span>Cross Validation<a class="headerlink" href="#cross-validation" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>We can also check our average model performance using the cross-validation method.</p></li>
 </ul>
@@ -1469,16 +1157,16 @@ female | &lt;52.2%&gt; 14.0% |
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>accuracy: 0.76
-accuracy: 0.78
-accuracy: 0.77
-accuracy: 0.76
-accuracy: 0.79
-accuracy: 0.76
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>accuracy: 0.78
+accuracy: 0.75
 accuracy: 0.78
 accuracy: 0.78
 accuracy: 0.8
+accuracy: 0.79
+accuracy: 0.74
 accuracy: 0.78
+accuracy: 0.8
+accuracy: 0.76
 </pre></div>
 </div>
 </div>
@@ -1490,14 +1178,14 @@ accuracy: 0.78
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7763489755899655
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.778211846642775
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="try-different-machine-learning-algorithms">
-<h2><span class="section-number">2.7. </span>Try Different Machine Learning Algorithms<a class="headerlink" href="#try-different-machine-learning-algorithms" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="try-different-machine-learning-algorithms">
+<h2><span class="section-number">2.7. </span>Try Different Machine Learning Algorithms<a class="headerlink" href="#try-different-machine-learning-algorithms" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>There are many ML algorithms for classification tasks.</p></li>
 <li><p>Here we will demonstrate a few more classifiers implemented in NLTK, including:</p>
@@ -1524,8 +1212,8 @@ accuracy: 0.78
 </ul>
 </li>
 </ul>
-<div class="section" id="try-maxent-classifier">
-<h3>Try Maxent Classifier<a class="headerlink" href="#try-maxent-classifier" title="Permalink to this headline">¶</a></h3>
+<section id="try-maxent-classifier">
+<h3>Try Maxent Classifier<a class="headerlink" href="#try-maxent-classifier" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Maxent is memory hungry, slower, and it requires <code class="docutils literal notranslate"><span class="pre">numpy</span></code>.</p></li>
 </ul>
@@ -1542,8 +1230,8 @@ accuracy: 0.78
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 3min 36s, sys: 515 ms, total: 3min 37s
-Wall time: 3min 50s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1min 20s, sys: 72.7 ms, total: 1min 20s
+Wall time: 1min 20s
 </pre></div>
 </div>
 </div>
@@ -1559,7 +1247,7 @@ Wall time: 3min 50s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.772
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.79
 </pre></div>
 </div>
 </div>
@@ -1571,26 +1259,26 @@ Wall time: 3min 50s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  -3.248 last_letter==&#39;a&#39; and label is &#39;male&#39;
-  -2.446 last_letter==&#39;k&#39; and label is &#39;female&#39;
-  -2.000 count(v)==2 and label is &#39;male&#39;
-  -1.724 last_letter==&#39;f&#39; and label is &#39;female&#39;
-  -1.559 count(i)==3 and label is &#39;female&#39;
-  -1.542 last_letter==&#39;p&#39; and label is &#39;female&#39;
-   1.528 count(j)==2 and label is &#39;female&#39;
-  -1.437 last_letter==&#39;m&#39; and label is &#39;female&#39;
-  -1.338 last_letter==&#39;d&#39; and label is &#39;female&#39;
-  -1.230 last_letter==&#39;v&#39; and label is &#39;female&#39;
-  -1.163 last_letter==&#39;i&#39; and label is &#39;male&#39;
-  -1.143 last_letter==&#39;o&#39; and label is &#39;female&#39;
-   1.044 last_letter==&#39;c&#39; and label is &#39;male&#39;
-  -0.983 last_letter==&#39;r&#39; and label is &#39;female&#39;
-   0.894 count(d)==3 and label is &#39;male&#39;
-   0.791 count(g)==3 and label is &#39;male&#39;
-  -0.741 count(a)==3 and label is &#39;male&#39;
-  -0.738 count(m)==3 and label is &#39;female&#39;
-  -0.729 count(e)==4 and label is &#39;male&#39;
-  -0.723 last_letter==&#39;g&#39; and label is &#39;female&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  -3.105 last_letter==&#39;a&#39; and label is &#39;male&#39;
+  -2.876 last_letter==&#39;k&#39; and label is &#39;female&#39;
+  -2.240 last_letter==&#39;v&#39; and label is &#39;female&#39;
+  -2.119 count(v)==2 and label is &#39;male&#39;
+  -1.813 last_letter==&#39;f&#39; and label is &#39;female&#39;
+   1.549 count(j)==2 and label is &#39;female&#39;
+  -1.484 last_letter==&#39;p&#39; and label is &#39;female&#39;
+  -1.417 last_letter==&#39;m&#39; and label is &#39;female&#39;
+  -1.342 last_letter==&#39;o&#39; and label is &#39;female&#39;
+  -1.203 last_letter==&#39;i&#39; and label is &#39;male&#39;
+  -1.175 last_letter==&#39;d&#39; and label is &#39;female&#39;
+   1.067 last_letter==&#39;c&#39; and label is &#39;male&#39;
+  -1.040 count(a)==3 and label is &#39;male&#39;
+  -0.909 last_letter==&#39;r&#39; and label is &#39;female&#39;
+  -0.875 count(y)==2 and label is &#39;male&#39;
+  -0.859 count(e)==4 and label is &#39;male&#39;
+  -0.849 last_letter==&#39;g&#39; and label is &#39;female&#39;
+  -0.837 count(p)==3 and label is &#39;male&#39;
+   0.794 count(g)==3 and label is &#39;male&#39;
+  -0.782 count(e)==3 and label is &#39;male&#39;
 </pre></div>
 </div>
 </div>
@@ -1609,8 +1297,8 @@ Wall time: 3min 50s
        |      l      l |
        |      e      e |
 -------+---------------+
-female | &lt;55.6%&gt; 10.6% |
-  male |  12.2% &lt;21.6%&gt;|
+female | &lt;54.0%&gt;  6.2% |
+  male |  14.8% &lt;25.0%&gt;|
 -------+---------------+
 (row = reference; col = test)
 </pre></div>
@@ -1637,25 +1325,25 @@ female | &lt;55.6%&gt; 10.6% |
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>accuracy: 0.6972049689440993
-accuracy: 0.6816770186335404
-accuracy: 0.7251552795031055
-accuracy: 0.7018633540372671
-accuracy: 0.7060653188180405
-accuracy: 0.6765163297045101
-accuracy: 0.7247278382581649
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>accuracy: 0.7204968944099379
+accuracy: 0.6940993788819876
+accuracy: 0.7049689440993789
+accuracy: 0.6925465838509317
+accuracy: 0.7169517884914464
+accuracy: 0.7231726283048211
+accuracy: 0.6889580093312597
 accuracy: 0.6858475894245724
-accuracy: 0.7060653188180405
-accuracy: 0.71850699844479
-CPU times: user 2min 57s, sys: 160 ms, total: 2min 57s
-Wall time: 3min 1s
+accuracy: 0.7293934681181959
+accuracy: 0.6702954898911353
+CPU times: user 1min 34s, sys: 146 ms, total: 1min 35s
+Wall time: 1min 35s
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="try-decision-tree">
-<h3>Try Decision Tree<a class="headerlink" href="#try-decision-tree" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="try-decision-tree">
+<h3>Try Decision Tree<a class="headerlink" href="#try-decision-tree" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Parameters:</p>
 <ul>
@@ -1684,8 +1372,8 @@ Wall time: 3min 1s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 9 s, sys: 5 ms, total: 9 s
-Wall time: 9 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 8.22 s, sys: 12.9 ms, total: 8.23 s
+Wall time: 8.24 s
 </pre></div>
 </div>
 </div>
@@ -1697,7 +1385,7 @@ Wall time: 9 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.716
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.706
 </pre></div>
 </div>
 </div>
@@ -1716,8 +1404,8 @@ Wall time: 9 s
        |      l      l |
        |      e      e |
 -------+---------------+
-female | &lt;57.2%&gt;  9.0% |
-  male |  19.4% &lt;14.4%&gt;|
+female | &lt;57.6%&gt;  2.6% |
+  male |  26.8% &lt;13.0%&gt;|
 -------+---------------+
 (row = reference; col = test)
 </pre></div>
@@ -1745,31 +1433,31 @@ female | &lt;57.2%&gt;  9.0% |
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>accuracy: 0.7236024844720497
-accuracy: 0.7204968944099379
-accuracy: 0.7313664596273292
-accuracy: 0.7003105590062112
-accuracy: 0.7325038880248833
-accuracy: 0.6967340590979783
-accuracy: 0.7293934681181959
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>accuracy: 0.7360248447204969
+accuracy: 0.7236024844720497
+accuracy: 0.718944099378882
+accuracy: 0.6925465838509317
+accuracy: 0.7340590979782271
+accuracy: 0.7418351477449455
+accuracy: 0.687402799377916
 accuracy: 0.6982892690513219
-accuracy: 0.7122861586314152
-accuracy: 0.7247278382581649
-CPU times: user 1min 29s, sys: 42.3 ms, total: 1min 29s
-Wall time: 1min 29s
+accuracy: 0.7325038880248833
+accuracy: 0.6858475894245724
+CPU times: user 1min 16s, sys: 66.2 ms, total: 1min 16s
+Wall time: 1min 16s
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="try-sklearn-classifiers">
-<h3>Try <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> Classifiers<a class="headerlink" href="#try-sklearn-classifiers" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="try-sklearn-classifiers">
+<h3>Try <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> Classifiers<a class="headerlink" href="#try-sklearn-classifiers" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">sklearn</span></code> is a very useful module for machine learning. We will talk more about this module in our later lectures.</p></li>
 <li><p>This package provides a lot more ML algorithms for classification tasks.</p></li>
 </ul>
-<div class="section" id="naive-bayes-in-sklearn">
-<h4>Naive Bayes in <code class="docutils literal notranslate"><span class="pre">sklearn</span></code><a class="headerlink" href="#naive-bayes-in-sklearn" title="Permalink to this headline">¶</a></h4>
+<section id="naive-bayes-in-sklearn">
+<h4>Naive Bayes in <code class="docutils literal notranslate"><span class="pre">sklearn</span></code><a class="headerlink" href="#naive-bayes-in-sklearn" title="Permalink to this headline">#</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.classify.scikitlearn</span> <span class="kn">import</span> <span class="n">SklearnClassifier</span>
@@ -1781,7 +1469,7 @@ Wall time: 1min 29s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;SklearnClassifier(MultinomialNB(alpha=1.0, class_prior=None, fit_prior=True))&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;SklearnClassifier(MultinomialNB())&gt;
 </pre></div>
 </div>
 </div>
@@ -1793,14 +1481,14 @@ Wall time: 1min 29s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.768
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.782
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="logistic-regression-in-sklearn">
-<h4>Logistic Regression in <code class="docutils literal notranslate"><span class="pre">sklearn</span></code><a class="headerlink" href="#logistic-regression-in-sklearn" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="logistic-regression-in-sklearn">
+<h4>Logistic Regression in <code class="docutils literal notranslate"><span class="pre">sklearn</span></code><a class="headerlink" href="#logistic-regression-in-sklearn" title="Permalink to this headline">#</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
@@ -1811,14 +1499,14 @@ Wall time: 1min 29s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.786
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.788
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="support-vector-machine-in-sklearn">
-<h4>Support Vector Machine in <code class="docutils literal notranslate"><span class="pre">sklearn</span></code><a class="headerlink" href="#support-vector-machine-in-sklearn" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="support-vector-machine-in-sklearn">
+<h4>Support Vector Machine in <code class="docutils literal notranslate"><span class="pre">sklearn</span></code><a class="headerlink" href="#support-vector-machine-in-sklearn" title="Permalink to this headline">#</a></h4>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">sklearn</span></code> provides several implementations for Support Vector Machines.</p></li>
 <li><p>Please see its documentation for more detail: <a class="reference external" href="https://scikit-learn.org/stable/modules/svm.html">Support Vector Machine</a></p></li>
@@ -1833,7 +1521,7 @@ Wall time: 1min 29s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.802
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.818
 </pre></div>
 </div>
 </div>
@@ -1848,7 +1536,11 @@ Wall time: 1min 29s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.784
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/alvinchen/opt/anaconda3/envs/python-notes-2023/lib/python3.9/site-packages/sklearn/svm/_classes.py:32: FutureWarning: The default value of `dual` will change from `True` to `&#39;auto&#39;` in 1.5. Set the value of `dual` explicitly to suppress the warning.
+  warnings.warn(
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.79
 </pre></div>
 </div>
 </div>
@@ -1863,16 +1555,16 @@ Wall time: 1min 29s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.796
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.804
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="remaining-issues">
-<h2><span class="section-number">2.8. </span>Remaining Issues<a class="headerlink" href="#remaining-issues" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+</section>
+<section id="remaining-issues">
+<h2><span class="section-number">2.8. </span>Remaining Issues<a class="headerlink" href="#remaining-issues" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Feature engineering is crucial to the process of machine learning.</p></li>
 <li><p>The quality of the text vectorization almost determines the classifier’s performance to a great deal.</p></li>
@@ -1880,15 +1572,15 @@ Wall time: 1min 29s
 <li><p>We need a more <strong>systematic</strong> way to find the optimal combinations of hyperparameters for a given ML algorithm.</p></li>
 <li><p>We will come back to issue when we talk about doing ML with <code class="docutils literal notranslate"><span class="pre">sklearn</span></code>.</p></li>
 </ul>
-</div>
-<div class="section" id="references">
-<h2><span class="section-number">2.9. </span>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="references">
+<h2><span class="section-number">2.9. </span>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>NLTK Book, <a class="reference external" href="https://www.nltk.org/book/ch06.html">Chapter 6 Learning to Classify Texts</a></p></li>
 <li><p>Géron (2019), Chapter 3 Classification</p></li>
 </ul>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1902,52 +1594,139 @@ Wall time: 1min 29s
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python-notes",
+            name: "python-notes-2023",
             path: "./nlp"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python-notes'</script>
+    <script>kernelName = 'python-notes-2023'</script>
 
-              </div>
+                </article>
               
-            
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="ml-overview.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title"><span class="section-number">1. </span>Machine Learning: Overview</p>
-        </div>
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ml-overview.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Machine Learning: Overview</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="ml-algorithm.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="ml-algorithm.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title"><span class="section-number">3. </span>Classification Models</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
-</div>
-            
-        </div>
-    </div>
-    <footer class="footer">
-  <p>
-    
-      By Alvin Chen<br/>
-    
-        &copy; Copyright 2020 Alvin Chen.<br/>
-  </p>
-</footer>
-</main>
-
-
       </div>
-    </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
   
-  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+</div>
 
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-quick-example-name-gender-prediction">2.1. A Quick Example: Name Gender Prediction</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-data">Prepare Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-engineering">Feature Engineering</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train-test-split">Train-Test Split</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train-the-model">Train the Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-prediction">Model Prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#post-hoc-analysis">Post-hoc Analysis</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-can-we-improve-the-model-classifier">2.2. How can we improve the model/classifier?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#more-sophisticated-feature-engineering">2.3. More Sophisticated Feature Engineering</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-development-test-data-splits-for-error-analysis">2.4. Train-Development-Test Data Splits for Error Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation">2.5. Evaluation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-validation">2.6. Cross Validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#try-different-machine-learning-algorithms">2.7. Try Different Machine Learning Algorithms</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#try-maxent-classifier">Try Maxent Classifier</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#try-decision-tree">Try Decision Tree</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#try-sklearn-classifiers">Try <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> Classifiers</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#naive-bayes-in-sklearn">Naive Bayes in <code class="docutils literal notranslate"><span class="pre">sklearn</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression-in-sklearn">Logistic Regression in <code class="docutils literal notranslate"><span class="pre">sklearn</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#support-vector-machine-in-sklearn">Support Vector Machine in <code class="docutils literal notranslate"><span class="pre">sklearn</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#remaining-issues">2.8. Remaining Issues</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">2.9. References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Alvin Chen
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2020 Alvin Chen.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>

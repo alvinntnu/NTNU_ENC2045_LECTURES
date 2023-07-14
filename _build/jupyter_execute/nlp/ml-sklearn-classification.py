@@ -314,7 +314,7 @@ model_svm.predict(new_review_bow)
 # In[28]:
 
 
-get_ipython().run_cell_magic('time', '', "\nfrom sklearn.model_selection import GridSearchCV\n\nparameters = {'kernel': ('linear', 'rbf'), 'C': (1,4,8,16,32)}\n\nsvc = svm.SVC()\nclf = GridSearchCV(svc, parameters, cv=10, n_jobs=-1) ## `-1` run in parallel\nclf.fit(X_train_bow, y_train)")
+get_ipython().run_cell_magic('time', '', "\nfrom sklearn.model_selection import GridSearchCV\n\nparameters = {'kernel': ('linear', 'rbf'), 'C': (1,4,8,16,32)}\n\nsvc = svm.SVC()\nclf = GridSearchCV(svc, parameters, cv=10, n_jobs=-1) ## `-1` run in parallel\nclf.fit(X_train_bow, y_train)\n")
 
 
 # - We can check the parameters that yield the most optimal results in the Grid Search:
@@ -461,7 +461,7 @@ get_ipython().run_line_magic('load_ext', 'rpy2.ipython')
 # In[39]:
 
 
-get_ipython().run_cell_magic('R', '-i feature_importance_df -w 6 -h 6 --units in -r 150', 'library(ggplot2)\nlibrary(dplyr)\n\nhead(feature_importance_df)\n\nfeature_importance_df %>%\n    ggplot(aes(reorder(FEATURE,IMPORTANCE), IMPORTANCE, fill=IMPORTANCE, color=SENTIMENT)) +\n     geom_bar(stat="identity") +\n     coord_flip() +\n     scale_fill_gradient2(guide=FALSE) +\n     labs(x=\'FEATURE\', x="IMPORTANCE", title="Most Important Features")')
+get_ipython().run_cell_magic('R', '-i feature_importance_df -w 6 -h 6 --units in -r 150', 'library(ggplot2)\nlibrary(dplyr)\n\nhead(feature_importance_df)\n\nfeature_importance_df %>%\n    ggplot(aes(reorder(FEATURE,IMPORTANCE), IMPORTANCE, fill=IMPORTANCE, color=SENTIMENT)) +\n     geom_bar(stat="identity") +\n     coord_flip() +\n     scale_fill_gradient2(guide=FALSE) +\n     labs(x=\'FEATURE\', x="IMPORTANCE", title="Most Important Features")\n')
 
 
 # ### Permutation Importances
@@ -487,7 +487,7 @@ get_ipython().run_cell_magic('R', '-i feature_importance_df -w 6 -h 6 --units in
 # In[40]:
 
 
-get_ipython().run_cell_magic('time', '', 'from sklearn.inspection import permutation_importance\nr = permutation_importance(model_lg, X_test_bow.toarray(), y_test,\n                           n_repeats=5,\n                           random_state=0, n_jobs=-1)')
+get_ipython().run_cell_magic('time', '', 'from sklearn.inspection import permutation_importance\nr = permutation_importance(model_lg, X_test_bow.toarray(), y_test,\n                           n_repeats=5,\n                           random_state=0, n_jobs=-1)\n')
 
 
 # In[41]:
@@ -532,6 +532,7 @@ import sklearn
 from sklearn.tree import plot_tree
 text_representation = sklearn.tree.export_text(model_dec, feature_names = tfidf_vec.get_feature_names())
 print(text_representation)
+
 
 
 

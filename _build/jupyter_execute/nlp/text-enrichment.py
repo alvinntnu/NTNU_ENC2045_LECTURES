@@ -142,7 +142,7 @@ with numpy.errstate(divide='ignore'):
 # In[12]:
 
 
-get_ipython().run_cell_magic('time', '', '\nfrom nltk.classify import MaxentClassifier\nmetagger = ClassifierBasedPOSTagger(train=train_sents,\n                                   classifier_builder=MaxentClassifier.train)\nmetagger.evaluate(test_sents)')
+get_ipython().run_cell_magic('time', '', '\nfrom nltk.classify import MaxentClassifier\nmetagger = ClassifierBasedPOSTagger(train=train_sents,\n                                   classifier_builder=MaxentClassifier.train)\nmetagger.evaluate(test_sents)\n')
 
 
 # - Classifier-based with Cut-off Probability
