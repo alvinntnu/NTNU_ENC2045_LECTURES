@@ -1,38 +1,46 @@
 
+
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>2. Sequence Model with Attention for Addition Learning &#8212; ENC2045 Computational Linguistics</title>
-    
-  <link href="../_static/css/theme.css" rel="stylesheet">
-  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mycss.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
-    
-  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -40,13 +48,14 @@
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -55,811 +64,398 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'nlp/dl-seq-to-seq-attention-addition';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="3. Sentiment Classification with Transformer (Self-Study)" href="dl-transformers-keras.html" />
     <link rel="prev" title="1. Attention and Transformers: Intuitions" href="dl-attention-transformer-intuition.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
-
-    <div class="container-xl">
-      <div class="row">
-          
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+      <div class="bd-sidebar-primary bd-sidebar">
         
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+    
+    
       
-      
-      <img src="../_static/ntnu-word-2.png" class="logo" alt="logo">
-      
-      
-      <h1 class="site-logo" id="site-title">ENC2045 Computational Linguistics</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  INTRODUCTION
- </span>
-</p>
+    
+    
+    <img src="../_static/ntnu-word-2.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/ntnu-word-2.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">INTRODUCTION</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="nlp-primer.html">
-   Natural Language Processing: A Primer
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="nlp-pipeline.html">
-   NLP Pipeline
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="nlp-primer.html">Natural Language Processing: A Primer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nlp-pipeline.html">NLP Pipeline</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Preprocessing
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Preprocessing</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="text-preprocessing.html">
-   Text Preprocessing
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
-  <label for="toctree-checkbox-1">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="text-normalization-eng.html">
-     Text Normalization
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="text-tokenization.html">
-     Text Tokenization
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="text-enrichment.html">
-     Text Enrichment
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="chinese-word-seg.html">
-     Chinese Word Segmentation
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="google-colab.html">
-     Google Colab
-    </a>
-   </li>
-  </ul>
- </li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="text-preprocessing.html">Text Preprocessing</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="text-normalization-eng.html">Text Normalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="text-tokenization.html">Text Tokenization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="text-enrichment.html">Text Enrichment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chinese-word-seg.html">Chinese Word Segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="google-colab.html">Google Colab</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Text Vectorization
- </span>
-</p>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Text Vectorization</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="text-vec-traditional.html">
-   Text Vectorization Using Traditional Methods
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="text-vec-traditional.html">Text Vectorization Using Traditional Methods</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Machine Learning Basics
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning Basics</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="ml-overview.html">
-   1. Machine Learning: Overview
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="ml-simple-case.html">
-   2. Machine Learning: A Simple Example
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="ml-algorithm.html">
-   3. Classification Models
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="ml-overview.html">1. Machine Learning: Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ml-simple-case.html">2. Machine Learning: A Simple Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ml-algorithm.html">3. Classification Models</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Machine-Learning NLP
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine-Learning NLP</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="ml-sklearn-classification.html">
-   1. Sentiment Analysis Using Bag-of-Words
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="topic-modeling-naive.html">
-   2. Topic Modeling: A Naive Example
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="ml-sklearn-classification.html">1. Sentiment Analysis Using Bag-of-Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topic-modeling-naive.html">2. Topic Modeling: A Naive Example</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Deep Learning NLP
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning NLP</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-neural-network-from-scratch.html">
-   1. Neural Network From Scratch
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-simple-case.html">
-   2. Deep Learning: A Simple Example
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-sentiment-case.html">
-   3. Deep Learning: Sentiment Analysis
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="dl-neural-network-from-scratch.html">1. Neural Network From Scratch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-simple-case.html">2. Deep Learning: A Simple Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-sentiment-case.html">3. Deep Learning: Sentiment Analysis</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Neural Language Model and Embeddings
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Neural Language Model and Embeddings</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-sequence-models-intuition.html">
-   1. Sequence Models Intuition
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-neural-language-model-primer.html">
-   2. Neural Language Model: A Start
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="text-vec-embedding.html">
-   3. Word Embeddings
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="dl-sequence-models-intuition.html">1. Sequence Models Intuition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-neural-language-model-primer.html">2. Neural Language Model: A Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="text-vec-embedding.html">3. Word Embeddings</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Seq2Seq, Attention, Transformers, and Transfer Learning
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Seq2Seq, Attention, Transformers, and Transfer Learning</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-attention-transformer-intuition.html">
-   1. Attention and Transformers: Intuitions
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   2. Sequence Model with Attention for Addition Learning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-transformers-keras.html">
-   3. Sentiment Classification with Transformer (Self-Study)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="sentiment-analysis-using-bert-keras-movie-reviews.html">
-   4. Transfer Learning With BERT (Self-Study)
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="dl-attention-transformer-intuition.html">1. Attention and Transformers: Intuitions</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. Sequence Model with Attention for Addition Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-transformers-keras.html">3. Sentiment Classification with Transformer (Self-Study)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sentiment-analysis-using-bert-keras-movie-reviews.html">4. Transfer Learning With BERT (Self-Study)</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Exercises
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Exercises</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/1-python-basics.html">
-   Assignment I: Python Basics
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/2-journal-review.html">
-   Assignment II: Journal Articles Review
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/3-preprocessing.html">
-   Assignment III: Preprocessing
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/4-chinese-nlp.html">
-   Assignment IV: Chinese Language Processing
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/5-text-vectorization.html">
-   Assignment V: Text Vectorization
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/6-machine-learning.html">
-   Assignment VI: Machine Learning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/7-topic-modeling.html">
-   Assignment VII: Topic Modeling
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/8-dl-chinese-name-gender.html">
-   Assignment VIII: Deep Learning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/9-sentiment-analysis-dl.html">
-   Assignment IX: Sentiment Analysis Using Deep Learning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/10-neural-language-model.html">
-   Assignment X: Neural Language Model
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/11-word2vec.html">
-   Assignment XI: Word Embeddings
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/12-encoder-decoder.html">
-   Assignment XII: Encoder-Decoder Sequence Models
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/13-attention.html">
-   Assignment XIII: Attention
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../temp/final-project.html">
-   Final Exam
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/1-python-basics.html">Assignment I: Python Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/2-journal-review.html">Assignment II: Journal Articles Review</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/3-preprocessing.html">Assignment III: Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/4-chinese-nlp.html">Assignment IV: Chinese Language Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/5-text-vectorization.html">Assignment V: Text Vectorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/6-machine-learning.html">Assignment VI: Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/7-topic-modeling.html">Assignment VII: Topic Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/8-dl-chinese-name-gender.html">Assignment VIII: Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/9-sentiment-analysis-dl.html">Assignment IX: Sentiment Analysis Using Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/10-neural-language-model.html">Assignment X: Neural Language Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/11-word2vec.html">Assignment XI: Word Embeddings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/12-encoder-decoder.html">Assignment XII: Encoder-Decoder Sequence Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/13-attention.html">Assignment XIII: Attention</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../temp/final-project.html">Final Exam</a></li>
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  <div style="text-align:center">
-<i class="fas fa-chalkboard-teacher fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinntnu.github.io/NTNU_ENC2045/" target='_blank'>ENC2045 Course Website</a><br>
-<i class="fas fa-home fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinchen.myftp.org/" target='_blank'>Alvin Chen's Homepage</a>
-</div>
-
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/nlp/dl-seq-to-seq-attention-addition.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+</nav></div>
     </div>
-</div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
 
-            <!-- Source interaction buttons -->
 
-            <!-- Full screen (wrap in <a> to have style consistency -->
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
 
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
+<div class="sbt-scroll-pixel-helper"></div>
 
-            <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/alvinntnu/NTNU_ENC2045_LECTURES/main?urlpath=tree/nlp/dl-seq-to-seq-attention-addition.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="../_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        <a class="colab-button" href="https://colab.research.google.com/github/alvinntnu/NTNU_ENC2045_LECTURES/blob/main/nlp/dl-seq-to-seq-attention-addition.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
-                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
-                    src="../_static/images/logo_colab.png"
-                    alt="Interact on Colab">Colab</button></a>
-        
-        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
     </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/alvinntnu/NTNU_ENC2045_LECTURES/blob/main/nlp/dl-seq-to-seq-attention-addition.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
 </div>
 
-        </div>
 
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/nlp/dl-seq-to-seq-attention-addition.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Sequence Model with Attention for Addition Learning</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
             
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div>
+                <h2> Contents </h2>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
+            <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#set-up-dependencies">
-   2.1. Set up Dependencies
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#deep-learning-hyperparameters">
-   2.2. Deep Learning Hyperparameters
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#data">
-   2.3. Data
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#train-test-split">
-   2.4. Train-Test Split
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#data-preprocessing">
-   2.5. Data Preprocessing
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#text-to-sequences">
-     Text to Sequences
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#special-considerations-for-decoder-s-input-and-output">
-     Special Considerations for Decoder’s Input and Output
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#sequences-to-one-hot-encoding">
-     Sequences to One-Hot Encoding
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#token-indices">
-     Token Indices
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#model-training">
-   2.6. Model Training
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#model-1-vanilla-rnn">
-   2.7. Model 1 (Vanilla RNN)
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#define-model">
-     Define Model
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#training">
-     Training
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#model-2-gru">
-   2.8. Model 2 (GRU)
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id1">
-     Define Model
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id2">
-     Training
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#model-3-birdirectional">
-   2.9. Model 3 (Birdirectional)
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id3">
-     Define Model
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id4">
-     Training
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#model-4-peeky-decoder">
-   2.10. Model 4 (Peeky Decoder)
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id5">
-     Define Model
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id6">
-     Training
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#model-5-attention">
-   2.11. Model 5 (Attention)
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id7">
-     Define Model
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id8">
-     Training
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#save-models">
-   2.12. Save Models
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#interim-comparison">
-   2.13. Interim Comparison
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#attention-model-analysis">
-   2.14. Attention Model Analysis
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#inference">
-   2.15. Inference
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#inference-encoder">
-     Inference Encoder
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#inference-decoder">
-     Inference Decoder
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#decoding-input-sequences">
-     Decoding Input Sequences
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#plotting-attention">
-   2.16. Plotting Attention
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#evaluation-on-testing-data">
-   2.17. Evaluation on Testing Data
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#references">
-   2.18. References
-  </a>
- </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-dependencies">2.1. Set up Dependencies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-learning-hyperparameters">2.2. Deep Learning Hyperparameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data">2.3. Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-test-split">2.4. Train-Test Split</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preprocessing">2.5. Data Preprocessing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#text-to-sequences">Text to Sequences</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#special-considerations-for-decoder-s-input-and-output">Special Considerations for Decoder’s Input and Output</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sequences-to-one-hot-encoding">Sequences to One-Hot Encoding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#token-indices">Token Indices</a></li>
 </ul>
-
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-training">2.6. Model Training</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-1-vanilla-rnn">2.7. Model 1 (Vanilla RNN)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#define-model">Define Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training">Training</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-2-gru">2.8. Model 2 (GRU)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Define Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Training</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-3-birdirectional">2.9. Model 3 (Birdirectional)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Define Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Training</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-4-peeky-decoder">2.10. Model 4 (Peeky Decoder)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Define Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Training</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-5-attention">2.11. Model 5 (Attention)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Define Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Training</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#save-models">2.12. Save Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interim-comparison">2.13. Interim Comparison</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attention-model-analysis">2.14. Attention Model Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inference">2.15. Inference</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inference-encoder">Inference Encoder</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inference-decoder">Inference Decoder</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#decoding-input-sequences">Decoding Input Sequences</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-attention">2.16. Plotting Attention</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-on-testing-data">2.17. Evaluation on Testing Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">2.18. References</a></li>
+</ul>
             </nav>
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Sequence Model with Attention for Addition Learning</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#set-up-dependencies">
-   2.1. Set up Dependencies
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#deep-learning-hyperparameters">
-   2.2. Deep Learning Hyperparameters
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#data">
-   2.3. Data
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#train-test-split">
-   2.4. Train-Test Split
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#data-preprocessing">
-   2.5. Data Preprocessing
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#text-to-sequences">
-     Text to Sequences
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#special-considerations-for-decoder-s-input-and-output">
-     Special Considerations for Decoder’s Input and Output
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#sequences-to-one-hot-encoding">
-     Sequences to One-Hot Encoding
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#token-indices">
-     Token Indices
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#model-training">
-   2.6. Model Training
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#model-1-vanilla-rnn">
-   2.7. Model 1 (Vanilla RNN)
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#define-model">
-     Define Model
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#training">
-     Training
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#model-2-gru">
-   2.8. Model 2 (GRU)
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id1">
-     Define Model
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id2">
-     Training
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#model-3-birdirectional">
-   2.9. Model 3 (Birdirectional)
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id3">
-     Define Model
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id4">
-     Training
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#model-4-peeky-decoder">
-   2.10. Model 4 (Peeky Decoder)
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id5">
-     Define Model
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id6">
-     Training
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#model-5-attention">
-   2.11. Model 5 (Attention)
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id7">
-     Define Model
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id8">
-     Training
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#save-models">
-   2.12. Save Models
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#interim-comparison">
-   2.13. Interim Comparison
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#attention-model-analysis">
-   2.14. Attention Model Analysis
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#inference">
-   2.15. Inference
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#inference-encoder">
-     Inference Encoder
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#inference-decoder">
-     Inference Decoder
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#decoding-input-sequences">
-     Decoding Input Sequences
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#plotting-attention">
-   2.16. Plotting Attention
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#evaluation-on-testing-data">
-   2.17. Evaluation on Testing Data
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#references">
-   2.18. References
-  </a>
- </li>
-</ul>
 
-                        </nav>
-                    </div>
-                </div>
-            </div>
-            
-              <div>
+              
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="sequence-model-with-attention-for-addition-learning">
-<h1><span class="section-number">2. </span>Sequence Model with Attention for Addition Learning<a class="headerlink" href="#sequence-model-with-attention-for-addition-learning" title="Permalink to this headline">¶</a></h1>
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="sequence-model-with-attention-for-addition-learning">
+<h1><span class="section-number">2. </span>Sequence Model with Attention for Addition Learning<a class="headerlink" href="#sequence-model-with-attention-for-addition-learning" title="Permalink to this headline">#</a></h1>
 <ul class="simple">
 <li><p>In this unit, we will practice on the sequence-to-sequence model using a naive example of numbers addition.</p></li>
 <li><p>The inputs are sequences of two numbers adding together (e.g., 123+23); the outputs are the correct answers, i.e., the sum of the two numbers (i.e., 125).</p></li>
@@ -874,8 +470,8 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 </li>
 </ul>
-<div class="section" id="set-up-dependencies">
-<h2><span class="section-number">2.1. </span>Set up Dependencies<a class="headerlink" href="#set-up-dependencies" title="Permalink to this headline">¶</a></h2>
+<section id="set-up-dependencies">
+<h2><span class="section-number">2.1. </span>Set up Dependencies<a class="headerlink" href="#set-up-dependencies" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
@@ -918,9 +514,9 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="deep-learning-hyperparameters">
-<h2><span class="section-number">2.2. </span>Deep Learning Hyperparameters<a class="headerlink" href="#deep-learning-hyperparameters" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="deep-learning-hyperparameters">
+<h2><span class="section-number">2.2. </span>Deep Learning Hyperparameters<a class="headerlink" href="#deep-learning-hyperparameters" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">128</span>  <span class="c1"># Batch size for training.</span>
@@ -930,9 +526,9 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="data">
-<h2><span class="section-number">2.3. </span>Data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="data">
+<h2><span class="section-number">2.3. </span>Data<a class="headerlink" href="#data" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Please download the data set from <code class="docutils literal notranslate"><span class="pre">demo_data/addition-student-version.csv</span></code>, where each line is a training sample, consisting of the input sequence (e.g., <code class="docutils literal notranslate"><span class="pre">16+75</span></code>) and the target sequence (e.g., <code class="docutils literal notranslate"><span class="pre">91</span></code>) separated by a comma.</p></li>
 <li><p>We load the data and add initial and ending token to all the target sequences (<code class="docutils literal notranslate"><span class="pre">_</span></code>).</p></li>
@@ -970,9 +566,9 @@ Data Size: 50000
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="train-test-split">
-<h2><span class="section-number">2.4. </span>Train-Test Split<a class="headerlink" href="#train-test-split" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="train-test-split">
+<h2><span class="section-number">2.4. </span>Train-Test Split<a class="headerlink" href="#train-test-split" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_test_ratio</span> <span class="o">=</span> <span class="mf">0.9</span>
@@ -1047,12 +643,12 @@ Number of Samples in Testing: 5000
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="data-preprocessing">
-<h2><span class="section-number">2.5. </span>Data Preprocessing<a class="headerlink" href="#data-preprocessing" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="data-preprocessing">
+<h2><span class="section-number">2.5. </span>Data Preprocessing<a class="headerlink" href="#data-preprocessing" title="Permalink to this headline">#</a></h2>
 <p><img alt="" src="../_images/text-seq-onehot-embedding.jpeg" /></p>
-<div class="section" id="text-to-sequences">
-<h3>Text to Sequences<a class="headerlink" href="#text-to-sequences" title="Permalink to this headline">¶</a></h3>
+<section id="text-to-sequences">
+<h3>Text to Sequences<a class="headerlink" href="#text-to-sequences" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Tokenization of input and target texts invovles the following important steps:</p>
 <ul>
@@ -1206,9 +802,9 @@ Number of Samples in Testing: 5000
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="special-considerations-for-decoder-s-input-and-output">
-<h3>Special Considerations for Decoder’s Input and Output<a class="headerlink" href="#special-considerations-for-decoder-s-input-and-output" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="special-considerations-for-decoder-s-input-and-output">
+<h3>Special Considerations for Decoder’s Input and Output<a class="headerlink" href="#special-considerations-for-decoder-s-input-and-output" title="Permalink to this headline">#</a></h3>
 <p><img alt="" src="../_images/seq2seq-vanilla-rnn.jpeg" /></p>
 <ul class="simple">
 <li><p>In the training stage, we give the Decoder the correct target sequences for <strong>teacher forcing</strong>.</p></li>
@@ -1243,9 +839,9 @@ Number of Samples in Testing: 5000
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="sequences-to-one-hot-encoding">
-<h3>Sequences to One-Hot Encoding<a class="headerlink" href="#sequences-to-one-hot-encoding" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="sequences-to-one-hot-encoding">
+<h3>Sequences to One-Hot Encoding<a class="headerlink" href="#sequences-to-one-hot-encoding" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>To simplify the matter, we convert each sequence/integer token into one-hot encoding, which will be the input of the Encoder directly.</p></li>
 <li><p>Normally we would add an Embedding layer to convert sequence tokens to embeddings before sending them to the Encoder.</p></li>
@@ -1302,9 +898,9 @@ Number of Samples in Testing: 5000
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="token-indices">
-<h3>Token Indices<a class="headerlink" href="#token-indices" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="token-indices">
+<h3>Token Indices<a class="headerlink" href="#token-indices" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>We create the integer-to-character dictionaries for later use.</p></li>
 <li><p>Two dictionaries, one for the input sequence and one for the target sequence.</p></li>
@@ -1407,10 +1003,10 @@ Number of Samples in Testing: 5000
 </div>
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="model-training">
-<h2><span class="section-number">2.6. </span>Model Training<a class="headerlink" href="#model-training" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="model-training">
+<h2><span class="section-number">2.6. </span>Model Training<a class="headerlink" href="#model-training" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Define the model architecture</p></li>
 <li><p>Train the model</p></li>
@@ -1437,12 +1033,12 @@ Number of Samples in Testing: 5000
 </ul>
 </li>
 </ul>
-</div>
-<div class="section" id="model-1-vanilla-rnn">
-<h2><span class="section-number">2.7. </span>Model 1 (Vanilla RNN)<a class="headerlink" href="#model-1-vanilla-rnn" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="model-1-vanilla-rnn">
+<h2><span class="section-number">2.7. </span>Model 1 (Vanilla RNN)<a class="headerlink" href="#model-1-vanilla-rnn" title="Permalink to this headline">#</a></h2>
 <p><img alt="" src="../_images/seq2seq-vanilla-rnn.jpeg" /></p>
-<div class="section" id="define-model">
-<h3>Define Model<a class="headerlink" href="#define-model" title="Permalink to this headline">¶</a></h3>
+<section id="define-model">
+<h3>Define Model<a class="headerlink" href="#define-model" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Important Highlights:</p>
 <ul>
@@ -1523,14 +1119,14 @@ ________________________________________________________________________________
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-seq-to-seq-attention-addition_51_0.png" src="../_images/dl-seq-to-seq-attention-addition_51_0.png" />
+<img alt="../_images/82c2f9f865f79006f50dd160a57edcd6814dca022566c3700398f58e20174586.png" src="../_images/82c2f9f865f79006f50dd160a57edcd6814dca022566c3700398f58e20174586.png" />
 </div>
 </div>
-</div>
-<div class="section" id="training">
-<h3>Training<a class="headerlink" href="#training" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="training">
+<h3>Training<a class="headerlink" href="#training" title="Permalink to this headline">#</a></h3>
 <div class="cell tag_hide-output docutils container">
-<div class="cell_input docutils container">
+<div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run training</span>
 <span class="n">full_model1</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>
                     <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">,</span>
@@ -1543,6 +1139,11 @@ ________________________________________________________________________________
 </pre></div>
 </div>
 </div>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/30
 282/282 [==============================] - 6s 18ms/step - loss: 1.4381 - accuracy: 0.4772 - val_loss: 1.2027 - val_accuracy: 0.5463
@@ -1607,13 +1208,14 @@ Epoch 30/30
 </pre></div>
 </div>
 </div>
+</details>
 </div>
-</div>
-</div>
-<div class="section" id="model-2-gru">
-<h2><span class="section-number">2.8. </span>Model 2 (GRU)<a class="headerlink" href="#model-2-gru" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id1">
-<h3>Define Model<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="model-2-gru">
+<h2><span class="section-number">2.8. </span>Model 2 (GRU)<a class="headerlink" href="#model-2-gru" title="Permalink to this headline">#</a></h2>
+<section id="id1">
+<h3>Define Model<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Important highlights:</p>
 <ul>
@@ -1691,14 +1293,14 @@ ________________________________________________________________________________
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-seq-to-seq-attention-addition_57_0.png" src="../_images/dl-seq-to-seq-attention-addition_57_0.png" />
+<img alt="../_images/7f579aea7cf54f19d47f9fdf62278664210def44847756a1252b64b18c51dc99.png" src="../_images/7f579aea7cf54f19d47f9fdf62278664210def44847756a1252b64b18c51dc99.png" />
 </div>
 </div>
-</div>
-<div class="section" id="id2">
-<h3>Training<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id2">
+<h3>Training<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
 <div class="cell tag_hide-output docutils container">
-<div class="cell_input docutils container">
+<div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run training</span>
 <span class="n">full_model2</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>
                     <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">,</span>
@@ -1711,6 +1313,11 @@ ________________________________________________________________________________
 </pre></div>
 </div>
 </div>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/30
 282/282 [==============================] - 15s 41ms/step - loss: 1.6741 - accuracy: 0.4298 - val_loss: 1.3807 - val_accuracy: 0.4797
@@ -1775,14 +1382,15 @@ Epoch 30/30
 </pre></div>
 </div>
 </div>
+</details>
 </div>
-</div>
-</div>
-<div class="section" id="model-3-birdirectional">
-<h2><span class="section-number">2.9. </span>Model 3 (Birdirectional)<a class="headerlink" href="#model-3-birdirectional" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="model-3-birdirectional">
+<h2><span class="section-number">2.9. </span>Model 3 (Birdirectional)<a class="headerlink" href="#model-3-birdirectional" title="Permalink to this headline">#</a></h2>
 <p><img alt="" src="../_images/seq2seq-bidirectional.jpeg" /></p>
-<div class="section" id="id3">
-<h3>Define Model<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<section id="id3">
+<h3>Define Model<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Important highlights:</p>
 <ul>
@@ -1865,14 +1473,14 @@ ________________________________________________________________________________
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-seq-to-seq-attention-addition_64_0.png" src="../_images/dl-seq-to-seq-attention-addition_64_0.png" />
+<img alt="../_images/78a14d31602929b0032e115d8ebb7b0525287389de4d900cf6f24dfb837ec94d.png" src="../_images/78a14d31602929b0032e115d8ebb7b0525287389de4d900cf6f24dfb837ec94d.png" />
 </div>
 </div>
-</div>
-<div class="section" id="id4">
-<h3>Training<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id4">
+<h3>Training<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h3>
 <div class="cell tag_hide-output docutils container">
-<div class="cell_input docutils container">
+<div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run training</span>
 <span class="n">full_model3</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>
                     <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">,</span>
@@ -1885,6 +1493,11 @@ ________________________________________________________________________________
 </pre></div>
 </div>
 </div>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/30
 282/282 [==============================] - 33s 103ms/step - loss: 1.6079 - accuracy: 0.4403 - val_loss: 1.3156 - val_accuracy: 0.5128
@@ -1949,14 +1562,15 @@ Epoch 30/30
 </pre></div>
 </div>
 </div>
+</details>
 </div>
-</div>
-</div>
-<div class="section" id="model-4-peeky-decoder">
-<h2><span class="section-number">2.10. </span>Model 4 (Peeky Decoder)<a class="headerlink" href="#model-4-peeky-decoder" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="model-4-peeky-decoder">
+<h2><span class="section-number">2.10. </span>Model 4 (Peeky Decoder)<a class="headerlink" href="#model-4-peeky-decoder" title="Permalink to this headline">#</a></h2>
 <p><img alt="" src="../_images/seq2seq-peeky.jpeg" /></p>
-<div class="section" id="id5">
-<h3>Define Model<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<section id="id5">
+<h3>Define Model<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Important highlights:</p>
 <ul>
@@ -2051,14 +1665,14 @@ ________________________________________________________________________________
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-seq-to-seq-attention-addition_71_0.png" src="../_images/dl-seq-to-seq-attention-addition_71_0.png" />
+<img alt="../_images/762645d79cc242050d7c8356d4f87bd9e29a8802a5d164553bd9824841e28857.png" src="../_images/762645d79cc242050d7c8356d4f87bd9e29a8802a5d164553bd9824841e28857.png" />
 </div>
 </div>
-</div>
-<div class="section" id="id6">
-<h3>Training<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id6">
+<h3>Training<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h3>
 <div class="cell tag_hide-output docutils container">
-<div class="cell_input docutils container">
+<div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run training</span>
 <span class="n">full_model4</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>
                     <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">,</span>
@@ -2071,6 +1685,11 @@ ________________________________________________________________________________
 </pre></div>
 </div>
 </div>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/30
 282/282 [==============================] - 50s 162ms/step - loss: 1.5986 - accuracy: 0.4271 - val_loss: 1.2786 - val_accuracy: 0.5222
@@ -2135,13 +1754,14 @@ Epoch 30/30
 </pre></div>
 </div>
 </div>
+</details>
 </div>
-</div>
-</div>
-<div class="section" id="model-5-attention">
-<h2><span class="section-number">2.11. </span>Model 5 (Attention)<a class="headerlink" href="#model-5-attention" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id7">
-<h3>Define Model<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="model-5-attention">
+<h2><span class="section-number">2.11. </span>Model 5 (Attention)<a class="headerlink" href="#model-5-attention" title="Permalink to this headline">#</a></h2>
+<section id="id7">
+<h3>Define Model<a class="headerlink" href="#id7" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Important highlights:</p>
 <ul>
@@ -2237,14 +1857,14 @@ ________________________________________________________________________________
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-seq-to-seq-attention-addition_78_0.png" src="../_images/dl-seq-to-seq-attention-addition_78_0.png" />
+<img alt="../_images/1380877a6a8bf55eeb114fe372b41dd01257b5efa8a03908a29d1c9a6e3b4152.png" src="../_images/1380877a6a8bf55eeb114fe372b41dd01257b5efa8a03908a29d1c9a6e3b4152.png" />
 </div>
 </div>
-</div>
-<div class="section" id="id8">
-<h3>Training<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id8">
+<h3>Training<a class="headerlink" href="#id8" title="Permalink to this headline">#</a></h3>
 <div class="cell tag_hide-output docutils container">
-<div class="cell_input docutils container">
+<div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run training</span>
 <span class="n">full_model5</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>
                     <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">,</span>
@@ -2257,6 +1877,11 @@ ________________________________________________________________________________
 </pre></div>
 </div>
 </div>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/30
 282/282 [==============================] - 15s 42ms/step - loss: 1.6877 - accuracy: 0.4021 - val_loss: 1.3822 - val_accuracy: 0.4808
@@ -2321,6 +1946,7 @@ Epoch 30/30
 </pre></div>
 </div>
 </div>
+</details>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2329,7 +1955,7 @@ Epoch 30/30
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-seq-to-seq-attention-addition_81_0.png" src="../_images/dl-seq-to-seq-attention-addition_81_0.png" />
+<img alt="../_images/1380877a6a8bf55eeb114fe372b41dd01257b5efa8a03908a29d1c9a6e3b4152.png" src="../_images/1380877a6a8bf55eeb114fe372b41dd01257b5efa8a03908a29d1c9a6e3b4152.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -2339,14 +1965,14 @@ Epoch 30/30
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-seq-to-seq-attention-addition_82_0.png" src="../_images/dl-seq-to-seq-attention-addition_82_0.png" />
-<img alt="../_images/dl-seq-to-seq-attention-addition_82_1.png" src="../_images/dl-seq-to-seq-attention-addition_82_1.png" />
+<img alt="../_images/c3fe4a5c07ae3d3d1a63dd9cb841f4351a95e2c7c4a9c78fa851369b4422a372.png" src="../_images/c3fe4a5c07ae3d3d1a63dd9cb841f4351a95e2c7c4a9c78fa851369b4422a372.png" />
+<img alt="../_images/57fe22941736e95cf81e6817fe1a633968551279f3567877b4e30ebcb5e38402.png" src="../_images/57fe22941736e95cf81e6817fe1a633968551279f3567877b4e30ebcb5e38402.png" />
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="save-models">
-<h2><span class="section-number">2.12. </span>Save Models<a class="headerlink" href="#save-models" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="save-models">
+<h2><span class="section-number">2.12. </span>Save Models<a class="headerlink" href="#save-models" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># # Save model</span>
@@ -2355,9 +1981,9 @@ Epoch 30/30
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="interim-comparison">
-<h2><span class="section-number">2.13. </span>Interim Comparison<a class="headerlink" href="#interim-comparison" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="interim-comparison">
+<h2><span class="section-number">2.13. </span>Interim Comparison<a class="headerlink" href="#interim-comparison" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">history</span> <span class="o">=</span> <span class="p">[</span><span class="n">history1</span><span class="p">,</span> <span class="n">history2</span><span class="p">,</span> <span class="n">history3</span><span class="p">,</span> <span class="n">history4</span><span class="p">,</span> <span class="n">history5</span><span class="p">]</span>
@@ -2402,7 +2028,7 @@ Epoch 30/30
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-seq-to-seq-attention-addition_88_0.png" src="../_images/dl-seq-to-seq-attention-addition_88_0.png" />
+<img alt="../_images/68f9c37e51803dc5dd9fa4040ea1420b4f0911336935183d0b11bce4d0c82650.png" src="../_images/68f9c37e51803dc5dd9fa4040ea1420b4f0911336935183d0b11bce4d0c82650.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -2428,12 +2054,12 @@ Epoch 30/30
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-seq-to-seq-attention-addition_89_0.png" src="../_images/dl-seq-to-seq-attention-addition_89_0.png" />
+<img alt="../_images/8ea0b9998141f0eca677de08efcf856c942f6e43badb5fa883f463f2c76b1f84.png" src="../_images/8ea0b9998141f0eca677de08efcf856c942f6e43badb5fa883f463f2c76b1f84.png" />
 </div>
 </div>
-</div>
-<div class="section" id="attention-model-analysis">
-<h2><span class="section-number">2.14. </span>Attention Model Analysis<a class="headerlink" href="#attention-model-analysis" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="attention-model-analysis">
+<h2><span class="section-number">2.14. </span>Attention Model Analysis<a class="headerlink" href="#attention-model-analysis" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ## If the model is loaded via external files</span>
@@ -2455,9 +2081,9 @@ Epoch 30/30
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="inference">
-<h2><span class="section-number">2.15. </span>Inference<a class="headerlink" href="#inference" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="inference">
+<h2><span class="section-number">2.15. </span>Inference<a class="headerlink" href="#inference" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>At the inference stage, we use the trained model to decode input sequences.</p></li>
 <li><p>In decoding, it should be noted that Decoder would decode one word at a time.</p></li>
@@ -2499,8 +2125,8 @@ ________________________________________________________________________________
 </div>
 </div>
 </div>
-<div class="section" id="inference-encoder">
-<h3>Inference Encoder<a class="headerlink" href="#inference-encoder" title="Permalink to this headline">¶</a></h3>
+<section id="inference-encoder">
+<h3>Inference Encoder<a class="headerlink" href="#inference-encoder" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Inference-Encoder</span>
@@ -2519,12 +2145,12 @@ ________________________________________________________________________________
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-seq-to-seq-attention-addition_97_0.png" src="../_images/dl-seq-to-seq-attention-addition_97_0.png" />
+<img alt="../_images/7747642379b4875d8b5cf75acf42040141d91984d733e5a904cdd584e5aa360f.png" src="../_images/7747642379b4875d8b5cf75acf42040141d91984d733e5a904cdd584e5aa360f.png" />
 </div>
 </div>
-</div>
-<div class="section" id="inference-decoder">
-<h3>Inference Decoder<a class="headerlink" href="#inference-decoder" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="inference-decoder">
+<h3>Inference Decoder<a class="headerlink" href="#inference-decoder" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Inference-Decoder requires two inputs:</p>
 <ul>
@@ -2591,12 +2217,12 @@ ________________________________________________________________________________
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-seq-to-seq-attention-addition_100_0.png" src="../_images/dl-seq-to-seq-attention-addition_100_0.png" />
+<img alt="../_images/d0d3d34e8ccd067670bb299fb9aaa4db999114250656d67844a1d05680fd4e86.png" src="../_images/d0d3d34e8ccd067670bb299fb9aaa4db999114250656d67844a1d05680fd4e86.png" />
 </div>
 </div>
-</div>
-<div class="section" id="decoding-input-sequences">
-<h3>Decoding Input Sequences<a class="headerlink" href="#decoding-input-sequences" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="decoding-input-sequences">
+<h3>Decoding Input Sequences<a class="headerlink" href="#decoding-input-sequences" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>The Inference-Encoder processes the tokens of input sequences to get (a) all hidden states, and (b) the last hidden state.</p></li>
 <li><p>The Inference-Decoder uses the Inference-Encoder’s last hidden state as the initial hidden state.</p></li>
@@ -2742,10 +2368,10 @@ Decoded sentence: 744_
 </div>
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="plotting-attention">
-<h2><span class="section-number">2.16. </span>Plotting Attention<a class="headerlink" href="#plotting-attention" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="plotting-attention">
+<h2><span class="section-number">2.16. </span>Plotting Attention<a class="headerlink" href="#plotting-attention" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ind</span> <span class="o">=</span> <span class="mi">1</span>
@@ -2779,12 +2405,12 @@ Decoded sentence: 744_
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dl-seq-to-seq-attention-addition_106_0.png" src="../_images/dl-seq-to-seq-attention-addition_106_0.png" />
+<img alt="../_images/3da6f8ec8d6546d9e511fc24d1e31c80f056cb289d9a9949b91a9fd278383598.png" src="../_images/3da6f8ec8d6546d9e511fc24d1e31c80f056cb289d9a9949b91a9fd278383598.png" />
 </div>
 </div>
-</div>
-<div class="section" id="evaluation-on-testing-data">
-<h2><span class="section-number">2.17. </span>Evaluation on Testing Data<a class="headerlink" href="#evaluation-on-testing-data" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="evaluation-on-testing-data">
+<h2><span class="section-number">2.17. </span>Evaluation on Testing Data<a class="headerlink" href="#evaluation-on-testing-data" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Wrap text vectorization in a function.</p></li>
 <li><p>Vectorize the testing data in the same way as the training data</p>
@@ -2853,14 +2479,14 @@ Decoded sentence: 744_
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="references">
-<h2><span class="section-number">2.18. </span>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="references">
+<h2><span class="section-number">2.18. </span>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>This unit is based on Chapter 7 of <a class="reference external" href="https://www.tenlong.com.tw/products/9789865020675">Deep Learning 2用 Python 進行自然語言處理的基礎理論實作</a> and the original dataset is provided in the book and modified for this unit.</p></li>
 </ul>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -2874,7 +2500,7 @@ Decoded sentence: 744_
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python-notes",
+            name: "python-notes",
             path: "./nlp"
         },
         predefinedOutput: true
@@ -2882,44 +2508,153 @@ Decoded sentence: 744_
     </script>
     <script>kernelName = 'python-notes'</script>
 
-              </div>
+                </article>
               
-            
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="dl-attention-transformer-intuition.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title"><span class="section-number">1. </span>Attention and Transformers: Intuitions</p>
-        </div>
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="dl-attention-transformer-intuition.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Attention and Transformers: Intuitions</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="dl-transformers-keras.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="dl-transformers-keras.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title"><span class="section-number">3. </span>Sentiment Classification with Transformer (Self-Study)</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
-</div>
-            
-        </div>
-    </div>
-    <footer class="footer">
-  <p>
-    
-      By Alvin Chen<br/>
-    
-        &copy; Copyright 2020 Alvin Chen.<br/>
-  </p>
-</footer>
-</main>
-
-
       </div>
-    </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
   
-  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+</div>
 
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-dependencies">2.1. Set up Dependencies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-learning-hyperparameters">2.2. Deep Learning Hyperparameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data">2.3. Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-test-split">2.4. Train-Test Split</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preprocessing">2.5. Data Preprocessing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#text-to-sequences">Text to Sequences</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#special-considerations-for-decoder-s-input-and-output">Special Considerations for Decoder’s Input and Output</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sequences-to-one-hot-encoding">Sequences to One-Hot Encoding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#token-indices">Token Indices</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-training">2.6. Model Training</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-1-vanilla-rnn">2.7. Model 1 (Vanilla RNN)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#define-model">Define Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training">Training</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-2-gru">2.8. Model 2 (GRU)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Define Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Training</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-3-birdirectional">2.9. Model 3 (Birdirectional)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Define Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Training</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-4-peeky-decoder">2.10. Model 4 (Peeky Decoder)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Define Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Training</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-5-attention">2.11. Model 5 (Attention)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Define Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Training</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#save-models">2.12. Save Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interim-comparison">2.13. Interim Comparison</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attention-model-analysis">2.14. Attention Model Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inference">2.15. Inference</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inference-encoder">Inference Encoder</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inference-decoder">Inference Decoder</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#decoding-input-sequences">Decoding Input Sequences</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-attention">2.16. Plotting Attention</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-on-testing-data">2.17. Evaluation on Testing Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">2.18. References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Alvin Chen
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2020 Alvin Chen.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>

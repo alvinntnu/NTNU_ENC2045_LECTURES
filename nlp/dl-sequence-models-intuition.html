@@ -1,38 +1,46 @@
 
+
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>1. Sequence Models Intuition &#8212; ENC2045 Computational Linguistics</title>
-    
-  <link href="../_static/css/theme.css" rel="stylesheet">
-  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mycss.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
-    
-  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -40,13 +48,14 @@
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -55,671 +64,383 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'nlp/dl-sequence-models-intuition';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="2. Neural Language Model: A Start" href="dl-neural-language-model-primer.html" />
     <link rel="prev" title="3. Deep Learning: Sentiment Analysis" href="dl-sentiment-case.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
-
-    <div class="container-xl">
-      <div class="row">
-          
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+      <div class="bd-sidebar-primary bd-sidebar">
         
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+    
+    
       
-      
-      <img src="../_static/ntnu-word-2.png" class="logo" alt="logo">
-      
-      
-      <h1 class="site-logo" id="site-title">ENC2045 Computational Linguistics</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  INTRODUCTION
- </span>
-</p>
+    
+    
+    <img src="../_static/ntnu-word-2.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/ntnu-word-2.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">INTRODUCTION</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="nlp-primer.html">
-   Natural Language Processing: A Primer
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="nlp-pipeline.html">
-   NLP Pipeline
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="nlp-primer.html">Natural Language Processing: A Primer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nlp-pipeline.html">NLP Pipeline</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Preprocessing
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Preprocessing</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="text-preprocessing.html">
-   Text Preprocessing
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
-  <label for="toctree-checkbox-1">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="text-normalization-eng.html">
-     Text Normalization
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="text-tokenization.html">
-     Text Tokenization
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="text-enrichment.html">
-     Text Enrichment
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="chinese-word-seg.html">
-     Chinese Word Segmentation
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="google-colab.html">
-     Google Colab
-    </a>
-   </li>
-  </ul>
- </li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="text-preprocessing.html">Text Preprocessing</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="text-normalization-eng.html">Text Normalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="text-tokenization.html">Text Tokenization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="text-enrichment.html">Text Enrichment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chinese-word-seg.html">Chinese Word Segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="google-colab.html">Google Colab</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Text Vectorization
- </span>
-</p>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Text Vectorization</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="text-vec-traditional.html">
-   Text Vectorization Using Traditional Methods
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="text-vec-traditional.html">Text Vectorization Using Traditional Methods</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Machine Learning Basics
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning Basics</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="ml-overview.html">
-   1. Machine Learning: Overview
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="ml-simple-case.html">
-   2. Machine Learning: A Simple Example
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="ml-algorithm.html">
-   3. Classification Models
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="ml-overview.html">1. Machine Learning: Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ml-simple-case.html">2. Machine Learning: A Simple Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ml-algorithm.html">3. Classification Models</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Machine-Learning NLP
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine-Learning NLP</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="ml-sklearn-classification.html">
-   1. Sentiment Analysis Using Bag-of-Words
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="topic-modeling-naive.html">
-   2. Topic Modeling: A Naive Example
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="ml-sklearn-classification.html">1. Sentiment Analysis Using Bag-of-Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topic-modeling-naive.html">2. Topic Modeling: A Naive Example</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Deep Learning NLP
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning NLP</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-neural-network-from-scratch.html">
-   1. Neural Network From Scratch
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-simple-case.html">
-   2. Deep Learning: A Simple Example
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-sentiment-case.html">
-   3. Deep Learning: Sentiment Analysis
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="dl-neural-network-from-scratch.html">1. Neural Network From Scratch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-simple-case.html">2. Deep Learning: A Simple Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-sentiment-case.html">3. Deep Learning: Sentiment Analysis</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Neural Language Model and Embeddings
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Neural Language Model and Embeddings</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   1. Sequence Models Intuition
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-neural-language-model-primer.html">
-   2. Neural Language Model: A Start
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="text-vec-embedding.html">
-   3. Word Embeddings
-  </a>
- </li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">1. Sequence Models Intuition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-neural-language-model-primer.html">2. Neural Language Model: A Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="text-vec-embedding.html">3. Word Embeddings</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Seq2Seq, Attention, Transformers, and Transfer Learning
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Seq2Seq, Attention, Transformers, and Transfer Learning</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-attention-transformer-intuition.html">
-   1. Attention and Transformers: Intuitions
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-seq-to-seq-attention-addition.html">
-   2. Sequence Model with Attention for Addition Learning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dl-transformers-keras.html">
-   3. Sentiment Classification with Transformer (Self-Study)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="sentiment-analysis-using-bert-keras-movie-reviews.html">
-   4. Transfer Learning With BERT (Self-Study)
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="dl-attention-transformer-intuition.html">1. Attention and Transformers: Intuitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-seq-to-seq-attention-addition.html">2. Sequence Model with Attention for Addition Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-transformers-keras.html">3. Sentiment Classification with Transformer (Self-Study)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sentiment-analysis-using-bert-keras-movie-reviews.html">4. Transfer Learning With BERT (Self-Study)</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Exercises
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Exercises</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/1-python-basics.html">
-   Assignment I: Python Basics
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/2-journal-review.html">
-   Assignment II: Journal Articles Review
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/3-preprocessing.html">
-   Assignment III: Preprocessing
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/4-chinese-nlp.html">
-   Assignment IV: Chinese Language Processing
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/5-text-vectorization.html">
-   Assignment V: Text Vectorization
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/6-machine-learning.html">
-   Assignment VI: Machine Learning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/7-topic-modeling.html">
-   Assignment VII: Topic Modeling
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/8-dl-chinese-name-gender.html">
-   Assignment VIII: Deep Learning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/9-sentiment-analysis-dl.html">
-   Assignment IX: Sentiment Analysis Using Deep Learning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/10-neural-language-model.html">
-   Assignment X: Neural Language Model
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/11-word2vec.html">
-   Assignment XI: Word Embeddings
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/12-encoder-decoder.html">
-   Assignment XII: Encoder-Decoder Sequence Models
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../exercise/13-attention.html">
-   Assignment XIII: Attention
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../temp/final-project.html">
-   Final Exam
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/1-python-basics.html">Assignment I: Python Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/2-journal-review.html">Assignment II: Journal Articles Review</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/3-preprocessing.html">Assignment III: Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/4-chinese-nlp.html">Assignment IV: Chinese Language Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/5-text-vectorization.html">Assignment V: Text Vectorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/6-machine-learning.html">Assignment VI: Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/7-topic-modeling.html">Assignment VII: Topic Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/8-dl-chinese-name-gender.html">Assignment VIII: Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/9-sentiment-analysis-dl.html">Assignment IX: Sentiment Analysis Using Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/10-neural-language-model.html">Assignment X: Neural Language Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/11-word2vec.html">Assignment XI: Word Embeddings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/12-encoder-decoder.html">Assignment XII: Encoder-Decoder Sequence Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/13-attention.html">Assignment XIII: Attention</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../temp/final-project.html">Final Exam</a></li>
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  <div style="text-align:center">
-<i class="fas fa-chalkboard-teacher fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinntnu.github.io/NTNU_ENC2045/" target='_blank'>ENC2045 Course Website</a><br>
-<i class="fas fa-home fa-2x" style="color:Maroon;margin-right:5px"></i><a href="https://alvinchen.myftp.org/" target='_blank'>Alvin Chen's Homepage</a>
-</div>
-
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/nlp/dl-sequence-models-intuition.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+</nav></div>
     </div>
-</div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
 
-            <!-- Source interaction buttons -->
 
-            <!-- Full screen (wrap in <a> to have style consistency -->
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
 
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
+<div class="sbt-scroll-pixel-helper"></div>
 
-            <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/alvinntnu/NTNU_ENC2045_LECTURES/main?urlpath=tree/nlp/dl-sequence-models-intuition.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="../_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        <a class="colab-button" href="https://colab.research.google.com/github/alvinntnu/NTNU_ENC2045_LECTURES/blob/main/nlp/dl-sequence-models-intuition.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
-                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
-                    src="../_static/images/logo_colab.png"
-                    alt="Interact on Colab">Colab</button></a>
-        
-        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
     </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/alvinntnu/NTNU_ENC2045_LECTURES/blob/main/nlp/dl-sequence-models-intuition.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
 </div>
 
-        </div>
 
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/nlp/dl-sequence-models-intuition.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Sequence Models Intuition</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
             
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div>
+                <h2> Contents </h2>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
+            <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#why-sequence-models">
-   1.1. Why Sequence Models?
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#neural-network">
-   1.2. Neural Network
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#word-representations-in-sequence-models">
-   1.3. Word Representations in Sequence Models
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#word-embeddings">
-   1.4. Word Embeddings
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#from-one-hot-to-embeddings">
-   1.5. From One-hot to Embeddings
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#recurrent-neural-network-rnn-language-model">
-   1.6. Recurrent Neural Network (RNN) Language Model
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#how-do-we-compute-the-loss-of-the-rnn-lm">
-     How do we compute the loss of the RNN LM?
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#back-propogation-skipped">
-   1.7. Back Propogation (skipped)
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#types-of-gradient-descent-skipped">
-   1.8. Types of Gradient Descent (skipped)
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#from-vanilla-rnn-to-lstm-and-gru">
-   1.9. From Vanilla RNN to LSTM and GRU
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#issues-with-vanilla-rnn">
-     Issues with Vanilla RNN
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#why-is-vanishing-gradient-an-issue">
-     Why is vanishing gradient an issue?
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#lstm-long-short-term-memory">
-     LSTM (Long Short-Term Memory)
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#gru-gated-recurrent-unit">
-     GRU (Gated Recurrent Unit)
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#heuristics">
-     Heuristics
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#variations-of-sequence-models">
-   1.10. Variations of Sequence Models
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#sequence-models">
-     Sequence Models
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#many-to-many-same-lengths-for-input-and-output-sequences">
-     Many to Many (Same lengths for input and output sequences)
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#many-to-one">
-     Many to One
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#one-to-many">
-     One to Many
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#many-to-many-variable-lengths-for-input-and-output-sequences">
-     Many to Many (Variable lengths for input and output sequences)
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#references">
-   1.11. References
-  </a>
- </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-sequence-models">1.1. Why Sequence Models?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neural-network">1.2. Neural Network</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#word-representations-in-sequence-models">1.3. Word Representations in Sequence Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#word-embeddings">1.4. Word Embeddings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-one-hot-to-embeddings">1.5. From One-hot to Embeddings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recurrent-neural-network-rnn-language-model">1.6. Recurrent Neural Network (RNN) Language Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-do-we-compute-the-loss-of-the-rnn-lm">How do we compute the loss of the RNN LM?</a></li>
 </ul>
-
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-propogation-skipped">1.7. Back Propogation (skipped)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-gradient-descent-skipped">1.8. Types of Gradient Descent (skipped)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-vanilla-rnn-to-lstm-and-gru">1.9. From Vanilla RNN to LSTM and GRU</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#issues-with-vanilla-rnn">Issues with Vanilla RNN</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-is-vanishing-gradient-an-issue">Why is vanishing gradient an issue?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lstm-long-short-term-memory">LSTM (Long Short-Term Memory)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gru-gated-recurrent-unit">GRU (Gated Recurrent Unit)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#heuristics">Heuristics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variations-of-sequence-models">1.10. Variations of Sequence Models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sequence-models">Sequence Models</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-many-same-lengths-for-input-and-output-sequences">Many to Many (Same lengths for input and output sequences)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-one">Many to One</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-to-many">One to Many</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-many-variable-lengths-for-input-and-output-sequences">Many to Many (Variable lengths for input and output sequences)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">1.11. References</a></li>
+</ul>
             </nav>
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Sequence Models Intuition</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#why-sequence-models">
-   1.1. Why Sequence Models?
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#neural-network">
-   1.2. Neural Network
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#word-representations-in-sequence-models">
-   1.3. Word Representations in Sequence Models
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#word-embeddings">
-   1.4. Word Embeddings
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#from-one-hot-to-embeddings">
-   1.5. From One-hot to Embeddings
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#recurrent-neural-network-rnn-language-model">
-   1.6. Recurrent Neural Network (RNN) Language Model
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#how-do-we-compute-the-loss-of-the-rnn-lm">
-     How do we compute the loss of the RNN LM?
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#back-propogation-skipped">
-   1.7. Back Propogation (skipped)
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#types-of-gradient-descent-skipped">
-   1.8. Types of Gradient Descent (skipped)
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#from-vanilla-rnn-to-lstm-and-gru">
-   1.9. From Vanilla RNN to LSTM and GRU
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#issues-with-vanilla-rnn">
-     Issues with Vanilla RNN
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#why-is-vanishing-gradient-an-issue">
-     Why is vanishing gradient an issue?
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#lstm-long-short-term-memory">
-     LSTM (Long Short-Term Memory)
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#gru-gated-recurrent-unit">
-     GRU (Gated Recurrent Unit)
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#heuristics">
-     Heuristics
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#variations-of-sequence-models">
-   1.10. Variations of Sequence Models
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#sequence-models">
-     Sequence Models
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#many-to-many-same-lengths-for-input-and-output-sequences">
-     Many to Many (Same lengths for input and output sequences)
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#many-to-one">
-     Many to One
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#one-to-many">
-     One to Many
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#many-to-many-variable-lengths-for-input-and-output-sequences">
-     Many to Many (Variable lengths for input and output sequences)
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#references">
-   1.11. References
-  </a>
- </li>
-</ul>
 
-                        </nav>
-                    </div>
-                </div>
-            </div>
-            
-              <div>
+              
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="sequence-models-intuition">
-<h1><span class="section-number">1. </span>Sequence Models Intuition<a class="headerlink" href="#sequence-models-intuition" title="Permalink to this headline">¶</a></h1>
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="sequence-models-intuition">
+<h1><span class="section-number">1. </span>Sequence Models Intuition<a class="headerlink" href="#sequence-models-intuition" title="Permalink to this headline">#</a></h1>
 <ul class="simple">
 <li><p>In deep learning NLP, sequence models are often the most widely adopted methods.</p></li>
 <li><p>In this tutorial, we will go over the intuitions of sequence models.</p></li>
 </ul>
-<div class="section" id="why-sequence-models">
-<h2><span class="section-number">1.1. </span>Why Sequence Models?<a class="headerlink" href="#why-sequence-models" title="Permalink to this headline">¶</a></h2>
+<section id="why-sequence-models">
+<h2><span class="section-number">1.1. </span>Why Sequence Models?<a class="headerlink" href="#why-sequence-models" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Humans process texts in a sequential order (from left to right).</p></li>
 <li><p>When we process texts and make classification, we utilize our reasoning about previous sequences to inform later decision making.</p></li>
@@ -729,17 +450,17 @@ const thebe_selector_output = ".output, .cell_output"
 <li><p>The loop allows information to be passed from the previous time step to the next time step.</p></li>
 </ul>
 <p><img alt="" src="../_images/s2s-rnn.jpeg" /></p>
-</div>
-<div class="section" id="neural-network">
-<h2><span class="section-number">1.2. </span>Neural Network<a class="headerlink" href="#neural-network" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="neural-network">
+<h2><span class="section-number">1.2. </span>Neural Network<a class="headerlink" href="#neural-network" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Neural network expects an numeric input, i.e., a numeric representation of the input text/word.</p></li>
 <li><p>So the first step in deep learning is the same as traditional ML, which is text vectorization.</p></li>
 <li><p>And because a sequence model like RNN eats in one <strong>word</strong> at a time, <strong>word vectorization</strong> is necessary and crucial.</p></li>
 </ul>
-</div>
-<div class="section" id="word-representations-in-sequence-models">
-<h2><span class="section-number">1.3. </span>Word Representations in Sequence Models<a class="headerlink" href="#word-representations-in-sequence-models" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="word-representations-in-sequence-models">
+<h2><span class="section-number">1.3. </span>Word Representations in Sequence Models<a class="headerlink" href="#word-representations-in-sequence-models" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Like in traditional machine learning, feature engineering is crucial to the success of the computational modeling.</p></li>
 <li><p>Of particular importance is the transformation of each text/word into numeric representation that has a significant portion of its <strong>semantics</strong>.</p></li>
@@ -753,9 +474,9 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="simple">
 <li><p>The main problem with this one-hot encoding of words is that the semantic distances in-between words are all the same, i.e., <span class="math notranslate nohighlight">\(D(mice,rats)=D(mice, horses)= 0\)</span>.</p></li>
 </ul>
-</div>
-<div class="section" id="word-embeddings">
-<h2><span class="section-number">1.4. </span>Word Embeddings<a class="headerlink" href="#word-embeddings" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="word-embeddings">
+<h2><span class="section-number">1.4. </span>Word Embeddings<a class="headerlink" href="#word-embeddings" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Now via neural network, we can learn <strong>word embeddings</strong> automatically. (See Word Embeddings lecture notes).</p></li>
 <li><p>These word embeddings allows us to perform computation of lexical semantics.</p></li>
@@ -791,9 +512,9 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 </li>
 </ul>
-</div>
-<div class="section" id="from-one-hot-to-embeddings">
-<h2><span class="section-number">1.5. </span>From One-hot to Embeddings<a class="headerlink" href="#from-one-hot-to-embeddings" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="from-one-hot-to-embeddings">
+<h2><span class="section-number">1.5. </span>From One-hot to Embeddings<a class="headerlink" href="#from-one-hot-to-embeddings" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Therefore, we often add <strong>Embedding Layer</strong> as the first layer of a sequence model to render all lexical items in a text into semantically informative embeddings (vectors).</p></li>
 <li><p>Weights of the Embedding Layer can be trained along with the sequence model of the downstream NLP task.</p></li>
@@ -804,9 +525,9 @@ const thebe_selector_output = ".output, .cell_output"
 <li><p>This is how an Embedding Layer works in <code class="docutils literal notranslate"><span class="pre">keras.layers.Embedding</span></code>:</p></li>
 </ul>
 <p><img alt="" src="../_images/name-gender-classifier-dl.005.jpeg" /></p>
-</div>
-<div class="section" id="recurrent-neural-network-rnn-language-model">
-<h2><span class="section-number">1.6. </span>Recurrent Neural Network (RNN) Language Model<a class="headerlink" href="#recurrent-neural-network-rnn-language-model" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="recurrent-neural-network-rnn-language-model">
+<h2><span class="section-number">1.6. </span>Recurrent Neural Network (RNN) Language Model<a class="headerlink" href="#recurrent-neural-network-rnn-language-model" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Words, as vectorized into embeddings, can now be the input tensors for a RNN.</p></li>
 </ul>
@@ -825,8 +546,8 @@ const thebe_selector_output = ".output, .cell_output"
 <li><p>The RNN Langage model takes in one word at a time at each timestep and returns a tensor as the output (hidden state).</p></li>
 <li><p>And the output at timestep <em>i</em> becomes the input of the RNN at timestep <em>i+1</em>.</p></li>
 </ul>
-<div class="section" id="how-do-we-compute-the-loss-of-the-rnn-lm">
-<h3>How do we compute the loss of the RNN LM?<a class="headerlink" href="#how-do-we-compute-the-loss-of-the-rnn-lm" title="Permalink to this headline">¶</a></h3>
+<section id="how-do-we-compute-the-loss-of-the-rnn-lm">
+<h3>How do we compute the loss of the RNN LM?<a class="headerlink" href="#how-do-we-compute-the-loss-of-the-rnn-lm" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>To evaluate the language model, we know the correct next-word, and we have the output tensor from the RNN, we just need a method to compute the difference.</p>
 <ul>
@@ -881,10 +602,10 @@ E = - \frac{1}{N}\sum_n\sum_{k}t_{nk} \log{y_{nk}}
 <li><p>We can also compute the average cross-entropy error for samples of a batch size.</p></li>
 <li><p>We can also compute the average cross-entropy error for the entire training set.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="back-propogation-skipped">
-<h2><span class="section-number">1.7. </span>Back Propogation (skipped)<a class="headerlink" href="#back-propogation-skipped" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="back-propogation-skipped">
+<h2><span class="section-number">1.7. </span>Back Propogation (skipped)<a class="headerlink" href="#back-propogation-skipped" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>With the defined <strong>loss function</strong>, we can learn how good our current model is in the training process (i.e., the distance between the true target and the predicted label).</p></li>
 <li><p>In deep learning, we can use <strong>back propogation</strong> to find out:</p>
@@ -896,20 +617,20 @@ E = - \frac{1}{N}\sum_n\sum_{k}t_{nk} \log{y_{nk}}
 </ul>
 </li>
 </ul>
-</div>
-<div class="section" id="types-of-gradient-descent-skipped">
-<h2><span class="section-number">1.8. </span>Types of Gradient Descent (skipped)<a class="headerlink" href="#types-of-gradient-descent-skipped" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="types-of-gradient-descent-skipped">
+<h2><span class="section-number">1.8. </span>Types of Gradient Descent (skipped)<a class="headerlink" href="#types-of-gradient-descent-skipped" title="Permalink to this headline">#</a></h2>
 <p>As we can compute the cross entropy in different ways, we can perform the gradient descent in different ways as well.</p>
 <ul class="simple">
 <li><p><strong>Batch Gradient Descent</strong>: Update the model weights after we get the average cross entropy of all the sequences in the entire training set (as one epoch).</p></li>
 <li><p><strong>Stochastic Gradient Descent</strong>(SGD): Update the model weights after we get the cross entropy of every sequence of the training set (across all time steps of course) (online).</p></li>
 <li><p><strong>Mini-batch Gradient Descent</strong>: Update the model weights after we get the average cross entropy of a subset of the sequences in the training set. (Recommended!)</p></li>
 </ul>
-</div>
-<div class="section" id="from-vanilla-rnn-to-lstm-and-gru">
-<h2><span class="section-number">1.9. </span>From Vanilla RNN to LSTM and GRU<a class="headerlink" href="#from-vanilla-rnn-to-lstm-and-gru" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="issues-with-vanilla-rnn">
-<h3>Issues with Vanilla RNN<a class="headerlink" href="#issues-with-vanilla-rnn" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="from-vanilla-rnn-to-lstm-and-gru">
+<h2><span class="section-number">1.9. </span>From Vanilla RNN to LSTM and GRU<a class="headerlink" href="#from-vanilla-rnn-to-lstm-and-gru" title="Permalink to this headline">#</a></h2>
+<section id="issues-with-vanilla-rnn">
+<h3>Issues with Vanilla RNN<a class="headerlink" href="#issues-with-vanilla-rnn" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>An RNN on a sequence of words can be taken as a very deep neural network, where the depths of the network are the number of time steps of the sequence.</p></li>
 </ul>
@@ -919,18 +640,18 @@ E = - \frac{1}{N}\sum_n\sum_{k}t_{nk} \log{y_{nk}}
 <li><p>Simply put, the gradients would become smaller and smaller as we back propagate further back to the previous time steps of the sequence.</p></li>
 <li><p>The further back the weights are, the more likely their gradients would approach zero.</p></li>
 </ul>
-</div>
-<div class="section" id="why-is-vanishing-gradient-an-issue">
-<h3>Why is vanishing gradient an issue?<a class="headerlink" href="#why-is-vanishing-gradient-an-issue" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="why-is-vanishing-gradient-an-issue">
+<h3>Why is vanishing gradient an issue?<a class="headerlink" href="#why-is-vanishing-gradient-an-issue" title="Permalink to this headline">#</a></h3>
 <p>If the gradient becomes vanishingly small over longer distances:</p>
 <ul class="simple">
 <li><p>it is more difficult for RNN to learn the <strong>long-distance dependency relations</strong> between different time steps in the sequence.</p></li>
 <li><p>it is less likely that RNN would learn to <strong>preserve</strong> information over many timesteps.</p></li>
 <li><p>it is more likely that RNN would pay more attention to the effects of the recent time steps (i.e., biasing the RNN towards learning from <strong>sequential recency</strong>).</p></li>
 </ul>
-</div>
-<div class="section" id="lstm-long-short-term-memory">
-<h3>LSTM (Long Short-Term Memory)<a class="headerlink" href="#lstm-long-short-term-memory" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="lstm-long-short-term-memory">
+<h3>LSTM (Long Short-Term Memory)<a class="headerlink" href="#lstm-long-short-term-memory" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>A type of RNN proposed by <a class="reference external" href="https://www.bioinf.jku.at/publications/older/2604.pdf">Hochreiter and Schmidhuber in 1997</a> as a solution to the vanishing gradients problem.</p></li>
 </ul>
@@ -973,9 +694,9 @@ E = - \frac{1}{N}\sum_n\sum_{k}t_{nk} \log{y_{nk}}
 </li>
 </ul>
 <p><img alt="" src="../_images/s2s-lstm.jpeg" /></p>
-</div>
-<div class="section" id="gru-gated-recurrent-unit">
-<h3>GRU (Gated Recurrent Unit)<a class="headerlink" href="#gru-gated-recurrent-unit" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="gru-gated-recurrent-unit">
+<h3>GRU (Gated Recurrent Unit)<a class="headerlink" href="#gru-gated-recurrent-unit" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Proposed by <a class="reference external" href="https://arxiv.org/pdf/1406.1078v3.pdf">Cho et al. in 2014</a> as a simpler alternative to the LSTM.</p></li>
 <li><p>On each time step, GRU keeps track of only the <strong>hidden</strong> state (no cell state).</p></li>
@@ -986,20 +707,20 @@ E = - \frac{1}{N}\sum_n\sum_{k}t_{nk} \log{y_{nk}}
 <p><img alt="" src="../_images/LSTM3-var-GRU.png" />
 (Source: <a class="reference external" href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">http://colah.github.io/posts/2015-08-Understanding-LSTMs/</a>)</p>
 <p><img alt="" src="../_images/s2s-gru.jpeg" /></p>
-</div>
-<div class="section" id="heuristics">
-<h3>Heuristics<a class="headerlink" href="#heuristics" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="heuristics">
+<h3>Heuristics<a class="headerlink" href="#heuristics" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>LSTM is more complex than GRU.</p></li>
 <li><p>LSTM is a good default choice (especially if our data has particularly long dependencies, or we have lots of training data)</p></li>
 <li><p>We may switch to GRU for <strong>speed</strong> and fewer parameters.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="variations-of-sequence-models">
-<h2><span class="section-number">1.10. </span>Variations of Sequence Models<a class="headerlink" href="#variations-of-sequence-models" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="sequence-models">
-<h3>Sequence Models<a class="headerlink" href="#sequence-models" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="variations-of-sequence-models">
+<h2><span class="section-number">1.10. </span>Variations of Sequence Models<a class="headerlink" href="#variations-of-sequence-models" title="Permalink to this headline">#</a></h2>
+<section id="sequence-models">
+<h3>Sequence Models<a class="headerlink" href="#sequence-models" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Most of the NLP tasks are sequence-to-sequence problems.</p></li>
 <li><p>Depending on the nature of the tasks as well as their inputs and outputs, we can classify sequence models into four types:</p>
@@ -1011,34 +732,34 @@ E = - \frac{1}{N}\sum_n\sum_{k}t_{nk} \log{y_{nk}}
 </ul>
 </li>
 </ul>
-</div>
-<div class="section" id="many-to-many-same-lengths-for-input-and-output-sequences">
-<h3>Many to Many (Same lengths for input and output sequences)<a class="headerlink" href="#many-to-many-same-lengths-for-input-and-output-sequences" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="many-to-many-same-lengths-for-input-and-output-sequences">
+<h3>Many to Many (Same lengths for input and output sequences)<a class="headerlink" href="#many-to-many-same-lengths-for-input-and-output-sequences" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Most of the tagging problems fall into this category (e.g., POS Tagging, Word Segmentation, Named Entity Recognition)</p></li>
 </ul>
 <hr class="docutils" />
 <p><img alt="" src="../_images/seq2seq-m2m-s.jpeg" /></p>
-</div>
-<div class="section" id="many-to-one">
-<h3>Many to One<a class="headerlink" href="#many-to-one" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="many-to-one">
+<h3>Many to One<a class="headerlink" href="#many-to-one" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Most of the classification problems fall into this category.</p></li>
 </ul>
 <hr class="docutils" />
 <p><img alt="" src="../_images/seq2seq-m21.jpeg" /></p>
-</div>
-<div class="section" id="one-to-many">
-<h3>One to Many<a class="headerlink" href="#one-to-many" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="one-to-many">
+<h3>One to Many<a class="headerlink" href="#one-to-many" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Text Generation</p></li>
 <li><p>Image Captioning</p></li>
 </ul>
 <hr class="docutils" />
 <p><img alt="" src="../_images/seq2seq-12m.jpeg" /></p>
-</div>
-<div class="section" id="many-to-many-variable-lengths-for-input-and-output-sequences">
-<h3>Many to Many (Variable lengths for input and output sequences)<a class="headerlink" href="#many-to-many-variable-lengths-for-input-and-output-sequences" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="many-to-many-variable-lengths-for-input-and-output-sequences">
+<h3>Many to Many (Variable lengths for input and output sequences)<a class="headerlink" href="#many-to-many-variable-lengths-for-input-and-output-sequences" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Machine Translation</p></li>
 <li><p>Chatbot Q&amp;A</p></li>
@@ -1046,10 +767,10 @@ E = - \frac{1}{N}\sum_n\sum_{k}t_{nk} \log{y_{nk}}
 </ul>
 <hr class="docutils" />
 <p><img alt="" src="../_images/seq2seq-m2m-d.jpeg" /></p>
-</div>
-</div>
-<div class="section" id="references">
-<h2><span class="section-number">1.11. </span>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="references">
+<h2><span class="section-number">1.11. </span>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>A must-read article on LSTM: Chris Olah’s blog post on <a class="reference external" href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understanding LSTM Networks</a></p></li>
 <li><p>Check Ch 5 and 6 in <a class="reference external" href="https://www.books.com.tw/products/0010817138">Deep Learning 2｜用Python進行自然語言處理的基礎理論實作</a></p></li>
@@ -1057,8 +778,8 @@ E = - \frac{1}{N}\sum_n\sum_{k}t_{nk} \log{y_{nk}}
 <li><p><a class="reference external" href="https://papers.nips.cc/paper/2014/file/a14ac55a4f27472c5d894ec1c3c743d2-Paper.pdf">Sutskever et al. (2014). Sequence to sequence learning with neural networks.</a></p></li>
 <li><p>New York Times: <a class="reference external" href="https://www.nytimes.com/2016/12/14/magazine/the-great-ai-awakening.html">The Great A.I. Awakening</a></p></li>
 </ul>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1072,7 +793,7 @@ E = - \frac{1}{N}\sum_n\sum_{k}t_{nk} \log{y_{nk}}
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python-notes",
+            name: "python-notes",
             path: "./nlp"
         },
         predefinedOutput: true
@@ -1080,44 +801,132 @@ E = - \frac{1}{N}\sum_n\sum_{k}t_{nk} \log{y_{nk}}
     </script>
     <script>kernelName = 'python-notes'</script>
 
-              </div>
+                </article>
               
-            
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="dl-sentiment-case.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title"><span class="section-number">3. </span>Deep Learning: Sentiment Analysis</p>
-        </div>
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="dl-sentiment-case.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Deep Learning: Sentiment Analysis</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="dl-neural-language-model-primer.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="dl-neural-language-model-primer.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title"><span class="section-number">2. </span>Neural Language Model: A Start</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
-</div>
-            
-        </div>
-    </div>
-    <footer class="footer">
-  <p>
-    
-      By Alvin Chen<br/>
-    
-        &copy; Copyright 2020 Alvin Chen.<br/>
-  </p>
-</footer>
-</main>
-
-
       </div>
-    </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
   
-  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+</div>
 
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-sequence-models">1.1. Why Sequence Models?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neural-network">1.2. Neural Network</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#word-representations-in-sequence-models">1.3. Word Representations in Sequence Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#word-embeddings">1.4. Word Embeddings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-one-hot-to-embeddings">1.5. From One-hot to Embeddings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recurrent-neural-network-rnn-language-model">1.6. Recurrent Neural Network (RNN) Language Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-do-we-compute-the-loss-of-the-rnn-lm">How do we compute the loss of the RNN LM?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-propogation-skipped">1.7. Back Propogation (skipped)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-gradient-descent-skipped">1.8. Types of Gradient Descent (skipped)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-vanilla-rnn-to-lstm-and-gru">1.9. From Vanilla RNN to LSTM and GRU</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#issues-with-vanilla-rnn">Issues with Vanilla RNN</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-is-vanishing-gradient-an-issue">Why is vanishing gradient an issue?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lstm-long-short-term-memory">LSTM (Long Short-Term Memory)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gru-gated-recurrent-unit">GRU (Gated Recurrent Unit)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#heuristics">Heuristics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variations-of-sequence-models">1.10. Variations of Sequence Models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sequence-models">Sequence Models</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-many-same-lengths-for-input-and-output-sequences">Many to Many (Same lengths for input and output sequences)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-one">Many to One</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-to-many">One to Many</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-many-variable-lengths-for-input-and-output-sequences">Many to Many (Variable lengths for input and output sequences)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">1.11. References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Alvin Chen
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2020 Alvin Chen.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>
