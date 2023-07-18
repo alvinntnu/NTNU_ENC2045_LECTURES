@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>2. Topic Modeling: A Naive Example &#8212; ENC2045 Computational Linguistics</title>
+    <title>3. Topic Modeling: A Naive Example &#8212; ENC2045 Computational Linguistics</title>
   
   
   
@@ -66,7 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="1. Neural Network From Scratch" href="dl-neural-network-from-scratch.html" />
-    <link rel="prev" title="1. Sentiment Analysis Using Bag-of-Words" href="ml-sklearn-classification.html" />
+    <link rel="prev" title="2. Emsemble Learning" href="ml-emsemble-learning.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -178,7 +178,8 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine-Learning NLP</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="ml-sklearn-classification.html">1. Sentiment Analysis Using Bag-of-Words</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. Topic Modeling: A Naive Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ml-emsemble-learning.html">2. Emsemble Learning</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Topic Modeling: A Naive Example</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning NLP</span></p>
 <ul class="nav bd-sidenav">
@@ -392,41 +393,41 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-topic-modeling">2.1. What is Topic Modeling?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flowchart-for-topic-modeling">2.2. Flowchart for Topic Modeling</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation-and-preprocessing">2.3. Data Preparation and Preprocessing</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-topic-modeling">3.1. What is Topic Modeling?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flowchart-for-topic-modeling">3.2. Flowchart for Topic Modeling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation-and-preprocessing">3.3. Data Preparation and Preprocessing</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-necessary-dependencies-and-settings">Import Necessary Dependencies and Settings</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-corpus">Simple Corpus</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-text-pre-processing">Simple Text Pre-processing</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#text-vectorization">2.4. Text Vectorization</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#text-vectorization">3.4. Text Vectorization</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bag-of-words-model">Bag of Words Model</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#latent-dirichlet-allocation">2.5. Latent Dirichlet Allocation</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#latent-dirichlet-allocation">3.5. Latent Dirichlet Allocation</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#intuition-of-lda">Intuition of LDA</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#building-lda-model">Building LDA Model</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-performance-metrics">Model Performance Metrics</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation">2.6. Interpretation</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation">3.6. Interpretation</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#document-by-topic-matrix">Document-by-Topic Matrix</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#topic-by-word-matrix">Topic-by-Word Matrix</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-the-meanings-of-topics">Interpreting the Meanings of Topics</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#topics-in-documents">2.7. Topics in Documents</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering-documents-using-topic-model-features">2.8. Clustering documents using topic model features</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-topic-models">2.9. Visualizing Topic Models</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hyperparameter-tuning">2.10. Hyperparameter Tuning</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#topics-in-documents">3.7. Topics in Documents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering-documents-using-topic-model-features">3.8. Clustering documents using topic model features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-topic-models">3.9. Visualizing Topic Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hyperparameter-tuning">3.10. Hyperparameter Tuning</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grid-search-for-topic-number">Grid Search for Topic Number</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#examining-the-grid-search-results">Examining the Grid Search Results</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#topic-prediction">2.11. Topic Prediction</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-notes">2.12. Additional Notes</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">2.13. References</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#topic-prediction">3.11. Topic Prediction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-notes">3.12. Additional Notes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">3.13. References</a></li>
 </ul>
             </nav>
         </div>
@@ -439,9 +440,9 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="topic-modeling-a-naive-example">
-<h1><span class="section-number">2. </span>Topic Modeling: A Naive Example<a class="headerlink" href="#topic-modeling-a-naive-example" title="Permalink to this headline">#</a></h1>
+<h1><span class="section-number">3. </span>Topic Modeling: A Naive Example<a class="headerlink" href="#topic-modeling-a-naive-example" title="Permalink to this headline">#</a></h1>
 <section id="what-is-topic-modeling">
-<h2><span class="section-number">2.1. </span>What is Topic Modeling?<a class="headerlink" href="#what-is-topic-modeling" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">3.1. </span>What is Topic Modeling?<a class="headerlink" href="#what-is-topic-modeling" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Topic modeling is an <strong>unsupervised</strong> learning method, whose objective is to extract the underlying semantic patterns among a collection of texts. These underlying semantic structures are commonly referred to as <strong>topics</strong> of the corpus.</p></li>
 <li><p>In particular, topic modeling first extracts features from the words in the documents and use mathematical structures and frameworks like matrix factorization and SVD (Singular Value Decomposition) to identify clusters of words that share greater semantic coherence.</p></li>
@@ -458,11 +459,11 @@ document.write(`
 </ul>
 </section>
 <section id="flowchart-for-topic-modeling">
-<h2><span class="section-number">2.2. </span>Flowchart for Topic Modeling<a class="headerlink" href="#flowchart-for-topic-modeling" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">3.2. </span>Flowchart for Topic Modeling<a class="headerlink" href="#flowchart-for-topic-modeling" title="Permalink to this headline">#</a></h2>
 <p><img alt="" src="../_images/topic-modeling-pipeline.jpeg" /></p>
 </section>
 <section id="data-preparation-and-preprocessing">
-<h2><span class="section-number">2.3. </span>Data Preparation and Preprocessing<a class="headerlink" href="#data-preparation-and-preprocessing" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">3.3. </span>Data Preparation and Preprocessing<a class="headerlink" href="#data-preparation-and-preprocessing" title="Permalink to this headline">#</a></h2>
 <section id="import-necessary-dependencies-and-settings">
 <h3>Import Necessary Dependencies and Settings<a class="headerlink" href="#import-necessary-dependencies-and-settings" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
@@ -475,8 +476,8 @@ document.write(`
 <span class="kn">import</span> <span class="nn">nltk</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-<span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">max_colwidth</span> <span class="o">=</span> <span class="mi">200</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">max_colwidth</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="c1"># %matplotlib inline</span>
 </pre></div>
 </div>
 </div>
@@ -653,7 +654,7 @@ document.write(`
 </section>
 </section>
 <section id="text-vectorization">
-<h2><span class="section-number">2.4. </span>Text Vectorization<a class="headerlink" href="#text-vectorization" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">3.4. </span>Text Vectorization<a class="headerlink" href="#text-vectorization" title="Permalink to this headline">#</a></h2>
 <section id="bag-of-words-model">
 <h3>Bag of Words Model<a class="headerlink" href="#bag-of-words-model" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
@@ -709,7 +710,7 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get all unique words in the corpus</span>
-<span class="n">vocab</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">()</span>
+<span class="n">vocab</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">()</span>
 <span class="c1"># show document feature vectors</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cv_matrix</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">vocab</span><span class="p">)</span>
 </pre></div>
@@ -948,7 +949,7 @@ document.write(`
 </section>
 </section>
 <section id="latent-dirichlet-allocation">
-<h2><span class="section-number">2.5. </span>Latent Dirichlet Allocation<a class="headerlink" href="#latent-dirichlet-allocation" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">3.5. </span>Latent Dirichlet Allocation<a class="headerlink" href="#latent-dirichlet-allocation" title="Permalink to this headline">#</a></h2>
 <section id="intuition-of-lda">
 <h3>Intuition of LDA<a class="headerlink" href="#intuition-of-lda" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
@@ -992,8 +993,8 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 5.92 s, sys: 6.88 ms, total: 5.93 s
-Wall time: 5.93 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 5.28 s, sys: 25.2 ms, total: 5.3 s
+Wall time: 5.32 s
 </pre></div>
 </div>
 </div>
@@ -1028,7 +1029,7 @@ Wall time: 5.93 s
 </section>
 </section>
 <section id="interpretation">
-<h2><span class="section-number">2.6. </span>Interpretation<a class="headerlink" href="#interpretation" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">3.6. </span>Interpretation<a class="headerlink" href="#interpretation" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>To properly interpret the results provided by LDA, we need to get two important matrices:</p>
 <ul>
@@ -1512,7 +1513,7 @@ brown dog fox
 </section>
 </section>
 <section id="topics-in-documents">
-<h2><span class="section-number">2.7. </span>Topics in Documents<a class="headerlink" href="#topics-in-documents" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">3.7. </span>Topics in Documents<a class="headerlink" href="#topics-in-documents" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>After we determine the meanings of the topics, we can now analyze how each document is connected to these topics.</p></li>
 <li><p>That is, we can now look at the <strong>Document-by-Topic</strong> Matrix.</p></li>
@@ -1631,15 +1632,15 @@ brown dog fox
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fb1622c87b8&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f839e1ecb80&gt;
 </pre></div>
 </div>
-<img alt="../_images/f69854ed981007415d086f56bf4f00ed72c63be5f9a4e8bf97378581f6b2f090.png" src="../_images/f69854ed981007415d086f56bf4f00ed72c63be5f9a4e8bf97378581f6b2f090.png" />
+<img alt="../_images/8d355101eae3b04e4ad2833b4acf99ff2460f77edf5c153352948df4a90e5e1c.png" src="../_images/8d355101eae3b04e4ad2833b4acf99ff2460f77edf5c153352948df4a90e5e1c.png" />
 </div>
 </div>
 </section>
 <section id="clustering-documents-using-topic-model-features">
-<h2><span class="section-number">2.8. </span>Clustering documents using topic model features<a class="headerlink" href="#clustering-documents-using-topic-model-features" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">3.8. </span>Clustering documents using topic model features<a class="headerlink" href="#clustering-documents-using-topic-model-features" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
@@ -1681,19 +1682,19 @@ brown dog fox
       <th>0</th>
       <td>The sky is blue and beautiful.</td>
       <td>weather</td>
-      <td>1</td>
+      <td>2</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Love this blue and beautiful sky!</td>
       <td>weather</td>
-      <td>1</td>
+      <td>2</td>
     </tr>
     <tr>
       <th>2</th>
       <td>The quick brown fox jumps over the lazy dog.</td>
       <td>animals</td>
-      <td>2</td>
+      <td>1</td>
     </tr>
     <tr>
       <th>3</th>
@@ -1711,19 +1712,19 @@ brown dog fox
       <th>5</th>
       <td>The brown fox is quick and the blue dog is lazy!</td>
       <td>animals</td>
-      <td>2</td>
+      <td>1</td>
     </tr>
     <tr>
       <th>6</th>
       <td>The sky is very blue and the sky is very beautiful today</td>
       <td>weather</td>
-      <td>1</td>
+      <td>2</td>
     </tr>
     <tr>
       <th>7</th>
       <td>The dog is lazy but the brown fox is quick!</td>
       <td>animals</td>
-      <td>2</td>
+      <td>1</td>
     </tr>
   </tbody>
 </table>
@@ -1731,36 +1732,42 @@ brown dog fox
 </div>
 </section>
 <section id="visualizing-topic-models">
-<h2><span class="section-number">2.9. </span>Visualizing Topic Models<a class="headerlink" href="#visualizing-topic-models" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">3.9. </span>Visualizing Topic Models<a class="headerlink" href="#visualizing-topic-models" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyLDAvis</span>
-<span class="kn">import</span> <span class="nn">pyLDAvis.sklearn</span>
+<span class="kn">import</span> <span class="nn">pyLDAvis.gensim</span>
+<span class="kn">import</span> <span class="nn">pyLDAvis.lda_model</span> <span class="c1">## for sklearn LDA; if gensim, use `pyLDAvis.gensim`</span>
 <span class="kn">import</span> <span class="nn">dill</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
 
 <span class="n">pyLDAvis</span><span class="o">.</span><span class="n">enable_notebook</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>.container { max-width:100% !important; }</style></div><div class="output text_html"><style>.output_result { max-width:100% !important; }</style></div><div class="output text_html"><style>.output_area { max-width:100% !important; }</style></div><div class="output text_html"><style>.input_area { max-width:100% !important; }</style></div></div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cv_matrix</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">norm_corpus</span><span class="p">)</span>
-<span class="n">pyLDAvis</span><span class="o">.</span><span class="n">sklearn</span><span class="o">.</span><span class="n">prepare</span><span class="p">(</span><span class="n">lda</span><span class="p">,</span> <span class="n">cv_matrix</span><span class="p">,</span> <span class="n">cv</span><span class="p">,</span> <span class="n">mds</span><span class="o">=</span><span class="s1">&#39;mmds&#39;</span><span class="p">)</span>
+<span class="n">pyLDAvis</span><span class="o">.</span><span class="n">lda_model</span><span class="o">.</span><span class="n">prepare</span><span class="p">(</span><span class="n">lda</span><span class="p">,</span> <span class="n">cv_matrix</span><span class="p">,</span> <span class="n">cv</span><span class="p">,</span> <span class="n">mds</span><span class="o">=</span><span class="s1">&#39;mmds&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html">
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.2.2/pyLDAvis/js/ldavis.v1.0.0.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.4.0/pyLDAvis/js/ldavis.v1.0.0.css">
 
 
-<div id="ldavis_el33301403998483214565636061756"></div>
+<div id="ldavis_el192231402027710338885903416817" style="background-color:white;"></div>
 <script type="text/javascript">
 
-var ldavis_el33301403998483214565636061756_data = {"mdsDat": {"x": [-0.008445793833628949, 0.13462093650778834, -0.12617514267415936], "y": [0.16901844967086968, -0.08524624913297571, -0.083772200537894], "topics": [1, 2, 3], "cluster": [1, 1, 1], "Freq": [38.69857956361475, 33.67447534464973, 27.62694509173553]}, "tinfo": {"Term": ["sky", "beautiful", "blue", "lazy", "brown", "dog", "fox", "quick", "bacon", "sausages", "ham", "eggs", "today", "love", "kings", "beans", "breakfast", "toast", "green", "jumps", "quick", "brown", "dog", "fox", "lazy", "jumps", "blue", "today", "green", "toast", "breakfast", "beans", "kings", "love", "sausages", "bacon", "eggs", "ham", "beautiful", "sky", "bacon", "eggs", "sausages", "ham", "breakfast", "beans", "kings", "toast", "green", "love", "today", "jumps", "beautiful", "brown", "dog", "fox", "lazy", "quick", "sky", "blue", "sky", "beautiful", "blue", "today", "love", "green", "kings", "breakfast", "toast", "beans", "jumps", "sausages", "bacon", "eggs", "ham", "lazy", "fox", "quick", "dog", "brown"], "Freq": [3.0, 2.0, 3.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.3472697459049434, 2.3472697459049434, 2.3472697459049434, 2.3472697459049434, 2.3472697459049434, 0.9385419225967808, 0.9100303130835471, 0.23505339441456774, 0.23502914665699015, 0.23496968562811432, 0.23496968562811432, 0.23496968562811432, 0.23496968562811432, 0.2353527490367289, 0.2349881444878741, 0.2349881444878741, 0.2349881444878741, 0.2349881444878741, 0.23511251824933252, 0.23508911832772753, 1.6342777413769038, 1.6342777413769038, 1.6342777413769038, 1.6342777413769038, 0.9337359955049812, 0.9337359955049812, 0.9337359955049812, 0.9337359955049812, 0.933574600961362, 0.9356188717354833, 0.23381967072922322, 0.23383558797262427, 0.23389603446125903, 0.23383196198973594, 0.23383196198973594, 0.23383196198973594, 0.23383196198973594, 0.23383196198973594, 0.23386718998892936, 0.23419768487428277, 2.751100663223357, 2.116053051315057, 2.1423479111851953, 0.8461748182314355, 0.844814541198604, 0.211958761180358, 0.21186608133170443, 0.21186608133170443, 0.21186608133170443, 0.21186608133170443, 0.21197203519452112, 0.21189875069161163, 0.21189875069161163, 0.21189875069161163, 0.21189875069161163, 0.212021055964897, 0.212021055964897, 0.212021055964897, 0.212021055964897, 0.212021055964897], "Total": [3.0, 2.0, 3.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764, 1.384349545763926, 3.286575909143025, 1.3150478833752264, 1.3805625087987101, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3805717624648, 2.015786161970816, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.5850616040256487, 3.220056971540014, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3805625087987101, 2.015786161970816, 1.3150478833752264, 1.384349545763926, 2.5850616040256487, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764, 3.220056971540014, 3.286575909143025, 3.220056971540014, 2.5850616040256487, 3.286575909143025, 1.3150478833752264, 2.015786161970816, 1.3805625087987101, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.384349545763926, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764, 2.7931227638595764], "Category": ["Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3"], "logprob": [20.0, 19.0, 18.0, 17.0, 16.0, 15.0, 14.0, 13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, -1.9586, -1.9586, -1.9586, -1.9586, -1.9586, -2.8753, -2.9061, -4.2598, -4.2599, -4.2601, -4.2601, -4.2601, -4.2601, -4.2585, -4.2601, -4.2601, -4.2601, -4.2601, -4.2595, -4.2596, -2.1816, -2.1816, -2.1816, -2.1816, -2.7413, -2.7413, -2.7413, -2.7413, -2.7415, -2.7393, -4.126, -4.1259, -4.1256, -4.1259, -4.1259, -4.1259, -4.1259, -4.1259, -4.1258, -4.1244, -1.4628, -1.7253, -1.7129, -2.6419, -2.6435, -4.0262, -4.0266, -4.0266, -4.0266, -4.0266, -4.0261, -4.0265, -4.0265, -4.0265, -4.0265, -4.0259, -4.0259, -4.0259, -4.0259, -4.0259], "loglift": [20.0, 19.0, 18.0, 17.0, 16.0, 15.0, 14.0, 13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.7755, 0.7755, 0.7755, 0.7755, 0.7755, 0.5607, -0.3348, -0.7724, -0.8212, -0.8214, -0.8214, -0.8214, -0.8214, -1.1983, -1.2318, -1.2318, -1.2318, -1.2318, -1.4481, -1.6678, 0.8467, 0.8467, 0.8467, 0.8467, 0.6974, 0.6974, 0.6974, 0.6974, 0.6972, 0.3209, -0.6386, -0.6899, -1.3142, -1.3919, -1.3919, -1.3919, -1.3919, -1.3919, -1.534, -1.553, 1.129, 1.0862, 0.8584, 0.8455, 0.4167, -0.5875, -0.5879, -0.5879, -0.5879, -0.5879, -0.5902, -0.9982, -0.9982, -0.9982, -0.9982, -1.2919, -1.2919, -1.2919, -1.2919, -1.2919]}, "token.table": {"Topic": [2, 2, 3, 1, 3, 2, 1, 1, 2, 1, 2, 2, 1, 2, 1, 2, 3, 1, 2, 3, 2, 3], "Freq": [0.961000376841551, 0.7243375731621895, 0.7736759529774657, 0.30426803690067517, 0.6085360738013503, 0.7243375731621895, 0.7160444309423664, 0.7160444309423664, 0.961000376841551, 0.7160444309423664, 0.72434242826871, 0.961000376841551, 0.7223609117075772, 0.7243375731621895, 0.7160444309423664, 0.4960843659241657, 0.4960843659241657, 0.7160444309423664, 0.961000376841551, 0.9316605347405483, 0.7243375731621895, 0.7604285841161779], "Term": ["bacon", "beans", "beautiful", "blue", "blue", "breakfast", "brown", "dog", "eggs", "fox", "green", "ham", "jumps", "kings", "lazy", "love", "love", "quick", "sausages", "sky", "toast", "today"]}, "R": 20, "lambda.step": 0.01, "plot.opts": {"xlab": "PC1", "ylab": "PC2"}, "topic.order": [3, 2, 1]};
+var ldavis_el192231402027710338885903416817_data = {"mdsDat": {"x": [-0.008445793833628949, 0.13462093650778834, -0.12617514267415936], "y": [0.16901844967086968, -0.08524624913297571, -0.083772200537894], "topics": [1, 2, 3], "cluster": [1, 1, 1], "Freq": [38.69857956361474, 33.674475344649736, 27.62694509173552]}, "tinfo": {"Term": ["sky", "beautiful", "blue", "lazy", "brown", "dog", "fox", "quick", "bacon", "sausages", "ham", "eggs", "today", "love", "kings", "beans", "breakfast", "toast", "green", "jumps", "quick", "brown", "dog", "fox", "lazy", "jumps", "blue", "today", "green", "toast", "breakfast", "beans", "kings", "love", "sausages", "bacon", "eggs", "ham", "beautiful", "sky", "bacon", "eggs", "sausages", "ham", "breakfast", "beans", "kings", "toast", "green", "love", "today", "jumps", "beautiful", "brown", "dog", "fox", "lazy", "quick", "sky", "blue", "sky", "beautiful", "blue", "today", "love", "green", "kings", "breakfast", "toast", "beans", "jumps", "sausages", "bacon", "eggs", "ham", "lazy", "fox", "quick", "dog", "brown"], "Freq": [3.0, 2.0, 3.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.347269745904943, 2.347269745904943, 2.347269745904943, 2.347269745904943, 2.347269745904943, 0.9385419225967806, 0.9100303130835469, 0.23505339441456768, 0.2350291466569901, 0.23496968562811427, 0.23496968562811427, 0.23496968562811427, 0.23496968562811427, 0.23535274903672884, 0.23498814448787408, 0.23498814448787408, 0.23498814448787408, 0.23498814448787408, 0.23511251824933246, 0.23508911832772747, 1.634277741376904, 1.634277741376904, 1.634277741376904, 1.634277741376904, 0.9337359955049813, 0.9337359955049813, 0.9337359955049813, 0.9337359955049813, 0.9335746009613621, 0.9356188717354834, 0.23381967072922324, 0.2338355879726243, 0.23389603446125906, 0.23383196198973596, 0.23383196198973596, 0.23383196198973596, 0.23383196198973596, 0.23383196198973596, 0.23386718998892939, 0.2341976848742828, 2.7511006632233563, 2.1160530513150566, 2.1423479111851953, 0.8461748182314354, 0.8448145411986039, 0.21195876118035797, 0.2118660813317044, 0.2118660813317044, 0.2118660813317044, 0.2118660813317044, 0.2119720351945211, 0.2118987506916116, 0.2118987506916116, 0.2118987506916116, 0.2118987506916116, 0.21202105596489695, 0.21202105596489695, 0.21202105596489695, 0.21202105596489695, 0.21202105596489695], "Total": [3.0, 2.0, 3.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.793122763859576, 2.793122763859576, 2.793122763859576, 2.793122763859576, 2.793122763859576, 1.384349545763926, 3.286575909143025, 1.3150478833752262, 1.3805625087987101, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3805717624648, 2.015786161970816, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.585061604025648, 3.2200569715400134, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3805625087987101, 2.015786161970816, 1.3150478833752262, 1.384349545763926, 2.585061604025648, 2.793122763859576, 2.793122763859576, 2.793122763859576, 2.793122763859576, 2.793122763859576, 3.2200569715400134, 3.286575909143025, 3.2200569715400134, 2.585061604025648, 3.286575909143025, 1.3150478833752262, 2.015786161970816, 1.3805625087987101, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.384349545763926, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.793122763859576, 2.793122763859576, 2.793122763859576, 2.793122763859576, 2.793122763859576], "Category": ["Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3"], "logprob": [20.0, 19.0, 18.0, 17.0, 16.0, 15.0, 14.0, 13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, -1.9586, -1.9586, -1.9586, -1.9586, -1.9586, -2.8753, -2.9061, -4.2598, -4.2599, -4.2601, -4.2601, -4.2601, -4.2601, -4.2585, -4.2601, -4.2601, -4.2601, -4.2601, -4.2595, -4.2596, -2.1816, -2.1816, -2.1816, -2.1816, -2.7413, -2.7413, -2.7413, -2.7413, -2.7415, -2.7393, -4.126, -4.1259, -4.1256, -4.1259, -4.1259, -4.1259, -4.1259, -4.1259, -4.1258, -4.1244, -1.4628, -1.7253, -1.7129, -2.6419, -2.6435, -4.0262, -4.0266, -4.0266, -4.0266, -4.0266, -4.0261, -4.0265, -4.0265, -4.0265, -4.0265, -4.0259, -4.0259, -4.0259, -4.0259, -4.0259], "loglift": [20.0, 19.0, 18.0, 17.0, 16.0, 15.0, 14.0, 13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.7755, 0.7755, 0.7755, 0.7755, 0.7755, 0.5607, -0.3348, -0.7724, -0.8212, -0.8214, -0.8214, -0.8214, -0.8214, -1.1983, -1.2318, -1.2318, -1.2318, -1.2318, -1.4481, -1.6678, 0.8467, 0.8467, 0.8467, 0.8467, 0.6974, 0.6974, 0.6974, 0.6974, 0.6972, 0.3209, -0.6386, -0.6899, -1.3142, -1.3919, -1.3919, -1.3919, -1.3919, -1.3919, -1.534, -1.553, 1.129, 1.0862, 0.8584, 0.8455, 0.4167, -0.5875, -0.5879, -0.5879, -0.5879, -0.5879, -0.5902, -0.9982, -0.9982, -0.9982, -0.9982, -1.2919, -1.2919, -1.2919, -1.2919, -1.2919]}, "token.table": {"Topic": [2, 2, 3, 1, 3, 2, 1, 1, 2, 1, 2, 2, 1, 2, 1, 2, 3, 1, 2, 3, 2, 3], "Freq": [0.961000376841551, 0.7243375731621895, 0.7736759529774659, 0.30426803690067517, 0.6085360738013503, 0.7243375731621895, 0.7160444309423665, 0.7160444309423665, 0.961000376841551, 0.7160444309423665, 0.72434242826871, 0.961000376841551, 0.7223609117075772, 0.7243375731621895, 0.7160444309423665, 0.4960843659241657, 0.4960843659241657, 0.7160444309423665, 0.961000376841551, 0.9316605347405486, 0.7243375731621895, 0.760428584116178], "Term": ["bacon", "beans", "beautiful", "blue", "blue", "breakfast", "brown", "dog", "eggs", "fox", "green", "ham", "jumps", "kings", "lazy", "love", "love", "quick", "sausages", "sky", "toast", "today"]}, "R": 20, "lambda.step": 0.01, "plot.opts": {"xlab": "PC1", "ylab": "PC2"}, "topic.order": [3, 2, 1]};
 
 function LDAvis_load_lib(url, callback){
   var s = document.createElement('script');
@@ -1774,22 +1781,22 @@ function LDAvis_load_lib(url, callback){
 if(typeof(LDAvis) !== "undefined"){
    // already loaded: just create the visualization
    !function(LDAvis){
-       new LDAvis("#" + "ldavis_el33301403998483214565636061756", ldavis_el33301403998483214565636061756_data);
+       new LDAvis("#" + "ldavis_el192231402027710338885903416817", ldavis_el192231402027710338885903416817_data);
    }(LDAvis);
 }else if(typeof define === "function" && define.amd){
    // require.js is available: use it to load d3/LDAvis
    require.config({paths: {d3: "https://d3js.org/d3.v5"}});
    require(["d3"], function(d3){
       window.d3 = d3;
-      LDAvis_load_lib("https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.2.2/pyLDAvis/js/ldavis.v3.0.0.js", function(){
-        new LDAvis("#" + "ldavis_el33301403998483214565636061756", ldavis_el33301403998483214565636061756_data);
+      LDAvis_load_lib("https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.4.0/pyLDAvis/js/ldavis.v3.0.0.js", function(){
+        new LDAvis("#" + "ldavis_el192231402027710338885903416817", ldavis_el192231402027710338885903416817_data);
       });
     });
 }else{
     // require.js not available: dynamically load d3 & LDAvis
     LDAvis_load_lib("https://d3js.org/d3.v5.js", function(){
-         LDAvis_load_lib("https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.2.2/pyLDAvis/js/ldavis.v3.0.0.js", function(){
-                 new LDAvis("#" + "ldavis_el33301403998483214565636061756", ldavis_el33301403998483214565636061756_data);
+         LDAvis_load_lib("https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.4.0/pyLDAvis/js/ldavis.v3.0.0.js", function(){
+                 new LDAvis("#" + "ldavis_el192231402027710338885903416817", ldavis_el192231402027710338885903416817_data);
             })
          });
 }
@@ -1797,7 +1804,7 @@ if(typeof(LDAvis) !== "undefined"){
 </div>
 </section>
 <section id="hyperparameter-tuning">
-<h2><span class="section-number">2.10. </span>Hyperparameter Tuning<a class="headerlink" href="#hyperparameter-tuning" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">3.10. </span>Hyperparameter Tuning<a class="headerlink" href="#hyperparameter-tuning" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>One thing we haven’t made explicit is that the <strong>number of topics</strong> so far has been pre-determined.</p></li>
 <li><p>How to find the optimal number of topics can be challenging in topic modeling.</p></li>
@@ -1845,13 +1852,8 @@ if(typeof(LDAvis) !== "undefined"){
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fitting 5 folds for each of 10 candidates, totalling 50 fits
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Parallel(n_jobs=-1)]: Using backend LokyBackend with 16 concurrent workers.
-[Parallel(n_jobs=-1)]: Done  18 tasks      | elapsed:   29.1s
-[Parallel(n_jobs=-1)]: Done  50 out of  50 | elapsed:   55.7s finished
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 7.97 s, sys: 12.7 ms, total: 7.99 s
-Wall time: 1min 3s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 6.55 s, sys: 49.7 ms, total: 6.6 s
+Wall time: 54.5 s
 </pre></div>
 </div>
 </div>
@@ -1867,7 +1869,7 @@ Wall time: 1min 3s
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best Model&#39;s Params:  {&#39;learning_decay&#39;: 0.5, &#39;n_components&#39;: 3}
-Best Log Likelihood Score:  -50.410874498711244
+Best Log Likelihood Score:  -50.41087449871125
 Best Model Perplexity:  25.292966407265162
 </pre></div>
 </div>
@@ -1922,10 +1924,10 @@ Best Model Perplexity:  25.292966407265162
   <tbody>
     <tr>
       <th>0</th>
-      <td>16.469226</td>
-      <td>2.128114</td>
-      <td>0.001277</td>
-      <td>0.000161</td>
+      <td>13.603249</td>
+      <td>1.602856</td>
+      <td>0.001377</td>
+      <td>0.000117</td>
       <td>0.5</td>
       <td>3</td>
       <td>{'learning_decay': 0.5, 'n_components': 3}</td>
@@ -1940,10 +1942,10 @@ Best Model Perplexity:  25.292966407265162
     </tr>
     <tr>
       <th>1</th>
-      <td>18.579647</td>
-      <td>4.115401</td>
-      <td>0.001244</td>
-      <td>0.000172</td>
+      <td>15.606485</td>
+      <td>3.031277</td>
+      <td>0.001455</td>
+      <td>0.000176</td>
       <td>0.5</td>
       <td>4</td>
       <td>{'learning_decay': 0.5, 'n_components': 4}</td>
@@ -1958,10 +1960,10 @@ Best Model Perplexity:  25.292966407265162
     </tr>
     <tr>
       <th>2</th>
-      <td>15.408343</td>
-      <td>1.536522</td>
-      <td>0.001236</td>
-      <td>0.000176</td>
+      <td>12.842889</td>
+      <td>1.150975</td>
+      <td>0.001275</td>
+      <td>0.000214</td>
       <td>0.5</td>
       <td>5</td>
       <td>{'learning_decay': 0.5, 'n_components': 5}</td>
@@ -1976,10 +1978,10 @@ Best Model Perplexity:  25.292966407265162
     </tr>
     <tr>
       <th>3</th>
-      <td>17.233479</td>
-      <td>2.188188</td>
-      <td>0.001266</td>
-      <td>0.000196</td>
+      <td>14.287387</td>
+      <td>1.691120</td>
+      <td>0.001440</td>
+      <td>0.000140</td>
       <td>0.5</td>
       <td>6</td>
       <td>{'learning_decay': 0.5, 'n_components': 6}</td>
@@ -1994,10 +1996,10 @@ Best Model Perplexity:  25.292966407265162
     </tr>
     <tr>
       <th>4</th>
-      <td>15.746874</td>
-      <td>1.422879</td>
-      <td>0.001216</td>
-      <td>0.000143</td>
+      <td>13.265179</td>
+      <td>1.048562</td>
+      <td>0.001409</td>
+      <td>0.000144</td>
       <td>0.5</td>
       <td>7</td>
       <td>{'learning_decay': 0.5, 'n_components': 7}</td>
@@ -2012,10 +2014,10 @@ Best Model Perplexity:  25.292966407265162
     </tr>
     <tr>
       <th>5</th>
-      <td>17.122218</td>
-      <td>2.119591</td>
-      <td>0.001261</td>
-      <td>0.000168</td>
+      <td>14.578954</td>
+      <td>1.979207</td>
+      <td>0.001500</td>
+      <td>0.000149</td>
       <td>0.7</td>
       <td>3</td>
       <td>{'learning_decay': 0.7, 'n_components': 3}</td>
@@ -2030,10 +2032,10 @@ Best Model Perplexity:  25.292966407265162
     </tr>
     <tr>
       <th>6</th>
-      <td>17.024469</td>
-      <td>2.581231</td>
-      <td>0.001156</td>
-      <td>0.000288</td>
+      <td>15.057266</td>
+      <td>1.961181</td>
+      <td>0.001391</td>
+      <td>0.000309</td>
       <td>0.7</td>
       <td>4</td>
       <td>{'learning_decay': 0.7, 'n_components': 4}</td>
@@ -2048,10 +2050,10 @@ Best Model Perplexity:  25.292966407265162
     </tr>
     <tr>
       <th>7</th>
-      <td>15.913083</td>
-      <td>1.364438</td>
-      <td>0.001073</td>
-      <td>0.000371</td>
+      <td>14.238861</td>
+      <td>1.063881</td>
+      <td>0.001462</td>
+      <td>0.000167</td>
       <td>0.7</td>
       <td>5</td>
       <td>{'learning_decay': 0.7, 'n_components': 5}</td>
@@ -2066,10 +2068,10 @@ Best Model Perplexity:  25.292966407265162
     </tr>
     <tr>
       <th>8</th>
-      <td>15.555237</td>
-      <td>0.568224</td>
-      <td>0.000944</td>
-      <td>0.000366</td>
+      <td>13.910200</td>
+      <td>0.538017</td>
+      <td>0.001009</td>
+      <td>0.000260</td>
       <td>0.7</td>
       <td>6</td>
       <td>{'learning_decay': 0.7, 'n_components': 6}</td>
@@ -2084,10 +2086,10 @@ Best Model Perplexity:  25.292966407265162
     </tr>
     <tr>
       <th>9</th>
-      <td>11.960104</td>
-      <td>0.910794</td>
-      <td>0.000647</td>
-      <td>0.000114</td>
+      <td>10.410435</td>
+      <td>1.171618</td>
+      <td>0.000781</td>
+      <td>0.000094</td>
       <td>0.7</td>
       <td>7</td>
       <td>{'learning_decay': 0.7, 'n_components': 7}</td>
@@ -2116,10 +2118,10 @@ Best Model Perplexity:  25.292966407265162
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;param_n_components&#39;, ylabel=&#39;mean_test_score&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;param_n_components&#39;, ylabel=&#39;mean_test_score&#39;&gt;
 </pre></div>
 </div>
-<img alt="../_images/09f2ffa2fd96e8a4551317e66a66f8ccfab1564a1a0716917565d9dc170e9a9a.png" src="../_images/09f2ffa2fd96e8a4551317e66a66f8ccfab1564a1a0716917565d9dc170e9a9a.png" />
+<img alt="../_images/c39dfc17a57c21ccca0cadb73913e29b031db65756edb062fedd7f56cc16f240.png" src="../_images/c39dfc17a57c21ccca0cadb73913e29b031db65756edb062fedd7f56cc16f240.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -2148,7 +2150,7 @@ Topic #2 :
 </section>
 </section>
 <section id="topic-prediction">
-<h2><span class="section-number">2.11. </span>Topic Prediction<a class="headerlink" href="#topic-prediction" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">3.11. </span>Topic Prediction<a class="headerlink" href="#topic-prediction" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>We can use our LDA to make predictions of topics for new documents.</p></li>
 </ul>
@@ -2232,7 +2234,7 @@ Topic #2 :
 </div>
 </section>
 <section id="additional-notes">
-<h2><span class="section-number">2.12. </span>Additional Notes<a class="headerlink" href="#additional-notes" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">3.12. </span>Additional Notes<a class="headerlink" href="#additional-notes" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>We can calculate a metric to evaluate the coherence of each topic.</p></li>
 <li><p>The coherence computation is implemented in <code class="docutils literal notranslate"><span class="pre">gensim</span></code>. To apply the coherence comptuation to a <code class="docutils literal notranslate"><span class="pre">sklearn</span></code>-trained LDA, we need <code class="docutils literal notranslate"><span class="pre">tmtoolkit</span></code> (<code class="docutils literal notranslate"><span class="pre">tmtoolkit.topicmod.evaluate.metric_coherence_gensim</span></code>).</p></li>
@@ -2269,7 +2271,7 @@ Topic #2 :
             <span class="n">top_n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
             <span class="n">topic_word_distrib</span><span class="o">=</span><span class="n">cur_lda</span><span class="o">.</span><span class="n">components_</span><span class="p">,</span>
             <span class="n">dtm</span><span class="o">=</span><span class="n">cv</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">norm_corpus</span><span class="p">),</span>
-            <span class="n">vocab</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">()),</span>
+            <span class="n">vocab</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">()),</span>
             <span class="n">texts</span><span class="o">=</span><span class="n">norm_corpus_tokens</span><span class="p">)</span>
         <span class="n">models</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cur_lda</span><span class="p">)</span>
         <span class="n">coherence_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cur_coherence_score</span><span class="p">))</span>
@@ -2297,8 +2299,8 @@ Topic #2 :
 7
 8
 9
-CPU times: user 57.9 s, sys: 433 ms, total: 58.3 s
-Wall time: 58.4 s
+CPU times: user 48 s, sys: 945 ms, total: 49 s
+Wall time: 2min
 </pre></div>
 </div>
 </div>
@@ -2415,15 +2417,15 @@ Wall time: 58.4 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/118f7b4354df87e3e8522b66e00e7e3c32d4b6e6894cc991f72ce4bb94031b3f.png" src="../_images/118f7b4354df87e3e8522b66e00e7e3c32d4b6e6894cc991f72ce4bb94031b3f.png" />
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ggplot: (-9223363261886682501)&gt;
+<img alt="../_images/d588208955e87b54b41662a6241653daf5e1cdda9a4154795f7ee0d8b9030738.png" src="../_images/d588208955e87b54b41662a6241653daf5e1cdda9a4154795f7ee0d8b9030738.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (960 x 720)&gt;
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="references">
-<h2><span class="section-number">2.13. </span>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">3.13. </span>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Sarkar (2019), Chapter 6: Text Summarization and Topic Models</p></li>
 </ul>
@@ -2442,13 +2444,13 @@ Wall time: 58.4 s
             mode: "python"
         },
         kernelOptions: {
-            name: "python-notes",
+            name: "python3",
             path: "./nlp"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python-notes'</script>
+    <script>kernelName = 'python3'</script>
 
                 </article>
               
@@ -2462,12 +2464,12 @@ Wall time: 58.4 s
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="ml-sklearn-classification.html"
+       href="ml-emsemble-learning.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">1. </span>Sentiment Analysis Using Bag-of-Words</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>Emsemble Learning</p>
       </div>
     </a>
     <a class="right-next"
@@ -2497,41 +2499,41 @@ Wall time: 58.4 s
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-topic-modeling">2.1. What is Topic Modeling?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flowchart-for-topic-modeling">2.2. Flowchart for Topic Modeling</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation-and-preprocessing">2.3. Data Preparation and Preprocessing</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-topic-modeling">3.1. What is Topic Modeling?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flowchart-for-topic-modeling">3.2. Flowchart for Topic Modeling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation-and-preprocessing">3.3. Data Preparation and Preprocessing</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-necessary-dependencies-and-settings">Import Necessary Dependencies and Settings</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-corpus">Simple Corpus</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-text-pre-processing">Simple Text Pre-processing</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#text-vectorization">2.4. Text Vectorization</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#text-vectorization">3.4. Text Vectorization</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bag-of-words-model">Bag of Words Model</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#latent-dirichlet-allocation">2.5. Latent Dirichlet Allocation</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#latent-dirichlet-allocation">3.5. Latent Dirichlet Allocation</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#intuition-of-lda">Intuition of LDA</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#building-lda-model">Building LDA Model</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-performance-metrics">Model Performance Metrics</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation">2.6. Interpretation</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation">3.6. Interpretation</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#document-by-topic-matrix">Document-by-Topic Matrix</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#topic-by-word-matrix">Topic-by-Word Matrix</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-the-meanings-of-topics">Interpreting the Meanings of Topics</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#topics-in-documents">2.7. Topics in Documents</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering-documents-using-topic-model-features">2.8. Clustering documents using topic model features</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-topic-models">2.9. Visualizing Topic Models</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hyperparameter-tuning">2.10. Hyperparameter Tuning</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#topics-in-documents">3.7. Topics in Documents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering-documents-using-topic-model-features">3.8. Clustering documents using topic model features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-topic-models">3.9. Visualizing Topic Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hyperparameter-tuning">3.10. Hyperparameter Tuning</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grid-search-for-topic-number">Grid Search for Topic Number</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#examining-the-grid-search-results">Examining the Grid Search Results</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#topic-prediction">2.11. Topic Prediction</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-notes">2.12. Additional Notes</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">2.13. References</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#topic-prediction">3.11. Topic Prediction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-notes">3.12. Additional Notes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">3.13. References</a></li>
 </ul>
   </nav></div>
 
@@ -2546,7 +2548,7 @@ Wall time: 58.4 s
   <div class="footer-item">
     
 <p class="component-author">
-By Alvin Chen
+By Alvin Cheng-Hsien Chen
 </p>
 
   </div>
@@ -2555,7 +2557,7 @@ By Alvin Chen
     
   <p class="copyright">
     
-      © Copyright 2020 Alvin Chen.
+      © Copyright 2023 Alvin Chen.
       <br/>
     
   </p>
