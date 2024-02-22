@@ -471,20 +471,19 @@ document.write(`
 <h3>Less-than-ideal Scenarios<a class="headerlink" href="#less-than-ideal-scenarios" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Initial datasets with limited annotations/labels</p></li>
-<li><p>Initial datasets labeled based on regular expressions or heuristics</p></li>
+<li><p>Initial datasets labeled/extracted based on regular expressions or heuristics</p></li>
 <li><p>Public datasets (cf. <a class="reference external" href="https://datasetsearch.research.google.com/">Google Dataset Search</a> or <a class="reference external" href="https://www.kaggle.com/">kaggle</a>)</p></li>
-<li><p>Scrape data</p></li>
-<li><p>Product intervention</p></li>
-<li><p>Data augmentation</p></li>
+<li><p>Scraped data</p></li>
+<li><p>Product intervention (Product intervention refers to the deliberate manipulation or curation of data by product developers or platform owners, which may introduce biases or distortions in the dataset.)</p></li>
 </ul>
 </section>
 <section id="data-augmentation">
 <h3>Data Augmentation<a class="headerlink" href="#data-augmentation" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
-<li><p>It is a technique to exploit language properties to create texts that are syntactically similar to the source text data.</p></li>
+<li><p>Data augmentation in natural language processing (NLP) is a technique used to increase the diversity and quantity of training data by leveraging language properties to create new text samples that are syntactically similar to the original source text data.</p></li>
 <li><p>Types of strategies:</p>
 <ul>
-<li><p>synonym replacement</p></li>
+<li><p>Synonym replacement</p></li>
 <li><p>Related word replacement (based on association metrics)</p></li>
 <li><p>Back translation</p></li>
 <li><p>Replacing entities</p></li>
@@ -517,37 +516,173 @@ document.write(`
 <section id="extracting-texts-from-webpages">
 <h4>Extracting texts from webpages<a class="headerlink" href="#extracting-texts-from-webpages" title="Permalink to this headline">#</a></h4>
 <p>Extracting textual contents from the website is a very common way to obtain data. It requires a close study of the structure of the HTML content of the web pages.</p>
-<p>The following codes attempt to extract the hyperlinks from the homepage of a news agency and automatically visit the first hyperlink for its textual content.</p>
+<p>The following code attempts to extract hyperlinks from the index page of PTT, a renowned public bulletin board in Taiwan, and automatically navigates to the first hyperlink to access its textual content.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span> 
-<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
- 
-<span class="c1">## China Times Homepage</span>
-<span class="n">newsurl</span> <span class="o">=</span> <span class="s1">&#39;https://www.chinatimes.com/realtimenews/?chdtv&#39;</span>
-<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">newsurl</span><span class="p">)</span>
-<span class="n">web_content</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span>
-<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">web_content</span><span class="p">,</span><span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
-<span class="n">title</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;href&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;h3.title &gt; a&#39;</span><span class="p">)]</span>
-<span class="n">first_art_link</span> <span class="o">=</span> <span class="s1">&#39;https://www.chinatimes.com&#39;</span><span class="o">+</span> <span class="n">title</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;?chdtv&#39;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## -------------------- ##</span>
+<span class="c1">## Colab Only           ##</span>
+<span class="c1">## -------------------- ##</span>
 
-<span class="c1">#print(first_art_link)</span>
-<span class="n">art_request</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">first_art_link</span><span class="p">)</span>
-<span class="n">art_request</span><span class="o">.</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span>
-<span class="n">soup_art</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">art_request</span><span class="o">.</span><span class="n">text</span><span class="p">,</span><span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
-
-<span class="n">art_content</span> <span class="o">=</span> <span class="n">soup_art</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">)</span>
-<span class="n">art_texts</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">art_content</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">art_texts</span><span class="p">)</span>
+<span class="o">!</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>requests_html
+<span class="o">!</span><span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>tesseract-ocr
+<span class="o">!</span><span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>libtesseract-dev
+<span class="o">!</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pytesseract
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;新北板橋私幼疑似餵藥案，涉案的9名教師均獲不起訴，被新北市政府點名需道歉的行政院副院長鄭文燦，今稱新北市府才需解釋為何撤照又復照。對此，新北市府回批怎麼會連為了保護孩童安全必須施行的預防性撤照都不了解？呼籲包括鄭文燦在內的造謠者們面對事實，拿出勇氣道歉，還給「被抹黑者」一個公道！&#39;, &#39;&#39;, &#39;市府表示，新北地檢署偵結板橋私立幼兒園餵藥案，透過科學驗證、司法及教育局行政調查，證明孩子並未被餵食不明藥物，孩子也沒有被不當對待，因此教育局立即主動撤銷案件爆發初始， 為了預防性保護幼兒安全所做的廢止設立許可行政處分，並積極予以協助，盼能儘早重新建立親師生間的信任關係。&#39;, &#39;&#39;, &#39;然而當初帶頭造謠的府院黨人士依舊不願誠實面對自己說過的謊言，拿出道歉的勇氣，竟還惡人先告狀，請有心人士捫心自問，到底是誰公然說出「幼兒園的餵毒案」不該發生？」，到底是誰刻意指稱「教育部有提醒，一直到提醒5次之後，檢調進行偵辦，移送這個案件，才做成撤照的處分」，到底是誰以直接或間接的影射性發言製造社會恐慌？不就是國家最高行政機關的行政院副院長嗎？&#39;, &#39;&#39;, &#39;無獨有偶，執政黨立委賴品妤委員曾企圖將汐止幼兒園案製造成另一波餵藥案延燒的假象，如今真相大白，不但不思改過道歉， 竟反過來要新北市政府回頭是岸 ，極盡顛倒是非之能事。請賴委員別耍賴了！「回頭是岸」這句話送給您自己最為貼切。&#39;, &#39;&#39;, &#39;新北市府指出，人民用神聖選票選出政黨和民意代表是希望能真心為民喉舌，而非為了選舉、為了打擊政敵信口開河、漫天撒謊，撕裂社會互信，台灣社會經過餵藥案事件後，除了省思，更需要縫合，找回人與人之間的信任與良善，呼籲造謠者們拿出勇氣誠懇道歉，找回身為政治公眾人物應有的道德良心與底線。&#39;, &#39;&#39;, &#39;&#39;, &#39;中時新聞網對留言系統使用者發布的文字、圖片或檔案保有片面修改或移除的權利。當使用者使用本網站留言服務時，表示已詳細閱讀並完全了解，且同意配合下述規定：&#39;, &#39;違反上述規定者，中時新聞網有權刪除留言，或者直接封鎖帳號！請使用者在發言前，務必先閱讀留言板規則，謝謝配合。&#39;]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: requests_html in /usr/local/lib/python3.10/dist-packages (0.10.0)
+Requirement already satisfied: requests in /usr/local/lib/python3.10/dist-packages (from requests_html) (2.31.0)
+Requirement already satisfied: pyquery in /usr/local/lib/python3.10/dist-packages (from requests_html) (2.0.0)
+Requirement already satisfied: fake-useragent in /usr/local/lib/python3.10/dist-packages (from requests_html) (1.4.0)
+Requirement already satisfied: parse in /usr/local/lib/python3.10/dist-packages (from requests_html) (1.20.1)
+Requirement already satisfied: bs4 in /usr/local/lib/python3.10/dist-packages (from requests_html) (0.0.2)
+Requirement already satisfied: w3lib in /usr/local/lib/python3.10/dist-packages (from requests_html) (2.1.2)
+Requirement already satisfied: pyppeteer&gt;=0.0.14 in /usr/local/lib/python3.10/dist-packages (from requests_html) (2.0.0)
+Requirement already satisfied: appdirs&lt;2.0.0,&gt;=1.4.3 in /usr/local/lib/python3.10/dist-packages (from pyppeteer&gt;=0.0.14-&gt;requests_html) (1.4.4)
+Requirement already satisfied: certifi&gt;=2023 in /usr/local/lib/python3.10/dist-packages (from pyppeteer&gt;=0.0.14-&gt;requests_html) (2024.2.2)
+Requirement already satisfied: importlib-metadata&gt;=1.4 in /usr/local/lib/python3.10/dist-packages (from pyppeteer&gt;=0.0.14-&gt;requests_html) (7.0.1)
+Requirement already satisfied: pyee&lt;12.0.0,&gt;=11.0.0 in /usr/local/lib/python3.10/dist-packages (from pyppeteer&gt;=0.0.14-&gt;requests_html) (11.1.0)
+Requirement already satisfied: tqdm&lt;5.0.0,&gt;=4.42.1 in /usr/local/lib/python3.10/dist-packages (from pyppeteer&gt;=0.0.14-&gt;requests_html) (4.66.2)
+Requirement already satisfied: urllib3&lt;2.0.0,&gt;=1.25.8 in /usr/local/lib/python3.10/dist-packages (from pyppeteer&gt;=0.0.14-&gt;requests_html) (1.26.18)
+Requirement already satisfied: websockets&lt;11.0,&gt;=10.0 in /usr/local/lib/python3.10/dist-packages (from pyppeteer&gt;=0.0.14-&gt;requests_html) (10.4)
+Requirement already satisfied: beautifulsoup4 in /usr/local/lib/python3.10/dist-packages (from bs4-&gt;requests_html) (4.12.3)
+Requirement already satisfied: lxml&gt;=2.1 in /usr/local/lib/python3.10/dist-packages (from pyquery-&gt;requests_html) (4.9.4)
+Requirement already satisfied: cssselect&gt;=1.2.0 in /usr/local/lib/python3.10/dist-packages (from pyquery-&gt;requests_html) (1.2.0)
+Requirement already satisfied: charset-normalizer&lt;4,&gt;=2 in /usr/local/lib/python3.10/dist-packages (from requests-&gt;requests_html) (3.3.2)
+Requirement already satisfied: idna&lt;4,&gt;=2.5 in /usr/local/lib/python3.10/dist-packages (from requests-&gt;requests_html) (3.6)
+Requirement already satisfied: zipp&gt;=0.5 in /usr/local/lib/python3.10/dist-packages (from importlib-metadata&gt;=1.4-&gt;pyppeteer&gt;=0.0.14-&gt;requests_html) (3.17.0)
+Requirement already satisfied: typing-extensions in /usr/local/lib/python3.10/dist-packages (from pyee&lt;12.0.0,&gt;=11.0.0-&gt;pyppeteer&gt;=0.0.14-&gt;requests_html) (4.9.0)
+Requirement already satisfied: soupsieve&gt;1.2 in /usr/local/lib/python3.10/dist-packages (from beautifulsoup4-&gt;bs4-&gt;requests_html) (2.5)
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+tesseract-ocr is already the newest version (4.1.1-2.1build1).
+0 upgraded, 0 newly installed, 0 to remove and 35 not upgraded.
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+libtesseract-dev is already the newest version (4.1.1-2.1build1).
+0 upgraded, 0 newly installed, 0 to remove and 35 not upgraded.
+Collecting pytesseract
+  Downloading pytesseract-0.3.10-py3-none-any.whl (14 kB)
+Requirement already satisfied: packaging&gt;=21.3 in /usr/local/lib/python3.10/dist-packages (from pytesseract) (23.2)
+Requirement already satisfied: Pillow&gt;=8.0.0 in /usr/local/lib/python3.10/dist-packages (from pytesseract) (9.4.0)
+Installing collected packages: pytesseract
+Successfully installed pytesseract-0.3.10
 </pre></div>
 </div>
 </div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Example 1: PTT Gossipping</span>
+<span class="kn">from</span> <span class="nn">requests_html</span> <span class="kn">import</span> <span class="n">HTMLSession</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1">## HTML session</span>
+<span class="n">session</span> <span class="o">=</span> <span class="n">HTMLSession</span><span class="p">()</span>
+<span class="n">session</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;over18&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">)</span>  <span class="c1"># age verification</span>
+
+<span class="c1">## Processing index page</span>
+<span class="n">newsurl</span> <span class="o">=</span> <span class="s1">&#39;https://www.ptt.cc/bbs/Gossiping/index.html&#39;</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">newsurl</span><span class="p">)</span>
+<span class="n">web_content</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span>
+
+<span class="c1">## Extract all hyperlinks</span>
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">web_content</span><span class="p">,</span><span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
+<span class="n">title</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;href&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;div.title &gt; a&#39;</span><span class="p">)]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">title</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+
+<span class="c1">## Extract first article content</span>
+<span class="n">first_art_link</span> <span class="o">=</span> <span class="s1">&#39;https://www.ptt.cc/&#39;</span><span class="o">+</span> <span class="n">title</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">first_art_link</span><span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">first_art_link</span><span class="p">)</span>
+<span class="n">web_content</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span>
+
+<span class="c1">## Extract article from HTML</span>
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">web_content</span><span class="p">,</span><span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
+
+<span class="c1">## Article Metadata</span>
+<span class="n">header</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;span&#39;</span><span class="p">,</span><span class="s1">&#39;article-meta-value&#39;</span><span class="p">)</span>
+
+<span class="c1"># Author</span>
+<span class="n">author</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span>
+<span class="c1"># Board</span>
+<span class="n">board</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span>
+<span class="c1"># Title</span>
+<span class="n">title</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">text</span>
+<span class="c1"># Date</span>
+<span class="n">date</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">text</span>
+
+
+<span class="c1">## Artcle Content</span>
+<span class="n">main_container</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;main-container&#39;</span><span class="p">)</span>
+
+<span class="c1">## Paragraphs</span>
+<span class="n">all_text</span> <span class="o">=</span> <span class="n">main_container</span><span class="o">.</span><span class="n">text</span>
+<span class="n">pre_text</span> <span class="o">=</span> <span class="n">all_text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;--&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">texts</span> <span class="o">=</span> <span class="n">pre_text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">contents</span> <span class="o">=</span> <span class="n">texts</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
+<span class="n">content</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span>
+
+<span class="c1"># Printing</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;作者：&#39;</span><span class="o">+</span><span class="n">author</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;看板：&#39;</span><span class="o">+</span><span class="n">board</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;標題：&#39;</span><span class="o">+</span><span class="n">title</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;日期：&#39;</span><span class="o">+</span><span class="n">date</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;內容：&#39;</span><span class="o">+</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;/bbs/Gossiping/M.1708555641.A.B86.html&#39;, &#39;/bbs/Gossiping/M.1708555709.A.95A.html&#39;, &#39;/bbs/Gossiping/M.1708555913.A.A76.html&#39;, &#39;/bbs/Gossiping/M.1708556060.A.DD7.html&#39;, &#39;/bbs/Gossiping/M.1708556086.A.06B.html&#39;]
+https://www.ptt.cc//bbs/Gossiping/M.1708555641.A.B86.html
+作者：A98454 ( 阿肥是肥宅的肥)
+看板：Gossiping
+標題：Re: [問卦] 科舉制度是控制人民的手段嗎？
+日期：Thu Feb 22 03:47:22 2024
+內容： 米那桑 空尼幾蛙 關於J個問題  阿肥覺得是這樣的
+
+ 說到控制人民就要說說 法家思想了，荀子認為任性本惡，因此人需要學習去壓制內心慾望
+的邪惡，遵行禮法
+
+ 法家延續了這個思想，認為學習的成效還是不夠，人就是犯賤必須要有法來約束他們，才
+會乖乖
+
+ 因此商鞅變法並提出農戰的理論，農戰理論就是說呢，國家糧食充足就能變強，所以人民
+就別想有的沒的好好跟著國家給的kpi ,乖乖種田就好了
+
+ 至於那些有其他想法的，思想hen 危險的，就發配充軍思想改造，避免這些人影響農民種
+田，所以人民不要想有的沒乖乖種田就好了
+
+ 然後糧食充足了，飽暖思淫慾，就有更多農奴了
+
+ 如果農奴太多土地不夠怎麽辦呢？這時候就要發動戰爭消耗多餘的人口了
+
+ 這就是農戰的核心思想
+
+  至於科舉制度嗎，算是一種安撫懷柔政策吧，早期九品門第思想，造成平民沒有上升通道
+，大概武則天開始，出現科舉制度的雛形，（也許要拉攏一些底層勢力抗衡 朝中的貴族階
+級，畢竟武后的政敵很多）
+
+  農民有了科舉制度後，也就是下階層能夠上升，國家有更多人才使用，另外下階層會跟上
+階層內鬥，間接分化內部矛盾指向統治者，保護王權
+
+ 所以 科舉制度 算是 帝國2.0的新制度發明吧
+
+
+ 大概就是醬
+
+ 樓下  李白 怎麽看？
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
 </div>
 </section>
 <section id="extracting-texts-from-scanned-pdf">
@@ -559,13 +694,25 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## -------------------- ##</span>
+<span class="c1">## Colab Only           ##</span>
+<span class="c1">## -------------------- ##</span>
+
+<span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
+<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/drive&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
 <span class="kn">from</span> <span class="nn">pytesseract</span> <span class="kn">import</span> <span class="n">image_to_string</span>
 
 <span class="c1">#import os</span>
 <span class="c1">#print(os.getcwd())</span>
 
-<span class="n">YOUR_DEMO_DATA_PATH</span> <span class="o">=</span> <span class="s2">&quot;../../../RepositoryData/data/&quot;</span>  <span class="c1"># please change your file path</span>
+<span class="n">YOUR_DEMO_DATA_PATH</span> <span class="o">=</span> <span class="s2">&quot;/content/drive/MyDrive/ENC2045_demo_data/&quot;</span>  <span class="c1"># please change your file path on local machines</span>
 <span class="n">filename</span> <span class="o">=</span> <span class="n">YOUR_DEMO_DATA_PATH</span><span class="o">+</span><span class="s1">&#39;pdf-firth-text.png&#39;</span>
 
 <span class="n">text</span> <span class="o">=</span> <span class="n">image_to_string</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
@@ -576,7 +723,7 @@ document.write(`
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Stellenbosch Papers in Linguistics, Vol. 15, 1986, 31-60 doi: 10.5774/15-0-96
 
-SPIL 16 (1986) 31- 6¢ 31
+SPIL 14 (1986) 31- 6¢ 31
 
 THE LINGUISTIC THOUGHT OF J.R. FIRTH
 
@@ -621,7 +768,8 @@ the Language-system underlying them.
 Languages, according to many theorists, are to be envisaged
 as systems of abstract entities. These entities are units
 
-of linguistic “form&quot;. Units of linguistic form are of two
+of linguistic “form. Units of linguistic form are of two
+
 </pre></div>
 </div>
 </div>
@@ -685,6 +833,30 @@ b&#39;I feel really \xf0\x9f\x98\xa1. GOGOGO!! \xf0\x9f\x92\xaa\xf0\x9f\x92\xaa\
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>NLTK package provides many useful datasets for text analysis. Some of the codes may require you to download the corpus data first. Please see <a class="reference external" href="https://www.nltk.org/data.html">Installing NLTK Data</a> for more information.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## -------------------- ##</span>
+<span class="c1">## Colab Only           ##</span>
+<span class="c1">## -------------------- ##</span>
+
+<span class="kn">import</span> <span class="nn">nltk</span>
+<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">([</span><span class="s1">&#39;punkt&#39;</span><span class="p">,</span> <span class="s1">&#39;stopwords&#39;</span><span class="p">,</span> <span class="s1">&#39;wordnet&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[nltk_data] Downloading package punkt to /root/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+[nltk_data] Downloading package stopwords to /root/nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!
+[nltk_data] Downloading package wordnet to /root/nltk_data...
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -819,9 +991,9 @@ good
 <li><p>Automatic annotations</p>
 <ul>
 <li><p>POS tagging</p></li>
-<li><p>Parsing</p></li>
+<li><p>Syntactic/Dependency Parsing</p></li>
 <li><p>Named Entity Recognition</p></li>
-<li><p>Coreference resolution</p></li>
+<li><p>Coreference Resolution</p></li>
 </ul>
 </li>
 </ul>
@@ -848,7 +1020,9 @@ good
 <section id="what-is-feature-engineering">
 <h3>What is feature engineering?<a class="headerlink" href="#what-is-feature-engineering" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
-<li><p>It refers to a process to feed the extracted and preprocessed texts into a machine-learning algorithm.</p></li>
+<li><p>Feature engineering is the process of transforming raw data into informative features that are suitable for machine learning algorithms.</p></li>
+<li><p>It usually involves creating, selecting, or modifying features from the original dataset to improve the performance of a machine learning model.</p></li>
+<li><p>Feature engineering aims to extract relevant information from the data and represent it in a way that enhances the model’s ability to learn patterns and make accurate predictions.</p></li>
 <li><p>It aims at capturing the characteristics of the text into a numeric vector that can be understood by the ML algorithms. (Cf. <em>construct</em>, <em>operational definitions</em>, and <em>measurement</em> in experimental science)</p></li>
 <li><p>In short, it concerns how to meaningfully represent texts quantitatively, i.e., text representation.</p></li>
 </ul>
@@ -866,8 +1040,9 @@ good
 <h3>Feature Engineering for DL<a class="headerlink" href="#feature-engineering-for-dl" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>DL directly takes the texts as inputs to the model.</p></li>
-<li><p>The DL model is capable of learning features from the texts (e.g., embeddings)</p></li>
-<li><p>The price is that the model is often less interpretable.</p></li>
+<li><p>Deep learning models, particularly deep neural networks, are capable of automatically extracting meaningful features from raw data through multiple layers of abstraction.</p></li>
+<li><p>This process is known as feature learning or representation learning, and it is a key advantage of deep learning over traditional machine learning approaches.</p></li>
+<li><p>However, a drawback is that deep learning models are often less interpretable compared to traditional machine learning approaches.</p></li>
 </ul>
 </section>
 <section id="strengths-and-weakness">
@@ -898,6 +1073,14 @@ good
 </ul>
 </li>
 </ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>Ensemble learning combines predictions from multiple individual models directly, while stacking involves training a meta-model to combine predictions from base models.</p></li>
+<li><p>Ensemble learning is typically simpler to implement but may not capture complex relationships as effectively as stacking.</p></li>
+<li><p>Stacking can lead to improved performance but requires additional data for training the meta-model and is more complex to implement and tune.</p></li>
+</ul>
+</div>
 </section>
 </section>
 <section id="evaluation">
@@ -918,8 +1101,10 @@ good
 </section>
 <section id="intrinsic-vs-extrinsic-evaluation">
 <h3>Intrinsic vs. Extrinsic Evaluation<a class="headerlink" href="#intrinsic-vs-extrinsic-evaluation" title="Permalink to this headline">#</a></h3>
+<p>Intrinsic evaluation assesses the performance of a machine learning model based solely on its performance on a specific task or dataset. Extrinsic evaluation assesses the performance of a machine learning model within the context of a larger system or real-world application.</p>
 <ul class="simple">
-<li><p>Take spam-classification system as an example</p></li>
+<li><p>Take spam-classification system as an example</p>
+<ul>
 <li><p>Intrinsic:</p>
 <ul>
 <li><p>the precision and recall of the spam classification/prediction</p></li>
@@ -928,6 +1113,8 @@ good
 <li><p>Extrinsic:</p>
 <ul>
 <li><p>the amount of time users spent on a spam email</p></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -971,7 +1158,7 @@ good
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
-<li><p>Chapter 2 of Practical Natural Language Processing. <span id="id2">[<a class="reference internal" href="../intro.html#id13" title="Sowmya Vajjala, Bodhisattwa Majumder, Anuj Gupta, and Harshit Surana. Practical Natural Language Processing: A Comprehensive Guide to Building Real-World NLP Systems. O'Reilly Media, 2020.">6</a>]</span></p></li>
+<li><p>Chapter 2 of Practical Natural Language Processing. <span id="id2">[<a class="reference internal" href="../intro.html#id14" title="Sowmya Vajjala, Bodhisattwa Majumder, Anuj Gupta, and Harshit Surana. Practical Natural Language Processing: A Comprehensive Guide to Building Real-World NLP Systems. O'Reilly Media, 2020.">Vajjala <em>et al.</em>, 2020</a>]</span></p></li>
 </ul>
 </section>
 </section>
@@ -988,13 +1175,13 @@ good
             mode: "python"
         },
         kernelOptions: {
-            name: "python-notes-2023",
+            name: "python3",
             path: "./nlp"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python-notes-2023'</script>
+    <script>kernelName = 'python3'</script>
 
                 </article>
               
