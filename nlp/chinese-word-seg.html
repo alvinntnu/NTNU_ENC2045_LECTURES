@@ -436,9 +436,13 @@ $ pip install jieba
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Building prefix dict from the default dictionary ...
-Dumping model to file cache /var/folders/0v/47nxlfjn26536t51wxj9j6q40000gn/T/jieba.cache
-Loading model cost 0.550 seconds.
+DEBUG:jieba:Building prefix dict from the default dictionary ...
+Dumping model to file cache /tmp/jieba.cache
+DEBUG:jieba:Dumping model to file cache /tmp/jieba.cache
+Loading model cost 1.553 seconds.
+DEBUG:jieba:Loading model cost 1.553 seconds.
 Prefix dict has been built successfully.
+DEBUG:jieba:Prefix dict has been built successfully.
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> | 高速公路 | 局說 | ， | 目前 | 在 | 國道 | 3 | 號 | 北向 | 水上 | 系統 | 至 | 中埔 | 路段 | 車多 | 壅塞 | ， | 已回 | 堵約 | 3 | 公里 | 。 | 另外 | ， | 國道 | 1 | 號 | 北向 | 仁德 | 至 | 永康 | 路段 | 路段 | ， | 已回 | 堵 | 約 | 有 | 7 | 公里 | 。 | 建議 | 駕駛人 | 提前 | 避開 | 壅塞 | 路段 | 改道 | 行駛 | ， | 行經車 | 多 | 路段 | 請 | 保持 | 行車 | 安全 | 距離 | ， | 小心 | 行駛 | 。 | 
@@ -504,6 +508,46 @@ Prefix dict has been built successfully.
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Colab Only</span>
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>ckip-transformers
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting ckip-transformers
+  Downloading ckip_transformers-0.3.4-py3-none-any.whl (26 kB)
+Requirement already satisfied: torch&gt;=1.5.0 in /usr/local/lib/python3.10/dist-packages (from ckip-transformers) (2.1.0+cu121)
+Requirement already satisfied: tqdm&gt;=4.27 in /usr/local/lib/python3.10/dist-packages (from ckip-transformers) (4.66.2)
+Requirement already satisfied: transformers&gt;=3.5.0 in /usr/local/lib/python3.10/dist-packages (from ckip-transformers) (4.37.2)
+Requirement already satisfied: filelock in /usr/local/lib/python3.10/dist-packages (from torch&gt;=1.5.0-&gt;ckip-transformers) (3.13.1)
+Requirement already satisfied: typing-extensions in /usr/local/lib/python3.10/dist-packages (from torch&gt;=1.5.0-&gt;ckip-transformers) (4.9.0)
+Requirement already satisfied: sympy in /usr/local/lib/python3.10/dist-packages (from torch&gt;=1.5.0-&gt;ckip-transformers) (1.12)
+Requirement already satisfied: networkx in /usr/local/lib/python3.10/dist-packages (from torch&gt;=1.5.0-&gt;ckip-transformers) (3.2.1)
+Requirement already satisfied: jinja2 in /usr/local/lib/python3.10/dist-packages (from torch&gt;=1.5.0-&gt;ckip-transformers) (3.1.3)
+Requirement already satisfied: fsspec in /usr/local/lib/python3.10/dist-packages (from torch&gt;=1.5.0-&gt;ckip-transformers) (2023.6.0)
+Requirement already satisfied: triton==2.1.0 in /usr/local/lib/python3.10/dist-packages (from torch&gt;=1.5.0-&gt;ckip-transformers) (2.1.0)
+Requirement already satisfied: huggingface-hub&lt;1.0,&gt;=0.19.3 in /usr/local/lib/python3.10/dist-packages (from transformers&gt;=3.5.0-&gt;ckip-transformers) (0.20.3)
+Requirement already satisfied: numpy&gt;=1.17 in /usr/local/lib/python3.10/dist-packages (from transformers&gt;=3.5.0-&gt;ckip-transformers) (1.25.2)
+Requirement already satisfied: packaging&gt;=20.0 in /usr/local/lib/python3.10/dist-packages (from transformers&gt;=3.5.0-&gt;ckip-transformers) (23.2)
+Requirement already satisfied: pyyaml&gt;=5.1 in /usr/local/lib/python3.10/dist-packages (from transformers&gt;=3.5.0-&gt;ckip-transformers) (6.0.1)
+Requirement already satisfied: regex!=2019.12.17 in /usr/local/lib/python3.10/dist-packages (from transformers&gt;=3.5.0-&gt;ckip-transformers) (2023.12.25)
+Requirement already satisfied: requests in /usr/local/lib/python3.10/dist-packages (from transformers&gt;=3.5.0-&gt;ckip-transformers) (2.31.0)
+Requirement already satisfied: tokenizers&lt;0.19,&gt;=0.14 in /usr/local/lib/python3.10/dist-packages (from transformers&gt;=3.5.0-&gt;ckip-transformers) (0.15.2)
+Requirement already satisfied: safetensors&gt;=0.4.1 in /usr/local/lib/python3.10/dist-packages (from transformers&gt;=3.5.0-&gt;ckip-transformers) (0.4.2)
+Requirement already satisfied: MarkupSafe&gt;=2.0 in /usr/local/lib/python3.10/dist-packages (from jinja2-&gt;torch&gt;=1.5.0-&gt;ckip-transformers) (2.1.5)
+Requirement already satisfied: charset-normalizer&lt;4,&gt;=2 in /usr/local/lib/python3.10/dist-packages (from requests-&gt;transformers&gt;=3.5.0-&gt;ckip-transformers) (3.3.2)
+Requirement already satisfied: idna&lt;4,&gt;=2.5 in /usr/local/lib/python3.10/dist-packages (from requests-&gt;transformers&gt;=3.5.0-&gt;ckip-transformers) (3.6)
+Requirement already satisfied: urllib3&lt;3,&gt;=1.21.1 in /usr/local/lib/python3.10/dist-packages (from requests-&gt;transformers&gt;=3.5.0-&gt;ckip-transformers) (2.0.7)
+Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.10/dist-packages (from requests-&gt;transformers&gt;=3.5.0-&gt;ckip-transformers) (2024.2.2)
+Requirement already satisfied: mpmath&gt;=0.19 in /usr/local/lib/python3.10/dist-packages (from sympy-&gt;torch&gt;=1.5.0-&gt;ckip-transformers) (1.3.0)
+Installing collected packages: ckip-transformers
+Successfully installed ckip-transformers-0.3.4
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ckip_transformers</span>
 <span class="kn">from</span> <span class="nn">ckip_transformers.nlp</span> <span class="kn">import</span> <span class="n">CkipWordSegmenter</span><span class="p">,</span> <span class="n">CkipPosTagger</span><span class="p">,</span> <span class="n">CkipNerChunker</span>
 </pre></div>
@@ -519,15 +563,27 @@ Prefix dict has been built successfully.
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
 
 <span class="c1"># Initialize drivers</span>
-<span class="n">ws_driver</span> <span class="o">=</span> <span class="n">CkipWordSegmenter</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;bert-base&quot;</span><span class="p">,</span> <span class="n">device</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">pos_driver</span> <span class="o">=</span> <span class="n">CkipPosTagger</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;bert-base&quot;</span><span class="p">,</span> <span class="n">device</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">ner_driver</span> <span class="o">=</span> <span class="n">CkipNerChunker</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;bert-base&quot;</span><span class="p">,</span> <span class="n">device</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ws_driver</span> <span class="o">=</span> <span class="n">CkipWordSegmenter</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;bert-base&quot;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">pos_driver</span> <span class="o">=</span> <span class="n">CkipPosTagger</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;bert-base&quot;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">ner_driver</span> <span class="o">=</span> <span class="n">CkipNerChunker</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;bert-base&quot;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "bd7e054e58da4f458fc7fb640afe71ba", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "66974510626b40059dbfc6751b5784cd", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "800312a0cd0949f193e3b62b0159e400", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "07018f583ffe434c91b3495391714183", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "cd5a76e607ad49d199cf1edb6240eb90", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "8e07985e5c0a45cb812b545f6c267007", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "47c02ea5e98b48deaad9ee04be556805", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "ca95d84f40e442729b9e0681dc8d5bec", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "626547059f1247cfa803754d243f6b3a", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "30e838f194744f989c500c65cb33ed0c", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "51ef96b846194505b8046c57bebaa0e1", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "2aef6bb954dc4dd396f3a487ffb174b6", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "05c304d63cf7400ba8586baf5e859a51", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "f65e61d8d96446c5bba449bb45c52e14", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "e69d8d62251d4d03ae795574da1845c8", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 13 s, sys: 8.22 s, total: 21.2 s
-Wall time: 3min 23s
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/lib/python3.10/dist-packages/huggingface_hub/utils/_token.py:88: UserWarning: 
+The secret `HF_TOKEN` does not exist in your Colab secrets.
+To authenticate with the Hugging Face Hub, create a token in your settings tab (https://huggingface.co/settings/tokens), set it as secret in your Google Colab and restart your session.
+You will be able to reuse this secret in all of your notebooks.
+Please note that authentication is recommended but still optional to access public models or datasets.
+  warnings.warn(
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "0aab9e0da7c6425f877a303e3b4bf8d3"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "80b7760323a743a59446835310870b34"}</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/lib/python3.10/dist-packages/torch/_utils.py:831: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "f8d02e6fb3744155a009c2571bef54c7"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "471cb2edaa84482490cb17e77e37c031"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "3bb0278030d14eeeb548514c6519de0c"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "19ad5012d6e64dc4a8b1ce7735d7a308"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "cc7cae5cf5bb4741ae6e623cfb7063fd"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "5d7c729deeec4508a79f7849cc04d313"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "d448c9a58630480ea9c802632ea0c3ad"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "96fa83e8b2604434b5a4dbd81be30302"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "af6c72f94de94dd9b5541a1fdd8832e3"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "07cc3bd55cfc4141847a59ed8e452d2c"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "747a8de3d73b4d46a19c4fd8406e024e"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "9ced431347fd4c43916b7c5e1109c172"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "11da26565e224a9d9c65a24963054f73"}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 3.24 s, sys: 2.89 s, total: 6.13 s
+Wall time: 26.9 s
 </pre></div>
 </div>
 </div>
@@ -572,12 +628,12 @@ Wall time: 3min 23s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokenization: 100%|█████████████████████████████| 2/2 [00:00&lt;00:00, 3690.54it/s]
-Inference: 100%|██████████████████████████████████| 1/1 [00:00&lt;00:00,  6.02it/s]
-Tokenization: 100%|█████████████████████████████| 2/2 [00:00&lt;00:00, 6393.76it/s]
-Inference: 100%|██████████████████████████████████| 1/1 [00:00&lt;00:00,  4.84it/s]
-Tokenization: 100%|█████████████████████████████| 2/2 [00:00&lt;00:00, 4032.98it/s]
-Inference: 100%|██████████████████████████████████| 1/1 [00:00&lt;00:00,  9.50it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokenization: 100%|██████████| 2/2 [00:00&lt;00:00, 3440.77it/s]
+Inference: 100%|██████████| 1/1 [00:01&lt;00:00,  1.14s/it]
+Tokenization: 100%|██████████| 2/2 [00:00&lt;00:00, 4502.74it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 23.06it/s]
+Tokenization: 100%|██████████| 2/2 [00:00&lt;00:00, 3236.35it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 36.14it/s]
 </pre></div>
 </div>
 </div>
@@ -601,10 +657,10 @@ Inference: 100%|█████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokenization: 100%|█████████████████████████████| 2/2 [00:00&lt;00:00, 4098.00it/s]
-Inference: 100%|██████████████████████████████████| 1/1 [00:00&lt;00:00,  5.03it/s]
-Tokenization: 100%|█████████████████████████████| 2/2 [00:00&lt;00:00, 5570.12it/s]
-Inference: 100%|██████████████████████████████████| 1/1 [00:00&lt;00:00,  4.00it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokenization: 100%|██████████| 2/2 [00:00&lt;00:00, 3195.66it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 22.75it/s]
+Tokenization: 100%|██████████| 2/2 [00:00&lt;00:00, 2112.47it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 22.36it/s]
 </pre></div>
 </div>
 </div>
@@ -620,10 +676,10 @@ Inference: 100%|█████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokenization: 100%|█████████████████████████████| 2/2 [00:00&lt;00:00, 5479.17it/s]
-Inference: 100%|██████████████████████████████████| 1/1 [00:00&lt;00:00,  7.47it/s]
-Tokenization: 100%|█████████████████████████████| 2/2 [00:00&lt;00:00, 4357.72it/s]
-Inference: 100%|██████████████████████████████████| 1/1 [00:00&lt;00:00,  9.85it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokenization: 100%|██████████| 2/2 [00:00&lt;00:00, 3964.37it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 39.07it/s]
+Tokenization: 100%|██████████| 2/2 [00:00&lt;00:00, 1913.02it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 38.78it/s]
 </pre></div>
 </div>
 </div>
@@ -638,8 +694,12 @@ Inference: 100%|█████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> | 高速公路 | 局說 | ， | 目前 | 在 | 國道 | 3 | 號 | 北向 | 水上 | 系統 | 至 | 中埔 | 路段 | 車多 | 壅塞 | ， | 已回 | 堵約 | 3 | 公里 | 。 | 另外 | ， | 國道 | 1 | 號 | 北向 | 仁德 | 至 | 永康 | 路段 | 路段 | ， | 已回 | 堵 | 約 | 有 | 7 | 公里 | 。 | 建議 | 駕駛人 | 提前 | 避開 | 壅塞 | 路段 | 改道 | 行駛 | ， | 行經車 | 多 | 路段 | 請 | 保持 | 行車 | 安全 | 距離 | ， | 小心 | 行駛 | 。 | 
- | 國道 | 車多 | 壅塞 | 路段 | 還有國 | 1 | 內湖 | - | 五堵 | 北向 | 路段 | 、 | 楊梅 | - | 新竹 | 南向 | 路段 | ； | 國 | 3 | 三鶯 | - | 關 | 西服 | 務區 | 南向 | 路段 | 、 | 快官 | - | 霧峰 | 南向 | 路段 | 、 | 水上 | 系統 | - | 中埔 | 北向 | 路段 | ； | 國 | 6 | 霧峰 | 系統 | - | 東 | 草屯 | 東向 | 路段 | 、 | 國 | 10 | 燕巢 | - | 燕巢 | 系統 | 東向 | 路段 | 。 | 
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="nn">&lt;ipython-input-9-9a9d64f1d3b7&gt;</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; | &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text_jb</span><span class="p">))</span>
+
+<span class="ne">NameError</span>: name &#39;text_jb&#39; is not defined
 </pre></div>
 </div>
 </div>
@@ -727,12 +787,12 @@ NerToken(word=&#39;國10燕巢-燕巢系統&#39;, ner=&#39;FAC&#39;, idx=(84, 94
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokenization: 100%|████████████████████████████| 5/5 [00:00&lt;00:00, 36472.21it/s]
-Inference: 100%|██████████████████████████████████| 1/1 [00:00&lt;00:00, 11.83it/s]
-Tokenization: 100%|████████████████████████████| 5/5 [00:00&lt;00:00, 26579.87it/s]
-Inference: 100%|██████████████████████████████████| 1/1 [00:00&lt;00:00, 11.78it/s]
-Tokenization: 100%|████████████████████████████| 5/5 [00:00&lt;00:00, 15477.14it/s]
-Inference: 100%|██████████████████████████████████| 1/1 [00:00&lt;00:00, 12.70it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokenization: 100%|██████████| 5/5 [00:00&lt;00:00, 15972.22it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 44.10it/s]
+Tokenization: 100%|██████████| 5/5 [00:00&lt;00:00, 19169.58it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 46.46it/s]
+Tokenization: 100%|██████████| 5/5 [00:00&lt;00:00, 20867.18it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 46.40it/s]
 </pre></div>
 </div>
 </div>
@@ -826,6 +886,81 @@ $ python -m spacy download en_core_web_sm
 <hr class="docutils" />
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Colab Only</span>
+<span class="o">!</span>python<span class="w"> </span>-m<span class="w"> </span>spacy<span class="w"> </span>download<span class="w"> </span>zh_core_web_trf
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting zh-core-web-trf==3.7.2
+  Downloading https://github.com/explosion/spacy-models/releases/download/zh_core_web_trf-3.7.2/zh_core_web_trf-3.7.2-py3-none-any.whl (415.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">415.1/415.1 MB</span> <span class=" -Color -Color-Red">2.2 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hRequirement already satisfied: spacy&lt;3.8.0,&gt;=3.7.0 in /usr/local/lib/python3.10/dist-packages (from zh-core-web-trf==3.7.2) (3.7.4)
+Collecting spacy-curated-transformers&lt;0.3.0,&gt;=0.2.0 (from zh-core-web-trf==3.7.2)
+  Downloading spacy_curated_transformers-0.2.2-py2.py3-none-any.whl (236 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">236.3/236.3 kB</span> <span class=" -Color -Color-Red">6.1 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hCollecting spacy-pkuseg&lt;0.1.0,&gt;=0.0.27 (from zh-core-web-trf==3.7.2)
+  Downloading spacy_pkuseg-0.0.33-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.5 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">2.5/2.5 MB</span> <span class=" -Color -Color-Red">17.7 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hRequirement already satisfied: spacy-legacy&lt;3.1.0,&gt;=3.0.11 in /usr/local/lib/python3.10/dist-packages (from spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (3.0.12)
+Requirement already satisfied: spacy-loggers&lt;2.0.0,&gt;=1.0.0 in /usr/local/lib/python3.10/dist-packages (from spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (1.0.5)
+Requirement already satisfied: murmurhash&lt;1.1.0,&gt;=0.28.0 in /usr/local/lib/python3.10/dist-packages (from spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (1.0.10)
+Requirement already satisfied: cymem&lt;2.1.0,&gt;=2.0.2 in /usr/local/lib/python3.10/dist-packages (from spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (2.0.8)
+Requirement already satisfied: preshed&lt;3.1.0,&gt;=3.0.2 in /usr/local/lib/python3.10/dist-packages (from spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (3.0.9)
+Requirement already satisfied: thinc&lt;8.3.0,&gt;=8.2.2 in /usr/local/lib/python3.10/dist-packages (from spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (8.2.3)
+Requirement already satisfied: wasabi&lt;1.2.0,&gt;=0.9.1 in /usr/local/lib/python3.10/dist-packages (from spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (1.1.2)
+Requirement already satisfied: srsly&lt;3.0.0,&gt;=2.4.3 in /usr/local/lib/python3.10/dist-packages (from spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (2.4.8)
+Requirement already satisfied: catalogue&lt;2.1.0,&gt;=2.0.6 in /usr/local/lib/python3.10/dist-packages (from spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (2.0.10)
+Requirement already satisfied: weasel&lt;0.4.0,&gt;=0.1.0 in /usr/local/lib/python3.10/dist-packages (from spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (0.3.4)
+Requirement already satisfied: typer&lt;0.10.0,&gt;=0.3.0 in /usr/local/lib/python3.10/dist-packages (from spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (0.9.0)
+Requirement already satisfied: smart-open&lt;7.0.0,&gt;=5.2.1 in /usr/local/lib/python3.10/dist-packages (from spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (6.4.0)
+Requirement already satisfied: tqdm&lt;5.0.0,&gt;=4.38.0 in /usr/local/lib/python3.10/dist-packages (from spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (4.66.2)
+Requirement already satisfied: requests&lt;3.0.0,&gt;=2.13.0 in /usr/local/lib/python3.10/dist-packages (from spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (2.31.0)
+Requirement already satisfied: pydantic!=1.8,!=1.8.1,&lt;3.0.0,&gt;=1.7.4 in /usr/local/lib/python3.10/dist-packages (from spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (2.6.1)
+Requirement already satisfied: jinja2 in /usr/local/lib/python3.10/dist-packages (from spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (3.1.3)
+Requirement already satisfied: setuptools in /usr/local/lib/python3.10/dist-packages (from spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (67.7.2)
+Requirement already satisfied: packaging&gt;=20.0 in /usr/local/lib/python3.10/dist-packages (from spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (23.2)
+Requirement already satisfied: langcodes&lt;4.0.0,&gt;=3.2.0 in /usr/local/lib/python3.10/dist-packages (from spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (3.3.0)
+Requirement already satisfied: numpy&gt;=1.19.0 in /usr/local/lib/python3.10/dist-packages (from spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (1.25.2)
+Collecting curated-transformers&lt;0.2.0,&gt;=0.1.0 (from spacy-curated-transformers&lt;0.3.0,&gt;=0.2.0-&gt;zh-core-web-trf==3.7.2)
+  Downloading curated_transformers-0.1.1-py2.py3-none-any.whl (25 kB)
+Collecting curated-tokenizers&lt;0.1.0,&gt;=0.0.9 (from spacy-curated-transformers&lt;0.3.0,&gt;=0.2.0-&gt;zh-core-web-trf==3.7.2)
+  Downloading curated_tokenizers-0.0.9-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (731 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">731.6/731.6 kB</span> <span class=" -Color -Color-Red">23.9 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hRequirement already satisfied: torch&gt;=1.12.0 in /usr/local/lib/python3.10/dist-packages (from spacy-curated-transformers&lt;0.3.0,&gt;=0.2.0-&gt;zh-core-web-trf==3.7.2) (2.1.0+cu121)
+Requirement already satisfied: regex&gt;=2022 in /usr/local/lib/python3.10/dist-packages (from curated-tokenizers&lt;0.1.0,&gt;=0.0.9-&gt;spacy-curated-transformers&lt;0.3.0,&gt;=0.2.0-&gt;zh-core-web-trf==3.7.2) (2023.12.25)
+Requirement already satisfied: annotated-types&gt;=0.4.0 in /usr/local/lib/python3.10/dist-packages (from pydantic!=1.8,!=1.8.1,&lt;3.0.0,&gt;=1.7.4-&gt;spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (0.6.0)
+Requirement already satisfied: pydantic-core==2.16.2 in /usr/local/lib/python3.10/dist-packages (from pydantic!=1.8,!=1.8.1,&lt;3.0.0,&gt;=1.7.4-&gt;spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (2.16.2)
+Requirement already satisfied: typing-extensions&gt;=4.6.1 in /usr/local/lib/python3.10/dist-packages (from pydantic!=1.8,!=1.8.1,&lt;3.0.0,&gt;=1.7.4-&gt;spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (4.9.0)
+Requirement already satisfied: charset-normalizer&lt;4,&gt;=2 in /usr/local/lib/python3.10/dist-packages (from requests&lt;3.0.0,&gt;=2.13.0-&gt;spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (3.3.2)
+Requirement already satisfied: idna&lt;4,&gt;=2.5 in /usr/local/lib/python3.10/dist-packages (from requests&lt;3.0.0,&gt;=2.13.0-&gt;spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (3.6)
+Requirement already satisfied: urllib3&lt;3,&gt;=1.21.1 in /usr/local/lib/python3.10/dist-packages (from requests&lt;3.0.0,&gt;=2.13.0-&gt;spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (2.0.7)
+Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.10/dist-packages (from requests&lt;3.0.0,&gt;=2.13.0-&gt;spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (2024.2.2)
+Requirement already satisfied: blis&lt;0.8.0,&gt;=0.7.8 in /usr/local/lib/python3.10/dist-packages (from thinc&lt;8.3.0,&gt;=8.2.2-&gt;spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (0.7.11)
+Requirement already satisfied: confection&lt;1.0.0,&gt;=0.0.1 in /usr/local/lib/python3.10/dist-packages (from thinc&lt;8.3.0,&gt;=8.2.2-&gt;spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (0.1.4)
+Requirement already satisfied: filelock in /usr/local/lib/python3.10/dist-packages (from torch&gt;=1.12.0-&gt;spacy-curated-transformers&lt;0.3.0,&gt;=0.2.0-&gt;zh-core-web-trf==3.7.2) (3.13.1)
+Requirement already satisfied: sympy in /usr/local/lib/python3.10/dist-packages (from torch&gt;=1.12.0-&gt;spacy-curated-transformers&lt;0.3.0,&gt;=0.2.0-&gt;zh-core-web-trf==3.7.2) (1.12)
+Requirement already satisfied: networkx in /usr/local/lib/python3.10/dist-packages (from torch&gt;=1.12.0-&gt;spacy-curated-transformers&lt;0.3.0,&gt;=0.2.0-&gt;zh-core-web-trf==3.7.2) (3.2.1)
+Requirement already satisfied: fsspec in /usr/local/lib/python3.10/dist-packages (from torch&gt;=1.12.0-&gt;spacy-curated-transformers&lt;0.3.0,&gt;=0.2.0-&gt;zh-core-web-trf==3.7.2) (2023.6.0)
+Requirement already satisfied: triton==2.1.0 in /usr/local/lib/python3.10/dist-packages (from torch&gt;=1.12.0-&gt;spacy-curated-transformers&lt;0.3.0,&gt;=0.2.0-&gt;zh-core-web-trf==3.7.2) (2.1.0)
+Requirement already satisfied: click&lt;9.0.0,&gt;=7.1.1 in /usr/local/lib/python3.10/dist-packages (from typer&lt;0.10.0,&gt;=0.3.0-&gt;spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (8.1.7)
+Requirement already satisfied: cloudpathlib&lt;0.17.0,&gt;=0.7.0 in /usr/local/lib/python3.10/dist-packages (from weasel&lt;0.4.0,&gt;=0.1.0-&gt;spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (0.16.0)
+Requirement already satisfied: MarkupSafe&gt;=2.0 in /usr/local/lib/python3.10/dist-packages (from jinja2-&gt;spacy&lt;3.8.0,&gt;=3.7.0-&gt;zh-core-web-trf==3.7.2) (2.1.5)
+Requirement already satisfied: mpmath&gt;=0.19 in /usr/local/lib/python3.10/dist-packages (from sympy-&gt;torch&gt;=1.12.0-&gt;spacy-curated-transformers&lt;0.3.0,&gt;=0.2.0-&gt;zh-core-web-trf==3.7.2) (1.3.0)
+Installing collected packages: curated-tokenizers, spacy-pkuseg, curated-transformers, spacy-curated-transformers, zh-core-web-trf
+Successfully installed curated-tokenizers-0.0.9 curated-transformers-0.1.1 spacy-curated-transformers-0.2.2 spacy-pkuseg-0.0.33 zh-core-web-trf-3.7.2
+<span class=" -Color -Color-C2">✔ Download and installation successful</span>
+You can now load the package via spacy.load(&#39;zh_core_web_trf&#39;)
+<span class=" -Color -Color-C3">⚠ Restart to reload dependencies</span>
+If you are in a Jupyter or Colab notebook, you may need to restart Python in
+order to load all the package&#39;s dependencies. You can do this by selecting the
+&#39;Restart kernel&#39; or &#39;Restart runtime&#39; option.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
 <span class="kn">from</span> <span class="nn">spacy</span> <span class="kn">import</span> <span class="n">displacy</span>
 <span class="c1"># load language model</span>
@@ -858,7 +993,7 @@ $ python -m spacy download en_core_web_sm
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;這&#39;, &#39;PRON&#39;, &#39;PN&#39;, &#39;nsubj&#39;, True, False)
 (&#39;是&#39;, &#39;VERB&#39;, &#39;VC&#39;, &#39;cop&#39;, True, True)
-(&#39;一&#39;, &#39;NUM&#39;, &#39;CD&#39;, &#39;dep&#39;, True, True)
+(&#39;一&#39;, &#39;NUM&#39;, &#39;CD&#39;, &#39;nummod&#39;, True, True)
 (&#39;個&#39;, &#39;NUM&#39;, &#39;M&#39;, &#39;mark:clf&#39;, True, False)
 (&#39;中文&#39;, &#39;NOUN&#39;, &#39;NN&#39;, &#39;nmod:assmod&#39;, True, False)
 (&#39;的&#39;, &#39;PART&#39;, &#39;DEG&#39;, &#39;case&#39;, True, True)
@@ -902,88 +1037,88 @@ $ python -m spacy download en_core_web_sm
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="zh" id="178a89ec1b5f4faaa24c217d99c6f248-0" class="displacy" width="1275" height="487.0" direction="ltr" style="max-width: none; height: 487.0px; color: #000000; background: #ffffff; font-family: Arial; direction: ltr">
-<text class="displacy-token" fill="currentColor" text-anchor="middle" y="397.0">
+<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="zh" id="06106c2de6c74250b493cb5f97b049d6-0" class="displacy" width="1275" height="574.5" direction="ltr" style="max-width: none; height: 574.5px; color: #000000; background: #ffffff; font-family: Arial; direction: ltr">
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
     <tspan class="displacy-word" fill="currentColor" x="50">這</tspan>
     <tspan class="displacy-tag" dy="2em" fill="currentColor" x="50">PRON</tspan>
 </text>
 
-<text class="displacy-token" fill="currentColor" text-anchor="middle" y="397.0">
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
     <tspan class="displacy-word" fill="currentColor" x="225">是</tspan>
     <tspan class="displacy-tag" dy="2em" fill="currentColor" x="225">VERB</tspan>
 </text>
 
-<text class="displacy-token" fill="currentColor" text-anchor="middle" y="397.0">
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
     <tspan class="displacy-word" fill="currentColor" x="400">一</tspan>
     <tspan class="displacy-tag" dy="2em" fill="currentColor" x="400">NUM</tspan>
 </text>
 
-<text class="displacy-token" fill="currentColor" text-anchor="middle" y="397.0">
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
     <tspan class="displacy-word" fill="currentColor" x="575">個</tspan>
     <tspan class="displacy-tag" dy="2em" fill="currentColor" x="575">NUM</tspan>
 </text>
 
-<text class="displacy-token" fill="currentColor" text-anchor="middle" y="397.0">
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
     <tspan class="displacy-word" fill="currentColor" x="750">中文</tspan>
     <tspan class="displacy-tag" dy="2em" fill="currentColor" x="750">NOUN</tspan>
 </text>
 
-<text class="displacy-token" fill="currentColor" text-anchor="middle" y="397.0">
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
     <tspan class="displacy-word" fill="currentColor" x="925">的</tspan>
     <tspan class="displacy-tag" dy="2em" fill="currentColor" x="925">PART</tspan>
 </text>
 
-<text class="displacy-token" fill="currentColor" text-anchor="middle" y="397.0">
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
     <tspan class="displacy-word" fill="currentColor" x="1100">句子</tspan>
     <tspan class="displacy-tag" dy="2em" fill="currentColor" x="1100">NOUN</tspan>
 </text>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-178a89ec1b5f4faaa24c217d99c6f248-0-0" stroke-width="2px" d="M70,352.0 C70,2.0 1100.0,2.0 1100.0,352.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-06106c2de6c74250b493cb5f97b049d6-0-0" stroke-width="2px" d="M70,439.5 C70,2.0 1100.0,2.0 1100.0,439.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-178a89ec1b5f4faaa24c217d99c6f248-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nsubj</textPath>
+        <textPath xlink:href="#arrow-06106c2de6c74250b493cb5f97b049d6-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nsubj</textPath>
     </text>
-    <path class="displacy-arrowhead" d="M70,354.0 L62,342.0 78,342.0" fill="currentColor"/>
+    <path class="displacy-arrowhead" d="M70,441.5 L62,429.5 78,429.5" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-178a89ec1b5f4faaa24c217d99c6f248-0-1" stroke-width="2px" d="M245,352.0 C245,89.5 1095.0,89.5 1095.0,352.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-06106c2de6c74250b493cb5f97b049d6-0-1" stroke-width="2px" d="M245,439.5 C245,89.5 1095.0,89.5 1095.0,439.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-178a89ec1b5f4faaa24c217d99c6f248-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">cop</textPath>
+        <textPath xlink:href="#arrow-06106c2de6c74250b493cb5f97b049d6-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">cop</textPath>
     </text>
-    <path class="displacy-arrowhead" d="M245,354.0 L237,342.0 253,342.0" fill="currentColor"/>
+    <path class="displacy-arrowhead" d="M245,441.5 L237,429.5 253,429.5" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-178a89ec1b5f4faaa24c217d99c6f248-0-2" stroke-width="2px" d="M245,352.0 C245,264.5 385.0,264.5 385.0,352.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-06106c2de6c74250b493cb5f97b049d6-0-2" stroke-width="2px" d="M420,439.5 C420,177.0 1090.0,177.0 1090.0,439.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-178a89ec1b5f4faaa24c217d99c6f248-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">dep</textPath>
+        <textPath xlink:href="#arrow-06106c2de6c74250b493cb5f97b049d6-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nummod</textPath>
     </text>
-    <path class="displacy-arrowhead" d="M385.0,354.0 L393.0,342.0 377.0,342.0" fill="currentColor"/>
+    <path class="displacy-arrowhead" d="M420,441.5 L412,429.5 428,429.5" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-178a89ec1b5f4faaa24c217d99c6f248-0-3" stroke-width="2px" d="M420,352.0 C420,264.5 560.0,264.5 560.0,352.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-06106c2de6c74250b493cb5f97b049d6-0-3" stroke-width="2px" d="M420,439.5 C420,352.0 555.0,352.0 555.0,439.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-178a89ec1b5f4faaa24c217d99c6f248-0-3" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">mark:clf</textPath>
+        <textPath xlink:href="#arrow-06106c2de6c74250b493cb5f97b049d6-0-3" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">mark:clf</textPath>
     </text>
-    <path class="displacy-arrowhead" d="M560.0,354.0 L568.0,342.0 552.0,342.0" fill="currentColor"/>
+    <path class="displacy-arrowhead" d="M555.0,441.5 L563.0,429.5 547.0,429.5" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-178a89ec1b5f4faaa24c217d99c6f248-0-4" stroke-width="2px" d="M770,352.0 C770,177.0 1090.0,177.0 1090.0,352.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-06106c2de6c74250b493cb5f97b049d6-0-4" stroke-width="2px" d="M770,439.5 C770,264.5 1085.0,264.5 1085.0,439.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-178a89ec1b5f4faaa24c217d99c6f248-0-4" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nmod:assmod</textPath>
+        <textPath xlink:href="#arrow-06106c2de6c74250b493cb5f97b049d6-0-4" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nmod:assmod</textPath>
     </text>
-    <path class="displacy-arrowhead" d="M770,354.0 L762,342.0 778,342.0" fill="currentColor"/>
+    <path class="displacy-arrowhead" d="M770,441.5 L762,429.5 778,429.5" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-178a89ec1b5f4faaa24c217d99c6f248-0-5" stroke-width="2px" d="M770,352.0 C770,264.5 910.0,264.5 910.0,352.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-06106c2de6c74250b493cb5f97b049d6-0-5" stroke-width="2px" d="M770,439.5 C770,352.0 905.0,352.0 905.0,439.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-178a89ec1b5f4faaa24c217d99c6f248-0-5" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">case</textPath>
+        <textPath xlink:href="#arrow-06106c2de6c74250b493cb5f97b049d6-0-5" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">case</textPath>
     </text>
-    <path class="displacy-arrowhead" d="M910.0,354.0 L918.0,342.0 902.0,342.0" fill="currentColor"/>
+    <path class="displacy-arrowhead" d="M905.0,441.5 L913.0,429.5 897.0,429.5" fill="currentColor"/>
 </g>
 </svg></span></div></div>
 </div>
@@ -1001,88 +1136,88 @@ $ python -m spacy download en_core_web_sm
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="zh" id="d5acfc3d4635484aa744ed5e1807e99a-0" class="displacy" width="890" height="377.0" direction="ltr" style="max-width: none; height: 377.0px; color: white; background: #09a3d5; font-family: Source Sans Pro; direction: ltr">
-<text class="displacy-token" fill="currentColor" text-anchor="middle" y="287.0">
+<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="zh" id="349e3134fe9d4e29ba8a31f3d5fe8a92-0" class="displacy" width="890" height="437.0" direction="ltr" style="max-width: none; height: 437.0px; color: white; background: #09a3d5; font-family: Source Sans Pro; direction: ltr">
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="347.0">
     <tspan class="displacy-word" fill="currentColor" x="50">這</tspan>
     <tspan class="displacy-tag" dy="2em" fill="currentColor" x="50">PRON</tspan>
 </text>
 
-<text class="displacy-token" fill="currentColor" text-anchor="middle" y="287.0">
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="347.0">
     <tspan class="displacy-word" fill="currentColor" x="170">是</tspan>
     <tspan class="displacy-tag" dy="2em" fill="currentColor" x="170">VERB</tspan>
 </text>
 
-<text class="displacy-token" fill="currentColor" text-anchor="middle" y="287.0">
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="347.0">
     <tspan class="displacy-word" fill="currentColor" x="290">一</tspan>
     <tspan class="displacy-tag" dy="2em" fill="currentColor" x="290">NUM</tspan>
 </text>
 
-<text class="displacy-token" fill="currentColor" text-anchor="middle" y="287.0">
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="347.0">
     <tspan class="displacy-word" fill="currentColor" x="410">個</tspan>
     <tspan class="displacy-tag" dy="2em" fill="currentColor" x="410">NUM</tspan>
 </text>
 
-<text class="displacy-token" fill="currentColor" text-anchor="middle" y="287.0">
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="347.0">
     <tspan class="displacy-word" fill="currentColor" x="530">中文</tspan>
     <tspan class="displacy-tag" dy="2em" fill="currentColor" x="530">NOUN</tspan>
 </text>
 
-<text class="displacy-token" fill="currentColor" text-anchor="middle" y="287.0">
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="347.0">
     <tspan class="displacy-word" fill="currentColor" x="650">的</tspan>
     <tspan class="displacy-tag" dy="2em" fill="currentColor" x="650">PART</tspan>
 </text>
 
-<text class="displacy-token" fill="currentColor" text-anchor="middle" y="287.0">
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="347.0">
     <tspan class="displacy-word" fill="currentColor" x="770">句子</tspan>
     <tspan class="displacy-tag" dy="2em" fill="currentColor" x="770">NOUN</tspan>
 </text>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-d5acfc3d4635484aa744ed5e1807e99a-0-0" stroke-width="2px" d="M62,242.0 62,162.0 770.0,162.0 770.0,242.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-349e3134fe9d4e29ba8a31f3d5fe8a92-0-0" stroke-width="2px" d="M62,302.0 62,202.0 770.0,202.0 770.0,302.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-d5acfc3d4635484aa744ed5e1807e99a-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nsubj</textPath>
+        <textPath xlink:href="#arrow-349e3134fe9d4e29ba8a31f3d5fe8a92-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nsubj</textPath>
     </text>
-    <path class="displacy-arrowhead" d="M62,244.0 L58,236.0 66,236.0" fill="currentColor"/>
+    <path class="displacy-arrowhead" d="M62,304.0 L58,296.0 66,296.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-d5acfc3d4635484aa744ed5e1807e99a-0-1" stroke-width="2px" d="M182,242.0 182,182.0 767.0,182.0 767.0,242.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-349e3134fe9d4e29ba8a31f3d5fe8a92-0-1" stroke-width="2px" d="M182,302.0 182,222.0 767.0,222.0 767.0,302.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-d5acfc3d4635484aa744ed5e1807e99a-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">cop</textPath>
+        <textPath xlink:href="#arrow-349e3134fe9d4e29ba8a31f3d5fe8a92-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">cop</textPath>
     </text>
-    <path class="displacy-arrowhead" d="M182,244.0 L178,236.0 186,236.0" fill="currentColor"/>
+    <path class="displacy-arrowhead" d="M182,304.0 L178,296.0 186,296.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-d5acfc3d4635484aa744ed5e1807e99a-0-2" stroke-width="2px" d="M182,242.0 182,222.0 281.0,222.0 281.0,242.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-349e3134fe9d4e29ba8a31f3d5fe8a92-0-2" stroke-width="2px" d="M302,302.0 302,242.0 764.0,242.0 764.0,302.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-d5acfc3d4635484aa744ed5e1807e99a-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">dep</textPath>
+        <textPath xlink:href="#arrow-349e3134fe9d4e29ba8a31f3d5fe8a92-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nummod</textPath>
     </text>
-    <path class="displacy-arrowhead" d="M281.0,244.0 L285.0,236.0 277.0,236.0" fill="currentColor"/>
+    <path class="displacy-arrowhead" d="M302,304.0 L298,296.0 306,296.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-d5acfc3d4635484aa744ed5e1807e99a-0-3" stroke-width="2px" d="M302,242.0 302,222.0 401.0,222.0 401.0,242.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-349e3134fe9d4e29ba8a31f3d5fe8a92-0-3" stroke-width="2px" d="M302,302.0 302,282.0 398.0,282.0 398.0,302.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-d5acfc3d4635484aa744ed5e1807e99a-0-3" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">mark:clf</textPath>
+        <textPath xlink:href="#arrow-349e3134fe9d4e29ba8a31f3d5fe8a92-0-3" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">mark:clf</textPath>
     </text>
-    <path class="displacy-arrowhead" d="M401.0,244.0 L405.0,236.0 397.0,236.0" fill="currentColor"/>
+    <path class="displacy-arrowhead" d="M398.0,304.0 L402.0,296.0 394.0,296.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-d5acfc3d4635484aa744ed5e1807e99a-0-4" stroke-width="2px" d="M542,242.0 542,202.0 764.0,202.0 764.0,242.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-349e3134fe9d4e29ba8a31f3d5fe8a92-0-4" stroke-width="2px" d="M542,302.0 542,262.0 761.0,262.0 761.0,302.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-d5acfc3d4635484aa744ed5e1807e99a-0-4" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nmod:assmod</textPath>
+        <textPath xlink:href="#arrow-349e3134fe9d4e29ba8a31f3d5fe8a92-0-4" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nmod:assmod</textPath>
     </text>
-    <path class="displacy-arrowhead" d="M542,244.0 L538,236.0 546,236.0" fill="currentColor"/>
+    <path class="displacy-arrowhead" d="M542,304.0 L538,296.0 546,296.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-d5acfc3d4635484aa744ed5e1807e99a-0-5" stroke-width="2px" d="M542,242.0 542,222.0 641.0,222.0 641.0,242.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-349e3134fe9d4e29ba8a31f3d5fe8a92-0-5" stroke-width="2px" d="M542,302.0 542,282.0 638.0,282.0 638.0,302.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-d5acfc3d4635484aa744ed5e1807e99a-0-5" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">case</textPath>
+        <textPath xlink:href="#arrow-349e3134fe9d4e29ba8a31f3d5fe8a92-0-5" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">case</textPath>
     </text>
-    <path class="displacy-arrowhead" d="M641.0,244.0 L645.0,236.0 637.0,236.0" fill="currentColor"/>
+    <path class="displacy-arrowhead" d="M638.0,304.0 L642.0,296.0 634.0,296.0" fill="currentColor"/>
 </g>
 </svg></span></div></div>
 </div>
@@ -1107,9 +1242,9 @@ $ python -m spacy download en_core_web_sm
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>高速_JJ | 公路_NN | 局說_VV | ，_PU | 目前_NT | 在_P | 國道_NN | 3_OD | 號_NN | 北向_NN | 水上_NR | 系統_NN | 至_CC | 中埔_NR | 路段_NN | 車多_AD | 壅塞_VV | ，_PU | 已_AD | 回_VV | 堵約_AD | 3_CD | 公里_M | 。_PU | 另外_AD | ，_PU | 國道_NN | 1_OD | 號_NN | 北向_NN | 仁德_NR | 至_CC | 永康_NR | 路段_NN | 路段_NN | ，_PU | 已_AD | 回_VV | 堵約_AD | 有_VE | 7_CD | 公里_M | 。_PU | 建議_VV | 駕駛人_NN | 提前_AD | 避開_VV | 壅塞_JJ | 路段_NN | 改道_VV | 行駛_VV | ，_PU | 行經_VV | 車_NN | 多_VA | 路段_NN | 請_VV | 保持_VV | 行車_NN | 安全_NN | 距離_NN | ，_PU | 小心_AD | 行駛_VV | 。_PU
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>高速_JJ | 公路_NN | 局說_NN | ，_PU | 目前_NT | 在_P | 國道_NN | 3_OD | 號_NN | 北向_NN | 水上_NN | 系統_NN | 至_CC | 中埔_NR | 路段_NN | 車多_NN | 壅塞_VA | ，_PU | 已_AD | 回_VV | 堵約_VV | 3_CD | 公里_M | 。_PU | 另外_AD | ，_PU | 國道_NN | 1_OD | 號_NN | 北向_VV | 仁德_NR | 至_CC | 永康_NR | 路段_NN | 路段_NN | ，_PU | 已_AD | 回_VV | 堵約_VV | 有_VE | 7_CD | 公里_M | 。_PU | 建議_VV | 駕駛人_NN | 提前_AD | 避開_VV | 壅塞_JJ | 路段_NN | 改道_VV | 行駛_NN | ，_PU | 行經_VV | 車_NN | 多_VA | 路段_NN | 請_VV | 保持_VV | 行車_NN | 安全_JJ | 距離_NN | ，_PU | 小心_AD | 行駛_VV | 。_PU
 
-國道_NN | 車多_AD | 壅塞_VV | 路段_NN | 還_VV | 有_VE | 國_NN | 1內湖_NR | -_PU | 五_NR | 堵北_NR | 向_JJ | 路段_NN | 、_PU | 楊梅_NR | -_PU | 新竹_NR | 南向_JJ | 路段_NN | ；_PU | 國3三_NR | 鶯_NR | -_PU | 關西_NR | 服務_NN | 區南_NN | 向_JJ | 路段_NN | 、_PU | 快官_NR | -_PU | 霧峰_NR | 南向_JJ | 路段_NN | 、_PU | 水上_NR | 系統_NN | -_PU | 中_NR | 埔北_NR | 向_JJ | 路段_NN | ；_PU | 國6_NR | 霧峰_NR | 系統_NN | -_PU | 東草_NR | 屯東_NR | 向_JJ | 路段_NN | 、_PU | 國10_NN | 燕巢_NR | -_PU | 燕巢_NR | 系_NN | 統東_NN | 向_JJ | 路段_NN | 。_PU
+國道_NN | 車多_NN | 壅塞_JJ | 路段_NN | 還_AD | 有_VE | 國_NN | 1內湖_NR | -_PU | 五_NR | 堵北_NR | 向_P | 路段_NN | 、_PU | 楊梅_NR | -_PU | 新竹_NR | 南向_JJ | 路段_NN | ；_PU | 國3三_NR | 鶯_NR | -_PU | 關西_NR | 服務_NN | 區南_NN | 向_P | 路段_NN | 、_PU | 快官_NN | -_PU | 霧峰_NR | 南向_NN | 路段_NN | 、_PU | 水上_NR | 系統_NN | -_PU | 中_NR | 埔北_NR | 向_P | 路段_NN | ；_PU | 國6_NN | 霧峰_NR | 系統_NN | -_PU | 東草_NR | 屯東_NR | 向_P | 路段_NN | 、_PU | 國10_NN | 燕巢_NR | -_PU | 燕巢_NR | 系_NN | 統東_NN | 向_P | 路段_NN | 。_PU
 </pre></div>
 </div>
 </div>

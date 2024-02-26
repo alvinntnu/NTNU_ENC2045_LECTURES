@@ -403,23 +403,70 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="text-enrichment">
-<h1>Text Enrichment<a class="headerlink" href="#text-enrichment" title="Permalink to this headline">#</a></h1>
-<p>The objective of text enrichment is to utilize computational techniques of automatic annotations and extract additional linguistic information from the text.</p>
+<h1><a class="toc-backref" href="#id1">Text Enrichment</a><a class="headerlink" href="#text-enrichment" title="Permalink to this headline">#</a></h1>
+<p>The objective of text enrichment is to utilize computational techniques of automatic annotations and extract additional linguistic information from the raw text.</p>
+<div class="contents topic" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#text-enrichment" id="id1">Text Enrichment</a></p>
+<ul>
+<li><p><a class="reference internal" href="#parts-of-speech-pos-tagging" id="id2">Parts-of-Speech (POS) Tagging</a></p>
+<ul>
+<li><p><a class="reference internal" href="#nltk" id="id3">NLTK</a></p></li>
+<li><p><a class="reference internal" href="#spacy" id="id4">spacy</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#chunking" id="id5">Chunking</a></p></li>
+<li><p><a class="reference internal" href="#parsing" id="id6">Parsing</a></p></li>
+<li><p><a class="reference internal" href="#references" id="id7">References</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
 <section id="parts-of-speech-pos-tagging">
-<h2>Parts-of-Speech (POS) Tagging<a class="headerlink" href="#parts-of-speech-pos-tagging" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id2">Parts-of-Speech (POS) Tagging</a><a class="headerlink" href="#parts-of-speech-pos-tagging" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Every POS tagger needs to first operationlize a tagset, i.e., a complete list of possible tags for the entire corpus.</p></li>
 <li><p>A common tagset for English is <a class="reference external" href="https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html">Penn-treebank tagset</a>.</p></li>
 </ul>
 <section id="nltk">
-<h3>NLTK<a class="headerlink" href="#nltk" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id3">NLTK</a><a class="headerlink" href="#nltk" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nltk</span>
+
+<span class="c1">## nltk download models</span>
+<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">([</span><span class="s1">&#39;punkt&#39;</span><span class="p">,</span><span class="s1">&#39;averaged_perceptron_tagger&#39;</span><span class="p">,</span> <span class="s1">&#39;treebank&#39;</span><span class="p">,</span> <span class="s1">&#39;maxent_ne_chunker&#39;</span><span class="p">,</span> <span class="s1">&#39;words&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[nltk_data] Downloading package punkt to /root/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+[nltk_data] Downloading package averaged_perceptron_tagger to
+[nltk_data]     /root/nltk_data...
+[nltk_data]   Package averaged_perceptron_tagger is already up-to-
+[nltk_data]       date!
+[nltk_data] Downloading package treebank to /root/nltk_data...
+[nltk_data]   Package treebank is already up-to-date!
+[nltk_data] Downloading package maxent_ne_chunker to
+[nltk_data]     /root/nltk_data...
+[nltk_data]   Package maxent_ne_chunker is already up-to-date!
+[nltk_data] Downloading package words to /root/nltk_data...
+[nltk_data]   Unzipping corpora/words.zip.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
 <ul class="simple">
 <li><p>NLTK default POS tagger</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nltk</span>
-<span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;This is a sentence.&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;This is a sentence.&quot;</span>
 <span class="n">text_word</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 <span class="n">text_pos</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">pos_tag</span><span class="p">(</span><span class="n">text_word</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">text_pos</span><span class="p">)</span>
@@ -501,7 +548,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/n7/ltpzwx813c599nfxfb94s_640000gn/T/ipykernel_22965/3641959337.py:1: DeprecationWarning: 
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-13-c6909daa2ce4&gt;:1: DeprecationWarning: 
   Function evaluate() has been deprecated.  Use accuracy(gold)
   instead.
   unigram_tagger.evaluate(test_sents)
@@ -519,7 +566,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/n7/ltpzwx813c599nfxfb94s_640000gn/T/ipykernel_22965/705572540.py:1: DeprecationWarning: 
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-14-c4d926b929c6&gt;:1: DeprecationWarning: 
   Function evaluate() has been deprecated.  Use accuracy(gold)
   instead.
   bigram_tagger.evaluate(test_sents)
@@ -537,7 +584,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/n7/ltpzwx813c599nfxfb94s_640000gn/T/ipykernel_22965/2977493380.py:1: DeprecationWarning: 
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-15-f6f54de03487&gt;:1: DeprecationWarning: 
   Function evaluate() has been deprecated.  Use accuracy(gold)
   instead.
   trigram_tagger.evaluate(test_sents)
@@ -583,7 +630,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/n7/ltpzwx813c599nfxfb94s_640000gn/T/ipykernel_22965/2977493380.py:1: DeprecationWarning: 
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-17-f6f54de03487&gt;:1: DeprecationWarning: 
   Function evaluate() has been deprecated.  Use accuracy(gold)
   instead.
   trigram_tagger.evaluate(test_sents)
@@ -617,7 +664,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/n7/ltpzwx813c599nfxfb94s_640000gn/T/ipykernel_22965/2907403403.py:3: DeprecationWarning: 
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-18-fec7071c2e08&gt;:3: DeprecationWarning: 
   Function evaluate() has been deprecated.  Use accuracy(gold)
   instead.
   cbtagger.evaluate(test_sents)
@@ -636,7 +683,10 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
-<span class="c1"># warning is not logged here. Perfect for clean unit test output</span>
+
+<span class="c1">## the code ensures that the warning triggered by the division by zero operation</span>
+<span class="c1">## is suppressed, allowing for cleaner output,</span>
+<span class="c1">## particularly in unit tests where such warnings may be irrelevant or distracting.</span>
 <span class="k">with</span> <span class="n">numpy</span><span class="o">.</span><span class="n">errstate</span><span class="p">(</span><span class="n">divide</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">):</span>
     <span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">0.0</span>
 </pre></div>
@@ -651,39 +701,6 @@ document.write(`
 <span class="n">metagger</span> <span class="o">=</span> <span class="n">ClassifierBasedPOSTagger</span><span class="p">(</span><span class="n">train</span><span class="o">=</span><span class="n">train_sents</span><span class="p">,</span>
                                    <span class="n">classifier_builder</span><span class="o">=</span><span class="n">MaxentClassifier</span><span class="o">.</span><span class="n">train</span><span class="p">)</span>
 <span class="n">metagger</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_sents</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  ==&gt; Training (100 iterations)
-
-      Iteration    Log Likelihood    Accuracy
-      ---------------------------------------
-             1          -3.82864        0.008
-             2          -0.76859        0.957
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/Alvin/.local/lib/python3.9/site-packages/nltk/classify/maxent.py:1381: RuntimeWarning: overflow encountered in power
-  exp_nf_delta = 2**nf_delta
-/Users/Alvin/.local/lib/python3.9/site-packages/nltk/classify/maxent.py:1383: RuntimeWarning: invalid value encountered in multiply
-  sum1 = numpy.sum(exp_nf_delta * A, axis=0)
-/Users/Alvin/.local/lib/python3.9/site-packages/nltk/classify/maxent.py:1384: RuntimeWarning: invalid value encountered in multiply
-  sum2 = numpy.sum(nf_exp_nf_delta * A, axis=0)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>         Final               nan        0.984
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;timed exec&gt;:4: DeprecationWarning: 
-  Function evaluate() has been deprecated.  Use accuracy(gold)
-  instead.
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 7min 4s, sys: 3.59 s, total: 7min 8s
-Wall time: 7min 29s
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9258363911072739
 </pre></div>
 </div>
 </div>
@@ -704,28 +721,17 @@ Wall time: 7min 29s
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/n7/ltpzwx813c599nfxfb94s_640000gn/T/ipykernel_22965/2134614117.py:8: DeprecationWarning: 
-  Function evaluate() has been deprecated.  Use accuracy(gold)
-  instead.
-  cbtagger2.evaluate(test_sents)
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9311029570472696
-</pre></div>
-</div>
-</div>
 </div>
 </section>
 <section id="spacy">
-<h3>spacy<a class="headerlink" href="#spacy" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id4">spacy</a><a class="headerlink" href="#spacy" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Another useful module for English POS tagging is to use <code class="docutils literal notranslate"><span class="pre">spacy</span></code>. We will come back to this module when we talk about parsing.</p></li>
 </ul>
 </section>
 </section>
 <section id="chunking">
-<h2>Chunking<a class="headerlink" href="#chunking" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id5">Chunking</a><a class="headerlink" href="#chunking" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p><strong>Chunk</strong> extraction is the processing of extracting short phrases from a part-of-speech tagged sentence.</p></li>
 <li><p>This is different from parsing in that we are only interested in standalone chunks or phrases, instead of the full parsed syntactic tree.</p></li>
@@ -750,6 +756,25 @@ Wall time: 7min 29s
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Colab Only</span>
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>svgling
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting svgling
+  Downloading svgling-0.4.0-py3-none-any.whl (23 kB)
+Collecting svgwrite (from svgling)
+  Downloading svgwrite-1.4.3-py3-none-any.whl (67 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">67.1/67.1 kB</span> <span class=" -Color -Color-Red">2.3 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hInstalling collected packages: svgwrite, svgling
+Successfully installed svgling-0.4.0 svgwrite-1.4.3
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.chunk</span> <span class="kn">import</span> <span class="n">RegexpParser</span>
 <span class="n">np_chunker</span> <span class="o">=</span> <span class="n">RegexpParser</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">NP:</span>
@@ -763,33 +788,13 @@ Wall time: 7min 29s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="nn">File ~/.local/lib/python3.9/site-packages/IPython/core/formatters.py:344,</span> in <span class="ni">BaseFormatter.__call__</span><span class="nt">(self, obj)</span>
-<span class="g g-Whitespace">    </span><span class="mi">342</span>     <span class="n">method</span> <span class="o">=</span> <span class="n">get_real_method</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">print_method</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">343</span>     <span class="k">if</span> <span class="n">method</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">344</span>         <span class="k">return</span> <span class="n">method</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">345</span>     <span class="k">return</span> <span class="kc">None</span>
-<span class="g g-Whitespace">    </span><span class="mi">346</span> <span class="k">else</span><span class="p">:</span>
-
-<span class="nn">File ~/.local/lib/python3.9/site-packages/nltk/tree/tree.py:782,</span> in <span class="ni">Tree._repr_svg_</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">781</span> <span class="k">def</span> <span class="nf">_repr_svg_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">782</span>     <span class="kn">from</span> <span class="nn">svgling</span> <span class="kn">import</span> <span class="n">draw_tree</span>
-<span class="g g-Whitespace">    </span><span class="mi">784</span>     <span class="k">return</span> <span class="n">draw_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_repr_svg_</span><span class="p">()</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;svgling&#39;
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tree(&#39;S&#39;, [Tree(&#39;NP&#39;, [(&#39;This&#39;, &#39;DT&#39;), (&#39;course&#39;, &#39;NN&#39;)]), (&#39;has&#39;, &#39;VBZ&#39;), Tree(&#39;NP&#39;, [(&#39;many&#39;, &#39;JJ&#39;), (&#39;interesting&#39;, &#39;JJ&#39;), (&#39;topics&#39;, &#39;NNS&#39;)])])
-</pre></div>
-</div>
-</div>
+<img alt="../_images/7e46952a1c3b50b0c6e1a6422075e3133a6457f64699d0b785bfd7c1f9404a4a.svg" src="../_images/7e46952a1c3b50b0c6e1a6422075e3133a6457f64699d0b785bfd7c1f9404a4a.svg" /></div>
 </div>
 <p>We can define a function to extract chunks from the tree.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sub_leaves</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">leaves</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> 
+    <span class="k">return</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">leaves</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span>
             <span class="n">tree</span><span class="o">.</span><span class="n">subtrees</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span><span class="n">s</span><span class="o">.</span><span class="n">label</span><span class="p">()</span><span class="o">==</span><span class="n">label</span><span class="p">)]</span>
 </pre></div>
 </div>
@@ -825,27 +830,7 @@ Wall time: 7min 29s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="nn">File ~/opt/anaconda3/envs/python-notes-2023/lib/python3.9/site-packages/IPython/core/formatters.py:344,</span> in <span class="ni">BaseFormatter.__call__</span><span class="nt">(self, obj)</span>
-<span class="g g-Whitespace">    </span><span class="mi">342</span>     <span class="n">method</span> <span class="o">=</span> <span class="n">get_real_method</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">print_method</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">343</span>     <span class="k">if</span> <span class="n">method</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">344</span>         <span class="k">return</span> <span class="n">method</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">345</span>     <span class="k">return</span> <span class="kc">None</span>
-<span class="g g-Whitespace">    </span><span class="mi">346</span> <span class="k">else</span><span class="p">:</span>
-
-<span class="nn">File ~/opt/anaconda3/envs/python-notes-2023/lib/python3.9/site-packages/nltk/tree/tree.py:782,</span> in <span class="ni">Tree._repr_svg_</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">781</span> <span class="k">def</span> <span class="nf">_repr_svg_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">782</span>     <span class="kn">from</span> <span class="nn">svgling</span> <span class="kn">import</span> <span class="n">draw_tree</span>
-<span class="g g-Whitespace">    </span><span class="mi">784</span>     <span class="k">return</span> <span class="n">draw_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_repr_svg_</span><span class="p">()</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;svgling&#39;
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tree(&#39;S&#39;, [Tree(&#39;PERSON&#39;, [(&#39;Pierre&#39;, &#39;NNP&#39;)]), Tree(&#39;ORGANIZATION&#39;, [(&#39;Vinken&#39;, &#39;NNP&#39;)]), (&#39;,&#39;, &#39;,&#39;), (&#39;61&#39;, &#39;CD&#39;), (&#39;years&#39;, &#39;NNS&#39;), (&#39;old&#39;, &#39;JJ&#39;), (&#39;,&#39;, &#39;,&#39;), (&#39;will&#39;, &#39;MD&#39;), (&#39;join&#39;, &#39;VB&#39;), (&#39;the&#39;, &#39;DT&#39;), (&#39;board&#39;, &#39;NN&#39;), (&#39;as&#39;, &#39;IN&#39;), (&#39;a&#39;, &#39;DT&#39;), (&#39;nonexecutive&#39;, &#39;JJ&#39;), (&#39;director&#39;, &#39;NN&#39;), (&#39;Nov.&#39;, &#39;NNP&#39;), (&#39;29&#39;, &#39;CD&#39;), (&#39;.&#39;, &#39;.&#39;)])
-</pre></div>
-</div>
-</div>
+<img alt="../_images/8c0af28a74d0fa56c3d7d548996e33197b3b9cce4e1b4eb7a4b111aae5ea5dbd.svg" src="../_images/8c0af28a74d0fa56c3d7d548996e33197b3b9cce4e1b4eb7a4b111aae5ea5dbd.svg" /></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -873,22 +858,16 @@ Wall time: 7min 29s
 </div>
 </section>
 <section id="parsing">
-<h2>Parsing<a class="headerlink" href="#parsing" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id6">Parsing</a><a class="headerlink" href="#parsing" title="Permalink to this headline">#</a></h2>
 <p>For Parsing, we will use <code class="docutils literal notranslate"><span class="pre">spacy</span></code>, a powerful package for natural language processing.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
 <span class="kn">from</span> <span class="nn">spacy</span> <span class="kn">import</span> <span class="n">displacy</span>
 <span class="c1"># load language model</span>
-<span class="n">nlp_en</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;en_core_web_sm&#39;</span><span class="p">)</span> 
-<span class="c1"># parse text </span>
+<span class="n">nlp_en</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;en_core_web_sm&#39;</span><span class="p">)</span>
+<span class="c1"># parse text</span>
 <span class="n">doc</span> <span class="o">=</span> <span class="n">nlp_en</span><span class="p">(</span><span class="s1">&#39;This is a sentence&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-07-14 11:12:14.014017: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
-To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
 </pre></div>
 </div>
 </div>
@@ -896,9 +875,9 @@ To enable them in other operations, rebuild TensorFlow with the appropriate comp
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">((</span><span class="n">token</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> 
-            <span class="n">token</span><span class="o">.</span><span class="n">lemma_</span><span class="p">,</span> 
-            <span class="n">token</span><span class="o">.</span><span class="n">pos_</span><span class="p">,</span> 
+    <span class="nb">print</span><span class="p">((</span><span class="n">token</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+            <span class="n">token</span><span class="o">.</span><span class="n">lemma_</span><span class="p">,</span>
+            <span class="n">token</span><span class="o">.</span><span class="n">pos_</span><span class="p">,</span>
             <span class="n">token</span><span class="o">.</span><span class="n">tag_</span><span class="p">,</span>
             <span class="n">token</span><span class="o">.</span><span class="n">dep_</span><span class="p">,</span>
             <span class="n">token</span><span class="o">.</span><span class="n">shape_</span><span class="p">,</span>
@@ -938,7 +917,7 @@ To enable them in other operations, rebuild TensorFlow with the appropriate comp
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en" id="7a8240bfef13439080e379c614c3fc7f-0" class="displacy" width="750" height="312.0" direction="ltr" style="max-width: none; height: 312.0px; color: #000000; background: #ffffff; font-family: Arial; direction: ltr">
+<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en" id="ccd5daf193554188a34816115d62ea9f-0" class="displacy" width="750" height="312.0" direction="ltr" style="max-width: none; height: 312.0px; color: #000000; background: #ffffff; font-family: Arial; direction: ltr">
 <text class="displacy-token" fill="currentColor" text-anchor="middle" y="222.0">
     <tspan class="displacy-word" fill="currentColor" x="50">This</tspan>
     <tspan class="displacy-tag" dy="2em" fill="currentColor" x="50">PRON</tspan>
@@ -960,25 +939,25 @@ To enable them in other operations, rebuild TensorFlow with the appropriate comp
 </text>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-7a8240bfef13439080e379c614c3fc7f-0-0" stroke-width="2px" d="M70,177.0 C70,89.5 220.0,89.5 220.0,177.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-ccd5daf193554188a34816115d62ea9f-0-0" stroke-width="2px" d="M70,177.0 C70,89.5 220.0,89.5 220.0,177.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-7a8240bfef13439080e379c614c3fc7f-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nsubj</textPath>
+        <textPath xlink:href="#arrow-ccd5daf193554188a34816115d62ea9f-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nsubj</textPath>
     </text>
     <path class="displacy-arrowhead" d="M70,179.0 L62,167.0 78,167.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-7a8240bfef13439080e379c614c3fc7f-0-1" stroke-width="2px" d="M420,177.0 C420,89.5 570.0,89.5 570.0,177.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-ccd5daf193554188a34816115d62ea9f-0-1" stroke-width="2px" d="M420,177.0 C420,89.5 570.0,89.5 570.0,177.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-7a8240bfef13439080e379c614c3fc7f-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">det</textPath>
+        <textPath xlink:href="#arrow-ccd5daf193554188a34816115d62ea9f-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">det</textPath>
     </text>
     <path class="displacy-arrowhead" d="M420,179.0 L412,167.0 428,167.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-7a8240bfef13439080e379c614c3fc7f-0-2" stroke-width="2px" d="M245,177.0 C245,2.0 575.0,2.0 575.0,177.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-ccd5daf193554188a34816115d62ea9f-0-2" stroke-width="2px" d="M245,177.0 C245,2.0 575.0,2.0 575.0,177.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-7a8240bfef13439080e379c614c3fc7f-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">attr</textPath>
+        <textPath xlink:href="#arrow-ccd5daf193554188a34816115d62ea9f-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">attr</textPath>
     </text>
     <path class="displacy-arrowhead" d="M575.0,179.0 L583.0,167.0 567.0,167.0" fill="currentColor"/>
 </g>
@@ -993,7 +972,7 @@ To enable them in other operations, rebuild TensorFlow with the appropriate comp
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en" id="59bf329fbb7243c1a4317b9bbbc94adf-0" class="displacy" width="650" height="287.0" direction="ltr" style="max-width: none; height: 287.0px; color: white; background: #09a3d5; font-family: Source Sans Pro; direction: ltr">
+<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en" id="269cd9208b274781991ca32f8d9f9668-0" class="displacy" width="650" height="287.0" direction="ltr" style="max-width: none; height: 287.0px; color: white; background: #09a3d5; font-family: Source Sans Pro; direction: ltr">
 <text class="displacy-token" fill="currentColor" text-anchor="middle" y="197.0">
     <tspan class="displacy-word" fill="currentColor" x="50">This</tspan>
     <tspan class="displacy-tag" dy="2em" fill="currentColor" x="50">PRON</tspan>
@@ -1015,25 +994,25 @@ To enable them in other operations, rebuild TensorFlow with the appropriate comp
 </text>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-59bf329fbb7243c1a4317b9bbbc94adf-0-0" stroke-width="2px" d="M62,152.0 62,127.0 197.0,127.0 197.0,152.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-269cd9208b274781991ca32f8d9f9668-0-0" stroke-width="2px" d="M62,152.0 62,127.0 197.0,127.0 197.0,152.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-59bf329fbb7243c1a4317b9bbbc94adf-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nsubj</textPath>
+        <textPath xlink:href="#arrow-269cd9208b274781991ca32f8d9f9668-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nsubj</textPath>
     </text>
     <path class="displacy-arrowhead" d="M62,154.0 L58,146.0 66,146.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-59bf329fbb7243c1a4317b9bbbc94adf-0-1" stroke-width="2px" d="M362,152.0 362,127.0 497.0,127.0 497.0,152.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-269cd9208b274781991ca32f8d9f9668-0-1" stroke-width="2px" d="M362,152.0 362,127.0 497.0,127.0 497.0,152.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-59bf329fbb7243c1a4317b9bbbc94adf-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">det</textPath>
+        <textPath xlink:href="#arrow-269cd9208b274781991ca32f8d9f9668-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">det</textPath>
     </text>
     <path class="displacy-arrowhead" d="M362,154.0 L358,146.0 366,146.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-59bf329fbb7243c1a4317b9bbbc94adf-0-2" stroke-width="2px" d="M212,152.0 212,102.0 500.0,102.0 500.0,152.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-269cd9208b274781991ca32f8d9f9668-0-2" stroke-width="2px" d="M212,152.0 212,102.0 500.0,102.0 500.0,152.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-59bf329fbb7243c1a4317b9bbbc94adf-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">attr</textPath>
+        <textPath xlink:href="#arrow-269cd9208b274781991ca32f8d9f9668-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">attr</textPath>
     </text>
     <path class="displacy-arrowhead" d="M500.0,154.0 L504.0,146.0 496.0,146.0" fill="currentColor"/>
 </g>
@@ -1048,9 +1027,9 @@ To enable them in other operations, rebuild TensorFlow with the appropriate comp
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc2</span> <span class="o">=</span> <span class="n">nlp_en</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">treebank</span><span class="o">.</span><span class="n">sents</span><span class="p">()[</span><span class="mi">0</span><span class="p">]))</span>
 
 <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">doc2</span><span class="o">.</span><span class="n">noun_chunks</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">((</span><span class="n">c</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> 
-           <span class="n">c</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> 
-           <span class="n">c</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">dep_</span><span class="p">,</span> 
+    <span class="nb">print</span><span class="p">((</span><span class="n">c</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+           <span class="n">c</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+           <span class="n">c</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">dep_</span><span class="p">,</span>
            <span class="n">c</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">text</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -1077,7 +1056,7 @@ To enable them in other operations, rebuild TensorFlow with the appropriate comp
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en" id="1c1c44b4c7704669825a9088e924d80e-0" class="displacy" width="2675" height="399.5" direction="ltr" style="max-width: none; height: 399.5px; color: #000000; background: #ffffff; font-family: Arial; direction: ltr">
+<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en" id="f84c2fd9662046ca9b9f9a2e0e8f71d9-0" class="displacy" width="2675" height="399.5" direction="ltr" style="max-width: none; height: 399.5px; color: #000000; background: #ffffff; font-family: Arial; direction: ltr">
 <text class="displacy-token" fill="currentColor" text-anchor="middle" y="309.5">
     <tspan class="displacy-word" fill="currentColor" x="50">Pierre</tspan>
     <tspan class="displacy-tag" dy="2em" fill="currentColor" x="50">PROPN</tspan>
@@ -1154,113 +1133,113 @@ To enable them in other operations, rebuild TensorFlow with the appropriate comp
 </text>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-1c1c44b4c7704669825a9088e924d80e-0-0" stroke-width="2px" d="M70,264.5 C70,177.0 215.0,177.0 215.0,264.5" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-0" stroke-width="2px" d="M70,264.5 C70,177.0 215.0,177.0 215.0,264.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-1c1c44b4c7704669825a9088e924d80e-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">compound</textPath>
+        <textPath xlink:href="#arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">compound</textPath>
     </text>
     <path class="displacy-arrowhead" d="M70,266.5 L62,254.5 78,254.5" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-1c1c44b4c7704669825a9088e924d80e-0-1" stroke-width="2px" d="M245,264.5 C245,2.0 1100.0,2.0 1100.0,264.5" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-1" stroke-width="2px" d="M245,264.5 C245,2.0 1100.0,2.0 1100.0,264.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-1c1c44b4c7704669825a9088e924d80e-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nsubj</textPath>
+        <textPath xlink:href="#arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nsubj</textPath>
     </text>
     <path class="displacy-arrowhead" d="M245,266.5 L237,254.5 253,254.5" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-1c1c44b4c7704669825a9088e924d80e-0-2" stroke-width="2px" d="M420,264.5 C420,177.0 565.0,177.0 565.0,264.5" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-2" stroke-width="2px" d="M420,264.5 C420,177.0 565.0,177.0 565.0,264.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-1c1c44b4c7704669825a9088e924d80e-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nummod</textPath>
+        <textPath xlink:href="#arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nummod</textPath>
     </text>
     <path class="displacy-arrowhead" d="M420,266.5 L412,254.5 428,254.5" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-1c1c44b4c7704669825a9088e924d80e-0-3" stroke-width="2px" d="M595,264.5 C595,177.0 740.0,177.0 740.0,264.5" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-3" stroke-width="2px" d="M595,264.5 C595,177.0 740.0,177.0 740.0,264.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-1c1c44b4c7704669825a9088e924d80e-0-3" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">npadvmod</textPath>
+        <textPath xlink:href="#arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-3" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">npadvmod</textPath>
     </text>
     <path class="displacy-arrowhead" d="M595,266.5 L587,254.5 603,254.5" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-1c1c44b4c7704669825a9088e924d80e-0-4" stroke-width="2px" d="M245,264.5 C245,89.5 745.0,89.5 745.0,264.5" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-4" stroke-width="2px" d="M245,264.5 C245,89.5 745.0,89.5 745.0,264.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-1c1c44b4c7704669825a9088e924d80e-0-4" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">amod</textPath>
+        <textPath xlink:href="#arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-4" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">amod</textPath>
     </text>
     <path class="displacy-arrowhead" d="M745.0,266.5 L753.0,254.5 737.0,254.5" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-1c1c44b4c7704669825a9088e924d80e-0-5" stroke-width="2px" d="M945,264.5 C945,177.0 1090.0,177.0 1090.0,264.5" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-5" stroke-width="2px" d="M945,264.5 C945,177.0 1090.0,177.0 1090.0,264.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-1c1c44b4c7704669825a9088e924d80e-0-5" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">aux</textPath>
+        <textPath xlink:href="#arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-5" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">aux</textPath>
     </text>
     <path class="displacy-arrowhead" d="M945,266.5 L937,254.5 953,254.5" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-1c1c44b4c7704669825a9088e924d80e-0-6" stroke-width="2px" d="M1295,264.5 C1295,177.0 1440.0,177.0 1440.0,264.5" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-6" stroke-width="2px" d="M1295,264.5 C1295,177.0 1440.0,177.0 1440.0,264.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-1c1c44b4c7704669825a9088e924d80e-0-6" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">det</textPath>
+        <textPath xlink:href="#arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-6" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">det</textPath>
     </text>
     <path class="displacy-arrowhead" d="M1295,266.5 L1287,254.5 1303,254.5" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-1c1c44b4c7704669825a9088e924d80e-0-7" stroke-width="2px" d="M1120,264.5 C1120,89.5 1445.0,89.5 1445.0,264.5" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-7" stroke-width="2px" d="M1120,264.5 C1120,89.5 1445.0,89.5 1445.0,264.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-1c1c44b4c7704669825a9088e924d80e-0-7" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">dobj</textPath>
+        <textPath xlink:href="#arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-7" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">dobj</textPath>
     </text>
     <path class="displacy-arrowhead" d="M1445.0,266.5 L1453.0,254.5 1437.0,254.5" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-1c1c44b4c7704669825a9088e924d80e-0-8" stroke-width="2px" d="M1120,264.5 C1120,2.0 1625.0,2.0 1625.0,264.5" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-8" stroke-width="2px" d="M1120,264.5 C1120,2.0 1625.0,2.0 1625.0,264.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-1c1c44b4c7704669825a9088e924d80e-0-8" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">prep</textPath>
+        <textPath xlink:href="#arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-8" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">prep</textPath>
     </text>
     <path class="displacy-arrowhead" d="M1625.0,266.5 L1633.0,254.5 1617.0,254.5" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-1c1c44b4c7704669825a9088e924d80e-0-9" stroke-width="2px" d="M1820,264.5 C1820,89.5 2145.0,89.5 2145.0,264.5" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-9" stroke-width="2px" d="M1820,264.5 C1820,89.5 2145.0,89.5 2145.0,264.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-1c1c44b4c7704669825a9088e924d80e-0-9" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">det</textPath>
+        <textPath xlink:href="#arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-9" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">det</textPath>
     </text>
     <path class="displacy-arrowhead" d="M1820,266.5 L1812,254.5 1828,254.5" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-1c1c44b4c7704669825a9088e924d80e-0-10" stroke-width="2px" d="M1995,264.5 C1995,177.0 2140.0,177.0 2140.0,264.5" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-10" stroke-width="2px" d="M1995,264.5 C1995,177.0 2140.0,177.0 2140.0,264.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-1c1c44b4c7704669825a9088e924d80e-0-10" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">amod</textPath>
+        <textPath xlink:href="#arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-10" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">amod</textPath>
     </text>
     <path class="displacy-arrowhead" d="M1995,266.5 L1987,254.5 2003,254.5" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-1c1c44b4c7704669825a9088e924d80e-0-11" stroke-width="2px" d="M1645,264.5 C1645,2.0 2150.0,2.0 2150.0,264.5" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-11" stroke-width="2px" d="M1645,264.5 C1645,2.0 2150.0,2.0 2150.0,264.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-1c1c44b4c7704669825a9088e924d80e-0-11" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">pobj</textPath>
+        <textPath xlink:href="#arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-11" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">pobj</textPath>
     </text>
     <path class="displacy-arrowhead" d="M2150.0,266.5 L2158.0,254.5 2142.0,254.5" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-1c1c44b4c7704669825a9088e924d80e-0-12" stroke-width="2px" d="M2170,264.5 C2170,177.0 2315.0,177.0 2315.0,264.5" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-12" stroke-width="2px" d="M2170,264.5 C2170,177.0 2315.0,177.0 2315.0,264.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-1c1c44b4c7704669825a9088e924d80e-0-12" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">npadvmod</textPath>
+        <textPath xlink:href="#arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-12" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">npadvmod</textPath>
     </text>
     <path class="displacy-arrowhead" d="M2315.0,266.5 L2323.0,254.5 2307.0,254.5" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-1c1c44b4c7704669825a9088e924d80e-0-13" stroke-width="2px" d="M2345,264.5 C2345,177.0 2490.0,177.0 2490.0,264.5" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-13" stroke-width="2px" d="M2345,264.5 C2345,177.0 2490.0,177.0 2490.0,264.5" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-1c1c44b4c7704669825a9088e924d80e-0-13" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nummod</textPath>
+        <textPath xlink:href="#arrow-f84c2fd9662046ca9b9f9a2e0e8f71d9-0-13" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nummod</textPath>
     </text>
     <path class="displacy-arrowhead" d="M2490.0,266.5 L2498.0,254.5 2482.0,254.5" fill="currentColor"/>
 </g>
@@ -1292,7 +1271,7 @@ To enable them in other operations, rebuild TensorFlow with the appropriate comp
 </ul>
 </section>
 <section id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id7">References</a><a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="http://www.nltk.org/book/ch05.html">NLTK Ch.5 Categorizing and Tagging Words</a></p></li>
 </ul>
