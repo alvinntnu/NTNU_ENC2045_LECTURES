@@ -410,10 +410,35 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="text-normalization">
-<h1>Text Normalization<a class="headerlink" href="#text-normalization" title="Permalink to this headline">#</a></h1>
+<h1><a class="toc-backref" href="#id1">Text Normalization</a><a class="headerlink" href="#text-normalization" title="Permalink to this headline">#</a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id2">Overview</a><a class="headerlink" href="#overview" title="Permalink to this headline">#</a></h2>
 <p>The objective of text normalization is to clean up the text by removing unnecessary and irrelevant components. What to include or exclude for the later analysis is highly dependent on the research questions. Before any data preprocessing, you always need to ask yourself whether it would have great impact on the data distribution if you remove the target structures.</p>
+<div class="contents topic" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#text-normalization" id="id1">Text Normalization</a></p>
+<ul>
+<li><p><a class="reference internal" href="#overview" id="id2">Overview</a></p></li>
+<li><p><a class="reference internal" href="#html-tags" id="id3">HTML Tags</a></p></li>
+<li><p><a class="reference internal" href="#stemming" id="id4">Stemming</a></p></li>
+<li><p><a class="reference internal" href="#lemmatization" id="id5">Lemmatization</a></p>
+<ul>
+<li><p><a class="reference internal" href="#wordnet-lemmatizer" id="id6">WordNet Lemmatizer</a></p></li>
+<li><p><a class="reference internal" href="#spacy" id="id7">Spacy</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#contractions" id="id8">Contractions</a></p></li>
+<li><p><a class="reference internal" href="#accented-characters-non-ascii" id="id9">Accented Characters (Non-ASCII)</a></p></li>
+<li><p><a class="reference internal" href="#special-characters" id="id10">Special Characters</a></p></li>
+<li><p><a class="reference internal" href="#stopwords" id="id11">Stopwords</a></p></li>
+<li><p><a class="reference internal" href="#redundant-whitespaces" id="id12">Redundant Whitespaces</a></p></li>
+<li><p><a class="reference internal" href="#packing-things-together" id="id13">Packing things together</a></p></li>
+<li><p><a class="reference internal" href="#references" id="id14">References</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
@@ -433,13 +458,17 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## NLTK downloads</span>
-<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;wordnet&#39;</span><span class="p">)</span>
+<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">([</span><span class="s1">&#39;wordnet&#39;</span><span class="p">,</span> <span class="s1">&#39;stopwords&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[nltk_data] Downloading package wordnet to
 [nltk_data]     /Users/alvinchen/nltk_data...
+[nltk_data]   Package wordnet is already up-to-date!
+[nltk_data] Downloading package stopwords to
+[nltk_data]     /Users/alvinchen/nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
@@ -449,7 +478,7 @@ document.write(`
 </div>
 </section>
 <section id="html-tags">
-<h2>HTML Tags<a class="headerlink" href="#html-tags" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id3">HTML Tags</a><a class="headerlink" href="#html-tags" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>One of the most frequent data source is the Internet. Assuming that we web-crawl text data from a wikipedia page, we need to clean up the HTML codes quite a bit.</p></li>
 <li><p>Important steps:</p>
@@ -510,7 +539,7 @@ Typing disciplineDuck, Dynamic, Strong typing;[3] Optional type annotations (sin
 </div>
 </section>
 <section id="stemming">
-<h2>Stemming<a class="headerlink" href="#stemming" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id4">Stemming</a><a class="headerlink" href="#stemming" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Stemming is the process where we standardize word forms into their base stem irrespective of their inflections (or other derivational variations).</p></li>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">nltk</span></code> provides several popular stemmers for English:</p>
@@ -591,7 +620,7 @@ Typing disciplineDuck, Dynamic, Strong typing;[3] Optional type annotations (sin
 </div>
 </section>
 <section id="lemmatization">
-<h2>Lemmatization<a class="headerlink" href="#lemmatization" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id5">Lemmatization</a><a class="headerlink" href="#lemmatization" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Lemmatization is similar to stemmatization.</p></li>
 <li><p>It is a process where we remove word affixes to get the <strong>root word</strong> but not the <strong>root stem</strong>.</p></li>
@@ -610,7 +639,7 @@ Typing disciplineDuck, Dynamic, Strong typing;[3] Optional type annotations (sin
 </li>
 </ul>
 <section id="wordnet-lemmatizer">
-<h3>WordNet Lemmatizer<a class="headerlink" href="#wordnet-lemmatizer" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id6">WordNet Lemmatizer</a><a class="headerlink" href="#wordnet-lemmatizer" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>WordNetLemmatizer utilizes the dictionary of WordNet.</p></li>
 <li><p>It requires the <strong>parts of speech</strong> of the word for lemmatization.</p></li>
@@ -676,7 +705,7 @@ Typing disciplineDuck, Dynamic, Strong typing;[3] Optional type annotations (sin
 </div>
 </section>
 <section id="spacy">
-<h3>Spacy<a class="headerlink" href="#spacy" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id7">Spacy</a><a class="headerlink" href="#spacy" title="Permalink to this headline">#</a></h3>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>To use <code class="docutils literal notranslate"><span class="pre">spacy</span></code> properly, you need to download/install the language models of the English language first before you load the parameter files. Please see <a class="reference external" href="https://spacy.io/usage/models/">spacy documentation</a> for installation steps.</p>
@@ -752,7 +781,7 @@ daily/daily/ADV
 </section>
 </section>
 <section id="contractions">
-<h2>Contractions<a class="headerlink" href="#contractions" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id8">Contractions</a><a class="headerlink" href="#contractions" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>For the English data, contractions are problematic sometimes.</p></li>
 <li><p>These may get even more complicated when different tokenizers deal with contractions differently.</p></li>
@@ -764,7 +793,8 @@ daily/daily/ADV
 <span class="c1">## Colab Only           ##</span>
 <span class="c1">## -------------------- ##</span>
 
-<span class="o">!</span>wget<span class="w"> </span>-O<span class="w"> </span>TAWP<span class="w"> </span>https://www.dropbox.com/scl/fo/zqo0ddlupx053kptstyg8/h?rlkey<span class="o">=</span>ifbtk9cufvjdtb9q6gupmmnnw<span class="p">&amp;</span><span class="nv">dl</span><span class="o">=</span><span class="m">1</span>
+<span class="o">!</span>wget<span class="w"> </span>-O<span class="w"> </span>TAWP.zip<span class="w"> </span>https://www.dropbox.com/scl/fi/3860q3fd66j9eqnlehrt5/TAWP.zip?rlkey<span class="o">=</span>vnwnb3ajqrqgdukrwd89xyd32<span class="p">&amp;</span><span class="nv">dl</span><span class="o">=</span><span class="m">1</span>
+<span class="o">!</span>unzip<span class="w"> </span>-o<span class="w"> </span><span class="s1">&#39;/content/TAWP.zip&#39;</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;/content/&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -856,7 +886,7 @@ I am very glad he is here! And it is not here!
 </div>
 </section>
 <section id="accented-characters-non-ascii">
-<h2>Accented Characters (Non-ASCII)<a class="headerlink" href="#accented-characters-non-ascii" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id9">Accented Characters (Non-ASCII)</a><a class="headerlink" href="#accented-characters-non-ascii" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>The <code class="docutils literal notranslate"><span class="pre">unicodedata</span></code> module handles unicode characters very efficiently. Please check <a class="reference external" href="https://docs.python.org/3/library/unicodedata.html">unicodedata dcoumentation</a> for more details.</p></li>
 <li><p>When dealing with the English data, we may often encounter foreign characters in texts that are not part of the ASCII character set.</p></li>
@@ -962,7 +992,7 @@ I am very glad he is here! And it is not here!
 </div>
 </section>
 <section id="special-characters">
-<h2>Special Characters<a class="headerlink" href="#special-characters" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id10">Special Characters</a><a class="headerlink" href="#special-characters" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Depending on the research questions and the defined tasks, we often need to decide whether to remove irrelevant characters.</p></li>
 <li><p>Common irrelevant (aka. non-informative) characters may include:</p>
@@ -1013,7 +1043,7 @@ This is a simple case Removing  or  symbols is probably ok
 </div>
 </section>
 <section id="stopwords">
-<h2>Stopwords<a class="headerlink" href="#stopwords" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id11">Stopwords</a><a class="headerlink" href="#stopwords" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>At the word-token level, there are words that have little semantic information and are usually removed from text in text preprocessing. These words are often referred to as <strong>stopwords</strong>.</p></li>
 <li><p>However, there is no universal stopword list. Whether a word is informative or not depends on your research/project objective. It is a linguistic decision.</p></li>
@@ -1093,7 +1123,7 @@ This is a simple case Removing  or  symbols is probably ok
 </div>
 </section>
 <section id="redundant-whitespaces">
-<h2>Redundant Whitespaces<a class="headerlink" href="#redundant-whitespaces" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id12">Redundant Whitespaces</a><a class="headerlink" href="#redundant-whitespaces" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Very often we would see redundant duplicate whitespaces in texts.</p></li>
 <li><p>Sometimes, when we remove special characters (punctuations, digits etc.), we may replace those characters with whitespaces (not empty string), which may lead to duplicate whitespaces in texts.</p></li>
@@ -1123,7 +1153,7 @@ This is a simple case Removing  or  symbols is probably ok
 </div>
 </section>
 <section id="packing-things-together">
-<h2>Packing things together<a class="headerlink" href="#packing-things-together" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id13">Packing things together</a><a class="headerlink" href="#packing-things-together" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Ideally, we can wrap all the relevant steps of text preprocessing in one coherent procedure.</p></li>
 <li><p>Please study Sarkar’s <code class="docutils literal notranslate"><span class="pre">text_normalizer.py</span></code></p></li>
@@ -1140,7 +1170,7 @@ This is a simple case Removing  or  symbols is probably ok
 </div>
 </section>
 <section id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id14">References</a><a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Sarkar (2020), Chapter 3.</p></li>
 </ul>
