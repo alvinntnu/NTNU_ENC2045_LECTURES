@@ -206,6 +206,8 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Exercises</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../exercise/1-python-basics.html">1. Assignment I: Python Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/3-preprocessing.html">2. Assignment II: Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/4-chinese-nlp.html">3. Assignment III: Chinese Language Processing</a></li>
 </ul>
 
     </div>
@@ -463,12 +465,9 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[nltk_data] Downloading package wordnet to
-[nltk_data]     /Users/alvinchen/nltk_data...
-[nltk_data]   Package wordnet is already up-to-date!
-[nltk_data] Downloading package stopwords to
-[nltk_data]     /Users/alvinchen/nltk_data...
-[nltk_data]   Package stopwords is already up-to-date!
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[nltk_data] Downloading package wordnet to /root/nltk_data...
+[nltk_data] Downloading package stopwords to /root/nltk_data...
+[nltk_data]   Unzipping corpora/stopwords.zip.
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
@@ -526,7 +525,7 @@ document.write(`
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>General-purpose programming language
 PythonParadigmMulti-paradigm: Object-oriented,[1] Procedural (Imperative), Functional, Structured, ReflectiveDesigned byGuido van RossumDeveloperPython Software FoundationFirst appeared20 February 1991; 33 years ago (1991-02-20)[2]Stable release3.12.2 
-   / 7 February 2024; 18 days ago (7 February 2024)
+   / 7 February 2024; 21 days ago (7 February 2024)
 Typing disciplineDuck, Dynamic, Strong typing;[3] Optional type annotations (since 3.5, but those hints are ignored, except with unofficial tools)[4]OSWindows, macOS, Linux/UNIX, Android, Unix-like systems, BSD variants[5][6] and a few other platforms[7]LicensePython Software Foundation LicenseFilename extensions.py, .pyw, .pyz, [8]
 .pyi, .pyc, .pydWebsitepython.orgMajor implementationsCPython, PyPy, Stackless Python, MicroPython, CircuitPython, IronPython, JythonDialectsCython, RPython, Starlark[9]Influenced byABC,[10] Ada,[11] ALGOL 68,[12] APL,[13] C,[14] C++,[15] CLU,[16] Dylan,[17] Haskell,[18][13] Icon,[19] Lisp,[20] Modula-3,[12][15] Perl,[21]
 </pre></div>
@@ -792,17 +791,65 @@ daily/daily/ADV
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## -------------------- ##</span>
 <span class="c1">## Colab Only           ##</span>
 <span class="c1">## -------------------- ##</span>
-
-<span class="o">!</span>wget<span class="w"> </span>-O<span class="w"> </span>TAWP.zip<span class="w"> </span>https://www.dropbox.com/scl/fi/3860q3fd66j9eqnlehrt5/TAWP.zip?rlkey<span class="o">=</span>vnwnb3ajqrqgdukrwd89xyd32<span class="p">&amp;</span><span class="nv">dl</span><span class="o">=</span><span class="m">1</span>
-<span class="o">!</span>unzip<span class="w"> </span>-o<span class="w"> </span><span class="s1">&#39;/content/TAWP.zip&#39;</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;/content/&#39;</span>
+<span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
+<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/drive&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mounted at /content/drive
 </pre></div>
 </div>
 </div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you are running on your local Python environment, please download the <code class="docutils literal notranslate"><span class="pre">TAWP</span></code> directory from the <code class="docutils literal notranslate"><span class="pre">ENC2045_demo_data</span></code>. This directory includes code snippets provided in Sarkar’s (2020) book.</p>
-<p>Also, you need to put this <code class="docutils literal notranslate"><span class="pre">TAWP</span></code> under your working directory for importing.</p>
+<p>If you are using your local Python environment, please download the <code class="docutils literal notranslate"><span class="pre">TAWP</span></code> directory from the <code class="docutils literal notranslate"><span class="pre">ENC2045_demo_data</span></code>. This directory contains code snippets provided in Sarkar’s (2020) book.</p>
+<p>We assume that you have saved the <code class="docutils literal notranslate"><span class="pre">TAWP</span></code> directory under <code class="docutils literal notranslate"><span class="pre">GoogleDrive/ENC2045_demo_data</span></code>.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## -------------------- ##</span>
+<span class="c1">## Colab Only           ##</span>
+<span class="c1">## -------------------- ##</span>
+<span class="c1">## working dir</span>
+<span class="o">!</span>pwd
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/content
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## -------------------- ##</span>
+<span class="c1">## Colab Only           ##</span>
+<span class="c1">## -------------------- ##</span>
+<span class="c1">## check ENC2045_demo_data</span>
+<span class="o">!</span>ls<span class="w"> </span>/content/drive/MyDrive/ENC2045_demo_data/
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>05-3_clauseorders.csv	      dcard-top100.csv	 PDF		     TAWP
+addition-student-version.csv  glove		 pdf-firth-text.png  TAWP.zip
+date-student-version.csv      movie_reviews.csv  stopwords
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## -------------------- ##</span>
+<span class="c1">## Colab Only           ##</span>
+<span class="c1">## -------------------- ##</span>
+<span class="o">!</span>cp<span class="w"> </span>-r<span class="w"> </span>/content/drive/MyDrive/ENC2045_demo_data/TAWP<span class="w"> </span>/content/
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -812,8 +859,7 @@ daily/daily/ADV
 <span class="k">def</span> <span class="nf">expand_contractions</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">contraction_mapping</span><span class="o">=</span><span class="n">CONTRACTION_MAP</span><span class="p">):</span>
     <span class="c1">## create a regex pattern of all contracted forms</span>
     <span class="n">contractions_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;(</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-        <span class="n">contraction_mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">())),</span>
-                                      <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
+        <span class="n">contraction_mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">())),</span><span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">expand_match</span><span class="p">(</span><span class="n">contraction</span><span class="p">):</span>
         <span class="n">match</span> <span class="o">=</span> <span class="n">contraction</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># the whole matched contraction</span>
@@ -840,11 +886,11 @@ daily/daily/ADV
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>In <code class="docutils literal notranslate"><span class="pre">re.sub(repl,</span> <span class="pre">str)</span></code>, when <code class="docutils literal notranslate"><span class="pre">repl</span></code> is a function like above, the function is called for every non-overlapping occurrence of pattern <code class="docutils literal notranslate"><span class="pre">contractions_pattern</span></code>. The function <code class="docutils literal notranslate"><span class="pre">expand_match</span></code> takes a single matched contraction, and returns the replacement string, i.e., its uncontracted form in the dictionary.</p>
+<p>In other words, <code class="docutils literal notranslate"><span class="pre">contractions_pattern.sub(expand_match,</span> <span class="pre">text)</span></code> above says: to substitute every non-overlapping occurrence of pattern <code class="docutils literal notranslate"><span class="pre">contractions_pattern</span></code>  in <code class="docutils literal notranslate"><span class="pre">text</span></code> with the output of <code class="docutils literal notranslate"><span class="pre">expand_match()</span></code></p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">expand_contractions</span><span class="p">(</span><span class="s2">&quot;Y&#39;all can&#39;t expand contractions I&#39;d think&quot;</span><span class="p">))</span>
-
 <span class="nb">print</span><span class="p">(</span><span class="n">expand_contractions</span><span class="p">(</span><span class="s2">&quot;I&#39;m very glad he&#39;s here! And it ain&#39;t here!&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -897,8 +943,8 @@ I am very glad he is here! And it is not here!
 
 <span class="k">def</span> <span class="nf">remove_accented_chars</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
 <span class="c1">#     ```</span>
-<span class="c1">#     (NFKD) will apply the compatibility decomposition, i.e. </span>
-<span class="c1">#     replace all compatibility characters with their equivalents. </span>
+<span class="c1">#     (NFKD) will apply the compatibility decomposition, i.e.</span>
+<span class="c1">#     replace all compatibility characters with their equivalents.</span>
 <span class="c1">#     ```</span>
     <span class="n">text</span> <span class="o">=</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s1">&#39;NFKD&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">,</span> <span class="s1">&#39;ignore&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">text</span>
@@ -1051,8 +1097,8 @@ This is a simple case Removing  or  symbols is probably ok
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">ToktokTokenizer</span><span class="p">()</span> 
-    <span class="c1"># assuming per line per sentence </span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">ToktokTokenizer</span><span class="p">()</span>
+    <span class="c1"># assuming per line per sentence</span>
     <span class="c1"># for other Tokenizer, maybe sent.tokenize should go first</span>
 <span class="n">stopword_list</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">corpus</span><span class="o">.</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s1">&#39;english&#39;</span><span class="p">)</span>
 
@@ -1065,7 +1111,7 @@ This is a simple case Removing  or  symbols is probably ok
         <span class="n">filtered_tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">token</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span> <span class="k">if</span> <span class="n">token</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stopwords</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">filtered_tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">token</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span> <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stopwords</span><span class="p">]</span>
-    <span class="n">filtered_text</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filtered_tokens</span><span class="p">)</span>    
+    <span class="n">filtered_text</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filtered_tokens</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">filtered_text</span>
 
 <span class="n">remove_stopwords</span><span class="p">(</span><span class="s2">&quot;The, and, if are stopwords, computer is not&quot;</span><span class="p">)</span>
@@ -1159,8 +1205,8 @@ This is a simple case Removing  or  symbols is probably ok
 <li><p>Please study Sarkar’s <code class="docutils literal notranslate"><span class="pre">text_normalizer.py</span></code></p></li>
 </ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">normalize_corpus</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">html_stripping</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">contraction_expansion</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                     <span class="n">accented_char_removal</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text_lower_case</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
-                     <span class="n">text_stemming</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">text_lemmatization</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                     <span class="n">accented_char_removal</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text_lower_case</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                     <span class="n">text_stemming</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">text_lemmatization</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                      <span class="n">special_char_removal</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">remove_digits</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                      <span class="n">stopword_removal</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">stopwords</span><span class="o">=</span><span class="n">stopword_list</span><span class="p">):</span>
                      
