@@ -208,6 +208,8 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../exercise/3-preprocessing.html">2. Assignment II: Preprocessing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../exercise/4-chinese-nlp.html">3. Assignment III: Chinese Language Processing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../exercise/5-text-vectorization.html">4. Assignment IV: Text Vectorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/6-machine-learning.html">5. Assignment V: Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/7-topic-modeling.html">6. Assignment VI: Topic Modeling</a></li>
 </ul>
 
     </div>
@@ -408,7 +410,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-model">Saving Model</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dictionary-based-sentiment-classifier">Dictionary-based Sentiment Classifier</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dictionary-based-sentiment-classifier-self-study">Dictionary-based Sentiment Classifier (Self-Study)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#textblob-lexicon">TextBlob Lexicon</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#afinn-lexicon">AFINN Lexicon</a></li>
 </ul>
@@ -458,7 +460,7 @@ document.write(`
 </ul>
 </li>
 <li><p><a class="reference internal" href="#saving-model" id="id20">Saving Model</a></p></li>
-<li><p><a class="reference internal" href="#dictionary-based-sentiment-classifier" id="id21">Dictionary-based Sentiment Classifier</a></p>
+<li><p><a class="reference internal" href="#dictionary-based-sentiment-classifier-self-study" id="id21">Dictionary-based Sentiment Classifier (Self-Study)</a></p>
 <ul>
 <li><p><a class="reference internal" href="#textblob-lexicon" id="id22">TextBlob Lexicon</a></p></li>
 <li><p><a class="reference internal" href="#afinn-lexicon" id="id23">AFINN Lexicon</a></p></li>
@@ -568,6 +570,9 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of Reviews/Documents: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">documents</span><span class="p">)))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Corpus Size (words): </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">l</span><span class="p">)</span> <span class="ow">in</span> <span class="n">documents</span><span class="p">])))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Max Doc Size (words): </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">l</span><span class="p">)</span> <span class="ow">in</span> <span class="n">documents</span><span class="p">])))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Min Doc Size (words): </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">l</span><span class="p">)</span> <span class="ow">in</span> <span class="n">documents</span><span class="p">])))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Average Doc Size (words): </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">l</span><span class="p">)</span> <span class="ow">in</span> <span class="n">documents</span><span class="p">])))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sample Text of Doc 1:&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">documents</span><span class="p">[</span><span class="mi">0</span><span class="p">][:</span><span class="mi">50</span><span class="p">]))</span> <span class="c1"># first 50 words of the first document</span>
@@ -577,6 +582,9 @@ document.write(`
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of Reviews/Documents: 2000
 Corpus Size (words): 7808520
+Max Doc Size (words): 15097
+Min Doc Size (words): 91
+Average Doc Size (words): 3904.26
 Sample Text of Doc 1:
 ------------------------------
 plot : two teen couples go to a church party , drink and then drive . they get into an accident . one of the guys dies , but his girlfriend continues to see him in her life , and has nightmares . what &#39; s the deal ? watch the movie and &quot; sorta &quot; find out . . . critique : a mind - fuck movie for the teen generation that touches on a very cool idea , but presents it in a very bad package . which is what makes this review an even harder one to write , since i generally applaud films which attempt to break the mold , mess with your head and such ( lost highway &amp; memento ) , but there are good and bad ways of making all types of films , and these folks just didn &#39; t snag this one correctly . they seem to have taken this pretty neat concept , but executed it terribly . so what are the problems with the movie ? well , its main problem is that it &#39; s simply too jumbled . it starts off &quot; normal &quot; but then downshifts into this &quot; fantasy &quot; world in which you , as an audience member , have no idea what &#39; s going on . there are dreams , there are characters coming back from the dead , there are others who look like the dead , there are strange apparitions , there are disappearances , there are a looooot of chase scenes , there are tons of weird things that happen , and most of it is simply not explained . now i personally don &#39; t mind trying to unravel a film every now and then , but when all it does is give me the same clue over and over again , i get kind of fed up after a while , which is this film &#39; s biggest problem . it &#39; s obviously got this big secret to hide , but it seems to want to hide it completely until its final five minutes . and do they make things entertaining , thrilling or even engaging , in the meantime ? not really . the sad part is that the arrow and i both dig on flicks like this , so we actually figured most of it out by the half - way point , so all of the strangeness after that did start to make a little bit of sense , but it still didn &#39; t the make the film all that more entertaining . i guess the bottom line with movies like this is that you should always make sure that the audience is &quot; into it &quot; even before they are given the secret password to enter your world of understanding . i mean , showing melissa sagemiller running away from visions for about 20 minutes throughout the movie is just plain lazy ! ! okay , we get it . . . there are people chasing her and we don &#39; t know who they are . do we really need to see it over and over again ? how about giving us different scenes offering further insight into all of the strangeness going down in the movie ? apparently , the studio took this film away from its director and chopped it up themselves , and it shows . there might &#39; ve been a pretty decent teen mind - fuck movie in here somewhere , but i guess &quot; the suits &quot; decided that turning it into a music video with little edge , would make more sense . the actors are pretty good for the most part , although wes bentley just seemed to be playing the exact same character that he did in american beauty , only in a new neighborhood . but my biggest kudos go out to sagemiller , who holds her own throughout the entire film , and actually has you feeling her character &#39; s unraveling . overall , the film doesn &#39; t stick because it doesn &#39; t entertain , it &#39; s confusing , it rarely excites and it feels pretty redundant for most of its runtime , despite a pretty cool ending and explanation to all of the craziness that came before it . oh , and by the way , this is not a horror or teen slasher flick . . . it &#39; s just packaged to look that way because someone is apparently assuming that the genre is still hot with the kids . it also wrapped production two years ago and has been sitting on the shelves ever since . whatever . . . skip it ! where &#39; s joblo coming from ? a nightmare of elm street 3 ( 7 / 10 ) - blair witch 2 ( 7 / 10 ) - the crow ( 9 / 10 ) - the crow : salvation ( 4 / 10 ) - lost highway ( 10 / 10 ) - memento ( 10 / 10 ) - the others ( 9 / 10 ) - stir of echoes ( 8 / 10 ) neg
@@ -965,7 +973,7 @@ Counter({&#39;pos&#39;: 334, &#39;neg&#39;: 326})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x11231fa90&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x2a090c610&gt;
 </pre></div>
 </div>
 <img alt="../_images/95448f8499de58c746708244be998150626c63cd98184565fa9268a37c206b91.png" src="../_images/95448f8499de58c746708244be998150626c63cd98184565fa9268a37c206b91.png" />
@@ -978,7 +986,7 @@ Counter({&#39;pos&#39;: 334, &#39;neg&#39;: 326})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x171224c10&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x2a13ac550&gt;
 </pre></div>
 </div>
 <img alt="../_images/7e1268c08579d39df19b44febcdef51c15cd3dbccf074edf074d195a4924c774.png" src="../_images/7e1268c08579d39df19b44febcdef51c15cd3dbccf074edf074d195a4924c774.png" />
@@ -1023,12 +1031,8 @@ Counter({&#39;pos&#39;: 334, &#39;neg&#39;: 326})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/alvinchen/anaconda3/envs/python-notes/lib/python3.9/site-packages/joblib/externals/loky/process_executor.py:752: UserWarning: A worker stopped while some jobs were given to the executor. This can be caused by a too short worker timeout or by a memory leak.
-  warnings.warn(
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 2.46 s, sys: 260 ms, total: 2.72 s
-Wall time: 25.7 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 2.34 s, sys: 180 ms, total: 2.52 s
+Wall time: 26.2 s
 </pre></div>
 </div>
 <div class="output text_html"><style>#sk-container-id-5 {color: black;}#sk-container-id-5 pre{padding: 0;}#sk-container-id-5 div.sk-toggleable {background-color: white;}#sk-container-id-5 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-5 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-5 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-5 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-5 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-5 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-5 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-5 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-5 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-5 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-5 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-5 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-5 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-5 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-5 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-5 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-5 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-5 div.sk-item {position: relative;z-index: 1;}#sk-container-id-5 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-5 div.sk-item::before, #sk-container-id-5 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-5 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-5 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-5 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-5 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-5 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-5 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-5 div.sk-label-container {text-align: center;}#sk-container-id-5 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-5 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-5" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=10, estimator=SVC(), n_jobs=-1,
@@ -1107,10 +1111,12 @@ Wall time: 25.7 s
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Refit model based on optimal parameter settings</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## define the pipeline</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
   <span class="p">(</span><span class="s1">&#39;vectorizer&#39;</span><span class="p">,</span><span class="n">tfidf_vec</span><span class="p">),</span> 
   <span class="p">(</span><span class="s1">&#39;clf&#39;</span><span class="p">,</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">probability</span><span class="o">=</span><span class="kc">True</span><span class="p">))])</span>
+
+<span class="c1">## Refit model based on optimal parameter settings</span>
 <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1158,8 +1164,8 @@ expects us to view each tense situation with jude and some cohort in a tight spo
 that could have been spent elsewhere . reestablishing his title as the most beautiful ( and often talented ) man on film , jude law carries the movie . without him , this costly production would have gone into the ground . the story and acting are of good quality , but there &#39; s never a sense of authenticity or reality . something about this war movie is undeniably modern , and it loses its
 feeling . strange enough , the screenplay is based on the true story of a real russian sniper .
 --------------------------------------------------
-Probability(positive) = 0.7287913743953501
-Probability(negative) = 0.2712086256046497
+Probability(positive) = 0.7403650992849741
+Probability(negative) = 0.2596349007150261
 Predicted class: [&#39;pos&#39;]
 True class: pos
 </pre></div>
@@ -38273,25 +38279,25 @@ True class: pos
 /***/ })
 /******/ ]);
 //# sourceMappingURL=bundle.js.map </script></head><body>
-        <div class="lime top_div" id="top_divL720IJAQ79KPQSY"></div>
+        <div class="lime top_div" id="top_divIKDBUNID7DTDUDE"></div>
         
         <script>
-        var top_div = d3.select('#top_divL720IJAQ79KPQSY').classed('lime top_div', true);
+        var top_div = d3.select('#top_divIKDBUNID7DTDUDE').classed('lime top_div', true);
         
             var pp_div = top_div.append('div')
                                 .classed('lime predict_proba', true);
             var pp_svg = pp_div.append('svg').style('width', '100%');
-            var pp = new lime.PredictProba(pp_svg, ["negative", "positive"], [0.2712086256046497, 0.7287913743953501]);
+            var pp = new lime.PredictProba(pp_svg, ["negative", "positive"], [0.2596349007150261, 0.7403650992849741]);
             
         
         var exp_div;
             var exp = new lime.Explanation(["negative", "positive"]);
         
                 exp_div = top_div.append('div').classed('lime explanation', true);
-                exp.show([["and", 0.40997965380847606], ["the", 0.28050933818827317], ["war", 0.16669515847696798], ["to", -0.09807013379386732], ["have", -0.06370041643925735], ["trying", -0.062398593457432545], ["there", -0.061058037626699424], ["of", 0.05973425027328645], ["is", 0.05818369278638752], ["wasted", -0.056840503065480184], ["pointless", -0.05456798068331045], ["problem", -0.05404557171566401], ["talented", -0.053816928811887564], ["teeth", -0.05375263511901515], ["roles", -0.04969675203528516], ["harris", 0.028639175485389846], ["as", 0.028563452170259723], ["he", 0.02693704538194038], ["terrific", 0.020518488571943095], ["true", 0.017900720559150252]], 1, exp_div);
+                exp.show([["and", 0.42573668663328745], ["the", 0.2882586573925957], ["war", 0.17058032151106609], ["to", -0.09561063091459246], ["is", 0.08012102626039917], ["of", 0.06437773341381081], ["trying", -0.06180352819308868], ["wasted", -0.060926932277146496], ["have", -0.05833220528597744], ["pointless", -0.05574105998056271], ["predictable", -0.05406814422316656], ["there", -0.05394279593051996], ["teeth", -0.05376047797719997], ["problem", -0.05220152700824699], ["could", -0.051874683764827775], ["roles", -0.04524580442227443], ["harris", 0.03518355243875545], ["true", 0.027125374235892435], ["terrific", 0.026128929768665515], ["as", 0.024801997485356875]], 1, exp_div);
                 
         var raw_div = top_div.append('div');
-            exp.show_raw_text([["and", 204, 0.40997965380847606], ["and", 253, 0.40997965380847606], ["and", 573, 0.40997965380847606], ["and", 600, 0.40997965380847606], ["and", 802, 0.40997965380847606], ["and", 839, 0.40997965380847606], ["and", 929, 0.40997965380847606], ["and", 1155, 0.40997965380847606], ["and", 1177, 0.40997965380847606], ["and", 1647, 0.40997965380847606], ["and", 1687, 0.40997965380847606], ["and", 2086, 0.40997965380847606], ["and", 2231, 0.40997965380847606], ["and", 2375, 0.40997965380847606], ["the", 14, 0.28050933818827317], ["the", 178, 0.28050933818827317], ["the", 191, 0.28050933818827317], ["the", 257, 0.28050933818827317], ["the", 311, 0.28050933818827317], ["the", 337, 0.28050933818827317], ["the", 373, 0.28050933818827317], ["the", 529, 0.28050933818827317], ["the", 577, 0.28050933818827317], ["the", 677, 0.28050933818827317], ["the", 700, 0.28050933818827317], ["the", 717, 0.28050933818827317], ["the", 740, 0.28050933818827317], ["the", 814, 0.28050933818827317], ["the", 850, 0.28050933818827317], ["the", 953, 0.28050933818827317], ["the", 982, 0.28050933818827317], ["the", 1012, 0.28050933818827317], ["the", 1200, 0.28050933818827317], ["the", 1272, 0.28050933818827317], ["the", 1297, 0.28050933818827317], ["the", 1474, 0.28050933818827317], ["the", 1718, 0.28050933818827317], ["the", 1881, 0.28050933818827317], ["the", 1909, 0.28050933818827317], ["the", 1969, 0.28050933818827317], ["the", 2065, 0.28050933818827317], ["the", 2138, 0.28050933818827317], ["the", 2208, 0.28050933818827317], ["the", 2221, 0.28050933818827317], ["the", 2419, 0.28050933818827317], ["the", 2446, 0.28050933818827317], ["war", 244, 0.16669515847696798], ["war", 419, 0.16669515847696798], ["war", 681, 0.16669515847696798], ["war", 2342, 0.16669515847696798], ["to", 169, -0.09807013379386732], ["to", 398, -0.09807013379386732], ["to", 622, -0.09807013379386732], ["to", 1608, -0.09807013379386732], ["to", 1778, -0.09807013379386732], ["to", 1951, -0.09807013379386732], ["have", 2009, -0.06370041643925735], ["have", 2193, -0.06370041643925735], ["trying", 615, -0.062398593457432545], ["trying", 1388, -0.062398593457432545], ["there", 1514, -0.061058037626699424], ["there", 2268, -0.061058037626699424], ["of", 188, 0.05973425027328645], ["of", 215, 0.05973425027328645], ["of", 323, 0.05973425027328645], ["of", 416, 0.05973425027328645], ["of", 465, 0.05973425027328645], ["of", 896, 0.05973425027328645], ["of", 1120, 0.05973425027328645], ["of", 1234, 0.05973425027328645], ["of", 2246, 0.05973425027328645], ["of", 2292, 0.05973425027328645], ["of", 2461, 0.05973425027328645], ["is", 37, 0.05818369278638752], ["is", 370, 0.05818369278638752], ["is", 827, 0.05818369278638752], ["is", 1483, 0.05818369278638752], ["is", 1765, 0.05818369278638752], ["is", 2352, 0.05818369278638752], ["is", 2434, 0.05818369278638752], ["wasted", 1973, -0.056840503065480184], ["pointless", 1805, -0.05456798068331045], ["problem", 1016, -0.05404557171566401], ["problem", 1885, -0.05404557171566401], ["talented", 562, -0.053816928811887564], ["talented", 1836, -0.053816928811887564], ["talented", 2096, -0.053816928811887564], ["teeth", 1088, -0.05375263511901515], ["teeth", 1213, -0.05375263511901515], ["roles", 666, -0.04969675203528516], ["roles", 1334, -0.04969675203528516], ["harris", 500, 0.028639175485389846], ["harris", 1370, 0.028639175485389846], ["as", 674, 0.028563452170259723], ["as", 766, 0.028563452170259723], ["as", 1679, 0.028563452170259723], ["as", 2062, 0.028563452170259723], ["he", 547, 0.02693704538194038], ["he", 1403, 0.02693704538194038], ["he", 1829, 0.02693704538194038], ["terrific", 744, 0.020518488571943095], ["true", 2450, 0.017900720559150252]], 1, "in ` enemy at the gates ' , jude law is a gifted russian sniper made hero by a political officer named danilov ( joseph fiennes ) who uses him in a propaganda newspaper to raise the hopes of the soldiers and people of stalingrad . it ' s world war ii , and the russian - german standoff in town could determine the outcome of things for the motherland . law ' s vassili is the russian ' s top pawn to victory . lots of war stuff happens . an older , german version of jude ' s character played by ed harris shows up halfway into the proceedings . he ' s equally talented , and the two men play a cat and mouse game trying to kill each other . they constantly switch roles , as the war fades far into the background . the cast also includes the terrific rachel weisz as a love interest for both vassili and danilov the set - up is decent , and so are the production values . boasting a wide range of grimy locales , greasy hair , and tattered costumes , the art direction prospers . the actors , however , suffer the problem matt damon had in ` saving private ryan ' . either their eyes , teeth , skin , or a combination of other features looked too white and clean . with dirt and blood all around , the blinding teeth or bright eyes of these actors divert attention from the action . that said , the players are mostly good in their roles , although i don ' t think ed harris was really trying . maybe he realized his role struck a difficult chord in one - notedom . while the film is technically about snipers , there are far too many predictable sniping scenes . director jean - jacques annaud expects us to view each tense situation with jude and some cohort in a tight spot as edgy and exciting , but after about the sixth time , in which we realize that jude is not going to die , it ' s relatively pointless . we get that he ' s talented , okay , let ' s move on . that ' s the problem with ` enemy at the gates ' ; it just doesn ' t know when to stop . witness the wasted seventeen minutes that could have been spent elsewhere . reestablishing his title as the most beautiful ( and often talented ) man on film , jude law carries the movie . without him , this costly production would have gone into the ground . the story and acting are of good quality , but there ' s never a sense of authenticity or reality . something about this war movie is undeniably modern , and it loses its feeling . strange enough , the screenplay is based on the true story of a real russian sniper .", raw_div, true);
+            exp.show_raw_text([["and", 204, 0.42573668663328745], ["and", 253, 0.42573668663328745], ["and", 573, 0.42573668663328745], ["and", 600, 0.42573668663328745], ["and", 802, 0.42573668663328745], ["and", 839, 0.42573668663328745], ["and", 929, 0.42573668663328745], ["and", 1155, 0.42573668663328745], ["and", 1177, 0.42573668663328745], ["and", 1647, 0.42573668663328745], ["and", 1687, 0.42573668663328745], ["and", 2086, 0.42573668663328745], ["and", 2231, 0.42573668663328745], ["and", 2375, 0.42573668663328745], ["the", 14, 0.2882586573925957], ["the", 178, 0.2882586573925957], ["the", 191, 0.2882586573925957], ["the", 257, 0.2882586573925957], ["the", 311, 0.2882586573925957], ["the", 337, 0.2882586573925957], ["the", 373, 0.2882586573925957], ["the", 529, 0.2882586573925957], ["the", 577, 0.2882586573925957], ["the", 677, 0.2882586573925957], ["the", 700, 0.2882586573925957], ["the", 717, 0.2882586573925957], ["the", 740, 0.2882586573925957], ["the", 814, 0.2882586573925957], ["the", 850, 0.2882586573925957], ["the", 953, 0.2882586573925957], ["the", 982, 0.2882586573925957], ["the", 1012, 0.2882586573925957], ["the", 1200, 0.2882586573925957], ["the", 1272, 0.2882586573925957], ["the", 1297, 0.2882586573925957], ["the", 1474, 0.2882586573925957], ["the", 1718, 0.2882586573925957], ["the", 1881, 0.2882586573925957], ["the", 1909, 0.2882586573925957], ["the", 1969, 0.2882586573925957], ["the", 2065, 0.2882586573925957], ["the", 2138, 0.2882586573925957], ["the", 2208, 0.2882586573925957], ["the", 2221, 0.2882586573925957], ["the", 2419, 0.2882586573925957], ["the", 2446, 0.2882586573925957], ["war", 244, 0.17058032151106609], ["war", 419, 0.17058032151106609], ["war", 681, 0.17058032151106609], ["war", 2342, 0.17058032151106609], ["to", 169, -0.09561063091459246], ["to", 398, -0.09561063091459246], ["to", 622, -0.09561063091459246], ["to", 1608, -0.09561063091459246], ["to", 1778, -0.09561063091459246], ["to", 1951, -0.09561063091459246], ["is", 37, 0.08012102626039917], ["is", 370, 0.08012102626039917], ["is", 827, 0.08012102626039917], ["is", 1483, 0.08012102626039917], ["is", 1765, 0.08012102626039917], ["is", 2352, 0.08012102626039917], ["is", 2434, 0.08012102626039917], ["of", 188, 0.06437773341381081], ["of", 215, 0.06437773341381081], ["of", 323, 0.06437773341381081], ["of", 416, 0.06437773341381081], ["of", 465, 0.06437773341381081], ["of", 896, 0.06437773341381081], ["of", 1120, 0.06437773341381081], ["of", 1234, 0.06437773341381081], ["of", 2246, 0.06437773341381081], ["of", 2292, 0.06437773341381081], ["of", 2461, 0.06437773341381081], ["trying", 615, -0.06180352819308868], ["trying", 1388, -0.06180352819308868], ["wasted", 1973, -0.060926932277146496], ["have", 2009, -0.05833220528597744], ["have", 2193, -0.05833220528597744], ["pointless", 1805, -0.05574105998056271], ["predictable", 1537, -0.05406814422316656], ["there", 1514, -0.05394279593051996], ["there", 2268, -0.05394279593051996], ["teeth", 1088, -0.05376047797719997], ["teeth", 1213, -0.05376047797719997], ["problem", 1016, -0.05220152700824699], ["problem", 1885, -0.05220152700824699], ["could", 295, -0.051874683764827775], ["could", 2003, -0.051874683764827775], ["roles", 666, -0.04524580442227443], ["roles", 1334, -0.04524580442227443], ["harris", 500, 0.03518355243875545], ["harris", 1370, 0.03518355243875545], ["true", 2450, 0.027125374235892435], ["terrific", 744, 0.026128929768665515], ["as", 674, 0.024801997485356875], ["as", 766, 0.024801997485356875], ["as", 1679, 0.024801997485356875], ["as", 2062, 0.024801997485356875]], 1, "in ` enemy at the gates ' , jude law is a gifted russian sniper made hero by a political officer named danilov ( joseph fiennes ) who uses him in a propaganda newspaper to raise the hopes of the soldiers and people of stalingrad . it ' s world war ii , and the russian - german standoff in town could determine the outcome of things for the motherland . law ' s vassili is the russian ' s top pawn to victory . lots of war stuff happens . an older , german version of jude ' s character played by ed harris shows up halfway into the proceedings . he ' s equally talented , and the two men play a cat and mouse game trying to kill each other . they constantly switch roles , as the war fades far into the background . the cast also includes the terrific rachel weisz as a love interest for both vassili and danilov the set - up is decent , and so are the production values . boasting a wide range of grimy locales , greasy hair , and tattered costumes , the art direction prospers . the actors , however , suffer the problem matt damon had in ` saving private ryan ' . either their eyes , teeth , skin , or a combination of other features looked too white and clean . with dirt and blood all around , the blinding teeth or bright eyes of these actors divert attention from the action . that said , the players are mostly good in their roles , although i don ' t think ed harris was really trying . maybe he realized his role struck a difficult chord in one - notedom . while the film is technically about snipers , there are far too many predictable sniping scenes . director jean - jacques annaud expects us to view each tense situation with jude and some cohort in a tight spot as edgy and exciting , but after about the sixth time , in which we realize that jude is not going to die , it ' s relatively pointless . we get that he ' s talented , okay , let ' s move on . that ' s the problem with ` enemy at the gates ' ; it just doesn ' t know when to stop . witness the wasted seventeen minutes that could have been spent elsewhere . reestablishing his title as the most beautiful ( and often talented ) man on film , jude law carries the movie . without him , this costly production would have gone into the ground . the story and acting are of good quality , but there ' s never a sense of authenticity or reality . something about this war movie is undeniably modern , and it loses its feeling . strange enough , the screenplay is based on the true story of a real russian sniper .", raw_div, true);
             
         </script>
         </body></html></div></div>
@@ -38505,7 +38511,7 @@ True class: pos
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Feature Importance: Top Words&#39;)
 </pre></div>
 </div>
-<img alt="../_images/9137b74563cf62d1da43e64e51797608e63d03fd8472093476bba2f9bb2bddcd.png" src="../_images/9137b74563cf62d1da43e64e51797608e63d03fd8472093476bba2f9bb2bddcd.png" />
+<img alt="../_images/0a26d9531915344b8cfebd0abac5226ec38ea3247d6603c87a6c46409d6a556d.png" src="../_images/0a26d9531915344b8cfebd0abac5226ec38ea3247d6603c87a6c46409d6a556d.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -38528,28 +38534,22 @@ True class: pos
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/9590fbf04058d269a62d4b015cf074749b46d8c79e7f7a5395f5c9daa8d332c0.png" src="../_images/9590fbf04058d269a62d4b015cf074749b46d8c79e7f7a5395f5c9daa8d332c0.png" />
+<img alt="../_images/9e8de5848ab44c9519c955eb40382301b1929f9d08e72400fdb4cbf07c0dd307.png" src="../_images/9e8de5848ab44c9519c955eb40382301b1929f9d08e72400fdb4cbf07c0dd307.png" />
 </div>
 </div>
 </section>
 <section id="permutation-importances">
 <h3><a class="toc-backref" href="#id18">Permutation Importances</a><a class="headerlink" href="#permutation-importances" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
-<li><p>Permutation feature importance is a model inspection technique that can be applied to any fitted classifier using feature-based ML.</p></li>
-<li><p>Permutation importance is defined as the decrease in a model score when a single feature value is randomly shuffled.</p>
+<li><p>Permutation importances measure the impact of shuffling a single feature’s values on the model’s performance. It quantifies how much the model relies on each feature for making predictions.</p></li>
+<li><p>The permutation importance is computed as the decrease in the model’s performance (e.g., accuracy) when the values of a particular feature are randomly shuffled. The larger the decrease in performance, the more important the feature is considered to be.</p>
 <ul>
-<li><p>The drop in the model score is indicative of how much the model depends on the feature.</p></li>
-<li><p>The increase in the model score is indicative of how redundant the feature is.</p></li>
+<li><p>Positive permutation importance indicates that shuffling the feature leads to a significant drop in model performance, suggesting higher importance of that feature.</p></li>
+<li><p>Negative permutation importance suggests that shuffling the feature has little impact on model performance, indicating lower importance or redundancy of that feature.</p></li>
 </ul>
 </li>
 </ul>
 <ul class="simple">
-<li><p>Permutation importance reports the importance of the feature as the difference between <strong>target model accuracy</strong> - <strong>shuffled model accuracy</strong>.</p>
-<ul>
-<li><p>Positive permutation importance score, Higher importance.</p></li>
-<li><p>Negative permutation importance score, Lower importance.</p></li>
-</ul>
-</li>
 <li><p>See <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> documentation: <a class="reference external" href="https://scikit-learn.org/stable/modules/permutation_importance.html#permutation-importance">4.2 Permutation feature importance</a></p></li>
 </ul>
 <div class="admonition tip">
@@ -38561,22 +38561,29 @@ True class: pos
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
 <span class="kn">from</span> <span class="nn">sklearn.inspection</span> <span class="kn">import</span> <span class="n">permutation_importance</span>
-<span class="n">r</span> <span class="o">=</span> <span class="n">permutation_importance</span><span class="p">(</span><span class="n">model_lg</span><span class="p">,</span> <span class="n">X_test_bow</span><span class="o">.</span><span class="n">toarray</span><span class="p">(),</span> <span class="n">y_test</span><span class="p">,</span>
-                           <span class="n">n_repeats</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-                           <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1">## permutation importance</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">permutation_importance</span><span class="p">(</span><span class="n">model_lg</span><span class="p">,</span>                <span class="c1">## classifier</span>
+                           <span class="n">X_test_bow</span><span class="o">.</span><span class="n">toarray</span><span class="p">(),</span>    <span class="c1">## featuresets</span>
+                           <span class="n">y_test</span><span class="p">,</span>                  <span class="c1">## target labels</span>
+                           <span class="n">n_repeats</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>             <span class="c1">## times of permutation</span>
+                           <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>          <span class="c1">## random seed</span>
+                           <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span>                <span class="c1">## `-1` parallel processing</span>
+                           <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 2.18 s, sys: 680 ms, total: 2.86 s
-Wall time: 18.6 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 3.1 s, sys: 1.09 s, total: 4.19 s
+Wall time: 19.2 s
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">importances_mean</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## checking</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">importances_mean</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
     <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">importances_mean</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">r</span><span class="o">.</span><span class="n">importances_std</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">feature_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;8</span><span class="si">}</span><span class="s2">&quot;</span>
               <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">importances_mean</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -39031,8 +39038,8 @@ spoil   0.002 +/- 0.000
 </div>
 </div>
 </section>
-<section id="dictionary-based-sentiment-classifier">
-<h2><a class="toc-backref" href="#id21">Dictionary-based Sentiment Classifier</a><a class="headerlink" href="#dictionary-based-sentiment-classifier" title="Permalink to this headline">#</a></h2>
+<section id="dictionary-based-sentiment-classifier-self-study">
+<h2><a class="toc-backref" href="#id21">Dictionary-based Sentiment Classifier (Self-Study)</a><a class="headerlink" href="#dictionary-based-sentiment-classifier-self-study" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Without machine learning, we can still build a sentiment classifier using a dictionary-based approach.</p></li>
 <li><p>Words can be manually annotated with sentiment polarity scores.</p></li>
@@ -39116,7 +39123,7 @@ spoil   0.002 +/- 0.000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x2d5becc40&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x2aff7a310&gt;
 </pre></div>
 </div>
 <img alt="../_images/afa8887cc9e9f47ad2326e2ab6f76b0cb97615826be8a605dc40e2acfb6396f6.png" src="../_images/afa8887cc9e9f47ad2326e2ab6f76b0cb97615826be8a605dc40e2acfb6396f6.png" />
@@ -39181,7 +39188,7 @@ spoil   0.002 +/- 0.000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x2d5b8d7f0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x2a1399f10&gt;
 </pre></div>
 </div>
 <img alt="../_images/d8934a01cecbdf909d8a2db554dd52fb607206f4ac0ee107ac65630f85c9a695.png" src="../_images/d8934a01cecbdf909d8a2db554dd52fb607206f4ac0ee107ac65630f85c9a695.png" />
@@ -39336,7 +39343,7 @@ textblob==0.17.1
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-model">Saving Model</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dictionary-based-sentiment-classifier">Dictionary-based Sentiment Classifier</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dictionary-based-sentiment-classifier-self-study">Dictionary-based Sentiment Classifier (Self-Study)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#textblob-lexicon">TextBlob Lexicon</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#afinn-lexicon">AFINN Lexicon</a></li>
 </ul>

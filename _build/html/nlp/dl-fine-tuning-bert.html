@@ -65,7 +65,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'nlp/dl-fine-tuning-bert';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="1. Assignment I: Python Basics" href="../exercise/1-python-basics.html" />
+    <link rel="next" title="Langchain: An Introduction" href="langchain-introduction.html" />
     <link rel="prev" title="Large Language Model (Under Construction…)" href="langchain-llm-intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -180,6 +180,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="ml-sklearn-classification.html">Sentiment Analysis Using Bag-of-Words</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ml-emsemble-learning.html">Emsemble Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="topic-modeling-naive.html">Topic Modeling: A Naive Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../temp/fake-news-detection.html">Fake News Detection</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning NLP</span></p>
 <ul class="nav bd-sidenav">
@@ -202,6 +203,8 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="langchain-llm-intro.html">Large Language Model (Under Construction…)</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Transfer Learning Using BERT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="langchain-introduction.html">Langchain: An Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="langchain-chatbots.html">Chatbot Using Langchain</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Exercises</span></p>
 <ul class="nav bd-sidenav">
@@ -391,15 +394,14 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mount-googe-drive">Mount Googe Drive</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#text-preprocessing">Text Preprocessing</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-tokenizer">Loading Tokenizer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bert-tokenization">BERT Tokenization</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-training">Model Training</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-fitting">Model Fitting</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation">Evaluation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-transformer-based-classifiers-directly">Using Transformer-based Classifiers Directly</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fine-tune-with-tensorflow-keras">Fine-tune with Tensorflow Keras</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#confusion-matrix">Confusion Matrix</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-fine-tuning-methods-self-study">Other Fine-tuning Methods (Self-Study)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fine-tune-with-tensorflow-keras">Fine-tune with Tensorflow Keras</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-gpu-availability">Check GPU Availability</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fine-tune-with-pytorch-trainer-not-working-with-mac-m2">Fine-tune with PyTorch Trainer (Not working with Mac M2)</a></li>
 </ul>
@@ -421,39 +423,25 @@ document.write(`
 <p>Transfer learning, in particular, often involves the utilization of existing pre-trained large language models. In traditional statistical approaches to Natural Language Processing (NLP), like text classification, we typically create custom features and then use machine learning models such as logistic regression or support vector machines to learn how to classify text based on those features.</p>
 <p>In contrast, deep learning, which is the basis for most Large Language Models (LLMs), not only learns how to classify but also discovers underlying, hidden features through a deep neural network.</p>
 <p>As a result, a task-specific classifier can gain significant advantages from a pre-trained language model by directly using its output as input for downstream tasks within the classifier.</p>
-<p>In this unit, we will illustrate how to make use of the pre-trained BERT language model and adapt it to our specific task, which is detecting emotions.</p>
+<p>In this unit, we will illustrate how to make use of the pre-trained BERT language model and adapt it to our specific task, which is detecting emotions. Specifically, we wil talk about two methods:</p>
+<ul class="simple">
+<li><p>Using the BERT as a generic pretrained embeddings model</p></li>
+<li><p>Using the BERT as a base architecture for a classification task</p></li>
+</ul>
 </section>
 <section id="preparation">
 <h2>Preparation<a class="headerlink" href="#preparation" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>wget<span class="w"> </span>https://raw.githubusercontent.com/yogawicaksana/helper_prabowo/main/helper_prabowo_ml.py
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !wget https://raw.githubusercontent.com/yogawicaksana/helper_prabowo/main/helper_prabowo_ml.py</span>
+<span class="c1"># from helper_prabowo_ml import clean_html, remove_links, non_ascii, lower, email_address, removeStopWords, punct, remove_</span>
+
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="c1">#from google.colab import drive</span>
-<span class="kn">from</span> <span class="nn">helper_prabowo_ml</span> <span class="kn">import</span> <span class="n">clean_html</span><span class="p">,</span> <span class="n">remove_links</span><span class="p">,</span> <span class="n">non_ascii</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">email_address</span><span class="p">,</span> <span class="n">removeStopWords</span><span class="p">,</span> <span class="n">punct</span><span class="p">,</span> <span class="n">remove_</span>
 <span class="kn">import</span> <span class="nn">re</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--2023-11-13 14:43:33--  https://raw.githubusercontent.com/yogawicaksana/helper_prabowo/main/helper_prabowo_ml.py
-Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 2606:50c0:8003::154, 2606:50c0:8002::154, 2606:50c0:8000::154, ...
-Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|2606:50c0:8003::154|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 13881 (14K) [text/plain]
-Saving to: ‘helper_prabowo_ml.py.2’
-
-helper_prabowo_ml.p 100%[===================&gt;]  13.56K  --.-KB/s    in 0.002s  
-
-2023-11-13 14:43:34 (5.42 MB/s) - ‘helper_prabowo_ml.py.2’ saved [13881/13881]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[nltk_data] Downloading package stopwords to
-[nltk_data]     /Users/alvinchen/nltk_data...
-[nltk_data]   Package stopwords is already up-to-date!
 </pre></div>
 </div>
 </div>
@@ -467,7 +455,8 @@ helper_prabowo_ml.p 100%[===================&gt;]  13.56K  --.-KB/s    in 0.002s
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Colab Only </span>
+<span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
 <span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/drive&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -576,20 +565,122 @@ helper_prabowo_ml.p 100%[===================&gt;]  13.56K  --.-KB/s    in 0.002s
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># PREPROCESS THE DATA</span>
-<span class="k">def</span> <span class="nf">preproc</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">colname</span><span class="p">):</span>
-  <span class="n">df</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">clean_html</span><span class="p">)</span>
-  <span class="n">df</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">remove_links</span><span class="p">)</span>
-  <span class="n">df</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">non_ascii</span><span class="p">)</span>
-  <span class="n">df</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">lower</span><span class="p">)</span>
-  <span class="n">df</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">email_address</span><span class="p">)</span>
-  <span class="c1"># df[colname] = df[colname].apply(func=removeStopWords)</span>
-  <span class="n">df</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">punct</span><span class="p">)</span>
-  <span class="n">df</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">remove_</span><span class="p">)</span>
-  <span class="k">return</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## text preprocessing</span>
+<span class="k">def</span> <span class="nf">normalize_document</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Normalize the document.</span>
 
-<span class="n">df_clean</span> <span class="o">=</span> <span class="n">preproc</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;Input&#39;</span><span class="p">)</span>
-<span class="n">df_clean</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    - doc (list): A list of documents</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    list: a list of preprocessed documents</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># lower case and remove special characters\whitespaces</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[^a-zA-Z\s]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">doc</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;http\S+&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">doc</span> <span class="p">)</span> <span class="c1">## romove links</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;bit.ly/\S+&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span> <span class="c1">## remove bitly links</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&lt;.*?&gt;&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span> <span class="c1">## clean html</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[\w\.-]+@[\w\.-]+&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span> <span class="c1">## remove email</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="c1">## lower</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">doc</span>
+
+<span class="n">normalize_corpus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="n">normalize_document</span><span class="p">)</span>
+<span class="c1"># # PREPROCESS THE DATA</span>
+<span class="c1"># def preproc(df, colname):</span>
+<span class="c1">#   df[colname] = df[colname].apply(func=clean_html)</span>
+<span class="c1">#   df[colname] = df[colname].apply(func=remove_links)</span>
+<span class="c1">#   df[colname] = df[colname].apply(func=non_ascii)</span>
+<span class="c1">#   df[colname] = df[colname].apply(func=lower)</span>
+<span class="c1">#   df[colname] = df[colname].apply(func=email_address)</span>
+<span class="c1">#   # df[colname] = df[colname].apply(func=removeStopWords)</span>
+<span class="c1">#   df[colname] = df[colname].apply(func=punct)</span>
+<span class="c1">#   df[colname] = df[colname].apply(func=remove_)</span>
+<span class="c1">#   return(df)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># df_clean = preproc(df, &#39;Input&#39;)</span>
+<span class="n">df_clean</span> <span class="o">=</span> <span class="n">df</span>
+<span class="n">df_clean</span><span class="p">[</span><span class="s1">&#39;Input&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Input&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">normalize_corpus</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_clean</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>index</th>
+      <th>Input</th>
+      <th>Sentiment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>i didnt feel humiliated</td>
+      <td>sadness</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>i can go from feeling so hopeless to so damned...</td>
+      <td>sadness</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>im grabbing a minute to post i feel greedy wrong</td>
+      <td>anger</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>i am ever feeling nostalgic about the fireplac...</td>
+      <td>love</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>i am feeling grouchy</td>
+      <td>anger</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_clean</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">df_clean</span><span class="p">[</span><span class="s1">&#39;num_words&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_clean</span><span class="p">[</span><span class="s1">&#39;Input&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span>
 <span class="n">df_clean</span><span class="p">[</span><span class="s1">&#39;num_chars&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_clean</span><span class="p">[</span><span class="s1">&#39;Input&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 
@@ -634,38 +725,38 @@ helper_prabowo_ml.p 100%[===================&gt;]  13.56K  --.-KB/s    in 0.002s
   <tbody>
     <tr>
       <th>0</th>
-      <td>didnt feel humiliated</td>
+      <td>i didnt feel humiliated</td>
       <td>4</td>
-      <td>3</td>
-      <td>21</td>
+      <td>4</td>
+      <td>23</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>can go from feeling so hopeless to so damned h...</td>
+      <td>i can go from feeling so hopeless to so damned...</td>
       <td>4</td>
-      <td>20</td>
-      <td>106</td>
+      <td>21</td>
+      <td>108</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>m grabbing a minute to post i feel greedy wrong</td>
+      <td>im grabbing a minute to post i feel greedy wrong</td>
       <td>0</td>
       <td>10</td>
-      <td>47</td>
+      <td>48</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>am ever feeling nostalgic about the fireplace ...</td>
+      <td>i am ever feeling nostalgic about the fireplac...</td>
       <td>3</td>
-      <td>17</td>
-      <td>90</td>
+      <td>18</td>
+      <td>92</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>am feeling grouchy</td>
+      <td>i am feeling grouchy</td>
       <td>0</td>
-      <td>3</td>
-      <td>18</td>
+      <td>4</td>
+      <td>20</td>
     </tr>
   </tbody>
 </table>
@@ -683,10 +774,10 @@ helper_prabowo_ml.p 100%[===================&gt;]  13.56K  --.-KB/s    in 0.002s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>297
-5
-65
-1
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>300
+7
+66
+2
 </pre></div>
 </div>
 </div>
@@ -709,7 +800,74 @@ helper_prabowo_ml.p 100%[===================&gt;]  13.56K  --.-KB/s    in 0.002s
 </div>
 </div>
 </div>
-<div class="admonition note">
+</section>
+<section id="bert-tokenization">
+<h2>BERT Tokenization<a class="headerlink" href="#bert-tokenization" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Load tokenizer and the pre-trained bert model</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-cased&#39;</span><span class="p">)</span>
+
+<span class="n">sent</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Don&#39;t like it!&quot;</span><span class="p">,</span> <span class="s2">&quot;I&#39;ll send it!&quot;</span><span class="p">]</span>
+<span class="n">tokenizer</span><span class="p">(</span><span class="n">sent</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sent</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1">## feed a pair of sentences</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;input_ids&#39;: [101, 1790, 112, 189, 1176, 1122, 106, 102, 146, 112, 1325, 3952, 1122, 106, 102], &#39;token_type_ids&#39;: [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1], &#39;attention_mask&#39;: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
+</pre></div>
+</div>
+</div>
+</div>
+<p><img alt="" src="../_images/bert-tokenizer.jpeg" /></p>
+<p>The output of the BERT tokenizer consists of three main components: <code class="docutils literal notranslate"><span class="pre">input_ids</span></code>, <code class="docutils literal notranslate"><span class="pre">token_type_ids</span></code>, and <code class="docutils literal notranslate"><span class="pre">attention_mask</span></code>.</p>
+<ol class="arabic simple">
+<li><p><strong>Input IDs (<code class="docutils literal notranslate"><span class="pre">input_ids</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>These are sequences of integers representing the tokens in the input text.</p></li>
+<li><p>Each token is mapped to a unique integer ID, which is specific to the BERT tokenizer’s vocabulary.</p></li>
+<li><p>The input IDs are similar to the output of <code class="docutils literal notranslate"><span class="pre">text_to_sequences()</span></code> in Keras when converting text data into sequences of integers.</p></li>
+</ul>
+</li>
+<li><p><strong>Token Type IDs (<code class="docutils literal notranslate"><span class="pre">token_type_ids</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>These IDs indicate which sentence each token belongs to.</p></li>
+<li><p>BERT models can accept two sequences simultaneously, so this parameter distinguishes tokens from the first sentence (sequence) and tokens from the second sentence.</p></li>
+<li><p>For single-sentence inputs, all token type IDs are typically set to the same value.</p></li>
+</ul>
+</li>
+<li><p><strong>Attention Mask (<code class="docutils literal notranslate"><span class="pre">attention_mask</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>The attention mask indicates which tokens are actual tokens and which are padding tokens.</p></li>
+<li><p>Padding tokens are added to ensure that all input sequences have the same length.</p></li>
+<li><p>The attention mechanism in BERT calculates attention scores based on this mask, ignoring padding tokens during the calculation.</p></li>
+</ul>
+</li>
+</ol>
+<p>In summary, the output of the BERT tokenizer provides the necessary input formats for feeding data into BERT-based models, including the tokenized integer sequences (<code class="docutils literal notranslate"><span class="pre">input_ids</span></code>), token type IDs (<code class="docutils literal notranslate"><span class="pre">token_type_ids</span></code>), and attention mask (<code class="docutils literal notranslate"><span class="pre">attention_mask</span></code>). These components ensure that the input data is properly formatted and processed by BERT models for tasks such as classification, tagging, or translation.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The special tokens in BERT tokenizer play crucial roles in BERT-based models. Here’s an explanation based on the provided text:</p>
+<ol class="arabic simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">[SEP]</span></code> Token</strong>:</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">[SEP]</span></code> token is a special separator token added by the <code class="docutils literal notranslate"><span class="pre">BertTokenizer</span></code>.</p></li>
+<li><p>It is used to separate two sequences when the task requires processing two sequences simultaneously, such as in BERT training.</p></li>
+<li><p>The presence of <code class="docutils literal notranslate"><span class="pre">[SEP]</span></code> token indicates the boundary between two sequences and helps the model understand the separation between segments of input data.</p></li>
+</ul>
+</li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">[CLS]</span></code> Token</strong>:</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">[CLS]</span></code> token is another special token added by the <code class="docutils literal notranslate"><span class="pre">BertTokenizer</span></code>.</p></li>
+<li><p>It is added at the beginning of the input sequence and stands for the classifier token.</p></li>
+<li><p>The embedding of the <code class="docutils literal notranslate"><span class="pre">[CLS]</span></code> token serves as a summary of the inputs and is ready for downstream classification tasks.</p></li>
+<li><p>The pooled output of the <code class="docutils literal notranslate"><span class="pre">[CLS]</span></code> token represents a high-level representation of the entire input sequence, which can be used as the input for additional layers on top of the BERT model.</p></li>
+<li><p>Essentially, the <code class="docutils literal notranslate"><span class="pre">[CLS]</span></code> token’s embedding serves as document embeddings, capturing the overall semantic content of the input text, making it suitable for classification tasks and other downstream tasks.</p></li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="dropdown admonition note">
 <p class="admonition-title">Note</p>
 <p>In Jupyter notebooks, the <code class="docutils literal notranslate"><span class="pre">%%capture</span></code> magic command is used to capture and control the output of code cells. It’s a convenient way to suppress or store the output produced by code within a cell.</p>
 <p>Here’s how <code class="docutils literal notranslate"><span class="pre">%%capture</span></code> works:</p>
@@ -733,8 +891,13 @@ helper_prabowo_ml.p 100%[===================&gt;]  13.56K  --.-KB/s    in 0.002s
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Train-test splitting</span>
 <span class="n">df_train</span><span class="p">,</span> <span class="n">df_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">df_clean</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span><span class="n">stratify</span><span class="o">=</span><span class="n">df_clean</span><span class="p">[</span><span class="s1">&#39;Sentiment&#39;</span><span class="p">])</span>
-
-<span class="c1">## Load tokenizer and the pre-trained bert model</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Load tokenizer and the pre-trained bert model</span>
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-cased&#39;</span><span class="p">)</span>
 <span class="n">bert</span> <span class="o">=</span> <span class="n">TFBertModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-cased&#39;</span><span class="p">)</span>
 
@@ -768,12 +931,12 @@ helper_prabowo_ml.p 100%[===================&gt;]  13.56K  --.-KB/s    in 0.002s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-11-13 14:44:02.596193: I metal_plugin/src/device/metal_device.cc:1154] Metal device set to: Apple M2 Max
-2023-11-13 14:44:02.596211: I metal_plugin/src/device/metal_device.cc:296] systemMemory: 32.00 GB
-2023-11-13 14:44:02.596214: I metal_plugin/src/device/metal_device.cc:313] maxCacheSize: 10.67 GB
-2023-11-13 14:44:02.596396: I tensorflow/core/common_runtime/pluggable_device/pluggable_device_factory.cc:306] Could not identify NUMA node of platform GPU ID 0, defaulting to 0. Your kernel may not have been built with NUMA support.
-2023-11-13 14:44:02.596410: I tensorflow/core/common_runtime/pluggable_device/pluggable_device_factory.cc:272] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 0 MB memory) -&gt; physical PluggableDevice (device: 0, name: METAL, pci bus id: &lt;undefined&gt;)
-Some weights of the PyTorch model were not used when initializing the TF 2.0 model TFBertModel: [&#39;cls.predictions.bias&#39;, &#39;cls.seq_relationship.weight&#39;, &#39;cls.predictions.transform.dense.weight&#39;, &#39;cls.predictions.transform.LayerNorm.weight&#39;, &#39;cls.predictions.transform.dense.bias&#39;, &#39;cls.seq_relationship.bias&#39;, &#39;cls.predictions.transform.LayerNorm.bias&#39;]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-03-12 19:34:36.456395: I metal_plugin/src/device/metal_device.cc:1154] Metal device set to: Apple M2 Max
+2024-03-12 19:34:36.456444: I metal_plugin/src/device/metal_device.cc:296] systemMemory: 32.00 GB
+2024-03-12 19:34:36.456457: I metal_plugin/src/device/metal_device.cc:313] maxCacheSize: 10.67 GB
+2024-03-12 19:34:36.456526: I tensorflow/core/common_runtime/pluggable_device/pluggable_device_factory.cc:306] Could not identify NUMA node of platform GPU ID 0, defaulting to 0. Your kernel may not have been built with NUMA support.
+2024-03-12 19:34:36.456560: I tensorflow/core/common_runtime/pluggable_device/pluggable_device_factory.cc:272] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 0 MB memory) -&gt; physical PluggableDevice (device: 0, name: METAL, pci bus id: &lt;undefined&gt;)
+Some weights of the PyTorch model were not used when initializing the TF 2.0 model TFBertModel: [&#39;cls.predictions.transform.LayerNorm.weight&#39;, &#39;cls.predictions.bias&#39;, &#39;cls.seq_relationship.weight&#39;, &#39;cls.seq_relationship.bias&#39;, &#39;cls.predictions.transform.dense.bias&#39;, &#39;cls.predictions.transform.dense.weight&#39;, &#39;cls.predictions.transform.LayerNorm.bias&#39;]
 - This IS expected if you are initializing TFBertModel from a PyTorch model trained on another task or with another architecture (e.g. initializing a TFBertForSequenceClassification model from a BertForPreTraining model).
 - This IS NOT expected if you are initializing TFBertModel from a PyTorch model that you expect to be exactly identical (e.g. initializing a TFBertForSequenceClassification model from a BertForSequenceClassification model).
 All the weights of TFBertModel were initialized from the PyTorch model.
@@ -781,6 +944,27 @@ If your task is similar to the task the model of the checkpoint was trained on, 
 </pre></div>
 </div>
 </div>
+</div>
+<div class="dropdown admonition note">
+<p class="admonition-title">Note</p>
+<p>In the Transformers library, which is commonly used for working with pre-trained transformer models like BERT, TFBertModel and AutoModelForSequenceClassification serve different purposes.</p>
+<ol class="arabic simple">
+<li><p><strong>TFBertModel:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">TFBertModel</span></code> is a generic class for loading the BERT model architecture in TensorFlow. It provides the base BERT model that can be used for various tasks, but it doesn’t have task-specific heads attached to it. This means it doesn’t have a built-in mechanism for tasks like sequence classification. It is mainly used when you want to use BERT as a feature extractor or when you want to build a custom model on top of BERT for a specific task.</p></li>
+</ul>
+</li>
+<li><p><strong>AutoModelForSequenceClassification:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">AutoModelForSequenceClassification</span></code> is a class specifically designed for sequence classification tasks using transformer models. It includes the BERT model architecture along with a classification head tailored for tasks like text classification. When you use this class, you don’t need to add a separate classification head; it’s already integrated into the model.</p></li>
+</ul>
+</li>
+</ol>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">TFBertModel</span></code> when you need the base BERT model for tasks other than sequence classification or when you want to build a custom model architecture on top of BERT.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">AutoModelForSequenceClassification</span></code> when your task is sequence classification (e.g., sentiment analysis, text categorization). It includes a classification head and is ready to be used for training or inference on classification tasks.</p></li>
+</ul>
+<p>Choose the appropriate class based on your specific task requirements and whether you need a generic BERT model or a model tailored for sequence classification.</p>
 </div>
 </section>
 <section id="model-training">
@@ -795,6 +979,19 @@ If your task is similar to the task the model of the checkpoint was trained on, 
 <span class="kn">from</span> <span class="nn">tensorflow.keras.metrics</span> <span class="kn">import</span> <span class="n">CategoricalAccuracy</span>
 <span class="kn">from</span> <span class="nn">tensorflow.keras.utils</span> <span class="kn">import</span> <span class="n">to_categorical</span><span class="p">,</span> <span class="n">plot_model</span>
 <span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Input</span><span class="p">,</span> <span class="n">Dense</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## checking GPU on the machine</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Num GPUs Available: &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">list_physical_devices</span><span class="p">(</span><span class="s1">&#39;GPU&#39;</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Num GPUs Available:  1
 </pre></div>
 </div>
 </div>
@@ -875,9 +1072,9 @@ ________________________________________________________________________________
                                                                                                   
  dense (Dense)               (None, 128)                  98432     [&#39;global_max_pooling1d[0][0]&#39;]
                                                                                                   
- dropout_77 (Dropout)        (None, 128)                  0         [&#39;dense[0][0]&#39;]               
+ dropout_37 (Dropout)        (None, 128)                  0         [&#39;dense[0][0]&#39;]               
                                                                                                   
- dense_1 (Dense)             (None, 32)                   4128      [&#39;dropout_77[0][0]&#39;]          
+ dense_1 (Dense)             (None, 32)                   4128      [&#39;dropout_37[0][0]&#39;]          
                                                                                                   
  dense_2 (Dense)             (None, 6)                    198       [&#39;dense_1[0][0]&#39;]             
                                                                                                   
@@ -907,7 +1104,7 @@ To disable this warning, you can either:
 	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
 </pre></div>
 </div>
-<img alt="../_images/b01dac59381c9167c00460e7a7eea265cb5d05ba3dc4a52c912a82d85dfdf993.png" src="../_images/b01dac59381c9167c00460e7a7eea265cb5d05ba3dc4a52c912a82d85dfdf993.png" />
+<img alt="../_images/386dd53114098f009b4c310cf06455a973ed6bb77443ea5a5403fbe0619b181b.png" src="../_images/386dd53114098f009b4c310cf06455a973ed6bb77443ea5a5403fbe0619b181b.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -917,14 +1114,14 @@ To disable this warning, you can either:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;keras.src.engine.input_layer.InputLayer at 0x351a97bb0&gt;,
- &lt;keras.src.engine.input_layer.InputLayer at 0x3558e8c10&gt;,
- &lt;transformers.models.bert.modeling_tf_bert.TFBertModel at 0x3558e6c10&gt;,
- &lt;keras.src.layers.pooling.global_max_pooling1d.GlobalMaxPooling1D at 0x351ac9730&gt;,
- &lt;keras.src.layers.core.dense.Dense at 0x3519ce490&gt;,
- &lt;keras.src.layers.regularization.dropout.Dropout at 0x355822b20&gt;,
- &lt;keras.src.layers.core.dense.Dense at 0x4301f3eb0&gt;,
- &lt;keras.src.layers.core.dense.Dense at 0x2df3ff730&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;keras.src.engine.input_layer.InputLayer at 0x2c549b460&gt;,
+ &lt;keras.src.engine.input_layer.InputLayer at 0x2c549b4f0&gt;,
+ &lt;transformers.models.bert.modeling_tf_bert.TFBertModel at 0x2b914e760&gt;,
+ &lt;keras.src.layers.pooling.global_max_pooling1d.GlobalMaxPooling1D at 0x2c27e0430&gt;,
+ &lt;keras.src.layers.core.dense.Dense at 0x2b9372640&gt;,
+ &lt;keras.src.layers.regularization.dropout.Dropout at 0x2bcf92e50&gt;,
+ &lt;keras.src.layers.core.dense.Dense at 0x2bcfdca00&gt;,
+ &lt;keras.src.layers.core.dense.Dense at 0x2c31d32e0&gt;]
 </pre></div>
 </div>
 </div>
@@ -934,7 +1131,7 @@ To disable this warning, you can either:
 <h2>Model Fitting<a class="headerlink" href="#model-fitting" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
     <span class="n">x</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;input_ids&#39;</span><span class="p">:</span><span class="n">X_train</span><span class="p">[</span><span class="s1">&#39;input_ids&#39;</span><span class="p">],</span> <span class="s1">&#39;attention_mask&#39;</span><span class="p">:</span><span class="n">X_train</span><span class="p">[</span><span class="s1">&#39;attention_mask&#39;</span><span class="p">]},</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="n">df_train</span><span class="p">[</span><span class="s1">&#39;Sentiment&#39;</span><span class="p">]),</span> <span class="c1">## convert y labels into one-hot encoding</span>
     <span class="n">validation_data</span> <span class="o">=</span> <span class="p">({</span><span class="s1">&#39;input_ids&#39;</span><span class="p">:</span><span class="n">X_test</span><span class="p">[</span><span class="s1">&#39;input_ids&#39;</span><span class="p">],</span> <span class="s1">&#39;attention_mask&#39;</span><span class="p">:</span><span class="n">X_test</span><span class="p">[</span><span class="s1">&#39;attention_mask&#39;</span><span class="p">]},</span>
@@ -951,21 +1148,28 @@ To disable this warning, you can either:
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:tensorflow:Gradients do not exist for variables [&#39;tf_bert_model/bert/pooler/dense/kernel:0&#39;, &#39;tf_bert_model/bert/pooler/dense/bias:0&#39;] when minimizing the loss. If you&#39;re using `model.compile()`, did you forget to provide a `loss` argument?
+WARNING:tensorflow:Gradients do not exist for variables [&#39;tf_bert_model/bert/pooler/dense/kernel:0&#39;, &#39;tf_bert_model/bert/pooler/dense/bias:0&#39;] when minimizing the loss. If you&#39;re using `model.compile()`, did you forget to provide a `loss` argument?
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:tensorflow:Gradients do not exist for variables [&#39;tf_bert_model/bert/pooler/dense/kernel:0&#39;, &#39;tf_bert_model/bert/pooler/dense/bias:0&#39;] when minimizing the loss. If you&#39;re using `model.compile()`, did you forget to provide a `loss` argument?
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-03-12 19:35:12.263400: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:117] Plugin optimizer for device_type GPU is enabled.
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:tensorflow:Gradients do not exist for variables [&#39;tf_bert_model/bert/pooler/dense/kernel:0&#39;, &#39;tf_bert_model/bert/pooler/dense/bias:0&#39;] when minimizing the loss. If you&#39;re using `model.compile()`, did you forget to provide a `loss` argument?
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>438/438 [==============================] - 245s 487ms/step - loss: 0.8080 - balanced_accuracy: 0.7212 - val_loss: 0.2528 - val_balanced_accuracy: 0.9165
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:tensorflow:Gradients do not exist for variables [&#39;tf_bert_model/bert/pooler/dense/kernel:0&#39;, &#39;tf_bert_model/bert/pooler/dense/bias:0&#39;] when minimizing the loss. If you&#39;re using `model.compile()`, did you forget to provide a `loss` argument?
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">history</span><span class="o">.</span><span class="n">history</span>
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>438/438 [==============================] - 298s 589ms/step - loss: 0.8426 - balanced_accuracy: 0.7034 - val_loss: 0.2887 - val_balanced_accuracy: 0.8975
-</pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;keras.src.callbacks.History at 0x4301a4d60&gt;
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;loss&#39;: [0.8080430626869202],
+ &#39;balanced_accuracy&#39;: [0.7212142944335938],
+ &#39;val_loss&#39;: [0.2527957558631897],
+ &#39;val_balanced_accuracy&#39;: [0.9164999723434448]}
 </pre></div>
 </div>
 </div>
@@ -985,19 +1189,19 @@ To disable this warning, you can either:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>188/188 [==============================] - 48s 221ms/step
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>188/188 [==============================] - 38s 169ms/step
               precision    recall  f1-score   support
 
-           0       0.89      0.91      0.90       813
-           1       0.83      0.90      0.86       712
-           2       0.95      0.90      0.92      2028
-           3       0.77      0.85      0.81       492
-           4       0.94      0.91      0.92      1739
-           5       0.75      0.79      0.77       216
+           0       0.88      0.96      0.92       813
+           1       0.87      0.88      0.87       712
+           2       0.96      0.93      0.94      2028
+           3       0.81      0.85      0.83       492
+           4       0.95      0.94      0.95      1739
+           5       0.77      0.76      0.77       216
 
-    accuracy                           0.90      6000
-   macro avg       0.85      0.88      0.86      6000
-weighted avg       0.90      0.90      0.90      6000
+    accuracy                           0.92      6000
+   macro avg       0.88      0.89      0.88      6000
+weighted avg       0.92      0.92      0.92      6000
 </pre></div>
 </div>
 </div>
@@ -1006,27 +1210,6 @@ weighted avg       0.90      0.90      0.90      6000
 <section id="using-transformer-based-classifiers-directly">
 <h2>Using Transformer-based Classifiers Directly<a class="headerlink" href="#using-transformer-based-classifiers-directly" title="Permalink to this headline">#</a></h2>
 <p>In our previous example, we built the classifier from the generic Bert model (<code class="docutils literal notranslate"><span class="pre">TFBertModel</span></code>). We can also use the <code class="docutils literal notranslate"><span class="pre">AutoModelForSequenceClassification</span></code> from Transformer to build a classifier, which features a BERT architecture.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>In the Transformers library, which is commonly used for working with pre-trained transformer models like BERT, TFBertModel and AutoModelForSequenceClassification serve different purposes.</p>
-<ol class="arabic simple">
-<li><p><strong>TFBertModel:</strong></p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">TFBertModel</span></code> is a generic class for loading the BERT model architecture in TensorFlow. It provides the base BERT model that can be used for various tasks, but it doesn’t have task-specific heads attached to it. This means it doesn’t have a built-in mechanism for tasks like sequence classification. It is mainly used when you want to use BERT as a feature extractor or when you want to build a custom model on top of BERT for a specific task.</p></li>
-</ul>
-</li>
-<li><p><strong>AutoModelForSequenceClassification:</strong></p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">AutoModelForSequenceClassification</span></code> is a class specifically designed for sequence classification tasks using transformer models. It includes the BERT model architecture along with a classification head tailored for tasks like text classification. When you use this class, you don’t need to add a separate classification head; it’s already integrated into the model.</p></li>
-</ul>
-</li>
-</ol>
-<ul class="simple">
-<li><p>Use <code class="docutils literal notranslate"><span class="pre">TFBertModel</span></code> when you need the base BERT model for tasks other than sequence classification or when you want to build a custom model architecture on top of BERT.</p></li>
-<li><p>Use <code class="docutils literal notranslate"><span class="pre">AutoModelForSequenceClassification</span></code> when your task is sequence classification (e.g., sentiment analysis, text categorization). It includes a classification head and is ready to be used for training or inference on classification tasks.</p></li>
-</ul>
-<p>Choose the appropriate class based on your specific task requirements and whether you need a generic BERT model or a model tailored for sequence classification.</p>
-</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fine-tune DistilBERT classifier</span>
@@ -1062,7 +1245,7 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 <p class="admonition-title">Tip</p>
 <ol class="arabic simple">
 <li><p>When using the generic BERT model, the <code class="docutils literal notranslate"><span class="pre">tokenizer()</span></code> should specify <code class="docutils literal notranslate"><span class="pre">return_tensor='tf'</span></code> for model building in tensforflow.</p></li>
-<li><p>When using the TFAutoModelForSequenceClassification model, the <code class="docutils literal notranslate"><span class="pre">tokenizer()</span></code> should specify <code class="docutils literal notranslate"><span class="pre">return_tensor='np'</span></code> for model building in Transformer. Also, the output of <code class="docutils literal notranslate"><span class="pre">tokenizer()</span></code> needs to be converted into a <code class="docutils literal notranslate"><span class="pre">dict</span></code> (Tokenizer returns a BatchEncoding, but we convert that to a dict for Keras)
+<li><p>When using the <code class="docutils literal notranslate"><span class="pre">TFAutoModelForSequenceClassification</span> <span class="pre">model</span></code>, the <code class="docutils literal notranslate"><span class="pre">tokenizer()</span></code> should specify <code class="docutils literal notranslate"><span class="pre">return_tensor='np'</span></code> for model building in Transformer. Also, the output of <code class="docutils literal notranslate"><span class="pre">tokenizer()</span></code> needs to be converted into a <code class="docutils literal notranslate"><span class="pre">dict</span></code> (Tokenizer returns a BatchEncoding, but we convert that to a dict for Keras)
 )</p></li>
 </ol>
 </div>
@@ -1089,9 +1272,7 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tensorflow.keras.optimizers</span> <span class="kn">import</span> <span class="n">Adam</span>
 
-
 <span class="n">bert_model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="n">Adam</span><span class="p">(</span><span class="mf">3e-5</span><span class="p">),</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>  <span class="c1"># No loss argument!</span>
-<span class="n">bert_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1110,9 +1291,15 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bert_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Evaluation</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span>
-
 
 <span class="n">X_test</span><span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span>
     <span class="n">text</span><span class="o">=</span><span class="n">df_test</span><span class="p">[</span><span class="s1">&#39;Input&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
@@ -1159,2189 +1346,83 @@ weighted avg       0.93      0.92      0.93      6000
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
 <ol class="arabic simple">
 <li><p>This tutorial is based on <a class="reference external" href="https://medium.com/mlearning-ai/fine-tuning-bert-using-tensorflow-21368d8414ba">this article</a>.</p></li>
+<li><p>Hugging Face Documentation: <a class="reference external" href="https://huggingface.co/docs/transformers/training">Fine-tune a pretrained model</a></p></li>
 <li><p><a class="reference external" href="https://towardsdatascience.com/3-ways-to-build-neural-networks-in-tensorflow-with-the-keras-api-80e92d3b5b7e">3 ways to build neural networks in tf</a></p></li>
 <li><p>[Dropout layer]
 (<a class="reference external" href="https://datasciocean.tech/deep-learning-core-concept/understand-dropout-in-deep-learning/">https://datasciocean.tech/deep-learning-core-concept/understand-dropout-in-deep-learning/</a>)</p></li>
 </ol>
 </section>
+<section id="other-fine-tuning-methods-self-study">
+<h2>Other Fine-tuning Methods (Self-Study)<a class="headerlink" href="#other-fine-tuning-methods-self-study" title="Permalink to this headline">#</a></h2>
+</section>
 <section id="fine-tune-with-tensorflow-keras">
 <h2>Fine-tune with Tensorflow Keras<a class="headerlink" href="#fine-tune-with-tensorflow-keras" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load IMDB dataset</span>
-<span class="kn">from</span> <span class="nn">datasets</span> <span class="kn">import</span> <span class="n">load_dataset</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># data frame to dataset</span>
+<span class="kn">from</span> <span class="nn">datasets</span> <span class="kn">import</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">DatasetDict</span>
 
-<span class="n">imdb_dataset</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;imdb&quot;</span><span class="p">)</span>
+<span class="n">X_train_ds</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">from_pandas</span><span class="p">(</span><span class="n">df_train</span><span class="p">[[</span><span class="s1">&#39;Input&#39;</span><span class="p">,</span><span class="s1">&#39;Sentiment&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Input&#39;</span><span class="p">:</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="s1">&#39;Sentiment&#39;</span><span class="p">:</span> <span class="s1">&#39;label&#39;</span><span class="p">}),</span> <span class="n">preserve_index</span><span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">X_test_ds</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">from_pandas</span><span class="p">(</span><span class="n">df_test</span><span class="p">[[</span><span class="s1">&#39;Input&#39;</span><span class="p">,</span><span class="s1">&#39;Sentiment&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Input&#39;</span><span class="p">:</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="s1">&#39;Sentiment&#39;</span><span class="p">:</span> <span class="s1">&#39;label&#39;</span><span class="p">}),</span> <span class="n">preserve_index</span><span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 
-<span class="c1"># Preprocess data</span>
-<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoTokenizer</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">DatasetDict</span><span class="p">()</span>
+<span class="n">ds</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X_train_ds</span>
+<span class="n">ds</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X_test_ds</span>
+<span class="n">ds</span>
 
-<span class="n">PRETRAINED_MODEL</span> <span class="o">=</span> <span class="s1">&#39;distilbert-base-uncased&#39;</span>
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">PRETRAINED_MODEL</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">imdb_dataset</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DatasetDict({
-    train: Dataset({
-        features: [&#39;text&#39;, &#39;label&#39;],
-        num_rows: 25000
-    })
-    test: Dataset({
-        features: [&#39;text&#39;, &#39;label&#39;],
-        num_rows: 25000
-    })
-    unsupervised: Dataset({
-        features: [&#39;text&#39;, &#39;label&#39;],
-        num_rows: 50000
-    })
-})
-</pre></div>
-</div>
-</div>
-</div>
-<p>Before you can use prepare_tf_dataset(), you will need to add the tokenizer outputs to your dataset as columns, as shown in the following code sample:</p>
-<p>Remember that Hugging Face datasets are stored on disk by default, so this will not inflate your memory usage! Once the columns have been added, you can stream batches from the dataset and add padding to each batch, which greatly reduces the number of padding tokens compared to padding the entire dataset.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">examples</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">examples</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">],</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">examples</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">tokenizer</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">=</span> <span class="n">examples</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">],</span>
+        <span class="n">add_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">max_length</span><span class="o">=</span><span class="n">max_len</span><span class="p">,</span>
+        <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">padding</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="c1"># return_tensors=&#39;np&#39;,</span>
+        <span class="c1"># return_token_type_ids=False,</span>
+        <span class="c1"># return_attention_mask=True,</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># return tokenizer(examples[&quot;text&quot;], max_length=200, padding=True, truncation=True)</span>
 
-<span class="n">tokenized_datasets</span> <span class="o">=</span> <span class="n">imdb_dataset</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">preprocess</span><span class="p">,</span> <span class="n">batched</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">TFAutoModelForSequenceClassification</span>
+<span class="n">ds_tokenized</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">preprocess</span><span class="p">,</span> <span class="n">batched</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">ds_tokenized</span>
+
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">TFAutoModelForSequenceClassification</span>
 <span class="kn">from</span> <span class="nn">tensorflow.keras.optimizers</span> <span class="kn">import</span> <span class="n">Adam</span>
 
 <span class="c1"># Load and compile our model</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">TFAutoModelForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">PRETRAINED_MODEL</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Some weights of the PyTorch model were not used when initializing the TF 2.0 model TFDistilBertForSequenceClassification: [&#39;vocab_transform.weight&#39;, &#39;vocab_projector.bias&#39;, &#39;vocab_layer_norm.weight&#39;, &#39;vocab_layer_norm.bias&#39;, &#39;vocab_transform.bias&#39;]
-- This IS expected if you are initializing TFDistilBertForSequenceClassification from a PyTorch model trained on another task or with another architecture (e.g. initializing a TFBertForSequenceClassification model from a BertForPreTraining model).
-- This IS NOT expected if you are initializing TFDistilBertForSequenceClassification from a PyTorch model that you expect to be exactly identical (e.g. initializing a TFBertForSequenceClassification model from a BertForSequenceClassification model).
-Some weights or buffers of the TF 2.0 model TFDistilBertForSequenceClassification were not initialized from the PyTorch model and are newly initialized: [&#39;pre_classifier.weight&#39;, &#39;pre_classifier.bias&#39;, &#39;classifier.weight&#39;, &#39;classifier.bias&#39;]
-You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tf_dataset_train</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">prepare_tf_dataset</span><span class="p">(</span><span class="n">tokenized_datasets</span><span class="p">[</span><span class="s2">&quot;train&quot;</span><span class="p">],</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>You&#39;re using a DistilBertTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tokenized_datasets</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DatasetDict({
-    train: Dataset({
-        features: [&#39;text&#39;, &#39;label&#39;, &#39;input_ids&#39;, &#39;attention_mask&#39;],
-        num_rows: 25000
-    })
-    test: Dataset({
-        features: [&#39;text&#39;, &#39;label&#39;, &#39;input_ids&#39;, &#39;attention_mask&#39;],
-        num_rows: 25000
-    })
-    unsupervised: Dataset({
-        features: [&#39;text&#39;, &#39;label&#39;, &#39;input_ids&#39;, &#39;attention_mask&#39;],
-        num_rows: 50000
-    })
-})
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tokenized_datasets</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">][</span><span class="s1">&#39;text&#39;</span><span class="p">][:</span><span class="mi">10</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;I rented I AM CURIOUS-YELLOW from my video store because of all the controversy that surrounded it when it was first released in 1967. I also heard that at first it was seized by U.S. customs if it ever tried to enter this country, therefore being a fan of films considered &quot;controversial&quot; I really had to see this for myself.&lt;br /&gt;&lt;br /&gt;The plot is centered around a young Swedish drama student named Lena who wants to learn everything she can about life. In particular she wants to focus her attentions to making some sort of documentary on what the average Swede thought about certain political issues such as the Vietnam War and race issues in the United States. In between asking politicians and ordinary denizens of Stockholm about their opinions on politics, she has sex with her drama teacher, classmates, and married men.&lt;br /&gt;&lt;br /&gt;What kills me about I AM CURIOUS-YELLOW is that 40 years ago, this was considered pornographic. Really, the sex and nudity scenes are few and far between, even then it\&#39;s not shot like some cheaply made porno. While my countrymen mind find it shocking, in reality sex and nudity are a major staple in Swedish cinema. Even Ingmar Bergman, arguably their answer to good old boy John Ford, had sex scenes in his films.&lt;br /&gt;&lt;br /&gt;I do commend the filmmakers for the fact that any sex shown in the film is shown for artistic purposes rather than just to shock people and make money to be shown in pornographic theaters in America. I AM CURIOUS-YELLOW is a good film for anyone wanting to study the meat and potatoes (no pun intended) of Swedish cinema. But really, this film doesn\&#39;t have much of a plot.&#39;,
- &#39;&quot;I Am Curious: Yellow&quot; is a risible and pretentious steaming pile. It doesn\&#39;t matter what one\&#39;s political views are because this film can hardly be taken seriously on any level. As for the claim that frontal male nudity is an automatic NC-17, that isn\&#39;t true. I\&#39;ve seen R-rated films with male nudity. Granted, they only offer some fleeting views, but where are the R-rated films with gaping vulvas and flapping labia? Nowhere, because they don\&#39;t exist. The same goes for those crappy cable shows: schlongs swinging in the breeze but not a clitoris in sight. And those pretentious indie movies like The Brown Bunny, in which we\&#39;re treated to the site of Vincent Gallo\&#39;s throbbing johnson, but not a trace of pink visible on Chloe Sevigny. Before crying (or implying) &quot;double-standard&quot; in matters of nudity, the mentally obtuse should take into account one unavoidably obvious anatomical difference between men and women: there are no genitals on display when actresses appears nude, and the same cannot be said for a man. In fact, you generally won\&#39;t see female genitals in an American film in anything short of porn or explicit erotica. This alleged double-standard is less a double standard than an admittedly depressing ability to come to terms culturally with the insides of women\&#39;s bodies.&#39;,
- &quot;If only to avoid making this type of film in the future. This film is interesting as an experiment but tells no cogent story.&lt;br /&gt;&lt;br /&gt;One might feel virtuous for sitting thru it because it touches on so many IMPORTANT issues but it does so without any discernable motive. The viewer comes away with no new perspectives (unless one comes up with one while one&#39;s mind wanders, as it will invariably do during this pointless film).&lt;br /&gt;&lt;br /&gt;One might better spend one&#39;s time staring out a window at a tree growing.&lt;br /&gt;&lt;br /&gt;&quot;,
- &quot;This film was probably inspired by Godard&#39;s Masculin, féminin and I urge you to see that film instead.&lt;br /&gt;&lt;br /&gt;The film has two strong elements and those are, (1) the realistic acting (2) the impressive, undeservedly good, photo. Apart from that, what strikes me most is the endless stream of silliness. Lena Nyman has to be most annoying actress in the world. She acts so stupid and with all the nudity in this film,...it&#39;s unattractive. Comparing to Godard&#39;s film, intellectuality has been replaced with stupidity. Without going too far on this subject, I would say that follows from the difference in ideals between the French and the Swedish society.&lt;br /&gt;&lt;br /&gt;A movie of its time, and place. 2/10.&quot;,
- &#39;Oh, brother...after hearing about this ridiculous film for umpteen years all I can think of is that old Peggy Lee song..&lt;br /&gt;&lt;br /&gt;&quot;Is that all there is??&quot; ...I was just an early teen when this smoked fish hit the U.S. I was too young to get in the theater (although I did manage to sneak into &quot;Goodbye Columbus&quot;). Then a screening at a local film museum beckoned - Finally I could see this film, except now I was as old as my parents were when they schlepped to see it!!&lt;br /&gt;&lt;br /&gt;The ONLY reason this film was not condemned to the anonymous sands of time was because of the obscenity case sparked by its U.S. release. MILLIONS of people flocked to this stinker, thinking they were going to see a sex film...Instead, they got lots of closeups of gnarly, repulsive Swedes, on-street interviews in bland shopping malls, asinie political pretension...and feeble who-cares simulated sex scenes with saggy, pale actors.&lt;br /&gt;&lt;br /&gt;Cultural icon, holy grail, historic artifact..whatever this thing was, shred it, burn it, then stuff the ashes in a lead box!&lt;br /&gt;&lt;br /&gt;Elite esthetes still scrape to find value in its boring pseudo revolutionary political spewings..But if it weren\&#39;t for the censorship scandal, it would have been ignored, then forgotten.&lt;br /&gt;&lt;br /&gt;Instead, the &quot;I Am Blank, Blank&quot; rhythymed title was repeated endlessly for years as a titilation for porno films (I am Curious, Lavender - for gay films, I Am Curious, Black - for blaxploitation films, etc..) and every ten years or so the thing rises from the dead, to be viewed by a new generation of suckers who want to see that &quot;naughty sex film&quot; that &quot;revolutionized the film industry&quot;...&lt;br /&gt;&lt;br /&gt;Yeesh, avoid like the plague..Or if you MUST see it - rent the video and fast forward to the &quot;dirty&quot; parts, just to get it over with.&lt;br /&gt;&lt;br /&gt;&#39;,
- &quot;I would put this at the top of my list of films in the category of unwatchable trash! There are films that are bad, but the worst kind are the ones that are unwatchable but you are suppose to like them because they are supposed to be good for you! The sex sequences, so shocking in its day, couldn&#39;t even arouse a rabbit. The so called controversial politics is strictly high school sophomore amateur night Marxism. The film is self-consciously arty in the worst sense of the term. The photography is in a harsh grainy black and white. Some scenes are out of focus or taken from the wrong angle. Even the sound is bad! And some people call this art?&lt;br /&gt;&lt;br /&gt;&quot;,
- &quot;Whoever wrote the screenplay for this movie obviously never consulted any books about Lucille Ball, especially her autobiography. I&#39;ve never seen so many mistakes in a biopic, ranging from her early years in Celoron and Jamestown to her later years with Desi. I could write a whole list of factual errors, but it would go on for pages. In all, I believe that Lucille Ball is one of those inimitable people who simply cannot be portrayed by anyone other than themselves. If I were Lucie Arnaz and Desi, Jr., I would be irate at how many mistakes were made in this film. The filmmakers tried hard, but the movie seems awfully sloppy to me.&quot;,
- &#39;When I first saw a glimpse of this movie, I quickly noticed the actress who was playing the role of Lucille Ball. Rachel York\&#39;s portrayal of Lucy is absolutely awful. Lucille Ball was an astounding comedian with incredible talent. To think about a legend like Lucille Ball being portrayed the way she was in the movie is horrendous. I cannot believe out of all the actresses in the world who could play a much better Lucy, the producers decided to get Rachel York. She might be a good actress in other roles but to play the role of Lucille Ball is tough. It is pretty hard to find someone who could resemble Lucille Ball, but they could at least find someone a bit similar in looks and talent. If you noticed York\&#39;s portrayal of Lucy in episodes of I Love Lucy like the chocolate factory or vitavetavegamin, nothing is similar in any way-her expression, voice, or movement.&lt;br /&gt;&lt;br /&gt;To top it all off, Danny Pino playing Desi Arnaz is horrible. Pino does not qualify to play as Ricky. He\&#39;s small and skinny, his accent is unreal, and once again, his acting is unbelievable. Although Fred and Ethel were not similar either, they were not as bad as the characters of Lucy and Ricky.&lt;br /&gt;&lt;br /&gt;Overall, extremely horrible casting and the story is badly told. If people want to understand the real life situation of Lucille Ball, I suggest watching A&amp;E Biography of Lucy and Desi, read the book from Lucille Ball herself, or PBS\&#39; American Masters: Finding Lucy. If you want to see a docudrama, &quot;Before the Laughter&quot; would be a better choice. The casting of Lucille Ball and Desi Arnaz in &quot;Before the Laughter&quot; is much better compared to this. At least, a similar aspect is shown rather than nothing.&#39;,
- &#39;Who are these &quot;They&quot;- the actors? the filmmakers? Certainly couldn\&#39;t be the audience- this is among the most air-puffed productions in existence. It\&#39;s the kind of movie that looks like it was a lot of fun to shoot\x97 TOO much fun, nobody is getting any actual work done, and that almost always makes for a movie that\&#39;s no fun to watch.&lt;br /&gt;&lt;br /&gt;Ritter dons glasses so as to hammer home his character\&#39;s status as a sort of doppleganger of the bespectacled Bogdanovich; the scenes with the breezy Ms. Stratten are sweet, but have an embarrassing, look-guys-I\&#39;m-dating-the-prom-queen feel to them. Ben Gazzara sports his usual cat\&#39;s-got-canary grin in a futile attempt to elevate the meager plot, which requires him to pursue Audrey Hepburn with all the interest of a narcoleptic at an insomnia clinic. In the meantime, the budding couple\&#39;s respective children (nepotism alert: Bogdanovich\&#39;s daughters) spew cute and pick up some fairly disturbing pointers on \&#39;love\&#39; while observing their parents. (Ms. Hepburn, drawing on her dignity, manages to rise above the proceedings- but she has the monumental challenge of playing herself, ostensibly.) Everybody looks great, but so what? It\&#39;s a movie and we can expect that much, if that\&#39;s what you\&#39;re looking for you\&#39;d be better off picking up a copy of Vogue.&lt;br /&gt;&lt;br /&gt;Oh- and it has to be mentioned that Colleen Camp thoroughly annoys, even apart from her singing, which, while competent, is wholly unconvincing... the country and western numbers are woefully mismatched with the standards on the soundtrack. Surely this is NOT what Gershwin (who wrote the song from which the movie\&#39;s title is derived) had in mind; his stage musicals of the 20\&#39;s may have been slight, but at least they were long on charm. &quot;They All Laughed&quot; tries to coast on its good intentions, but nobody- least of all Peter Bogdanovich - has the good sense to put on the brakes.&lt;br /&gt;&lt;br /&gt;Due in no small part to the tragic death of Dorothy Stratten, this movie has a special place in the heart of Mr. Bogdanovich- he even bought it back from its producers, then distributed it on his own and went bankrupt when it didn\&#39;t prove popular. His rise and fall is among the more sympathetic and tragic of Hollywood stories, so there\&#39;s no joy in criticizing the film... there _is_ real emotional investment in Ms. Stratten\&#39;s scenes. But &quot;Laughed&quot; is a faint echo of &quot;The Last Picture Show&quot;, &quot;Paper Moon&quot; or &quot;What\&#39;s Up, Doc&quot;- following &quot;Daisy Miller&quot; and &quot;At Long Last Love&quot;, it was a thundering confirmation of the phase from which P.B. has never emerged.&lt;br /&gt;&lt;br /&gt;All in all, though, the movie is harmless, only a waste of rental. I want to watch people having a good time, I\&#39;ll go to the park on a sunny day. For filmic expressions of joy and love, I\&#39;ll stick to Ernest Lubitsch and Jaques Demy...&#39;,
- &quot;This is said to be a personal film for Peter Bogdonavitch. He based it on his life but changed things around to fit the characters, who are detectives. These detectives date beautiful models and have no problem getting them. Sounds more like a millionaire playboy filmmaker than a detective, doesn&#39;t it? This entire movie was written by Peter, and it shows how out of touch with real people he was. You&#39;re supposed to write what you know, and he did that, indeed. And leaves the audience bored and confused, and jealous, for that matter. This is a curio for people who want to see Dorothy Stratten, who was murdered right after filming. But Patti Hanson, who would, in real life, marry Keith Richards, was also a model, like Stratten, but is a lot better and has a more ample part. In fact, Stratten&#39;s part seemed forced; added. She doesn&#39;t have a lot to do with the story, which is pretty convoluted to begin with. All in all, every character in this film is somebody that very few people can relate with, unless you&#39;re millionaire from Manhattan with beautiful supermodels at your beckon call. For the rest of us, it&#39;s an irritating snore fest. That&#39;s what happens when you&#39;re out of touch. You entertain your few friends with inside jokes, and bore all the rest.&quot;]
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tokenized_datasets</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">][:</span><span class="mi">10</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tokenized_datasets</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">][</span><span class="s1">&#39;input_ids&#39;</span><span class="p">][:</span><span class="mi">10</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[101,
-  1045,
-  12524,
-  1045,
-  2572,
-  8025,
-  1011,
-  3756,
-  2013,
-  2026,
-  2678,
-  3573,
-  2138,
-  1997,
-  2035,
-  1996,
-  6704,
-  2008,
-  5129,
-  2009,
-  2043,
-  2009,
-  2001,
-  2034,
-  2207,
-  1999,
-  3476,
-  1012,
-  1045,
-  2036,
-  2657,
-  2008,
-  2012,
-  2034,
-  2009,
-  2001,
-  8243,
-  2011,
-  1057,
-  1012,
-  1055,
-  1012,
-  8205,
-  2065,
-  2009,
-  2412,
-  2699,
-  2000,
-  4607,
-  2023,
-  2406,
-  1010,
-  3568,
-  2108,
-  1037,
-  5470,
-  1997,
-  3152,
-  2641,
-  1000,
-  6801,
-  1000,
-  1045,
-  2428,
-  2018,
-  2000,
-  2156,
-  2023,
-  2005,
-  2870,
-  1012,
-  1026,
-  7987,
-  1013,
-  1028,
-  1026,
-  7987,
-  1013,
-  1028,
-  1996,
-  5436,
-  2003,
-  8857,
-  2105,
-  1037,
-  2402,
-  4467,
-  3689,
-  3076,
-  2315,
-  14229,
-  2040,
-  4122,
-  2000,
-  4553,
-  2673,
-  2016,
-  2064,
-  2055,
-  2166,
-  1012,
-  1999,
-  3327,
-  2016,
-  4122,
-  2000,
-  3579,
-  2014,
-  3086,
-  2015,
-  2000,
-  2437,
-  2070,
-  4066,
-  1997,
-  4516,
-  2006,
-  2054,
-  1996,
-  2779,
-  25430,
-  14728,
-  2245,
-  2055,
-  3056,
-  2576,
-  3314,
-  2107,
-  2004,
-  1996,
-  5148,
-  2162,
-  1998,
-  2679,
-  3314,
-  1999,
-  1996,
-  2142,
-  2163,
-  1012,
-  1999,
-  2090,
-  4851,
-  8801,
-  1998,
-  6623,
-  7939,
-  4697,
-  3619,
-  1997,
-  8947,
-  2055,
-  2037,
-  10740,
-  2006,
-  4331,
-  1010,
-  2016,
-  2038,
-  3348,
-  2007,
-  2014,
-  3689,
-  3836,
-  1010,
-  19846,
-  1010,
-  1998,
-  2496,
-  2273,
-  1012,
-  1026,
-  7987,
-  1013,
-  1028,
-  1026,
-  7987,
-  1013,
-  1028,
-  2054,
-  8563,
-  2033,
-  2055,
-  1045,
-  2572,
-  8025,
-  1011,
-  3756,
-  2003,
-  2008,
-  2871,
-  2086,
-  3283,
-  1010,
-  2023,
-  2001,
-  2641,
-  26932,
-  1012,
-  102],
- [101,
-  1000,
-  1045,
-  2572,
-  8025,
-  1024,
-  3756,
-  1000,
-  2003,
-  1037,
-  15544,
-  19307,
-  1998,
-  3653,
-  6528,
-  20771,
-  19986,
-  8632,
-  1012,
-  2009,
-  2987,
-  1005,
-  1056,
-  3043,
-  2054,
-  2028,
-  1005,
-  1055,
-  2576,
-  5328,
-  2024,
-  2138,
-  2023,
-  2143,
-  2064,
-  6684,
-  2022,
-  2579,
-  5667,
-  2006,
-  2151,
-  2504,
-  1012,
-  2004,
-  2005,
-  1996,
-  4366,
-  2008,
-  19124,
-  3287,
-  16371,
-  25469,
-  2003,
-  2019,
-  6882,
-  13316,
-  1011,
-  2459,
-  1010,
-  2008,
-  3475,
-  1005,
-  1056,
-  2995,
-  1012,
-  1045,
-  1005,
-  2310,
-  2464,
-  1054,
-  1011,
-  6758,
-  3152,
-  2007,
-  3287,
-  16371,
-  25469,
-  1012,
-  4379,
-  1010,
-  2027,
-  2069,
-  3749,
-  2070,
-  25085,
-  5328,
-  1010,
-  2021,
-  2073,
-  2024,
-  1996,
-  1054,
-  1011,
-  6758,
-  3152,
-  2007,
-  21226,
-  24728,
-  22144,
-  2015,
-  1998,
-  20916,
-  4691,
-  6845,
-  2401,
-  1029,
-  7880,
-  1010,
-  2138,
-  2027,
-  2123,
-  1005,
-  1056,
-  4839,
-  1012,
-  1996,
-  2168,
-  3632,
-  2005,
-  2216,
-  10231,
-  7685,
-  5830,
-  3065,
-  1024,
-  8040,
-  7317,
-  5063,
-  2015,
-  11820,
-  1999,
-  1996,
-  9478,
-  2021,
-  2025,
-  1037,
-  17962,
-  21239,
-  1999,
-  4356,
-  1012,
-  1998,
-  2216,
-  3653,
-  6528,
-  20771,
-  10271,
-  5691,
-  2066,
-  1996,
-  2829,
-  16291,
-  1010,
-  1999,
-  2029,
-  2057,
-  1005,
-  2128,
-  5845,
-  2000,
-  1996,
-  2609,
-  1997,
-  6320,
-  25624,
-  1005,
-  1055,
-  17061,
-  3779,
-  1010,
-  2021,
-  2025,
-  1037,
-  7637,
-  1997,
-  5061,
-  5710,
-  2006,
-  9318,
-  7367,
-  5737,
-  19393,
-  1012,
-  2077,
-  6933,
-  1006,
-  2030,
-  20242,
-  1007,
-  1000,
-  3313,
-  1011,
-  3115,
-  1000,
-  1999,
-  5609,
-  1997,
-  16371,
-  25469,
-  102],
- [101,
-  2065,
-  2069,
-  2000,
-  4468,
-  2437,
-  2023,
-  2828,
-  1997,
-  2143,
-  1999,
-  1996,
-  2925,
-  1012,
-  2023,
-  2143,
-  2003,
-  5875,
-  2004,
-  2019,
-  7551,
-  2021,
-  4136,
-  2053,
-  2522,
-  11461,
-  2466,
-  1012,
-  1026,
-  7987,
-  1013,
-  1028,
-  1026,
-  7987,
-  1013,
-  1028,
-  2028,
-  2453,
-  2514,
-  6819,
-  5339,
-  8918,
-  2005,
-  3564,
-  27046,
-  2009,
-  2138,
-  2009,
-  12817,
-  2006,
-  2061,
-  2116,
-  2590,
-  3314,
-  2021,
-  2009,
-  2515,
-  2061,
-  2302,
-  2151,
-  5860,
-  11795,
-  3085,
-  15793,
-  1012,
-  1996,
-  13972,
-  3310,
-  2185,
-  2007,
-  2053,
-  2047,
-  15251,
-  1006,
-  4983,
-  2028,
-  3310,
-  2039,
-  2007,
-  2028,
-  2096,
-  2028,
-  1005,
-  1055,
-  2568,
-  17677,
-  2015,
-  1010,
-  2004,
-  2009,
-  2097,
-  26597,
-  2079,
-  2076,
-  2023,
-  23100,
-  2143,
-  1007,
-  1012,
-  1026,
-  7987,
-  1013,
-  1028,
-  1026,
-  7987,
-  1013,
-  1028,
-  2028,
-  2453,
-  2488,
-  5247,
-  2028,
-  1005,
-  1055,
-  2051,
-  4582,
-  2041,
-  1037,
-  3332,
-  2012,
-  1037,
-  3392,
-  3652,
-  1012,
-  1026,
-  7987,
-  1013,
-  1028,
-  1026,
-  7987,
-  1013,
-  1028,
-  102,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0],
- [101,
-  2023,
-  2143,
-  2001,
-  2763,
-  4427,
-  2011,
-  2643,
-  4232,
-  1005,
-  1055,
-  16137,
-  10841,
-  4115,
-  1010,
-  10768,
-  25300,
-  2078,
-  1998,
-  1045,
-  9075,
-  2017,
-  2000,
-  2156,
-  2008,
-  2143,
-  2612,
-  1012,
-  1026,
-  7987,
-  1013,
-  1028,
-  1026,
-  7987,
-  1013,
-  1028,
-  1996,
-  2143,
-  2038,
-  2048,
-  2844,
-  3787,
-  1998,
-  2216,
-  2024,
-  1010,
-  1006,
-  1015,
-  1007,
-  1996,
-  12689,
-  3772,
-  1006,
-  1016,
-  1007,
-  1996,
-  8052,
-  1010,
-  6151,
-  6810,
-  2099,
-  7178,
-  2135,
-  2204,
-  1010,
-  6302,
-  1012,
-  4237,
-  2013,
-  2008,
-  1010,
-  2054,
-  9326,
-  2033,
-  2087,
-  2003,
-  1996,
-  10866,
-  5460,
-  1997,
-  9033,
-  21202,
-  7971,
-  1012,
-  14229,
-  6396,
-  2386,
-  2038,
-  2000,
-  2022,
-  2087,
-  15703,
-  3883,
-  1999,
-  1996,
-  2088,
-  1012,
-  2016,
-  4490,
-  2061,
-  5236,
-  1998,
-  2007,
-  2035,
-  1996,
-  16371,
-  25469,
-  1999,
-  2023,
-  2143,
-  1010,
-  1012,
-  1012,
-  1012,
-  2009,
-  1005,
-  1055,
-  14477,
-  4779,
-  26884,
-  1012,
-  13599,
-  2000,
-  2643,
-  4232,
-  1005,
-  1055,
-  2143,
-  1010,
-  7789,
-  3012,
-  2038,
-  2042,
-  2999,
-  2007,
-  28072,
-  1012,
-  2302,
-  2183,
-  2205,
-  2521,
-  2006,
-  2023,
-  3395,
-  1010,
-  1045,
-  2052,
-  2360,
-  2008,
-  4076,
-  2013,
-  1996,
-  4489,
-  1999,
-  15084,
-  2090,
-  1996,
-  2413,
-  1998,
-  1996,
-  4467,
-  2554,
-  1012,
-  1026,
-  7987,
-  1013,
-  1028,
-  1026,
-  7987,
-  1013,
-  1028,
-  1037,
-  3185,
-  1997,
-  2049,
-  2051,
-  1010,
-  1998,
-  2173,
-  1012,
-  1016,
-  1013,
-  2184,
-  1012,
-  102,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0],
- [101,
-  2821,
-  1010,
-  2567,
-  1012,
-  1012,
-  1012,
-  2044,
-  4994,
-  2055,
-  2023,
-  9951,
-  2143,
-  2005,
-  8529,
-  13876,
-  12129,
-  2086,
-  2035,
-  1045,
-  2064,
-  2228,
-  1997,
-  2003,
-  2008,
-  2214,
-  14911,
-  3389,
-  2299,
-  1012,
-  1012,
-  1026,
-  7987,
-  1013,
-  1028,
-  1026,
-  7987,
-  1013,
-  1028,
-  1000,
-  2003,
-  2008,
-  2035,
-  2045,
-  2003,
-  1029,
-  1029,
-  1000,
-  1012,
-  1012,
-  1012,
-  1045,
-  2001,
-  2074,
-  2019,
-  2220,
-  9458,
-  2043,
-  2023,
-  20482,
-  3869,
-  2718,
-  1996,
-  1057,
-  1012,
-  1055,
-  1012,
-  1045,
-  2001,
-  2205,
-  2402,
-  2000,
-  2131,
-  1999,
-  1996,
-  4258,
-  1006,
-  2348,
-  1045,
-  2106,
-  6133,
-  2000,
-  13583,
-  2046,
-  1000,
-  9119,
-  8912,
-  1000,
-  1007,
-  1012,
-  2059,
-  1037,
-  11326,
-  2012,
-  1037,
-  2334,
-  2143,
-  2688,
-  10272,
-  17799,
-  1011,
-  2633,
-  1045,
-  2071,
-  2156,
-  2023,
-  2143,
-  1010,
-  3272,
-  2085,
-  1045,
-  2001,
-  2004,
-  2214,
-  2004,
-  2026,
-  3008,
-  2020,
-  2043,
-  2027,
-  8040,
-  7317,
-  13699,
-  5669,
-  2000,
-  2156,
-  2009,
-  999,
-  999,
-  1026,
-  7987,
-  1013,
-  1028,
-  1026,
-  7987,
-  1013,
-  1028,
-  1996,
-  2069,
-  3114,
-  2023,
-  2143,
-  2001,
-  2025,
-  10033,
-  2000,
-  1996,
-  10812,
-  13457,
-  1997,
-  2051,
-  2001,
-  2138,
-  1997,
-  1996,
-  27885,
-  11020,
-  20693,
-  2553,
-  13977,
-  2011,
-  2049,
-  1057,
-  1012,
-  1055,
-  1012,
-  2713,
-  1012,
-  8817,
-  1997,
-  2111,
-  19311,
-  2098,
-  2000,
-  2023,
-  27136,
-  2121,
-  1010,
-  3241,
-  2027,
-  2020,
-  2183,
-  2000,
-  2156,
-  1037,
-  3348,
-  2143,
-  1012,
-  1012,
-  1012,
-  2612,
-  1010,
-  2027,
-  2288,
-  7167,
-  1997,
-  2485,
-  22264,
-  1997,
-  102],
- [101,
-  1045,
-  2052,
-  2404,
-  2023,
-  2012,
-  1996,
-  2327,
-  1997,
-  2026,
-  2862,
-  1997,
-  3152,
-  1999,
-  1996,
-  4696,
-  1997,
-  4895,
-  18866,
-  3085,
-  11669,
-  999,
-  2045,
-  2024,
-  3152,
-  2008,
-  2024,
-  2919,
-  1010,
-  2021,
-  1996,
-  5409,
-  2785,
-  2024,
-  1996,
-  3924,
-  2008,
-  2024,
-  4895,
-  18866,
-  3085,
-  2021,
-  2017,
-  2024,
-  6814,
-  2000,
-  2066,
-  2068,
-  2138,
-  2027,
-  2024,
-  4011,
-  2000,
-  2022,
-  2204,
-  2005,
-  2017,
-  999,
-  1996,
-  3348,
-  10071,
-  1010,
-  2061,
-  16880,
-  1999,
-  2049,
-  2154,
-  1010,
-  2481,
-  1005,
-  1056,
-  2130,
-  12098,
-  15441,
-  1037,
-  10442,
-  1012,
-  1996,
-  2061,
-  2170,
-  6801,
-  4331,
-  2003,
-  9975,
-  2152,
-  2082,
-  13758,
-  5515,
-  2305,
-  27255,
-  1012,
-  1996,
-  2143,
-  2003,
-  2969,
-  1011,
-  24447,
-  2396,
-  2100,
-  1999,
-  1996,
-  5409,
-  3168,
-  1997,
-  1996,
-  2744,
-  1012,
-  1996,
-  5855,
-  2003,
-  1999,
-  1037,
-  8401,
-  8982,
-  2100,
-  2304,
-  1998,
-  2317,
-  1012,
-  2070,
-  5019,
-  2024,
-  2041,
-  1997,
-  3579,
-  2030,
-  2579,
-  2013,
-  1996,
-  3308,
-  6466,
-  1012,
-  2130,
-  1996,
-  2614,
-  2003,
-  2919,
-  999,
-  1998,
-  2070,
-  2111,
-  2655,
-  2023,
-  2396,
-  1029,
-  1026,
-  7987,
-  1013,
-  1028,
-  1026,
-  7987,
-  1013,
-  1028,
-  102,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0],
- [101,
-  9444,
-  2626,
-  1996,
-  9000,
-  2005,
-  2023,
-  3185,
-  5525,
-  2196,
-  17535,
-  2151,
-  2808,
-  2055,
-  28016,
-  3608,
-  1010,
-  2926,
-  2014,
-  10828,
-  1012,
-  1045,
-  1005,
-  2310,
-  2196,
-  2464,
-  2061,
-  2116,
-  12051,
-  1999,
-  1037,
-  16012,
-  24330,
-  1010,
-  7478,
-  2013,
-  2014,
-  2220,
-  2086,
-  1999,
-  8292,
-  10626,
-  2239,
-  1998,
-  27435,
-  2000,
-  2014,
-  2101,
-  2086,
-  2007,
-  4078,
-  2072,
-  1012,
-  1045,
-  2071,
-  4339,
-  1037,
-  2878,
-  2862,
-  1997,
-  25854,
-  10697,
-  1010,
-  2021,
-  2009,
-  2052,
-  2175,
-  2006,
-  2005,
-  5530,
-  1012,
-  1999,
-  2035,
-  1010,
-  1045,
-  2903,
-  2008,
-  28016,
-  3608,
-  2003,
-  2028,
-  1997,
-  2216,
-  1999,
-  27605,
-  10880,
-  2111,
-  2040,
-  3432,
-  3685,
-  2022,
-  6791,
-  2011,
-  3087,
-  2060,
-  2084,
-  3209,
-  1012,
-  2065,
-  1045,
-  2020,
-  28831,
-  12098,
-  2532,
-  2480,
-  1998,
-  4078,
-  2072,
-  1010,
-  3781,
-  1012,
-  1010,
-  1045,
-  2052,
-  2022,
-  11209,
-  2618,
-  2012,
-  2129,
-  2116,
-  12051,
-  2020,
-  2081,
-  1999,
-  2023,
-  2143,
-  1012,
-  1996,
-  16587,
-  2699,
-  2524,
-  1010,
-  2021,
-  1996,
-  3185,
-  3849,
-  9643,
-  2135,
-  28810,
-  2000,
-  2033,
-  1012,
-  102,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0],
- [101,
-  2043,
-  1045,
-  2034,
-  2387,
-  1037,
-  12185,
-  1997,
-  2023,
-  3185,
-  1010,
-  1045,
-  2855,
-  4384,
-  1996,
-  3883,
-  2040,
-  2001,
-  2652,
-  1996,
-  2535,
-  1997,
-  28016,
-  3608,
-  1012,
-  5586,
-  2259,
-  1005,
-  1055,
-  13954,
-  1997,
-  7004,
-  2003,
-  7078,
-  9643,
-  1012,
-  28016,
-  3608,
-  2001,
-  2019,
-  2004,
-  24826,
-  15683,
-  9971,
-  2007,
-  9788,
-  5848,
-  1012,
-  2000,
-  2228,
-  2055,
-  1037,
-  5722,
-  2066,
-  28016,
-  3608,
-  2108,
-  6791,
-  1996,
-  2126,
-  2016,
-  2001,
-  1999,
-  1996,
-  3185,
-  2003,
-  7570,
-  14343,
-  15482,
-  2271,
-  1012,
-  1045,
-  3685,
-  2903,
-  2041,
-  1997,
-  2035,
-  1996,
-  19910,
-  1999,
-  1996,
-  2088,
-  2040,
-  2071,
-  2377,
-  1037,
-  2172,
-  2488,
-  7004,
-  1010,
-  1996,
-  6443,
-  2787,
-  2000,
-  2131,
-  5586,
-  2259,
-  1012,
-  2016,
-  2453,
-  2022,
-  1037,
-  2204,
-  3883,
-  1999,
-  2060,
-  4395,
-  2021,
-  2000,
-  2377,
-  1996,
-  2535,
-  1997,
-  28016,
-  3608,
-  2003,
-  7823,
-  1012,
-  2009,
-  2003,
-  3492,
-  2524,
-  2000,
-  2424,
-  2619,
-  2040,
-  2071,
-  13014,
-  28016,
-  3608,
-  1010,
-  2021,
-  2027,
-  2071,
-  2012,
-  2560,
-  2424,
-  2619,
-  1037,
-  2978,
-  2714,
-  1999,
-  3504,
-  1998,
-  5848,
-  1012,
-  2065,
-  2017,
-  4384,
-  2259,
-  1005,
-  1055,
-  13954,
-  1997,
-  7004,
-  1999,
-  4178,
-  1997,
-  1045,
-  2293,
-  7004,
-  2066,
-  1996,
-  7967,
-  4713,
-  2030,
-  19300,
-  19510,
-  10696,
-  26517,
-  2078,
-  1010,
-  2498,
-  2003,
-  2714,
-  1999,
-  2151,
-  2126,
-  1011,
-  2014,
-  3670,
-  1010,
-  2376,
-  1010,
-  2030,
-  2929,
-  1012,
-  1026,
-  7987,
-  1013,
-  1028,
-  1026,
-  7987,
-  1013,
-  1028,
-  2000,
-  2327,
-  2009,
-  2035,
-  102],
- [101,
-  2040,
-  2024,
-  2122,
-  1000,
-  2027,
-  1000,
-  1011,
-  1996,
-  5889,
-  1029,
-  1996,
-  16587,
-  1029,
-  5121,
-  2481,
-  1005,
-  1056,
-  2022,
-  1996,
-  4378,
-  1011,
-  2023,
-  2003,
-  2426,
-  1996,
-  2087,
-  2250,
-  1011,
-  23893,
-  2098,
-  5453,
-  1999,
-  4598,
-  1012,
-  2009,
-  1005,
-  1055,
-  1996,
-  2785,
-  1997,
-  3185,
-  2008,
-  3504,
-  2066,
-  2009,
-  2001,
-  1037,
-  2843,
-  1997,
-  4569,
-  2000,
-  5607,
-  2205,
-  2172,
-  4569,
-  1010,
-  6343,
-  2003,
-  2893,
-  2151,
-  5025,
-  2147,
-  2589,
-  1010,
-  1998,
-  2008,
-  2471,
-  2467,
-  3084,
-  2005,
-  1037,
-  3185,
-  2008,
-  1005,
-  1055,
-  2053,
-  4569,
-  2000,
-  3422,
-  1012,
-  1026,
-  7987,
-  1013,
-  1028,
-  1026,
-  7987,
-  1013,
-  1028,
-  23168,
-  2123,
-  2015,
-  7877,
-  2061,
-  2004,
-  2000,
-  8691,
-  2188,
-  2010,
-  2839,
-  1005,
-  1055,
-  3570,
-  2004,
-  1037,
-  4066,
-  1997,
-  2079,
-  9397,
-  23115,
-  25121,
-  1997,
-  1996,
-  2022,
-  13102,
-  22471,
-  18630,
-  2094,
-  22132,
-  7847,
-  12303,
-  1025,
-  1996,
-  5019,
-  2007,
-  1996,
-  21986,
-  9096,
-  5796,
-  1012,
-  2358,
-  8609,
-  6528,
-  2024,
-  4086,
-  1010,
-  2021,
-  2031,
-  2019,
-  16436,
-  1010,
-  2298,
-  1011,
-  4364,
-  1011,
-  1045,
-  1005,
-  1049,
-  1011,
-  5306,
-  1011,
-  1996,
-  1011,
-  20877,
-  1011,
-  3035,
-  2514,
-  2000,
-  2068,
-  1012,
-  3841,
-  11721,
-  20715,
-  2527,
-  2998,
-  2010,
-  5156,
-  4937,
-  1005,
-  1055,
-  1011,
-  2288,
-  1011,
-  17154,
-  5861,
-  1999,
-  1037,
-  24495,
-  3535,
-  2000,
-  3449,
-  13331,
-  2618,
-  1996,
-  2033,
-  17325,
-  5436,
-  1010,
-  2029,
-  5942,
-  2032,
-  2000,
-  7323,
-  14166,
-  22004,
-  2007,
-  2035,
-  1996,
-  3037,
-  102],
- [101,
-  2023,
-  2003,
-  2056,
-  2000,
-  2022,
-  1037,
-  3167,
-  2143,
-  2005,
-  2848,
-  22132,
-  5280,
-  18891,
-  10649,
-  1012,
-  2002,
-  2241,
-  2009,
-  2006,
-  2010,
-  2166,
-  2021,
-  2904,
-  2477,
-  2105,
-  2000,
-  4906,
-  1996,
-  3494,
-  1010,
-  2040,
-  2024,
-  18145,
-  1012,
-  2122,
-  18145,
-  3058,
-  3376,
-  4275,
-  1998,
-  2031,
-  2053,
-  3291,
-  2893,
-  2068,
-  1012,
-  4165,
-  2062,
-  2066,
-  1037,
-  19965,
-  18286,
-  12127,
-  2084,
-  1037,
-  6317,
-  1010,
-  2987,
-  1005,
-  1056,
-  2009,
-  1029,
-  2023,
-  2972,
-  3185,
-  2001,
-  2517,
-  2011,
-  2848,
-  1010,
-  1998,
-  2009,
-  3065,
-  2129,
-  2041,
-  1997,
-  3543,
-  2007,
-  2613,
-  2111,
-  2002,
-  2001,
-  1012,
-  2017,
-  1005,
-  2128,
-  4011,
-  2000,
-  4339,
-  2054,
-  2017,
-  2113,
-  1010,
-  1998,
-  2002,
-  2106,
-  2008,
-  1010,
-  5262,
-  1012,
-  1998,
-  3727,
-  1996,
-  4378,
-  11471,
-  1998,
-  5457,
-  1010,
-  1998,
-  9981,
-  1010,
-  2005,
-  2008,
-  3043,
-  1012,
-  2023,
-  2003,
-  1037,
-  12731,
-  9488,
-  2005,
-  2111,
-  2040,
-  2215,
-  2000,
-  2156,
-  9984,
-  2358,
-  8609,
-  6528,
-  1010,
-  2040,
-  2001,
-  7129,
-  2157,
-  2044,
-  7467,
-  1012,
-  2021,
-  22732,
-  17179,
-  1010,
-  2040,
-  2052,
-  1010,
-  1999,
-  2613,
-  2166,
-  1010,
-  5914,
-  6766,
-  9712,
-  1010,
-  2001,
-  2036,
-  1037,
-  2944,
-  1010,
-  2066,
-  2358,
-  8609,
-  6528,
-  1010,
-  2021,
-  2003,
-  1037,
-  2843,
-  2488,
-  1998,
-  2038,
-  1037,
-  2062,
-  20851,
-  2112,
-  1012,
-  1999,
-  2755,
-  1010,
-  2358,
-  8609,
-  6528,
-  1005,
-  1055,
-  2112,
-  2790,
-  3140,
-  1025,
-  2794,
-  1012,
-  2016,
-  2987,
-  1005,
-  1056,
-  2031,
-  1037,
-  2843,
-  2000,
-  2079,
-  102]]
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Lower learning rates are often better for fine-tuning transformers</span>
+<span class="c1"># PRETRAINED_MODEL = &#39;distilbert-base-uncased&#39;</span>
+<span class="n">PRETRAINED_MODEL</span> <span class="o">=</span> <span class="s1">&#39;bert-base-cased&#39;</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">TFAutoModelForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">PRETRAINED_MODEL</span><span class="p">,</span> <span class="n">num_labels</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+
+
+<span class="n">tf_dataset_train_my</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">prepare_tf_dataset</span><span class="p">(</span><span class="n">ds_tokenized</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">],</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">)</span>
+
+<span class="c1"># Lower learning rates are often better for fine-tuning transformers</span>
 <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="n">Adam</span><span class="p">(</span><span class="mf">3e-5</span><span class="p">),</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">])</span>  <span class="c1"># No loss argument!</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:absl:At this time, the v2.11+ optimizer `tf.keras.optimizers.Adam` runs slowly on M1/M2 Macs, please use the legacy Keras optimizer instead, located at `tf.keras.optimizers.legacy.Adam`.
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tensorflow.keras.utils</span> <span class="kn">import</span> <span class="n">plot_model</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.utils</span> <span class="kn">import</span> <span class="n">plot_model</span>
 <span class="n">plot_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">show_shapes</span> <span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">tf_dataset_train_my</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "11ffb385cc794a3b9da1f19fab62f6bf", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "37df9d54427047499ab3f7887b14062c", "version_major": 2, "version_minor": 0}</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>All PyTorch model weights were used when initializing TFBertForSequenceClassification.
+
+Some weights or buffers of the TF 2.0 model TFBertForSequenceClassification were not initialized from the PyTorch model and are newly initialized: [&#39;classifier.weight&#39;, &#39;classifier.bias&#39;]
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+You&#39;re using a BertTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+WARNING:absl:At this time, the v2.11+ optimizer `tf.keras.optimizers.Adam` runs slowly on M1/M2 Macs, please use the legacy Keras optimizer instead, located at `tf.keras.optimizers.legacy.Adam`.
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
 To disable this warning, you can either:
 	- Avoid using `tokenizers` before the fork if possible
 	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
@@ -3351,152 +1432,36 @@ To disable this warning, you can either:
 	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
 </pre></div>
 </div>
-<img alt="../_images/8fc95f32f25c5a52e57aca03f30ba04add901538a7a5b6038504541eab69827b.png" src="../_images/8fc95f32f25c5a52e57aca03f30ba04add901538a7a5b6038504541eab69827b.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">tf_dataset_train</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/2
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-11-13 07:14:26.710497: E tensorflow/core/grappler/optimizers/meta_optimizer.cc:961] model_pruner failed: INVALID_ARGUMENT: Graph does not contain terminal node Adam/AssignAddVariableOp_10.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-03-12 20:37:25.651485: E tensorflow/core/grappler/optimizers/meta_optimizer.cc:961] model_pruner failed: INVALID_ARGUMENT: Graph does not contain terminal node Adam/AssignAddVariableOp_10.
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>250/250 [==============================] - 305s 1s/step - loss: 0.3269 - accuracy: 0.8562
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>140/140 [==============================] - 154s 939ms/step - loss: 1.2556 - accuracy: 0.5116
 Epoch 2/2
-250/250 [==============================] - 298s 1s/step - loss: 0.2021 - accuracy: 0.9192
+140/140 [==============================] - 112s 801ms/step - loss: 0.2717 - accuracy: 0.9050
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tf_dataset_test</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">prepare_tf_dataset</span><span class="p">(</span><span class="n">tokenized_datasets</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">],</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">tf_dataset_test</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tf_dataset_test_my</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">prepare_tf_dataset</span><span class="p">(</span><span class="n">ds_tokenized</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">],</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">tf_dataset_test_my</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>250/250 [==============================] - 95s 379ms/step - loss: 0.2553 - accuracy: 0.8991
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>60/60 [==============================] - 22s 303ms/step - loss: 0.1622 - accuracy: 0.9323
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.25525370240211487, 0.8991199731826782]
-</pre></div>
-</div>
-</div>
-</div>
-<section id="confusion-matrix">
-<h3>Confusion Matrix<a class="headerlink" href="#confusion-matrix" title="Permalink to this headline">#</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## tokenize test data &quot;text&quot;</span>
-<span class="n">X_test</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">tokenized_datasets</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">][</span><span class="s2">&quot;text&quot;</span><span class="p">],</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;np&quot;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="c1"># Tokenizer returns a BatchEncoding, but we convert that to a dict for Keras</span>
-<span class="n">X_test</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-
-<span class="c1">## get test data &quot;label&quot;</span>
-<span class="n">y_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tokenized_datasets</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">][</span><span class="s2">&quot;label&quot;</span><span class="p">])</span>  <span class="c1"># Label is already an array of 0 and 1</span>
-
-
-<span class="c1">## model prediction</span>
-<span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>782/782 [==============================] - 111s 141ms/step
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.16222473978996277, 0.9323333501815796]
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Get model predicted labels</span>
-<span class="n">predicted_categories</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">predictions</span><span class="o">.</span><span class="n">logits</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="nb">len</span><span class="p">(</span><span class="n">predicted_categories</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>25000
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">y_test</span><span class="p">[:</span><span class="mi">50</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">predicted_categories</span><span class="p">[:</span><span class="mi">50</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
- 0 0 0 0 0 0 0 0 0 0 0 0 0]
-[0 1 0 1 1 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 1 0 0 0 0 1 0 0 0 0
- 0 0 1 0 0 0 0 0 0 1 0 0 0]
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Confusion Matrix Report</span>
-<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span><span class="p">,</span><span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">ConfusionMatrixDisplay</span>
-
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">predicted_categories</span><span class="p">,</span>  <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">predicted_categories</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
-
-           0       0.92      0.87      0.90     12500
-           1       0.88      0.93      0.90     12500
-
-    accuracy                           0.90     25000
-   macro avg       0.90      0.90      0.90     25000
-weighted avg       0.90      0.90      0.90     25000
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Plot Confusion Matrix</span>
-<span class="n">disp</span> <span class="o">=</span> <span class="n">ConfusionMatrixDisplay</span><span class="o">.</span><span class="n">from_predictions</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">predicted_categories</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
-<span class="n">disp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/9156e2274a9aa8caa6f957727c2a3fce5be656a4cf127f4d91cd79501fcc5e11.png" src="../_images/9156e2274a9aa8caa6f957727c2a3fce5be656a4cf127f4d91cd79501fcc5e11.png" />
-<img alt="../_images/9156e2274a9aa8caa6f957727c2a3fce5be656a4cf127f4d91cd79501fcc5e11.png" src="../_images/9156e2274a9aa8caa6f957727c2a3fce5be656a4cf127f4d91cd79501fcc5e11.png" />
-</div>
-</div>
-</section>
+<p>=========</p>
 </section>
 <section id="check-gpu-availability">
 <h2>Check GPU Availability<a class="headerlink" href="#check-gpu-availability" title="Permalink to this headline">#</a></h2>
@@ -3528,7 +1493,7 @@ weighted avg       0.90      0.90      0.90     25000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python Platform: macOS-14.1-arm64-arm-64bit
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python Platform: macOS-14.3.1-arm64-arm-64bit
 Tensor Flow Version: 2.14.0
 
 Python 3.9.18 (main, Sep 11 2023, 08:25:10) 
@@ -3551,9 +1516,25 @@ GPU is available
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">sklearn</span> <span class="k">as</span> <span class="nn">sk</span>
 
+<span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">is_available</span><span class="p">())</span> <span class="c1">#the MacOS is higher than 12.3+</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">is_built</span><span class="p">())</span> <span class="c1">#MPS is activated</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## checking</span>
 <span class="n">has_gpu</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span>
-<span class="n">has_mps</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">torch</span><span class="p">,</span><span class="s1">&#39;has_mps&#39;</span><span class="p">,</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">device</span> <span class="o">=</span> <span class="s2">&quot;mps&quot;</span> <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">torch</span><span class="p">,</span><span class="s1">&#39;has_mps&#39;</span><span class="p">,</span><span class="kc">False</span><span class="p">)</span> \
+<span class="n">has_mps</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">is_built</span><span class="p">()</span>
+
+<span class="n">device</span> <span class="o">=</span> <span class="s2">&quot;mps&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">is_built</span><span class="p">()</span> \
     <span class="k">else</span> <span class="s2">&quot;gpu&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Python Platform: </span><span class="si">{</span><span class="n">platform</span><span class="o">.</span><span class="n">platform</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -3569,7 +1550,7 @@ GPU is available
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python Platform: macOS-14.1-arm64-arm-64bit
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python Platform: macOS-14.3.1-arm64-arm-64bit
 PyTorch Version: 2.2.0.dev20231112
 
 Python 3.9.18 (main, Sep 11 2023, 08:25:10) 
@@ -3579,12 +1560,6 @@ Scikit-Learn 1.3.2
 GPU is NOT AVAILABLE
 MPS (Apple Metal) is AVAILABLE
 Target device is mps
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/70/qfdgs0k52qj24jtjcz7d0dkm0000gn/T/ipykernel_87205/704418618.py:10: UserWarning: &#39;has_mps&#39; is deprecated, please use &#39;torch.backends.mps.is_built()&#39;
-  has_mps = getattr(torch,&#39;has_mps&#39;,False)
-/var/folders/70/qfdgs0k52qj24jtjcz7d0dkm0000gn/T/ipykernel_87205/704418618.py:11: UserWarning: &#39;has_mps&#39; is deprecated, please use &#39;torch.backends.mps.is_built()&#39;
-  device = &quot;mps&quot; if getattr(torch,&#39;has_mps&#39;,False) \
 </pre></div>
 </div>
 </div>
@@ -3654,6 +1629,8 @@ Target device is mps
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "8f424431b00e4fbb98331f34ad8b6805", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "9c3eccc417904d9e9a51abf269d07286", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "23579f450124467f91ca21d8a0936e66", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "4aab051639b342dfb2f90da1492a5c55", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "63308742eebb4aa7bfff88853d01723f", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "69b299c3c6114fb1ab8d0ed6d8859d48", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "9acaa1e223aa4b13bbf33c6ab604dd93", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "4b27cba153a14fa597dd5458df46b9bf", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "3e213ac40d7247d5a974b5237a33c74f", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -3712,13 +1689,7 @@ Target device is mps
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
-To disable this warning, you can either:
-	- Avoid using `tokenizers` before the fork if possible
-	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
-</pre></div>
-</div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "f5744e34c1ec492595ea22189f5e1301", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "130297cdbeba4dce8ac4a6314d1f9b1b", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "41a7e1be56f2427bb587c821641870c1", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "4bd87851d96d4f0fa404ff9bbdbde60b", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -3755,17 +1726,63 @@ To disable this warning, you can either:
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mps_device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;mps&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>torch.device(“mps”)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fine-tune DistilBERT classifier</span>
 <span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoModelForSequenceClassification</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;distilbert-base-uncased&quot;</span><span class="p">,</span> <span class="n">num_labels</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="c1"># model = model.to(&#39;mps&#39;)</span>
+<span class="c1"># device_map={&quot;&quot;:&quot;mps&quot;}</span>
+<span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">mps_device</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Some weights of DistilBertForSequenceClassification were not initialized from the model checkpoint at distilbert-base-uncased and are newly initialized: [&#39;pre_classifier.bias&#39;, &#39;classifier.weight&#39;, &#39;classifier.bias&#39;, &#39;pre_classifier.weight&#39;]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Some weights of DistilBertForSequenceClassification were not initialized from the model checkpoint at distilbert-base-uncased and are newly initialized: [&#39;classifier.weight&#39;, &#39;pre_classifier.weight&#39;, &#39;classifier.bias&#39;, &#39;pre_classifier.bias&#39;]
 You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DistilBertForSequenceClassification(
+  (distilbert): DistilBertModel(
+    (embeddings): Embeddings(
+      (word_embeddings): Embedding(30522, 768, padding_idx=0)
+      (position_embeddings): Embedding(512, 768)
+      (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+      (dropout): Dropout(p=0.1, inplace=False)
+    )
+    (transformer): Transformer(
+      (layer): ModuleList(
+        (0-5): 6 x TransformerBlock(
+          (attention): MultiHeadSelfAttention(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (q_lin): Linear(in_features=768, out_features=768, bias=True)
+            (k_lin): Linear(in_features=768, out_features=768, bias=True)
+            (v_lin): Linear(in_features=768, out_features=768, bias=True)
+            (out_lin): Linear(in_features=768, out_features=768, bias=True)
+          )
+          (sa_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+          (ffn): FFN(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (lin1): Linear(in_features=768, out_features=3072, bias=True)
+            (lin2): Linear(in_features=3072, out_features=768, bias=True)
+            (activation): GELUActivation()
+          )
+          (output_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+        )
+      )
+    )
+  )
+  (pre_classifier): Linear(in_features=768, out_features=768, bias=True)
+  (classifier): Linear(in_features=768, out_features=2, bias=True)
+  (dropout): Dropout(p=0.2, inplace=False)
+)
 </pre></div>
 </div>
 </div>
@@ -3774,7 +1791,7 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">TrainingArguments</span><span class="p">,</span> <span class="n">Trainer</span>
 
-<span class="n">training_args</span> <span class="o">=</span> <span class="n">TrainingArguments</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;test_trainer&quot;</span><span class="p">,</span> <span class="n">use_mps_device</span><span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">no_cuda</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">training_args</span> <span class="o">=</span> <span class="n">TrainingArguments</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;test_trainer&quot;</span><span class="p">)</span><span class="c1">#, use_mps_device= True, no_cuda = True)</span>
 <span class="c1">## Transformers still does not support m2 for GPU computing</span>
 <span class="c1">## mps not working with m2 chip</span>
 
@@ -3792,6 +1809,37 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
 <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">eval_dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">predictions</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">logits</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "3859cb15a7194ee68c3c9719b897dca5", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;train_runtime&#39;: 58.4428, &#39;train_samples_per_second&#39;: 51.332, &#39;train_steps_per_second&#39;: 6.417, &#39;train_loss&#39;: 0.28378061930338544, &#39;epoch&#39;: 3.0}
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">66</span><span class="p">],</span> <span class="n">line</span> <span class="mi">19</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="c1"># Evaluate</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="ne">---&gt; </span><span class="mi">19</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">eval_dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="g g-Whitespace">     </span><span class="mi">20</span> <span class="n">predictions</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">logits</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="nn">File ~/anaconda3/envs/tensorflowgpu/lib/python3.9/site-packages/torch/nn/modules/module.py:1510,</span> in <span class="ni">Module._wrapped_call_impl</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1508</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compiled_call_impl</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore[misc]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1509</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1510</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_impl</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~/anaconda3/envs/tensorflowgpu/lib/python3.9/site-packages/torch/nn/modules/module.py:1519,</span> in <span class="ni">Module._call_impl</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1514</span> <span class="c1"># If we don&#39;t have any hooks, we want to skip the rest of the logic in</span>
+<span class="g g-Whitespace">   </span><span class="mi">1515</span> <span class="c1"># this function, and just call forward.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1516</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_backward_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backward_pre_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_pre_hooks</span>
+<span class="g g-Whitespace">   </span><span class="mi">1517</span>         <span class="ow">or</span> <span class="n">_global_backward_pre_hooks</span> <span class="ow">or</span> <span class="n">_global_backward_hooks</span>
+<span class="g g-Whitespace">   </span><span class="mi">1518</span>         <span class="ow">or</span> <span class="n">_global_forward_hooks</span> <span class="ow">or</span> <span class="n">_global_forward_pre_hooks</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">1519</span>     <span class="k">return</span> <span class="n">forward_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1521</span> <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1522</span>     <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="ne">TypeError</span>: forward() got an unexpected keyword argument &#39;text&#39;
 </pre></div>
 </div>
 </div>
@@ -3840,11 +1888,11 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
       </div>
     </a>
     <a class="right-next"
-       href="../exercise/1-python-basics.html"
+       href="langchain-introduction.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">1. </span>Assignment I: Python Basics</p>
+        <p class="prev-next-title">Langchain: An Introduction</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -3871,15 +1919,14 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mount-googe-drive">Mount Googe Drive</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#text-preprocessing">Text Preprocessing</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-tokenizer">Loading Tokenizer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bert-tokenization">BERT Tokenization</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-training">Model Training</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-fitting">Model Fitting</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation">Evaluation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-transformer-based-classifiers-directly">Using Transformer-based Classifiers Directly</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fine-tune-with-tensorflow-keras">Fine-tune with Tensorflow Keras</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#confusion-matrix">Confusion Matrix</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-fine-tuning-methods-self-study">Other Fine-tuning Methods (Self-Study)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fine-tune-with-tensorflow-keras">Fine-tune with Tensorflow Keras</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-gpu-availability">Check GPU Availability</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fine-tune-with-pytorch-trainer-not-working-with-mac-m2">Fine-tune with PyTorch Trainer (Not working with Mac M2)</a></li>
 </ul>

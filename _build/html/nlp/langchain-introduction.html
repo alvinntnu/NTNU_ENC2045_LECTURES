@@ -1,0 +1,1423 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Langchain: An Introduction &#8212; ENC2045 Computational Linguistics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mycss.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'nlp/langchain-introduction';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chatbot Using Langchain" href="langchain-chatbots.html" />
+    <link rel="prev" title="Transfer Learning Using BERT" href="dl-fine-tuning-bert.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/ntnu-word-2.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/ntnu-word-2.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">INTRODUCTION</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="nlp-primer.html">Natural Language Processing: A Primer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nlp-pipeline.html">NLP Pipeline</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Preprocessing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="text-preprocessing.html">Text Preprocessing</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="text-normalization-eng.html">Text Normalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="text-tokenization.html">Text Tokenization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="text-enrichment.html">Text Enrichment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chinese-word-seg.html">Chinese Word Segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="google-colab.html">Google Colab</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Text Vectorization</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="text-vec-traditional.html">Text Vectorization Using Traditional Methods</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning Basics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ml-overview.html">Machine Learning: Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ml-simple-case.html">Machine Learning: A Simple Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ml-algorithm.html">Classification Models</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine-Learning NLP</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ml-sklearn-classification.html">Sentiment Analysis Using Bag-of-Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ml-emsemble-learning.html">Emsemble Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topic-modeling-naive.html">Topic Modeling: A Naive Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../temp/fake-news-detection.html">Fake News Detection</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning NLP</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="dl-neural-network-from-scratch.html">Neural Network From Scratch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-simple-case.html">Deep Learning: A Simple Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-sentiment-case.html">Deep Learning: Sentiment Analysis</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Neural Language Model and Embeddings</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="dl-sequence-models-intuition.html">Sequence Models Intuition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-neural-language-model-primer.html">Neural Language Model: A Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="text-vec-embedding.html">Word Embeddings</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sequence Models, Attention, Transformers</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="dl-attention-transformer-intuition.html">Attention and Transformers: Intuitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-seq-to-seq-attention-addition.html">Sequence Model with Attention for Addition Learning</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">LLM</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="langchain-llm-intro.html">Large Language Model (Under Construction…)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-fine-tuning-bert.html">Transfer Learning Using BERT</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Langchain: An Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="langchain-chatbots.html">Chatbot Using Langchain</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Exercises</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../exercise/1-python-basics.html">1. Assignment I: Python Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/3-preprocessing.html">2. Assignment II: Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/4-chinese-nlp.html">3. Assignment III: Chinese Language Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/5-text-vectorization.html">4. Assignment IV: Text Vectorization</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/alvinntnu/NTNU_ENC2045_LECTURES/blob/main/nlp/langchain-introduction.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/nlp/langchain-introduction.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Langchain: An Introduction</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-langchain">What is Langchain?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#integration-of-large-language-models-llms">1. Integration of Large Language Models (LLMs):</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#addressing-specific-information-needs">2. Addressing Specific Information Needs:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-data-referencing">3. Dynamic Data Referencing:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pipeline-for-language-model-applications">4. Pipeline for Language Model Applications:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-use-cases">5. Practical Use Cases:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-components-of-langchain">6. Key Components of Langchain:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-development-and-expansion">7. Continuous Development and Expansion:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install">Install</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-setup">API Setup</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-environment-variables-in-a-env-file">Saving Environment Variables in a <code class="docutils literal notranslate"><span class="pre">.env</span></code> File:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-dotenv-in-python-to-load-environment-variables">Using <code class="docutils literal notranslate"><span class="pre">dotenv</span></code> in Python to Load Environment Variables:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#notes">Notes:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-query">Basic Query</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#messages">Messages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prompt-template">Prompt Template</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chain">Chain</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chaining-a-series-of-prompts">Chaining A Series of Prompts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#retrieval-augmented-generation">Retrieval-Augmented Generation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chat-history-management">Chat History Management</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memory">Memory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="langchain-an-introduction">
+<h1>Langchain: An Introduction<a class="headerlink" href="#langchain-an-introduction" title="Permalink to this headline">#</a></h1>
+<p><img alt="" src="https://python.langchain.com/svg/langchain_stack.svg" />
+<em>This image is from <a class="reference external" href="https://python.langchain.com/docs/get_started/introduction">Langchain official documentation</a>.</em></p>
+<section id="what-is-langchain">
+<h2>What is Langchain?<a class="headerlink" href="#what-is-langchain" title="Permalink to this headline">#</a></h2>
+<p>Langchain is an open-source framework designed for developers working with artificial intelligence (AI). It facilitates the integration of large language models (LLMs) like GPT-4 with external sources of computation and data. Here’s a breakdown of Langchain’s key components and functionalities:</p>
+<section id="integration-of-large-language-models-llms">
+<h3>1. Integration of Large Language Models (LLMs):<a class="headerlink" href="#integration-of-large-language-models-llms" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>Langchain allows developers to seamlessly connect LLMs such as GPT-4 to external data sources and computation platforms.</p></li>
+<li><p>This integration enables developers to leverage the vast knowledge and capabilities of LLMs in combination with their own data and applications.</p></li>
+</ul>
+</section>
+<section id="addressing-specific-information-needs">
+<h3>2. Addressing Specific Information Needs:<a class="headerlink" href="#addressing-specific-information-needs" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>While LLMs like GPT-4 possess extensive general knowledge, Langchain addresses the need for specific information from proprietary or domain-specific data sources.</p></li>
+<li><p>Developers can utilize Langchain to connect LLMs to their own datasets, including documents, PDF files, or proprietary databases.</p></li>
+</ul>
+</section>
+<section id="dynamic-data-referencing">
+<h3>3. Dynamic Data Referencing:<a class="headerlink" href="#dynamic-data-referencing" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>Unlike traditional methods that involve pasting snippets of text into chat prompts, Langchain allows for referencing entire databases of proprietary data.</p></li>
+<li><p>Developers can segment their data into smaller chunks and store them in a vector database as embeddings, enabling efficient referencing and retrieval.</p></li>
+</ul>
+</section>
+<section id="pipeline-for-language-model-applications">
+<h3>4. Pipeline for Language Model Applications:<a class="headerlink" href="#pipeline-for-language-model-applications" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>Langchain facilitates the development of language model applications following a structured pipeline.</p></li>
+<li><p>The pipeline typically involves:</p>
+<ul>
+<li><p>User input: Initial questions or queries from users.</p></li>
+<li><p>Language model interaction: Sending user input to the LLM for processing.</p></li>
+<li><p>Similarity search: Matching user queries with relevant data chunks in the vector database.</p></li>
+<li><p>Action or response: Providing answers or taking actions based on the combined information from the LLM and vector database.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="practical-use-cases">
+<h3>5. Practical Use Cases:<a class="headerlink" href="#practical-use-cases" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>Langchain’s capabilities enable a wide range of practical applications, particularly in personal assistance, education, and data analytics.</p></li>
+<li><p>Examples include booking flights, transferring money, learning new subjects, and analyzing company data for insights.</p></li>
+</ul>
+</section>
+<section id="key-components-of-langchain">
+<h3>6. Key Components of Langchain:<a class="headerlink" href="#key-components-of-langchain" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p><strong>LLM Wrappers:</strong> Facilitate connection to LLMs like GPT-4.</p></li>
+<li><p><strong>Prompt Templates:</strong> Dynamically generate prompts for LLMs based on user input.</p></li>
+<li><p><strong>Indexes:</strong> Extract relevant information from datasets for LLM processing.</p></li>
+<li><p><strong>Chains:</strong> Combine multiple components to build LLM applications following a specific task.</p></li>
+<li><p><strong>Agents:</strong> Enable LLMs to interact with external APIs for additional functionality.</p></li>
+</ul>
+</section>
+<section id="continuous-development-and-expansion">
+<h3>7. Continuous Development and Expansion:<a class="headerlink" href="#continuous-development-and-expansion" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>Langchain is continually evolving, with new features and capabilities being added regularly.</p></li>
+<li><p>The framework offers a flexible and scalable solution for developers looking to integrate LLMs into their applications.</p></li>
+</ul>
+<p>In summary, Langchain provides developers with a powerful framework for harnessing the capabilities of LLMs and integrating them with external data sources, enabling the development of sophisticated language model applications across various domains.</p>
+</section>
+</section>
+<section id="install">
+<h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pip install langchain</span>
+<span class="c1"># pip install langchain-community</span>
+<span class="c1"># pip install langchain-core</span>
+<span class="c1"># pip install -U langchain-openai</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#!pip install langchain openai weaviate-client</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="api-setup">
+<h2>API Setup<a class="headerlink" href="#api-setup" title="Permalink to this headline">#</a></h2>
+<p>To save environment variables in a <code class="docutils literal notranslate"><span class="pre">.env</span></code> file and use the <code class="docutils literal notranslate"><span class="pre">dotenv</span></code> library in Python to load them, follow these steps:</p>
+<section id="saving-environment-variables-in-a-env-file">
+<h3>Saving Environment Variables in a <code class="docutils literal notranslate"><span class="pre">.env</span></code> File:<a class="headerlink" href="#saving-environment-variables-in-a-env-file" title="Permalink to this headline">#</a></h3>
+<ol class="arabic">
+<li><p>Create a new file in your project directory and name it <code class="docutils literal notranslate"><span class="pre">.env</span></code>. This file will store your environment variables.</p></li>
+<li><p>Add your environment variables to the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file in the format <code class="docutils literal notranslate"><span class="pre">VARIABLE_NAME=variable_value</span></code>. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OPENAI_API_KEY</span><span class="o">=</span><span class="n">your_api_key</span>
+<span class="n">DATABASE_URL</span><span class="o">=</span><span class="n">your_database_url</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="using-dotenv-in-python-to-load-environment-variables">
+<h3>Using <code class="docutils literal notranslate"><span class="pre">dotenv</span></code> in Python to Load Environment Variables:<a class="headerlink" href="#using-dotenv-in-python-to-load-environment-variables" title="Permalink to this headline">#</a></h3>
+<ol class="arabic" start="3">
+<li><p>Install the <code class="docutils literal notranslate"><span class="pre">dotenv</span></code> library if you haven’t already installed it. You can install it using pip:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">dotenv</span>
+</pre></div>
+</div>
+</li>
+<li><p>In your Python script, import the <code class="docutils literal notranslate"><span class="pre">dotenv</span></code> module:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">load_dotenv</span>
+</pre></div>
+</div>
+</li>
+<li><p>Load the environment variables from the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file using the <code class="docutils literal notranslate"><span class="pre">load_dotenv()</span></code> function. Place this line at the beginning of your script:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">load_dotenv</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+<li><p>Access the environment variables in your Python script using the <code class="docutils literal notranslate"><span class="pre">os.environ</span></code> dictionary. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">api_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;API_KEY&#39;</span><span class="p">)</span>
+<span class="n">database_url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;DATABASE_URL&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;API Key:&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Database URL:&quot;</span><span class="p">,</span> <span class="n">database_url</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="notes">
+<h3>Notes:<a class="headerlink" href="#notes" title="Permalink to this headline">#</a></h3>
+<ul>
+<li><p>Make sure to add the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file to your project’s <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> file to prevent sensitive information from being exposed.</p></li>
+<li><p>You can also specify the path to the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file if it’s located in a different directory:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">load_dotenv</span><span class="p">(</span><span class="s1">&#39;/path/to/your/env/file/.env&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>By following these steps, you can save environment variables in a <code class="docutils literal notranslate"><span class="pre">.env</span></code> file and use the <code class="docutils literal notranslate"><span class="pre">dotenv</span></code> library in Python to load them into your script. This approach helps keep sensitive information separate from your codebase and makes it easier to manage environment variables in your projects.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load environment variables</span>
+
+<span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">load_dotenv</span><span class="p">,</span><span class="n">find_dotenv</span>
+<span class="n">load_dotenv</span><span class="p">(</span><span class="n">find_dotenv</span><span class="p">())</span>
+<span class="n">load_dotenv</span><span class="p">(</span><span class="s1">&#39;/Users/alvinchen/.env&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">find_dotenv</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;/Users/alvinchen/.env&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="basic-query">
+<h2>Basic Query<a class="headerlink" href="#basic-query" title="Permalink to this headline">#</a></h2>
+<p><img alt="" src="https://python.langchain.com/assets/images/model_io-e6fc0045b7eae0377a4ddeb90dc8cdb8.jpg" />
+<em>This image is from <a class="reference external" href="https://python.langchain.com/docs/modules/model_io/">Langchain official documentation</a>.</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## initialize Chat model</span>
+<span class="kn">from</span> <span class="nn">langchain_openai</span> <span class="kn">import</span> <span class="n">ChatOpenAI</span>
+<span class="n">chat</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;gpt-4&quot;</span><span class="p">,</span><span class="n">temperature</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Interact with the Chat model immediately</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">chat</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;explain large language models in one sentence&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Large language models are advanced machine learning algorithms designed to understand and generate human-like text by being trained on a vast amount of data.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="messages">
+<h2>Messages<a class="headerlink" href="#messages" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import schema for chat messages and ChatOpenAI in order to query chatmodels GPT-3.5-turbo or GPT-4</span>
+
+<span class="kn">from</span> <span class="nn">langchain_core.messages</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">HumanMessage</span><span class="p">,</span>
+    <span class="n">SystemMessage</span><span class="p">,</span>
+    <span class="n">AIMessage</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chat</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;gpt-3.5-turbo&quot;</span><span class="p">,</span><span class="n">temperature</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">SystemMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">&quot;You are an expert data scientist&quot;</span><span class="p">),</span>
+    <span class="n">HumanMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">&quot;Write a Python script that trains a neural network on simulated data &quot;</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">response</span><span class="o">=</span><span class="n">chat</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sure, here is an example Python script using the popular deep learning library TensorFlow to train a simple neural network on simulated data:
+
+```python
+import numpy as np
+import tensorflow as tf
+
+# Generate simulated data
+np.random.seed(0)
+X = np.random.rand(100, 2)
+y = np.random.randint(0, 2, 100)
+
+# Define the neural network architecture
+model = tf.keras.models.Sequential([
+    tf.keras.layers.Dense(10, activation=&#39;relu&#39;, input_shape=(2,)),
+    tf.keras.layers.Dense(1, activation=&#39;sigmoid&#39;)
+])
+
+# Compile the model
+model.compile(optimizer=&#39;adam&#39;, loss=&#39;binary_crossentropy&#39;, metrics=[&#39;accuracy&#39;])
+
+# Train the model
+model.fit(X, y, epochs=10, batch_size=32)
+
+# Evaluate the model
+loss, accuracy = model.evaluate(X, y)
+print(f&#39;Loss: {loss}, Accuracy: {accuracy}&#39;)
+```
+
+In this script, we first generate simulated data with 2 features and binary labels. We then define a simple neural network with one hidden layer of 10 neurons and an output layer with a sigmoid activation function. We compile the model with binary crossentropy loss and train it on the simulated data for 10 epochs.
+
+Finally, we evaluate the model on the training data and print out the loss and accuracy. You can modify this script to experiment with different neural network architectures, loss functions, optimizers, and hyperparameters.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="prompt-template">
+<h2>Prompt Template<a class="headerlink" href="#prompt-template" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import prompt and define PromptTemplate</span>
+
+<span class="kn">from</span> <span class="nn">langchain_core.prompts</span> <span class="kn">import</span> <span class="n">PromptTemplate</span>
+
+<span class="n">template</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">You are a college professor with an expertise in building deep learning models. </span>
+<span class="s2">Answer the answer of </span><span class="si">{question}</span><span class="s2"> like I am five.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">prompt</span> <span class="o">=</span> <span class="n">PromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span>
+    <span class="n">template</span><span class="o">=</span><span class="n">template</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run LLM with PromptTemplate</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">chat</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">question</span><span class="o">=</span><span class="s2">&quot;What is backpropogation?&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Backpropagation is like a teacher helping you learn how to ride a bike by telling you what you did wrong and how to fix it, so you can get better and better at riding without falling off.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="chain">
+<h2>Chain<a class="headerlink" href="#chain" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span> <span class="o">=</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">chat</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;What is gradient descent?&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Imagine you are trying to find the bottom of a hill by taking small steps downhill. Gradient descent is like a magical way to figure out which direction to step in order to get to the bottom of the hill faster. It helps us adjust our steps so we can reach the bottom of the hill (or the best solution) in the quickest way possible.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain_core.output_parsers</span> <span class="kn">import</span> <span class="n">StrOutputParser</span>
+
+<span class="n">chain2</span> <span class="o">=</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">chat</span> <span class="o">|</span> <span class="n">StrOutputParser</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain2</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;What is gradient descent?&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Imagine you are trying to find the bottom of a big slide in a playground. Gradient descent is like taking small steps down the slide until you reach the bottom. It helps us find the best way to adjust our deep learning model to make it work better.&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="chaining-a-series-of-prompts">
+<h2>Chaining A Series of Prompts<a class="headerlink" href="#chaining-a-series-of-prompts" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import LLMChain and define chain with language model and prompt as arguments.</span>
+
+<span class="kn">from</span> <span class="nn">langchain.chains</span> <span class="kn">import</span> <span class="n">LLMChain</span>
+<span class="n">chain</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">chat</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">)</span>
+
+<span class="c1"># Run the chain only specifying the input variable.</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;what is derivative?&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;question&#39;: &#39;what is derivative?&#39;, &#39;text&#39;: &quot;Imagine you are playing with a toy car on a track that goes up and down hills. The derivative is like looking at how fast the car is going at different points on the track. If the car is going uphill, the derivative tells us how steep the hill is. If the car is going downhill, the derivative tells us how fast it&#39;s speeding up. It helps us understand how things are changing at different moments.&quot;}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a second prompt </span>
+
+<span class="n">second_prompt</span> <span class="o">=</span> <span class="n">PromptTemplate</span><span class="p">(</span>
+    <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;prev_ans&quot;</span><span class="p">],</span>
+    <span class="n">template</span><span class="o">=</span><span class="s2">&quot;Translate the answer description of </span><span class="si">{prev_ans}</span><span class="s2"> in traditional Chinese&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">chain_two</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">chat</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="n">second_prompt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a sequential chain using the two chains above: the second chain takes the output of the first chain as input</span>
+
+<span class="kn">from</span> <span class="nn">langchain.chains</span> <span class="kn">import</span> <span class="n">SimpleSequentialChain</span>
+<span class="n">overall_chain</span> <span class="o">=</span> <span class="n">SimpleSequentialChain</span><span class="p">(</span><span class="n">chains</span><span class="o">=</span><span class="p">[</span><span class="n">chain</span><span class="p">,</span> <span class="n">chain_two</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Run the chain specifying only the input variable for the first chain.</span>
+<span class="n">explanation</span> <span class="o">=</span> <span class="n">overall_chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;what is gradient descent?&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">&gt; Entering new SimpleSequentialChain chain...</span>
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">Imagine you are trying to find the bottom of a hill by taking small steps downhill. Gradient descent is like taking tiny steps in the direction that will help you reach the bottom of the hill faster. It&#39;s a method used by computers to adjust and improve their predictions in deep learning models.</span>
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">想像一下，你正在尝试通过小步走下坡来找到山脚下。梯度下降就像是在朝着能让你更快到达山脚下的方向迈出微小步伐。这是计算机在深度学习模型中用来调整和改进预测的方法。</span>
+
+<span class=" -Color -Color-Bold">&gt; Finished chain.</span>
+{&#39;input&#39;: &#39;what is gradient descent?&#39;, &#39;output&#39;: &#39;想像一下，你正在尝试通过小步走下坡来找到山脚下。梯度下降就像是在朝着能让你更快到达山脚下的方向迈出微小步伐。这是计算机在深度学习模型中用来调整和改进预测的方法。&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import utility for splitting up texts and split up the explanation given above into document chunks</span>
+
+<span class="kn">from</span> <span class="nn">langchain.text_splitter</span> <span class="kn">import</span> <span class="n">RecursiveCharacterTextSplitter</span>
+
+<span class="n">text_splitter</span> <span class="o">=</span> <span class="n">RecursiveCharacterTextSplitter</span><span class="p">(</span>
+    <span class="n">chunk_size</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="n">chunk_overlap</span>  <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">texts</span> <span class="o">=</span> <span class="n">text_splitter</span><span class="o">.</span><span class="n">create_documents</span><span class="p">([</span><span class="n">explanation</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Individual text chunks can be accessed with &quot;page_content&quot;</span>
+
+<span class="n">texts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">page_content</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;想像一下你盲目地试图找到山坡的底部。梯度下降就像是在感觉最陡峭的方向上小步往下走，这样你最终会到达最&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="retrieval-augmented-generation">
+<h2>Retrieval-Augmented Generation<a class="headerlink" href="#retrieval-augmented-generation" title="Permalink to this headline">#</a></h2>
+<p><img alt="" src="https://python.langchain.com/assets/images/data_connection-95ff2033a8faa5f3ba41376c0f6dd32a.jpg" />
+<em>This image is from <a class="reference external" href="https://python.langchain.com/docs/modules/data_connection/">Langchain official documentation</a>.</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain_community.document_loaders</span> <span class="kn">import</span> <span class="n">PyPDFLoader</span>
+
+<span class="n">loader</span> <span class="o">=</span> <span class="n">PyPDFLoader</span><span class="p">(</span><span class="s2">&quot;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&quot;</span><span class="p">)</span> <span class="c1"># /Users/alvinchen/Library/CloudStorage/GoogleDrive-alvinworks@gmail.com/My Drive/ENC2045_demo_data/ENC2045Syllabus.pdf</span>
+<span class="n">pages</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pages</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Document(page_content=&#39;ENC2045: Computational Linguistics\nThis site is last-updated on 2024-02-23\n Annoucements\nImportant course information will be posted on this web page and announced in class. You are responsible for all material that appears\nhere and should check this page for updates frequently.\n2024-02-23: The current version of the course website is based on the Spring Semester, 2021. It will be updated for the spring\nof 2024.\n2023-12-24: This course is designed for linguistics majors. If you are NOT a linguistics major, please contact the instructor for\ncourse enrollment.\n2023-12-24: This course has prerequisites. A test on python basics will be conducted at the beginning of the semester. Please\nread the FAQ (FAQ.html) very carefully. This course is NOT OPEN to auditors.\n Course Description\nComputational Linguistics (CL) is now a very active sub-discipline in applied linguistics. Its main focus is on the computational text\nanalytics, which is essentially about leveraging computational tools, techniques, and algorithms to process and understand natural\nlanguage data (in spoken or textual formats). Therefore, this course aims to introduce useful strategies and common work\x00ows that\nhave been widely adopted by data scientists to extract useful insights from natural language data. In this course, we will focus on\ntextual data processing.\nA selective collection of potential topics may include:\nA Pipeline for Natural Language Processing\nText Normalization\nText Tokenization\nParsing and Chunking\nIssues for Chinese Language Processing (Word Segmentation)\nFeature Engineering and Text Vectorization\nTraditional Machine Learning\nClassi\x00cation Models (Naive Bayes, SVM, Logistic Regression)\nCommon Computational Tasks:\nSentiment Analysis\nTex Clustering and Topic Modeling\nDeep Learning and Neural Network\nNeural Language Model\nSequence Models\nRNN\nLSTM/GRU\nSequence-to-sequence Model\nAttention-based Models\nTransfer Learning\nLarge Language Models(LLM) &amp; Retrieval-Augmented Generation (RAG)\nMultimodal Processing\nThis course is extremely hands-on and will guide the students through classic examples of many task-oriented implementations via in-\nclass theme-based tutorial sessions. The main coding language used in this course is Python  (https://www.python.org/). We will\nmake extensive use of the language. It is assumed that you know or will quickly learn how to code in Python. In fact, this course\nassumes that every enrolled student has working knowledge of Python. (If you are not sure if you ful\x00ll the prerequisite, please\ncontact the instructor \x00rst.)&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 0}),
+ Document(page_content=&#39;A test on Python Basics will be conducted on the \x00rst week of the class to ensure that every enrolled student ful\x00lls the prerequisite.\n(To be more speci\x00c, you are assumed to have already had working knowledge of all the concepts included in the book, Lean Python:\nLearn Just Enough Python to Build Useful Tools (https://www.amazon.com/Lean-Python-Learn-Enough-Useful/dp/1484223845)).\nThose who fail on the Python basics test are NOT advised to take this course.\nPlease note that this course is designed speci\x00cally for linguistics majors in humanities. For computer science majors, please note that\nthis course will not feature a thorough description of the mathematical operations behind the algorithms. We focus more on the\npractical implementation.\n Course Schedule\n(The schedule is tentative and subject to change. Please pay attention to the announcements made during the class.)\nWeek Date Topic\nWeek 1 2023-02-23 Course Orientation and Computational Linguistics Overview\nWeek 2 2023-03-01 NLP Pipeline\nWeek 3 2023-03-08 Machine Learning Basics: Regression and Classi\x00cation\nWeek 4 2023-03-15 Naïve Bayes, Logistic Regression\nWeek 5 2023-03-22 Feature Engineering and Text Vectorization\nWeek 6 2023-03-29 Common NLP Tasks (Guest Speaker: Robin Lin from Droidtown Linguistic Tech. Co.\xa0Ltd.\xa0)\nWeek 7 2023-04-05 Holiday\nWeek 8 2023-04-12 Midterm Exam\nWeek 9 2023-04-19 Neural Network: A Primer\nWeek 10 2023-04-26 Deep Learning NLP and Word/Doc Embeddings\nWeek 11 2023-05-03 Sequence Model I: RNN and Neural Language Model\nWeek 12 2023-05-10 Sequence Model II: LSTM and GRU\nWeek 13 2023-05-17 Sequence Model III: Sequence-to-Sequence Model &amp; Attention\nWeek 14 2023-05-24 Transformer, BERT, Transfer Learning, and Explainable AI\nWeek 15 2023-05-31 LLM, RAG, and Multimodal Processing\nWeek 16 2023-06-07 Final Exam\n Course Requirement\n&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 1}),
+ Document(page_content=&#39; Course Materials\nAll the course materials are available on the course website. Please consult the instructor for the direct link to the course materials.\nThey will be provided as a series of online packets (i.e., handouts, script source codes etc.) on the course website.\n Logistics\nCourse Website: ENC2045 Computational Linguistics (https://alvinntnu.github.io/NTNU_ENC2045/)\nInstructor’s Email Address: alvinchen@ntnu.edu.tw (mailto:alvinchen@ntnu.edu.tw)\nInstructor’s Name: Alvin Chen\nOf\x00ce Hours: By appointment\nIf you have any further questions related to the course, please consult FAQ (FAQ.html) on our course website or write me at any time\nat alvinchen@ntnu.edu.tw (mailto:alvinchen@ntnu.edu.tw).\n Disclaimer &amp; Agreement\nWhile I have made every attempt to ensure that the information contained on the Website is correct, I am not responsible for any\nerrors or omissions, or for the results obtained from the use of this information. All information on the Website is provided “as is”, with\nno guarantee of completeness, accuracy, timeliness or of the results obtained from the use of this information, and without warranty\nof any kind, express or implied.\nYou may print a copy of any part of this website for your personal or non-commercial use. Without the author’s prior written consent,\nyou cannot disclose con\x00dential information of the website (e.g., log-in username and password) to any third party.&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 2})]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## We can load webpages as context documents</span>
+<span class="c1"># import bs4</span>
+<span class="c1"># from langchain_community.document_loaders import WebBaseLoader</span>
+<span class="c1"># loader = WebBaseLoader(&quot;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&quot;)</span>
+<span class="c1"># pages = loader.load()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain_community.vectorstores</span> <span class="kn">import</span> <span class="n">FAISS</span>
+<span class="kn">from</span> <span class="nn">langchain_openai</span> <span class="kn">import</span> <span class="n">OpenAIEmbeddings</span>
+<span class="kn">from</span> <span class="nn">langchain_text_splitters</span> <span class="kn">import</span> <span class="n">RecursiveCharacterTextSplitter</span>
+
+
+<span class="n">text_splitter</span> <span class="o">=</span> <span class="n">RecursiveCharacterTextSplitter</span><span class="p">()</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">OpenAIEmbeddings</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;text-embedding-3-large&quot;</span><span class="p">)</span>
+
+
+<span class="n">documents</span> <span class="o">=</span> <span class="n">text_splitter</span><span class="o">.</span><span class="n">split_documents</span><span class="p">(</span><span class="n">pages</span><span class="p">)</span>
+<span class="n">vector</span> <span class="o">=</span> <span class="n">FAISS</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">)</span>
+
+
+<span class="n">docs</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">similarity_search</span><span class="p">(</span><span class="s2">&quot;What is ENC2045?&quot;</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;page&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">doc</span><span class="o">.</span><span class="n">page_content</span><span class="p">[:</span><span class="mi">300</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0: ENC2045: Computational Linguistics
+This site is last-updated on 2024-02-23
+ Annoucements
+Important course information will be posted on this web page and announced in class. You are responsible for all material that appears
+here and should check this page for updates frequently.
+2024-02-23: The curr
+2: Course Materials
+All the course materials are available on the course website. Please consult the instructor for the direct link to the course materials.
+They will be provided as a series of online packets (i.e., handouts, script source codes etc.) on the course website.
+ Logistics
+Course Website: E
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">create_stuff_documents_chain()</span></code>: This chain takes a list of documents and formats them all into a prompt, then passes that prompt to an LLM. It passes ALL documents, so you should make sure it fits within the context window the LLM you are using.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">create_retrieval_chain()</span></code>: This chain takes in a user inquiry, which is then passed to the retriever to fetch relevant documents. Those documents (and original inputs) (done by the <code class="docutils literal notranslate"><span class="pre">create_stuff_documents_chain()</span></code>) are then passed to an LLM to generate a response</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">documents</span><span class="p">[:</span><span class="mi">7</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Document(page_content=&#39;ENC2045: Computational Linguistics\nThis site is last-updated on 2024-02-23\n Annoucements\nImportant course information will be posted on this web page and announced in class. You are responsible for all material that appears\nhere and should check this page for updates frequently.\n2024-02-23: The current version of the course website is based on the Spring Semester, 2021. It will be updated for the spring\nof 2024.\n2023-12-24: This course is designed for linguistics majors. If you are NOT a linguistics major, please contact the instructor for\ncourse enrollment.\n2023-12-24: This course has prerequisites. A test on python basics will be conducted at the beginning of the semester. Please\nread the FAQ (FAQ.html) very carefully. This course is NOT OPEN to auditors.\n Course Description\nComputational Linguistics (CL) is now a very active sub-discipline in applied linguistics. Its main focus is on the computational text\nanalytics, which is essentially about leveraging computational tools, techniques, and algorithms to process and understand natural\nlanguage data (in spoken or textual formats). Therefore, this course aims to introduce useful strategies and common work\x00ows that\nhave been widely adopted by data scientists to extract useful insights from natural language data. In this course, we will focus on\ntextual data processing.\nA selective collection of potential topics may include:\nA Pipeline for Natural Language Processing\nText Normalization\nText Tokenization\nParsing and Chunking\nIssues for Chinese Language Processing (Word Segmentation)\nFeature Engineering and Text Vectorization\nTraditional Machine Learning\nClassi\x00cation Models (Naive Bayes, SVM, Logistic Regression)\nCommon Computational Tasks:\nSentiment Analysis\nTex Clustering and Topic Modeling\nDeep Learning and Neural Network\nNeural Language Model\nSequence Models\nRNN\nLSTM/GRU\nSequence-to-sequence Model\nAttention-based Models\nTransfer Learning\nLarge Language Models(LLM) &amp; Retrieval-Augmented Generation (RAG)\nMultimodal Processing\nThis course is extremely hands-on and will guide the students through classic examples of many task-oriented implementations via in-\nclass theme-based tutorial sessions. The main coding language used in this course is Python  (https://www.python.org/). We will\nmake extensive use of the language. It is assumed that you know or will quickly learn how to code in Python. In fact, this course\nassumes that every enrolled student has working knowledge of Python. (If you are not sure if you ful\x00ll the prerequisite, please\ncontact the instructor \x00rst.)&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 0}),
+ Document(page_content=&#39;A test on Python Basics will be conducted on the \x00rst week of the class to ensure that every enrolled student ful\x00lls the prerequisite.\n(To be more speci\x00c, you are assumed to have already had working knowledge of all the concepts included in the book, Lean Python:\nLearn Just Enough Python to Build Useful Tools (https://www.amazon.com/Lean-Python-Learn-Enough-Useful/dp/1484223845)).\nThose who fail on the Python basics test are NOT advised to take this course.\nPlease note that this course is designed speci\x00cally for linguistics majors in humanities. For computer science majors, please note that\nthis course will not feature a thorough description of the mathematical operations behind the algorithms. We focus more on the\npractical implementation.\n Course Schedule\n(The schedule is tentative and subject to change. Please pay attention to the announcements made during the class.)\nWeek Date Topic\nWeek 1 2023-02-23 Course Orientation and Computational Linguistics Overview\nWeek 2 2023-03-01 NLP Pipeline\nWeek 3 2023-03-08 Machine Learning Basics: Regression and Classi\x00cation\nWeek 4 2023-03-15 Naïve Bayes, Logistic Regression\nWeek 5 2023-03-22 Feature Engineering and Text Vectorization\nWeek 6 2023-03-29 Common NLP Tasks (Guest Speaker: Robin Lin from Droidtown Linguistic Tech. Co.\xa0Ltd.\xa0)\nWeek 7 2023-04-05 Holiday\nWeek 8 2023-04-12 Midterm Exam\nWeek 9 2023-04-19 Neural Network: A Primer\nWeek 10 2023-04-26 Deep Learning NLP and Word/Doc Embeddings\nWeek 11 2023-05-03 Sequence Model I: RNN and Neural Language Model\nWeek 12 2023-05-10 Sequence Model II: LSTM and GRU\nWeek 13 2023-05-17 Sequence Model III: Sequence-to-Sequence Model &amp; Attention\nWeek 14 2023-05-24 Transformer, BERT, Transfer Learning, and Explainable AI\nWeek 15 2023-05-31 LLM, RAG, and Multimodal Processing\nWeek 16 2023-06-07 Final Exam\n Course Requirement&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 1}),
+ Document(page_content=&#39;Course Materials\nAll the course materials are available on the course website. Please consult the instructor for the direct link to the course materials.\nThey will be provided as a series of online packets (i.e., handouts, script source codes etc.) on the course website.\n Logistics\nCourse Website: ENC2045 Computational Linguistics (https://alvinntnu.github.io/NTNU_ENC2045/)\nInstructor’s Email Address: alvinchen@ntnu.edu.tw (mailto:alvinchen@ntnu.edu.tw)\nInstructor’s Name: Alvin Chen\nOf\x00ce Hours: By appointment\nIf you have any further questions related to the course, please consult FAQ (FAQ.html) on our course website or write me at any time\nat alvinchen@ntnu.edu.tw (mailto:alvinchen@ntnu.edu.tw).\n Disclaimer &amp; Agreement\nWhile I have made every attempt to ensure that the information contained on the Website is correct, I am not responsible for any\nerrors or omissions, or for the results obtained from the use of this information. All information on the Website is provided “as is”, with\nno guarantee of completeness, accuracy, timeliness or of the results obtained from the use of this information, and without warranty\nof any kind, express or implied.\nYou may print a copy of any part of this website for your personal or non-commercial use. Without the author’s prior written consent,\nyou cannot disclose con\x00dential information of the website (e.g., log-in username and password) to any third party.&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 2})]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain.chains.combine_documents</span> <span class="kn">import</span> <span class="n">create_stuff_documents_chain</span>
+<span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
+
+<span class="c1">## define prompt template</span>
+<span class="n">prompt</span> <span class="o">=</span> <span class="n">PromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Answer the following question based only on the provided context:</span>
+
+<span class="s2">&lt;context&gt;</span>
+<span class="si">{context}</span>
+<span class="s2">&lt;/context&gt;</span>
+
+<span class="s2">Question: </span><span class="si">{input}</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+
+<span class="c1">## create chain</span>
+<span class="n">document_chain</span> <span class="o">=</span> <span class="n">create_stuff_documents_chain</span><span class="p">(</span><span class="n">chat</span><span class="p">,</span> <span class="n">prompt</span><span class="p">)</span>
+
+<span class="c1">## When invoking the caht, define `context`` documents</span>
+
+
+<span class="n">document_chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span>
+    <span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="s2">&quot;What is ENC2045?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="n">documents</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;ENC2045 is a course on Computational Linguistics.&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain.chains</span> <span class="kn">import</span> <span class="n">create_retrieval_chain</span>
+
+<span class="n">retriever</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">as_retriever</span><span class="p">()</span>
+
+<span class="c1">## Specific setting for retriever</span>
+<span class="c1"># retriever = vector.as_retriever(</span>
+<span class="c1">#     search_type=&quot;similarity_score_threshold&quot;, </span>
+<span class="c1">#     search_kwargs={&quot;score_threshold&quot;: 0.3, &quot;k&quot;:3})</span>
+
+<span class="n">retrieval_chain</span> <span class="o">=</span> <span class="n">create_retrieval_chain</span><span class="p">(</span><span class="n">retriever</span><span class="p">,</span> <span class="n">document_chain</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">retrieval_chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="s2">&quot;Who is the instructor of the course ENC2045?&quot;</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;answer&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The instructor of the course ENC2045 is Alvin Chen.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="chat-history-management">
+<h2>Chat History Management<a class="headerlink" href="#chat-history-management" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>In addition to retrieving external documents as context information, LLM also needs to consider the conversation history for more precise answers.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">create_history_aware_retriever()</span></code>: This chain takes in conversation history and then uses that to generate a search query which is passed to the underlying retriever.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain.chains</span> <span class="kn">import</span> <span class="n">create_history_aware_retriever</span>
+<span class="kn">from</span> <span class="nn">langchain_core.prompts</span> <span class="kn">import</span> <span class="n">MessagesPlaceholder</span><span class="p">,</span> <span class="n">ChatPromptTemplate</span>
+
+<span class="c1"># First we need a prompt that we can pass into an LLM to generate this search query</span>
+
+<span class="n">prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_messages</span><span class="p">([</span>
+    <span class="n">MessagesPlaceholder</span><span class="p">(</span><span class="n">variable_name</span><span class="o">=</span><span class="s2">&quot;chat_history&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{input}</span><span class="s2">&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;Given the above conversation, generate a search query to look up in order to get information relevant to the conversation&quot;</span><span class="p">)</span>
+<span class="p">])</span>
+
+
+<span class="n">history_chain</span> <span class="o">=</span> <span class="n">create_history_aware_retriever</span><span class="p">(</span><span class="n">chat</span><span class="p">,</span> <span class="n">retriever</span><span class="p">,</span> <span class="n">prompt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chat_history</span> <span class="o">=</span> <span class="p">[</span><span class="n">HumanMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">&quot;How many assignments do students need to do?&quot;</span><span class="p">),</span> 
+                <span class="n">AIMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">&quot;Four.&quot;</span><span class="p">)]</span>
+
+<span class="n">history_chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span>
+    <span class="s2">&quot;chat_history&quot;</span><span class="p">:</span> <span class="n">chat_history</span><span class="p">,</span>
+    <span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="s2">&quot;What are the four assignments?&quot;</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Document(page_content=&#39;A test on Python Basics will be conducted on the \x00rst week of the class to ensure that every enrolled student ful\x00lls the prerequisite.\n(To be more speci\x00c, you are assumed to have already had working knowledge of all the concepts included in the book, Lean Python:\nLearn Just Enough Python to Build Useful Tools (https://www.amazon.com/Lean-Python-Learn-Enough-Useful/dp/1484223845)).\nThose who fail on the Python basics test are NOT advised to take this course.\nPlease note that this course is designed speci\x00cally for linguistics majors in humanities. For computer science majors, please note that\nthis course will not feature a thorough description of the mathematical operations behind the algorithms. We focus more on the\npractical implementation.\n Course Schedule\n(The schedule is tentative and subject to change. Please pay attention to the announcements made during the class.)\nWeek Date Topic\nWeek 1 2023-02-23 Course Orientation and Computational Linguistics Overview\nWeek 2 2023-03-01 NLP Pipeline\nWeek 3 2023-03-08 Machine Learning Basics: Regression and Classi\x00cation\nWeek 4 2023-03-15 Naïve Bayes, Logistic Regression\nWeek 5 2023-03-22 Feature Engineering and Text Vectorization\nWeek 6 2023-03-29 Common NLP Tasks (Guest Speaker: Robin Lin from Droidtown Linguistic Tech. Co.\xa0Ltd.\xa0)\nWeek 7 2023-04-05 Holiday\nWeek 8 2023-04-12 Midterm Exam\nWeek 9 2023-04-19 Neural Network: A Primer\nWeek 10 2023-04-26 Deep Learning NLP and Word/Doc Embeddings\nWeek 11 2023-05-03 Sequence Model I: RNN and Neural Language Model\nWeek 12 2023-05-10 Sequence Model II: LSTM and GRU\nWeek 13 2023-05-17 Sequence Model III: Sequence-to-Sequence Model &amp; Attention\nWeek 14 2023-05-24 Transformer, BERT, Transfer Learning, and Explainable AI\nWeek 15 2023-05-31 LLM, RAG, and Multimodal Processing\nWeek 16 2023-06-07 Final Exam\n Course Requirement&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 1}),
+ Document(page_content=&#39;ENC2045: Computational Linguistics\nThis site is last-updated on 2024-02-23\n Annoucements\nImportant course information will be posted on this web page and announced in class. You are responsible for all material that appears\nhere and should check this page for updates frequently.\n2024-02-23: The current version of the course website is based on the Spring Semester, 2021. It will be updated for the spring\nof 2024.\n2023-12-24: This course is designed for linguistics majors. If you are NOT a linguistics major, please contact the instructor for\ncourse enrollment.\n2023-12-24: This course has prerequisites. A test on python basics will be conducted at the beginning of the semester. Please\nread the FAQ (FAQ.html) very carefully. This course is NOT OPEN to auditors.\n Course Description\nComputational Linguistics (CL) is now a very active sub-discipline in applied linguistics. Its main focus is on the computational text\nanalytics, which is essentially about leveraging computational tools, techniques, and algorithms to process and understand natural\nlanguage data (in spoken or textual formats). Therefore, this course aims to introduce useful strategies and common work\x00ows that\nhave been widely adopted by data scientists to extract useful insights from natural language data. In this course, we will focus on\ntextual data processing.\nA selective collection of potential topics may include:\nA Pipeline for Natural Language Processing\nText Normalization\nText Tokenization\nParsing and Chunking\nIssues for Chinese Language Processing (Word Segmentation)\nFeature Engineering and Text Vectorization\nTraditional Machine Learning\nClassi\x00cation Models (Naive Bayes, SVM, Logistic Regression)\nCommon Computational Tasks:\nSentiment Analysis\nTex Clustering and Topic Modeling\nDeep Learning and Neural Network\nNeural Language Model\nSequence Models\nRNN\nLSTM/GRU\nSequence-to-sequence Model\nAttention-based Models\nTransfer Learning\nLarge Language Models(LLM) &amp; Retrieval-Augmented Generation (RAG)\nMultimodal Processing\nThis course is extremely hands-on and will guide the students through classic examples of many task-oriented implementations via in-\nclass theme-based tutorial sessions. The main coding language used in this course is Python  (https://www.python.org/). We will\nmake extensive use of the language. It is assumed that you know or will quickly learn how to code in Python. In fact, this course\nassumes that every enrolled student has working knowledge of Python. (If you are not sure if you ful\x00ll the prerequisite, please\ncontact the instructor \x00rst.)&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 0}),
+ Document(page_content=&#39;Course Materials\nAll the course materials are available on the course website. Please consult the instructor for the direct link to the course materials.\nThey will be provided as a series of online packets (i.e., handouts, script source codes etc.) on the course website.\n Logistics\nCourse Website: ENC2045 Computational Linguistics (https://alvinntnu.github.io/NTNU_ENC2045/)\nInstructor’s Email Address: alvinchen@ntnu.edu.tw (mailto:alvinchen@ntnu.edu.tw)\nInstructor’s Name: Alvin Chen\nOf\x00ce Hours: By appointment\nIf you have any further questions related to the course, please consult FAQ (FAQ.html) on our course website or write me at any time\nat alvinchen@ntnu.edu.tw (mailto:alvinchen@ntnu.edu.tw).\n Disclaimer &amp; Agreement\nWhile I have made every attempt to ensure that the information contained on the Website is correct, I am not responsible for any\nerrors or omissions, or for the results obtained from the use of this information. All information on the Website is provided “as is”, with\nno guarantee of completeness, accuracy, timeliness or of the results obtained from the use of this information, and without warranty\nof any kind, express or implied.\nYou may print a copy of any part of this website for your personal or non-commercial use. Without the author’s prior written consent,\nyou cannot disclose con\x00dential information of the website (e.g., log-in username and password) to any third party.&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 2})]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_messages</span><span class="p">([</span>
+    <span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;Answer the user&#39;s questions based on the below context:</span><span class="se">\n\n</span><span class="si">{context}</span><span class="s2">&quot;</span><span class="p">),</span>
+    <span class="n">MessagesPlaceholder</span><span class="p">(</span><span class="n">variable_name</span><span class="o">=</span><span class="s2">&quot;chat_history&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{input}</span><span class="s2">&quot;</span><span class="p">),</span>
+<span class="p">])</span>
+
+<span class="c1">## user query</span>
+<span class="n">document_chain</span> <span class="o">=</span> <span class="n">create_stuff_documents_chain</span><span class="p">(</span><span class="n">chat</span><span class="p">,</span> <span class="n">prompt</span><span class="p">)</span>
+
+<span class="c1">## combine user query, history chain</span>
+<span class="n">retrieval_chain</span> <span class="o">=</span> <span class="n">create_retrieval_chain</span><span class="p">(</span><span class="n">history_chain</span><span class="p">,</span> <span class="n">document_chain</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">retrieval_chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span>
+    <span class="s2">&quot;chat_history&quot;</span><span class="p">:</span> <span class="n">chat_history</span><span class="p">,</span>
+    <span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="s2">&quot;Are you saying four?&quot;</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;chat_history&#39;: [HumanMessage(content=&#39;How many assignments do students need to do?&#39;),
+  AIMessage(content=&#39;Four.&#39;)],
+ &#39;input&#39;: &#39;Are you saying four?&#39;,
+ &#39;context&#39;: [Document(page_content=&#39;A test on Python Basics will be conducted on the \x00rst week of the class to ensure that every enrolled student ful\x00lls the prerequisite.\n(To be more speci\x00c, you are assumed to have already had working knowledge of all the concepts included in the book, Lean Python:\nLearn Just Enough Python to Build Useful Tools (https://www.amazon.com/Lean-Python-Learn-Enough-Useful/dp/1484223845)).\nThose who fail on the Python basics test are NOT advised to take this course.\nPlease note that this course is designed speci\x00cally for linguistics majors in humanities. For computer science majors, please note that\nthis course will not feature a thorough description of the mathematical operations behind the algorithms. We focus more on the\npractical implementation.\n Course Schedule\n(The schedule is tentative and subject to change. Please pay attention to the announcements made during the class.)\nWeek Date Topic\nWeek 1 2023-02-23 Course Orientation and Computational Linguistics Overview\nWeek 2 2023-03-01 NLP Pipeline\nWeek 3 2023-03-08 Machine Learning Basics: Regression and Classi\x00cation\nWeek 4 2023-03-15 Naïve Bayes, Logistic Regression\nWeek 5 2023-03-22 Feature Engineering and Text Vectorization\nWeek 6 2023-03-29 Common NLP Tasks (Guest Speaker: Robin Lin from Droidtown Linguistic Tech. Co.\xa0Ltd.\xa0)\nWeek 7 2023-04-05 Holiday\nWeek 8 2023-04-12 Midterm Exam\nWeek 9 2023-04-19 Neural Network: A Primer\nWeek 10 2023-04-26 Deep Learning NLP and Word/Doc Embeddings\nWeek 11 2023-05-03 Sequence Model I: RNN and Neural Language Model\nWeek 12 2023-05-10 Sequence Model II: LSTM and GRU\nWeek 13 2023-05-17 Sequence Model III: Sequence-to-Sequence Model &amp; Attention\nWeek 14 2023-05-24 Transformer, BERT, Transfer Learning, and Explainable AI\nWeek 15 2023-05-31 LLM, RAG, and Multimodal Processing\nWeek 16 2023-06-07 Final Exam\n Course Requirement&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 1}),
+  Document(page_content=&#39;ENC2045: Computational Linguistics\nThis site is last-updated on 2024-02-23\n Annoucements\nImportant course information will be posted on this web page and announced in class. You are responsible for all material that appears\nhere and should check this page for updates frequently.\n2024-02-23: The current version of the course website is based on the Spring Semester, 2021. It will be updated for the spring\nof 2024.\n2023-12-24: This course is designed for linguistics majors. If you are NOT a linguistics major, please contact the instructor for\ncourse enrollment.\n2023-12-24: This course has prerequisites. A test on python basics will be conducted at the beginning of the semester. Please\nread the FAQ (FAQ.html) very carefully. This course is NOT OPEN to auditors.\n Course Description\nComputational Linguistics (CL) is now a very active sub-discipline in applied linguistics. Its main focus is on the computational text\nanalytics, which is essentially about leveraging computational tools, techniques, and algorithms to process and understand natural\nlanguage data (in spoken or textual formats). Therefore, this course aims to introduce useful strategies and common work\x00ows that\nhave been widely adopted by data scientists to extract useful insights from natural language data. In this course, we will focus on\ntextual data processing.\nA selective collection of potential topics may include:\nA Pipeline for Natural Language Processing\nText Normalization\nText Tokenization\nParsing and Chunking\nIssues for Chinese Language Processing (Word Segmentation)\nFeature Engineering and Text Vectorization\nTraditional Machine Learning\nClassi\x00cation Models (Naive Bayes, SVM, Logistic Regression)\nCommon Computational Tasks:\nSentiment Analysis\nTex Clustering and Topic Modeling\nDeep Learning and Neural Network\nNeural Language Model\nSequence Models\nRNN\nLSTM/GRU\nSequence-to-sequence Model\nAttention-based Models\nTransfer Learning\nLarge Language Models(LLM) &amp; Retrieval-Augmented Generation (RAG)\nMultimodal Processing\nThis course is extremely hands-on and will guide the students through classic examples of many task-oriented implementations via in-\nclass theme-based tutorial sessions. The main coding language used in this course is Python  (https://www.python.org/). We will\nmake extensive use of the language. It is assumed that you know or will quickly learn how to code in Python. In fact, this course\nassumes that every enrolled student has working knowledge of Python. (If you are not sure if you ful\x00ll the prerequisite, please\ncontact the instructor \x00rst.)&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 0}),
+  Document(page_content=&#39;Course Materials\nAll the course materials are available on the course website. Please consult the instructor for the direct link to the course materials.\nThey will be provided as a series of online packets (i.e., handouts, script source codes etc.) on the course website.\n Logistics\nCourse Website: ENC2045 Computational Linguistics (https://alvinntnu.github.io/NTNU_ENC2045/)\nInstructor’s Email Address: alvinchen@ntnu.edu.tw (mailto:alvinchen@ntnu.edu.tw)\nInstructor’s Name: Alvin Chen\nOf\x00ce Hours: By appointment\nIf you have any further questions related to the course, please consult FAQ (FAQ.html) on our course website or write me at any time\nat alvinchen@ntnu.edu.tw (mailto:alvinchen@ntnu.edu.tw).\n Disclaimer &amp; Agreement\nWhile I have made every attempt to ensure that the information contained on the Website is correct, I am not responsible for any\nerrors or omissions, or for the results obtained from the use of this information. All information on the Website is provided “as is”, with\nno guarantee of completeness, accuracy, timeliness or of the results obtained from the use of this information, and without warranty\nof any kind, express or implied.\nYou may print a copy of any part of this website for your personal or non-commercial use. Without the author’s prior written consent,\nyou cannot disclose con\x00dential information of the website (e.g., log-in username and password) to any third party.&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 2})],
+ &#39;answer&#39;: &#39;The text does not provide information on the number of assignments students need to do in the course.&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chat_history</span> <span class="o">=</span> <span class="p">[</span><span class="n">HumanMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">&quot;How many assignments do students need to do?&quot;</span><span class="p">),</span> 
+                <span class="n">AIMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">&quot;Four.&quot;</span><span class="p">),</span>
+                <span class="n">HumanMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s1">&#39;I am telling you that these four assignments include coding, reviewing, testing, and presentation.&#39;</span><span class="p">),</span>
+                <span class="n">AIMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s1">&#39;Thank you for the information.&#39;</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">retrieval_chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span>
+    <span class="s2">&quot;chat_history&quot;</span><span class="p">:</span> <span class="n">chat_history</span><span class="p">,</span>
+    <span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="s2">&quot;Can you repeat the four assignments?&quot;</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;chat_history&#39;: [HumanMessage(content=&#39;How many assignments do students need to do?&#39;),
+  AIMessage(content=&#39;Four.&#39;),
+  HumanMessage(content=&#39;I am telling you that these four assignments include coding, reviewing, testing, and presentation.&#39;),
+  AIMessage(content=&#39;Thank you for the information.&#39;)],
+ &#39;input&#39;: &#39;Can you repeat the four assignments?&#39;,
+ &#39;context&#39;: [Document(page_content=&#39;A test on Python Basics will be conducted on the \x00rst week of the class to ensure that every enrolled student ful\x00lls the prerequisite.\n(To be more speci\x00c, you are assumed to have already had working knowledge of all the concepts included in the book, Lean Python:\nLearn Just Enough Python to Build Useful Tools (https://www.amazon.com/Lean-Python-Learn-Enough-Useful/dp/1484223845)).\nThose who fail on the Python basics test are NOT advised to take this course.\nPlease note that this course is designed speci\x00cally for linguistics majors in humanities. For computer science majors, please note that\nthis course will not feature a thorough description of the mathematical operations behind the algorithms. We focus more on the\npractical implementation.\n Course Schedule\n(The schedule is tentative and subject to change. Please pay attention to the announcements made during the class.)\nWeek Date Topic\nWeek 1 2023-02-23 Course Orientation and Computational Linguistics Overview\nWeek 2 2023-03-01 NLP Pipeline\nWeek 3 2023-03-08 Machine Learning Basics: Regression and Classi\x00cation\nWeek 4 2023-03-15 Naïve Bayes, Logistic Regression\nWeek 5 2023-03-22 Feature Engineering and Text Vectorization\nWeek 6 2023-03-29 Common NLP Tasks (Guest Speaker: Robin Lin from Droidtown Linguistic Tech. Co.\xa0Ltd.\xa0)\nWeek 7 2023-04-05 Holiday\nWeek 8 2023-04-12 Midterm Exam\nWeek 9 2023-04-19 Neural Network: A Primer\nWeek 10 2023-04-26 Deep Learning NLP and Word/Doc Embeddings\nWeek 11 2023-05-03 Sequence Model I: RNN and Neural Language Model\nWeek 12 2023-05-10 Sequence Model II: LSTM and GRU\nWeek 13 2023-05-17 Sequence Model III: Sequence-to-Sequence Model &amp; Attention\nWeek 14 2023-05-24 Transformer, BERT, Transfer Learning, and Explainable AI\nWeek 15 2023-05-31 LLM, RAG, and Multimodal Processing\nWeek 16 2023-06-07 Final Exam\n Course Requirement&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 1}),
+  Document(page_content=&#39;ENC2045: Computational Linguistics\nThis site is last-updated on 2024-02-23\n Annoucements\nImportant course information will be posted on this web page and announced in class. You are responsible for all material that appears\nhere and should check this page for updates frequently.\n2024-02-23: The current version of the course website is based on the Spring Semester, 2021. It will be updated for the spring\nof 2024.\n2023-12-24: This course is designed for linguistics majors. If you are NOT a linguistics major, please contact the instructor for\ncourse enrollment.\n2023-12-24: This course has prerequisites. A test on python basics will be conducted at the beginning of the semester. Please\nread the FAQ (FAQ.html) very carefully. This course is NOT OPEN to auditors.\n Course Description\nComputational Linguistics (CL) is now a very active sub-discipline in applied linguistics. Its main focus is on the computational text\nanalytics, which is essentially about leveraging computational tools, techniques, and algorithms to process and understand natural\nlanguage data (in spoken or textual formats). Therefore, this course aims to introduce useful strategies and common work\x00ows that\nhave been widely adopted by data scientists to extract useful insights from natural language data. In this course, we will focus on\ntextual data processing.\nA selective collection of potential topics may include:\nA Pipeline for Natural Language Processing\nText Normalization\nText Tokenization\nParsing and Chunking\nIssues for Chinese Language Processing (Word Segmentation)\nFeature Engineering and Text Vectorization\nTraditional Machine Learning\nClassi\x00cation Models (Naive Bayes, SVM, Logistic Regression)\nCommon Computational Tasks:\nSentiment Analysis\nTex Clustering and Topic Modeling\nDeep Learning and Neural Network\nNeural Language Model\nSequence Models\nRNN\nLSTM/GRU\nSequence-to-sequence Model\nAttention-based Models\nTransfer Learning\nLarge Language Models(LLM) &amp; Retrieval-Augmented Generation (RAG)\nMultimodal Processing\nThis course is extremely hands-on and will guide the students through classic examples of many task-oriented implementations via in-\nclass theme-based tutorial sessions. The main coding language used in this course is Python  (https://www.python.org/). We will\nmake extensive use of the language. It is assumed that you know or will quickly learn how to code in Python. In fact, this course\nassumes that every enrolled student has working knowledge of Python. (If you are not sure if you ful\x00ll the prerequisite, please\ncontact the instructor \x00rst.)&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 0}),
+  Document(page_content=&#39;Course Materials\nAll the course materials are available on the course website. Please consult the instructor for the direct link to the course materials.\nThey will be provided as a series of online packets (i.e., handouts, script source codes etc.) on the course website.\n Logistics\nCourse Website: ENC2045 Computational Linguistics (https://alvinntnu.github.io/NTNU_ENC2045/)\nInstructor’s Email Address: alvinchen@ntnu.edu.tw (mailto:alvinchen@ntnu.edu.tw)\nInstructor’s Name: Alvin Chen\nOf\x00ce Hours: By appointment\nIf you have any further questions related to the course, please consult FAQ (FAQ.html) on our course website or write me at any time\nat alvinchen@ntnu.edu.tw (mailto:alvinchen@ntnu.edu.tw).\n Disclaimer &amp; Agreement\nWhile I have made every attempt to ensure that the information contained on the Website is correct, I am not responsible for any\nerrors or omissions, or for the results obtained from the use of this information. All information on the Website is provided “as is”, with\nno guarantee of completeness, accuracy, timeliness or of the results obtained from the use of this information, and without warranty\nof any kind, express or implied.\nYou may print a copy of any part of this website for your personal or non-commercial use. Without the author’s prior written consent,\nyou cannot disclose con\x00dential information of the website (e.g., log-in username and password) to any third party.&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 2})],
+ &#39;answer&#39;: &#39;The four assignments include coding, reviewing, testing, and presentation.&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="memory">
+<h2>Memory<a class="headerlink" href="#memory" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>Right now, the module <code class="docutils literal notranslate"><span class="pre">Memory</span></code> i still under active development.</p></li>
+<li><p>To work with Memory, we will use the legacy chain, <code class="docutils literal notranslate"><span class="pre">langchain.chains.LLMChain()</span></code>, which is still under development of its compatibility with the <a class="reference external" href="https://python.langchain.com/docs/expression_language">LCEL</a> framework.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain_openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+<span class="kn">from</span> <span class="nn">langchain.prompts</span> <span class="kn">import</span> <span class="n">PromptTemplate</span>
+<span class="kn">from</span> <span class="nn">langchain.chains</span> <span class="kn">import</span> <span class="n">LLMChain</span>
+<span class="kn">from</span> <span class="nn">langchain.memory</span> <span class="kn">import</span> <span class="n">ConversationBufferMemory</span>
+
+
+<span class="c1"># Notice that &quot;chat_history&quot; is present in the prompt template</span>
+<span class="n">template</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;You are a nice college professor having a conversation with a student.</span>
+
+<span class="s2">Previous conversation:</span>
+<span class="si">{chat_history}</span>
+
+<span class="s2">New student&#39;s question: </span><span class="si">{question}</span>
+<span class="s2">Response:&quot;&quot;&quot;</span>
+
+<span class="n">prompt</span> <span class="o">=</span> <span class="n">PromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+<span class="c1"># Notice that we need to align the `memory_key`</span>
+<span class="n">memory</span> <span class="o">=</span> <span class="n">ConversationBufferMemory</span><span class="p">(</span><span class="n">memory_key</span><span class="o">=</span><span class="s2">&quot;chat_history&quot;</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">conversation</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span>
+    <span class="n">llm</span><span class="o">=</span><span class="n">chat</span><span class="p">,</span>
+    <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="c1">## see the original prompts</span>
+    <span class="n">memory</span><span class="o">=</span><span class="n">memory</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">conversation</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;what is your name?&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">&gt; Entering new LLMChain chain...</span>
+Prompt after formatting:
+<span class=" -Color -Color-Bold -Color-Bold-Green">You are a nice college professor having a conversation with a student.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">Previous conversation:</span>
+
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">New student&#39;s question: what is your name?</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">Response:</span>
+
+<span class=" -Color -Color-Bold">&gt; Finished chain.</span>
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;question&#39;: &#39;what is your name?&#39;,
+ &#39;chat_history&#39;: &#39;&#39;,
+ &#39;text&#39;: &quot;My name is Professor Johnson. It&#39;s nice to meet you.&quot;}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">memory</span><span class="o">.</span><span class="n">chat_memory</span><span class="o">.</span><span class="n">add_user_message</span><span class="p">(</span><span class="s2">&quot;I think your name is Alvin Chen, right?&quot;</span><span class="p">)</span>
+<span class="n">memory</span><span class="o">.</span><span class="n">chat_memory</span><span class="o">.</span><span class="n">add_ai_message</span><span class="p">(</span><span class="s2">&quot;Yes. My name is Alvin Chen.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">conversation</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;So what is your name really?&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">&gt; Entering new LLMChain chain...</span>
+Prompt after formatting:
+<span class=" -Color -Color-Bold -Color-Bold-Green">You are a nice college professor having a conversation with a student.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">Previous conversation:</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">Human: what is your name?</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">AI: My name is Professor Johnson. It&#39;s nice to meet you.</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">Human: I think your name is Alvin Chen, right?</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">AI: Yes. My name is Alvin Chen.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">New student&#39;s question: So what is your name really?</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">Response:</span>
+
+<span class=" -Color -Color-Bold">&gt; Finished chain.</span>
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;question&#39;: &#39;So what is your name really?&#39;,
+ &#39;chat_history&#39;: &quot;Human: what is your name?\nAI: My name is Professor Johnson. It&#39;s nice to meet you.\nHuman: I think your name is Alvin Chen, right?\nAI: Yes. My name is Alvin Chen.&quot;,
+ &#39;text&#39;: &#39;My name is Alvin Chen. I apologize for any confusion earlier.&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## somehow the k window size is not working?</span>
+<span class="n">memory</span><span class="o">.</span><span class="n">load_memory_variables</span><span class="p">({})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;chat_history&#39;: &quot;Human: what is your name?\nAI: My name is Professor Johnson. It&#39;s nice to meet you.\nHuman: I think your name is Alvin Chen, right?\nAI: Yes. My name is Alvin Chen.\nHuman: So what is your name really?\nAI: My name is Alvin Chen. I apologize for any confusion earlier.&quot;}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://youtu.be/lG7Uxts9SXs?si=07gr6zeB9tDkHjGm">Langchain Crash Course for Beginners</a></p></li>
+<li><p><a class="reference external" href="https://python.langchain.com/docs/get_started/introduction">Langchain Documentation</a></p></li>
+<li><p><a class="reference external" href="https://python.langchain.com/docs/get_started/quickstart">Langchain Quickstart</a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nlp"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="dl-fine-tuning-bert.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Transfer Learning Using BERT</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="langchain-chatbots.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Chatbot Using Langchain</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-langchain">What is Langchain?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#integration-of-large-language-models-llms">1. Integration of Large Language Models (LLMs):</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#addressing-specific-information-needs">2. Addressing Specific Information Needs:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-data-referencing">3. Dynamic Data Referencing:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pipeline-for-language-model-applications">4. Pipeline for Language Model Applications:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-use-cases">5. Practical Use Cases:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-components-of-langchain">6. Key Components of Langchain:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-development-and-expansion">7. Continuous Development and Expansion:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install">Install</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-setup">API Setup</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-environment-variables-in-a-env-file">Saving Environment Variables in a <code class="docutils literal notranslate"><span class="pre">.env</span></code> File:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-dotenv-in-python-to-load-environment-variables">Using <code class="docutils literal notranslate"><span class="pre">dotenv</span></code> in Python to Load Environment Variables:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#notes">Notes:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-query">Basic Query</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#messages">Messages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prompt-template">Prompt Template</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chain">Chain</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chaining-a-series-of-prompts">Chaining A Series of Prompts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#retrieval-augmented-generation">Retrieval-Augmented Generation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chat-history-management">Chat History Management</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memory">Memory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Alvin Cheng-Hsien Chen
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023 Alvin Chen.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
