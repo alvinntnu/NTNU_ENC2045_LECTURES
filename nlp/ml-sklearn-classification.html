@@ -398,6 +398,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-tree">Decision Tree</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#naive-bayes">Naive Bayes</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">Logistic Regression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-validation-lr-as-an-example">Cross Validation (LR as an example)</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation">Evaluation</a></li>
@@ -447,27 +448,28 @@ document.write(`
 <li><p><a class="reference internal" href="#decision-tree" id="id10">Decision Tree</a></p></li>
 <li><p><a class="reference internal" href="#naive-bayes" id="id11">Naive Bayes</a></p></li>
 <li><p><a class="reference internal" href="#logistic-regression" id="id12">Logistic Regression</a></p></li>
+<li><p><a class="reference internal" href="#cross-validation-lr-as-an-example" id="id13">Cross Validation (LR as an example)</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#evaluation" id="id13">Evaluation</a></p></li>
-<li><p><a class="reference internal" href="#tuning-model-hyperparameters-grid-search" id="id14">Tuning Model Hyperparameters - Grid Search</a></p></li>
-<li><p><a class="reference internal" href="#post-hoc-analysis" id="id15">Post-hoc Analysis</a></p>
+<li><p><a class="reference internal" href="#evaluation" id="id14">Evaluation</a></p></li>
+<li><p><a class="reference internal" href="#tuning-model-hyperparameters-grid-search" id="id15">Tuning Model Hyperparameters - Grid Search</a></p></li>
+<li><p><a class="reference internal" href="#post-hoc-analysis" id="id16">Post-hoc Analysis</a></p>
 <ul>
-<li><p><a class="reference internal" href="#lime" id="id16">LIME</a></p></li>
-<li><p><a class="reference internal" href="#model-coefficients-and-feature-importance" id="id17">Model Coefficients and Feature Importance</a></p></li>
-<li><p><a class="reference internal" href="#permutation-importances" id="id18">Permutation Importances</a></p></li>
-<li><p><a class="reference internal" href="#other-variants" id="id19">Other Variants</a></p></li>
+<li><p><a class="reference internal" href="#lime" id="id17">LIME</a></p></li>
+<li><p><a class="reference internal" href="#model-coefficients-and-feature-importance" id="id18">Model Coefficients and Feature Importance</a></p></li>
+<li><p><a class="reference internal" href="#permutation-importances" id="id19">Permutation Importances</a></p></li>
+<li><p><a class="reference internal" href="#other-variants" id="id20">Other Variants</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#saving-model" id="id20">Saving Model</a></p></li>
-<li><p><a class="reference internal" href="#dictionary-based-sentiment-classifier-self-study" id="id21">Dictionary-based Sentiment Classifier (Self-Study)</a></p>
+<li><p><a class="reference internal" href="#saving-model" id="id21">Saving Model</a></p></li>
+<li><p><a class="reference internal" href="#dictionary-based-sentiment-classifier-self-study" id="id22">Dictionary-based Sentiment Classifier (Self-Study)</a></p>
 <ul>
-<li><p><a class="reference internal" href="#textblob-lexicon" id="id22">TextBlob Lexicon</a></p></li>
-<li><p><a class="reference internal" href="#afinn-lexicon" id="id23">AFINN Lexicon</a></p></li>
+<li><p><a class="reference internal" href="#textblob-lexicon" id="id23">TextBlob Lexicon</a></p></li>
+<li><p><a class="reference internal" href="#afinn-lexicon" id="id24">AFINN Lexicon</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#package-requirement" id="id24">Package Requirement</a></p></li>
-<li><p><a class="reference internal" href="#references" id="id25">References</a></p></li>
+<li><p><a class="reference internal" href="#package-requirement" id="id25">Package Requirement</a></p></li>
+<li><p><a class="reference internal" href="#references" id="id26">References</a></p></li>
 </ul>
 </li>
 </ul>
@@ -500,6 +502,11 @@ document.write(`
 </pre></div>
 </div>
 </div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>## Colab Only
+nltk.download(&#39;movie_reviews&#39;)
+!pip install lime textblob afinn
+</pre></div>
 </div>
 <section id="data-loading">
 <h2><a class="toc-backref" href="#id2">Data Loading</a><a class="headerlink" href="#data-loading" title="Permalink to this headline">#</a></h2>
@@ -912,9 +919,51 @@ Counter({&#39;pos&#39;: 334, &#39;neg&#39;: 326})
 </div>
 </div>
 </section>
+<section id="cross-validation-lr-as-an-example">
+<h3><a class="toc-backref" href="#id13">Cross Validation (LR as an example)</a><a class="headerlink" href="#cross-validation-lr-as-an-example" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>Cross-validation is a technique used in machine learning to assess how well a predictive model will perform on unseen data.</p></li>
+<li><p>By dividing the dataset into multiple subsets, it trains the model on a portion of the data and evaluates it on the remaining data.</p></li>
+<li><p>This process is repeated several times, with each subset serving as both training and validation data.</p></li>
+<li><p>Benefits of Cross-validation:</p>
+<ul>
+<li><p>provides more reliable estimates of model performanc</p></li>
+<li><p>reduces overfitting by testing the model on different data subsets</p></li>
+<li><p>maximizes data utilization</p></li>
+<li><p>facilitates hyperparameter tuning</p></li>
+<li><p>assesses the model’s generalization ability (biases vs. variation)</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+
+<span class="c1"># Perform cross-validation</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">model_lg</span><span class="p">,</span>          <span class="c1">## base model</span>
+                         <span class="n">X_train_bow</span><span class="p">,</span>       <span class="c1">## X</span>
+                         <span class="n">y_train</span><span class="p">,</span>           <span class="c1">## y</span>
+                         <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>             <span class="c1">## 10-fold cross-validation</span>
+
+<span class="c1"># Print scores</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Average Score:&quot;</span><span class="p">,</span> <span class="n">scores</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.82089552 0.82089552 0.79104478 0.80597015 0.85074627 0.82835821
+ 0.80597015 0.79850746 0.82835821 0.8358209 ]
+Average Score: 0.8186567164179104
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can perform cross-validation using the other classifiers to see which machine learning algorithm gives you the more stable predictions on the training set.</p>
+</section>
 </section>
 <section id="evaluation">
-<h2><a class="toc-backref" href="#id13">Evaluation</a><a class="headerlink" href="#evaluation" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id14">Evaluation</a><a class="headerlink" href="#evaluation" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>To evaluate each model’s performance, there are several common metrics in use:</p>
 <ul>
@@ -952,8 +1001,8 @@ Counter({&#39;pos&#39;: 334, &#39;neg&#39;: 326})
 
 <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model_svm</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_bow</span><span class="p">)</span>
 
-<span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> 
-         <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+<span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span>
+         <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
          <span class="n">labels</span> <span class="o">=</span> <span class="n">movie_reviews</span><span class="o">.</span><span class="n">categories</span><span class="p">())</span>
 </pre></div>
 </div>
@@ -973,7 +1022,7 @@ Counter({&#39;pos&#39;: 334, &#39;neg&#39;: 326})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x2a090c610&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x1118b72b0&gt;
 </pre></div>
 </div>
 <img alt="../_images/95448f8499de58c746708244be998150626c63cd98184565fa9268a37c206b91.png" src="../_images/95448f8499de58c746708244be998150626c63cd98184565fa9268a37c206b91.png" />
@@ -986,7 +1035,7 @@ Counter({&#39;pos&#39;: 334, &#39;neg&#39;: 326})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x2a13ac550&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x2b7e00220&gt;
 </pre></div>
 </div>
 <img alt="../_images/7e1268c08579d39df19b44febcdef51c15cd3dbccf074edf074d195a4924c774.png" src="../_images/7e1268c08579d39df19b44febcdef51c15cd3dbccf074edf074d195a4924c774.png" />
@@ -1011,7 +1060,7 @@ Counter({&#39;pos&#39;: 334, &#39;neg&#39;: 326})
 </div>
 </section>
 <section id="tuning-model-hyperparameters-grid-search">
-<h2><a class="toc-backref" href="#id14">Tuning Model Hyperparameters - Grid Search</a><a class="headerlink" href="#tuning-model-hyperparameters-grid-search" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id15">Tuning Model Hyperparameters - Grid Search</a><a class="headerlink" href="#tuning-model-hyperparameters-grid-search" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>For each model, we have not optimized it in terms of its hyperparameter setting.</p></li>
 <li><p>Now that SVM seems to perform the best among all, we take this as our base model and further fine-tune its hyperparameter using <strong>cross-validation</strong> and <strong>Grid Search</strong>.</p></li>
@@ -1031,8 +1080,12 @@ Counter({&#39;pos&#39;: 334, &#39;neg&#39;: 326})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 2.34 s, sys: 180 ms, total: 2.52 s
-Wall time: 26.2 s
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/alvinchen/anaconda3/envs/python-notes/lib/python3.9/site-packages/joblib/externals/loky/process_executor.py:752: UserWarning: A worker stopped while some jobs were given to the executor. This can be caused by a too short worker timeout or by a memory leak.
+  warnings.warn(
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 2.14 s, sys: 71.8 ms, total: 2.21 s
+Wall time: 26.3 s
 </pre></div>
 </div>
 <div class="output text_html"><style>#sk-container-id-5 {color: black;}#sk-container-id-5 pre{padding: 0;}#sk-container-id-5 div.sk-toggleable {background-color: white;}#sk-container-id-5 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-5 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-5 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-5 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-5 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-5 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-5 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-5 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-5 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-5 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-5 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-5 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-5 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-5 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-5 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-5 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-5 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-5 div.sk-item {position: relative;z-index: 1;}#sk-container-id-5 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-5 div.sk-item::before, #sk-container-id-5 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-5 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-5 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-5 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-5 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-5 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-5 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-5 div.sk-label-container {text-align: center;}#sk-container-id-5 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-5 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-5" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(cv=10, estimator=SVC(), n_jobs=-1,
@@ -1069,7 +1122,7 @@ Wall time: 26.2 s
 </div>
 </section>
 <section id="post-hoc-analysis">
-<h2><a class="toc-backref" href="#id15">Post-hoc Analysis</a><a class="headerlink" href="#post-hoc-analysis" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id16">Post-hoc Analysis</a><a class="headerlink" href="#post-hoc-analysis" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>After we find the optimal classifier, next comes the most important step: interpret the classifier.</p></li>
 <li><p>A good classifier may not always perform as we have expected. Chances are that the classifier may have used cues that are unexpected for decision making.</p></li>
@@ -1090,7 +1143,7 @@ Wall time: 26.2 s
 </li>
 </ul>
 <section id="lime">
-<h3><a class="toc-backref" href="#id16">LIME</a><a class="headerlink" href="#lime" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id17">LIME</a><a class="headerlink" href="#lime" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Using LIME (Local Interpretable Model-agnostic Explanations) to interpret the <strong>importance of the features</strong> in relation to the model prediction.</p></li>
 <li><p>LIME was introduced in 2016 by Marco Ribeiro and his collaborators in a paper called <a class="reference external" href="https://arxiv.org/abs/1602.04938">“Why Should I Trust You?” Explaining the Predictions of Any Classifier</a></p></li>
@@ -1113,7 +1166,7 @@ Wall time: 26.2 s
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## define the pipeline</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
-  <span class="p">(</span><span class="s1">&#39;vectorizer&#39;</span><span class="p">,</span><span class="n">tfidf_vec</span><span class="p">),</span> 
+  <span class="p">(</span><span class="s1">&#39;vectorizer&#39;</span><span class="p">,</span><span class="n">tfidf_vec</span><span class="p">),</span>
   <span class="p">(</span><span class="s1">&#39;clf&#39;</span><span class="p">,</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">probability</span><span class="o">=</span><span class="kc">True</span><span class="p">))])</span>
 
 <span class="c1">## Refit model based on optimal parameter settings</span>
@@ -1164,8 +1217,8 @@ expects us to view each tense situation with jude and some cohort in a tight spo
 that could have been spent elsewhere . reestablishing his title as the most beautiful ( and often talented ) man on film , jude law carries the movie . without him , this costly production would have gone into the ground . the story and acting are of good quality , but there &#39; s never a sense of authenticity or reality . something about this war movie is undeniably modern , and it loses its
 feeling . strange enough , the screenplay is based on the true story of a real russian sniper .
 --------------------------------------------------
-Probability(positive) = 0.7403650992849741
-Probability(negative) = 0.2596349007150261
+Probability(positive) = 0.7430335079615914
+Probability(negative) = 0.25696649203840877
 Predicted class: [&#39;pos&#39;]
 True class: pos
 </pre></div>
@@ -1180,8 +1233,8 @@ True class: pos
 
 
 <span class="n">explainer</span> <span class="o">=</span> <span class="n">LimeTextExplainer</span><span class="p">(</span><span class="n">class_names</span><span class="o">=</span><span class="n">class_names</span><span class="p">)</span>
-<span class="n">explanation</span> <span class="o">=</span> <span class="n">explainer</span><span class="o">.</span><span class="n">explain_instance</span><span class="p">(</span><span class="n">text_sample</span><span class="p">,</span> 
-                                         <span class="n">pipeline</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">,</span> 
+<span class="n">explanation</span> <span class="o">=</span> <span class="n">explainer</span><span class="o">.</span><span class="n">explain_instance</span><span class="p">(</span><span class="n">text_sample</span><span class="p">,</span>
+                                         <span class="n">pipeline</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">,</span>
                                          <span class="n">num_features</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 <span class="n">explanation</span><span class="o">.</span><span class="n">show_in_notebook</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
@@ -38279,32 +38332,32 @@ True class: pos
 /***/ })
 /******/ ]);
 //# sourceMappingURL=bundle.js.map </script></head><body>
-        <div class="lime top_div" id="top_divIKDBUNID7DTDUDE"></div>
+        <div class="lime top_div" id="top_divDHRVXIRZBRT49IA"></div>
         
         <script>
-        var top_div = d3.select('#top_divIKDBUNID7DTDUDE').classed('lime top_div', true);
+        var top_div = d3.select('#top_divDHRVXIRZBRT49IA').classed('lime top_div', true);
         
             var pp_div = top_div.append('div')
                                 .classed('lime predict_proba', true);
             var pp_svg = pp_div.append('svg').style('width', '100%');
-            var pp = new lime.PredictProba(pp_svg, ["negative", "positive"], [0.2596349007150261, 0.7403650992849741]);
+            var pp = new lime.PredictProba(pp_svg, ["negative", "positive"], [0.25696649203840877, 0.7430335079615914]);
             
         
         var exp_div;
             var exp = new lime.Explanation(["negative", "positive"]);
         
                 exp_div = top_div.append('div').classed('lime explanation', true);
-                exp.show([["and", 0.42573668663328745], ["the", 0.2882586573925957], ["war", 0.17058032151106609], ["to", -0.09561063091459246], ["is", 0.08012102626039917], ["of", 0.06437773341381081], ["trying", -0.06180352819308868], ["wasted", -0.060926932277146496], ["have", -0.05833220528597744], ["pointless", -0.05574105998056271], ["predictable", -0.05406814422316656], ["there", -0.05394279593051996], ["teeth", -0.05376047797719997], ["problem", -0.05220152700824699], ["could", -0.051874683764827775], ["roles", -0.04524580442227443], ["harris", 0.03518355243875545], ["true", 0.027125374235892435], ["terrific", 0.026128929768665515], ["as", 0.024801997485356875]], 1, exp_div);
+                exp.show([["and", 0.421702445618756], ["the", 0.2889946354433055], ["war", 0.16377165844828517], ["to", -0.09756505973593349], ["is", 0.0742111300973478], ["trying", -0.06470543556642341], ["of", 0.06321093027845365], ["have", -0.062094833551705524], ["wasted", -0.06018659015903179], ["pointless", -0.05714167365216434], ["problem", -0.05168646391134331], ["teeth", -0.05160833071670415], ["predictable", -0.050736788964142215], ["production", -0.05008672897054093], ["talented", -0.048537079136010304], ["harris", 0.04350169944612063], ["there", -0.040503312809949656], ["as", 0.031336930988437775], ["terrific", 0.0282209420233804], ["true", 0.0238836397446505]], 1, exp_div);
                 
         var raw_div = top_div.append('div');
-            exp.show_raw_text([["and", 204, 0.42573668663328745], ["and", 253, 0.42573668663328745], ["and", 573, 0.42573668663328745], ["and", 600, 0.42573668663328745], ["and", 802, 0.42573668663328745], ["and", 839, 0.42573668663328745], ["and", 929, 0.42573668663328745], ["and", 1155, 0.42573668663328745], ["and", 1177, 0.42573668663328745], ["and", 1647, 0.42573668663328745], ["and", 1687, 0.42573668663328745], ["and", 2086, 0.42573668663328745], ["and", 2231, 0.42573668663328745], ["and", 2375, 0.42573668663328745], ["the", 14, 0.2882586573925957], ["the", 178, 0.2882586573925957], ["the", 191, 0.2882586573925957], ["the", 257, 0.2882586573925957], ["the", 311, 0.2882586573925957], ["the", 337, 0.2882586573925957], ["the", 373, 0.2882586573925957], ["the", 529, 0.2882586573925957], ["the", 577, 0.2882586573925957], ["the", 677, 0.2882586573925957], ["the", 700, 0.2882586573925957], ["the", 717, 0.2882586573925957], ["the", 740, 0.2882586573925957], ["the", 814, 0.2882586573925957], ["the", 850, 0.2882586573925957], ["the", 953, 0.2882586573925957], ["the", 982, 0.2882586573925957], ["the", 1012, 0.2882586573925957], ["the", 1200, 0.2882586573925957], ["the", 1272, 0.2882586573925957], ["the", 1297, 0.2882586573925957], ["the", 1474, 0.2882586573925957], ["the", 1718, 0.2882586573925957], ["the", 1881, 0.2882586573925957], ["the", 1909, 0.2882586573925957], ["the", 1969, 0.2882586573925957], ["the", 2065, 0.2882586573925957], ["the", 2138, 0.2882586573925957], ["the", 2208, 0.2882586573925957], ["the", 2221, 0.2882586573925957], ["the", 2419, 0.2882586573925957], ["the", 2446, 0.2882586573925957], ["war", 244, 0.17058032151106609], ["war", 419, 0.17058032151106609], ["war", 681, 0.17058032151106609], ["war", 2342, 0.17058032151106609], ["to", 169, -0.09561063091459246], ["to", 398, -0.09561063091459246], ["to", 622, -0.09561063091459246], ["to", 1608, -0.09561063091459246], ["to", 1778, -0.09561063091459246], ["to", 1951, -0.09561063091459246], ["is", 37, 0.08012102626039917], ["is", 370, 0.08012102626039917], ["is", 827, 0.08012102626039917], ["is", 1483, 0.08012102626039917], ["is", 1765, 0.08012102626039917], ["is", 2352, 0.08012102626039917], ["is", 2434, 0.08012102626039917], ["of", 188, 0.06437773341381081], ["of", 215, 0.06437773341381081], ["of", 323, 0.06437773341381081], ["of", 416, 0.06437773341381081], ["of", 465, 0.06437773341381081], ["of", 896, 0.06437773341381081], ["of", 1120, 0.06437773341381081], ["of", 1234, 0.06437773341381081], ["of", 2246, 0.06437773341381081], ["of", 2292, 0.06437773341381081], ["of", 2461, 0.06437773341381081], ["trying", 615, -0.06180352819308868], ["trying", 1388, -0.06180352819308868], ["wasted", 1973, -0.060926932277146496], ["have", 2009, -0.05833220528597744], ["have", 2193, -0.05833220528597744], ["pointless", 1805, -0.05574105998056271], ["predictable", 1537, -0.05406814422316656], ["there", 1514, -0.05394279593051996], ["there", 2268, -0.05394279593051996], ["teeth", 1088, -0.05376047797719997], ["teeth", 1213, -0.05376047797719997], ["problem", 1016, -0.05220152700824699], ["problem", 1885, -0.05220152700824699], ["could", 295, -0.051874683764827775], ["could", 2003, -0.051874683764827775], ["roles", 666, -0.04524580442227443], ["roles", 1334, -0.04524580442227443], ["harris", 500, 0.03518355243875545], ["harris", 1370, 0.03518355243875545], ["true", 2450, 0.027125374235892435], ["terrific", 744, 0.026128929768665515], ["as", 674, 0.024801997485356875], ["as", 766, 0.024801997485356875], ["as", 1679, 0.024801997485356875], ["as", 2062, 0.024801997485356875]], 1, "in ` enemy at the gates ' , jude law is a gifted russian sniper made hero by a political officer named danilov ( joseph fiennes ) who uses him in a propaganda newspaper to raise the hopes of the soldiers and people of stalingrad . it ' s world war ii , and the russian - german standoff in town could determine the outcome of things for the motherland . law ' s vassili is the russian ' s top pawn to victory . lots of war stuff happens . an older , german version of jude ' s character played by ed harris shows up halfway into the proceedings . he ' s equally talented , and the two men play a cat and mouse game trying to kill each other . they constantly switch roles , as the war fades far into the background . the cast also includes the terrific rachel weisz as a love interest for both vassili and danilov the set - up is decent , and so are the production values . boasting a wide range of grimy locales , greasy hair , and tattered costumes , the art direction prospers . the actors , however , suffer the problem matt damon had in ` saving private ryan ' . either their eyes , teeth , skin , or a combination of other features looked too white and clean . with dirt and blood all around , the blinding teeth or bright eyes of these actors divert attention from the action . that said , the players are mostly good in their roles , although i don ' t think ed harris was really trying . maybe he realized his role struck a difficult chord in one - notedom . while the film is technically about snipers , there are far too many predictable sniping scenes . director jean - jacques annaud expects us to view each tense situation with jude and some cohort in a tight spot as edgy and exciting , but after about the sixth time , in which we realize that jude is not going to die , it ' s relatively pointless . we get that he ' s talented , okay , let ' s move on . that ' s the problem with ` enemy at the gates ' ; it just doesn ' t know when to stop . witness the wasted seventeen minutes that could have been spent elsewhere . reestablishing his title as the most beautiful ( and often talented ) man on film , jude law carries the movie . without him , this costly production would have gone into the ground . the story and acting are of good quality , but there ' s never a sense of authenticity or reality . something about this war movie is undeniably modern , and it loses its feeling . strange enough , the screenplay is based on the true story of a real russian sniper .", raw_div, true);
+            exp.show_raw_text([["and", 204, 0.421702445618756], ["and", 253, 0.421702445618756], ["and", 573, 0.421702445618756], ["and", 600, 0.421702445618756], ["and", 802, 0.421702445618756], ["and", 839, 0.421702445618756], ["and", 929, 0.421702445618756], ["and", 1155, 0.421702445618756], ["and", 1177, 0.421702445618756], ["and", 1647, 0.421702445618756], ["and", 1687, 0.421702445618756], ["and", 2086, 0.421702445618756], ["and", 2231, 0.421702445618756], ["and", 2375, 0.421702445618756], ["the", 14, 0.2889946354433055], ["the", 178, 0.2889946354433055], ["the", 191, 0.2889946354433055], ["the", 257, 0.2889946354433055], ["the", 311, 0.2889946354433055], ["the", 337, 0.2889946354433055], ["the", 373, 0.2889946354433055], ["the", 529, 0.2889946354433055], ["the", 577, 0.2889946354433055], ["the", 677, 0.2889946354433055], ["the", 700, 0.2889946354433055], ["the", 717, 0.2889946354433055], ["the", 740, 0.2889946354433055], ["the", 814, 0.2889946354433055], ["the", 850, 0.2889946354433055], ["the", 953, 0.2889946354433055], ["the", 982, 0.2889946354433055], ["the", 1012, 0.2889946354433055], ["the", 1200, 0.2889946354433055], ["the", 1272, 0.2889946354433055], ["the", 1297, 0.2889946354433055], ["the", 1474, 0.2889946354433055], ["the", 1718, 0.2889946354433055], ["the", 1881, 0.2889946354433055], ["the", 1909, 0.2889946354433055], ["the", 1969, 0.2889946354433055], ["the", 2065, 0.2889946354433055], ["the", 2138, 0.2889946354433055], ["the", 2208, 0.2889946354433055], ["the", 2221, 0.2889946354433055], ["the", 2419, 0.2889946354433055], ["the", 2446, 0.2889946354433055], ["war", 244, 0.16377165844828517], ["war", 419, 0.16377165844828517], ["war", 681, 0.16377165844828517], ["war", 2342, 0.16377165844828517], ["to", 169, -0.09756505973593349], ["to", 398, -0.09756505973593349], ["to", 622, -0.09756505973593349], ["to", 1608, -0.09756505973593349], ["to", 1778, -0.09756505973593349], ["to", 1951, -0.09756505973593349], ["is", 37, 0.0742111300973478], ["is", 370, 0.0742111300973478], ["is", 827, 0.0742111300973478], ["is", 1483, 0.0742111300973478], ["is", 1765, 0.0742111300973478], ["is", 2352, 0.0742111300973478], ["is", 2434, 0.0742111300973478], ["trying", 615, -0.06470543556642341], ["trying", 1388, -0.06470543556642341], ["of", 188, 0.06321093027845365], ["of", 215, 0.06321093027845365], ["of", 323, 0.06321093027845365], ["of", 416, 0.06321093027845365], ["of", 465, 0.06321093027845365], ["of", 896, 0.06321093027845365], ["of", 1120, 0.06321093027845365], ["of", 1234, 0.06321093027845365], ["of", 2246, 0.06321093027845365], ["of", 2292, 0.06321093027845365], ["of", 2461, 0.06321093027845365], ["have", 2009, -0.062094833551705524], ["have", 2193, -0.062094833551705524], ["wasted", 1973, -0.06018659015903179], ["pointless", 1805, -0.05714167365216434], ["problem", 1016, -0.05168646391134331], ["problem", 1885, -0.05168646391134331], ["teeth", 1088, -0.05160833071670415], ["teeth", 1213, -0.05160833071670415], ["predictable", 1537, -0.050736788964142215], ["production", 854, -0.05008672897054093], ["production", 2176, -0.05008672897054093], ["talented", 562, -0.048537079136010304], ["talented", 1836, -0.048537079136010304], ["talented", 2096, -0.048537079136010304], ["harris", 500, 0.04350169944612063], ["harris", 1370, 0.04350169944612063], ["there", 1514, -0.040503312809949656], ["there", 2268, -0.040503312809949656], ["as", 674, 0.031336930988437775], ["as", 766, 0.031336930988437775], ["as", 1679, 0.031336930988437775], ["as", 2062, 0.031336930988437775], ["terrific", 744, 0.0282209420233804], ["true", 2450, 0.0238836397446505]], 1, "in ` enemy at the gates ' , jude law is a gifted russian sniper made hero by a political officer named danilov ( joseph fiennes ) who uses him in a propaganda newspaper to raise the hopes of the soldiers and people of stalingrad . it ' s world war ii , and the russian - german standoff in town could determine the outcome of things for the motherland . law ' s vassili is the russian ' s top pawn to victory . lots of war stuff happens . an older , german version of jude ' s character played by ed harris shows up halfway into the proceedings . he ' s equally talented , and the two men play a cat and mouse game trying to kill each other . they constantly switch roles , as the war fades far into the background . the cast also includes the terrific rachel weisz as a love interest for both vassili and danilov the set - up is decent , and so are the production values . boasting a wide range of grimy locales , greasy hair , and tattered costumes , the art direction prospers . the actors , however , suffer the problem matt damon had in ` saving private ryan ' . either their eyes , teeth , skin , or a combination of other features looked too white and clean . with dirt and blood all around , the blinding teeth or bright eyes of these actors divert attention from the action . that said , the players are mostly good in their roles , although i don ' t think ed harris was really trying . maybe he realized his role struck a difficult chord in one - notedom . while the film is technically about snipers , there are far too many predictable sniping scenes . director jean - jacques annaud expects us to view each tense situation with jude and some cohort in a tight spot as edgy and exciting , but after about the sixth time , in which we realize that jude is not going to die , it ' s relatively pointless . we get that he ' s talented , okay , let ' s move on . that ' s the problem with ` enemy at the gates ' ; it just doesn ' t know when to stop . witness the wasted seventeen minutes that could have been spent elsewhere . reestablishing his title as the most beautiful ( and often talented ) man on film , jude law carries the movie . without him , this costly production would have gone into the ground . the story and acting are of good quality , but there ' s never a sense of authenticity or reality . something about this war movie is undeniably modern , and it loses its feeling . strange enough , the screenplay is based on the true story of a real russian sniper .", raw_div, true);
             
         </script>
         </body></html></div></div>
 </div>
 </section>
 <section id="model-coefficients-and-feature-importance">
-<h3><a class="toc-backref" href="#id17">Model Coefficients and Feature Importance</a><a class="headerlink" href="#model-coefficients-and-feature-importance" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id18">Model Coefficients and Feature Importance</a><a class="headerlink" href="#model-coefficients-and-feature-importance" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Another way to evaluate the importance of the features is to look at their corresponding coefficients.</p>
 <ul>
@@ -38319,7 +38372,7 @@ True class: pos
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Extract the coefficients of the model from the pipeline</span>
 <span class="n">importances</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="s1">&#39;clf&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">coef_</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 <span class="c1">## Select top 10 positive/negative weights</span>
-<span class="n">top_indices_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">importances</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">][:</span><span class="mi">10</span><span class="p">]</span> 
+<span class="n">top_indices_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">importances</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">][:</span><span class="mi">10</span><span class="p">]</span>
 <span class="n">top_indices_neg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">importances</span><span class="p">)[:</span><span class="mi">10</span><span class="p">]</span>
 <span class="c1">## Get featnames from tfidfvectorizer</span>
 <span class="n">feature_names</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tfidf_vec</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">())</span> <span class="c1"># List indexing is different from array</span>
@@ -38539,7 +38592,7 @@ True class: pos
 </div>
 </section>
 <section id="permutation-importances">
-<h3><a class="toc-backref" href="#id18">Permutation Importances</a><a class="headerlink" href="#permutation-importances" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id19">Permutation Importances</a><a class="headerlink" href="#permutation-importances" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Permutation importances measure the impact of shuffling a single feature’s values on the model’s performance. It quantifies how much the model relies on each feature for making predictions.</p></li>
 <li><p>The permutation importance is computed as the decrease in the model’s performance (e.g., accuracy) when the values of a particular feature are randomly shuffled. The larger the decrease in performance, the more important the feature is considered to be.</p>
@@ -38574,8 +38627,8 @@ True class: pos
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 3.1 s, sys: 1.09 s, total: 4.19 s
-Wall time: 19.2 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 3.19 s, sys: 985 ms, total: 4.18 s
+Wall time: 18.6 s
 </pre></div>
 </div>
 </div>
@@ -38737,7 +38790,7 @@ spoil   0.002 +/- 0.000
 </div>
 </section>
 <section id="other-variants">
-<h3><a class="toc-backref" href="#id19">Other Variants</a><a class="headerlink" href="#other-variants" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id20">Other Variants</a><a class="headerlink" href="#other-variants" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Some of the online code snippets try to implement the <code class="docutils literal notranslate"><span class="pre">show_most_informative_features()</span></code> in <code class="docutils literal notranslate"><span class="pre">nltk</span></code> classifier.</p></li>
 <li><p>Here the codes only work with linear classifiers (e.g., Logistic models) in sklearn.</p></li>
@@ -38793,7 +38846,7 @@ spoil   0.002 +/- 0.000
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sklearn</span>
 <span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">plot_tree</span>
-<span class="n">text_representation</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">export_text</span><span class="p">(</span><span class="n">model_dec</span><span class="p">,</span> <span class="n">feature_names</span> <span class="o">=</span> <span class="n">tfidf_vec</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">())</span>
+<span class="n">text_representation</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">export_text</span><span class="p">(</span><span class="n">model_dec</span><span class="p">,</span> <span class="n">feature_names</span> <span class="o">=</span> <span class="n">tfidf_vec</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">text_representation</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -39024,7 +39077,7 @@ spoil   0.002 +/- 0.000
 </section>
 </section>
 <section id="saving-model">
-<h2><a class="toc-backref" href="#id20">Saving Model</a><a class="headerlink" href="#saving-model" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id21">Saving Model</a><a class="headerlink" href="#saving-model" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#  import pickle</span>
@@ -39039,14 +39092,14 @@ spoil   0.002 +/- 0.000
 </div>
 </section>
 <section id="dictionary-based-sentiment-classifier-self-study">
-<h2><a class="toc-backref" href="#id21">Dictionary-based Sentiment Classifier (Self-Study)</a><a class="headerlink" href="#dictionary-based-sentiment-classifier-self-study" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id22">Dictionary-based Sentiment Classifier (Self-Study)</a><a class="headerlink" href="#dictionary-based-sentiment-classifier-self-study" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Without machine learning, we can still build a sentiment classifier using a dictionary-based approach.</p></li>
 <li><p>Words can be manually annotated with sentiment polarity scores.</p></li>
 <li><p>Based on the sentiment dictionary, we can then compute the sentiment scores for a text.</p></li>
 </ul>
 <section id="textblob-lexicon">
-<h3><a class="toc-backref" href="#id22">TextBlob Lexicon</a><a class="headerlink" href="#textblob-lexicon" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id23">TextBlob Lexicon</a><a class="headerlink" href="#textblob-lexicon" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">textblob</span> <span class="kn">import</span> <span class="n">TextBlob</span>
@@ -39123,7 +39176,7 @@ spoil   0.002 +/- 0.000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x2aff7a310&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x2d062ba60&gt;
 </pre></div>
 </div>
 <img alt="../_images/afa8887cc9e9f47ad2326e2ab6f76b0cb97615826be8a605dc40e2acfb6396f6.png" src="../_images/afa8887cc9e9f47ad2326e2ab6f76b0cb97615826be8a605dc40e2acfb6396f6.png" />
@@ -39131,7 +39184,7 @@ spoil   0.002 +/- 0.000
 </div>
 </section>
 <section id="afinn-lexicon">
-<h3><a class="toc-backref" href="#id23">AFINN Lexicon</a><a class="headerlink" href="#afinn-lexicon" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id24">AFINN Lexicon</a><a class="headerlink" href="#afinn-lexicon" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">afinn</span> <span class="kn">import</span> <span class="n">Afinn</span>
@@ -39188,7 +39241,7 @@ spoil   0.002 +/- 0.000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x2a1399f10&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x2c9ab9160&gt;
 </pre></div>
 </div>
 <img alt="../_images/d8934a01cecbdf909d8a2db554dd52fb607206f4ac0ee107ac65630f85c9a695.png" src="../_images/d8934a01cecbdf909d8a2db554dd52fb607206f4ac0ee107ac65630f85c9a695.png" />
@@ -39222,7 +39275,7 @@ spoil   0.002 +/- 0.000
 </section>
 </section>
 <section id="package-requirement">
-<h2><a class="toc-backref" href="#id24">Package Requirement</a><a class="headerlink" href="#package-requirement" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id25">Package Requirement</a><a class="headerlink" href="#package-requirement" title="Permalink to this headline">#</a></h2>
 <div class="cell tag_remove-input docutils container">
 </div>
 <div class="cell tag_remove-input docutils container">
@@ -39242,7 +39295,7 @@ textblob==0.17.1
 </div>
 </section>
 <section id="references">
-<h2><a class="toc-backref" href="#id25">References</a><a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id26">References</a><a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Geron (2019), Ch 2 and 3</p></li>
 <li><p>Sarkar (2019), Ch 9</p></li>
@@ -39331,6 +39384,7 @@ textblob==0.17.1
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-tree">Decision Tree</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#naive-bayes">Naive Bayes</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">Logistic Regression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-validation-lr-as-an-example">Cross Validation (LR as an example)</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation">Evaluation</a></li>
