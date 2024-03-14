@@ -435,9 +435,58 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="topic-modeling-a-naive-example">
-<h1>Topic Modeling: A Naive Example<a class="headerlink" href="#topic-modeling-a-naive-example" title="Permalink to this headline">#</a></h1>
+<h1><a class="toc-backref" href="#id1">Topic Modeling: A Naive Example</a><a class="headerlink" href="#topic-modeling-a-naive-example" title="Permalink to this headline">#</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#topic-modeling-a-naive-example" id="id1">Topic Modeling: A Naive Example</a></p>
+<ul>
+<li><p><a class="reference internal" href="#what-is-topic-modeling" id="id2">What is Topic Modeling?</a></p></li>
+<li><p><a class="reference internal" href="#flowchart-for-topic-modeling" id="id3">Flowchart for Topic Modeling</a></p></li>
+<li><p><a class="reference internal" href="#data-preparation-and-preprocessing" id="id4">Data Preparation and Preprocessing</a></p>
+<ul>
+<li><p><a class="reference internal" href="#import-necessary-dependencies-and-settings" id="id5">Import Necessary Dependencies and Settings</a></p></li>
+<li><p><a class="reference internal" href="#simple-corpus" id="id6">Simple Corpus</a></p></li>
+<li><p><a class="reference internal" href="#simple-text-pre-processing" id="id7">Simple Text Pre-processing</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#text-vectorization" id="id8">Text Vectorization</a></p>
+<ul>
+<li><p><a class="reference internal" href="#bag-of-words-model" id="id9">Bag of Words Model</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#latent-dirichlet-allocation" id="id10">Latent Dirichlet Allocation</a></p>
+<ul>
+<li><p><a class="reference internal" href="#intuition-of-lda" id="id11">Intuition of LDA</a></p></li>
+<li><p><a class="reference internal" href="#building-lda-model" id="id12">Building LDA Model</a></p></li>
+<li><p><a class="reference internal" href="#model-performance-metrics" id="id13">Model Performance Metrics</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#interpretation" id="id14">Interpretation</a></p>
+<ul>
+<li><p><a class="reference internal" href="#document-by-topic-matrix" id="id15">Document-by-Topic Matrix</a></p></li>
+<li><p><a class="reference internal" href="#topic-by-word-matrix" id="id16">Topic-by-Word Matrix</a></p></li>
+<li><p><a class="reference internal" href="#interpreting-the-meanings-of-topics" id="id17">Interpreting the Meanings of Topics</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#topics-in-documents" id="id18">Topics in Documents</a></p></li>
+<li><p><a class="reference internal" href="#clustering-documents-using-topic-model-features" id="id19">Clustering documents using topic model features</a></p></li>
+<li><p><a class="reference internal" href="#visualizing-topic-models" id="id20">Visualizing Topic Models</a></p></li>
+<li><p><a class="reference internal" href="#hyperparameter-tuning" id="id21">Hyperparameter Tuning</a></p>
+<ul>
+<li><p><a class="reference internal" href="#grid-search-for-topic-number" id="id22">Grid Search for Topic Number</a></p></li>
+<li><p><a class="reference internal" href="#examining-the-grid-search-results" id="id23">Examining the Grid Search Results</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#topic-prediction" id="id24">Topic Prediction</a></p></li>
+<li><p><a class="reference internal" href="#additional-notes" id="id25">Additional Notes</a></p></li>
+<li><p><a class="reference internal" href="#references" id="id26">References</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
 <section id="what-is-topic-modeling">
-<h2>What is Topic Modeling?<a class="headerlink" href="#what-is-topic-modeling" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id2">What is Topic Modeling?</a><a class="headerlink" href="#what-is-topic-modeling" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Topic modeling is an <strong>unsupervised</strong> learning method, whose objective is to extract the underlying semantic patterns among a collection of texts. These underlying semantic structures are commonly referred to as <strong>topics</strong> of the corpus.</p></li>
 <li><p>In particular, topic modeling first extracts features from the words in the documents and use mathematical structures and frameworks like matrix factorization and SVD (Singular Value Decomposition) to identify clusters of words that share greater semantic coherence.</p></li>
@@ -454,13 +503,13 @@ document.write(`
 </ul>
 </section>
 <section id="flowchart-for-topic-modeling">
-<h2>Flowchart for Topic Modeling<a class="headerlink" href="#flowchart-for-topic-modeling" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id3">Flowchart for Topic Modeling</a><a class="headerlink" href="#flowchart-for-topic-modeling" title="Permalink to this headline">#</a></h2>
 <p><img alt="" src="../_images/topic-modeling-pipeline.jpeg" /></p>
 </section>
 <section id="data-preparation-and-preprocessing">
-<h2>Data Preparation and Preprocessing<a class="headerlink" href="#data-preparation-and-preprocessing" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id4">Data Preparation and Preprocessing</a><a class="headerlink" href="#data-preparation-and-preprocessing" title="Permalink to this headline">#</a></h2>
 <section id="import-necessary-dependencies-and-settings">
-<h3>Import Necessary Dependencies and Settings<a class="headerlink" href="#import-necessary-dependencies-and-settings" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id5">Import Necessary Dependencies and Settings</a><a class="headerlink" href="#import-necessary-dependencies-and-settings" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
@@ -479,7 +528,7 @@ document.write(`
 </div>
 </section>
 <section id="simple-corpus">
-<h3>Simple Corpus<a class="headerlink" href="#simple-corpus" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id6">Simple Corpus</a><a class="headerlink" href="#simple-corpus" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>We will be using again a simple corpus for illustration.</p></li>
 <li><p>It is a corpus consisting of eight documents, each of which consists of a simple sentence.</p></li>
@@ -577,7 +626,7 @@ document.write(`
 </div>
 </section>
 <section id="simple-text-pre-processing">
-<h3>Simple Text Pre-processing<a class="headerlink" href="#simple-text-pre-processing" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id7">Simple Text Pre-processing</a><a class="headerlink" href="#simple-text-pre-processing" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Depending on the nature of the raw corpus data, we may need to implement more specific steps in text preprocessing.</p></li>
 <li><p>In our current naive example, we consider:</p>
@@ -650,9 +699,9 @@ document.write(`
 </section>
 </section>
 <section id="text-vectorization">
-<h2>Text Vectorization<a class="headerlink" href="#text-vectorization" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id8">Text Vectorization</a><a class="headerlink" href="#text-vectorization" title="Permalink to this headline">#</a></h2>
 <section id="bag-of-words-model">
-<h3>Bag of Words Model<a class="headerlink" href="#bag-of-words-model" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id9">Bag of Words Model</a><a class="headerlink" href="#bag-of-words-model" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>In topic modeling, the simplest way of text vectorization is to adopt the feature-based Bag-of-Words model.</p></li>
 <li><p>Recap of the characteristics of BOW model</p>
@@ -945,9 +994,9 @@ document.write(`
 </section>
 </section>
 <section id="latent-dirichlet-allocation">
-<h2>Latent Dirichlet Allocation<a class="headerlink" href="#latent-dirichlet-allocation" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id10">Latent Dirichlet Allocation</a><a class="headerlink" href="#latent-dirichlet-allocation" title="Permalink to this headline">#</a></h2>
 <section id="intuition-of-lda">
-<h3>Intuition of LDA<a class="headerlink" href="#intuition-of-lda" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id11">Intuition of LDA</a><a class="headerlink" href="#intuition-of-lda" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Latent Dirichlet [diʀiˈkleː] Allocation learns the relationships between <strong>words</strong>, <strong>topics</strong>, and <strong>documents</strong> by assuming documents are generated by a particular probabilistic model.</p></li>
 <li><p>A topic in LDA is a multinomial distribution over the words in the vocabulary of the corpus. (That is, given a topic, it’s more likely to see specific sets of words).</p></li>
@@ -972,7 +1021,7 @@ document.write(`
 </ul>
 </section>
 <section id="building-lda-model">
-<h3>Building LDA Model<a class="headerlink" href="#building-lda-model" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id12">Building LDA Model</a><a class="headerlink" href="#building-lda-model" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>We should use <code class="docutils literal notranslate"><span class="pre">CountVectorizer</span></code> when fitting LDA instead of <code class="docutils literal notranslate"><span class="pre">TfidfVectorizer</span></code> because LDA is based on term count and document count.</p></li>
 <li><p>Fitting LDA with <code class="docutils literal notranslate"><span class="pre">TfidfVectorizer</span></code> will result in rare words being dis-proportionally sampled.</p></li>
@@ -997,7 +1046,7 @@ Wall time: 5.32 s
 </div>
 </section>
 <section id="model-performance-metrics">
-<h3>Model Performance Metrics<a class="headerlink" href="#model-performance-metrics" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id13">Model Performance Metrics</a><a class="headerlink" href="#model-performance-metrics" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>We can diagnose the model performance using <strong>perplexity</strong> and <strong>log-likelihood</strong>.</p>
 <ul>
@@ -1025,7 +1074,7 @@ Wall time: 5.32 s
 </section>
 </section>
 <section id="interpretation">
-<h2>Interpretation<a class="headerlink" href="#interpretation" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id14">Interpretation</a><a class="headerlink" href="#interpretation" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>To properly interpret the results provided by LDA, we need to get two important matrices:</p>
 <ul>
@@ -1035,7 +1084,7 @@ Wall time: 5.32 s
 </li>
 </ul>
 <section id="document-by-topic-matrix">
-<h3>Document-by-Topic Matrix<a class="headerlink" href="#document-by-topic-matrix" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id15">Document-by-Topic Matrix</a><a class="headerlink" href="#document-by-topic-matrix" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>In <strong>Document-by-Topic</strong> matrix, we can see how each document in the corpus (<strong>row</strong>) is connected to each <strong>topic</strong>.</p></li>
 <li><p>In particular, the numbers refer to the probability value of a specific document being connected to a particular topic.</p></li>
@@ -1127,7 +1176,7 @@ Wall time: 5.32 s
 </div>
 </section>
 <section id="topic-by-word-matrix">
-<h3>Topic-by-Word Matrix<a class="headerlink" href="#topic-by-word-matrix" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id16">Topic-by-Word Matrix</a><a class="headerlink" href="#topic-by-word-matrix" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>In <strong>Topic-by-Word</strong> matrix, we can see how each topic (<strong>row</strong>) is connected to each word in the BOW.</p></li>
 <li><p>In particular, the numbers refer to the importance of the word with respect to each topic.</p></li>
@@ -1420,7 +1469,7 @@ Wall time: 5.32 s
 </div>
 </section>
 <section id="interpreting-the-meanings-of-topics">
-<h3>Interpreting the Meanings of Topics<a class="headerlink" href="#interpreting-the-meanings-of-topics" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id17">Interpreting the Meanings of Topics</a><a class="headerlink" href="#interpreting-the-meanings-of-topics" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>This is the most crucial step in topic modeling. The LDA does not give us a label for each topic.</p></li>
 <li><p>It is the analyst who determines the <strong>meanings</strong> of the topics.</p></li>
@@ -1509,7 +1558,7 @@ brown dog fox
 </section>
 </section>
 <section id="topics-in-documents">
-<h2>Topics in Documents<a class="headerlink" href="#topics-in-documents" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id18">Topics in Documents</a><a class="headerlink" href="#topics-in-documents" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>After we determine the meanings of the topics, we can now analyze how each document is connected to these topics.</p></li>
 <li><p>That is, we can now look at the <strong>Document-by-Topic</strong> Matrix.</p></li>
@@ -1636,7 +1685,7 @@ brown dog fox
 </div>
 </section>
 <section id="clustering-documents-using-topic-model-features">
-<h2>Clustering documents using topic model features<a class="headerlink" href="#clustering-documents-using-topic-model-features" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id19">Clustering documents using topic model features</a><a class="headerlink" href="#clustering-documents-using-topic-model-features" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
@@ -1728,7 +1777,7 @@ brown dog fox
 </div>
 </section>
 <section id="visualizing-topic-models">
-<h2>Visualizing Topic Models<a class="headerlink" href="#visualizing-topic-models" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id20">Visualizing Topic Models</a><a class="headerlink" href="#visualizing-topic-models" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyLDAvis</span>
@@ -1800,7 +1849,7 @@ if(typeof(LDAvis) !== "undefined"){
 </div>
 </section>
 <section id="hyperparameter-tuning">
-<h2>Hyperparameter Tuning<a class="headerlink" href="#hyperparameter-tuning" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id21">Hyperparameter Tuning</a><a class="headerlink" href="#hyperparameter-tuning" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>One thing we haven’t made explicit is that the <strong>number of topics</strong> so far has been pre-determined.</p></li>
 <li><p>How to find the optimal number of topics can be challenging in topic modeling.</p></li>
@@ -1816,7 +1865,7 @@ if(typeof(LDAvis) !== "undefined"){
 <p>Doing Grid Search with LDA models can be very slow. There are some other topic modeling algorithms that are a lot faster. Please refer to Sarkar (2019) Chapter 6 for more information.</p>
 </div>
 <section id="grid-search-for-topic-number">
-<h3>Grid Search for Topic Number<a class="headerlink" href="#grid-search-for-topic-number" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id22">Grid Search for Topic Number</a><a class="headerlink" href="#grid-search-for-topic-number" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
@@ -1873,7 +1922,7 @@ Best Model Perplexity:  25.292966407265162
 </div>
 </section>
 <section id="examining-the-grid-search-results">
-<h3>Examining the Grid Search Results<a class="headerlink" href="#examining-the-grid-search-results" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id23">Examining the Grid Search Results</a><a class="headerlink" href="#examining-the-grid-search-results" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cv_results_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">gridsearch</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">)</span>
@@ -2146,7 +2195,7 @@ Topic #2 :
 </section>
 </section>
 <section id="topic-prediction">
-<h2>Topic Prediction<a class="headerlink" href="#topic-prediction" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id24">Topic Prediction</a><a class="headerlink" href="#topic-prediction" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>We can use our LDA to make predictions of topics for new documents.</p></li>
 </ul>
@@ -2230,7 +2279,7 @@ Topic #2 :
 </div>
 </section>
 <section id="additional-notes">
-<h2>Additional Notes<a class="headerlink" href="#additional-notes" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id25">Additional Notes</a><a class="headerlink" href="#additional-notes" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>We can calculate a metric to evaluate the coherence of each topic.</p></li>
 <li><p>The coherence computation is implemented in <code class="docutils literal notranslate"><span class="pre">gensim</span></code>. To apply the coherence comptuation to a <code class="docutils literal notranslate"><span class="pre">sklearn</span></code>-trained LDA, we need <code class="docutils literal notranslate"><span class="pre">tmtoolkit</span></code> (<code class="docutils literal notranslate"><span class="pre">tmtoolkit.topicmod.evaluate.metric_coherence_gensim</span></code>).</p></li>
@@ -2421,7 +2470,7 @@ Wall time: 2min
 </div>
 </section>
 <section id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id26">References</a><a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Sarkar (2019), Chapter 6: Text Summarization and Topic Models</p></li>
 </ul>
