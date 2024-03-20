@@ -422,6 +422,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#topic-prediction">Topic Prediction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-notes">Additional Notes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#challenges">Challenges</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 </ul>
             </nav>
@@ -480,7 +481,8 @@ document.write(`
 </li>
 <li><p><a class="reference internal" href="#topic-prediction" id="id24">Topic Prediction</a></p></li>
 <li><p><a class="reference internal" href="#additional-notes" id="id25">Additional Notes</a></p></li>
-<li><p><a class="reference internal" href="#references" id="id26">References</a></p></li>
+<li><p><a class="reference internal" href="#challenges" id="id26">Challenges</a></p></li>
+<li><p><a class="reference internal" href="#references" id="id27">References</a></p></li>
 </ul>
 </li>
 </ul>
@@ -498,6 +500,17 @@ document.write(`
 <ul>
 <li><p>Each <strong>document</strong> consists of several <strong>topics</strong> (a distribution of different topics).</p></li>
 <li><p>Each topic is connected to particular groups of <strong>words</strong> (a distribution of different words).</p></li>
+<li><p>With our current data collection, we use the mathmeatical algorithm (i.e., Latent Dirichlet Allocation) to learn these document-by-topic and topic-by-word distributions in an unsupervised way.</p></li>
+</ul>
+</li>
+</ul>
+<ul class="simple">
+<li><p>Potential applications of LDA</p>
+<ul>
+<li><p>Topic discovery and document classication</p></li>
+<li><p>Information retrievel based on topic clusters</p></li>
+<li><p>Content recommendation by modeling the topics of interest to a user</p></li>
+<li><p>Understanding trends over time</p></li>
 </ul>
 </li>
 </ul>
@@ -513,12 +526,18 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span> <span class="c1">## silent non-critical warnings</span>
+
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">nltk</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">CountVectorizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">LatentDirichletAllocation</span>
+<span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">LatentDirichletAllocation</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
 
 <span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">max_colwidth</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="c1"># %matplotlib inline</span>
@@ -532,6 +551,7 @@ document.write(`
 <ul class="simple">
 <li><p>We will be using again a simple corpus for illustration.</p></li>
 <li><p>It is a corpus consisting of eight documents, each of which consists of a simple sentence.</p></li>
+<li><p>Please note that usually for the task of topic modeling, we do not have the topic categories for the documents in the corpus.</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -544,14 +564,10 @@ document.write(`
     <span class="s1">&#39;The sky is very blue and the sky is very beautiful today&#39;</span><span class="p">,</span>
     <span class="s1">&#39;The dog is lazy but the brown fox is quick!&#39;</span>
 <span class="p">]</span>
-<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;weather&#39;</span><span class="p">,</span> <span class="s1">&#39;weather&#39;</span><span class="p">,</span> <span class="s1">&#39;animals&#39;</span><span class="p">,</span> <span class="s1">&#39;food&#39;</span><span class="p">,</span> <span class="s1">&#39;food&#39;</span><span class="p">,</span> <span class="s1">&#39;animals&#39;</span><span class="p">,</span> <span class="s1">&#39;weather&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;animals&#39;</span>
-<span class="p">]</span>
 
 <span class="n">corpus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
-<span class="n">corpus_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Document&#39;</span><span class="p">:</span> <span class="n">corpus</span><span class="p">,</span> <span class="s1">&#39;Category&#39;</span><span class="p">:</span> <span class="n">labels</span><span class="p">})</span>
-<span class="n">corpus_df</span> <span class="o">=</span> <span class="n">corpus_df</span><span class="p">[[</span><span class="s1">&#39;Document&#39;</span><span class="p">,</span> <span class="s1">&#39;Category&#39;</span><span class="p">]]</span>
+<span class="n">corpus_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Document&#39;</span><span class="p">:</span> <span class="n">corpus</span><span class="p">})</span>
+<span class="n">corpus_df</span> <span class="o">=</span> <span class="n">corpus_df</span><span class="p">[[</span><span class="s1">&#39;Document&#39;</span><span class="p">]]</span>
 <span class="n">corpus_df</span>
 </pre></div>
 </div>
@@ -576,49 +592,40 @@ document.write(`
     <tr style="text-align: right;">
       <th></th>
       <th>Document</th>
-      <th>Category</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
       <td>The sky is blue and beautiful.</td>
-      <td>weather</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Love this blue and beautiful sky!</td>
-      <td>weather</td>
     </tr>
     <tr>
       <th>2</th>
       <td>The quick brown fox jumps over the lazy dog.</td>
-      <td>animals</td>
     </tr>
     <tr>
       <th>3</th>
       <td>A king's breakfast has sausages, ham, bacon, eggs, toast and beans</td>
-      <td>food</td>
     </tr>
     <tr>
       <th>4</th>
       <td>I love green eggs, ham, sausages and bacon!</td>
-      <td>food</td>
     </tr>
     <tr>
       <th>5</th>
       <td>The brown fox is quick and the blue dog is lazy!</td>
-      <td>animals</td>
     </tr>
     <tr>
       <th>6</th>
       <td>The sky is very blue and the sky is very beautiful today</td>
-      <td>weather</td>
     </tr>
     <tr>
       <th>7</th>
       <td>The dog is lazy but the brown fox is quick!</td>
-      <td>animals</td>
     </tr>
   </tbody>
 </table>
@@ -629,7 +636,7 @@ document.write(`
 <h3><a class="toc-backref" href="#id7">Simple Text Pre-processing</a><a class="headerlink" href="#simple-text-pre-processing" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Depending on the nature of the raw corpus data, we may need to implement more specific steps in text preprocessing.</p></li>
-<li><p>In our current naive example, we consider:</p>
+<li><p>In our current naive example, we may consider:</p>
 <ul>
 <li><p>removing symbols and punctuations</p></li>
 <li><p>normalizing the letter case</p></li>
@@ -645,31 +652,30 @@ document.write(`
 <li><p>whether to remove hyphens</p></li>
 <li><p>whether to lemmatize word forms</p></li>
 <li><p>whether to stemmatize word forms</p></li>
-<li><p>whether to remove short word tokens</p></li>
+<li><p>whether to remove short word tokens (e.g., disyllabic or multisyllabic words)</p></li>
 <li><p>whether to remove unknown words (e.g., words not listed in WordNet)</p></li>
 <li><p>whether to remove functional words (e.g., including only content words, such as nouns, verbs, adjectives)</p></li>
 </ul>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wpt</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">WordPunctTokenizer</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Initialize word-tokenizer</span>
+<span class="n">wpt</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">WordPunctTokenizer</span><span class="p">()</span>
+
+<span class="c1">## Prepare English stopword list</span>
 <span class="n">stop_words</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">corpus</span><span class="o">.</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s1">&#39;english&#39;</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">normalize_document</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
-    <span class="c1"># lower case and remove special characters\whitespaces</span>
-    <span class="n">doc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[^a-zA-Z\s]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">doc</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
-    <span class="n">doc</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-    <span class="n">doc</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-    <span class="c1"># tokeanize document</span>
-    <span class="n">tokens</span> <span class="o">=</span> <span class="n">wpt</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
-    <span class="c1"># filter stopwords out of document</span>
-    <span class="n">filtered_tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">token</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span> <span class="k">if</span> <span class="n">token</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stop_words</span><span class="p">]</span>
-    <span class="c1"># re-create document from filtered tokens</span>
-    <span class="n">doc</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filtered_tokens</span><span class="p">)</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[^a-zA-Z\s]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">doc</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">A</span><span class="p">)</span> <span class="c1">## punks, symbols</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="c1">## casing</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="c1">## redundant spaces</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">wpt</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span> <span class="c1">## word-tokenize</span>
+    <span class="n">filtered_tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">token</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span> <span class="k">if</span> <span class="n">token</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stop_words</span><span class="p">]</span> <span class="c1">## stopwords</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filtered_tokens</span><span class="p">)</span> <span class="c1">## concat</span>
     <span class="k">return</span> <span class="n">doc</span>
 
-
+<span class="c1">## Vectorize the function (applicable to a list)</span>
 <span class="n">normalize_corpus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="n">normalize_document</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -677,7 +683,8 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">norm_corpus</span> <span class="o">=</span> <span class="n">normalize_corpus</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## proprocess corpus</span>
+<span class="n">norm_corpus</span> <span class="o">=</span> <span class="n">normalize_corpus</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
 <span class="n">norm_corpus</span>
 </pre></div>
 </div>
@@ -703,20 +710,27 @@ document.write(`
 <section id="bag-of-words-model">
 <h3><a class="toc-backref" href="#id9">Bag of Words Model</a><a class="headerlink" href="#bag-of-words-model" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
-<li><p>In topic modeling, the simplest way of text vectorization is to adopt the feature-based Bag-of-Words model.</p></li>
-<li><p>Recap of the characteristics of BOW model</p>
+<li><p>In topic modeling, the simplest method of text vectorization involves using the naive Bag-of-Words (BOW) model.</p></li>
+<li><p>Key characteristics of the BOW model:</p>
 <ul>
-<li><p>It is a naive way to vectorize texts into numeric representations using their word frequency lists</p></li>
-<li><p>The sequential order of words in the text is naively ignored.</p></li>
-<li><p>We can filter the document-by-word matrix in many different ways (Please see the lecture notes on <a class="reference internal" href="text-vec-traditional.html"><span class="doc std std-doc">Lecture Notes: Text Vectorization</span></a></p></li>
+<li><p>It converts texts into numeric representations by tallying the frequency of words in the corpus vocabulary.</p></li>
+<li><p>Sequential word order is disregarded in this approach.</p></li>
+<li><p>Various filtering techniques can be applied to the document-by-word matrix. (For more details, refer to the lecture notes on <a class="reference internal" href="text-vec-traditional.html"><span class="doc std std-doc">Lecture Notes: Text Vectorization</span></a>)</p></li>
 </ul>
 </li>
-<li><p>Please use the <strong>count-based</strong> vectorizer for topic modeling because most of the topic modeling algorithms will take care of the weightings automatically during the mathematical computing.</p></li>
+<li><p>For topic modeling, it’s advisable to utilize the <strong>count-based</strong> vectorizer. Most topic modeling algorithms will handle weightings during mathematical computations.</p></li>
 </ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<ul class="simple">
+<li><p>We should use <code class="docutils literal notranslate"><span class="pre">CountVectorizer</span></code> instead of <code class="docutils literal notranslate"><span class="pre">TfidfVectorizer</span></code> when fitting LDA  because LDA is based on term count and document count.</p></li>
+<li><p>Fitting LDA with <code class="docutils literal notranslate"><span class="pre">TfidfVectorizer</span></code> will result in rare words being dis-proportionally sampled.</p></li>
+<li><p>As a result, they will have greater impact and influence on the final topic distribution.</p></li>
+</ul>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">CountVectorizer</span>
-<span class="c1"># get bag of words features in sparse format</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Countvectorize</span>
 <span class="n">cv</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">(</span><span class="n">min_df</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">max_df</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
 <span class="n">cv_matrix</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">norm_corpus</span><span class="p">)</span>
 <span class="n">cv_matrix</span>
@@ -732,8 +746,8 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># view dense representation</span>
-<span class="c1"># warning might give a memory error if data is too big</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Inspect BOA matrix</span>
+<span class="c1">## warning might give a memory error if data is too big</span>
 <span class="n">cv_matrix</span> <span class="o">=</span> <span class="n">cv_matrix</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
 <span class="n">cv_matrix</span>
 </pre></div>
@@ -754,9 +768,10 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get all unique words in the corpus</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Check all lexical features</span>
 <span class="n">vocab</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">()</span>
-<span class="c1"># show document feature vectors</span>
+
+<span class="c1">## View BOA in df</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cv_matrix</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">vocab</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -998,48 +1013,40 @@ document.write(`
 <section id="intuition-of-lda">
 <h3><a class="toc-backref" href="#id11">Intuition of LDA</a><a class="headerlink" href="#intuition-of-lda" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
-<li><p>Latent Dirichlet [diʀiˈkleː] Allocation learns the relationships between <strong>words</strong>, <strong>topics</strong>, and <strong>documents</strong> by assuming documents are generated by a particular probabilistic model.</p></li>
-<li><p>A topic in LDA is a multinomial distribution over the words in the vocabulary of the corpus. (That is, given a topic, it’s more likely to see specific sets of words).</p></li>
+<li><p>Latent Dirichlet Allocation (LDA) is a method used to uncover the underlying themes or topics in a collection of documents.</p></li>
+<li><p>In LDA, a “topic” represents a distribution of words across the entire vocabulary of the corpus. Essentially, it tells us which words are likely to co-occur together within a topic.</p></li>
+<li><p>Specifically, LDA operates by assuming that each document is generated based on two crucial probabilistic models: document-by-topic and topic-by-word models.</p></li>
 </ul>
 <ul class="simple">
-<li><p>What LDA gives us is:</p>
+<li><p>LDA provides us with two main matrices:</p>
 <ul>
-<li><p>Which words are more likely to be connected to specific topics? (Topic by Word Matrix)</p></li>
-<li><p>Which topics are more likely to be connected to specific documents? (Document by Topic Matrix)</p></li>
+<li><p>the Topic by Word Matrix, which shows the likelihood of words being associated with specific topics;</p></li>
+<li><p>the Document by Topic Matrix, which indicates the likelihood of documents being associated with specific topics.</p></li>
 </ul>
 </li>
 </ul>
 <ul class="simple">
-<li><p>To interpret a topic in LDA, we examine the ranked list of the most probable (top N) words in that topic.</p></li>
-<li><p>Common words in the corpus often appear near the top of the words for each topic, which makes it hard to differentiate the meanings of these topics sometimes.</p></li>
-<li><p>When inspecting the word rankings for each topic, we can utilize two types of information provided by LDA:</p>
-<ul>
-<li><p>The frequencies of the words under each topic</p></li>
-<li><p>The exclusivity of the words to the topic (i.e., the degree to which the word appears in that particular topic to the exclusion of others).</p></li>
-</ul>
-</li>
+<li><p>To understand a topic, we look at the ranked list of the most probable words within that topic. However, since common words often rank high across multiple topics, it can be challenging to distinguish between them.</p></li>
+<li><p>To overcome this, LDA offers insights into both the frequency of words within each topic and the exclusivity (i.e., the association) of words to a particular topic, helping us understand how strongly each word relates to its assigned topic.</p></li>
 </ul>
 </section>
 <section id="building-lda-model">
 <h3><a class="toc-backref" href="#id12">Building LDA Model</a><a class="headerlink" href="#building-lda-model" title="Permalink to this headline">#</a></h3>
-<ul class="simple">
-<li><p>We should use <code class="docutils literal notranslate"><span class="pre">CountVectorizer</span></code> when fitting LDA instead of <code class="docutils literal notranslate"><span class="pre">TfidfVectorizer</span></code> because LDA is based on term count and document count.</p></li>
-<li><p>Fitting LDA with <code class="docutils literal notranslate"><span class="pre">TfidfVectorizer</span></code> will result in rare words being dis-proportionally sampled.</p></li>
-<li><p>As a result, they will have greater impact and influence on the final topic distribution.</p></li>
-</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
-<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">LatentDirichletAllocation</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span> 
 
-<span class="n">lda</span> <span class="o">=</span> <span class="n">LatentDirichletAllocation</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">doc_topic_matrix</span> <span class="o">=</span> <span class="n">lda</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">cv_matrix</span><span class="p">)</span>
+<span class="n">lda</span> <span class="o">=</span> <span class="n">LatentDirichletAllocation</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>  <span class="c1">## Number of topics to generate by the LDA model.</span>
+                                <span class="n">max_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>  <span class="c1">## Maximum number of iterations for the optimization algorithm.</span>
+                                <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1">## Random Seed</span>
+
+<span class="n">doc_topic_matrix</span> <span class="o">=</span> <span class="n">lda</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">cv_matrix</span><span class="p">)</span>  <span class="c1"># Fit the LDA model</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 5.28 s, sys: 25.2 ms, total: 5.3 s
-Wall time: 5.32 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1.81 s, sys: 1.87 ms, total: 1.81 s
+Wall time: 1.83 s
 </pre></div>
 </div>
 </div>
@@ -1048,7 +1055,7 @@ Wall time: 5.32 s
 <section id="model-performance-metrics">
 <h3><a class="toc-backref" href="#id13">Model Performance Metrics</a><a class="headerlink" href="#model-performance-metrics" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
-<li><p>We can diagnose the model performance using <strong>perplexity</strong> and <strong>log-likelihood</strong>.</p>
+<li><p>In topic modeling, we can diagnose the model performance using <strong>perplexity</strong> and <strong>log-likelihood</strong>.</p>
 <ul>
 <li><p>The higher the log-likelihood, the better.</p></li>
 <li><p>The lower the perplexity, the better.</p></li>
@@ -1057,16 +1064,17 @@ Wall time: 5.32 s
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># log-likelihood</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## log-likelihood</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">lda</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">cv_matrix</span><span class="p">))</span>
-<span class="c1"># perplexity</span>
+
+<span class="c1">## perplexity</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">lda</span><span class="o">.</span><span class="n">perplexity</span><span class="p">(</span><span class="n">cv_matrix</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-138.91263303644246
-25.29296641284209
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-138.9126330364425
+25.292966412842105
 </pre></div>
 </div>
 </div>
@@ -1076,13 +1084,31 @@ Wall time: 5.32 s
 <section id="interpretation">
 <h2><a class="toc-backref" href="#id14">Interpretation</a><a class="headerlink" href="#interpretation" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
-<li><p>To properly interpret the results provided by LDA, we need to get two important matrices:</p>
+<li><p>To properly interpret the results provided by LDA, we need to get the two important probabilistic models:</p>
 <ul>
 <li><p><strong>Document-by-Topic</strong> Matrix: This is the matrix returned by the <code class="docutils literal notranslate"><span class="pre">LatentDirichletAllocation</span></code> object when we <code class="docutils literal notranslate"><span class="pre">fit_transform()</span></code> the model with the data.</p></li>
 <li><p><strong>Word-by-Topic</strong> Matrix: We can retrieve this matrix from a fitted <code class="docutils literal notranslate"><span class="pre">LatentDirichletAllocation</span></code> object. i.e., <code class="docutils literal notranslate"><span class="pre">LatentDirichletAllocation.components_</span></code></p></li>
 </ul>
 </li>
 </ul>
+<ul class="simple">
+<li><p>We have 8 documents and our vocabulary size is 20 (words).</p></li>
+<li><p>We can check the shapes of the two matrices.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">doc_topic_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="c1">## doc-by-topic matrix</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">lda</span><span class="o">.</span><span class="n">components_</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="c1">## topic-by-word- matrix</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(8, 3)
+(3, 20)
+</pre></div>
+</div>
+</div>
+</div>
 <section id="document-by-topic-matrix">
 <h3><a class="toc-backref" href="#id15">Document-by-Topic Matrix</a><a class="headerlink" href="#document-by-topic-matrix" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
@@ -1310,7 +1336,7 @@ Wall time: 5.32 s
 </div></div></div>
 </div>
 <ul class="simple">
-<li><p>We can transpose the matrix for clarity of inspection.</p></li>
+<li><p>We can transpose the matrix for clarity of inspection (With each topic on the column).</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1477,22 +1503,34 @@ Wall time: 5.32 s
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## This function sorts the words importances under each topic</span>
-<span class="c1">## and the selectional criteria include (a) ranks based on weights, or (b) cutoff on weights</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## customized function</span>
+
 <span class="k">def</span> <span class="nf">get_topics_meanings</span><span class="p">(</span><span class="n">tw_m</span><span class="p">,</span>
                         <span class="n">vocab</span><span class="p">,</span>
                         <span class="n">display_weights</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                         <span class="n">topn</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
                         <span class="n">weight_cutoff</span><span class="o">=</span><span class="mf">0.6</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">topic_weights</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tw_m</span><span class="p">):</span>  <span class="c1">## for each topic row</span>
-        <span class="n">topic</span> <span class="o">=</span> <span class="p">[(</span><span class="n">token</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-                 <span class="k">for</span> <span class="n">token</span><span class="p">,</span> <span class="n">weight</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vocab</span><span class="p">,</span> <span class="n">topic_weights</span><span class="p">)</span>
-                 <span class="p">]</span>  <span class="c1">## zip (word, importance_weight)</span>
-        <span class="n">topic</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span>
-                       <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>  <span class="c1">## rank words according to weights</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function sorts the words importance under each topic and </span>
+<span class="sd">    allows selecting words based on ranks or a cutoff on weights.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    - tw_m : array-like</span>
+<span class="sd">        Topic by Word matrix containing the weights of each word in each topic.</span>
+<span class="sd">    - vocab : list</span>
+<span class="sd">        List of words in the vocabulary.</span>
+<span class="sd">    - display_weights : bool, optional (default=False)</span>
+<span class="sd">        Flag to indicate whether to display words with their weights.</span>
+<span class="sd">    - topn : int, optional (default=5)</span>
+<span class="sd">        Number of top words to display for each topic if display_weights is False.</span>
+<span class="sd">    - weight_cutoff : float, optional (default=0.6)</span>
+<span class="sd">        Weight cutoff threshold for displaying words if display_weights is True.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">topic_weights</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tw_m</span><span class="p">):</span>
+        <span class="n">topic</span> <span class="o">=</span> <span class="p">[(</span><span class="n">token</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="k">for</span> <span class="n">token</span><span class="p">,</span> <span class="n">weight</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vocab</span><span class="p">,</span> <span class="n">topic_weights</span><span class="p">)]</span>
+        <span class="n">topic</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">display_weights</span><span class="p">:</span>
-            <span class="n">topic</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">topic</span> <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">weight_cutoff</span>
-                     <span class="p">]</span>  <span class="c1">## output words whose weights &gt; 0.6</span>
+            <span class="n">topic</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">topic</span> <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">weight_cutoff</span><span class="p">]</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Topic #</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> :</span><span class="se">\n</span><span class="si">{</span><span class="n">topic</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">20</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1537,19 +1575,22 @@ Topic #2 :
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">get_topics_meanings</span><span class="p">(</span><span class="n">topic_word_matrix</span><span class="p">,</span> <span class="n">vocab</span><span class="p">,</span> <span class="n">display_weights</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">topn</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">get_topics_meanings</span><span class="p">(</span><span class="n">topic_word_matrix</span><span class="p">,</span> 
+                    <span class="n">vocab</span><span class="p">,</span> 
+                    <span class="n">display_weights</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+                    <span class="n">topn</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Topic #0 :
-sky blue beautiful
+sky blue beautiful love today
 ====================
 Topic #1 :
-bacon eggs ham
+bacon eggs ham sausages love
 ====================
 Topic #2 :
-brown dog fox
+brown dog fox lazy quick
 ====================
 </pre></div>
 </div>
@@ -1560,12 +1601,15 @@ brown dog fox
 <section id="topics-in-documents">
 <h2><a class="toc-backref" href="#id18">Topics in Documents</a><a class="headerlink" href="#topics-in-documents" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
-<li><p>After we determine the meanings of the topics, we can now analyze how each document is connected to these topics.</p></li>
+<li><p>After we determine the meanings of the topics, we can now analyze how each document is associated to these topics.</p></li>
 <li><p>That is, we can now look at the <strong>Document-by-Topic</strong> Matrix.</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">topics</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;weather&#39;</span><span class="p">,</span> <span class="s1">&#39;food&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## interpretation of TOPICS</span>
+<span class="n">topics</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;weather&#39;</span><span class="p">,</span> <span class="s1">&#39;food&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">]</span>
+
+<span class="c1">## Checking</span>
 <span class="n">doc_topic_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">topics</span>
 <span class="n">doc_topic_df</span><span class="p">[</span><span class="s1">&#39;corpus&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm_corpus</span>
 <span class="n">doc_topic_df</span>
@@ -1663,36 +1707,49 @@ brown dog fox
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_axis</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;DOC&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">norm_corpus</span><span class="p">))]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## create stacked bar plot</span>
+<span class="n">x_axis</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;DOC&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">norm_corpus</span><span class="p">))]</span>
 <span class="n">y_axis</span> <span class="o">=</span> <span class="n">doc_topic_df</span><span class="p">[[</span><span class="s1">&#39;weather&#39;</span><span class="p">,</span> <span class="s1">&#39;food&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">]]</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
 
-<span class="c1"># Plot a stackplot - https://matplotlib.org/3.1.1/gallery/lines_bars_and_markers/stackplot_demo.html</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">stackplot</span><span class="p">(</span><span class="n">x_axis</span><span class="p">,</span> <span class="n">y_axis</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">baseline</span><span class="o">=</span><span class="s1">&#39;wiggle&#39;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">y_axis</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="c1"># Create stacked bar plot</span>
+<span class="n">bottom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_axis</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">y_axis</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x_axis</span><span class="p">,</span> <span class="n">y_axis</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="n">bottom</span><span class="o">=</span><span class="n">bottom</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">col</span><span class="p">)</span>
+    <span class="n">bottom</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y_axis</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
 
-<span class="c1"># Move the legend off of the chart</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="p">(</span><span class="mf">1.04</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="c1"># Move the legend outside of the chart</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;center left&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f839e1ecb80&gt;
-</pre></div>
-</div>
-<img alt="../_images/8d355101eae3b04e4ad2833b4acf99ff2460f77edf5c153352948df4a90e5e1c.png" src="../_images/8d355101eae3b04e4ad2833b4acf99ff2460f77edf5c153352948df4a90e5e1c.png" />
+<img alt="../_images/e120c564244290551b9fdd3fea587f903e6313f81384db76e28c141c6640a108.png" src="../_images/e120c564244290551b9fdd3fea587f903e6313f81384db76e28c141c6640a108.png" />
 </div>
 </div>
 </section>
 <section id="clustering-documents-using-topic-model-features">
 <h2><a class="toc-backref" href="#id19">Clustering documents using topic model features</a><a class="headerlink" href="#clustering-documents-using-topic-model-features" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>We can use the topic distributions of each document as our features to further group the documents into clusters.</p></li>
+<li><p>Here is a quick example of k-means clustering.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
-
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## initialize kmeans</span>
 <span class="n">km</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1">## fit kmeans</span>
 <span class="n">km</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">doc_topic_matrix</span><span class="p">)</span>
+
+<span class="c1">## get cluster labels</span>
+
 <span class="n">cluster_labels</span> <span class="o">=</span> <span class="n">km</span><span class="o">.</span><span class="n">labels_</span>
+
+<span class="c1">## check results</span>
 <span class="n">cluster_labels</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cluster_labels</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ClusterLabel&#39;</span><span class="p">])</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">corpus_df</span><span class="p">,</span> <span class="n">cluster_labels</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
@@ -1718,7 +1775,6 @@ brown dog fox
     <tr style="text-align: right;">
       <th></th>
       <th>Document</th>
-      <th>Category</th>
       <th>ClusterLabel</th>
     </tr>
   </thead>
@@ -1726,49 +1782,41 @@ brown dog fox
     <tr>
       <th>0</th>
       <td>The sky is blue and beautiful.</td>
-      <td>weather</td>
       <td>2</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Love this blue and beautiful sky!</td>
-      <td>weather</td>
       <td>2</td>
     </tr>
     <tr>
       <th>2</th>
       <td>The quick brown fox jumps over the lazy dog.</td>
-      <td>animals</td>
       <td>1</td>
     </tr>
     <tr>
       <th>3</th>
       <td>A king's breakfast has sausages, ham, bacon, eggs, toast and beans</td>
-      <td>food</td>
       <td>0</td>
     </tr>
     <tr>
       <th>4</th>
       <td>I love green eggs, ham, sausages and bacon!</td>
-      <td>food</td>
       <td>0</td>
     </tr>
     <tr>
       <th>5</th>
       <td>The brown fox is quick and the blue dog is lazy!</td>
-      <td>animals</td>
       <td>1</td>
     </tr>
     <tr>
       <th>6</th>
       <td>The sky is very blue and the sky is very beautiful today</td>
-      <td>weather</td>
       <td>2</td>
     </tr>
     <tr>
       <th>7</th>
       <td>The dog is lazy but the brown fox is quick!</td>
-      <td>animals</td>
       <td>1</td>
     </tr>
   </tbody>
@@ -1809,10 +1857,10 @@ brown dog fox
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.4.0/pyLDAvis/js/ldavis.v1.0.0.css">
 
 
-<div id="ldavis_el192231402027710338885903416817" style="background-color:white;"></div>
+<div id="ldavis_el5706061172182241688164155" style="background-color:white;"></div>
 <script type="text/javascript">
 
-var ldavis_el192231402027710338885903416817_data = {"mdsDat": {"x": [-0.008445793833628949, 0.13462093650778834, -0.12617514267415936], "y": [0.16901844967086968, -0.08524624913297571, -0.083772200537894], "topics": [1, 2, 3], "cluster": [1, 1, 1], "Freq": [38.69857956361474, 33.674475344649736, 27.62694509173552]}, "tinfo": {"Term": ["sky", "beautiful", "blue", "lazy", "brown", "dog", "fox", "quick", "bacon", "sausages", "ham", "eggs", "today", "love", "kings", "beans", "breakfast", "toast", "green", "jumps", "quick", "brown", "dog", "fox", "lazy", "jumps", "blue", "today", "green", "toast", "breakfast", "beans", "kings", "love", "sausages", "bacon", "eggs", "ham", "beautiful", "sky", "bacon", "eggs", "sausages", "ham", "breakfast", "beans", "kings", "toast", "green", "love", "today", "jumps", "beautiful", "brown", "dog", "fox", "lazy", "quick", "sky", "blue", "sky", "beautiful", "blue", "today", "love", "green", "kings", "breakfast", "toast", "beans", "jumps", "sausages", "bacon", "eggs", "ham", "lazy", "fox", "quick", "dog", "brown"], "Freq": [3.0, 2.0, 3.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.347269745904943, 2.347269745904943, 2.347269745904943, 2.347269745904943, 2.347269745904943, 0.9385419225967806, 0.9100303130835469, 0.23505339441456768, 0.2350291466569901, 0.23496968562811427, 0.23496968562811427, 0.23496968562811427, 0.23496968562811427, 0.23535274903672884, 0.23498814448787408, 0.23498814448787408, 0.23498814448787408, 0.23498814448787408, 0.23511251824933246, 0.23508911832772747, 1.634277741376904, 1.634277741376904, 1.634277741376904, 1.634277741376904, 0.9337359955049813, 0.9337359955049813, 0.9337359955049813, 0.9337359955049813, 0.9335746009613621, 0.9356188717354834, 0.23381967072922324, 0.2338355879726243, 0.23389603446125906, 0.23383196198973596, 0.23383196198973596, 0.23383196198973596, 0.23383196198973596, 0.23383196198973596, 0.23386718998892939, 0.2341976848742828, 2.7511006632233563, 2.1160530513150566, 2.1423479111851953, 0.8461748182314354, 0.8448145411986039, 0.21195876118035797, 0.2118660813317044, 0.2118660813317044, 0.2118660813317044, 0.2118660813317044, 0.2119720351945211, 0.2118987506916116, 0.2118987506916116, 0.2118987506916116, 0.2118987506916116, 0.21202105596489695, 0.21202105596489695, 0.21202105596489695, 0.21202105596489695, 0.21202105596489695], "Total": [3.0, 2.0, 3.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.793122763859576, 2.793122763859576, 2.793122763859576, 2.793122763859576, 2.793122763859576, 1.384349545763926, 3.286575909143025, 1.3150478833752262, 1.3805625087987101, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3805717624648, 2.015786161970816, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.585061604025648, 3.2200569715400134, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3805625087987101, 2.015786161970816, 1.3150478833752262, 1.384349545763926, 2.585061604025648, 2.793122763859576, 2.793122763859576, 2.793122763859576, 2.793122763859576, 2.793122763859576, 3.2200569715400134, 3.286575909143025, 3.2200569715400134, 2.585061604025648, 3.286575909143025, 1.3150478833752262, 2.015786161970816, 1.3805625087987101, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.384349545763926, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.793122763859576, 2.793122763859576, 2.793122763859576, 2.793122763859576, 2.793122763859576], "Category": ["Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3"], "logprob": [20.0, 19.0, 18.0, 17.0, 16.0, 15.0, 14.0, 13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, -1.9586, -1.9586, -1.9586, -1.9586, -1.9586, -2.8753, -2.9061, -4.2598, -4.2599, -4.2601, -4.2601, -4.2601, -4.2601, -4.2585, -4.2601, -4.2601, -4.2601, -4.2601, -4.2595, -4.2596, -2.1816, -2.1816, -2.1816, -2.1816, -2.7413, -2.7413, -2.7413, -2.7413, -2.7415, -2.7393, -4.126, -4.1259, -4.1256, -4.1259, -4.1259, -4.1259, -4.1259, -4.1259, -4.1258, -4.1244, -1.4628, -1.7253, -1.7129, -2.6419, -2.6435, -4.0262, -4.0266, -4.0266, -4.0266, -4.0266, -4.0261, -4.0265, -4.0265, -4.0265, -4.0265, -4.0259, -4.0259, -4.0259, -4.0259, -4.0259], "loglift": [20.0, 19.0, 18.0, 17.0, 16.0, 15.0, 14.0, 13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.7755, 0.7755, 0.7755, 0.7755, 0.7755, 0.5607, -0.3348, -0.7724, -0.8212, -0.8214, -0.8214, -0.8214, -0.8214, -1.1983, -1.2318, -1.2318, -1.2318, -1.2318, -1.4481, -1.6678, 0.8467, 0.8467, 0.8467, 0.8467, 0.6974, 0.6974, 0.6974, 0.6974, 0.6972, 0.3209, -0.6386, -0.6899, -1.3142, -1.3919, -1.3919, -1.3919, -1.3919, -1.3919, -1.534, -1.553, 1.129, 1.0862, 0.8584, 0.8455, 0.4167, -0.5875, -0.5879, -0.5879, -0.5879, -0.5879, -0.5902, -0.9982, -0.9982, -0.9982, -0.9982, -1.2919, -1.2919, -1.2919, -1.2919, -1.2919]}, "token.table": {"Topic": [2, 2, 3, 1, 3, 2, 1, 1, 2, 1, 2, 2, 1, 2, 1, 2, 3, 1, 2, 3, 2, 3], "Freq": [0.961000376841551, 0.7243375731621895, 0.7736759529774659, 0.30426803690067517, 0.6085360738013503, 0.7243375731621895, 0.7160444309423665, 0.7160444309423665, 0.961000376841551, 0.7160444309423665, 0.72434242826871, 0.961000376841551, 0.7223609117075772, 0.7243375731621895, 0.7160444309423665, 0.4960843659241657, 0.4960843659241657, 0.7160444309423665, 0.961000376841551, 0.9316605347405486, 0.7243375731621895, 0.760428584116178], "Term": ["bacon", "beans", "beautiful", "blue", "blue", "breakfast", "brown", "dog", "eggs", "fox", "green", "ham", "jumps", "kings", "lazy", "love", "love", "quick", "sausages", "sky", "toast", "today"]}, "R": 20, "lambda.step": 0.01, "plot.opts": {"xlab": "PC1", "ylab": "PC2"}, "topic.order": [3, 2, 1]};
+var ldavis_el5706061172182241688164155_data = {"mdsDat": {"x": [-0.008445793833628968, 0.1346209365077882, -0.12617514267415922], "y": [0.16901844967086976, -0.08524624913297574, -0.08377220053789404], "topics": [1, 2, 3], "cluster": [1, 1, 1], "Freq": [38.69857956361474, 33.674475344649736, 27.62694509173552]}, "tinfo": {"Term": ["sky", "beautiful", "blue", "lazy", "brown", "dog", "fox", "quick", "bacon", "sausages", "ham", "eggs", "today", "love", "kings", "beans", "breakfast", "toast", "green", "jumps", "quick", "brown", "dog", "fox", "lazy", "jumps", "blue", "today", "green", "toast", "breakfast", "beans", "kings", "love", "sausages", "bacon", "eggs", "ham", "beautiful", "sky", "bacon", "eggs", "sausages", "ham", "breakfast", "beans", "kings", "toast", "green", "love", "today", "jumps", "beautiful", "brown", "dog", "fox", "lazy", "quick", "sky", "blue", "sky", "beautiful", "blue", "today", "love", "green", "kings", "breakfast", "toast", "beans", "jumps", "sausages", "bacon", "eggs", "ham", "lazy", "fox", "quick", "dog", "brown"], "Freq": [3.0, 2.0, 3.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.347269745904943, 2.347269745904943, 2.347269745904943, 2.347269745904943, 2.347269745904943, 0.9385419225967806, 0.9100303130835469, 0.23505339441456768, 0.2350291466569901, 0.23496968562811427, 0.23496968562811427, 0.23496968562811427, 0.23496968562811427, 0.23535274903672884, 0.23498814448787408, 0.23498814448787408, 0.23498814448787408, 0.23498814448787408, 0.23511251824933246, 0.23508911832772747, 1.634277741376904, 1.634277741376904, 1.634277741376904, 1.634277741376904, 0.9337359955049813, 0.9337359955049813, 0.9337359955049813, 0.9337359955049813, 0.9335746009613621, 0.9356188717354832, 0.23381967072922324, 0.2338355879726243, 0.23389603446125906, 0.23383196198973596, 0.23383196198973596, 0.23383196198973596, 0.23383196198973596, 0.23383196198973596, 0.23386718998892939, 0.2341976848742828, 2.751100663223356, 2.1160530513150566, 2.1423479111851953, 0.8461748182314354, 0.8448145411986039, 0.21195876118035797, 0.2118660813317044, 0.2118660813317044, 0.2118660813317044, 0.2118660813317044, 0.2119720351945211, 0.2118987506916116, 0.2118987506916116, 0.2118987506916116, 0.2118987506916116, 0.21202105596489695, 0.21202105596489695, 0.21202105596489695, 0.21202105596489695, 0.21202105596489695], "Total": [3.0, 2.0, 3.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.793122763859576, 2.793122763859576, 2.793122763859576, 2.793122763859576, 2.793122763859576, 1.384349545763926, 3.286575909143025, 1.3150478833752262, 1.3805625087987101, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3805717624648, 2.0157861619708157, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.585061604025648, 3.220056971540013, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3805625087987101, 2.0157861619708157, 1.3150478833752262, 1.384349545763926, 2.585061604025648, 2.793122763859576, 2.793122763859576, 2.793122763859576, 2.793122763859576, 2.793122763859576, 3.220056971540013, 3.286575909143025, 3.220056971540013, 2.585061604025648, 3.286575909143025, 1.3150478833752262, 2.0157861619708157, 1.3805625087987101, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.3805717624648, 1.384349545763926, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.0811646365563896, 2.793122763859576, 2.793122763859576, 2.793122763859576, 2.793122763859576, 2.793122763859576], "Category": ["Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3"], "logprob": [20.0, 19.0, 18.0, 17.0, 16.0, 15.0, 14.0, 13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, -1.9586, -1.9586, -1.9586, -1.9586, -1.9586, -2.8753, -2.9061, -4.2598, -4.2599, -4.2601, -4.2601, -4.2601, -4.2601, -4.2585, -4.2601, -4.2601, -4.2601, -4.2601, -4.2595, -4.2596, -2.1816, -2.1816, -2.1816, -2.1816, -2.7413, -2.7413, -2.7413, -2.7413, -2.7415, -2.7393, -4.126, -4.1259, -4.1256, -4.1259, -4.1259, -4.1259, -4.1259, -4.1259, -4.1258, -4.1244, -1.4628, -1.7253, -1.7129, -2.6419, -2.6435, -4.0262, -4.0266, -4.0266, -4.0266, -4.0266, -4.0261, -4.0265, -4.0265, -4.0265, -4.0265, -4.0259, -4.0259, -4.0259, -4.0259, -4.0259], "loglift": [20.0, 19.0, 18.0, 17.0, 16.0, 15.0, 14.0, 13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.7755, 0.7755, 0.7755, 0.7755, 0.7755, 0.5607, -0.3348, -0.7724, -0.8212, -0.8214, -0.8214, -0.8214, -0.8214, -1.1983, -1.2318, -1.2318, -1.2318, -1.2318, -1.4481, -1.6678, 0.8467, 0.8467, 0.8467, 0.8467, 0.6974, 0.6974, 0.6974, 0.6974, 0.6972, 0.3209, -0.6386, -0.6899, -1.3142, -1.3919, -1.3919, -1.3919, -1.3919, -1.3919, -1.534, -1.553, 1.129, 1.0862, 0.8584, 0.8455, 0.4167, -0.5875, -0.5879, -0.5879, -0.5879, -0.5879, -0.5902, -0.9982, -0.9982, -0.9982, -0.9982, -1.2919, -1.2919, -1.2919, -1.2919, -1.2919]}, "token.table": {"Topic": [2, 2, 3, 1, 3, 2, 1, 1, 2, 1, 2, 2, 1, 2, 1, 2, 3, 1, 2, 3, 2, 3], "Freq": [0.961000376841551, 0.7243375731621895, 0.7736759529774659, 0.30426803690067517, 0.6085360738013503, 0.7243375731621895, 0.7160444309423665, 0.7160444309423665, 0.961000376841551, 0.7160444309423665, 0.72434242826871, 0.961000376841551, 0.7223609117075772, 0.7243375731621895, 0.7160444309423665, 0.4960843659241658, 0.4960843659241658, 0.7160444309423665, 0.961000376841551, 0.9316605347405487, 0.7243375731621895, 0.760428584116178], "Term": ["bacon", "beans", "beautiful", "blue", "blue", "breakfast", "brown", "dog", "eggs", "fox", "green", "ham", "jumps", "kings", "lazy", "love", "love", "quick", "sausages", "sky", "toast", "today"]}, "R": 20, "lambda.step": 0.01, "plot.opts": {"xlab": "PC1", "ylab": "PC2"}, "topic.order": [3, 2, 1]};
 
 function LDAvis_load_lib(url, callback){
   var s = document.createElement('script');
@@ -1826,7 +1874,7 @@ function LDAvis_load_lib(url, callback){
 if(typeof(LDAvis) !== "undefined"){
    // already loaded: just create the visualization
    !function(LDAvis){
-       new LDAvis("#" + "ldavis_el192231402027710338885903416817", ldavis_el192231402027710338885903416817_data);
+       new LDAvis("#" + "ldavis_el5706061172182241688164155", ldavis_el5706061172182241688164155_data);
    }(LDAvis);
 }else if(typeof define === "function" && define.amd){
    // require.js is available: use it to load d3/LDAvis
@@ -1834,14 +1882,14 @@ if(typeof(LDAvis) !== "undefined"){
    require(["d3"], function(d3){
       window.d3 = d3;
       LDAvis_load_lib("https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.4.0/pyLDAvis/js/ldavis.v3.0.0.js", function(){
-        new LDAvis("#" + "ldavis_el192231402027710338885903416817", ldavis_el192231402027710338885903416817_data);
+        new LDAvis("#" + "ldavis_el5706061172182241688164155", ldavis_el5706061172182241688164155_data);
       });
     });
 }else{
     // require.js not available: dynamically load d3 & LDAvis
     LDAvis_load_lib("https://d3js.org/d3.v5.js", function(){
          LDAvis_load_lib("https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.4.0/pyLDAvis/js/ldavis.v3.0.0.js", function(){
-                 new LDAvis("#" + "ldavis_el192231402027710338885903416817", ldavis_el192231402027710338885903416817_data);
+                 new LDAvis("#" + "ldavis_el5706061172182241688164155", ldavis_el5706061172182241688164155_data);
             })
          });
 }
@@ -1851,14 +1899,14 @@ if(typeof(LDAvis) !== "undefined"){
 <section id="hyperparameter-tuning">
 <h2><a class="toc-backref" href="#id21">Hyperparameter Tuning</a><a class="headerlink" href="#hyperparameter-tuning" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
-<li><p>One thing we haven’t made explicit is that the <strong>number of topics</strong> so far has been pre-determined.</p></li>
+<li><p>One thing we haven’t made explicit is that the <strong>number of topics</strong> so far has been pre-determined before the analysis.</p></li>
 <li><p>How to find the optimal number of topics can be challenging in topic modeling.</p></li>
 <li><p>We can take this as a hyperparameter of the model and use <strong>Grid Search</strong> to find the most optimal number of topics.</p></li>
 <li><p>Similarly, we can fine tune the other hyperparameters of LDA as well (e.g., <code class="docutils literal notranslate"><span class="pre">learning_decay</span></code>).</p></li>
 </ul>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">learning_method</span></code>: The default is <code class="docutils literal notranslate"><span class="pre">batch</span></code>; that is, use all training data for parameter estimation. If it is <code class="docutils literal notranslate"><span class="pre">online</span></code>, the model will update the parameters on a token by token basis.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">learning_decay</span></code>: If the <code class="docutils literal notranslate"><span class="pre">learning_method</span></code> is <code class="docutils literal notranslate"><span class="pre">online</span></code>, we can specify a parameter that controls learning rate in the online learning method (usually set between (0.5, 1.0]).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">learning_decay</span></code>: If the <code class="docutils literal notranslate"><span class="pre">learning_method</span></code> is <code class="docutils literal notranslate"><span class="pre">online</span></code>, we can specify a parameter that controls learning rate in the online learning method (usually set between [0.5, 1.0]).</p></li>
 </ul>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
@@ -1869,19 +1917,16 @@ if(typeof(LDAvis) !== "undefined"){
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
-<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">LatentDirichletAllocation</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
 
-<span class="c1"># Options to try with our LDA</span>
-<span class="c1"># Beware it will try *all* of the combinations, so it&#39;ll take ages</span>
+<span class="c1">## Prepare hyperparameters dict</span>
 <span class="n">search_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;n_components&#39;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="s1">&#39;learning_decay&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">.5</span><span class="p">,</span> <span class="mf">.7</span><span class="p">]}</span>
 
-<span class="c1"># Set up LDA with the options we&#39;ll keep static</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">LatentDirichletAllocation</span><span class="p">(</span><span class="n">learning_method</span><span class="o">=</span><span class="s1">&#39;online&#39;</span><span class="p">,</span> <span class="c1">## `online` for large datasets</span>
+<span class="c1">## Initialize LDA</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LatentDirichletAllocation</span><span class="p">(</span><span class="n">learning_method</span><span class="o">=</span><span class="s1">&#39;batch&#39;</span><span class="p">,</span> <span class="c1">## `online` for large datasets</span>
                                   <span class="n">max_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
                                   <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-<span class="c1"># Try all of the options</span>
+<span class="c1">## Gridsearch</span>
 <span class="n">gridsearch</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
                           <span class="n">param_grid</span><span class="o">=</span><span class="n">search_params</span><span class="p">,</span>
                           <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
@@ -1895,10 +1940,8 @@ if(typeof(LDAvis) !== "undefined"){
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fitting 5 folds for each of 10 candidates, totalling 50 fits
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 6.55 s, sys: 49.7 ms, total: 6.6 s
-Wall time: 54.5 s
+CPU times: user 2.11 s, sys: 13.2 ms, total: 2.12 s
+Wall time: 14.2 s
 </pre></div>
 </div>
 </div>
@@ -1914,8 +1957,8 @@ Wall time: 54.5 s
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best Model&#39;s Params:  {&#39;learning_decay&#39;: 0.5, &#39;n_components&#39;: 3}
-Best Log Likelihood Score:  -50.41087449871125
-Best Model Perplexity:  25.292966407265162
+Best Log Likelihood Score:  -50.410868132698795
+Best Model Perplexity:  25.292966412842105
 </pre></div>
 </div>
 </div>
@@ -1969,182 +2012,182 @@ Best Model Perplexity:  25.292966407265162
   <tbody>
     <tr>
       <th>0</th>
-      <td>13.603249</td>
-      <td>1.602856</td>
-      <td>0.001377</td>
-      <td>0.000117</td>
+      <td>2.534712</td>
+      <td>0.342016</td>
+      <td>0.000322</td>
+      <td>0.000025</td>
       <td>0.5</td>
       <td>3</td>
       <td>{'learning_decay': 0.5, 'n_components': 3}</td>
-      <td>-45.022881</td>
-      <td>-73.947624</td>
+      <td>-45.022883</td>
+      <td>-73.947625</td>
       <td>-60.589126</td>
-      <td>-37.947945</td>
-      <td>-34.546797</td>
-      <td>-50.410874</td>
-      <td>14.789181</td>
+      <td>-37.947911</td>
+      <td>-34.546796</td>
+      <td>-50.410868</td>
+      <td>14.789188</td>
       <td>1</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>15.606485</td>
-      <td>3.031277</td>
-      <td>0.001455</td>
-      <td>0.000176</td>
+      <td>2.991487</td>
+      <td>0.781605</td>
+      <td>0.000419</td>
+      <td>0.000197</td>
       <td>0.5</td>
       <td>4</td>
       <td>{'learning_decay': 0.5, 'n_components': 4}</td>
-      <td>-49.145597</td>
-      <td>-82.726222</td>
+      <td>-49.145599</td>
+      <td>-82.726223</td>
       <td>-65.081852</td>
-      <td>-42.126555</td>
-      <td>-37.038041</td>
-      <td>-55.223653</td>
-      <td>16.689929</td>
-      <td>4</td>
+      <td>-42.126564</td>
+      <td>-37.038050</td>
+      <td>-55.223657</td>
+      <td>16.689926</td>
+      <td>3</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>12.842889</td>
-      <td>1.150975</td>
-      <td>0.001275</td>
-      <td>0.000214</td>
+      <td>2.830407</td>
+      <td>0.823932</td>
+      <td>0.000411</td>
+      <td>0.000164</td>
       <td>0.5</td>
       <td>5</td>
       <td>{'learning_decay': 0.5, 'n_components': 5}</td>
-      <td>-50.024619</td>
-      <td>-86.229447</td>
-      <td>-68.803221</td>
-      <td>-44.942217</td>
-      <td>-42.246234</td>
-      <td>-58.449148</td>
-      <td>16.702671</td>
+      <td>-50.024617</td>
+      <td>-86.998110</td>
+      <td>-70.381182</td>
+      <td>-44.942218</td>
+      <td>-42.224895</td>
+      <td>-58.914204</td>
+      <td>17.163750</td>
       <td>5</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>14.287387</td>
-      <td>1.691120</td>
-      <td>0.001440</td>
-      <td>0.000140</td>
+      <td>2.613521</td>
+      <td>0.476992</td>
+      <td>0.000515</td>
+      <td>0.000262</td>
       <td>0.5</td>
       <td>6</td>
       <td>{'learning_decay': 0.5, 'n_components': 6}</td>
       <td>-52.609495</td>
-      <td>-92.798988</td>
-      <td>-76.277660</td>
-      <td>-48.051613</td>
-      <td>-50.126104</td>
-      <td>-63.972772</td>
-      <td>17.644821</td>
-      <td>8</td>
+      <td>-93.522521</td>
+      <td>-73.924983</td>
+      <td>-47.956165</td>
+      <td>-49.996366</td>
+      <td>-63.601906</td>
+      <td>17.621249</td>
+      <td>7</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>13.265179</td>
-      <td>1.048562</td>
-      <td>0.001409</td>
-      <td>0.000144</td>
+      <td>2.508645</td>
+      <td>0.242184</td>
+      <td>0.000381</td>
+      <td>0.000128</td>
       <td>0.5</td>
       <td>7</td>
       <td>{'learning_decay': 0.5, 'n_components': 7}</td>
       <td>-54.878310</td>
-      <td>-99.179301</td>
-      <td>-75.026422</td>
+      <td>-99.846527</td>
+      <td>-77.129032</td>
       <td>-50.917763</td>
-      <td>-46.539680</td>
-      <td>-65.308295</td>
-      <td>19.543899</td>
-      <td>10</td>
+      <td>-46.861191</td>
+      <td>-65.926565</td>
+      <td>19.934270</td>
+      <td>9</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>14.578954</td>
-      <td>1.979207</td>
-      <td>0.001500</td>
-      <td>0.000149</td>
+      <td>2.602352</td>
+      <td>0.392834</td>
+      <td>0.000512</td>
+      <td>0.000230</td>
       <td>0.7</td>
       <td>3</td>
       <td>{'learning_decay': 0.7, 'n_components': 3}</td>
-      <td>-45.022882</td>
-      <td>-73.947624</td>
+      <td>-45.022883</td>
+      <td>-73.947625</td>
       <td>-60.589126</td>
-      <td>-37.947946</td>
-      <td>-34.546797</td>
-      <td>-50.410875</td>
-      <td>14.789181</td>
-      <td>2</td>
+      <td>-37.947911</td>
+      <td>-34.546796</td>
+      <td>-50.410868</td>
+      <td>14.789188</td>
+      <td>1</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>15.057266</td>
-      <td>1.961181</td>
-      <td>0.001391</td>
-      <td>0.000309</td>
+      <td>2.955229</td>
+      <td>0.633029</td>
+      <td>0.000425</td>
+      <td>0.000211</td>
       <td>0.7</td>
       <td>4</td>
       <td>{'learning_decay': 0.7, 'n_components': 4}</td>
-      <td>-49.145597</td>
-      <td>-81.939131</td>
+      <td>-49.145599</td>
+      <td>-82.726223</td>
       <td>-65.081852</td>
-      <td>-42.126555</td>
-      <td>-37.038041</td>
-      <td>-55.066235</td>
-      <td>16.431495</td>
+      <td>-42.126564</td>
+      <td>-37.038050</td>
+      <td>-55.223657</td>
+      <td>16.689926</td>
       <td>3</td>
     </tr>
     <tr>
       <th>7</th>
-      <td>14.238861</td>
-      <td>1.063881</td>
-      <td>0.001462</td>
-      <td>0.000167</td>
+      <td>2.843962</td>
+      <td>0.751603</td>
+      <td>0.000349</td>
+      <td>0.000029</td>
       <td>0.7</td>
       <td>5</td>
       <td>{'learning_decay': 0.7, 'n_components': 5}</td>
-      <td>-50.024619</td>
-      <td>-86.229447</td>
-      <td>-68.803221</td>
-      <td>-44.942217</td>
-      <td>-42.246234</td>
-      <td>-58.449148</td>
-      <td>16.702671</td>
-      <td>6</td>
+      <td>-50.024617</td>
+      <td>-86.998110</td>
+      <td>-70.381182</td>
+      <td>-44.942218</td>
+      <td>-42.224895</td>
+      <td>-58.914204</td>
+      <td>17.163750</td>
+      <td>5</td>
     </tr>
     <tr>
       <th>8</th>
-      <td>13.910200</td>
-      <td>0.538017</td>
-      <td>0.001009</td>
-      <td>0.000260</td>
+      <td>2.597273</td>
+      <td>0.372056</td>
+      <td>0.000321</td>
+      <td>0.000039</td>
       <td>0.7</td>
       <td>6</td>
       <td>{'learning_decay': 0.7, 'n_components': 6}</td>
       <td>-52.609495</td>
-      <td>-92.798988</td>
-      <td>-76.277744</td>
-      <td>-48.051613</td>
-      <td>-44.648808</td>
-      <td>-62.877330</td>
-      <td>18.613898</td>
+      <td>-93.522521</td>
+      <td>-73.924983</td>
+      <td>-47.956165</td>
+      <td>-49.996366</td>
+      <td>-63.601906</td>
+      <td>17.621249</td>
       <td>7</td>
     </tr>
     <tr>
       <th>9</th>
-      <td>10.410435</td>
-      <td>1.171618</td>
-      <td>0.000781</td>
-      <td>0.000094</td>
+      <td>2.111250</td>
+      <td>0.215773</td>
+      <td>0.000330</td>
+      <td>0.000028</td>
       <td>0.7</td>
       <td>7</td>
       <td>{'learning_decay': 0.7, 'n_components': 7}</td>
       <td>-54.878310</td>
-      <td>-99.179301</td>
-      <td>-75.026422</td>
+      <td>-99.846527</td>
+      <td>-77.129032</td>
       <td>-50.917763</td>
-      <td>-46.539680</td>
-      <td>-65.308295</td>
-      <td>19.543899</td>
+      <td>-46.861191</td>
+      <td>-65.926565</td>
+      <td>19.934270</td>
       <td>9</td>
     </tr>
   </tbody>
@@ -2154,7 +2197,7 @@ Best Model Perplexity:  25.292966407265162
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">rc</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;figure.dpi&quot;</span><span class="p">:</span><span class="mi">150</span><span class="p">,</span> <span class="s1">&#39;savefig.dpi&#39;</span><span class="p">:</span><span class="mi">150</span><span class="p">})</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">rc</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;figure.dpi&quot;</span><span class="p">:</span><span class="mi">150</span><span class="p">,</span> <span class="s1">&#39;savefig.dpi&#39;</span><span class="p">:</span><span class="mi">150</span><span class="p">})</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">pointplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;param_n_components&quot;</span><span class="p">,</span>
               <span class="n">y</span><span class="o">=</span><span class="s2">&quot;mean_test_score&quot;</span><span class="p">,</span>
               <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;param_learning_decay&quot;</span><span class="p">,</span>
@@ -2166,7 +2209,7 @@ Best Model Perplexity:  25.292966407265162
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;param_n_components&#39;, ylabel=&#39;mean_test_score&#39;&gt;
 </pre></div>
 </div>
-<img alt="../_images/c39dfc17a57c21ccca0cadb73913e29b031db65756edb062fedd7f56cc16f240.png" src="../_images/c39dfc17a57c21ccca0cadb73913e29b031db65756edb062fedd7f56cc16f240.png" />
+<img alt="../_images/dea84e2996838bd65dede8c680e64506b1f66d77bbdcd7b2ba52f79bd7da2c23.png" src="../_images/dea84e2996838bd65dede8c680e64506b1f66d77bbdcd7b2ba52f79bd7da2c23.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -2198,13 +2241,24 @@ Topic #2 :
 <h2><a class="toc-backref" href="#id24">Topic Prediction</a><a class="headerlink" href="#topic-prediction" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>We can use our LDA to make predictions of topics for new documents.</p></li>
+<li><p>We need to perform the same procedures with the new document as we did with the training data:</p>
+<ul>
+<li><p>text preprocessing</p></li>
+<li><p>count-vectorization</p></li>
+</ul>
+</li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_texts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;The sky is so blue&#39;</span><span class="p">,</span> <span class="s1">&#39;Love burger with ham&#39;</span><span class="p">]</span>
 
+<span class="c1">## normalize</span>
 <span class="n">new_texts_norm</span> <span class="o">=</span> <span class="n">normalize_corpus</span><span class="p">(</span><span class="n">new_texts</span><span class="p">)</span>
+
+<span class="c1">## vectorize</span>
 <span class="n">new_texts_cv</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">new_texts_norm</span><span class="p">)</span>
+
+<span class="c1">## Check</span>
 <span class="n">new_texts_cv</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
@@ -2217,8 +2271,13 @@ Topic #2 :
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_texts_doc_topic_matrix</span> <span class="o">=</span> <span class="n">best_lda</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">new_texts_cv</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Applied our trained LDA</span>
+<span class="n">new_texts_doc_topic_matrix</span> <span class="o">=</span> <span class="n">best_lda</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">new_texts_cv</span><span class="p">)</span>
+
+<span class="c1">## Check results</span>
 <span class="n">topics</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;weather&#39;</span><span class="p">,</span> <span class="s1">&#39;food&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">]</span>
+
+
 <span class="n">new_texts_doc_topic_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">new_texts_doc_topic_matrix</span><span class="p">,</span>
                                       <span class="n">columns</span><span class="o">=</span><span class="n">topics</span><span class="p">)</span>
 <span class="n">new_texts_doc_topic_df</span><span class="p">[</span><span class="s1">&#39;predicted_topic&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
@@ -2267,8 +2326,8 @@ Topic #2 :
     </tr>
     <tr>
       <th>1</th>
-      <td>0.123416</td>
-      <td>0.764964</td>
+      <td>0.123415</td>
+      <td>0.764965</td>
       <td>0.111620</td>
       <td>food</td>
       <td>love burger ham</td>
@@ -2292,6 +2351,15 @@ Topic #2 :
 <ul class="simple">
 <li><p>The following codes demonstrate how to find the optimal topic number based on the coherence scores of the topic models.</p></li>
 </ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Step 5: Calculate Coherence</span>
+<span class="n">coherence_model</span> <span class="o">=</span> <span class="n">CoherenceModel</span><span class="p">(</span><span class="n">topics</span><span class="o">=</span><span class="n">top_words_per_topic</span><span class="p">,</span> <span class="n">texts</span><span class="o">=</span><span class="n">tokenized_text</span><span class="p">,</span> <span class="n">dictionary</span><span class="o">=</span><span class="n">feature_names</span><span class="p">,</span> <span class="n">coherence</span><span class="o">=</span><span class="s1">&#39;c_v&#39;</span><span class="p">)</span>
+<span class="n">coherence_score</span> <span class="o">=</span> <span class="n">coherence_model</span><span class="o">.</span><span class="n">get_coherence</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tmtoolkit</span>
@@ -2344,8 +2412,8 @@ Topic #2 :
 7
 8
 9
-CPU times: user 48 s, sys: 945 ms, total: 49 s
-Wall time: 2min
+CPU times: user 17.5 s, sys: 463 ms, total: 18 s
+Wall time: 45.8 s
 </pre></div>
 </div>
 </div>
@@ -2469,10 +2537,25 @@ Wall time: 2min
 </div>
 </div>
 </section>
+<section id="challenges">
+<h2><a class="toc-backref" href="#id26">Challenges</a><a class="headerlink" href="#challenges" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>There are several challenges and limications with LDA:</p>
+<ul>
+<li><p>Choosing the number of topics</p></li>
+<li><p>Interpretability</p></li>
+<li><p>Scalability</p></li>
+<li><p>Polysemy and context</p></li>
+</ul>
+</li>
+<li><p>Maybe we can combine this exploratory method of topic model with LLM by feeding the key terms of topics to the LLM to prompt for more comprehensive desciption and interpretation of the topics.</p></li>
+</ul>
+</section>
 <section id="references">
-<h2><a class="toc-backref" href="#id26">References</a><a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id27">References</a><a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Sarkar (2019), Chapter 6: Text Summarization and Topic Models</p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/1711.04305">Latent Dirichlet Allocation (LDA) and Topic Modeling: Models, Applications, and a Survey</a></p></li>
 </ul>
 </section>
 </section>
@@ -2578,6 +2661,7 @@ Wall time: 2min
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#topic-prediction">Topic Prediction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-notes">Additional Notes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#challenges">Challenges</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 </ul>
   </nav></div>
