@@ -426,7 +426,9 @@ document.write(`
 <li><p><strong>Generative</strong>:</p>
 <ul>
 <li><p>The goal of training is NOT to find <span class="math notranslate nohighlight">\(P(c|d)\)</span>.</p></li>
-<li><p>Rather, based on the <strong>Bayes Theorem</strong>, we can estimate the joint probability of <span class="math notranslate nohighlight">\(P(c,d)\)</span>, which, according to Bayes Theorem, can be reformulated as <span class="math notranslate nohighlight">\(P(c,d)=P(d)\times P(c|d) =P(c) \times P(d|c)\)</span></p></li>
+<li><p>Instead, the generative model leverage the joint probability of <span class="math notranslate nohighlight">\(P(c,d)\)</span>.</p></li>
+<li><p>According to Bayes Theorem, the joint probability of <span class="math notranslate nohighlight">\(P(c,d)\)</span> can be reformulated as <span class="math notranslate nohighlight">\(P(c,d)=P(d)\times P(c|d) =P(c) \times P(d|c)\)</span>.</p></li>
+<li><p>So this allows us to model <span class="math notranslate nohighlight">\(P(c,d) = P(c) \times P(d|c)\)</span>, rather than  <span class="math notranslate nohighlight">\(P(c,d)=P(d)\times P(c|d)\)</span> directly.</p></li>
 <li><p>That is, the training in generative models is based on the <strong>joint</strong> probability of the data and the class, i.e., <span class="math notranslate nohighlight">\(P(c,d)\)</span></p></li>
 <li><p>Examples: N-gram Language Models, Naive Bayes, Hidden Markov Model, Probabilistic Context-Free Grammars.</p></li>
 </ul>
@@ -437,6 +439,7 @@ document.write(`
 <ul>
 <li><p>The goal of training is to directly find <span class="math notranslate nohighlight">\(P(c|d)\)</span>.</p></li>
 <li><p>Training is based on the <strong>conditional</strong> Probability of the class given the data, i.e., <span class="math notranslate nohighlight">\(P(c|d)\)</span>.</p></li>
+<li><p>They focus on learning the <strong>decision boundary</strong> between different classes directly.</p></li>
 <li><p>Examples: Logistic regression, Maximum Entropy Models, Conditional Random Field, Support Vector Machine, Perceptron.</p></li>
 </ul>
 </li>
@@ -470,7 +473,7 @@ document.write(`
 </ul>
 <div class="math notranslate nohighlight">
 \[
-P(c, d) = P(d)P(c|d)  = P(c)(d|c) 
+P(c, d) = P(d)P(c|d)  = P(c)P(d|c) 
 \]</div>
 <div class="math notranslate nohighlight" id="equation-naive-bayes1">
 <span class="eqno">(1)<a class="headerlink" href="#equation-naive-bayes1" title="Permalink to this equation">#</a></span>\[
@@ -571,9 +574,9 @@ y = \beta_0 + \beta_1x_1 + \beta_2 x_2 + ... + \beta_ix_i
 <div class="math notranslate nohighlight">
 \[\begin{split}
     \begin{align*}
-    x_1 &amp;= f_1(x_1) = [Contains(&quot;好看&quot;) ] = \{0, 1\} \\
-    x_2 &amp;= f_2(x_2) = [Contains(&quot;絕配&quot;) ] = \{0, 1\} \\
-    x_3 &amp;= f_3(x_3) = [FreqOf(&quot;覺得&quot;)] = \{\textit{Any Positive Number}\}\\
+    x_1 &amp;= f_1(x_1) = [Contains(`好看`) ] = \{0, 1\} \\
+    x_2 &amp;= f_2(x_2) = [Contains(`絕配`) ] = \{0, 1\} \\
+    x_3 &amp;= f_3(x_3) = [FreqOf(`覺得`)] = \{\textit{Any Positive Number}\}\\
     &amp;...\\
     \end{align*}
     \end{split}\]</div>
