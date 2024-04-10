@@ -399,7 +399,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#activation-functions">Activation Functions</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#activation-functions-in-python">Activation Functions in Python</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-nodes-to-layers">From Nodes to Layers</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#layer-parameters-and-matrix-mutiplication">Layer, Parameters, and Matrix Mutiplication</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#layer-parameters-and-matrix-mutiplication-self-study">Layer, Parameters, and Matrix Mutiplication (Self-Study)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-neural-networks">Types of Neural Networks</a></li>
 </ul>
 </li>
@@ -407,22 +407,22 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#packages-in-focus">Packages in Focus</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-model">Create Model</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#useful-modules-in-keras">Useful Modules in keras</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#keras-utils"><code class="docutils literal notranslate"><span class="pre">keras.utils</span></code>:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#keras-utils"><code class="docutils literal notranslate"><span class="pre">keras.utils</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#keras-layers"><code class="docutils literal notranslate"><span class="pre">keras.layers</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#other-modules">Other modules</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-quick-example-of-model-training">A Quick Example of Model Training</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data">Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-quick-example">A Quick Example</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pseudo-data">Pseudo Data</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-training">Model Training</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-and-prediction">Evaluation and Prediction</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-and-training">Learning and Training</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-functions">Loss Functions</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-does-the-neural-network-learn-the-parameters">How does the neural network learn the parameters?</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-functions">Loss Functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Loss Functions</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principles-for-loss-functions">Principles for Loss Functions</a></li>
 </ul>
 </li>
@@ -480,9 +480,106 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="neural-network-from-scratch">
-<h1>Neural Network From Scratch<a class="headerlink" href="#neural-network-from-scratch" title="Permalink to this headline">#</a></h1>
+<h1><a class="toc-backref" href="#id2">Neural Network From Scratch</a><a class="headerlink" href="#neural-network-from-scratch" title="Permalink to this headline">#</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title">Contents</p>
 <ul class="simple">
-<li><p>This lecture note introduces fundamentals of the mechanism for neural network, or deep learning.</p></li>
+<li><p><a class="reference internal" href="#neural-network-from-scratch" id="id2">Neural Network From Scratch</a></p>
+<ul>
+<li><p><a class="reference internal" href="#workflow-of-neural-network" id="id3">Workflow of Neural Network</a></p></li>
+<li><p><a class="reference internal" href="#neural-network-overview" id="id4">Neural Network Overview</a></p>
+<ul>
+<li><p><a class="reference internal" href="#deep-learning" id="id5">Deep Learning</a></p></li>
+<li><p><a class="reference internal" href="#forward-propagation" id="id6">Forward Propagation</a></p></li>
+<li><p><a class="reference internal" href="#backward-propagation" id="id7">Backward Propagation</a></p></li>
+<li><p><a class="reference internal" href="#neurons" id="id8">Neurons</a></p></li>
+<li><p><a class="reference internal" href="#activation-functions" id="id9">Activation Functions</a></p></li>
+<li><p><a class="reference internal" href="#activation-functions-in-python" id="id10">Activation Functions in Python</a></p></li>
+<li><p><a class="reference internal" href="#from-nodes-to-layers" id="id11">From Nodes to Layers</a></p></li>
+<li><p><a class="reference internal" href="#layer-parameters-and-matrix-mutiplication-self-study" id="id12">Layer, Parameters, and Matrix Mutiplication (Self-Study)</a></p></li>
+<li><p><a class="reference internal" href="#types-of-neural-networks" id="id13">Types of Neural Networks</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#building-a-neural-network-model-in-python" id="id14">Building a Neural Network Model in Python</a></p>
+<ul>
+<li><p><a class="reference internal" href="#packages-in-focus" id="id15">Packages in Focus</a></p></li>
+<li><p><a class="reference internal" href="#create-model" id="id16">Create Model</a></p></li>
+<li><p><a class="reference internal" href="#useful-modules-in-keras" id="id17">Useful Modules in keras</a></p>
+<ul>
+<li><p><a class="reference internal" href="#keras-utils" id="id18"><code class="docutils literal notranslate"><span class="pre">keras.utils</span></code></a></p></li>
+<li><p><a class="reference internal" href="#keras-layers" id="id19"><code class="docutils literal notranslate"><span class="pre">keras.layers</span></code></a></p></li>
+<li><p><a class="reference internal" href="#other-modules" id="id20">Other modules</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#a-quick-example" id="id21">A Quick Example</a></p>
+<ul>
+<li><p><a class="reference internal" href="#pseudo-data" id="id22">Pseudo Data</a></p></li>
+<li><p><a class="reference internal" href="#model-training" id="id23">Model Training</a></p></li>
+<li><p><a class="reference internal" href="#evaluation-and-prediction" id="id24">Evaluation and Prediction</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#loss-functions" id="id25">Loss Functions</a></p>
+<ul>
+<li><p><a class="reference internal" href="#how-does-the-neural-network-learn-the-parameters" id="id26">How does the neural network learn the parameters?</a></p></li>
+<li><p><a class="reference internal" href="#id1" id="id27">Loss Functions</a></p></li>
+<li><p><a class="reference internal" href="#principles-for-loss-functions" id="id28">Principles for Loss Functions</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#categorical-variables-encoding" id="id29">Categorical Variables Encoding</a></p>
+<ul>
+<li><p><a class="reference internal" href="#what-s-wrong-with-categorical-variables" id="id30">What’s wrong with categorical variables?</a></p></li>
+<li><p><a class="reference internal" href="#three-ways-of-encodings" id="id31">Three Ways of Encodings</a></p></li>
+<li><p><a class="reference internal" href="#steps" id="id32">Steps</a></p></li>
+<li><p><a class="reference internal" href="#one-hot-encoding-and-loss-function" id="id33">One-hot Encoding and Loss Function</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#examples-of-loss-errors-skipped" id="id34">Examples of Loss Errors (skipped)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#error-based-on-one-sample" id="id35">Error based on One Sample</a></p></li>
+<li><p><a class="reference internal" href="#errors-based-on-batch-samples" id="id36">Errors based on Batch Samples</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#gradient-descent" id="id37">Gradient Descent</a></p>
+<ul>
+<li><p><a class="reference internal" href="#how-do-we-adjust-the-model-parameters" id="id38">How do we adjust the model parameters?</a></p></li>
+<li><p><a class="reference internal" href="#gradients" id="id39">Gradients</a></p></li>
+<li><p><a class="reference internal" href="#intuition-of-gradients-an-example-skipped" id="id40">Intuition of Gradients: An Example (skipped)</a></p></li>
+<li><p><a class="reference internal" href="#types-of-gradient-descent" id="id41">Types of Gradient Descent</a></p></li>
+<li><p><a class="reference internal" href="#gradients-in-python-skipped" id="id42">Gradients in Python (skipped)</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#overfitting-and-underfitting" id="id43">Overfitting and Underfitting</a></p>
+<ul>
+<li><p><a class="reference internal" href="#optimization-vs-generalization" id="id44">Optimization vs. Generalization</a></p></li>
+<li><p><a class="reference internal" href="#overfitting-underfitting" id="id45">Overfitting/Underfitting</a></p></li>
+<li><p><a class="reference internal" href="#how-to-deal-with-overfitting" id="id46">How to Deal With Overfitting?</a></p></li>
+<li><p><a class="reference internal" href="#regularization" id="id47">Regularization</a></p></li>
+<li><p><a class="reference internal" href="#dropout" id="id48">Dropout</a></p></li>
+<li><p><a class="reference internal" href="#heuristics-for-regularization" id="id49">Heuristics for Regularization</a></p></li>
+<li><p><a class="reference internal" href="#normalization" id="id50">Normalization</a></p></li>
+<li><p><a class="reference internal" href="#batch-normalization-and-layer-normalization" id="id51">Batch Normalization and Layer Normalization</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#some-math-skipped" id="id52">Some Math (Skipped)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#chain-rule-and-back-propagation" id="id53">Chain Rule and Back Propagation</a></p></li>
+<li><p><a class="reference internal" href="#elementwise-operations-of-matrix" id="id54">Elementwise Operations of Matrix</a></p></li>
+<li><p><a class="reference internal" href="#broadcast" id="id55">Broadcast</a></p></li>
+<li><p><a class="reference internal" href="#matrices-dot-production" id="id56">Matrices Dot Production</a></p></li>
+<li><p><a class="reference internal" href="#matrices-dot-production-and-forward-propagation" id="id57">Matrices Dot Production and Forward Propagation</a></p></li>
+<li><p><a class="reference internal" href="#derivatives" id="id58">Derivatives</a></p></li>
+<li><p><a class="reference internal" href="#partial-derivatives" id="id59">Partial Derivatives</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#references" id="id60">References</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<ul class="simple">
+<li><p>This section provides an introduction to the fundamentals of neural network mechanisms, specifically within the context of deep learning.</p></li>
 </ul>
 <ul class="simple">
 <li><p>We will break our discussions into three main parts:</p>
@@ -522,17 +619,17 @@ document.write(`
 </div>
 </div>
 <section id="workflow-of-neural-network">
-<h2>Workflow of Neural Network<a class="headerlink" href="#workflow-of-neural-network" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id3">Workflow of Neural Network</a><a class="headerlink" href="#workflow-of-neural-network" title="Permalink to this headline">#</a></h2>
 <p><img alt="" src="../_images/nn-flowchart.png" /></p>
 </section>
 <section id="neural-network-overview">
-<h2>Neural Network Overview<a class="headerlink" href="#neural-network-overview" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id4">Neural Network Overview</a><a class="headerlink" href="#neural-network-overview" title="Permalink to this headline">#</a></h2>
 <section id="deep-learning">
-<h3>Deep Learning<a class="headerlink" href="#deep-learning" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id5">Deep Learning</a><a class="headerlink" href="#deep-learning" title="Permalink to this headline">#</a></h3>
 <p><img alt="" src="../_images/neural-network-propagation.gif" /></p>
 </section>
 <section id="forward-propagation">
-<h3>Forward Propagation<a class="headerlink" href="#forward-propagation" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id6">Forward Propagation</a><a class="headerlink" href="#forward-propagation" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Neural network is a type of machine learning algorithm modeled on human brains and nervous system.</p></li>
 <li><p>The model is believed to process information in a similar way to the human brain:</p>
@@ -548,14 +645,14 @@ document.write(`
 </ul>
 </section>
 <section id="backward-propagation">
-<h3>Backward Propagation<a class="headerlink" href="#backward-propagation" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id7">Backward Propagation</a><a class="headerlink" href="#backward-propagation" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>When the predicted output is compared with the true label, we can evaluate the network performance by computing the <strong>loss</strong> of the network.</p></li>
 <li><p>Then we determine the proportion of the losses that may be attributed to each model parameter. This process goes from the losses of the predicted output backward to the original inputs. This step is referred to as the <strong>back propagation</strong> of the network.</p></li>
 </ul>
 </section>
 <section id="neurons">
-<h3>Neurons<a class="headerlink" href="#neurons" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id8">Neurons</a><a class="headerlink" href="#neurons" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Neural network consists of neurons, which allow us to model non-linear relationships between input and output data.</p></li>
 <li><p>Given an input vector, traditional linear transformation can only model a linear relationship between X and y:</p></li>
@@ -576,7 +673,7 @@ document.write(`
 <p><img alt="" src="../_images/neuron.png" /></p>
 </section>
 <section id="activation-functions">
-<h3>Activation Functions<a class="headerlink" href="#activation-functions" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id9">Activation Functions</a><a class="headerlink" href="#activation-functions" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>In neural network, the activation function of a node determines whether the node would activate the output given the <strong>weighted sum of the input values</strong>.</p></li>
 <li><p>Different types of activation functions may determine the cut-offs for output activation in different ways.</p></li>
@@ -617,7 +714,7 @@ h(y_k) = \frac{\exp(y_k)}{\sum_{i = 1}^{n} \exp({y_i})}
 \]</div>
 </section>
 <section id="activation-functions-in-python">
-<h3>Activation Functions in Python<a class="headerlink" href="#activation-functions-in-python" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id10">Activation Functions in Python</a><a class="headerlink" href="#activation-functions-in-python" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">step_function</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -705,7 +802,7 @@ h(y_k) = \frac{\exp(y_k)}{\sum_{i = 1}^{n} \exp({y_i})}
 </div>
 </section>
 <section id="from-nodes-to-layers">
-<h3>From Nodes to Layers<a class="headerlink" href="#from-nodes-to-layers" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id11">From Nodes to Layers</a><a class="headerlink" href="#from-nodes-to-layers" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>A neural network can be defined in terms of <strong>depths</strong> and <strong>widths</strong> of its layers.</p>
 <ul>
@@ -719,8 +816,8 @@ h(y_k) = \frac{\exp(y_k)}{\sum_{i = 1}^{n} \exp({y_i})}
 </ul>
 <p><img alt="" src="../_images/neural-network-dense-layer.gif" /></p>
 </section>
-<section id="layer-parameters-and-matrix-mutiplication">
-<h3>Layer, Parameters, and Matrix Mutiplication<a class="headerlink" href="#layer-parameters-and-matrix-mutiplication" title="Permalink to this headline">#</a></h3>
+<section id="layer-parameters-and-matrix-mutiplication-self-study">
+<h3><a class="toc-backref" href="#id12">Layer, Parameters, and Matrix Mutiplication (Self-Study)</a><a class="headerlink" href="#layer-parameters-and-matrix-mutiplication-self-study" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Each layer transforms the input values into the output values based on its layer parameters.</p></li>
 <li><p>Mathematically, these values transformation is a matrix multiplication, running in parallel for all nodes of the layer.</p></li>
@@ -736,7 +833,7 @@ h(y_k) = \frac{\exp(y_k)}{\sum_{i = 1}^{n} \exp({y_i})}
 <p><img alt="" src="../_images/neural-network-dense-layer-2.gif" /></p>
 </section>
 <section id="types-of-neural-networks">
-<h3>Types of Neural Networks<a class="headerlink" href="#types-of-neural-networks" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id13">Types of Neural Networks</a><a class="headerlink" href="#types-of-neural-networks" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p><strong>Multi-Layer Perceptron</strong> (Fully Connected Network)</p>
 <ul>
@@ -754,12 +851,13 @@ h(y_k) = \frac{\exp(y_k)}{\sum_{i = 1}^{n} \exp({y_i})}
 </li>
 </ul>
 <ul class="simple">
-<li><p><strong>Recurrent Neural Network (RNN)</strong></p>
+<li><p><strong>Sequence Models</strong></p>
 <ul>
-<li><p>Preferred methods in NLP</p></li>
-<li><p>Most fully-connected networks do not remember the steps from previous situations and therefore do not learn to make decisions based on <strong>context</strong> in training.</p></li>
-<li><p>RNN stores the past information and all its decisions are taken from what it has learned from the past.</p></li>
-<li><p>RNN is effective in dealing with time-series data (e.g., text, speech).</p></li>
+<li><p>A sequence model is a type of machine learning model designed to handle sequential data, where the order of elements matters. In a sequence model, input data is processed in a sequential manner, and the model makes predictions or decisions based on the sequence of input elements.</p></li>
+<li><p>Common variants: Recurrent Neural Network (RNN), Long Short-Term Memory Networks (LSTM), Gate Recurrent Units (GRU), Transformers</p></li>
+<li><p><strong>Preferred methods in NLP</strong>: Sequence models are widely used in NLP tasks due to their ability to handle sequential data, such as text. They are well-suited for tasks like language modeling, sentiment analysis, machine translation, and text generation.</p></li>
+<li><p><strong>Memory of previous steps</strong>: Unlike other fully-connected networks, which process each input independently, RNNs have the ability to retain information about previous steps in the sequence. This allows them to learn from the context of the data and make decisions based on this context. This capability is crucial for tasks where the current input’s meaning depends on the sequence of previous inputs, such as in language understanding.</p></li>
+<li><p><strong>Effective in dealing with time-series data</strong>: Sequence models excel in processing time-series data, where the order of data points matters. In the context of NLP, text can be viewed as a sequence of words or characters, and sequence models can effectively capture the dependencies between these elements. This makes them well-suited for tasks like language modeling, where predicting the next word in a sentence depends on the words that came before it.</p></li>
 </ul>
 </li>
 </ul>
@@ -767,9 +865,9 @@ h(y_k) = \frac{\exp(y_k)}{\sum_{i = 1}^{n} \exp({y_i})}
 </section>
 </section>
 <section id="building-a-neural-network-model-in-python">
-<h2>Building a Neural Network Model in Python<a class="headerlink" href="#building-a-neural-network-model-in-python" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id14">Building a Neural Network Model in Python</a><a class="headerlink" href="#building-a-neural-network-model-in-python" title="Permalink to this headline">#</a></h2>
 <section id="packages-in-focus">
-<h3>Packages in Focus<a class="headerlink" href="#packages-in-focus" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id15">Packages in Focus</a><a class="headerlink" href="#packages-in-focus" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">tensorflow</span></code>: It is an open source machine learning library used for numerical computational tasks developed by Google.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">tensorflow.keras</span></code>: It is a high level API built on top of Tensorflow. It originated as an independent library and now has been incorporated as part of Tensorflow 2+.</p></li>
@@ -789,7 +887,7 @@ h(y_k) = \frac{\exp(y_k)}{\sum_{i = 1}^{n} \exp({y_i})}
 </ul>
 </section>
 <section id="create-model">
-<h3>Create Model<a class="headerlink" href="#create-model" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id16">Create Model</a><a class="headerlink" href="#create-model" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>In <code class="docutils literal notranslate"><span class="pre">tensorflow.keras</span></code>, we can create models in two ways:</p>
 <ul>
@@ -804,7 +902,19 @@ h(y_k) = \frac{\exp(y_k)}{\sum_{i = 1}^{n} \exp({y_i})}
 <span class="kn">import</span> <span class="nn">tensorflow.keras</span> <span class="k">as</span> <span class="nn">keras</span>
 <span class="kn">from</span> <span class="nn">tensorflow.keras</span> <span class="kn">import</span> <span class="n">layers</span>
 
-<span class="c1">## Sequential API to create model</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.13.0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Sequential API to create model</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
 <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
 <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;dense_layer_1&quot;</span><span class="p">))</span>
@@ -854,17 +964,18 @@ h(y_k) = \frac{\exp(y_k)}{\sum_{i = 1}^{n} \exp({y_i})}
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model: &quot;model&quot;
 _________________________________________________________________
-Layer (type)                 Output Shape              Param #   
+ Layer (type)                Output Shape              Param #   
 =================================================================
-input_2 (InputLayer)         [(None, 2)]               0         
-_________________________________________________________________
-dense_layer_1 (Dense)        (None, 4)                 12        
-_________________________________________________________________
-dense_layer_2 (Dense)        (None, 2)                 10        
+ input_3 (InputLayer)        [(None, 2)]               0         
+                                                                 
+ dense_layer_1 (Dense)       (None, 4)                 12        
+                                                                 
+ dense_layer_2 (Dense)       (None, 2)                 10        
+                                                                 
 =================================================================
-Total params: 22
-Trainable params: 22
-Non-trainable params: 0
+Total params: 22 (88.00 Byte)
+Trainable params: 22 (88.00 Byte)
+Non-trainable params: 0 (0.00 Byte)
 _________________________________________________________________
 None
 </pre></div>
@@ -878,7 +989,7 @@ None
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/70b7b70ede4b5e4dfd733c47ecc0256b99adee4f2e8c9f15f9d95900ff44d1b5.png" src="../_images/70b7b70ede4b5e4dfd733c47ecc0256b99adee4f2e8c9f15f9d95900ff44d1b5.png" />
+<img alt="../_images/7d9e5304684551a38480b6f01a821dc6a8000a87f9c66ceb24b847713bd869cc.png" src="../_images/7d9e5304684551a38480b6f01a821dc6a8000a87f9c66ceb24b847713bd869cc.png" />
 </div>
 </div>
 <div class="admonition note">
@@ -891,9 +1002,9 @@ None
 </div>
 </section>
 <section id="useful-modules-in-keras">
-<h3>Useful Modules in keras<a class="headerlink" href="#useful-modules-in-keras" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id17">Useful Modules in keras</a><a class="headerlink" href="#useful-modules-in-keras" title="Permalink to this headline">#</a></h3>
 <section id="keras-utils">
-<h4><code class="docutils literal notranslate"><span class="pre">keras.utils</span></code>:<a class="headerlink" href="#keras-utils" title="Permalink to this headline">#</a></h4>
+<h4><a class="toc-backref" href="#id18"><code class="docutils literal notranslate"><span class="pre">keras.utils</span></code></a><a class="headerlink" href="#keras-utils" title="Permalink to this headline">#</a></h4>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">to_categorical()</span></code>: To convert a class/label list into a one-hot encoding matrix</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">plot_model()</span></code>: Plot the model structure</p></li>
@@ -923,7 +1034,7 @@ None
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[2, 2, 1, 1, 0, 0]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1, 1, 0, 0, 2, 2]
 </pre></div>
 </div>
 </div>
@@ -936,28 +1047,31 @@ None
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0., 0., 1.],
-       [0., 0., 1.],
-       [0., 1., 0.],
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0., 1., 0.],
        [0., 1., 0.],
        [1., 0., 0.],
-       [1., 0., 0.]], dtype=float32)
+       [1., 0., 0.],
+       [0., 0., 1.],
+       [0., 0., 1.]], dtype=float32)
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="keras-layers">
-<h4><code class="docutils literal notranslate"><span class="pre">keras.layers</span></code><a class="headerlink" href="#keras-layers" title="Permalink to this headline">#</a></h4>
+<h4><a class="toc-backref" href="#id19"><code class="docutils literal notranslate"><span class="pre">keras.layers</span></code></a><a class="headerlink" href="#keras-layers" title="Permalink to this headline">#</a></h4>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">Dense</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">SimpleRNN</span></code>, <code class="docutils literal notranslate"><span class="pre">LSTM</span></code>, <code class="docutils literal notranslate"><span class="pre">GRU</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Dropout</span></code>, <code class="docutils literal notranslate"><span class="pre">Flatten</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Attention</span></code>, <code class="docutils literal notranslate"><span class="pre">AdditiveAttention</span></code></p></li>
+<li><p>Base layers: <code class="docutils literal notranslate"><span class="pre">Input</span></code>, <code class="docutils literal notranslate"><span class="pre">Dense</span></code>, <code class="docutils literal notranslate"><span class="pre">Embedding</span></code></p></li>
+<li><p>Pooling layers: <code class="docutils literal notranslate"><span class="pre">MaxPooling</span></code>, <code class="docutils literal notranslate"><span class="pre">AveragePooling</span></code>, <code class="docutils literal notranslate"><span class="pre">GlobalMaxPooling</span></code>, <code class="docutils literal notranslate"><span class="pre">GlobalAveragePooling</span></code></p></li>
+<li><p>Recurrent layers: <code class="docutils literal notranslate"><span class="pre">SimpleRNN</span></code>, <code class="docutils literal notranslate"><span class="pre">LSTM</span></code>, <code class="docutils literal notranslate"><span class="pre">GRU</span></code>, <code class="docutils literal notranslate"><span class="pre">Bidirectional</span></code></p></li>
+<li><p>Regularization layers: <code class="docutils literal notranslate"><span class="pre">Dropout</span></code></p></li>
+<li><p>Attention layers: <code class="docutils literal notranslate"><span class="pre">Attention</span></code>, <code class="docutils literal notranslate"><span class="pre">AdditiveAttention</span></code>, <code class="docutils literal notranslate"><span class="pre">MultiheadAttention</span></code></p></li>
+<li><p>Reshaping: <code class="docutils literal notranslate"><span class="pre">Flatten</span></code></p></li>
+<li><p>Merging: <code class="docutils literal notranslate"><span class="pre">Concatenate</span></code></p></li>
 </ul>
 </section>
 <section id="other-modules">
-<h4>Other modules<a class="headerlink" href="#other-modules" title="Permalink to this headline">#</a></h4>
+<h4><a class="toc-backref" href="#id20">Other modules</a><a class="headerlink" href="#other-modules" title="Permalink to this headline">#</a></h4>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">keras.losses</span></code>: Loss functions</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">keras.optimizers</span></code>: Optimization is an important process which optimizes the input weights by comparing the prediction and the loss function.</p>
@@ -972,8 +1086,8 @@ None
 </section>
 </section>
 </section>
-<section id="a-quick-example-of-model-training">
-<h2>A Quick Example of Model Training<a class="headerlink" href="#a-quick-example-of-model-training" title="Permalink to this headline">#</a></h2>
+<section id="a-quick-example">
+<h2><a class="toc-backref" href="#id21">A Quick Example</a><a class="headerlink" href="#a-quick-example" title="Permalink to this headline">#</a></h2>
 <p><img alt="" src="../_images/keras-workflow.png" /></p>
 <ul class="simple">
 <li><p>Steps for Model Training</p>
@@ -986,17 +1100,17 @@ None
 </ul>
 </li>
 </ul>
-<section id="data">
-<h3>Data<a class="headerlink" href="#data" title="Permalink to this headline">#</a></h3>
+<section id="pseudo-data">
+<h3><a class="toc-backref" href="#id22">Pseudo Data</a><a class="headerlink" href="#pseudo-data" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>We create random samples, where each sample is characterized by two random numbers (e.g., grades in subjects)</p></li>
-<li><p>Each sample is also labeled with a binary class label (e.g., fail or pass)</p></li>
+<li><p>Each sample is also labeled with a binary class label (e.g., <code class="docutils literal notranslate"><span class="pre">fail</span> <span class="pre">=</span> <span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">pass</span> <span class="pre">=</span> <span class="pre">1</span></code>)</p></li>
 <li><p>We create three datasets: <strong>training</strong>, <strong>validation</strong>, and <strong>testing</strong> sets.</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
-<span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
 
 <span class="c1"># train set</span>
 <span class="n">x_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
@@ -1047,21 +1161,21 @@ None
 </div>
 </section>
 <section id="model-training">
-<h3>Model Training<a class="headerlink" href="#model-training" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id23">Model Training</a><a class="headerlink" href="#model-training" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## create model</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
-<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">16</span><span class="p">))</span>
-<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">16</span><span class="p">))</span>
-<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="n">activation</span> <span class="o">=</span> <span class="s1">&#39;relu&#39;</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="n">activation</span> <span class="o">=</span> <span class="s1">&#39;relu&#39;</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span> <span class="o">=</span> <span class="s1">&#39;sigmoid&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># compile</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># compile model</span>
 <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;binary_crossentropy&#39;</span><span class="p">,</span>
               <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>
               <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
@@ -1093,105 +1207,107 @@ None
 </summary>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/50
-10/10 [==============================] - 2s 140ms/step - loss: 0.7009 - accuracy: 0.5001 - val_loss: 0.6997 - val_accuracy: 0.4600
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10/10 [==============================] - 0s 8ms/step - loss: 0.7034 - accuracy: 0.4800 - val_loss: 0.6988 - val_accuracy: 0.4700
 Epoch 2/50
-10/10 [==============================] - 0s 5ms/step - loss: 0.7011 - accuracy: 0.5143 - val_loss: 0.6942 - val_accuracy: 0.4700
+10/10 [==============================] - 0s 2ms/step - loss: 0.6988 - accuracy: 0.4700 - val_loss: 0.6963 - val_accuracy: 0.4400
 Epoch 3/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6949 - accuracy: 0.4545 - val_loss: 0.6908 - val_accuracy: 0.5400
+10/10 [==============================] - 0s 2ms/step - loss: 0.6953 - accuracy: 0.4400 - val_loss: 0.6939 - val_accuracy: 0.5100
 Epoch 4/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6929 - accuracy: 0.5198 - val_loss: 0.6904 - val_accuracy: 0.5400
+10/10 [==============================] - 0s 2ms/step - loss: 0.6914 - accuracy: 0.5700 - val_loss: 0.6928 - val_accuracy: 0.5200
 Epoch 5/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6823 - accuracy: 0.5806 - val_loss: 0.6905 - val_accuracy: 0.5400
+10/10 [==============================] - 0s 2ms/step - loss: 0.6901 - accuracy: 0.5200 - val_loss: 0.6921 - val_accuracy: 0.5400
 Epoch 6/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6837 - accuracy: 0.5361 - val_loss: 0.6913 - val_accuracy: 0.5400
+10/10 [==============================] - 0s 2ms/step - loss: 0.6874 - accuracy: 0.5200 - val_loss: 0.6920 - val_accuracy: 0.5400
 Epoch 7/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6836 - accuracy: 0.4996 - val_loss: 0.6927 - val_accuracy: 0.5400
+10/10 [==============================] - 0s 2ms/step - loss: 0.6860 - accuracy: 0.5200 - val_loss: 0.6922 - val_accuracy: 0.5400
 Epoch 8/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6824 - accuracy: 0.5652 - val_loss: 0.6934 - val_accuracy: 0.5200
+10/10 [==============================] - 0s 2ms/step - loss: 0.6846 - accuracy: 0.5300 - val_loss: 0.6925 - val_accuracy: 0.5400
 Epoch 9/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6745 - accuracy: 0.6086 - val_loss: 0.6948 - val_accuracy: 0.5100
+10/10 [==============================] - 0s 2ms/step - loss: 0.6842 - accuracy: 0.5200 - val_loss: 0.6926 - val_accuracy: 0.5400
 Epoch 10/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6912 - accuracy: 0.5183 - val_loss: 0.6962 - val_accuracy: 0.4700
+10/10 [==============================] - 0s 2ms/step - loss: 0.6823 - accuracy: 0.5200 - val_loss: 0.6930 - val_accuracy: 0.5300
 Epoch 11/50
-10/10 [==============================] - 0s 15ms/step - loss: 0.6739 - accuracy: 0.6345 - val_loss: 0.6977 - val_accuracy: 0.4900
+10/10 [==============================] - 0s 2ms/step - loss: 0.6817 - accuracy: 0.5300 - val_loss: 0.6935 - val_accuracy: 0.5200
 Epoch 12/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6853 - accuracy: 0.5676 - val_loss: 0.6985 - val_accuracy: 0.4900
+10/10 [==============================] - 0s 2ms/step - loss: 0.6803 - accuracy: 0.5800 - val_loss: 0.6939 - val_accuracy: 0.5000
 Epoch 13/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6720 - accuracy: 0.6536 - val_loss: 0.7001 - val_accuracy: 0.4900
+10/10 [==============================] - 0s 2ms/step - loss: 0.6797 - accuracy: 0.5700 - val_loss: 0.6945 - val_accuracy: 0.4900
 Epoch 14/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6797 - accuracy: 0.5924 - val_loss: 0.7015 - val_accuracy: 0.4900
+10/10 [==============================] - 0s 2ms/step - loss: 0.6782 - accuracy: 0.5900 - val_loss: 0.6950 - val_accuracy: 0.4900
 Epoch 15/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6748 - accuracy: 0.6337 - val_loss: 0.7029 - val_accuracy: 0.4800
+10/10 [==============================] - 0s 2ms/step - loss: 0.6776 - accuracy: 0.5800 - val_loss: 0.6955 - val_accuracy: 0.5000
 Epoch 16/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6884 - accuracy: 0.6205 - val_loss: 0.7033 - val_accuracy: 0.4900
+10/10 [==============================] - 0s 2ms/step - loss: 0.6769 - accuracy: 0.5900 - val_loss: 0.6963 - val_accuracy: 0.4900
 Epoch 17/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6656 - accuracy: 0.6724 - val_loss: 0.7046 - val_accuracy: 0.4900
+10/10 [==============================] - 0s 2ms/step - loss: 0.6751 - accuracy: 0.6100 - val_loss: 0.6967 - val_accuracy: 0.4900
 Epoch 18/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6613 - accuracy: 0.6567 - val_loss: 0.7063 - val_accuracy: 0.4900
+10/10 [==============================] - 0s 2ms/step - loss: 0.6743 - accuracy: 0.6200 - val_loss: 0.6973 - val_accuracy: 0.5000
 Epoch 19/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6749 - accuracy: 0.6101 - val_loss: 0.7072 - val_accuracy: 0.5000
+10/10 [==============================] - 0s 2ms/step - loss: 0.6737 - accuracy: 0.6400 - val_loss: 0.6980 - val_accuracy: 0.5000
 Epoch 20/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6560 - accuracy: 0.6835 - val_loss: 0.7093 - val_accuracy: 0.5300
+10/10 [==============================] - 0s 2ms/step - loss: 0.6726 - accuracy: 0.6300 - val_loss: 0.6985 - val_accuracy: 0.4900
 Epoch 21/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6715 - accuracy: 0.6667 - val_loss: 0.7110 - val_accuracy: 0.5200
+10/10 [==============================] - 0s 2ms/step - loss: 0.6724 - accuracy: 0.6400 - val_loss: 0.6996 - val_accuracy: 0.5000
 Epoch 22/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6739 - accuracy: 0.6297 - val_loss: 0.7116 - val_accuracy: 0.5200
+10/10 [==============================] - 0s 2ms/step - loss: 0.6708 - accuracy: 0.6400 - val_loss: 0.7002 - val_accuracy: 0.5000
 Epoch 23/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6617 - accuracy: 0.6690 - val_loss: 0.7125 - val_accuracy: 0.5200
+10/10 [==============================] - 0s 2ms/step - loss: 0.6699 - accuracy: 0.6400 - val_loss: 0.7007 - val_accuracy: 0.4900
 Epoch 24/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6435 - accuracy: 0.7028 - val_loss: 0.7143 - val_accuracy: 0.5200
+10/10 [==============================] - 0s 2ms/step - loss: 0.6698 - accuracy: 0.6300 - val_loss: 0.7017 - val_accuracy: 0.4900
 Epoch 25/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6786 - accuracy: 0.6061 - val_loss: 0.7144 - val_accuracy: 0.5200
+10/10 [==============================] - 0s 2ms/step - loss: 0.6683 - accuracy: 0.6300 - val_loss: 0.7023 - val_accuracy: 0.5000
 Epoch 26/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6720 - accuracy: 0.6481 - val_loss: 0.7162 - val_accuracy: 0.5000
+10/10 [==============================] - 0s 2ms/step - loss: 0.6675 - accuracy: 0.6400 - val_loss: 0.7030 - val_accuracy: 0.4900
 Epoch 27/50
-10/10 [==============================] - 0s 5ms/step - loss: 0.6599 - accuracy: 0.6950 - val_loss: 0.7167 - val_accuracy: 0.5000
+10/10 [==============================] - 0s 2ms/step - loss: 0.6669 - accuracy: 0.6500 - val_loss: 0.7038 - val_accuracy: 0.5000
 Epoch 28/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6623 - accuracy: 0.6825 - val_loss: 0.7178 - val_accuracy: 0.4900
+10/10 [==============================] - 0s 2ms/step - loss: 0.6660 - accuracy: 0.6400 - val_loss: 0.7044 - val_accuracy: 0.4900
 Epoch 29/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6684 - accuracy: 0.5951 - val_loss: 0.7186 - val_accuracy: 0.4900
+10/10 [==============================] - 0s 2ms/step - loss: 0.6649 - accuracy: 0.6400 - val_loss: 0.7049 - val_accuracy: 0.5000
 Epoch 30/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6583 - accuracy: 0.6817 - val_loss: 0.7202 - val_accuracy: 0.4900
+10/10 [==============================] - 0s 2ms/step - loss: 0.6659 - accuracy: 0.6400 - val_loss: 0.7059 - val_accuracy: 0.5000
 Epoch 31/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6302 - accuracy: 0.7278 - val_loss: 0.7208 - val_accuracy: 0.5000
+10/10 [==============================] - 0s 2ms/step - loss: 0.6642 - accuracy: 0.6700 - val_loss: 0.7063 - val_accuracy: 0.5100
 Epoch 32/50
-10/10 [==============================] - 0s 5ms/step - loss: 0.6475 - accuracy: 0.6859 - val_loss: 0.7222 - val_accuracy: 0.4700
+10/10 [==============================] - 0s 2ms/step - loss: 0.6629 - accuracy: 0.6700 - val_loss: 0.7072 - val_accuracy: 0.5100
 Epoch 33/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6624 - accuracy: 0.6414 - val_loss: 0.7225 - val_accuracy: 0.4700
+10/10 [==============================] - 0s 2ms/step - loss: 0.6628 - accuracy: 0.6900 - val_loss: 0.7081 - val_accuracy: 0.5000
 Epoch 34/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6601 - accuracy: 0.6306 - val_loss: 0.7233 - val_accuracy: 0.4800
+10/10 [==============================] - 0s 1ms/step - loss: 0.6612 - accuracy: 0.6700 - val_loss: 0.7087 - val_accuracy: 0.5100
 Epoch 35/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6463 - accuracy: 0.6397 - val_loss: 0.7240 - val_accuracy: 0.4700
+10/10 [==============================] - 0s 2ms/step - loss: 0.6608 - accuracy: 0.6800 - val_loss: 0.7093 - val_accuracy: 0.5000
 Epoch 36/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6374 - accuracy: 0.6736 - val_loss: 0.7249 - val_accuracy: 0.4800
+10/10 [==============================] - 0s 2ms/step - loss: 0.6600 - accuracy: 0.6800 - val_loss: 0.7100 - val_accuracy: 0.5000
 Epoch 37/50
-10/10 [==============================] - 0s 5ms/step - loss: 0.6628 - accuracy: 0.6368 - val_loss: 0.7253 - val_accuracy: 0.4800
+10/10 [==============================] - 0s 2ms/step - loss: 0.6594 - accuracy: 0.6700 - val_loss: 0.7113 - val_accuracy: 0.5000
 Epoch 38/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6616 - accuracy: 0.6376 - val_loss: 0.7265 - val_accuracy: 0.4700
+10/10 [==============================] - 0s 2ms/step - loss: 0.6592 - accuracy: 0.6700 - val_loss: 0.7120 - val_accuracy: 0.5100
 Epoch 39/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6545 - accuracy: 0.6191 - val_loss: 0.7264 - val_accuracy: 0.4800
+10/10 [==============================] - 0s 2ms/step - loss: 0.6576 - accuracy: 0.6800 - val_loss: 0.7125 - val_accuracy: 0.5100
 Epoch 40/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6353 - accuracy: 0.6840 - val_loss: 0.7278 - val_accuracy: 0.4700
+10/10 [==============================] - 0s 2ms/step - loss: 0.6596 - accuracy: 0.6700 - val_loss: 0.7133 - val_accuracy: 0.5200
 Epoch 41/50
-10/10 [==============================] - 0s 14ms/step - loss: 0.6664 - accuracy: 0.6262 - val_loss: 0.7285 - val_accuracy: 0.4500
+10/10 [==============================] - 0s 2ms/step - loss: 0.6565 - accuracy: 0.6700 - val_loss: 0.7140 - val_accuracy: 0.5100
 Epoch 42/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6342 - accuracy: 0.6593 - val_loss: 0.7294 - val_accuracy: 0.4700
+10/10 [==============================] - 0s 2ms/step - loss: 0.6559 - accuracy: 0.6700 - val_loss: 0.7148 - val_accuracy: 0.5000
 Epoch 43/50
-10/10 [==============================] - 0s 5ms/step - loss: 0.6708 - accuracy: 0.6036 - val_loss: 0.7287 - val_accuracy: 0.4600
+10/10 [==============================] - 0s 2ms/step - loss: 0.6554 - accuracy: 0.6700 - val_loss: 0.7160 - val_accuracy: 0.5000
 Epoch 44/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6566 - accuracy: 0.6025 - val_loss: 0.7300 - val_accuracy: 0.4600
+10/10 [==============================] - 0s 2ms/step - loss: 0.6547 - accuracy: 0.6700 - val_loss: 0.7168 - val_accuracy: 0.5200
 Epoch 45/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6457 - accuracy: 0.6659 - val_loss: 0.7306 - val_accuracy: 0.4600
+10/10 [==============================] - 0s 2ms/step - loss: 0.6542 - accuracy: 0.6700 - val_loss: 0.7177 - val_accuracy: 0.5000
 Epoch 46/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6344 - accuracy: 0.6353 - val_loss: 0.7313 - val_accuracy: 0.4500
+10/10 [==============================] - 0s 2ms/step - loss: 0.6534 - accuracy: 0.6700 - val_loss: 0.7185 - val_accuracy: 0.5000
 Epoch 47/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6351 - accuracy: 0.7117 - val_loss: 0.7323 - val_accuracy: 0.4500
+10/10 [==============================] - 0s 1ms/step - loss: 0.6530 - accuracy: 0.6700 - val_loss: 0.7196 - val_accuracy: 0.5100
 Epoch 48/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6444 - accuracy: 0.6601 - val_loss: 0.7326 - val_accuracy: 0.4500
+10/10 [==============================] - 0s 2ms/step - loss: 0.6525 - accuracy: 0.6800 - val_loss: 0.7201 - val_accuracy: 0.5100
 Epoch 49/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6775 - accuracy: 0.5798 - val_loss: 0.7324 - val_accuracy: 0.4400
+10/10 [==============================] - 0s 2ms/step - loss: 0.6516 - accuracy: 0.6900 - val_loss: 0.7204 - val_accuracy: 0.5200
 Epoch 50/50
-10/10 [==============================] - 0s 6ms/step - loss: 0.6404 - accuracy: 0.6756 - val_loss: 0.7335 - val_accuracy: 0.4500
+10/10 [==============================] - 0s 1ms/step - loss: 0.6513 - accuracy: 0.6700 - val_loss: 0.7215 - val_accuracy: 0.5200
 </pre></div>
 </div>
 </div>
@@ -1204,19 +1320,20 @@ Epoch 50/50
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model: &quot;sequential_1&quot;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model: &quot;sequential_4&quot;
 _________________________________________________________________
-Layer (type)                 Output Shape              Param #   
+ Layer (type)                Output Shape              Param #   
 =================================================================
-dense (Dense)                (10, 16)                  48        
-_________________________________________________________________
-dense_1 (Dense)              (10, 16)                  272       
-_________________________________________________________________
-dense_2 (Dense)              (10, 1)                   17        
+ dense_6 (Dense)             (10, 16)                  48        
+                                                                 
+ dense_7 (Dense)             (10, 16)                  272       
+                                                                 
+ dense_8 (Dense)             (10, 1)                   17        
+                                                                 
 =================================================================
-Total params: 337
-Trainable params: 337
-Non-trainable params: 0
+Total params: 337 (1.32 KB)
+Trainable params: 337 (1.32 KB)
+Non-trainable params: 0 (0.00 Byte)
 _________________________________________________________________
 </pre></div>
 </div>
@@ -1224,12 +1341,12 @@ _________________________________________________________________
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">show_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">show_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_layer_activations</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/1d571a238e524f533eb7c192731fccbfa2afb27278c837e5c0a29cbd7b18596d.png" src="../_images/1d571a238e524f533eb7c192731fccbfa2afb27278c837e5c0a29cbd7b18596d.png" />
+<img alt="../_images/614132672404f258ad9630be8c4567c8e24416dda2fb2c2d6909bbea6068f5e6.png" src="../_images/614132672404f258ad9630be8c4567c8e24416dda2fb2c2d6909bbea6068f5e6.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1247,7 +1364,7 @@ _________________________________________________________________
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/8b0cbc89f0b99b1f12ac0d1f3c040f6d228b4d7a6cdc4664ccfc4b0c94a4651f.png" src="../_images/8b0cbc89f0b99b1f12ac0d1f3c040f6d228b4d7a6cdc4664ccfc4b0c94a4651f.png" />
+<img alt="../_images/dd0d2ff0da2fd0d6b24469693dd8686e61c923d7991980ca2e6c03fdc7063817.png" src="../_images/dd0d2ff0da2fd0d6b24469693dd8686e61c923d7991980ca2e6c03fdc7063817.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1265,12 +1382,12 @@ _________________________________________________________________
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/0bf6f492bee3b6703e450ec998330ddec304ba60957f890a47c5d9ce3aaeb59a.png" src="../_images/0bf6f492bee3b6703e450ec998330ddec304ba60957f890a47c5d9ce3aaeb59a.png" />
+<img alt="../_images/ed1fef1a6a2aa59baef66bbe4c679814301715407c41a24a9c59ba244367ee14.png" src="../_images/ed1fef1a6a2aa59baef66bbe4c679814301715407c41a24a9c59ba244367ee14.png" />
 </div>
 </div>
 </section>
 <section id="evaluation-and-prediction">
-<h3>Evaluation and Prediction<a class="headerlink" href="#evaluation-and-prediction" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id24">Evaluation and Prediction</a><a class="headerlink" href="#evaluation-and-prediction" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Evaludate</span>
@@ -1279,10 +1396,10 @@ _________________________________________________________________
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4/4 [==============================] - 0s 2ms/step - loss: 0.7588 - accuracy: 0.4800
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4/4 [==============================] - 0s 874us/step - loss: 0.7519 - accuracy: 0.4200
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.7587524652481079, 0.47999998927116394]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.7519487738609314, 0.41999998688697815]
 </pre></div>
 </div>
 </div>
@@ -1290,27 +1407,34 @@ _________________________________________________________________
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Predict</span>
+
+<span class="c1">## generate pseudo test data</span>
 <span class="n">x_new</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="c1">## check</span>
 <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_new</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.42253184],
-       [0.43321115],
-       [0.45118868],
-       [0.3607703 ],
-       [0.56583214]], dtype=float32)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - 0s 9ms/step
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.535356  ],
+       [0.5599342 ],
+       [0.6352474 ],
+       [0.38696763],
+       [0.4239076 ]], dtype=float32)
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 </section>
-<section id="learning-and-training">
-<h2>Learning and Training<a class="headerlink" href="#learning-and-training" title="Permalink to this headline">#</a></h2>
+<section id="loss-functions">
+<h2><a class="toc-backref" href="#id25">Loss Functions</a><a class="headerlink" href="#loss-functions" title="Permalink to this headline">#</a></h2>
 <section id="how-does-the-neural-network-learn-the-parameters">
-<h3>How does the neural network learn the parameters?<a class="headerlink" href="#how-does-the-neural-network-learn-the-parameters" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id26">How does the neural network learn the parameters?</a><a class="headerlink" href="#how-does-the-neural-network-learn-the-parameters" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Forward propagation shows how the network takes the input values, transforms them, and produces the predicted output values based on the network parameters (i.e., weights).</p></li>
 <li><p>The network needs to learn the weights that best produce the output values according to some <strong>loss function</strong>, i.e., how different is the prediction from the true label?</p></li>
@@ -1318,8 +1442,8 @@ _________________________________________________________________
 <li><p>The model should aim to minimize these differences, which are commonly referred to as <strong>errors</strong> of the model.</p></li>
 </ul>
 </section>
-<section id="loss-functions">
-<h3>Loss Functions<a class="headerlink" href="#loss-functions" title="Permalink to this headline">#</a></h3>
+<section id="id1">
+<h3><a class="toc-backref" href="#id27">Loss Functions</a><a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>If the target ouputs are numeric values, we can evaluate the errors (i.e., the differences between the actual model outputs and the target outputs) using the <strong>mean square error</strong> function.</p>
 <ul>
@@ -1335,7 +1459,7 @@ _________________________________________________________________
 </ul>
 </section>
 <section id="principles-for-loss-functions">
-<h3>Principles for Loss Functions<a class="headerlink" href="#principles-for-loss-functions" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id28">Principles for Loss Functions</a><a class="headerlink" href="#principles-for-loss-functions" title="Permalink to this headline">#</a></h3>
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Problem Type</p></th>
@@ -1370,13 +1494,14 @@ _________________________________________________________________
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>For multi-class classification, as long as the label is in <strong>integer</strong> encodings, then we use the <code class="docutils literal notranslate"><span class="pre">sparse_categorical_crossentropy</span></code> for loss; if the label is in <strong>one-hot</strong> encodings, then we use the <code class="docutils literal notranslate"><span class="pre">categorical_crossentropy</span></code> for loss.</p>
+<p>For more information about loss functions, please check <a class="reference external" href="https://keras.io/api/losses/">Keras Losses</a>.</p>
 </div>
 </section>
 </section>
 <section id="categorical-variables-encoding">
-<h2>Categorical Variables Encoding<a class="headerlink" href="#categorical-variables-encoding" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id29">Categorical Variables Encoding</a><a class="headerlink" href="#categorical-variables-encoding" title="Permalink to this headline">#</a></h2>
 <section id="what-s-wrong-with-categorical-variables">
-<h3>What’s wrong with categorical variables?<a class="headerlink" href="#what-s-wrong-with-categorical-variables" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id30">What’s wrong with categorical variables?</a><a class="headerlink" href="#what-s-wrong-with-categorical-variables" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Before we look at the examples of loss computation, we need to talk about the ways of encoding <strong>categorical</strong> labels.</p></li>
 <li><p>Remember, machine doesn’t understand characters. If we have class labels like male/female, positive/negative, or each word tokens, we may need to convert these strings into machine-readable numerical values.</p></li>
@@ -1385,7 +1510,7 @@ _________________________________________________________________
 </ul>
 </section>
 <section id="three-ways-of-encodings">
-<h3>Three Ways of Encodings<a class="headerlink" href="#three-ways-of-encodings" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id31">Three Ways of Encodings</a><a class="headerlink" href="#three-ways-of-encodings" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p><strong>Integer</strong> (Sequence) Encoding: Each unique label is mapped to an integer</p></li>
 <li><p><strong>One-hot</strong> Encoding: Each unique label is mapped to a binary vector</p></li>
@@ -1393,7 +1518,7 @@ _________________________________________________________________
 </ul>
 </section>
 <section id="steps">
-<h3>Steps<a class="headerlink" href="#steps" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id32">Steps</a><a class="headerlink" href="#steps" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Given a corpus, we can create its <strong>vocabulary</strong> (at the word-token level, or sometimes at the character level).</p></li>
 <li><p>We can associate every word type with a <strong>unique integer index</strong> (i.e., integer encoding).</p></li>
@@ -1476,7 +1601,7 @@ _________________________________________________________________
 </div>
 </section>
 <section id="one-hot-encoding-and-loss-function">
-<h3>One-hot Encoding and Loss Function<a class="headerlink" href="#one-hot-encoding-and-loss-function" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id33">One-hot Encoding and Loss Function</a><a class="headerlink" href="#one-hot-encoding-and-loss-function" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>With one-hot encoding, we can convert any categorical variable into a numeric vector.</p></li>
 <li><p>And if we specify our network output to be a vector of the same size, we can compute the differences between the output vector and the true numeric vector.</p></li>
@@ -1492,9 +1617,9 @@ _________________________________________________________________
 </section>
 </section>
 <section id="examples-of-loss-errors-skipped">
-<h2>Examples of Loss Errors (skipped)<a class="headerlink" href="#examples-of-loss-errors-skipped" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id34">Examples of Loss Errors (skipped)</a><a class="headerlink" href="#examples-of-loss-errors-skipped" title="Permalink to this headline">#</a></h2>
 <section id="error-based-on-one-sample">
-<h3>Error based on One Sample<a class="headerlink" href="#error-based-on-one-sample" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id35">Error based on One Sample</a><a class="headerlink" href="#error-based-on-one-sample" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>The following is a simple example showing how to compute the loss for a case of prediction.</p></li>
 </ul>
@@ -1530,7 +1655,7 @@ _________________________________________________________________
 </div>
 </section>
 <section id="errors-based-on-batch-samples">
-<h3>Errors based on Batch Samples<a class="headerlink" href="#errors-based-on-batch-samples" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id36">Errors based on Batch Samples</a><a class="headerlink" href="#errors-based-on-batch-samples" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>The following is a simple example showing how to compute the average loss of a sample of batch size N cases.</p></li>
 </ul>
@@ -1575,9 +1700,9 @@ _________________________________________________________________
 </section>
 </section>
 <section id="gradient-descent">
-<h2>Gradient Descent<a class="headerlink" href="#gradient-descent" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id37">Gradient Descent</a><a class="headerlink" href="#gradient-descent" title="Permalink to this headline">#</a></h2>
 <section id="how-do-we-adjust-the-model-parameters">
-<h3>How do we adjust the model parameters?<a class="headerlink" href="#how-do-we-adjust-the-model-parameters" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id38">How do we adjust the model parameters?</a><a class="headerlink" href="#how-do-we-adjust-the-model-parameters" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>With the <strong>Loss Function</strong>, we can now perform the most important step in model training — adjusting the <strong>weights</strong> (i.e., <strong>parameters</strong>) of the model.</p></li>
 <li><p>The mechanism behind the neural network training steps is that we need to figure out:</p>
@@ -1592,7 +1717,7 @@ _________________________________________________________________
 </ul>
 </section>
 <section id="gradients">
-<h3>Gradients<a class="headerlink" href="#gradients" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id39">Gradients</a><a class="headerlink" href="#gradients" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>The error that a specific weight is responsible for is referred to as the <strong>gradient</strong> of the parameter.</p></li>
 <li><p>Mathematically, the gradient of a weight is the <strong>partial derivative</strong> of a weight in relation to the <strong>loss function</strong>.</p></li>
@@ -1607,7 +1732,7 @@ _________________________________________________________________
 </ul>
 </section>
 <section id="intuition-of-gradients-an-example-skipped">
-<h3>Intuition of Gradients: An Example (skipped)<a class="headerlink" href="#intuition-of-gradients-an-example-skipped" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id40">Intuition of Gradients: An Example (skipped)</a><a class="headerlink" href="#intuition-of-gradients-an-example-skipped" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Let’s assume that we are training a model with two parameters, <span class="math notranslate nohighlight">\(x_0\)</span> and <span class="math notranslate nohighlight">\(x_1\)</span>, and the loss function is <span class="math notranslate nohighlight">\(f(x_0, x_1)\)</span>.</p>
 <ul>
@@ -1648,7 +1773,7 @@ x_1 = x_1 + \eta\frac{\partial f}{\partial x_1}
 </ul>
 </section>
 <section id="types-of-gradient-descent">
-<h3>Types of Gradient Descent<a class="headerlink" href="#types-of-gradient-descent" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id41">Types of Gradient Descent</a><a class="headerlink" href="#types-of-gradient-descent" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p><strong>Batch</strong> Gradient Descent: Update the model weights after one epoch of the entire training set.</p></li>
 <li><p><strong>Stochastic</strong> Gradient Descent (SGD): Update the model weights after every instance of the training set (online).</p></li>
@@ -1659,7 +1784,7 @@ x_1 = x_1 + \eta\frac{\partial f}{\partial x_1}
 <p><img alt="" src="../_images/dl-gradient-batch.gif" /></p>
 </section>
 <section id="gradients-in-python-skipped">
-<h3>Gradients in Python (skipped)<a class="headerlink" href="#gradients-in-python-skipped" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id42">Gradients in Python (skipped)</a><a class="headerlink" href="#gradients-in-python-skipped" title="Permalink to this headline">#</a></h3>
 <p>In the following graph, each vector represents the gradient at a specific <span class="math notranslate nohighlight">\((x_0, x_1)\)</span>, i.e., when <span class="math notranslate nohighlight">\(x_0 = p_0\)</span> and <span class="math notranslate nohighlight">\(x_1 = p_1\)</span>:</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
@@ -1669,9 +1794,9 @@ x_1 = x_1 + \eta\frac{\partial f}{\partial x_1}
 </section>
 </section>
 <section id="overfitting-and-underfitting">
-<h2>Overfitting and Underfitting<a class="headerlink" href="#overfitting-and-underfitting" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id43">Overfitting and Underfitting</a><a class="headerlink" href="#overfitting-and-underfitting" title="Permalink to this headline">#</a></h2>
 <section id="optimization-vs-generalization">
-<h3>Optimization vs. Generalization<a class="headerlink" href="#optimization-vs-generalization" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id44">Optimization vs. Generalization</a><a class="headerlink" href="#optimization-vs-generalization" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>ML is always dealing with the tension between <strong>optimization</strong> and <strong>generalization</strong>.</p>
 <ul>
@@ -1682,14 +1807,14 @@ x_1 = x_1 + \eta\frac{\partial f}{\partial x_1}
 </ul>
 </section>
 <section id="overfitting-underfitting">
-<h3>Overfitting/Underfitting<a class="headerlink" href="#overfitting-underfitting" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id45">Overfitting/Underfitting</a><a class="headerlink" href="#overfitting-underfitting" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>During the training stage, if both the losses on training data and validation data are dropping, the model is <strong>underfit</strong> and in a way to be better fit. (Great bias, Small variation)</p></li>
 <li><p>During the training, if the loss on the validation data stalls while that of the training data still drops, the model starts to <strong>overfit</strong>. (Small bias, Great variation)</p></li>
 </ul>
 </section>
 <section id="how-to-deal-with-overfitting">
-<h3>How to Deal With Overfitting?<a class="headerlink" href="#how-to-deal-with-overfitting" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id46">How to Deal With Overfitting?</a><a class="headerlink" href="#how-to-deal-with-overfitting" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Get more training data</p></li>
 <li><p>Reduce the capacity of the network (e.g., number of layers/nodes)</p></li>
@@ -1698,7 +1823,7 @@ x_1 = x_1 + \eta\frac{\partial f}{\partial x_1}
 </ul>
 </section>
 <section id="regularization">
-<h3>Regularization<a class="headerlink" href="#regularization" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id47">Regularization</a><a class="headerlink" href="#regularization" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>What is <strong>regularization</strong>?</p>
 <ul>
@@ -1711,13 +1836,13 @@ x_1 = x_1 + \eta\frac{\partial f}{\partial x_1}
 <li><p>Common methods:</p>
 <ul>
 <li><p>L1 regularization: the cost added is proportional to the <strong>absolute values</strong> of the weights (<code class="docutils literal notranslate"><span class="pre">keras.regularizer.l1()</span></code>)</p></li>
-<li><p>L2 regularization: the cost added is propositional to the <strong>square values</strong> of the weights (<code class="docutils literal notranslate"><span class="pre">keras/regularizer.l2()</span></code>)</p></li>
+<li><p>L2 regularization: the cost added is propositional to the <strong>square values</strong> of the weights (<code class="docutils literal notranslate"><span class="pre">keras.regularizer.l2()</span></code>)</p></li>
 </ul>
 </li>
 </ul>
 </section>
 <section id="dropout">
-<h3>Dropout<a class="headerlink" href="#dropout" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id48">Dropout</a><a class="headerlink" href="#dropout" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Dropout consists of randomly dropping out a number of output features of the applied layer during training.</p></li>
 <li><p>The dropout rate is the <strong>fraction</strong> of the features that are <strong>zeroed out</strong>.</p></li>
@@ -1726,7 +1851,7 @@ x_1 = x_1 + \eta\frac{\partial f}{\partial x_1}
 </ul>
 </section>
 <section id="heuristics-for-regularization">
-<h3>Heuristics for Regularization<a class="headerlink" href="#heuristics-for-regularization" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id49">Heuristics for Regularization</a><a class="headerlink" href="#heuristics-for-regularization" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Applying dropout before a recurrent layer hinders learning rather than helping with regularization.</p></li>
 <li><p>The same dropout mask (the same pattern of dropped units) should be applied at every time step, instead of a dropout mask that varies randomly from timestep to timestep. (Yarin Gal)</p></li>
@@ -1734,7 +1859,7 @@ x_1 = x_1 + \eta\frac{\partial f}{\partial x_1}
 </ul>
 </section>
 <section id="normalization">
-<h3>Normalization<a class="headerlink" href="#normalization" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id50">Normalization</a><a class="headerlink" href="#normalization" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p><strong>Normalization</strong> is to make sure that sets of numeric values are of a uniform scale (e.g., 0 to 1).</p></li>
 <li><p>If the dataset contains numeric data varying in a huge range, it will skew the learning process, resulting in a bad model.</p></li>
@@ -1742,7 +1867,7 @@ x_1 = x_1 + \eta\frac{\partial f}{\partial x_1}
 </ul>
 </section>
 <section id="batch-normalization-and-layer-normalization">
-<h3>Batch Normalization and Layer Normalization<a class="headerlink" href="#batch-normalization-and-layer-normalization" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id51">Batch Normalization and Layer Normalization</a><a class="headerlink" href="#batch-normalization-and-layer-normalization" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>In Batch Normalization, input values of the same neuron for all the samples in the mini-batch are normalized.</p></li>
 <li><p>In Layer Normalization, input values for all neurons in the same layer are normalized for each data sample.</p></li>
@@ -1756,10 +1881,10 @@ x_1 = x_1 + \eta\frac{\partial f}{\partial x_1}
 </section>
 </section>
 <section id="some-math-skipped">
-<h2>Some Math (Skipped)<a class="headerlink" href="#some-math-skipped" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id52">Some Math (Skipped)</a><a class="headerlink" href="#some-math-skipped" title="Permalink to this headline">#</a></h2>
 <p>The following presents some important mathematical constructs related to the understanding of neural network.</p>
 <section id="chain-rule-and-back-propagation">
-<h3>Chain Rule and Back Propagation<a class="headerlink" href="#chain-rule-and-back-propagation" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id53">Chain Rule and Back Propagation</a><a class="headerlink" href="#chain-rule-and-back-propagation" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Because there are many parameters in a network, we can compute the gradients (or partial derivatives) of all the weights using the chain rules of derivatives.</p></li>
 <li><p>Specifically, the total error is essentially broken up and distributed back through the network to every single weight with the help of chain rule:</p></li>
@@ -1778,7 +1903,7 @@ x_1 = x_1 + \eta\frac{\partial f}{\partial x_1}
 </ul>
 </section>
 <section id="elementwise-operations-of-matrix">
-<h3>Elementwise Operations of Matrix<a class="headerlink" href="#elementwise-operations-of-matrix" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id54">Elementwise Operations of Matrix</a><a class="headerlink" href="#elementwise-operations-of-matrix" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>A two-dimensional matrix</p></li>
 </ul>
@@ -1867,7 +1992,7 @@ x_1 = x_1 + \eta\frac{\partial f}{\partial x_1}
 </div>
 </section>
 <section id="broadcast">
-<h3>Broadcast<a class="headerlink" href="#broadcast" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id55">Broadcast</a><a class="headerlink" href="#broadcast" title="Permalink to this headline">#</a></h3>
 <p>In matrix elementwise computation, the smaller tensor will be <strong>broadcasted</strong> to match the shape of the larger tensor.</p>
 <ul class="simple">
 <li><p>Axes (called broadcast axes) are added to the smaller tensor to match the <code class="docutils literal notranslate"><span class="pre">ndim</span></code> of the larger tensor.</p></li>
@@ -1910,7 +2035,7 @@ x_1 = x_1 + \eta\frac{\partial f}{\partial x_1}
 </div>
 </section>
 <section id="matrices-dot-production">
-<h3>Matrices Dot Production<a class="headerlink" href="#matrices-dot-production" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id56">Matrices Dot Production</a><a class="headerlink" href="#matrices-dot-production" title="Permalink to this headline">#</a></h3>
 <p><img alt="" src="../_images/matrices-dot-product.png" />
 (Source: Chollet [2018], Ch 2., Figure 2.5)</p>
 <ul class="simple">
@@ -1953,7 +2078,7 @@ x_1 = x_1 + \eta\frac{\partial f}{\partial x_1}
 </div>
 </section>
 <section id="matrices-dot-production-and-forward-propagation">
-<h3>Matrices Dot Production and Forward Propagation<a class="headerlink" href="#matrices-dot-production-and-forward-propagation" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id57">Matrices Dot Production and Forward Propagation</a><a class="headerlink" href="#matrices-dot-production-and-forward-propagation" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>For example, let’s assume that we have a word, one-hot encoded as [0,1,0,0,0,0].</p></li>
 <li><p>An embedding model consists of parameters like the two-dimensional tensor shown below.</p></li>
@@ -2022,7 +2147,7 @@ x_1 = x_1 + \eta\frac{\partial f}{\partial x_1}
 </div>
 </section>
 <section id="derivatives">
-<h3>Derivatives<a class="headerlink" href="#derivatives" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id58">Derivatives</a><a class="headerlink" href="#derivatives" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Given a normal function, <span class="math notranslate nohighlight">\(f(x) = y \)</span> , if the <span class="math notranslate nohighlight">\(x\)</span> value changes, <span class="math notranslate nohighlight">\(y\)</span> will change as well.</p></li>
 <li><p>So if we increase <span class="math notranslate nohighlight">\(x\)</span> by a small factor <span class="math notranslate nohighlight">\(h\)</span>, this results in a small change to <span class="math notranslate nohighlight">\(y\)</span>, i.e., <span class="math notranslate nohighlight">\(f(x+h) - f(x)\)</span>.</p></li>
@@ -2168,7 +2293,7 @@ f'(x) = \frac{\partial f}{\partial x}= 4x^2 + 2x = 8x + 2
 </ul>
 </section>
 <section id="partial-derivatives">
-<h3>Partial Derivatives<a class="headerlink" href="#partial-derivatives" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id59">Partial Derivatives</a><a class="headerlink" href="#partial-derivatives" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>When a function has many parameters, we can take the derivate of the function with respect to one particular parameter.</p></li>
 <li><p>This parameter-specific derivative is called <strong>partial derivative</strong>.</p></li>
@@ -2232,7 +2357,7 @@ f'(x) = \frac{\partial f}{\partial x}= 4x^2 + 2x = 8x + 2
 </section>
 </section>
 <section id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id60">References</a><a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>I highly recommend the following two books for deep learning with Python:</p>
 <ul>
@@ -2258,13 +2383,13 @@ f'(x) = \frac{\partial f}{\partial x}= 4x^2 + 2x = 8x + 2
             mode: "python"
         },
         kernelOptions: {
-            name: "python-notes",
+            name: "python3",
             path: "./nlp"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python-notes'</script>
+    <script>kernelName = 'python3'</script>
 
                 </article>
               
@@ -2322,7 +2447,7 @@ f'(x) = \frac{\partial f}{\partial x}= 4x^2 + 2x = 8x + 2
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#activation-functions">Activation Functions</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#activation-functions-in-python">Activation Functions in Python</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-nodes-to-layers">From Nodes to Layers</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#layer-parameters-and-matrix-mutiplication">Layer, Parameters, and Matrix Mutiplication</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#layer-parameters-and-matrix-mutiplication-self-study">Layer, Parameters, and Matrix Mutiplication (Self-Study)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-neural-networks">Types of Neural Networks</a></li>
 </ul>
 </li>
@@ -2330,22 +2455,22 @@ f'(x) = \frac{\partial f}{\partial x}= 4x^2 + 2x = 8x + 2
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#packages-in-focus">Packages in Focus</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-model">Create Model</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#useful-modules-in-keras">Useful Modules in keras</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#keras-utils"><code class="docutils literal notranslate"><span class="pre">keras.utils</span></code>:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#keras-utils"><code class="docutils literal notranslate"><span class="pre">keras.utils</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#keras-layers"><code class="docutils literal notranslate"><span class="pre">keras.layers</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#other-modules">Other modules</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-quick-example-of-model-training">A Quick Example of Model Training</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data">Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-quick-example">A Quick Example</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pseudo-data">Pseudo Data</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-training">Model Training</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-and-prediction">Evaluation and Prediction</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-and-training">Learning and Training</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-functions">Loss Functions</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-does-the-neural-network-learn-the-parameters">How does the neural network learn the parameters?</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-functions">Loss Functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Loss Functions</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principles-for-loss-functions">Principles for Loss Functions</a></li>
 </ul>
 </li>
