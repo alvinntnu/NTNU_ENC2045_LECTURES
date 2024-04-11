@@ -873,7 +873,14 @@ h(y_k) = \frac{\exp(y_k)}{\sum_{i = 1}^{n} \exp({y_i})}
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">tensorflow</span></code>: It is an open source machine learning library used for numerical computational tasks developed by Google.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">tensorflow.keras</span></code>: It is a high level API built on top of Tensorflow. It originated as an independent library and now has been incorporated as part of Tensorflow 2+.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">keras</span> <span class="pre">3.0</span></code>: Now Keras 3.0 is a full rewrite of Keras that enables you to run Keras workflows on top of several popular deep learning packages, such as JAX, TensorFlow, or PyTorch.</p></li>
 </ul>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Moving from Keras 2 to Keras 3 is generally smooth and backward compatible, with most users not needing to modify their code. However, in this course, we will stay with keras 2 for the commment.</p>
+<p>If accessing Keras via <code class="docutils literal notranslate"><span class="pre">tf.keras</span></code> in TensorFlow, there are no immediate changes until TensorFlow 2.16. From TensorFlow 2.16 onwards, Keras 3 is the default.</p>
+<p>If you are using TensorFlow &gt; 2.15, to continue using Keras 2, install <code class="docutils literal notranslate"><span class="pre">tf_keras</span></code> and set the environment variable <code class="docutils literal notranslate"><span class="pre">TF_USE_LEGACY_KERAS=1</span></code>. This will direct TensorFlow to resolve <code class="docutils literal notranslate"><span class="pre">tf.keras</span></code> to the locally-installed <code class="docutils literal notranslate"><span class="pre">tf_keras</span></code> package. However, be cautious as this change affects any package importing <code class="docutils literal notranslate"><span class="pre">tf.keras</span></code> in the Python process. To ensure changes only impact your own code, use the <code class="docutils literal notranslate"><span class="pre">tf_keras</span></code> package.</p>
+</div>
 <ul class="simple">
 <li><p>Usually we need to define the architecture of the neural network model in terms of <strong>depths</strong> and <strong>widths</strong> of the layers.</p></li>
 <li><p>After we define the structure of the network and initialize the values for all parameters, the training requires an iterative processing involving:</p>
@@ -1078,9 +1085,9 @@ None
 <li><p><code class="docutils literal notranslate"><span class="pre">keras.losses</span></code>: Loss functions</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">keras.optimizers</span></code>: Optimization is an important process which optimizes the input weights by comparing the prediction and the loss function.</p>
 <ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">keras.optimizers.RMSprop</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">keras.optimizers.Adam</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">keras.optimziers.SGD</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">keras.optimizers.RMSprop</span></code>: RMSprop is an optimization algorithm that uses a moving average of squared gradients to normalize the gradient updates.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">keras.optimizers.Adam</span></code>: Adam is an optimization algorithm that adapts the learning rate based on the historical gradient information.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">keras.optimziers.SGD</span></code>: Stochastic Gradient Descent (SGD) is a simple optimization algorithm that updates the parameters by computing the gradient of the loss function with respect to the parameters.</p></li>
 </ul>
 </li>
 <li><p><code class="docutils literal notranslate"><span class="pre">keras.metrics</span></code>: Metrics for model evaluation</p></li>
