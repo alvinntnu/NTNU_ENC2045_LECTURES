@@ -1,0 +1,1028 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>2. Assignment II: Preprocessing &#8212; ENC2045 Computational Linguistics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mycss.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'exercise/2-preprocessing';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. Assignment III: Chinese Language Processing" href="3-chinese-nlp.html" />
+    <link rel="prev" title="1. Assignment I: Python Basics" href="1-python-basics.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/ntnu-word-2.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/ntnu-word-2.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">INTRODUCTION</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../nlp/nlp-primer.html">Natural Language Processing: A Primer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nlp/nlp-pipeline.html">NLP Pipeline</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Preprocessing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../nlp/text-preprocessing.html">Text Preprocessing</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../nlp/text-normalization-eng.html">Text Normalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nlp/text-tokenization.html">Text Tokenization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nlp/text-enrichment.html">Text Enrichment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nlp/chinese-word-seg.html">Chinese Word Segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nlp/google-colab.html">Google Colab</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Text Vectorization</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../nlp/text-vec-traditional.html">Text Vectorization Using Traditional Methods</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning Basics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../nlp/ml-overview.html">Machine Learning: Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nlp/ml-simple-case.html">Machine Learning: A Simple Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nlp/ml-algorithm.html">Classification Models</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine-Learning NLP</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../nlp/ml-common-nlp-tasks.html">Common NLP Tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nlp/ml-sklearn-classification.html">Sentiment Analysis Using Bag-of-Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nlp/ml-emsemble-learning.html">Emsemble Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nlp/topic-modeling-naive.html">Topic Modeling: A Naive Example</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning NLP</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../nlp/dl-neural-network-from-scratch.html">Neural Network From Scratch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nlp/dl-simple-case.html">Deep Learning: A Simple Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nlp/dl-sentiment-case.html">Deep Learning: Sentiment Analysis</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Neural Language Model and Embeddings</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../nlp/dl-sequence-models-intuition.html">Sequence Models Intuition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nlp/dl-neural-language-model-primer.html">Neural Language Model: A Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nlp/text-vec-embedding.html">Word Embeddings</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sequence Models, Attention, Transformers</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../nlp/dl-attention-transformer-intuition.html">Attention and Transformers: Intuitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nlp/dl-seq-to-seq-attention-addition.html">Sequence Model with Attention for Addition Learning</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">LLM</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../nlp/langchain-llm-intro.html">Large Language Model (Under Construction…)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Exercises</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1-python-basics.html">1. Assignment I: Python Basics</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. Assignment II: Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3-chinese-nlp.html">3. Assignment III: Chinese Language Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="4-text-vectorization.html">4. Assignment IV: Text Vectorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="5-machine-learning.html">5. Assignment V: Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="6-topic-modeling.html">6. Assignment VI: Topic Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="7-dl-chinese-name-gender.html">7. Assignment VII: Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="8-sentiment-analysis-dl.html">8. Assignment VIII: Sentiment Analysis Using Deep Learning</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Exams</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="midterm-exam-112.html">Midterm Exam</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/alvinntnu/NTNU_ENC2045_LECTURES/blob/main/exercise/2-preprocessing.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/exercise/2-preprocessing.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Assignment II: Preprocessing</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#question-1">2.1. Question 1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#question-2">2.2. Question 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#question-3">2.3. Question 3</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="assignment-ii-preprocessing">
+<h1><span class="section-number">2. </span>Assignment II: Preprocessing<a class="headerlink" href="#assignment-ii-preprocessing" title="Permalink to this headline">#</a></h1>
+<section id="question-1">
+<h2><span class="section-number">2.1. </span>Question 1<a class="headerlink" href="#question-1" title="Permalink to this headline">#</a></h2>
+<p>Please use the <code class="docutils literal notranslate"><span class="pre">gutenberg</span></code> corpus provided in <code class="docutils literal notranslate"><span class="pre">nltk</span></code> and extract the text written by Lewis Caroll, i.e., <code class="docutils literal notranslate"><span class="pre">fileid</span> <span class="pre">==</span> <span class="pre">'carroll-alice.txt'</span></code>, as your corpus data.</p>
+<p>With this corpus data, please perform text preprocessing on the <strong>sentences</strong> of the corpus.</p>
+<p>In particular, please:</p>
+<ul class="simple">
+<li><p>pos-tag all the sentences to get the parts-of-speech of each word</p></li>
+<li><p>lemmatize all words using <code class="docutils literal notranslate"><span class="pre">WordNetLemmatizer</span></code> in NLTK on a sentential basis</p></li>
+</ul>
+<p>Please provide your output as shown below:</p>
+<ul class="simple">
+<li><p>it is a data frame</p></li>
+<li><p>the column <code class="docutils literal notranslate"><span class="pre">alice_sents</span></code> includes the original sentence texts</p></li>
+<li><p>the column <code class="docutils literal notranslate"><span class="pre">alice_sents_pos</span></code> includes annotated version of the sentences with each token as <code class="docutils literal notranslate"><span class="pre">word/postag</span></code></p></li>
+<li><p>the column <code class="docutils literal notranslate"><span class="pre">sents_lem</span></code> includes the lemmatized version of the sentences</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please note that the lemmatized form of the BE verbs (e.g., <em>was</em>) should be <em>be</em>. This is a quick check if your lemmatization works successfully.</p>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alice_sents_df</span><span class="p">[:</span><span class="mi">20</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sents</th>
+      <th>sents_pos</th>
+      <th>sents_lem</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>[ Alice ' s Adventures in Wonderland by Lewis ...</td>
+      <td>[/JJ Alice/NNP '/POS s/NN Adventures/NNS in/IN...</td>
+      <td>[ Alice ' s Adventures in Wonderland by Lewis ...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>CHAPTER I .</td>
+      <td>CHAPTER/NN I/PRP ./.</td>
+      <td>CHAPTER I .</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Down the Rabbit - Hole</td>
+      <td>Down/IN the/DT Rabbit/NNP -/: Hole/NN</td>
+      <td>Down the Rabbit - Hole</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Alice was beginning to get very tired of sitti...</td>
+      <td>Alice/NNP was/VBD beginning/VBG to/TO get/VB v...</td>
+      <td>Alice be begin to get very tired of sit by her...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>So she was considering in her own mind ( as we...</td>
+      <td>So/IN she/PRP was/VBD considering/VBG in/IN he...</td>
+      <td>So she be consider in her own mind ( as well a...</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>There was nothing so VERY remarkable in that ;...</td>
+      <td>There/EX was/VBD nothing/NN so/RB VERY/RB rema...</td>
+      <td>There be nothing so VERY remarkable in that ; ...</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Oh dear !</td>
+      <td>Oh/UH dear/NN !/.</td>
+      <td>Oh dear !</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>I shall be late !'</td>
+      <td>I/PRP shall/MD be/VB late/JJ !'/NN</td>
+      <td>I shall be late !'</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>( when she thought it over afterwards , it occ...</td>
+      <td>(/( when/WRB she/PRP thought/VBD it/PRP over/I...</td>
+      <td>( when she think it over afterwards , it occur...</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>In another moment down went Alice after it , n...</td>
+      <td>In/IN another/DT moment/NN down/RP went/VBD Al...</td>
+      <td>In another moment down go Alice after it , nev...</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>The rabbit - hole went straight on like a tunn...</td>
+      <td>The/DT rabbit/NN -/: hole/NN went/VBD straight...</td>
+      <td>The rabbit - hole go straight on like a tunnel...</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Either the well was very deep , or she fell ve...</td>
+      <td>Either/CC the/DT well/NN was/VBD very/RB deep/...</td>
+      <td>Either the well be very deep , or she fell ver...</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>First , she tried to look down and make out wh...</td>
+      <td>First/RB ,/, she/PRP tried/VBD to/TO look/VB d...</td>
+      <td>First , she try to look down and make out what...</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>She took down a jar from one of the shelves as...</td>
+      <td>She/PRP took/VBD down/RP a/DT jar/NN from/IN o...</td>
+      <td>She take down a jar from one of the shelf a sh...</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>' Well !'</td>
+      <td>'/POS Well/NNP !'/NN</td>
+      <td>' Well !'</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>thought Alice to herself , ' after such a fall...</td>
+      <td>thought/VBN Alice/NNP to/TO herself/VB ,/, '/'...</td>
+      <td>think Alice to herself , ' after such a fall a...</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>How brave they ' ll all think me at home !</td>
+      <td>How/WRB brave/VBP they/PRP '/'' ll/VBP all/DT ...</td>
+      <td>How brave they ' ll all think me at home !</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Why , I wouldn ' t say anything about it , eve...</td>
+      <td>Why/WRB ,/, I/PRP wouldn/VBP '/'' t/NNS say/VB...</td>
+      <td>Why , I wouldn ' t say anything about it , eve...</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>( Which was very likely true .)</td>
+      <td>(/( Which/NNP was/VBD very/RB likely/JJ true/J...</td>
+      <td>( Which be very likely true .)</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>Down , down , down .</td>
+      <td>Down/NNP ,/, down/RB ,/, down/RB ./.</td>
+      <td>Down , down , down .</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="question-2">
+<h2><span class="section-number">2.2. </span>Question 2<a class="headerlink" href="#question-2" title="Permalink to this headline">#</a></h2>
+<p>Based on the output of <strong>Question 1</strong>, please create a lemma frequency list of the corpus, <code class="docutils literal notranslate"><span class="pre">carroll-alice.txt</span></code>, using the lemmatized forms by including only lemmas which are:</p>
+<ul class="simple">
+<li><p>consisting of only alphabets or hyphens</p></li>
+<li><p>at least 5-character long</p></li>
+</ul>
+<p>The casing is irrelevant (i.e., case normalization is needed).</p>
+<p>The expected output is provided as follows (showing the top 20 lemmas and their frequencies).</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># top 20</span>
+<span class="n">alice_df</span><span class="p">[:</span><span class="mi">21</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>LEMMA</th>
+      <th>FREQ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>alice</td>
+      <td>398</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>little</td>
+      <td>128</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>think</td>
+      <td>118</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>there</td>
+      <td>99</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>about</td>
+      <td>94</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>begin</td>
+      <td>92</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>would</td>
+      <td>83</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>again</td>
+      <td>83</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>herself</td>
+      <td>83</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>thing</td>
+      <td>80</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>could</td>
+      <td>77</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>queen</td>
+      <td>75</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>turtle</td>
+      <td>61</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>hatter</td>
+      <td>57</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>quite</td>
+      <td>55</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>gryphon</td>
+      <td>55</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>rabbit</td>
+      <td>52</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>their</td>
+      <td>52</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>first</td>
+      <td>51</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>voice</td>
+      <td>51</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>which</td>
+      <td>49</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="question-3">
+<h2><span class="section-number">2.3. </span>Question 3<a class="headerlink" href="#question-3" title="Permalink to this headline">#</a></h2>
+<p>Please identify top verbs that co-occcur with the name <em>Alice</em> in the text, with <em>Alice</em> being the <strong>subject</strong> of the verb.</p>
+<p>Please use the <code class="docutils literal notranslate"><span class="pre">en_core_web_sm</span></code> model in <code class="docutils literal notranslate"><span class="pre">spacy</span></code> for English dependency parsing.</p>
+<p>To simply the task, please identify all the verbs that have a dependency relation of <code class="docutils literal notranslate"><span class="pre">nsubj</span></code> with the noun <code class="docutils literal notranslate"><span class="pre">Alice</span></code> (where <code class="docutils literal notranslate"><span class="pre">Alice</span></code> is the <strong>dependent</strong>, and the verb is the <strong>head</strong>).</p>
+<p>The expected output is provided below (showing the top 20 heads of <code class="docutils literal notranslate"><span class="pre">Alice</span></code> for the <code class="docutils literal notranslate"><span class="pre">nsubj</span></code> dependency relation.)</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alice_nsubj_df</span><span class="p">[:</span><span class="mi">21</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>nsubj-head</th>
+      <th>FREQ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>said</td>
+      <td>127</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>thought</td>
+      <td>32</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>replied</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>was</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>began</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>went</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>looked</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>felt</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>like</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>think</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>had</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>ventured</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>beginning</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>been</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>heard</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>hear</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>waited</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>remarked</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>asked</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>see</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>got</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python-notes",
+            path: "./exercise"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python-notes'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="1-python-basics.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Assignment I: Python Basics</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="3-chinese-nlp.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Assignment III: Chinese Language Processing</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#question-1">2.1. Question 1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#question-2">2.2. Question 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#question-3">2.3. Question 3</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Alvin Cheng-Hsien Chen
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023 Alvin Chen.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

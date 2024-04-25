@@ -206,11 +206,13 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Exercises</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../exercise/1-python-basics.html">1. Assignment I: Python Basics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../exercise/3-preprocessing.html">2. Assignment II: Preprocessing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../exercise/4-chinese-nlp.html">3. Assignment III: Chinese Language Processing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../exercise/5-text-vectorization.html">4. Assignment IV: Text Vectorization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../exercise/6-machine-learning.html">5. Assignment V: Machine Learning</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../exercise/7-topic-modeling.html">6. Assignment VI: Topic Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/2-preprocessing.html">2. Assignment II: Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/3-chinese-nlp.html">3. Assignment III: Chinese Language Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/4-text-vectorization.html">4. Assignment IV: Text Vectorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/5-machine-learning.html">5. Assignment V: Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/6-topic-modeling.html">6. Assignment VI: Topic Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/7-dl-chinese-name-gender.html">7. Assignment VII: Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/8-sentiment-analysis-dl.html">8. Assignment VIII: Sentiment Analysis Using Deep Learning</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Exams</span></p>
 <ul class="nav bd-sidenav">
@@ -409,21 +411,20 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hyperparameters">Hyperparameters</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-definition">Model Definition</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-1">Model 1</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-2">Model 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-definition-part-1">Model Definition (Part 1)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-1-feedforward-neural-network">Model 1 (Feedforward Neural Network)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-2-feedforward-neural-network">Model 2 (Feedforward Neural Network)</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#issues-of-word-character-representations">Issues of Word/Character Representations</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sequence-models">Sequence Models</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-3">Model 3</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-4">Model 4</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-5">Model 5</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-defintion-part-2">Model Defintion (Part 2)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-3-lstm">Model 3 (LSTM)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-4-stacked-lstm">Model 4 (Stacked LSTM)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-5-bidirectional-lstm">Model 5 (Bidirectional LSTM)</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#even-more-complex-sequence-models">Even More Complex Sequence Models</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-6">Model 6</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-7">Model 7</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-definition-part-3">Model Definition (Part 3)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-6-lstm-dense">Model 6 (LSTM + Dense)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-7-lstm-attention">Model 7 (LSTM + Attention)</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#explanation">Explanation</a></li>
@@ -441,13 +442,64 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="deep-learning-sentiment-analysis">
-<h1>Deep Learning: Sentiment Analysis<a class="headerlink" href="#deep-learning-sentiment-analysis" title="Permalink to this headline">#</a></h1>
+<h1><a class="toc-backref" href="#id1">Deep Learning: Sentiment Analysis</a><a class="headerlink" href="#deep-learning-sentiment-analysis" title="Permalink to this headline">#</a></h1>
 <ul class="simple">
 <li><p>In this unit, we will build a deep-learning-based sentiment classifier on the movie reviews from <code class="docutils literal notranslate"><span class="pre">ntlk</span></code>.</p></li>
 </ul>
 <p><img alt="" src="../_images/keras-workflow.png" /></p>
+<div class="contents topic" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#deep-learning-sentiment-analysis" id="id1">Deep Learning: Sentiment Analysis</a></p>
+<ul>
+<li><p><a class="reference internal" href="#prepare-data" id="id2">Prepare Data</a></p></li>
+<li><p><a class="reference internal" href="#train-test-split" id="id3">Train-Test Split</a></p></li>
+<li><p><a class="reference internal" href="#prepare-input-and-output-tensors" id="id4">Prepare Input and Output Tensors</a></p>
+<ul>
+<li><p><a class="reference internal" href="#tokenizer" id="id5">Tokenizer</a></p></li>
+<li><p><a class="reference internal" href="#vocabulary" id="id6">Vocabulary</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#define-x-and-y-text-vectorization" id="id7">Define X and Y (Text Vectorization)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#method-1-text-to-sequences" id="id8">Method 1: Text to Sequences</a></p>
+<ul>
+<li><p><a class="reference internal" href="#text-to-sequences" id="id9">Text to Sequences</a></p></li>
+<li><p><a class="reference internal" href="#padding" id="id10">Padding</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#method-2-text-to-matrix-one-hot-encoding-bag-of-words" id="id11">Method 2: Text to Matrix (One-hot Encoding/Bag-of-Words)</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#hyperparameters" id="id12">Hyperparameters</a></p></li>
+<li><p><a class="reference internal" href="#model-definition-part-1" id="id13">Model Definition (Part 1)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#model-1-feedforward-neural-network" id="id14">Model 1 (Feedforward Neural Network)</a></p></li>
+<li><p><a class="reference internal" href="#model-2-feedforward-neural-network" id="id15">Model 2 (Feedforward Neural Network)</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#model-defintion-part-2" id="id16">Model Defintion (Part 2)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#model-3-lstm" id="id17">Model 3 (LSTM)</a></p></li>
+<li><p><a class="reference internal" href="#model-4-stacked-lstm" id="id18">Model 4 (Stacked LSTM)</a></p></li>
+<li><p><a class="reference internal" href="#model-5-bidirectional-lstm" id="id19">Model 5 (Bidirectional LSTM)</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#model-definition-part-3" id="id20">Model Definition (Part 3)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#model-6-lstm-dense" id="id21">Model 6 (LSTM + Dense)</a></p></li>
+<li><p><a class="reference internal" href="#model-7-lstm-attention" id="id22">Model 7 (LSTM + Attention)</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#explanation" id="id23">Explanation</a></p></li>
+<li><p><a class="reference internal" href="#check-embeddings" id="id24">Check Embeddings</a></p></li>
+<li><p><a class="reference internal" href="#model-comparisons" id="id25">Model Comparisons</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
 <section id="prepare-data">
-<h2>Prepare Data<a class="headerlink" href="#prepare-data" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id2">Prepare Data</a><a class="headerlink" href="#prepare-data" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -507,7 +559,7 @@ document.write(`
 </div>
 </section>
 <section id="train-test-split">
-<h2>Train-Test Split<a class="headerlink" href="#train-test-split" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id3">Train-Test Split</a><a class="headerlink" href="#train-test-split" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
@@ -526,7 +578,7 @@ document.write(`
 </div>
 </section>
 <section id="prepare-input-and-output-tensors">
-<h2>Prepare Input and Output Tensors<a class="headerlink" href="#prepare-input-and-output-tensors" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id4">Prepare Input and Output Tensors</a><a class="headerlink" href="#prepare-input-and-output-tensors" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>For text vectorization, we will implement two alternatives:</p>
 <ul>
@@ -587,7 +639,7 @@ document.write(`
 </div>
 </div>
 <section id="tokenizer">
-<h3>Tokenizer<a class="headerlink" href="#tokenizer" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id5">Tokenizer</a><a class="headerlink" href="#tokenizer" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Important Notes:</p>
 <ul>
@@ -608,7 +660,7 @@ document.write(`
 </div>
 </section>
 <section id="vocabulary">
-<h3>Vocabulary<a class="headerlink" href="#vocabulary" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id6">Vocabulary</a><a class="headerlink" href="#vocabulary" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>When computing the vocabulary size, the plus 1 is due to the addition of the padding token.</p></li>
 <li><p>If <code class="docutils literal notranslate"><span class="pre">oov_token</span></code> is specified, then the vocabulary size needs to be added one more.</p></li>
@@ -675,15 +727,15 @@ document.write(`
 </section>
 </section>
 <section id="define-x-and-y-text-vectorization">
-<h2>Define X and Y (Text Vectorization)<a class="headerlink" href="#define-x-and-y-text-vectorization" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id7">Define X and Y (Text Vectorization)</a><a class="headerlink" href="#define-x-and-y-text-vectorization" title="Permalink to this headline">#</a></h2>
 <section id="method-1-text-to-sequences">
-<h3>Method 1: Text to Sequences<a class="headerlink" href="#method-1-text-to-sequences" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id8">Method 1: Text to Sequences</a><a class="headerlink" href="#method-1-text-to-sequences" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Text to sequences (integers)</p></li>
 <li><p>Pad sequences</p></li>
 </ul>
 <section id="text-to-sequences">
-<h4>Text to Sequences<a class="headerlink" href="#text-to-sequences" title="Permalink to this headline">#</a></h4>
+<h4><a class="toc-backref" href="#id9">Text to Sequences</a><a class="headerlink" href="#text-to-sequences" title="Permalink to this headline">#</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">texts_ints</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">texts_to_sequences</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
@@ -707,7 +759,7 @@ document.write(`
 </div>
 </section>
 <section id="padding">
-<h4>Padding<a class="headerlink" href="#padding" title="Permalink to this headline">#</a></h4>
+<h4><a class="toc-backref" href="#id10">Padding</a><a class="headerlink" href="#padding" title="Permalink to this headline">#</a></h4>
 <ul class="simple">
 <li><p>When dealing with texts and documents, padding each text to the <strong>maximum length</strong> may not be ideal.</p></li>
 <li><p>For example, for sentiment classification, it is usually the case that authors would more clearly reveal/highlight his/her sentiment at the end of the text.</p></li>
@@ -815,7 +867,7 @@ document.write(`
 </section>
 </section>
 <section id="method-2-text-to-matrix-one-hot-encoding-bag-of-words">
-<h3>Method 2: Text to Matrix (One-hot Encoding/Bag-of-Words)<a class="headerlink" href="#method-2-text-to-matrix-one-hot-encoding-bag-of-words" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id11">Method 2: Text to Matrix (One-hot Encoding/Bag-of-Words)</a><a class="headerlink" href="#method-2-text-to-matrix-one-hot-encoding-bag-of-words" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Texts to One-Hot Encoding (bag of words)</span>
@@ -852,7 +904,7 @@ document.write(`
 </section>
 </section>
 <section id="hyperparameters">
-<h2>Hyperparameters<a class="headerlink" href="#hyperparameters" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id12">Hyperparameters</a><a class="headerlink" href="#hyperparameters" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## A few DL hyperparameters</span>
@@ -865,8 +917,8 @@ document.write(`
 </div>
 </div>
 </section>
-<section id="model-definition">
-<h2>Model Definition<a class="headerlink" href="#model-definition" title="Permalink to this headline">#</a></h2>
+<section id="model-definition-part-1">
+<h2><a class="toc-backref" href="#id13">Model Definition (Part 1)</a><a class="headerlink" href="#model-definition-part-1" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -908,8 +960,8 @@ document.write(`
 </div>
 </div>
 </div>
-<section id="model-1">
-<h3>Model 1<a class="headerlink" href="#model-1" title="Permalink to this headline">#</a></h3>
+<section id="model-1-feedforward-neural-network">
+<h3><a class="toc-backref" href="#id14">Model 1 (Feedforward Neural Network)</a><a class="headerlink" href="#model-1-feedforward-neural-network" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Two layers of fully-connected dense layers</p></li>
 <li><p>The input is the one-hot encoding of the text from text-to-matrix.</p></li>
@@ -1038,8 +1090,8 @@ Epoch 25/25
 </div>
 </div>
 </section>
-<section id="model-2">
-<h3>Model 2<a class="headerlink" href="#model-2" title="Permalink to this headline">#</a></h3>
+<section id="model-2-feedforward-neural-network">
+<h3><a class="toc-backref" href="#id15">Model 2 (Feedforward Neural Network)</a><a class="headerlink" href="#model-2-feedforward-neural-network" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>One Embedding Layer + Two fully-connected dense layers</p></li>
 <li><p>The Inputs are the sequences (integers) of texts.</p></li>
@@ -1173,19 +1225,23 @@ Epoch 25/25
 </div>
 </div>
 </div>
-</section>
-</section>
-<section id="issues-of-word-character-representations">
-<h2>Issues of Word/Character Representations<a class="headerlink" href="#issues-of-word-character-representations" title="Permalink to this headline">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Issues of Word/Character Representations</strong></p>
 <ul class="simple">
 <li><p>Generally speaking, we can train our <strong>word embeddings</strong> along with the downstream NLP task (e.g., the sentiment classification in our current case).</p></li>
 <li><p>Another common method is to train the word embeddings using unsupervised methods on a large amount of data and apply the pre-trained word embeddings to the current downstream NLP task. Typical methods include word2vec (CBOW or skipped-gram, GloVe etc). We will come back to these unsupervised methods later.</p></li>
 </ul>
+</div>
 </section>
-<section id="sequence-models">
-<h2>Sequence Models<a class="headerlink" href="#sequence-models" title="Permalink to this headline">#</a></h2>
-<section id="model-3">
-<h3>Model 3<a class="headerlink" href="#model-3" title="Permalink to this headline">#</a></h3>
+</section>
+<section id="model-defintion-part-2">
+<h2><a class="toc-backref" href="#id16">Model Defintion (Part 2)</a><a class="headerlink" href="#model-defintion-part-2" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>For text sequences, we often apply RNN-based sequence models to create the model.</p></li>
+</ul>
+<section id="model-3-lstm">
+<h3><a class="toc-backref" href="#id17">Model 3 (LSTM)</a><a class="headerlink" href="#model-3-lstm" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>One Embedding Layer + LSTM + Dense Layer</p></li>
 <li><p>Input: the text sequences (padded)</p></li>
@@ -1315,8 +1371,8 @@ Epoch 25/25
 </div>
 </div>
 </section>
-<section id="model-4">
-<h3>Model 4<a class="headerlink" href="#model-4" title="Permalink to this headline">#</a></h3>
+<section id="model-4-stacked-lstm">
+<h3><a class="toc-backref" href="#id18">Model 4 (Stacked LSTM)</a><a class="headerlink" href="#model-4-stacked-lstm" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>One Embedding Layer + Two Stacked LSTM + Dense Layer</p></li>
 <li><p>Inputs: text sequences (padded)</p></li>
@@ -1452,8 +1508,8 @@ Epoch 25/25
 </div>
 </div>
 </section>
-<section id="model-5">
-<h3>Model 5<a class="headerlink" href="#model-5" title="Permalink to this headline">#</a></h3>
+<section id="model-5-bidirectional-lstm">
+<h3><a class="toc-backref" href="#id19">Model 5 (Bidirectional LSTM)</a><a class="headerlink" href="#model-5-bidirectional-lstm" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Embedding Layer + Bidirectional LSTM + Dense Layer</p></li>
 <li><p>Inputs: Text sequences (padded)</p></li>
@@ -1584,10 +1640,24 @@ Epoch 25/25
 </div>
 </section>
 </section>
-<section id="even-more-complex-sequence-models">
-<h2>Even More Complex Sequence Models<a class="headerlink" href="#even-more-complex-sequence-models" title="Permalink to this headline">#</a></h2>
-<section id="model-6">
-<h3>Model 6<a class="headerlink" href="#model-6" title="Permalink to this headline">#</a></h3>
+<section id="model-definition-part-3">
+<h2><a class="toc-backref" href="#id20">Model Definition (Part 3)</a><a class="headerlink" href="#model-definition-part-3" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>Sequence models can be further enriched by:</p>
+<ul>
+<li><p>considering all the hidden states at all timesteps;</p></li>
+<li><p>introducing the mechansim of <strong>attention</strong>.</p></li>
+</ul>
+</li>
+</ul>
+<p>We can make the LSTM models more powerful in at least three more ways:</p>
+<ol class="arabic simple">
+<li><p><strong>Add another Dense layer to the output of LSTM</strong>: This additional dense layer can help further refine and transform the information learned by the LSTM hidden states before making final predictions.</p></li>
+<li><p><strong>Considering all hidden states at all timesteps</strong>: In a standard LSTM model, only the <strong>final</strong> hidden state is typically used for making predictions. However, by considering <strong>all the hidden states</strong> at each timestep, the model can capture more detailed information from the input sequence. This allows the model to better understand the temporal dynamics of the sequence and make more accurate predictions.</p></li>
+<li><p><strong>Introducing the mechanism of attention</strong>: Attention mechanisms allow the model to selectively focus on different parts of the input sequence when making predictions. Instead of treating all parts of the sequence equally, attention mechanisms assign different weights to each timestep’s hidden state based on its relevance to the current prediction task. This allows the model to prioritize important information and ignore irrelevant or less informative parts of the sequence, leading to improved performance on tasks such as machine translation, text summarization, and sentiment analysis.</p></li>
+</ol>
+<section id="model-6-lstm-dense">
+<h3><a class="toc-backref" href="#id21">Model 6 (LSTM + Dense)</a><a class="headerlink" href="#model-6-lstm-dense" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>One Embedding Layer + LSTM [hidden state of last time step + cell state of last time step] + Dense Layer</p></li>
 <li><p>Inputs: Text sequences (padded)</p></li>
@@ -1728,8 +1798,8 @@ Epoch 25/25
 </div>
 </div>
 </section>
-<section id="model-7">
-<h3>Model 7<a class="headerlink" href="#model-7" title="Permalink to this headline">#</a></h3>
+<section id="model-7-lstm-attention">
+<h3><a class="toc-backref" href="#id22">Model 7 (LSTM + Attention)</a><a class="headerlink" href="#model-7-lstm-attention" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Embedding + LSTM + Self-Attention + Dense</p></li>
 <li><p>Inputs: Text sequences</p></li>
@@ -1739,6 +1809,13 @@ Epoch 25/25
 <li><p>We can also make <strong>all the hidden outputs</strong> at all time steps from the RNN available to decision-making Dense layer.</p></li>
 <li><p>This is the idea of <strong>Attention</strong>.</p></li>
 </ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In the context of LSTM (Long Short-Term Memory) networks, the attention mechanism is a method used to enhance the model’s ability to focus on specific parts of the input sequence when making predictions.</p>
+<p>Instead of processing the entire input sequence uniformly, the attention mechanism assigns different weights to different parts of the sequence, allowing the model to pay more attention to relevant information and ignore irrelevant or less important information.</p>
+<p>This is particularly useful in tasks where certain parts of the input sequence are more relevant to the prediction than others, such as machine translation or text summarization.</p>
+<p>By incorporating attention mechanisms into LSTM networks, the model can better capture long-range dependencies and improve its performance on sequence-related tasks.</p>
+</div>
 <p><img alt="" src="../_images/seq2seq-self-atten.gif" /></p>
 <ul class="simple">
 <li><p>Here we add one <code class="docutils literal notranslate"><span class="pre">Self-Attention</span></code> layer, which gives us a weighted version of all the hidden states from the RNN.</p></li>
@@ -1956,7 +2033,7 @@ Epoch 25/25
 </section>
 </section>
 <section id="explanation">
-<h2>Explanation<a class="headerlink" href="#explanation" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id23">Explanation</a><a class="headerlink" href="#explanation" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>We use LIME for model explanation.</p></li>
 <li><p>Let’s inspect the Attention-based Model (model7).</p></li>
@@ -76289,7 +76366,7 @@ Successfully installed lime-0.2.0.1
 </div>
 </section>
 <section id="check-embeddings">
-<h2>Check Embeddings<a class="headerlink" href="#check-embeddings" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id24">Check Embeddings</a><a class="headerlink" href="#check-embeddings" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>We can also examine the word embeddings learned along with our Classifier.</p></li>
 <li><p>Steps include:</p>
@@ -76412,7 +76489,7 @@ Successfully installed lime-0.2.0.1
 </div>
 </section>
 <section id="model-comparisons">
-<h2>Model Comparisons<a class="headerlink" href="#model-comparisons" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id25">Model Comparisons</a><a class="headerlink" href="#model-comparisons" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Let’s compare the learning performance of all the models by examining their changes of accuracies and losses in each epoch of training.</p></li>
 </ul>
@@ -76585,21 +76662,20 @@ Successfully installed lime-0.2.0.1
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hyperparameters">Hyperparameters</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-definition">Model Definition</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-1">Model 1</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-2">Model 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-definition-part-1">Model Definition (Part 1)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-1-feedforward-neural-network">Model 1 (Feedforward Neural Network)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-2-feedforward-neural-network">Model 2 (Feedforward Neural Network)</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#issues-of-word-character-representations">Issues of Word/Character Representations</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sequence-models">Sequence Models</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-3">Model 3</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-4">Model 4</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-5">Model 5</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-defintion-part-2">Model Defintion (Part 2)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-3-lstm">Model 3 (LSTM)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-4-stacked-lstm">Model 4 (Stacked LSTM)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-5-bidirectional-lstm">Model 5 (Bidirectional LSTM)</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#even-more-complex-sequence-models">Even More Complex Sequence Models</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-6">Model 6</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-7">Model 7</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-definition-part-3">Model Definition (Part 3)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-6-lstm-dense">Model 6 (LSTM + Dense)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-7-lstm-attention">Model 7 (LSTM + Attention)</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#explanation">Explanation</a></li>
