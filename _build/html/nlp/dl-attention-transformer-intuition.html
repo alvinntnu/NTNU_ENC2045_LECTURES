@@ -396,19 +396,23 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sequence-to-sequence-models">Sequence-to-Sequence Models</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vanilla-encoder-decoder-model">Vanilla Encoder-Decoder Model</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#teacher-forcing">Teacher Forcing</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#peeky-encoder-decoder-model">Peeky Encoder-Decoder Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sequence-to-sequence-models">Sequence-to-Sequence Models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vanilla-encoder-decoder-model">Vanilla Encoder-Decoder Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#teacher-forcing">Teacher Forcing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#peeky-encoder-decoder-model">Peeky Encoder-Decoder Model</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attention-based-encoder-decoder-model">Attention-based Encoder-Decoder Model</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#attention-intuition">Attention Intuition</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#attention-weights">Attention Weights</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#attention-layer-in-tensorflow-keras">Attention Layer in <code class="docutils literal notranslate"><span class="pre">tensorflow.keras</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attention-layer-in-tensorflow-keras">Attention Layer in <code class="docutils literal notranslate"><span class="pre">tensorflow.keras</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#self-attention">Self-Attention</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-self-attention-to-transformers">From Self-Attention to Transformers</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#token-positions">Token Positions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-self-attention-to-transformers">From Self-Attention to Transformers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#token-positions">Token Positions</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-transformers-to-classifiers">From Transformers to Classifiers</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transfer-learning">Transfer Learning</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-learning">Machine Learning</a></li>
@@ -444,7 +448,7 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="attention-and-transformers-intuitions">
-<h1>Attention and Transformers: Intuitions<a class="headerlink" href="#attention-and-transformers-intuitions" title="Permalink to this headline">#</a></h1>
+<h1><a class="toc-backref" href="#id2">Attention and Transformers: Intuitions</a><a class="headerlink" href="#attention-and-transformers-intuitions" title="Permalink to this headline">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ## Run this notebook on Google Coalb</span>
@@ -460,8 +464,64 @@ document.write(`
 <li><p>Most importantly, this mechanism enables the network to effectively learn the <strong>long distance dependency</strong> relations in languages, which have long been a difficult task in traditional statistical NLP.</p></li>
 <li><p>In this unit, we will provide an intuitive understanding of the Attention Mechanism and its extended application, Transformers, in deep learning.</p></li>
 </ul>
+<div class="contents topic" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#attention-and-transformers-intuitions" id="id2">Attention and Transformers: Intuitions</a></p>
+<ul>
+<li><p><a class="reference internal" href="#sequence-to-sequence-models" id="id3">Sequence-to-Sequence Models</a></p>
+<ul>
+<li><p><a class="reference internal" href="#vanilla-encoder-decoder-model" id="id4">Vanilla Encoder-Decoder Model</a></p></li>
+<li><p><a class="reference internal" href="#teacher-forcing" id="id5">Teacher Forcing</a></p></li>
+<li><p><a class="reference internal" href="#peeky-encoder-decoder-model" id="id6">Peeky Encoder-Decoder Model</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#attention-based-encoder-decoder-model" id="id7">Attention-based Encoder-Decoder Model</a></p>
+<ul>
+<li><p><a class="reference internal" href="#attention-intuition" id="id8">Attention Intuition</a></p></li>
+<li><p><a class="reference internal" href="#attention-weights" id="id9">Attention Weights</a></p></li>
+<li><p><a class="reference internal" href="#attention-layer-in-tensorflow-keras" id="id10">Attention Layer in <code class="docutils literal notranslate"><span class="pre">tensorflow.keras</span></code></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#self-attention" id="id11">Self-Attention</a></p></li>
+<li><p><a class="reference internal" href="#from-self-attention-to-transformers" id="id12">From Self-Attention to Transformers</a></p>
+<ul>
+<li><p><a class="reference internal" href="#token-positions" id="id13">Token Positions</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#from-transformers-to-classifiers" id="id14">From Transformers to Classifiers</a></p></li>
+<li><p><a class="reference internal" href="#transfer-learning" id="id15">Transfer Learning</a></p>
+<ul>
+<li><p><a class="reference internal" href="#machine-learning" id="id16">Machine Learning</a></p></li>
+<li><p><a class="reference internal" href="#transfer-learning-intuition" id="id17">Transfer Learning Intuition</a></p></li>
+<li><p><a class="reference internal" href="#examples-of-transfer-learning-in-nlp" id="id18">Examples of Transfer Learning in NLP</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#famous-transformers-based-models" id="id19">Famous Transformers-based Models</a></p>
+<ul>
+<li><p><a class="reference internal" href="#bert-bi-directional-encoder-representations-from-transformers" id="id20">BERT (Bi-directional Encoder Representations from Transformers)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#english-examples" id="id21">English Examples</a></p></li>
+<li><p><a class="reference internal" href="#chinese-examples" id="id22">Chinese examples</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#gpt-2-generative-pre-training-2" id="id23">GPT-2 (Generative Pre-Training 2)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#id1" id="id24">English Examples</a></p></li>
+<li><p><a class="reference internal" href="#chinese" id="id25">Chinese</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#large-langage-models" id="id26">Large Langage Models</a></p></li>
+<li><p><a class="reference internal" href="#prospect" id="id27">Prospect</a></p></li>
+<li><p><a class="reference internal" href="#references" id="id28">References</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
 <section id="sequence-to-sequence-models">
-<h2>Sequence-to-Sequence Models<a class="headerlink" href="#sequence-to-sequence-models" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id3">Sequence-to-Sequence Models</a><a class="headerlink" href="#sequence-to-sequence-models" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>The Attention Mechanism shows its most effective power in Sequence-to-Sequence models, esp. when both the input and output sequences are of <strong>variable</strong> lengths.</p></li>
 <li><p>A typical application of Sequence-to-Sequence model is <strong>machine translation</strong>.</p></li>
@@ -469,9 +529,8 @@ document.write(`
 <li><p>In this unit, we will use Machine Translation as the example for illustration.</p></li>
 </ul>
 <p><img alt="" src="../_images/seq2seq-vanilla-rnn.jpeg" /></p>
-</section>
 <section id="vanilla-encoder-decoder-model">
-<h2>Vanilla Encoder-Decoder Model<a class="headerlink" href="#vanilla-encoder-decoder-model" title="Permalink to this headline">#</a></h2>
+<h3><a class="toc-backref" href="#id4">Vanilla Encoder-Decoder Model</a><a class="headerlink" href="#vanilla-encoder-decoder-model" title="Permalink to this headline">#</a></h3>
 <p><img alt="" src="../_images/seq2seq-enc-dec-1.gif" /></p>
 <ul class="simple">
 <li><p>In Vanilla Encoder-Decoder model, the Encoder processes one input token at a time and produces one hidden state (h) at each time step.</p></li>
@@ -484,7 +543,7 @@ document.write(`
 </ul>
 </section>
 <section id="teacher-forcing">
-<h2>Teacher Forcing<a class="headerlink" href="#teacher-forcing" title="Permalink to this headline">#</a></h2>
+<h3><a class="toc-backref" href="#id5">Teacher Forcing</a><a class="headerlink" href="#teacher-forcing" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Both Encoder and Decoder is an RNN cell, which takes two inputs at each time step: the <strong>input token vector</strong> of the current time step and the <strong>hidden state</strong> from the previous time step.</p></li>
 <li><p>The training and testing for Decoder deserves more attention.</p></li>
@@ -496,7 +555,7 @@ document.write(`
 </ul>
 </section>
 <section id="peeky-encoder-decoder-model">
-<h2>Peeky Encoder-Decoder Model<a class="headerlink" href="#peeky-encoder-decoder-model" title="Permalink to this headline">#</a></h2>
+<h3><a class="toc-backref" href="#id6">Peeky Encoder-Decoder Model</a><a class="headerlink" href="#peeky-encoder-decoder-model" title="Permalink to this headline">#</a></h3>
 <p><img alt="" src="../_images/seq2seq-peeky.jpeg" /></p>
 <ul class="simple">
 <li><p>In the vanilla Encoder-Decoder model, Decoder can only access the <strong>last hidden state</strong> from Encoder.</p></li>
@@ -504,8 +563,9 @@ document.write(`
 <li><p>An intuitive understanding of this <strong>peeky</strong> approach is that during the decoding stage (i.e., translation), the <strong>contexts</strong> from the source input sequence are always available to all decoding steps.</p></li>
 </ul>
 </section>
+</section>
 <section id="attention-based-encoder-decoder-model">
-<h2>Attention-based Encoder-Decoder Model<a class="headerlink" href="#attention-based-encoder-decoder-model" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id7">Attention-based Encoder-Decoder Model</a><a class="headerlink" href="#attention-based-encoder-decoder-model" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Compared to Peeky Encoder-Decoder Model, the Attention-based Encoder-Decoder Model goes one step further by allowing Decoder to access not only Encoder’s last hidden state, but Encoder’s <strong>hidden states at all time steps</strong>.</p></li>
 <li><p>This is where the Attention mechanism comes in.</p></li>
@@ -517,7 +577,7 @@ document.write(`
 <li><p>The Attention Mechanism takes care of this important step.</p></li>
 </ul>
 <section id="attention-intuition">
-<h3>Attention Intuition<a class="headerlink" href="#attention-intuition" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id8">Attention Intuition</a><a class="headerlink" href="#attention-intuition" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>When Decoder is translating/decoding, we would expect Decoder to focus on the parts of the input that are relevant to this decoding time step.</p></li>
 <li><p>That is, when decoding the translation of <span class="math notranslate nohighlight">\(\hat{Y}_{t}\)</span>, it is very likely that its translation is more relevant to some of the input words and less relevant to the others.</p></li>
@@ -543,7 +603,7 @@ document.write(`
 <p><img alt="" src="../_images/seq2seq-attention-weights.jpeg" /></p>
 </section>
 <section id="attention-weights">
-<h3>Attention Weights<a class="headerlink" href="#attention-weights" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id9">Attention Weights</a><a class="headerlink" href="#attention-weights" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>There are many proposals regarding how to compute the attention weights.</p></li>
 <li><p>In the current Tensorflow implementation, there are three types of <a class="reference external" href="https://keras.io/api/layers/attention_layers/">Attention layers</a>:</p>
@@ -557,9 +617,8 @@ document.write(`
 <li><p>In short, the Context Vector is a weighted sum of the Encoder’s hidden states, using the <strong>Attention Weights</strong>.</p></li>
 </ul>
 </section>
-</section>
 <section id="attention-layer-in-tensorflow-keras">
-<h2>Attention Layer in <code class="docutils literal notranslate"><span class="pre">tensorflow.keras</span></code><a class="headerlink" href="#attention-layer-in-tensorflow-keras" title="Permalink to this headline">#</a></h2>
+<h3><a class="toc-backref" href="#id10">Attention Layer in <code class="docutils literal notranslate"><span class="pre">tensorflow.keras</span></code></a><a class="headerlink" href="#attention-layer-in-tensorflow-keras" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">tensorflow</span></code> has implemented three types of Attention layers:</p>
 <ul>
@@ -585,8 +644,9 @@ document.write(`
 <p>In Self-Attention layers, the Query is all the input vectors, and the Key is also the input vectors.</p>
 </div>
 </section>
+</section>
 <section id="self-attention">
-<h2>Self-Attention<a class="headerlink" href="#self-attention" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id11">Self-Attention</a><a class="headerlink" href="#self-attention" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Self-Attention is an extended application of the <strong>Attention Mechansim</strong>.</p></li>
 <li><p>Given an input sequence, [<span class="math notranslate nohighlight">\(x_1, x_2, ..., x_t\)</span>], we can also check how each token is connected to each other, i.e., the pair-wise similarity in-between tokens.</p></li>
@@ -616,7 +676,7 @@ document.write(`
 </ul>
 </section>
 <section id="from-self-attention-to-transformers">
-<h2>From Self-Attention to Transformers<a class="headerlink" href="#from-self-attention-to-transformers" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id12">From Self-Attention to Transformers</a><a class="headerlink" href="#from-self-attention-to-transformers" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Now we see <strong>Self-Attention</strong> can be a powerful and effective mechanism to automatically model the long-distance dependency relationships in-between the tokens of an input sequence.</p></li>
 <li><p>This turns out to be an important building block for <strong>Transformers</strong>.</p></li>
@@ -641,9 +701,8 @@ document.write(`
 <p><img alt="" src="../_images/transformer-block-attentionyouallneed.png" />
 (Source: Vaswani et al. 2017, Figure 1)</p>
 </div>
-</section>
 <section id="token-positions">
-<h2>Token Positions<a class="headerlink" href="#token-positions" title="Permalink to this headline">#</a></h2>
+<h3><a class="toc-backref" href="#id13">Token Positions</a><a class="headerlink" href="#token-positions" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>The above operation of Transformers (or Self-Attention) does not take into account the relative positions of tokens in each sequence.</p></li>
 <li><p>The output sequence may therefore be the same no matter how the tokens of the input sequence vary in order. (The model is <strong>permutation invariant</strong>).</p></li>
@@ -653,8 +712,9 @@ document.write(`
 <p><img alt="" src="../_images/transformers-classifier.svg" />
 (Source: <a class="reference external" href="http://peterbloem.nl/blog/transformers">http://peterbloem.nl/blog/transformers</a>)</p>
 </section>
+</section>
 <section id="from-transformers-to-classifiers">
-<h2>From Transformers to Classifiers<a class="headerlink" href="#from-transformers-to-classifiers" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id14">From Transformers to Classifiers</a><a class="headerlink" href="#from-transformers-to-classifiers" title="Permalink to this headline">#</a></h2>
 <p><img alt="" src="../_images/transformers-classifier.svg" />
 (Source: <a class="reference external" href="http://peterbloem.nl/blog/transformers">http://peterbloem.nl/blog/transformers</a>)</p>
 <ul class="simple">
@@ -671,9 +731,9 @@ document.write(`
 </ul>
 </section>
 <section id="transfer-learning">
-<h2>Transfer Learning<a class="headerlink" href="#transfer-learning" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id15">Transfer Learning</a><a class="headerlink" href="#transfer-learning" title="Permalink to this headline">#</a></h2>
 <section id="machine-learning">
-<h3>Machine Learning<a class="headerlink" href="#machine-learning" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id16">Machine Learning</a><a class="headerlink" href="#machine-learning" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>A traditional machine learning model is trained for performance on a specific task.</p></li>
 <li><p>To deal with a different task requires another set of labeled data and another round of training and optimization.</p></li>
@@ -681,7 +741,7 @@ document.write(`
 </ul>
 </section>
 <section id="transfer-learning-intuition">
-<h3>Transfer Learning Intuition<a class="headerlink" href="#transfer-learning-intuition" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id17">Transfer Learning Intuition</a><a class="headerlink" href="#transfer-learning-intuition" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p><strong>Transfer Learning</strong> is the concept of learning a <strong>fundamental representation of the data</strong> that can be adapted to different tasks.</p></li>
 <li><p>The learning of this fundamental general-purpose representation often relies on a large amount of data that are available relatively cheaply.</p></li>
@@ -694,7 +754,7 @@ document.write(`
 </ul>
 </section>
 <section id="examples-of-transfer-learning-in-nlp">
-<h3>Examples of Transfer Learning in NLP<a class="headerlink" href="#examples-of-transfer-learning-in-nlp" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id18">Examples of Transfer Learning in NLP</a><a class="headerlink" href="#examples-of-transfer-learning-in-nlp" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>We can build the sentiment classifier using the pre-trained word embeddings (e.g., GloVe, Fasttext).</p></li>
 <li><p>We can apply advanced language model (i.e., BERT) for sentiment classification.</p></li>
@@ -712,9 +772,9 @@ document.write(`
 </section>
 </section>
 <section id="famous-transformers-based-models">
-<h2>Famous Transformers-based Models<a class="headerlink" href="#famous-transformers-based-models" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id19">Famous Transformers-based Models</a><a class="headerlink" href="#famous-transformers-based-models" title="Permalink to this headline">#</a></h2>
 <section id="bert-bi-directional-encoder-representations-from-transformers">
-<h3>BERT (Bi-directional Encoder Representations from Transformers)<a class="headerlink" href="#bert-bi-directional-encoder-representations-from-transformers" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id20">BERT (Bi-directional Encoder Representations from Transformers)</a><a class="headerlink" href="#bert-bi-directional-encoder-representations-from-transformers" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Prior embeddings models are mostly context-free; BERT, however, is claimed to be considering contexts in its language model.</p></li>
 <li><p>BERT was developed by Google Research in May 2019.</p></li>
@@ -767,7 +827,7 @@ document.write(`
 </li>
 </ul>
 <section id="english-examples">
-<h4>English Examples<a class="headerlink" href="#english-examples" title="Permalink to this headline">#</a></h4>
+<h4><a class="toc-backref" href="#id21">English Examples</a><a class="headerlink" href="#english-examples" title="Permalink to this headline">#</a></h4>
 <ul class="simple">
 <li><p>In this example, we load the pre-trained English BERT model using <code class="docutils literal notranslate"><span class="pre">transformers</span></code>, which is the go-to package for transformer-based NLP models in Python.</p></li>
 <li><p>Depending on the architecture of the network, BERT comes in many different variants. <code class="docutils literal notranslate"><span class="pre">transformers</span></code> allows the users to access a lot of pre-trained language models available on its official <a class="reference external" href="https://huggingface.co/models">Hugging Face website</a>.</p></li>
@@ -824,7 +884,7 @@ China has been very tolerant toward Taiwan.
 </div>
 </section>
 <section id="chinese-examples">
-<h4>Chinese examples<a class="headerlink" href="#chinese-examples" title="Permalink to this headline">#</a></h4>
+<h4><a class="toc-backref" href="#id22">Chinese examples</a><a class="headerlink" href="#chinese-examples" title="Permalink to this headline">#</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoModelForMaskedLM</span><span class="p">,</span> <span class="n">AutoTokenizer</span>
@@ -882,7 +942,7 @@ Wall time: 9.84 ms
 </section>
 </section>
 <section id="gpt-2-generative-pre-training-2">
-<h3>GPT-2 (Generative Pre-Training 2)<a class="headerlink" href="#gpt-2-generative-pre-training-2" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id23">GPT-2 (Generative Pre-Training 2)</a><a class="headerlink" href="#gpt-2-generative-pre-training-2" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>GPT-2 is famous (notorious) in the news media as the “<a class="reference external" href="https://www.bbc.com/news/technology-47249163">malicious writing AI</a>”.</p></li>
 <li><p>Different from BERT, GPT-2 is fundamentally a language <strong>generation</strong> model (i.e., a Decoder-oriented generative model).</p></li>
@@ -898,7 +958,7 @@ Wall time: 9.84 ms
 </li>
 </ul>
 <section id="id1">
-<h4>English Examples<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h4>
+<h4><a class="toc-backref" href="#id24">English Examples</a><a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h4>
 <ul class="simple">
 <li><p>Let’s look at a simple example of English GPT-2, where we use the model to create a sample texts based on a short prompt.</p></li>
 </ul>
@@ -977,7 +1037,7 @@ Wall time: 11.4 s
 </div>
 </section>
 <section id="chinese">
-<h4>Chinese<a class="headerlink" href="#chinese" title="Permalink to this headline">#</a></h4>
+<h4><a class="toc-backref" href="#id25">Chinese</a><a class="headerlink" href="#chinese" title="Permalink to this headline">#</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">AutoModelWithLMHead</span><span class="p">,</span> <span class="n">AutoModelForCausalLM</span>
@@ -1055,7 +1115,7 @@ Setting `pad_token_id` to `eos_token_id`:102 for open-end generation.
 </section>
 </section>
 <section id="large-langage-models">
-<h2>Large Langage Models<a class="headerlink" href="#large-langage-models" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id26">Large Langage Models</a><a class="headerlink" href="#large-langage-models" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>The field of Large Language Models (LLMs) has been rapidly evolving in recent months, with astonishing capabilities and a wide range of applications. These models have been utilized for tasks ranging from writing articles to composing music, and even solving complex scientific problems. Recently, the releases of Gemini 1.5 and Claude 3 have intensified competition in this area, leading to increasingly sophisticated specifications for various LLMs.</p></li>
 <li><p>To address this evolving landscape, the article by
@@ -1068,7 +1128,7 @@ ChiChieh Huang, <a class="reference external" href="https://medium.com/&#64;cch.
 (Source: <a class="reference external" href="https://github.com/wsxqaza12/Comparison-of-LLM-Specifications">Github Comparison-of-LLM-Specifications</a>)</p>
 </section>
 <section id="prospect">
-<h2>Prospect<a class="headerlink" href="#prospect" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id27">Prospect</a><a class="headerlink" href="#prospect" title="Permalink to this headline">#</a></h2>
 <p>The future prospects of Large Language Models (LLMs), particularly transformer-based models, appear promising and multifaceted:</p>
 <ol class="arabic simple">
 <li><p><strong>Increasing Complexity for Effectiveness</strong>: There is a trend indicating that the effectiveness of transformer-based models increases with their complexity. This can be observed in models like <a class="reference external" href="https://arxiv.org/abs/1901.02860">Transformer-XL</a>, which suggests that more complex architectures lead to better performance in language understanding and generation tasks.</p></li>
@@ -1079,7 +1139,7 @@ ChiChieh Huang, <a class="reference external" href="https://medium.com/&#64;cch.
 <p>Overall, the future of LLMs appears bright, with ongoing advancements in architecture, hardware, and interdisciplinary applications driving further innovation and exploration in the field.</p>
 </section>
 <section id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id28">References</a><a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Important Works:</p>
 <ul>
@@ -1174,19 +1234,23 @@ ChiChieh Huang, <a class="reference external" href="https://medium.com/&#64;cch.
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sequence-to-sequence-models">Sequence-to-Sequence Models</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vanilla-encoder-decoder-model">Vanilla Encoder-Decoder Model</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#teacher-forcing">Teacher Forcing</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#peeky-encoder-decoder-model">Peeky Encoder-Decoder Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sequence-to-sequence-models">Sequence-to-Sequence Models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vanilla-encoder-decoder-model">Vanilla Encoder-Decoder Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#teacher-forcing">Teacher Forcing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#peeky-encoder-decoder-model">Peeky Encoder-Decoder Model</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attention-based-encoder-decoder-model">Attention-based Encoder-Decoder Model</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#attention-intuition">Attention Intuition</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#attention-weights">Attention Weights</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#attention-layer-in-tensorflow-keras">Attention Layer in <code class="docutils literal notranslate"><span class="pre">tensorflow.keras</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attention-layer-in-tensorflow-keras">Attention Layer in <code class="docutils literal notranslate"><span class="pre">tensorflow.keras</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#self-attention">Self-Attention</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-self-attention-to-transformers">From Self-Attention to Transformers</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#token-positions">Token Positions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-self-attention-to-transformers">From Self-Attention to Transformers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#token-positions">Token Positions</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-transformers-to-classifiers">From Transformers to Classifiers</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transfer-learning">Transfer Learning</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-learning">Machine Learning</a></li>
