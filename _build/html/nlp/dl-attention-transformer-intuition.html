@@ -429,6 +429,7 @@ document.write(`
 </li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#large-langage-models">Large Langage Models</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prospect">Prospect</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 </ul>
@@ -633,6 +634,13 @@ document.write(`
 <li><p>Normalization and residual connections are standard tricks used to help neural network train faster and more accurately.</p></li>
 <li><p>A transformer block can also have <strong>multiheaded attention layers</strong> to keep track of different types of long-distance relationships between input tokens.</p></li>
 </ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>In 2017, Google researchers introduced <strong>transformer blocks</strong> in their paper titled “<a class="reference external" href="https://arxiv.org/abs/1706.03762">Attention is All You Need</a>” by Vaswani et al. This approach largely replaced RNNs and served as the foundation for the powerful LLMs we use today. Transformers are built on the concept of self-attention, enabling the model to weigh the importance of different words in a sentence based on their relevance to each other.</p>
+<p>In their paper, the Transformer architecture was depicted as shown below. It comprises an <strong>Encoder</strong>, which processes the input text, and a <strong>Decoder</strong>, responsible for generating the next word in the sequence.</p>
+<p><img alt="" src="../_images/transformer-block-attentionyouallneed.png" />
+(Source: Vaswani et al. 2017, Figure 1)</p>
+</div>
 </section>
 <section id="token-positions">
 <h2>Token Positions<a class="headerlink" href="#token-positions" title="Permalink to this headline">#</a></h2>
@@ -733,7 +741,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;don&#39;, &quot;&#39;&quot;, &#39;t&#39;, &#39;like&#39;, &#39;it&#39;, &#39;!&#39;]
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "91eb2c395ee24e3f93834f52d5ed28f7", "version_major": 2, "version_minor": 0}</script><div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;don&#39;, &quot;&#39;&quot;, &#39;t&#39;, &#39;like&#39;, &#39;it&#39;, &#39;!&#39;]
 </pre></div>
 </div>
 </div>
@@ -791,8 +799,8 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 53.7 ms, sys: 1.16 ms, total: 54.8 ms
-Wall time: 56.4 ms
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 25.6 ms, sys: 20.1 ms, total: 45.6 ms
+Wall time: 34.4 ms
 </pre></div>
 </div>
 </div>
@@ -800,7 +808,7 @@ Wall time: 56.4 ms
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">top_5_tokens</span><span class="p">:</span>
-<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tokenizer_dbert</span><span class="o">.</span><span class="n">mask_token</span><span class="p">,</span> <span class="n">tokenizer_dbert</span><span class="o">.</span><span class="n">decode</span><span class="p">([</span><span class="n">token</span><span class="p">])))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tokenizer_dbert</span><span class="o">.</span><span class="n">mask_token</span><span class="p">,</span> <span class="n">tokenizer_dbert</span><span class="o">.</span><span class="n">decode</span><span class="p">([</span><span class="n">token</span><span class="p">])))</span>
 </pre></div>
 </div>
 </div>
@@ -829,6 +837,8 @@ China has been very tolerant toward Taiwan.
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "a10259f459bf45edb67b5ad5c5a505e5", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "5877eddedd4f4d069d0e7e7911b9b676", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "c2e2c4ab76b448e3aceead298debace3", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "ec26682923954d8cbf788c953c2a2f01", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "56554b804433422db6c92c0f76b6d8f7", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -844,8 +854,8 @@ China has been very tolerant toward Taiwan.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 15.6 ms, sys: 852 µs, total: 16.5 ms
-Wall time: 16.4 ms
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 7.81 ms, sys: 7 ms, total: 14.8 ms
+Wall time: 9.84 ms
 </pre></div>
 </div>
 </div>
@@ -905,6 +915,23 @@ Wall time: 16.4 ms
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Access llmama </span>
+<span class="c1">## You have to provide access_token in hugginface and obtain consent from meta</span>
+
+<span class="c1"># ## Set env var OPENAI_API_KEY or load from a .env file:</span>
+<span class="c1"># from dotenv import load_dotenv</span>
+<span class="c1"># import os</span>
+<span class="c1"># load_dotenv(&#39;/Users/alvinchen/.env&#39;)</span>
+<span class="c1"># access_token = os.getenv(&#39;ACCESS_TOKEN&#39;)</span>
+<span class="c1"># tokenizer_llama2 = AutoTokenizer.from_pretrained(&quot;meta-llama/Meta-Llama-Guard-2-8B&quot;,use_auth_token=access_token)</span>
+<span class="c1"># model_llama2 = AutoModelForCausalLM.from_pretrained(&quot;meta-llama/Meta-Llama-Guard-2-8B&quot;,</span>
+<span class="c1">#                                                      output_hidden_states=True, use_auth_token=access_token)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
 <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Taiwan and China are two independent countries&quot;</span>
 
@@ -924,23 +951,26 @@ Wall time: 16.4 ms
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input&#39;s `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> Taiwan and China are two independent
-countries in the Americas. In recent
-years, the two countries have become a
-major trading partner for each other
-thanks to the global financial system.
-According to a recent report from the
-World Bank, China&#39;s GDP per head was
-more than $100 per person back in 2006
-and $85 in 2010, a growth rate which
-grew to double by 2016. India&#39;s growth
-was even more evident as it per head per
-capita, up 11.8 percent to $67
-CPU times: user 5.14 s, sys: 263 ms, total: 5.4 s
-Wall time: 5.4 s
+countries that do not share the same
+territorial boundaries and are both
+sovereign states. Hong Kong, China&#39;s
+capital and home, is also a sovereign
+state.  Hong Kong has claimed
+sovereignty over most of China&#39;s
+territory since it was founded in 1909.
+The mainland has been divided and
+squabble over its &quot;right to self-
+determination&quot; continues to rage in the
+city, which is now in the hands of the
+mainland for over 700 years. Hong Kong
+is now
+CPU times: user 5.85 s, sys: 435 ms, total: 6.29 s
+Wall time: 11.4 s
 </pre></div>
 </div>
 </div>
@@ -959,6 +989,8 @@ Wall time: 5.4 s
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "ac8824732519470dad6e7b105fa98e64", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "41d144dec9254e2e9d28dd70f280f10f", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "9ce1c092c3a9429da759782810452f1f", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "935dee784bb744daae9aed1ef669dfb5", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "da76028d41274b65a0f09ceb4170c8d4", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -975,7 +1007,8 @@ Wall time: 5.4 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Setting `pad_token_id` to `eos_token_id`:102 for open-end generation.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input&#39;s `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:102 for open-end generation.
 </pre></div>
 </div>
 </div>
@@ -1020,6 +1053,19 @@ Wall time: 5.4 s
 </div>
 </section>
 </section>
+</section>
+<section id="large-langage-models">
+<h2>Large Langage Models<a class="headerlink" href="#large-langage-models" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>The field of Large Language Models (LLMs) has been rapidly evolving in recent months, with astonishing capabilities and a wide range of applications. These models have been utilized for tasks ranging from writing articles to composing music, and even solving complex scientific problems. Recently, the releases of Gemini 1.5 and Claude 3 have intensified competition in this area, leading to increasingly sophisticated specifications for various LLMs.</p></li>
+<li><p>To address this evolving landscape, the article by
+ChiChieh Huang, <a class="reference external" href="https://medium.com/&#64;cch.chichieh/llm-%E8%A6%8F%E6%A0%BC%E6%AF%94%E8%BC%83-%E7%9B%A4%E9%BB%9E-chatgpt-gemini-claude-mistral-llama-%E7%AD%89%E6%A8%A1%E5%9E%8B-c9ac7835adb3">LLM 規格比較 | 盤點 ChatGPT, Gemini, Claude, Mistral, llama 等模型</a>, is very comprehensive. It provides a comparison table, covering specifications of the LLMs from leading manufacturers such as OpenAI, Google, Anthropic, Meta, and Mistral AI.</p></li>
+<li><p>These comparison tables provide a clear overview and help understand the key specifications of LLMs across various dimensions, including Model Size, Training Data, and Context Window, among others.</p></li>
+</ul>
+<p><img alt="" src="https://github.com/wsxqaza12/Comparison-of-LLM-Specifications/blob/main/poster/poster_March.png?raw=true" />
+(Source: <a class="reference external" href="https://github.com/wsxqaza12/Comparison-of-LLM-Specifications">Github Comparison-of-LLM-Specifications</a>)</p>
+<p><img alt="" src="https://github.com/wsxqaza12/Comparison-of-LLM-Specifications/blob/main/poster/poster_April.png?raw=true" />
+(Source: <a class="reference external" href="https://github.com/wsxqaza12/Comparison-of-LLM-Specifications">Github Comparison-of-LLM-Specifications</a>)</p>
 </section>
 <section id="prospect">
 <h2>Prospect<a class="headerlink" href="#prospect" title="Permalink to this headline">#</a></h2>
@@ -1071,13 +1117,13 @@ Wall time: 5.4 s
             mode: "python"
         },
         kernelOptions: {
-            name: "python-notes",
+            name: "python3",
             path: "./nlp"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python-notes'</script>
+    <script>kernelName = 'python3'</script>
 
                 </article>
               
@@ -1159,6 +1205,7 @@ Wall time: 5.4 s
 </li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#large-langage-models">Large Langage Models</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prospect">Prospect</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 </ul>
