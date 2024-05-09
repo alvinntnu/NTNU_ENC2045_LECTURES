@@ -694,7 +694,7 @@ document.write(`
 
 <span class="n">w2v_model</span> <span class="o">=</span> <span class="n">word2vec</span><span class="o">.</span><span class="n">Word2Vec</span><span class="p">(</span>
     <span class="n">corpus_tokens</span><span class="p">,</span>
-    <span class="n">size</span><span class="o">=</span><span class="n">feature_size</span><span class="p">,</span>        <span class="c1"># Word embeddings dimensionality</span>
+    <span class="n">vector_size</span><span class="o">=</span><span class="n">feature_size</span><span class="p">,</span>        <span class="c1"># Word embeddings dimensionality</span>
     <span class="n">window</span><span class="o">=</span><span class="n">window_context</span><span class="p">,</span>    <span class="c1"># Context window size</span>
     <span class="n">min_count</span><span class="o">=</span><span class="n">min_word_count</span><span class="p">,</span> <span class="c1"># Minimum word count</span>
     <span class="n">sg</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                     <span class="c1"># `1` for skip-gram; otherwise CBOW.</span>
@@ -702,15 +702,15 @@ document.write(`
     <span class="n">workers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                <span class="c1"># number of cores to use</span>
     <span class="n">negative</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>             <span class="c1"># how many negative samples should be drawn</span>
     <span class="n">cbow_mean</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>            <span class="c1"># whether to use the average of context word embeddings or sum(concat)</span>
-    <span class="nb">iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>               <span class="c1"># number of epochs for the entire corpus</span>
+    <span class="n">epochs</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>               <span class="c1"># number of epochs for the entire corpus</span>
     <span class="n">batch_words</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>        <span class="c1"># batch size</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 3.75 s, sys: 1.11 s, total: 4.85 s
-Wall time: 8.88 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 906 ms, sys: 549 ms, total: 1.45 s
+Wall time: 1.23 s
 </pre></div>
 </div>
 </div>
@@ -726,10 +726,10 @@ Wall time: 8.88 s
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.manifold</span> <span class="kn">import</span> <span class="n">TSNE</span>
 
-<span class="n">words</span> <span class="o">=</span> <span class="n">w2v_model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">index2word</span> <span class="c1">## get the word forms of voculary</span>
+<span class="n">words</span> <span class="o">=</span> <span class="n">w2v_model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">index_to_key</span> <span class="c1">## get the word forms of voculary</span>
 <span class="n">wvs</span> <span class="o">=</span> <span class="n">w2v_model</span><span class="o">.</span><span class="n">wv</span><span class="p">[</span><span class="n">words</span><span class="p">]</span> <span class="c1">## get embeddings of all word forms</span>
 
-<span class="n">tsne</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">perplexity</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">tsne</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">perplexity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">suppress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">T</span> <span class="o">=</span> <span class="n">tsne</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">wvs</span><span class="p">)</span>
 <span class="n">labels</span> <span class="o">=</span> <span class="n">words</span>
@@ -745,7 +745,7 @@ Wall time: 8.88 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/22770c8e857371b373a6b9a3aa4d6d8786317cb3a0c50b39bebd6c73377f169f.png" src="../_images/22770c8e857371b373a6b9a3aa4d6d8786317cb3a0c50b39bebd6c73377f169f.png" />
+<img alt="../_images/603096834789e14e3745b6a3f71dc0737f4338e7d35de3cf731a123a20473d6e.png" src="../_images/603096834789e14e3745b6a3f71dc0737f4338e7d35de3cf731a123a20473d6e.png" />
 </div>
 </div>
 <ul class="simple">
@@ -755,7 +755,7 @@ Wall time: 8.88 s
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w2v_model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">index2word</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w2v_model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">index_to_key</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -767,25 +767,25 @@ Wall time: 8.88 s
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">w2v_model</span><span class="o">.</span><span class="n">wv</span><span class="p">[</span><span class="n">w</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">w2v_model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">index2word</span><span class="p">[:</span><span class="mi">5</span><span class="p">]]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">w2v_model</span><span class="o">.</span><span class="n">wv</span><span class="p">[</span><span class="n">w</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">w2v_model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">index_to_key</span><span class="p">[:</span><span class="mi">5</span><span class="p">]]</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[array([ 0.784301  ,  0.25009292,  1.4975246 , -1.0075508 ,  0.61629665,
-         0.6063493 ,  0.15591188, -0.8170678 ,  0.36189288,  0.4369783 ],
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[array([-1.0949969 ,  0.28954926, -1.114496  , -0.42258066,  0.66788393,
+        -1.3750594 , -0.70987606,  0.11280105,  0.05580178, -0.6932866 ],
        dtype=float32),
- array([ 1.1491109 ,  0.71390206,  1.6037664 , -1.4727064 ,  0.11018104,
-         0.34038126,  0.5746719 , -0.900755  , -0.10498449,  0.32840192],
+ array([-0.88506925,  0.9598221 , -1.5771676 , -0.1170712 ,  0.42075434,
+        -1.6401567 , -0.19193946,  0.34415627,  0.61294013, -0.7693054 ],
        dtype=float32),
- array([ 0.42948523,  0.46259484,  0.7993391 ,  0.26920947,  1.0111133 ,
-        -0.24869905, -0.32832903,  0.8455077 , -0.17631389, -0.55040485],
+ array([-0.8441105 ,  0.55627626, -0.44809738, -0.00006142, -0.5046599 ,
+         0.58909607, -0.5197542 , -0.83424497,  0.6392552 ,  0.27922842],
        dtype=float32),
- array([ 1.2447667 ,  2.4593425 ,  0.61004704, -0.84361315, -0.20513304,
-         0.30263227,  0.47103634,  0.55743533,  0.8404286 , -0.9310767 ],
+ array([-1.9151906 ,  0.02310654, -0.37337798,  1.1486837 , -1.944635  ,
+        -0.89013064, -0.15339209,  0.06195976,  0.87404585, -0.88589054],
        dtype=float32),
- array([-0.33282068,  1.8938363 ,  1.8055332 , -0.63900596, -0.49224195,
-         0.5072632 ,  0.13565086,  0.12676433,  0.64882666,  0.4231832 ],
+ array([-0.49760106,  0.33475614, -1.5774511 ,  0.16075088, -1.2333795 ,
+        -0.64314014, -0.9123499 ,  0.9150968 , -0.01311138, -0.1773322 ],
        dtype=float32)]
 </pre></div>
 </div>
@@ -809,7 +809,7 @@ Wall time: 8.88 s
     <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">vocabulary</span><span class="p">:</span>
             <span class="n">nwords</span> <span class="o">=</span> <span class="n">nwords</span> <span class="o">+</span> <span class="mf">1.</span>
-            <span class="n">feature_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feature_vector</span><span class="p">,</span> <span class="n">model</span><span class="p">[</span><span class="n">word</span><span class="p">])</span>
+            <span class="n">feature_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feature_vector</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="p">[</span><span class="n">word</span><span class="p">])</span>
 
     <span class="k">if</span> <span class="n">nwords</span><span class="p">:</span>
         <span class="n">feature_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">feature_vector</span><span class="p">,</span> <span class="n">nwords</span><span class="p">)</span>
@@ -818,7 +818,7 @@ Wall time: 8.88 s
 
 
 <span class="k">def</span> <span class="nf">averaged_word_vectorizer</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">num_features</span><span class="p">):</span>
-    <span class="n">vocabulary</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">index2word</span><span class="p">)</span>
+    <span class="n">vocabulary</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">index_to_key</span><span class="p">)</span>
     <span class="n">features</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">average_word_vectors</span><span class="p">(</span><span class="n">tokenized_sentence</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">vocabulary</span><span class="p">,</span>
                              <span class="n">num_features</span><span class="p">)</span> <span class="k">for</span> <span class="n">tokenized_sentence</span> <span class="ow">in</span> <span class="n">corpus</span>
@@ -838,10 +838,6 @@ Wall time: 8.88 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/Alvin/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/ipykernel_launcher.py:9: DeprecationWarning: Call to deprecated `__getitem__` (Method will be removed in 4.0.0, use self.wv.__getitem__() instead).
-  if __name__ == &#39;__main__&#39;:
-</pre></div>
-</div>
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -875,107 +871,107 @@ Wall time: 8.88 s
   <tbody>
     <tr>
       <th>the sky is blue and beautiful</th>
-      <td>0.881949</td>
-      <td>1.282482</td>
-      <td>1.169370</td>
-      <td>-0.766623</td>
-      <td>0.046958</td>
-      <td>0.318763</td>
-      <td>0.103750</td>
-      <td>0.160109</td>
-      <td>0.445177</td>
-      <td>-0.037771</td>
+      <td>-1.025673</td>
+      <td>0.385626</td>
+      <td>-1.049794</td>
+      <td>0.510430</td>
+      <td>-0.660862</td>
+      <td>-0.868236</td>
+      <td>-0.548901</td>
+      <td>0.089492</td>
+      <td>0.567460</td>
+      <td>-0.425037</td>
     </tr>
     <tr>
       <th>love this blue and beautiful sky</th>
-      <td>0.993389</td>
-      <td>1.442332</td>
-      <td>0.907495</td>
-      <td>-0.437124</td>
-      <td>0.158677</td>
-      <td>0.673241</td>
-      <td>0.480995</td>
-      <td>0.830446</td>
-      <td>0.618259</td>
-      <td>-0.151463</td>
+      <td>-1.204774</td>
+      <td>0.458085</td>
+      <td>-0.833338</td>
+      <td>1.104553</td>
+      <td>-0.919012</td>
+      <td>-0.179183</td>
+      <td>-0.639440</td>
+      <td>0.066505</td>
+      <td>0.541388</td>
+      <td>-0.689463</td>
     </tr>
     <tr>
       <th>the quick brown fox jumps over the lazy dog</th>
-      <td>0.800939</td>
-      <td>0.774233</td>
-      <td>0.671456</td>
-      <td>-1.122219</td>
-      <td>1.047285</td>
-      <td>-0.288948</td>
-      <td>-0.183970</td>
-      <td>-1.174881</td>
-      <td>0.382866</td>
-      <td>1.032578</td>
+      <td>-0.392979</td>
+      <td>-0.568204</td>
+      <td>-1.745686</td>
+      <td>-0.445058</td>
+      <td>0.459197</td>
+      <td>-1.097641</td>
+      <td>-0.019236</td>
+      <td>-0.410119</td>
+      <td>0.395439</td>
+      <td>-1.143568</td>
     </tr>
     <tr>
       <th>a kings breakfast has sausages ham bacon eggs toast and beans</th>
-      <td>0.855796</td>
-      <td>1.194596</td>
-      <td>-0.217047</td>
-      <td>1.199348</td>
-      <td>0.968665</td>
-      <td>0.441076</td>
-      <td>-0.001284</td>
-      <td>0.060136</td>
-      <td>-0.823116</td>
-      <td>0.794330</td>
+      <td>0.403289</td>
+      <td>0.133352</td>
+      <td>0.090500</td>
+      <td>-0.387340</td>
+      <td>-0.589835</td>
+      <td>0.508636</td>
+      <td>-1.155621</td>
+      <td>-0.795676</td>
+      <td>1.076691</td>
+      <td>-1.408591</td>
     </tr>
     <tr>
       <th>i love green eggs ham sausages and bacon</th>
-      <td>0.498210</td>
-      <td>1.100473</td>
-      <td>0.000850</td>
-      <td>0.787160</td>
-      <td>1.128485</td>
-      <td>0.799985</td>
-      <td>0.501790</td>
-      <td>0.930674</td>
-      <td>-0.078503</td>
-      <td>0.863962</td>
+      <td>-0.260290</td>
+      <td>-0.112252</td>
+      <td>-0.215950</td>
+      <td>0.544712</td>
+      <td>-0.439302</td>
+      <td>1.108033</td>
+      <td>-1.191799</td>
+      <td>-0.361297</td>
+      <td>0.810694</td>
+      <td>-1.341653</td>
     </tr>
     <tr>
       <th>the brown fox is quick and the blue dog is lazy</th>
-      <td>0.808819</td>
-      <td>0.703581</td>
-      <td>0.927804</td>
-      <td>-1.018162</td>
-      <td>0.665659</td>
-      <td>0.047246</td>
-      <td>0.053088</td>
-      <td>-0.788958</td>
-      <td>0.434566</td>
-      <td>0.594682</td>
+      <td>-0.655273</td>
+      <td>-0.112480</td>
+      <td>-1.412061</td>
+      <td>-0.171668</td>
+      <td>0.275225</td>
+      <td>-1.128703</td>
+      <td>-0.291054</td>
+      <td>-0.052113</td>
+      <td>0.424552</td>
+      <td>-0.763964</td>
     </tr>
     <tr>
       <th>the sky is very blue and the sky is very beautiful today</th>
-      <td>1.178684</td>
-      <td>1.438528</td>
-      <td>1.165024</td>
-      <td>-0.811881</td>
-      <td>-0.052740</td>
-      <td>0.396082</td>
-      <td>0.169894</td>
-      <td>-0.133908</td>
-      <td>0.448993</td>
-      <td>-0.253550</td>
+      <td>-1.168732</td>
+      <td>0.556899</td>
+      <td>-0.959907</td>
+      <td>0.521333</td>
+      <td>-0.719075</td>
+      <td>-1.211951</td>
+      <td>-0.400086</td>
+      <td>0.057257</td>
+      <td>0.723485</td>
+      <td>-0.610505</td>
     </tr>
     <tr>
       <th>the dog is lazy but the brown fox is quick</th>
-      <td>0.875077</td>
-      <td>0.730577</td>
-      <td>0.911616</td>
-      <td>-1.165358</td>
-      <td>0.759716</td>
-      <td>-0.055843</td>
-      <td>0.023659</td>
-      <td>-1.040530</td>
-      <td>0.533149</td>
-      <td>0.764571</td>
+      <td>-0.651009</td>
+      <td>-0.233851</td>
+      <td>-1.622870</td>
+      <td>-0.251843</td>
+      <td>0.412877</td>
+      <td>-1.314846</td>
+      <td>-0.215856</td>
+      <td>-0.195488</td>
+      <td>0.437747</td>
+      <td>-0.867432</td>
     </tr>
   </tbody>
 </table>
@@ -1028,89 +1024,89 @@ Wall time: 8.88 s
     <tr>
       <th>0</th>
       <td>1.000000</td>
-      <td>0.912405</td>
-      <td>0.571349</td>
-      <td>0.170281</td>
-      <td>0.321300</td>
-      <td>0.763058</td>
-      <td>0.981439</td>
-      <td>0.699931</td>
+      <td>0.901241</td>
+      <td>0.561713</td>
+      <td>0.202711</td>
+      <td>0.330573</td>
+      <td>0.767413</td>
+      <td>0.983230</td>
+      <td>0.708357</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>0.912405</td>
+      <td>0.901241</td>
       <td>1.000000</td>
-      <td>0.317095</td>
-      <td>0.287722</td>
-      <td>0.560264</td>
-      <td>0.533041</td>
-      <td>0.879302</td>
-      <td>0.454163</td>
+      <td>0.313854</td>
+      <td>0.301785</td>
+      <td>0.583546</td>
+      <td>0.509708</td>
+      <td>0.864261</td>
+      <td>0.437844</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>0.571349</td>
-      <td>0.317095</td>
+      <td>0.561713</td>
+      <td>0.313854</td>
       <td>1.000000</td>
-      <td>0.224509</td>
-      <td>0.158110</td>
-      <td>0.951416</td>
-      <td>0.570610</td>
-      <td>0.973488</td>
+      <td>0.208633</td>
+      <td>0.144338</td>
+      <td>0.942269</td>
+      <td>0.561763</td>
+      <td>0.966901</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>0.170281</td>
-      <td>0.287722</td>
-      <td>0.224509</td>
+      <td>0.202711</td>
+      <td>0.301785</td>
+      <td>0.208633</td>
       <td>1.000000</td>
-      <td>0.826242</td>
-      <td>0.158243</td>
-      <td>0.173629</td>
-      <td>0.139257</td>
+      <td>0.822919</td>
+      <td>0.156876</td>
+      <td>0.196729</td>
+      <td>0.138610</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>0.321300</td>
-      <td>0.560264</td>
-      <td>0.158110</td>
-      <td>0.826242</td>
+      <td>0.330573</td>
+      <td>0.583546</td>
+      <td>0.144338</td>
+      <td>0.822919</td>
       <td>1.000000</td>
-      <td>0.179381</td>
-      <td>0.253323</td>
-      <td>0.134353</td>
+      <td>0.145031</td>
+      <td>0.266458</td>
+      <td>0.103276</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>0.763058</td>
-      <td>0.533041</td>
-      <td>0.951416</td>
-      <td>0.158243</td>
-      <td>0.179381</td>
+      <td>0.767413</td>
+      <td>0.509708</td>
+      <td>0.942269</td>
+      <td>0.156876</td>
+      <td>0.145031</td>
       <td>1.000000</td>
-      <td>0.762788</td>
-      <td>0.994132</td>
+      <td>0.766367</td>
+      <td>0.994382</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>0.981439</td>
-      <td>0.879302</td>
-      <td>0.570610</td>
-      <td>0.173629</td>
-      <td>0.253323</td>
-      <td>0.762788</td>
+      <td>0.983230</td>
+      <td>0.864261</td>
+      <td>0.561763</td>
+      <td>0.196729</td>
+      <td>0.266458</td>
+      <td>0.766367</td>
       <td>1.000000</td>
-      <td>0.704748</td>
+      <td>0.711530</td>
     </tr>
     <tr>
       <th>7</th>
-      <td>0.699931</td>
-      <td>0.454163</td>
-      <td>0.973488</td>
-      <td>0.139257</td>
-      <td>0.134353</td>
-      <td>0.994132</td>
-      <td>0.704748</td>
+      <td>0.708357</td>
+      <td>0.437844</td>
+      <td>0.966901</td>
+      <td>0.138610</td>
+      <td>0.103276</td>
+      <td>0.994382</td>
+      <td>0.711530</td>
       <td>1.000000</td>
     </tr>
   </tbody>
@@ -1136,10 +1132,10 @@ Wall time: 8.88 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x7fa328bb0128&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x15b363790&gt;
 </pre></div>
 </div>
-<img alt="../_images/a1c6969721e7f88dc43fbc00c9c42d574fd75d9006caeaac2b36edd4d6d3b944.png" src="../_images/a1c6969721e7f88dc43fbc00c9c42d574fd75d9006caeaac2b36edd4d6d3b944.png" />
+<img alt="../_images/1ccc03bd46736103a58b06183180ca3ca8a7828a7b439463407d1de796e01402.png" src="../_images/1ccc03bd46736103a58b06183180ca3ca8a7828a7b439463407d1de796e01402.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1177,11 +1173,7 @@ Wall time: 8.88 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/Alvin/opt/anaconda3/envs/python-notes/lib/python3.7/site-packages/sklearn/cluster/_affinity_propagation.py:152: FutureWarning: &#39;random_state&#39; has been introduced in 0.23. It will be set to None starting from 0.25 which means that results will differ at every function call. Set &#39;random_state&#39; to None to silence this warning, or to 0 to keep the behavior of versions &lt;0.23.
-  FutureWarning)
-</pre></div>
-</div>
-<img alt="../_images/75129a96ddb0f0c15a544e9cfa65c44d5c8c90a22ed0316124972d2f9bd57c76.png" src="../_images/75129a96ddb0f0c15a544e9cfa65c44d5c8c90a22ed0316124972d2f9bd57c76.png" />
+<img alt="../_images/f7439067b9d02ba49d719f8b171f8147f9af9eb9bcb93133bde4926db8132b53.png" src="../_images/f7439067b9d02ba49d719f8b171f8147f9af9eb9bcb93133bde4926db8132b53.png" />
 </div>
 </div>
 </section>
@@ -1193,7 +1185,7 @@ Wall time: 8.88 s
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
 
 
-<span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;en_core_web_lg&#39;</span><span class="p">,</span><span class="n">disable</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;parse&#39;</span><span class="p">,</span><span class="s1">&#39;entity&#39;</span><span class="p">])</span>
+<span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;en_core_web_sm&#39;</span><span class="p">,</span><span class="n">disable</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;parse&#39;</span><span class="p">,</span><span class="s1">&#39;entity&#39;</span><span class="p">])</span>
 
 <span class="n">total_vectors</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nlp</span><span class="o">.</span><span class="n">vocab</span><span class="o">.</span><span class="n">vectors</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total word vectors:&#39;</span><span class="p">,</span> <span class="n">total_vectors</span><span class="p">)</span>
@@ -1201,7 +1193,7 @@ Wall time: 8.88 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total word vectors: 684830
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total word vectors: 0
 </pre></div>
 </div>
 </div>
@@ -1213,7 +1205,7 @@ Wall time: 8.88 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.0.5
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.5.4
 </pre></div>
 </div>
 </div>
@@ -1239,7 +1231,7 @@ Wall time: 8.88 s
 
 <span class="c1"># extract pre-trained embeddings of all words</span>
 <span class="n">word_glove_vectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">nlp</span><span class="p">(</span><span class="n">word</span><span class="p">)</span><span class="o">.</span><span class="n">vector</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">unique_words</span><span class="p">])</span>
-<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">word_glove_vectors</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">unique_words</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">word_glove_vectors</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">unique_words</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -1273,749 +1265,749 @@ Wall time: 8.88 s
       <th>8</th>
       <th>9</th>
       <th>...</th>
-      <th>290</th>
-      <th>291</th>
-      <th>292</th>
-      <th>293</th>
-      <th>294</th>
-      <th>295</th>
-      <th>296</th>
-      <th>297</th>
-      <th>298</th>
-      <th>299</th>
+      <th>86</th>
+      <th>87</th>
+      <th>88</th>
+      <th>89</th>
+      <th>90</th>
+      <th>91</th>
+      <th>92</th>
+      <th>93</th>
+      <th>94</th>
+      <th>95</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>has</th>
-      <td>0.085520</td>
-      <td>0.501520</td>
-      <td>0.112660</td>
-      <td>-0.188260</td>
-      <td>0.031677</td>
-      <td>-0.071113</td>
-      <td>0.050192</td>
-      <td>-0.357280</td>
-      <td>-0.099622</td>
-      <td>2.83730</td>
+      <th>eggs</th>
+      <td>-1.297392</td>
+      <td>1.158260</td>
+      <td>-0.816274</td>
+      <td>1.056100</td>
+      <td>0.815064</td>
+      <td>-0.748527</td>
+      <td>1.410166</td>
+      <td>0.772055</td>
+      <td>0.981865</td>
+      <td>-0.946172</td>
       <td>...</td>
-      <td>-0.271210</td>
-      <td>-0.062170</td>
-      <td>-0.007174</td>
-      <td>0.036467</td>
-      <td>0.261120</td>
-      <td>-0.189210</td>
-      <td>-0.052768</td>
-      <td>-0.155080</td>
-      <td>0.042269</td>
-      <td>0.014490</td>
-    </tr>
-    <tr>
-      <th>sky</th>
-      <td>0.312550</td>
-      <td>-0.303080</td>
-      <td>0.019587</td>
-      <td>-0.354940</td>
-      <td>0.100180</td>
-      <td>-0.141530</td>
-      <td>-0.514270</td>
-      <td>0.886110</td>
-      <td>-0.530540</td>
-      <td>1.55660</td>
-      <td>...</td>
-      <td>-0.667050</td>
-      <td>0.279110</td>
-      <td>0.500970</td>
-      <td>-0.277580</td>
-      <td>-0.143720</td>
-      <td>0.342710</td>
-      <td>0.287580</td>
-      <td>0.537740</td>
-      <td>0.363490</td>
-      <td>0.496920</td>
-    </tr>
-    <tr>
-      <th>today</th>
-      <td>-0.156570</td>
-      <td>0.594890</td>
-      <td>-0.031445</td>
-      <td>-0.077586</td>
-      <td>0.278630</td>
-      <td>-0.509210</td>
-      <td>-0.066350</td>
-      <td>-0.081890</td>
-      <td>-0.047986</td>
-      <td>2.80360</td>
-      <td>...</td>
-      <td>-0.326580</td>
-      <td>-0.413380</td>
-      <td>0.367910</td>
-      <td>-0.262630</td>
-      <td>-0.203690</td>
-      <td>-0.296560</td>
-      <td>-0.014873</td>
-      <td>-0.250060</td>
-      <td>-0.115940</td>
-      <td>0.083741</td>
-    </tr>
-    <tr>
-      <th>quick</th>
-      <td>-0.445630</td>
-      <td>0.191510</td>
-      <td>-0.249210</td>
-      <td>0.465900</td>
-      <td>0.161950</td>
-      <td>0.212780</td>
-      <td>-0.046480</td>
-      <td>0.021170</td>
-      <td>0.417660</td>
-      <td>1.68690</td>
-      <td>...</td>
-      <td>-0.329460</td>
-      <td>0.421860</td>
-      <td>-0.039543</td>
-      <td>0.150180</td>
-      <td>0.338220</td>
-      <td>0.049554</td>
-      <td>0.149420</td>
-      <td>-0.038789</td>
-      <td>-0.019069</td>
-      <td>0.348650</td>
-    </tr>
-    <tr>
-      <th>beans</th>
-      <td>-0.423290</td>
-      <td>-0.264500</td>
-      <td>0.200870</td>
-      <td>0.082187</td>
-      <td>0.066944</td>
-      <td>1.027600</td>
-      <td>-0.989140</td>
-      <td>-0.259950</td>
-      <td>0.145960</td>
-      <td>0.76645</td>
-      <td>...</td>
-      <td>0.048760</td>
-      <td>0.351680</td>
-      <td>-0.786260</td>
-      <td>-0.368790</td>
-      <td>-0.528640</td>
-      <td>0.287650</td>
-      <td>-0.273120</td>
-      <td>-1.114000</td>
-      <td>0.064322</td>
-      <td>0.223620</td>
-    </tr>
-    <tr>
-      <th>dog</th>
-      <td>-0.401760</td>
-      <td>0.370570</td>
-      <td>0.021281</td>
-      <td>-0.341250</td>
-      <td>0.049538</td>
-      <td>0.294400</td>
-      <td>-0.173760</td>
-      <td>-0.279820</td>
-      <td>0.067622</td>
-      <td>2.16930</td>
-      <td>...</td>
-      <td>0.022908</td>
-      <td>-0.259290</td>
-      <td>-0.308620</td>
-      <td>0.001754</td>
-      <td>-0.189620</td>
-      <td>0.547890</td>
-      <td>0.311940</td>
-      <td>0.246930</td>
-      <td>0.299290</td>
-      <td>-0.074861</td>
-    </tr>
-    <tr>
-      <th>kings</th>
-      <td>0.259230</td>
-      <td>-0.854690</td>
-      <td>0.360010</td>
-      <td>-0.642000</td>
-      <td>0.568530</td>
-      <td>-0.321420</td>
-      <td>0.173250</td>
-      <td>0.133030</td>
-      <td>-0.089720</td>
-      <td>1.52860</td>
-      <td>...</td>
-      <td>-0.470090</td>
-      <td>0.063743</td>
-      <td>-0.545210</td>
-      <td>-0.192310</td>
-      <td>-0.301020</td>
-      <td>1.068500</td>
-      <td>0.231160</td>
-      <td>-0.147330</td>
-      <td>0.662490</td>
-      <td>-0.577420</td>
-    </tr>
-    <tr>
-      <th>is</th>
-      <td>-0.084961</td>
-      <td>0.502000</td>
-      <td>0.002382</td>
-      <td>-0.167550</td>
-      <td>0.307210</td>
-      <td>-0.237620</td>
-      <td>0.160690</td>
-      <td>-0.367860</td>
-      <td>-0.058347</td>
-      <td>2.49900</td>
-      <td>...</td>
-      <td>0.087003</td>
-      <td>-0.078201</td>
-      <td>-0.069673</td>
-      <td>-0.169930</td>
-      <td>0.235980</td>
-      <td>0.275500</td>
-      <td>-0.067180</td>
-      <td>-0.215110</td>
-      <td>-0.263040</td>
-      <td>-0.006017</td>
-    </tr>
-    <tr>
-      <th>and</th>
-      <td>-0.185670</td>
-      <td>0.066008</td>
-      <td>-0.252090</td>
-      <td>-0.117250</td>
-      <td>0.265130</td>
-      <td>0.064908</td>
-      <td>0.122910</td>
-      <td>-0.093979</td>
-      <td>0.024321</td>
-      <td>2.49260</td>
-      <td>...</td>
-      <td>-0.593960</td>
-      <td>-0.097729</td>
-      <td>0.200720</td>
-      <td>0.170550</td>
-      <td>-0.004736</td>
-      <td>-0.039709</td>
-      <td>0.324980</td>
-      <td>-0.023452</td>
-      <td>0.123020</td>
-      <td>0.331200</td>
-    </tr>
-    <tr>
-      <th>breakfast</th>
-      <td>0.073378</td>
-      <td>0.227670</td>
-      <td>0.208420</td>
-      <td>-0.456790</td>
-      <td>-0.078219</td>
-      <td>0.601960</td>
-      <td>-0.024494</td>
-      <td>-0.467980</td>
-      <td>0.054627</td>
-      <td>2.28370</td>
-      <td>...</td>
-      <td>0.647710</td>
-      <td>0.373820</td>
-      <td>0.019931</td>
-      <td>-0.033672</td>
-      <td>-0.073184</td>
-      <td>0.296830</td>
-      <td>0.340420</td>
-      <td>-0.599390</td>
-      <td>-0.061114</td>
-      <td>0.232200</td>
-    </tr>
-    <tr>
-      <th>green</th>
-      <td>-0.072368</td>
-      <td>0.233200</td>
-      <td>0.137260</td>
-      <td>-0.156630</td>
-      <td>0.248440</td>
-      <td>0.349870</td>
-      <td>-0.241700</td>
-      <td>-0.091426</td>
-      <td>-0.530150</td>
-      <td>1.34130</td>
-      <td>...</td>
-      <td>-0.405170</td>
-      <td>0.243570</td>
-      <td>0.437300</td>
-      <td>-0.461520</td>
-      <td>-0.352710</td>
-      <td>0.336250</td>
-      <td>0.069899</td>
-      <td>-0.111550</td>
-      <td>0.532930</td>
-      <td>0.712680</td>
-    </tr>
-    <tr>
-      <th>blue</th>
-      <td>0.129450</td>
-      <td>0.036518</td>
-      <td>0.032298</td>
-      <td>-0.060034</td>
-      <td>0.399840</td>
-      <td>-0.103020</td>
-      <td>-0.507880</td>
-      <td>0.076630</td>
-      <td>-0.422920</td>
-      <td>0.81573</td>
-      <td>...</td>
-      <td>-0.501280</td>
-      <td>0.169010</td>
-      <td>0.548250</td>
-      <td>-0.319380</td>
-      <td>-0.072887</td>
-      <td>0.382950</td>
-      <td>0.237410</td>
-      <td>0.052289</td>
-      <td>0.182060</td>
-      <td>0.412640</td>
+      <td>-0.929507</td>
+      <td>0.640614</td>
+      <td>-0.525295</td>
+      <td>0.420553</td>
+      <td>-1.224993</td>
+      <td>-0.113389</td>
+      <td>1.944303</td>
+      <td>0.202356</td>
+      <td>0.006850</td>
+      <td>0.784401</td>
     </tr>
     <tr>
       <th>beautiful</th>
-      <td>0.171200</td>
-      <td>0.534390</td>
-      <td>-0.348540</td>
-      <td>-0.097234</td>
-      <td>0.101800</td>
-      <td>-0.170860</td>
-      <td>0.295650</td>
-      <td>-0.041816</td>
-      <td>-0.516550</td>
-      <td>2.11720</td>
+      <td>-1.981197</td>
+      <td>-1.085511</td>
+      <td>-0.495878</td>
+      <td>0.908991</td>
+      <td>-0.765072</td>
+      <td>0.368210</td>
+      <td>0.533828</td>
+      <td>0.598339</td>
+      <td>0.157835</td>
+      <td>-1.119861</td>
       <td>...</td>
-      <td>-0.285540</td>
-      <td>0.104670</td>
-      <td>0.126310</td>
-      <td>0.120040</td>
-      <td>0.254380</td>
-      <td>0.247400</td>
-      <td>0.207670</td>
-      <td>0.172580</td>
-      <td>0.063875</td>
-      <td>0.350990</td>
-    </tr>
-    <tr>
-      <th>sausages</th>
-      <td>-0.174290</td>
-      <td>-0.064869</td>
-      <td>-0.046976</td>
-      <td>0.287420</td>
-      <td>-0.128150</td>
-      <td>0.647630</td>
-      <td>0.056315</td>
-      <td>-0.240440</td>
-      <td>-0.025094</td>
-      <td>0.50222</td>
-      <td>...</td>
-      <td>0.302240</td>
-      <td>0.195470</td>
-      <td>-0.653980</td>
-      <td>-0.291150</td>
-      <td>-0.684290</td>
-      <td>-0.266370</td>
-      <td>0.304310</td>
-      <td>-0.806830</td>
-      <td>0.619540</td>
-      <td>0.201200</td>
-    </tr>
-    <tr>
-      <th>love</th>
-      <td>0.139490</td>
-      <td>0.534530</td>
-      <td>-0.252470</td>
-      <td>-0.125650</td>
-      <td>0.048748</td>
-      <td>0.152440</td>
-      <td>0.199060</td>
-      <td>-0.065970</td>
-      <td>0.128830</td>
-      <td>2.05590</td>
-      <td>...</td>
-      <td>-0.124380</td>
-      <td>0.178440</td>
-      <td>-0.099469</td>
-      <td>0.008682</td>
-      <td>0.089213</td>
-      <td>-0.075513</td>
-      <td>-0.049069</td>
-      <td>-0.015228</td>
-      <td>0.088408</td>
-      <td>0.302170</td>
+      <td>0.119182</td>
+      <td>0.332911</td>
+      <td>-1.044088</td>
+      <td>0.527054</td>
+      <td>0.264596</td>
+      <td>0.141068</td>
+      <td>1.396086</td>
+      <td>0.909145</td>
+      <td>-0.375545</td>
+      <td>0.587217</td>
     </tr>
     <tr>
       <th>a</th>
-      <td>0.043798</td>
-      <td>0.024779</td>
-      <td>-0.209370</td>
-      <td>0.497450</td>
-      <td>0.360190</td>
-      <td>-0.375030</td>
-      <td>-0.052078</td>
-      <td>-0.605550</td>
-      <td>0.036744</td>
-      <td>2.20850</td>
+      <td>0.445624</td>
+      <td>0.040820</td>
+      <td>-1.044201</td>
+      <td>0.977903</td>
+      <td>0.343366</td>
+      <td>0.434702</td>
+      <td>-0.532973</td>
+      <td>0.914784</td>
+      <td>0.640789</td>
+      <td>1.057252</td>
       <td>...</td>
-      <td>-0.103470</td>
-      <td>0.003363</td>
-      <td>0.217600</td>
-      <td>-0.204090</td>
-      <td>0.092415</td>
-      <td>0.080421</td>
-      <td>-0.061246</td>
-      <td>-0.300990</td>
-      <td>-0.145840</td>
-      <td>0.281880</td>
+      <td>0.890635</td>
+      <td>-0.494442</td>
+      <td>-0.669522</td>
+      <td>0.849890</td>
+      <td>-0.475511</td>
+      <td>-0.044901</td>
+      <td>-1.019666</td>
+      <td>-0.434723</td>
+      <td>-0.855158</td>
+      <td>-0.277925</td>
     </tr>
     <tr>
-      <th>fox</th>
-      <td>-0.348680</td>
-      <td>-0.077720</td>
-      <td>0.177750</td>
-      <td>-0.094953</td>
-      <td>-0.452890</td>
-      <td>0.237790</td>
-      <td>0.209440</td>
-      <td>0.037886</td>
-      <td>0.035064</td>
-      <td>0.89901</td>
+      <th>sausages</th>
+      <td>-1.551236</td>
+      <td>1.381497</td>
+      <td>-0.690470</td>
+      <td>0.578089</td>
+      <td>1.516763</td>
+      <td>-0.319808</td>
+      <td>1.896638</td>
+      <td>0.390757</td>
+      <td>0.864699</td>
+      <td>-0.613225</td>
       <td>...</td>
-      <td>-0.283050</td>
-      <td>0.270240</td>
-      <td>-0.654800</td>
-      <td>0.105300</td>
-      <td>-0.068738</td>
-      <td>-0.534750</td>
-      <td>0.061783</td>
-      <td>0.123610</td>
-      <td>-0.553700</td>
-      <td>-0.544790</td>
+      <td>-0.803906</td>
+      <td>-0.313376</td>
+      <td>-0.481047</td>
+      <td>-0.324135</td>
+      <td>-1.256292</td>
+      <td>0.100420</td>
+      <td>1.357908</td>
+      <td>0.602705</td>
+      <td>0.325189</td>
+      <td>0.501014</td>
     </tr>
     <tr>
-      <th>but</th>
-      <td>-0.016890</td>
-      <td>0.174020</td>
-      <td>-0.302470</td>
-      <td>-0.300630</td>
-      <td>0.214150</td>
-      <td>0.063863</td>
-      <td>0.101070</td>
-      <td>-0.241550</td>
-      <td>-0.095228</td>
-      <td>2.92530</td>
+      <th>sky</th>
+      <td>-1.052380</td>
+      <td>-0.623966</td>
+      <td>-1.247646</td>
+      <td>0.173334</td>
+      <td>-0.280415</td>
+      <td>0.423770</td>
+      <td>1.136191</td>
+      <td>1.594746</td>
+      <td>-0.112143</td>
+      <td>0.024372</td>
       <td>...</td>
-      <td>-0.407830</td>
-      <td>-0.001680</td>
-      <td>0.015798</td>
-      <td>0.035886</td>
-      <td>0.116640</td>
-      <td>0.023909</td>
-      <td>-0.053473</td>
-      <td>-0.326400</td>
-      <td>0.179570</td>
-      <td>0.110950</td>
+      <td>-0.081687</td>
+      <td>-0.557614</td>
+      <td>-1.442796</td>
+      <td>1.067169</td>
+      <td>-0.304729</td>
+      <td>-0.230831</td>
+      <td>1.200994</td>
+      <td>0.827422</td>
+      <td>0.558651</td>
+      <td>1.421518</td>
     </tr>
     <tr>
       <th>jumps</th>
-      <td>-0.334840</td>
-      <td>0.215990</td>
-      <td>-0.350440</td>
-      <td>-0.260020</td>
-      <td>0.411070</td>
-      <td>0.154010</td>
-      <td>-0.386110</td>
-      <td>0.206380</td>
-      <td>0.386700</td>
-      <td>1.46050</td>
+      <td>-0.809289</td>
+      <td>1.028575</td>
+      <td>0.142154</td>
+      <td>1.195198</td>
+      <td>-0.892427</td>
+      <td>-0.613777</td>
+      <td>1.158633</td>
+      <td>0.491403</td>
+      <td>0.826156</td>
+      <td>-0.908024</td>
       <td>...</td>
-      <td>-0.107030</td>
-      <td>-0.279480</td>
-      <td>-0.186200</td>
-      <td>-0.543140</td>
-      <td>-0.479980</td>
-      <td>-0.284680</td>
-      <td>0.036022</td>
-      <td>0.190290</td>
-      <td>0.692290</td>
-      <td>-0.071501</td>
-    </tr>
-    <tr>
-      <th>the</th>
-      <td>0.272040</td>
-      <td>-0.062030</td>
-      <td>-0.188400</td>
-      <td>0.023225</td>
-      <td>-0.018158</td>
-      <td>0.006719</td>
-      <td>-0.138770</td>
-      <td>0.177080</td>
-      <td>0.177090</td>
-      <td>2.58820</td>
-      <td>...</td>
-      <td>-0.428100</td>
-      <td>0.168990</td>
-      <td>0.225110</td>
-      <td>-0.285570</td>
-      <td>-0.102800</td>
-      <td>-0.018168</td>
-      <td>0.114070</td>
-      <td>0.130150</td>
-      <td>-0.183170</td>
-      <td>0.132300</td>
-    </tr>
-    <tr>
-      <th>over</th>
-      <td>-0.304940</td>
-      <td>0.012330</td>
-      <td>0.038375</td>
-      <td>0.097028</td>
-      <td>0.122100</td>
-      <td>-0.170170</td>
-      <td>-0.328420</td>
-      <td>0.354570</td>
-      <td>0.376260</td>
-      <td>2.71370</td>
-      <td>...</td>
-      <td>-0.353240</td>
-      <td>-0.113480</td>
-      <td>0.311560</td>
-      <td>-0.204100</td>
-      <td>-0.326290</td>
-      <td>-0.137840</td>
-      <td>0.115910</td>
-      <td>0.011121</td>
-      <td>0.140950</td>
-      <td>-0.021138</td>
-    </tr>
-    <tr>
-      <th>very</th>
-      <td>-0.313420</td>
-      <td>0.372670</td>
-      <td>-0.416000</td>
-      <td>0.185190</td>
-      <td>0.084357</td>
-      <td>0.053412</td>
-      <td>0.253420</td>
-      <td>-0.442260</td>
-      <td>-0.108610</td>
-      <td>2.46910</td>
-      <td>...</td>
-      <td>-0.374230</td>
-      <td>0.056770</td>
-      <td>0.018460</td>
-      <td>0.002891</td>
-      <td>0.515560</td>
-      <td>0.297570</td>
-      <td>0.334740</td>
-      <td>-0.308780</td>
-      <td>0.126210</td>
-      <td>0.130530</td>
-    </tr>
-    <tr>
-      <th>i</th>
-      <td>0.187330</td>
-      <td>0.405950</td>
-      <td>-0.511740</td>
-      <td>-0.554820</td>
-      <td>0.039716</td>
-      <td>0.128870</td>
-      <td>0.451370</td>
-      <td>-0.591490</td>
-      <td>0.155910</td>
-      <td>1.51370</td>
-      <td>...</td>
-      <td>0.116330</td>
-      <td>0.079300</td>
-      <td>-0.391420</td>
-      <td>-0.324830</td>
-      <td>0.634510</td>
-      <td>-0.189100</td>
-      <td>0.054050</td>
-      <td>0.164950</td>
-      <td>0.187570</td>
-      <td>0.538740</td>
-    </tr>
-    <tr>
-      <th>toast</th>
-      <td>0.130740</td>
-      <td>-0.193730</td>
-      <td>0.253270</td>
-      <td>0.090102</td>
-      <td>-0.272580</td>
-      <td>-0.030571</td>
-      <td>0.096945</td>
-      <td>-0.115060</td>
-      <td>0.484000</td>
-      <td>0.84838</td>
-      <td>...</td>
-      <td>0.142080</td>
-      <td>0.481910</td>
-      <td>0.045167</td>
-      <td>0.057151</td>
-      <td>-0.149520</td>
-      <td>-0.495130</td>
-      <td>-0.086677</td>
-      <td>-0.569040</td>
-      <td>-0.359290</td>
-      <td>0.097443</td>
-    </tr>
-    <tr>
-      <th>eggs</th>
-      <td>-0.417810</td>
-      <td>-0.035192</td>
-      <td>-0.126150</td>
-      <td>-0.215930</td>
-      <td>-0.669740</td>
-      <td>0.513250</td>
-      <td>-0.797090</td>
-      <td>-0.068611</td>
-      <td>0.634660</td>
-      <td>1.25630</td>
-      <td>...</td>
-      <td>-0.232860</td>
-      <td>-0.139740</td>
-      <td>-0.681080</td>
-      <td>-0.370920</td>
-      <td>-0.545510</td>
-      <td>0.073728</td>
-      <td>0.111620</td>
-      <td>-0.324700</td>
-      <td>0.059721</td>
-      <td>0.159160</td>
-    </tr>
-    <tr>
-      <th>brown</th>
-      <td>-0.374120</td>
-      <td>-0.076264</td>
-      <td>0.109260</td>
-      <td>0.186620</td>
-      <td>0.029943</td>
-      <td>0.182700</td>
-      <td>-0.631980</td>
-      <td>0.133060</td>
-      <td>-0.128980</td>
-      <td>0.60343</td>
-      <td>...</td>
-      <td>-0.015404</td>
-      <td>0.392890</td>
-      <td>-0.034826</td>
-      <td>-0.720300</td>
-      <td>-0.365320</td>
-      <td>0.740510</td>
-      <td>0.108390</td>
-      <td>-0.365760</td>
-      <td>-0.288190</td>
-      <td>0.114630</td>
-    </tr>
-    <tr>
-      <th>lazy</th>
-      <td>-0.353320</td>
-      <td>-0.299710</td>
-      <td>-0.176230</td>
-      <td>-0.321940</td>
-      <td>-0.385640</td>
-      <td>0.586110</td>
-      <td>0.411160</td>
-      <td>-0.418680</td>
-      <td>0.073093</td>
-      <td>1.48650</td>
-      <td>...</td>
-      <td>0.402310</td>
-      <td>-0.038554</td>
-      <td>-0.288670</td>
-      <td>-0.244130</td>
-      <td>0.460990</td>
-      <td>0.514170</td>
-      <td>0.136260</td>
-      <td>0.344190</td>
-      <td>-0.845300</td>
-      <td>-0.077383</td>
+      <td>-0.968901</td>
+      <td>0.572921</td>
+      <td>0.224079</td>
+      <td>-0.167506</td>
+      <td>0.545909</td>
+      <td>0.819458</td>
+      <td>-0.053826</td>
+      <td>0.179755</td>
+      <td>-0.520523</td>
+      <td>1.177554</td>
     </tr>
     <tr>
       <th>bacon</th>
-      <td>-0.430730</td>
-      <td>-0.016025</td>
-      <td>0.484620</td>
-      <td>0.101390</td>
-      <td>-0.299200</td>
-      <td>0.761820</td>
-      <td>-0.353130</td>
-      <td>-0.325290</td>
-      <td>0.156730</td>
-      <td>0.87321</td>
+      <td>-1.484836</td>
+      <td>-0.526327</td>
+      <td>-0.839054</td>
+      <td>-0.176428</td>
+      <td>0.484847</td>
+      <td>0.140633</td>
+      <td>0.748910</td>
+      <td>1.224433</td>
+      <td>0.124089</td>
+      <td>0.034701</td>
       <td>...</td>
-      <td>0.304240</td>
-      <td>0.413440</td>
-      <td>-0.540730</td>
-      <td>-0.035930</td>
-      <td>-0.429450</td>
-      <td>-0.246590</td>
-      <td>0.161490</td>
-      <td>-1.065400</td>
-      <td>-0.244940</td>
-      <td>0.269540</td>
+      <td>0.007322</td>
+      <td>-0.371588</td>
+      <td>-1.953568</td>
+      <td>1.160531</td>
+      <td>-0.463557</td>
+      <td>-0.028599</td>
+      <td>1.411305</td>
+      <td>0.775448</td>
+      <td>0.868626</td>
+      <td>1.153851</td>
     </tr>
     <tr>
-      <th>this</th>
-      <td>-0.087595</td>
-      <td>0.355020</td>
-      <td>0.063868</td>
-      <td>0.292920</td>
-      <td>-0.236350</td>
-      <td>-0.062773</td>
-      <td>-0.161050</td>
-      <td>-0.228420</td>
-      <td>0.041587</td>
-      <td>2.48440</td>
+      <th>i</th>
+      <td>-1.993811</td>
+      <td>-0.266061</td>
+      <td>-0.210171</td>
+      <td>-0.306936</td>
+      <td>-0.040057</td>
+      <td>-0.104719</td>
+      <td>2.012425</td>
+      <td>0.467140</td>
+      <td>0.367587</td>
+      <td>-0.688097</td>
       <td>...</td>
-      <td>-0.039495</td>
-      <td>0.093723</td>
-      <td>0.093557</td>
-      <td>-0.097551</td>
-      <td>0.306390</td>
-      <td>-0.273250</td>
-      <td>-0.331120</td>
-      <td>0.034460</td>
-      <td>-0.150270</td>
-      <td>0.406730</td>
+      <td>-0.367412</td>
+      <td>-0.188884</td>
+      <td>0.805614</td>
+      <td>0.037096</td>
+      <td>1.218038</td>
+      <td>-0.012631</td>
+      <td>0.766386</td>
+      <td>-0.338247</td>
+      <td>-0.670582</td>
+      <td>1.593813</td>
+    </tr>
+    <tr>
+      <th>quick</th>
+      <td>-0.808211</td>
+      <td>-1.721902</td>
+      <td>-0.849621</td>
+      <td>-0.323724</td>
+      <td>-0.733217</td>
+      <td>-0.200044</td>
+      <td>0.316565</td>
+      <td>1.306867</td>
+      <td>-0.375950</td>
+      <td>-0.764119</td>
+      <td>...</td>
+      <td>-0.344666</td>
+      <td>0.631241</td>
+      <td>-0.250259</td>
+      <td>1.216615</td>
+      <td>1.283587</td>
+      <td>0.036267</td>
+      <td>1.192510</td>
+      <td>1.531458</td>
+      <td>-1.331324</td>
+      <td>0.637828</td>
+    </tr>
+    <tr>
+      <th>dog</th>
+      <td>-1.680668</td>
+      <td>-1.266374</td>
+      <td>-0.712555</td>
+      <td>0.221439</td>
+      <td>0.285816</td>
+      <td>0.239243</td>
+      <td>1.299264</td>
+      <td>1.068364</td>
+      <td>-0.166650</td>
+      <td>-0.593021</td>
+      <td>...</td>
+      <td>0.311112</td>
+      <td>-0.469987</td>
+      <td>-2.129951</td>
+      <td>1.172860</td>
+      <td>-1.284266</td>
+      <td>-1.117903</td>
+      <td>1.596463</td>
+      <td>0.511931</td>
+      <td>0.220327</td>
+      <td>1.620028</td>
+    </tr>
+    <tr>
+      <th>beans</th>
+      <td>-1.068852</td>
+      <td>1.167118</td>
+      <td>-0.484017</td>
+      <td>0.891425</td>
+      <td>1.399791</td>
+      <td>-0.477653</td>
+      <td>1.326169</td>
+      <td>0.747473</td>
+      <td>1.092705</td>
+      <td>-0.092148</td>
+      <td>...</td>
+      <td>-1.138134</td>
+      <td>-0.107772</td>
+      <td>0.300590</td>
+      <td>0.501320</td>
+      <td>-0.806155</td>
+      <td>0.883533</td>
+      <td>1.994725</td>
+      <td>0.569794</td>
+      <td>0.480497</td>
+      <td>0.148873</td>
+    </tr>
+    <tr>
+      <th>lazy</th>
+      <td>-1.349924</td>
+      <td>-1.008392</td>
+      <td>-0.377253</td>
+      <td>-0.534368</td>
+      <td>-0.737286</td>
+      <td>0.438626</td>
+      <td>0.275777</td>
+      <td>0.426540</td>
+      <td>-0.384914</td>
+      <td>-1.091949</td>
+      <td>...</td>
+      <td>-0.174180</td>
+      <td>0.558309</td>
+      <td>-0.641799</td>
+      <td>1.153933</td>
+      <td>1.125221</td>
+      <td>0.256873</td>
+      <td>0.825007</td>
+      <td>1.489886</td>
+      <td>0.163207</td>
+      <td>0.548744</td>
+    </tr>
+    <tr>
+      <th>has</th>
+      <td>-0.816400</td>
+      <td>-0.586754</td>
+      <td>-1.149105</td>
+      <td>0.388758</td>
+      <td>0.561820</td>
+      <td>1.324211</td>
+      <td>0.726742</td>
+      <td>0.121942</td>
+      <td>0.886533</td>
+      <td>1.260011</td>
+      <td>...</td>
+      <td>-1.520276</td>
+      <td>0.172569</td>
+      <td>1.202618</td>
+      <td>-0.608210</td>
+      <td>-0.100047</td>
+      <td>-0.234273</td>
+      <td>0.720248</td>
+      <td>0.204601</td>
+      <td>-1.233299</td>
+      <td>-0.132075</td>
     </tr>
     <tr>
       <th>ham</th>
-      <td>-0.773320</td>
-      <td>-0.282540</td>
-      <td>0.580760</td>
-      <td>0.841480</td>
-      <td>0.258540</td>
-      <td>0.585210</td>
-      <td>-0.021890</td>
-      <td>-0.463680</td>
-      <td>0.139070</td>
-      <td>0.65872</td>
+      <td>-0.952584</td>
+      <td>-0.859383</td>
+      <td>-0.512346</td>
+      <td>-0.397440</td>
+      <td>-0.272660</td>
+      <td>0.141939</td>
+      <td>-0.206824</td>
+      <td>1.338140</td>
+      <td>0.240586</td>
+      <td>-0.777376</td>
       <td>...</td>
-      <td>0.464470</td>
-      <td>0.481400</td>
-      <td>-0.829200</td>
-      <td>0.354910</td>
-      <td>0.224530</td>
-      <td>-0.493920</td>
-      <td>0.456930</td>
-      <td>-0.649100</td>
-      <td>-0.131930</td>
-      <td>0.372040</td>
+      <td>0.466846</td>
+      <td>-0.185779</td>
+      <td>-1.645292</td>
+      <td>0.239415</td>
+      <td>-0.960014</td>
+      <td>0.846002</td>
+      <td>0.562277</td>
+      <td>0.380782</td>
+      <td>0.955904</td>
+      <td>0.844923</td>
+    </tr>
+    <tr>
+      <th>today</th>
+      <td>-0.818719</td>
+      <td>-1.463490</td>
+      <td>-0.576256</td>
+      <td>-1.777408</td>
+      <td>-0.816109</td>
+      <td>-1.116335</td>
+      <td>-0.125725</td>
+      <td>2.077141</td>
+      <td>-0.168442</td>
+      <td>-0.217695</td>
+      <td>...</td>
+      <td>2.928388</td>
+      <td>1.940016</td>
+      <td>-0.906605</td>
+      <td>1.027404</td>
+      <td>-1.825106</td>
+      <td>0.496492</td>
+      <td>0.637674</td>
+      <td>0.839445</td>
+      <td>0.745934</td>
+      <td>-0.141063</td>
+    </tr>
+    <tr>
+      <th>toast</th>
+      <td>-0.511126</td>
+      <td>-1.450968</td>
+      <td>-0.677772</td>
+      <td>-0.366755</td>
+      <td>-0.637132</td>
+      <td>-0.223210</td>
+      <td>-0.398685</td>
+      <td>1.043328</td>
+      <td>0.483847</td>
+      <td>-0.570177</td>
+      <td>...</td>
+      <td>0.803359</td>
+      <td>0.164432</td>
+      <td>-1.173489</td>
+      <td>0.853854</td>
+      <td>-1.316678</td>
+      <td>0.347120</td>
+      <td>0.963565</td>
+      <td>1.096257</td>
+      <td>0.741654</td>
+      <td>0.422103</td>
+    </tr>
+    <tr>
+      <th>very</th>
+      <td>0.179364</td>
+      <td>-0.142232</td>
+      <td>-1.542073</td>
+      <td>-0.390681</td>
+      <td>0.221738</td>
+      <td>-0.352646</td>
+      <td>1.095366</td>
+      <td>0.634386</td>
+      <td>0.249361</td>
+      <td>-0.077876</td>
+      <td>...</td>
+      <td>0.737402</td>
+      <td>-0.546005</td>
+      <td>-0.673379</td>
+      <td>0.705251</td>
+      <td>1.651500</td>
+      <td>-0.794369</td>
+      <td>0.578590</td>
+      <td>1.237230</td>
+      <td>-1.189028</td>
+      <td>-1.221863</td>
+    </tr>
+    <tr>
+      <th>and</th>
+      <td>-0.749836</td>
+      <td>-0.864052</td>
+      <td>-1.123196</td>
+      <td>0.288821</td>
+      <td>-0.685820</td>
+      <td>2.549688</td>
+      <td>-0.118120</td>
+      <td>0.279010</td>
+      <td>-0.123277</td>
+      <td>1.001370</td>
+      <td>...</td>
+      <td>0.707131</td>
+      <td>1.457647</td>
+      <td>-0.714177</td>
+      <td>-0.498196</td>
+      <td>-0.281577</td>
+      <td>0.980062</td>
+      <td>-0.475814</td>
+      <td>0.466685</td>
+      <td>-0.855074</td>
+      <td>-0.479473</td>
+    </tr>
+    <tr>
+      <th>the</th>
+      <td>0.171047</td>
+      <td>-0.199269</td>
+      <td>-0.745276</td>
+      <td>0.178762</td>
+      <td>-0.363477</td>
+      <td>0.347444</td>
+      <td>-1.003620</td>
+      <td>0.021227</td>
+      <td>0.238515</td>
+      <td>1.270073</td>
+      <td>...</td>
+      <td>1.609505</td>
+      <td>-0.592565</td>
+      <td>-0.546699</td>
+      <td>1.053596</td>
+      <td>-0.962386</td>
+      <td>0.352104</td>
+      <td>-0.288018</td>
+      <td>-0.706722</td>
+      <td>-0.514224</td>
+      <td>-0.020832</td>
+    </tr>
+    <tr>
+      <th>green</th>
+      <td>-1.185332</td>
+      <td>-1.172187</td>
+      <td>-0.342883</td>
+      <td>0.147804</td>
+      <td>-0.441741</td>
+      <td>-0.421923</td>
+      <td>-0.664020</td>
+      <td>0.015956</td>
+      <td>0.544560</td>
+      <td>-1.225485</td>
+      <td>...</td>
+      <td>0.885219</td>
+      <td>1.026413</td>
+      <td>-0.446825</td>
+      <td>1.726705</td>
+      <td>0.148405</td>
+      <td>0.407081</td>
+      <td>0.922681</td>
+      <td>1.281653</td>
+      <td>-1.018726</td>
+      <td>0.706706</td>
+    </tr>
+    <tr>
+      <th>brown</th>
+      <td>-0.876515</td>
+      <td>-1.404033</td>
+      <td>-0.920570</td>
+      <td>0.893428</td>
+      <td>0.632113</td>
+      <td>-0.000901</td>
+      <td>-0.270705</td>
+      <td>1.450482</td>
+      <td>1.094554</td>
+      <td>-1.343019</td>
+      <td>...</td>
+      <td>0.900336</td>
+      <td>0.143640</td>
+      <td>-0.650320</td>
+      <td>0.453211</td>
+      <td>-0.052952</td>
+      <td>0.508944</td>
+      <td>1.487840</td>
+      <td>0.490526</td>
+      <td>0.128303</td>
+      <td>1.059052</td>
+    </tr>
+    <tr>
+      <th>blue</th>
+      <td>-1.241533</td>
+      <td>-1.403888</td>
+      <td>-0.906116</td>
+      <td>0.713846</td>
+      <td>0.730656</td>
+      <td>-0.184642</td>
+      <td>-0.275212</td>
+      <td>1.047278</td>
+      <td>0.211378</td>
+      <td>-0.573579</td>
+      <td>...</td>
+      <td>0.483817</td>
+      <td>1.536532</td>
+      <td>-0.535280</td>
+      <td>0.327238</td>
+      <td>-0.723836</td>
+      <td>0.332048</td>
+      <td>0.652643</td>
+      <td>1.130325</td>
+      <td>-0.458007</td>
+      <td>0.830703</td>
+    </tr>
+    <tr>
+      <th>fox</th>
+      <td>-1.063213</td>
+      <td>-1.183251</td>
+      <td>0.301696</td>
+      <td>0.807676</td>
+      <td>-0.038768</td>
+      <td>0.154243</td>
+      <td>0.943619</td>
+      <td>1.364023</td>
+      <td>0.090330</td>
+      <td>-0.779429</td>
+      <td>...</td>
+      <td>-0.005095</td>
+      <td>-0.514685</td>
+      <td>-1.359398</td>
+      <td>1.482487</td>
+      <td>-0.727252</td>
+      <td>-0.679084</td>
+      <td>1.143468</td>
+      <td>0.792078</td>
+      <td>0.315267</td>
+      <td>1.307671</td>
+    </tr>
+    <tr>
+      <th>is</th>
+      <td>-0.686803</td>
+      <td>1.201411</td>
+      <td>-0.365061</td>
+      <td>0.023410</td>
+      <td>-0.911158</td>
+      <td>-0.636755</td>
+      <td>0.201880</td>
+      <td>0.615606</td>
+      <td>1.178941</td>
+      <td>0.296924</td>
+      <td>...</td>
+      <td>-0.182100</td>
+      <td>0.782834</td>
+      <td>-0.252753</td>
+      <td>-0.966379</td>
+      <td>0.038495</td>
+      <td>-0.473968</td>
+      <td>-0.116784</td>
+      <td>-0.699781</td>
+      <td>-0.844511</td>
+      <td>0.400906</td>
+    </tr>
+    <tr>
+      <th>but</th>
+      <td>-0.617007</td>
+      <td>-1.335470</td>
+      <td>-1.274921</td>
+      <td>0.456699</td>
+      <td>0.492685</td>
+      <td>0.975719</td>
+      <td>-0.089738</td>
+      <td>0.473519</td>
+      <td>0.433252</td>
+      <td>1.396277</td>
+      <td>...</td>
+      <td>0.546477</td>
+      <td>0.888823</td>
+      <td>-0.181895</td>
+      <td>-0.218617</td>
+      <td>-0.720275</td>
+      <td>0.372221</td>
+      <td>-0.464548</td>
+      <td>0.677568</td>
+      <td>-1.169354</td>
+      <td>-0.445014</td>
+    </tr>
+    <tr>
+      <th>this</th>
+      <td>-0.923892</td>
+      <td>-0.346465</td>
+      <td>-0.935396</td>
+      <td>0.642046</td>
+      <td>0.873360</td>
+      <td>0.107631</td>
+      <td>1.653424</td>
+      <td>0.126784</td>
+      <td>-0.441882</td>
+      <td>0.085917</td>
+      <td>...</td>
+      <td>1.577924</td>
+      <td>0.150236</td>
+      <td>0.281095</td>
+      <td>-0.267720</td>
+      <td>-0.851461</td>
+      <td>-0.777931</td>
+      <td>0.251027</td>
+      <td>-0.263745</td>
+      <td>-0.962156</td>
+      <td>0.877665</td>
+    </tr>
+    <tr>
+      <th>over</th>
+      <td>-0.440351</td>
+      <td>-0.957340</td>
+      <td>-0.288660</td>
+      <td>-0.784095</td>
+      <td>-0.453102</td>
+      <td>-0.260627</td>
+      <td>-0.156899</td>
+      <td>1.161451</td>
+      <td>0.216041</td>
+      <td>-0.119296</td>
+      <td>...</td>
+      <td>0.818817</td>
+      <td>-0.112223</td>
+      <td>0.002978</td>
+      <td>0.198639</td>
+      <td>-0.664964</td>
+      <td>1.044688</td>
+      <td>-0.332886</td>
+      <td>1.113894</td>
+      <td>-0.737988</td>
+      <td>-1.248392</td>
+    </tr>
+    <tr>
+      <th>kings</th>
+      <td>-0.871058</td>
+      <td>1.877413</td>
+      <td>-0.446523</td>
+      <td>0.939120</td>
+      <td>1.882271</td>
+      <td>-0.894365</td>
+      <td>1.959913</td>
+      <td>0.237614</td>
+      <td>1.054103</td>
+      <td>-0.776251</td>
+      <td>...</td>
+      <td>-0.663307</td>
+      <td>0.486514</td>
+      <td>0.542900</td>
+      <td>-0.114815</td>
+      <td>-0.053794</td>
+      <td>0.501748</td>
+      <td>1.782944</td>
+      <td>0.394344</td>
+      <td>-0.109745</td>
+      <td>0.131947</td>
+    </tr>
+    <tr>
+      <th>love</th>
+      <td>-2.062335</td>
+      <td>-0.436482</td>
+      <td>-0.819275</td>
+      <td>0.988686</td>
+      <td>0.089922</td>
+      <td>-0.325258</td>
+      <td>1.581294</td>
+      <td>1.765489</td>
+      <td>0.431824</td>
+      <td>-0.991082</td>
+      <td>...</td>
+      <td>-0.014793</td>
+      <td>-0.220141</td>
+      <td>-1.260573</td>
+      <td>-0.073471</td>
+      <td>-0.762526</td>
+      <td>-0.953943</td>
+      <td>0.655179</td>
+      <td>1.407103</td>
+      <td>0.392512</td>
+      <td>0.337918</td>
+    </tr>
+    <tr>
+      <th>breakfast</th>
+      <td>-0.829254</td>
+      <td>-0.406226</td>
+      <td>-0.967018</td>
+      <td>0.675861</td>
+      <td>-0.075334</td>
+      <td>0.707547</td>
+      <td>0.685737</td>
+      <td>2.209723</td>
+      <td>0.268043</td>
+      <td>-0.333843</td>
+      <td>...</td>
+      <td>-0.162341</td>
+      <td>-1.037519</td>
+      <td>-1.418477</td>
+      <td>0.797511</td>
+      <td>-0.989848</td>
+      <td>-0.342162</td>
+      <td>1.093951</td>
+      <td>0.917619</td>
+      <td>0.077850</td>
+      <td>0.654152</td>
     </tr>
   </tbody>
 </table>
-<p>30 rows × 300 columns</p>
+<p>30 rows × 96 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.manifold</span> <span class="kn">import</span> <span class="n">TSNE</span>
 
-<span class="n">tsne</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">perplexity</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">tsne</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">perplexity</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">suppress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">T</span> <span class="o">=</span> <span class="n">tsne</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">word_glove_vectors</span><span class="p">)</span>
 <span class="n">labels</span> <span class="o">=</span> <span class="n">unique_words</span>
@@ -2032,7 +2024,7 @@ Wall time: 8.88 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/0042801a0abb00bb2dd427f5d292994feb00af48f7cc7c24d870553279656110.png" src="../_images/0042801a0abb00bb2dd427f5d292994feb00af48f7cc7c24d870553279656110.png" />
+<img alt="../_images/44e804ef2a87591367c2e599bcb2c283b9d7d053574dfb285be85ac894a390ab.png" src="../_images/44e804ef2a87591367c2e599bcb2c283b9d7d053574dfb285be85ac894a390ab.png" />
 </div>
 </div>
 <ul class="simple">
@@ -2058,6 +2050,10 @@ Wall time: 8.88 s
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/alvinchen/anaconda3/envs/python-notes/lib/python3.9/site-packages/sklearn/cluster/_kmeans.py:1412: FutureWarning: The default value of `n_init` will change from 10 to &#39;auto&#39; in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+</pre></div>
+</div>
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -2086,7 +2082,7 @@ Wall time: 8.88 s
       <th>0</th>
       <td>The sky is blue and beautiful.</td>
       <td>weather</td>
-      <td>2</td>
+      <td>1</td>
     </tr>
     <tr>
       <th>1</th>
@@ -2122,7 +2118,7 @@ Wall time: 8.88 s
       <th>6</th>
       <td>The sky is very blue and the sky is very beautiful today</td>
       <td>weather</td>
-      <td>2</td>
+      <td>1</td>
     </tr>
     <tr>
       <th>7</th>
@@ -2158,22 +2154,22 @@ Wall time: 8.88 s
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
 <span class="c1"># Set values for various parameters</span>
-<span class="n">feature_size</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># Word vector dimensionality</span>
+<span class="n">feature_size</span> <span class="o">=</span> <span class="mi">128</span>  <span class="c1"># Word vector dimensionality</span>
 <span class="n">window_context</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># Context window size</span>
 <span class="n">min_word_count</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># Minimum word count</span>
 
 <span class="n">ft_model</span> <span class="o">=</span> <span class="n">FastText</span><span class="p">(</span><span class="n">brown_tokens</span><span class="p">,</span>
-                    <span class="n">size</span><span class="o">=</span><span class="n">feature_size</span><span class="p">,</span>
+                    <span class="n">vector_size</span><span class="o">=</span><span class="n">feature_size</span><span class="p">,</span>
                     <span class="n">window</span><span class="o">=</span><span class="n">window_context</span><span class="p">,</span>
                     <span class="n">min_count</span><span class="o">=</span><span class="n">min_word_count</span><span class="p">,</span>
                     <span class="n">sg</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="nb">iter</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+                    <span class="n">epochs</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 12min 19s, sys: 26.6 s, total: 12min 46s
-Wall time: 5min 22s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 5min 34s, sys: 5.79 s, total: 5min 39s
+Wall time: 2min 2s
 </pre></div>
 </div>
 </div>
@@ -2196,16 +2192,20 @@ Wall time: 5min 22s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;think&#39;: [&#39;know&#39;, &#39;Think&#39;, &#39;tell&#39;, &#39;suppose&#39;, &#39;say&#39;],
- &#39;say&#39;: [&#39;think&#39;, &#39;said&#39;, &#39;know&#39;, &#39;hear&#39;, &#39;want&#39;],
- &#39;news&#39;: [&#39;forthcoming&#39;, &#39;Burr&#39;, &#39;newspapers&#39;, &#39;hailed&#39;, &#39;remarks&#39;],
- &#39;report&#39;: [&#39;reports&#39;, &#39;Investigation&#39;, &#39;reporting&#39;, &#39;Report&#39;, &quot;officer&#39;s&quot;],
- &#39;nation&#39;: [&#39;nations&#39;, &#39;national&#39;, &#39;nationally&#39;, &#39;nationwide&#39;, &#39;nationalism&#39;],
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;think&#39;: [&#39;know&#39;, &#39;Think&#39;, &#39;tell&#39;, &quot;don&#39;t&quot;, &#39;feel&#39;],
+ &#39;say&#39;: [&#39;said&#39;, &#39;think&#39;, &#39;do&#39;, &#39;believe&#39;, &#39;despise&#39;],
+ &#39;news&#39;: [&#39;newspapers&#39;,
+  &#39;newspaperman&#39;,
+  &#39;newspaper&#39;,
+  &#39;forthcoming&#39;,
+  &#39;inspector&#39;],
+ &#39;report&#39;: [&#39;reports&#39;, &#39;reporting&#39;, &#39;Report&#39;, &#39;reporter&#39;, &#39;reported&#39;],
+ &#39;nation&#39;: [&#39;nations&#39;, &#39;national&#39;, &#39;nationalism&#39;, &quot;nation&#39;s&quot;, &#39;nationally&#39;],
  &#39;democracy&#39;: [&#39;democratic&#39;,
   &#39;cultural&#39;,
-  &#39;world&#39;,
-  &#39;capitalism&#39;,
-  &#39;Christianity&#39;]}
+  &#39;constitutional&#39;,
+  &#39;constitution&#39;,
+  &#39;bureaucracy&#39;]}
 </pre></div>
 </div>
 </div>
@@ -2233,7 +2233,7 @@ Wall time: 5min 22s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dac8d306964cbf9e55525b267f734f1825ca0f014cc296a9d8b6369c76f0e2c4.png" src="../_images/dac8d306964cbf9e55525b267f734f1825ca0f014cc296a9d8b6369c76f0e2c4.png" />
+<img alt="../_images/f6fbb71d442d73f3e5cc2012eb41a4de0a0b1acd83284a69fdd53d99f527d434.png" src="../_images/f6fbb71d442d73f3e5cc2012eb41a4de0a0b1acd83284a69fdd53d99f527d434.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -2243,27 +2243,32 @@ Wall time: 5min 22s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0.6285441 , -0.38983855,  0.11425309,  0.06012838, -0.6053551 ,
-       -0.16956608, -0.22312629, -0.10888387,  0.12648048, -0.07467075,
-       -0.6946541 ,  0.21674407, -0.22717321,  0.4057445 ,  0.29266223,
-        0.37295696, -0.08018252,  0.28890017, -0.21639867, -0.9471755 ,
-       -0.0367635 , -0.04349962,  0.30649963, -0.55968153, -0.01258501,
-       -0.5630713 ,  0.30955324,  0.32570282, -0.5851471 ,  0.7197201 ,
-       -0.9000047 , -0.06964479,  0.28557375,  0.0619022 ,  0.3351349 ,
-       -0.13018262,  0.02778896, -0.03295739, -0.5289631 , -0.21316352,
-       -0.1927315 ,  0.35496324, -0.79570115,  0.02665308, -0.5433889 ,
-       -0.27868316,  0.36585337, -0.25602865, -0.2014406 , -0.2385113 ,
-       -0.9931128 , -0.05011513, -0.89226973, -0.09251308, -0.49075928,
-        0.2526952 ,  0.17661068, -0.32355413,  0.30298945, -0.6417367 ,
-       -0.96245843,  0.34119967,  0.50603724, -0.10167728,  0.37157422,
-        0.27186954, -0.24821736,  0.33283603,  0.31510666, -0.4702585 ,
-        0.08978494, -0.03058098, -0.3733476 ,  0.6416439 ,  0.01975565,
-       -0.35120457, -0.1267091 , -0.28540707, -0.41264024,  0.53472847,
-       -0.78829867,  0.6358656 ,  0.13061173,  0.78743094,  0.3419407 ,
-        0.0620064 , -0.02179374, -0.06819019,  0.30834115, -0.09986465,
-       -0.24703988, -0.11666609, -0.19774927, -0.2915043 ,  0.19712956,
-        0.16191272,  0.5221547 ,  0.23896886, -0.20449135,  0.35715654],
-      dtype=float32)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-0.2523766 ,  1.2344824 ,  0.28590804, -0.18874285, -0.12484555,
+       -0.49433994,  0.1602066 , -0.31401044,  0.22249952, -0.16373059,
+        0.5416111 ,  0.17930526,  0.33985358,  0.33994997, -0.27761728,
+        0.295529  ,  0.30032286, -0.16337612,  0.2726979 ,  0.286383  ,
+        0.05036034, -0.4099072 ,  1.1245147 , -0.43144313, -0.12164368,
+       -0.43757993,  0.3907696 , -0.506607  ,  0.8151896 , -0.1673889 ,
+       -0.12556757,  0.4687364 ,  0.38069835,  0.29146397,  0.17975552,
+        0.00345719,  0.3428171 , -0.5179925 ,  0.25784668, -0.2876231 ,
+        0.2736586 , -0.32872424, -0.41551793, -0.39329693,  0.16495731,
+        0.22620523,  0.22976732, -0.30155176,  0.12755516, -0.05715791,
+       -0.47991446,  0.6938182 , -0.69235647, -0.27857274,  0.20222324,
+       -0.5334721 ,  0.5623266 ,  0.2074901 , -0.0281765 , -0.15348567,
+        1.3333222 ,  0.5020892 , -0.2768525 ,  0.11414671,  0.194682  ,
+       -0.33986622,  0.47148588, -0.3239075 , -0.31997842,  0.41093224,
+        0.511632  , -0.0720844 , -0.13437022, -0.58273226,  0.36699748,
+       -0.10058013, -0.41690606, -0.12419936,  0.3415619 ,  0.05605935,
+       -0.31064925, -0.09939189, -0.20340547,  0.7773749 ,  0.3970421 ,
+        0.00630904, -0.29208088,  0.06216234, -0.01027498,  0.10407776,
+        0.63741744,  0.05946476,  0.23245631,  0.09461077,  0.44289067,
+        0.40805987, -0.08794071,  0.02890253,  0.3359511 , -0.28606507,
+       -0.7213146 ,  0.6503062 ,  0.36324272,  0.3368714 , -0.01722197,
+        0.25369242,  0.44865412, -0.03442893, -0.644235  ,  0.28318068,
+       -0.7213056 ,  0.02290851,  0.22658262,  0.03600961, -0.38349828,
+        0.01788636, -0.01218169,  0.7510187 , -0.40153882, -0.21668746,
+       -0.04060327,  0.5902806 , -0.05519979, -0.20750351,  0.3325783 ,
+        0.11138923, -0.12826458, -0.91107947], dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -2276,8 +2281,8 @@ Wall time: 5min 22s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.22647002
-0.18219654
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.2915468
+0.1772014
 </pre></div>
 </div>
 </div>
@@ -2332,13 +2337,13 @@ Wall time: 5min 22s
             mode: "python"
         },
         kernelOptions: {
-            name: "python-notes",
+            name: "python3",
             path: "./nlp"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python-notes'</script>
+    <script>kernelName = 'python3'</script>
 
                 </article>
               
