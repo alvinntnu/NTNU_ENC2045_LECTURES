@@ -213,6 +213,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../exercise/6-topic-modeling.html">6. Assignment VI: Topic Modeling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../exercise/7-dl-chinese-name-gender.html">7. Assignment VII: Deep Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../exercise/8-sentiment-analysis-dl.html">8. Assignment VIII: Sentiment Analysis Using Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/9-neural-language-model.html">9. Assignment IV: Neural Language Model</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Exams</span></p>
 <ul class="nav bd-sidenav">
@@ -397,7 +398,9 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-word2vec">What is <code class="docutils literal notranslate"><span class="pre">word2vec</span></code>?</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basis-of-word-embeddings-distributional-semantics">Basis of Word Embeddings: Distributional Semantics</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#main-training-algorithms-of-word2vec">Main training algorithms of <code class="docutils literal notranslate"><span class="pre">word2vec</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-training-algorithms-of-word2vec">Main training algorithms of <code class="docutils literal notranslate"><span class="pre">word2vec</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#an-intuitive-understanding-of-cbow">An Intuitive Understanding of CBOW</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#an-intuitive-understanding-of-skip-gram">An Intuitive Understanding of Skip-gram</a></li>
 </ul>
@@ -430,7 +433,7 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="word-embeddings">
-<h1>Word Embeddings<a class="headerlink" href="#word-embeddings" title="Permalink to this headline">#</a></h1>
+<h1><a class="toc-backref" href="#id1">Word Embeddings</a><a class="headerlink" href="#word-embeddings" title="Permalink to this headline">#</a></h1>
 <ul class="simple">
 <li><p>The state-of-art method of vectorizing texts is to learn the numeric representations of words using deep learning methods.</p></li>
 <li><p>These deep-learning based numeric representations of linguistic units are commonly referred to as <strong>embeddings</strong>.</p></li>
@@ -447,18 +450,88 @@ document.write(`
 </ul>
 </li>
 </ul>
+<div class="contents topic" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#word-embeddings" id="id1">Word Embeddings</a></p>
+<ul>
+<li><p><a class="reference internal" href="#overview" id="id2">Overview</a></p>
+<ul>
+<li><p><a class="reference internal" href="#what-is-word2vec" id="id3">What is <code class="docutils literal notranslate"><span class="pre">word2vec</span></code>?</a></p></li>
+<li><p><a class="reference internal" href="#basis-of-word-embeddings-distributional-semantics" id="id4">Basis of Word Embeddings: Distributional Semantics</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#main-training-algorithms-of-word2vec" id="id5">Main training algorithms of <code class="docutils literal notranslate"><span class="pre">word2vec</span></code></a></p>
+<ul>
+<li><p><a class="reference internal" href="#an-intuitive-understanding-of-cbow" id="id6">An Intuitive Understanding of CBOW</a></p></li>
+<li><p><a class="reference internal" href="#an-intuitive-understanding-of-skip-gram" id="id7">An Intuitive Understanding of Skip-gram</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#import-necessary-dependencies-and-settings" id="id8">Import necessary dependencies and settings</a></p></li>
+<li><p><a class="reference internal" href="#sample-corpus-a-naive-example" id="id9">Sample Corpus: A Naive Example</a></p>
+<ul>
+<li><p><a class="reference internal" href="#simple-text-pre-processing" id="id10">Simple text pre-processing</a></p></li>
+<li><p><a class="reference internal" href="#suggestions" id="id11">Suggestions</a></p></li>
+<li><p><a class="reference internal" href="#training-embeddings-using-word2vec" id="id12">Training Embeddings Using word2vec</a></p></li>
+<li><p><a class="reference internal" href="#visualizing-word-embeddings" id="id13">Visualizing Word Embeddings</a></p></li>
+<li><p><a class="reference internal" href="#from-word-embeddings-to-document-embeddings" id="id14">From Word Embeddings to Document Embeddings</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#using-pre-trained-embeddings-glove-in-spacy" id="id15">Using Pre-trained Embeddings:  GloVe in <code class="docutils literal notranslate"><span class="pre">spacy</span></code></a></p>
+<ul>
+<li><p><a class="reference internal" href="#visualize-glove-word-embeddings" id="id16">Visualize GloVe word embeddings</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#fasttext" id="id17"><code class="docutils literal notranslate"><span class="pre">fasttext</span></code></a></p></li>
+<li><p><a class="reference internal" href="#wrap-up" id="id18">Wrap-up</a></p></li>
+<li><p><a class="reference internal" href="#references" id="id19">References</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id2">Overview</a><a class="headerlink" href="#overview" title="Permalink to this headline">#</a></h2>
 <section id="what-is-word2vec">
-<h3>What is <code class="docutils literal notranslate"><span class="pre">word2vec</span></code>?<a class="headerlink" href="#what-is-word2vec" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id3">What is <code class="docutils literal notranslate"><span class="pre">word2vec</span></code>?</a><a class="headerlink" href="#what-is-word2vec" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">Word2vec</span></code> is one of the most popular techniques to learn word embeddings using a two-layer neural network.</p></li>
 <li><p>The input is a <strong>text corpus</strong> and the output is a set of <strong>word vectors</strong>.</p></li>
 <li><p>Research has shown that these embeddings include rich semantic information of words, which allow us to perform interesting <strong>semantic computation</strong> (See Mikolov et al’s works in References).</p></li>
 </ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Word embeddings can be trained using different methods under various objectives.</p>
+<ol class="arabic simple">
+<li><p><strong>Downstream Sentiment Classifier</strong>:</p>
+<ul class="simple">
+<li><p><strong>Objective</strong>: In this approach, word embeddings are trained as a byproduct of training a sentiment classifier. The primary goal is to classify text sentiments (e.g., positive or negative).</p></li>
+<li><p><strong>Training Process</strong>: Word embeddings are learned as part of the neural network’s optimization process while training the sentiment classifier. The network learns to represent words in a way that facilitates the sentiment classification task.</p></li>
+</ul>
+</li>
+<li><p><strong>Recurrent Language Model (RNN)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Objective</strong>: RNNs are used to model sequences of words, predicting the next word in a sequence given previous words. The goal is to capture semantic and syntactic relationships between words.</p></li>
+<li><p><strong>Training Process</strong>: The RNN is trained on a large corpus of text data by predicting the next word in a sequence. Word embeddings are updated during backpropagation to minimize the prediction error.</p></li>
+</ul>
+</li>
+<li><p><strong>Word2Vec</strong>:</p>
+<ul class="simple">
+<li><p><strong>Objective</strong>: Word2Vec aims to learn distributed representations of words in a continuous vector space. These embeddings capture semantic similarities between words.</p></li>
+<li><p><strong>Training Process</strong>: Word2Vec uses either the Skip-gram or Continuous Bag of Words (CBOW) architectures. Skip-gram predicts context words given a target word, while CBOW predicts a target word given context words. Word embeddings are learned by optimizing a loss function that measures the likelihood of context words given the target word (or vice versa).</p></li>
+</ul>
+</li>
+<li><p><strong>BERT (Bidirectional Encoder Representations from Transformers)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Objective</strong>: BERT is designed to generate contextualized word embeddings that capture the meaning of words within the context of a sentence. It excels in various NLP tasks, including question answering, sentiment analysis, and named entity recognition.</p></li>
+<li><p><strong>Training Process</strong>: BERT is pre-trained on large-scale corpora using a masked language model (MLM) and next sentence prediction (NSP) objectives. During pre-training, BERT learns to predict masked words within a sentence and to determine whether two sentences follow each other in a given text.</p></li>
+</ul>
+</li>
+</ol>
+<p>And of course there are more methods…</p>
+</div>
 </section>
 <section id="basis-of-word-embeddings-distributional-semantics">
-<h3>Basis of Word Embeddings: Distributional Semantics<a class="headerlink" href="#basis-of-word-embeddings-distributional-semantics" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id4">Basis of Word Embeddings: Distributional Semantics</a><a class="headerlink" href="#basis-of-word-embeddings-distributional-semantics" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>“<em>You shall know a word by the company it keeps</em>” (Firth, 1975).</p></li>
 <li><p>Word distributions show a considerable amount of <strong>lexical semantics</strong>.</p></li>
@@ -466,8 +539,9 @@ document.write(`
 <li><p>Semantics of linguistic units are implicitly or explicitly embedded in their distributions (i.e., <em>occurrences</em> and <em>co-occurrences</em>) in language use (<strong>Distributional Semantics</strong>).</p></li>
 </ul>
 </section>
+</section>
 <section id="main-training-algorithms-of-word2vec">
-<h3>Main training algorithms of <code class="docutils literal notranslate"><span class="pre">word2vec</span></code><a class="headerlink" href="#main-training-algorithms-of-word2vec" title="Permalink to this headline">#</a></h3>
+<h2><a class="toc-backref" href="#id5">Main training algorithms of <code class="docutils literal notranslate"><span class="pre">word2vec</span></code></a><a class="headerlink" href="#main-training-algorithms-of-word2vec" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Continuous Bag-of-Words (<strong>CBOW</strong>): The general language modeling task for embeddings training is to learn a model that is capable of using the <em><strong>context</strong></em> words to predict a <em><strong>target</strong></em> word.</p></li>
 <li><p><strong>Skip-Gram</strong>: The general language modeling task for embeddings training is to learn a model that is capable of using a <em><strong>target word</strong></em> to predict its <em><strong>context</strong></em> words.</p></li>
@@ -489,19 +563,18 @@ document.write(`
 </li>
 <li><p>See Sarkar (2019), Chapter 4, for more comprehensive reviews.</p></li>
 </ul>
-</section>
 <section id="an-intuitive-understanding-of-cbow">
-<h3>An Intuitive Understanding of CBOW<a class="headerlink" href="#an-intuitive-understanding-of-cbow" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id6">An Intuitive Understanding of CBOW</a><a class="headerlink" href="#an-intuitive-understanding-of-cbow" title="Permalink to this headline">#</a></h3>
 <p><img alt="" src="../_images/word2vec-text-to-sequences.gif" /></p>
 <p><img alt="" src="../_images/word2vec-cbow.gif" /></p>
 </section>
 <section id="an-intuitive-understanding-of-skip-gram">
-<h3>An Intuitive Understanding of Skip-gram<a class="headerlink" href="#an-intuitive-understanding-of-skip-gram" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id7">An Intuitive Understanding of Skip-gram</a><a class="headerlink" href="#an-intuitive-understanding-of-skip-gram" title="Permalink to this headline">#</a></h3>
 <p><img alt="" src="../_images/word2vec-skipgram.gif" /></p>
 </section>
 </section>
 <section id="import-necessary-dependencies-and-settings">
-<h2>Import necessary dependencies and settings<a class="headerlink" href="#import-necessary-dependencies-and-settings" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id8">Import necessary dependencies and settings</a><a class="headerlink" href="#import-necessary-dependencies-and-settings" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -531,7 +604,7 @@ document.write(`
 </div>
 </section>
 <section id="sample-corpus-a-naive-example">
-<h2>Sample Corpus: A Naive Example<a class="headerlink" href="#sample-corpus-a-naive-example" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id9">Sample Corpus: A Naive Example</a><a class="headerlink" href="#sample-corpus-a-naive-example" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corpus</span> <span class="o">=</span> <span class="p">[</span>
@@ -624,7 +697,7 @@ document.write(`
 </div></div></div>
 </div>
 <section id="simple-text-pre-processing">
-<h3>Simple text pre-processing<a class="headerlink" href="#simple-text-pre-processing" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id10">Simple text pre-processing</a><a class="headerlink" href="#simple-text-pre-processing" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Usually for unsupervised <code class="docutils literal notranslate"><span class="pre">word2vec</span></code> learning, we don’t really need much text preprocessing.</p></li>
 <li><p>So we keep our preprocessing to the minimum.</p>
@@ -636,7 +709,7 @@ document.write(`
 </ul>
 </section>
 <section id="suggestions">
-<h3>Suggestions<a class="headerlink" href="#suggestions" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id11">Suggestions</a><a class="headerlink" href="#suggestions" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>If you are using <code class="docutils literal notranslate"><span class="pre">keras</span></code> to build the network for embeddings training, please prepare your input corpus data for <code class="docutils literal notranslate"><span class="pre">Tokenizer()</span></code>in the format where each <strong>token</strong> is delimited by a <strong>whitespace</strong>.</p></li>
 <li><p>If you are using <code class="docutils literal notranslate"><span class="pre">gensim</span></code> to train word embeddings, please tokenize your corpus data first. That is, the <code class="docutils literal notranslate"><span class="pre">gensim</span></code> only requires a tokenized version of the corpus and it will learn the word embeddings for you.</p></li>
@@ -677,7 +750,7 @@ document.write(`
 </div>
 </section>
 <section id="training-embeddings-using-word2vec">
-<h3>Training Embeddings Using word2vec<a class="headerlink" href="#training-embeddings-using-word2vec" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id12">Training Embeddings Using word2vec</a><a class="headerlink" href="#training-embeddings-using-word2vec" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>The expected inputs of <code class="docutils literal notranslate"><span class="pre">gensim.model.word2vec</span></code> is token-based corpus object.</p></li>
 </ul>
@@ -717,7 +790,7 @@ Wall time: 1.23 s
 </div>
 </section>
 <section id="visualizing-word-embeddings">
-<h3>Visualizing Word Embeddings<a class="headerlink" href="#visualizing-word-embeddings" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id13">Visualizing Word Embeddings</a><a class="headerlink" href="#visualizing-word-embeddings" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Embeddings represent words in multidimensional space.</p></li>
 <li><p>We can inspect the quality of embeddings using dimensional reduction and visualize words in a 2D plot.</p></li>
@@ -793,7 +866,7 @@ Wall time: 1.23 s
 </div>
 </section>
 <section id="from-word-embeddings-to-document-embeddings">
-<h3>From Word Embeddings to Document Embeddings<a class="headerlink" href="#from-word-embeddings-to-document-embeddings" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id14">From Word Embeddings to Document Embeddings</a><a class="headerlink" href="#from-word-embeddings-to-document-embeddings" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>With word embeddings, we can compute the <strong>average embeddings</strong> for the entire document, i.e., the <em><strong>document embeddings</strong></em>.</p></li>
 <li><p>These document embeddings are also assumed to have included considerable semantic information of the document.</p></li>
@@ -1179,7 +1252,7 @@ Wall time: 1.23 s
 </section>
 </section>
 <section id="using-pre-trained-embeddings-glove-in-spacy">
-<h2>Using Pre-trained Embeddings:  GloVe in <code class="docutils literal notranslate"><span class="pre">spacy</span></code><a class="headerlink" href="#using-pre-trained-embeddings-glove-in-spacy" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id15">Using Pre-trained Embeddings:  GloVe in <code class="docutils literal notranslate"><span class="pre">spacy</span></code></a><a class="headerlink" href="#using-pre-trained-embeddings-glove-in-spacy" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
@@ -1211,7 +1284,7 @@ Wall time: 1.23 s
 </div>
 </div>
 <section id="visualize-glove-word-embeddings">
-<h3>Visualize GloVe word embeddings<a class="headerlink" href="#visualize-glove-word-embeddings" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id16">Visualize GloVe word embeddings</a><a class="headerlink" href="#visualize-glove-word-embeddings" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Let’s extract the GloVe pretrained embeddings for all the words in our simple corpus.</p></li>
 <li><p>And we visualize their embeddings in a 2D plot via dimensional reduction.</p></li>
@@ -2133,7 +2206,7 @@ Wall time: 1.23 s
 </section>
 </section>
 <section id="fasttext">
-<h2><code class="docutils literal notranslate"><span class="pre">fasttext</span></code><a class="headerlink" href="#fasttext" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id17"><code class="docutils literal notranslate"><span class="pre">fasttext</span></code></a><a class="headerlink" href="#fasttext" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>This section shows a quick example how to train word embeddings based on the <code class="docutils literal notranslate"><span class="pre">nltk.corpus.brown</span></code> using another algorithm, i.e., <code class="docutils literal notranslate"><span class="pre">fasttext</span></code>.</p></li>
 <li><p>The FastText model was introduced by Facebook in 2016 as an improved and extended version of the <code class="docutils literal notranslate"><span class="pre">word2vec</span></code> (See Bojanowski et al [2017] in References below).</p></li>
@@ -2296,7 +2369,7 @@ Wall time: 2min 2s
 </div>
 </section>
 <section id="wrap-up">
-<h2>Wrap-up<a class="headerlink" href="#wrap-up" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id18">Wrap-up</a><a class="headerlink" href="#wrap-up" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Two fundamental deep-learning-based models of word representation learning: CBOW and Skip-Gram.</p></li>
 <li><p>From word embeddings to document embeddings</p></li>
@@ -2307,10 +2380,11 @@ Wall time: 2min 2s
 <li><p>Chi-Yen Chen, Wei-Yun Ma. 2017. “<a class="reference external" href="https://ieeexplore.ieee.org/document/8300566">Embedding Wikipedia Title Based on Its Wikipedia Text and Categories</a>,” International Conference on Asian Language Processing.</p></li>
 </ul>
 </li>
+<li><p>From word embeddings, we can extend this idea of vectorized representation to sentence or document embeddings. Please check <a class="reference external" href="https://sbert.net/">Sentence Transformers</a> for more information.</p></li>
 </ul>
 </section>
 <section id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id19">References</a><a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Sarkar (2020) Ch 4 Feature Engineering for Text Representation</p></li>
 <li><p>Major Readings:</p>
@@ -2402,7 +2476,9 @@ Wall time: 2min 2s
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-word2vec">What is <code class="docutils literal notranslate"><span class="pre">word2vec</span></code>?</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basis-of-word-embeddings-distributional-semantics">Basis of Word Embeddings: Distributional Semantics</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#main-training-algorithms-of-word2vec">Main training algorithms of <code class="docutils literal notranslate"><span class="pre">word2vec</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-training-algorithms-of-word2vec">Main training algorithms of <code class="docutils literal notranslate"><span class="pre">word2vec</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#an-intuitive-understanding-of-cbow">An Intuitive Understanding of CBOW</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#an-intuitive-understanding-of-skip-gram">An Intuitive Understanding of Skip-gram</a></li>
 </ul>
