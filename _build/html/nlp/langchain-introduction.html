@@ -65,8 +65,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'nlp/langchain-introduction';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Chatbot Using Langchain" href="langchain-chatbots.html" />
-    <link rel="prev" title="Transfer Learning Using BERT" href="dl-fine-tuning-bert.html" />
+    <link rel="next" title="LangChain Application: YouTube Summary" href="langchain-youtube.html" />
+    <link rel="prev" title="Large Language Model (Under Construction…)" href="langchain-llm-intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -177,10 +177,10 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine-Learning NLP</span></p>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ml-common-nlp-tasks.html">Common NLP Tasks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ml-sklearn-classification.html">Sentiment Analysis Using Bag-of-Words</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ml-emsemble-learning.html">Emsemble Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="topic-modeling-naive.html">Topic Modeling: A Naive Example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../temp/fake-news-detection.html">Fake News Detection</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning NLP</span></p>
 <ul class="nav bd-sidenav">
@@ -198,20 +198,29 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="dl-attention-transformer-intuition.html">Attention and Transformers: Intuitions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dl-seq-to-seq-attention-addition.html">Sequence Model with Attention for Addition Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-transformers-keras.html">Sentiment Classification with Transformer (Self-Study)</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">LLM</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="langchain-llm-intro.html">Large Language Model (Under Construction…)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dl-fine-tuning-bert.html">Transfer Learning Using BERT</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Langchain: An Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="langchain-chatbots.html">Chatbot Using Langchain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="langchain-youtube.html">LangChain Application: YouTube Summary</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Exercises</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../exercise/1-python-basics.html">1. Assignment I: Python Basics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../exercise/3-preprocessing.html">2. Assignment II: Preprocessing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../exercise/4-chinese-nlp.html">3. Assignment III: Chinese Language Processing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../exercise/5-text-vectorization.html">4. Assignment IV: Text Vectorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/2-preprocessing.html">2. Assignment II: Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/3-chinese-nlp.html">3. Assignment III: Chinese Language Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/4-text-vectorization.html">4. Assignment IV: Text Vectorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/5-machine-learning.html">5. Assignment V: Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/6-topic-modeling.html">6. Assignment VI: Topic Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/7-dl-chinese-name-gender.html">7. Assignment VII: Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/8-sentiment-analysis-dl.html">8. Assignment VIII: Sentiment Analysis Using Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/9-neural-language-model.html">9. Assignment IV: Neural Language Model</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Exams</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../exercise/midterm-exam-112.html">Midterm Exam</a></li>
 </ul>
 
     </div>
@@ -389,21 +398,11 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-langchain">What is Langchain?</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#integration-of-large-language-models-llms">1. Integration of Large Language Models (LLMs):</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#addressing-specific-information-needs">2. Addressing Specific Information Needs:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-data-referencing">3. Dynamic Data Referencing:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pipeline-for-language-model-applications">4. Pipeline for Language Model Applications:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-use-cases">5. Practical Use Cases:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-components-of-langchain">6. Key Components of Langchain:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-development-and-expansion">7. Continuous Development and Expansion:</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-langchain">What is Langchain?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install">Install</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-setup">API Setup</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-environment-variables-in-a-env-file">Saving Environment Variables in a <code class="docutils literal notranslate"><span class="pre">.env</span></code> File:</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-dotenv-in-python-to-load-environment-variables">Using <code class="docutils literal notranslate"><span class="pre">dotenv</span></code> in Python to Load Environment Variables:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#notes">Notes:</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-query">Basic Query</a></li>
@@ -411,7 +410,11 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prompt-template">Prompt Template</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chain">Chain</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chaining-a-series-of-prompts">Chaining A Series of Prompts</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#retrieval-augmented-generation">Retrieval-Augmented Generation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#text-splitting">Text Splitting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#retrieval-augmented-generation">Retrieval-Augmented Generation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rag-using-chain">RAG Using Chain</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chat-history-management">Chat History Management</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memory">Memory</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
@@ -427,38 +430,72 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="langchain-an-introduction">
-<h1>Langchain: An Introduction<a class="headerlink" href="#langchain-an-introduction" title="Permalink to this headline">#</a></h1>
-<p><img alt="" src="https://python.langchain.com/svg/langchain_stack.svg" />
+<h1><a class="toc-backref" href="#id1">Langchain: An Introduction</a><a class="headerlink" href="#langchain-an-introduction" title="Permalink to this headline">#</a></h1>
+<p><img alt="" src="../_images/langchain_stack.svg" />
 <em>This image is from <a class="reference external" href="https://python.langchain.com/docs/get_started/introduction">Langchain official documentation</a>.</em></p>
-<section id="what-is-langchain">
-<h2>What is Langchain?<a class="headerlink" href="#what-is-langchain" title="Permalink to this headline">#</a></h2>
-<p>Langchain is an open-source framework designed for developers working with artificial intelligence (AI). It facilitates the integration of large language models (LLMs) like GPT-4 with external sources of computation and data. Here’s a breakdown of Langchain’s key components and functionalities:</p>
-<section id="integration-of-large-language-models-llms">
-<h3>1. Integration of Large Language Models (LLMs):<a class="headerlink" href="#integration-of-large-language-models-llms" title="Permalink to this headline">#</a></h3>
+<div class="contents topic" id="contents">
+<p class="topic-title">Contents</p>
 <ul class="simple">
+<li><p><a class="reference internal" href="#langchain-an-introduction" id="id1">Langchain: An Introduction</a></p>
+<ul>
+<li><p><a class="reference internal" href="#what-is-langchain" id="id2">What is Langchain?</a></p></li>
+<li><p><a class="reference internal" href="#install" id="id3">Install</a></p></li>
+<li><p><a class="reference internal" href="#api-setup" id="id4">API Setup</a></p>
+<ul>
+<li><p><a class="reference internal" href="#saving-environment-variables-in-a-env-file" id="id5">Saving Environment Variables in a <code class="docutils literal notranslate"><span class="pre">.env</span></code> File:</a></p></li>
+<li><p><a class="reference internal" href="#using-dotenv-in-python-to-load-environment-variables" id="id6">Using <code class="docutils literal notranslate"><span class="pre">dotenv</span></code> in Python to Load Environment Variables:</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#basic-query" id="id7">Basic Query</a></p></li>
+<li><p><a class="reference internal" href="#messages" id="id8">Messages</a></p></li>
+<li><p><a class="reference internal" href="#prompt-template" id="id9">Prompt Template</a></p></li>
+<li><p><a class="reference internal" href="#chain" id="id10">Chain</a></p></li>
+<li><p><a class="reference internal" href="#chaining-a-series-of-prompts" id="id11">Chaining A Series of Prompts</a></p></li>
+<li><p><a class="reference internal" href="#text-splitting" id="id12">Text Splitting</a></p></li>
+<li><p><a class="reference internal" href="#retrieval-augmented-generation" id="id13">Retrieval-Augmented Generation</a></p>
+<ul>
+<li><p><a class="reference internal" href="#rag-using-chain" id="id14">RAG Using Chain</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#chat-history-management" id="id15">Chat History Management</a></p></li>
+<li><p><a class="reference internal" href="#memory" id="id16">Memory</a></p></li>
+<li><p><a class="reference internal" href="#references" id="id17">References</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<section id="what-is-langchain">
+<h2><a class="toc-backref" href="#id2">What is Langchain?</a><a class="headerlink" href="#what-is-langchain" title="Permalink to this headline">#</a></h2>
+<p>Langchain is an open-source framework designed for developers working with AI. It facilitates the integration of large language models (LLMs) like GPT-4 with external sources of computation and data. Here’s a breakdown of Langchain’s key components and functionalities:</p>
+<ul class="simple">
+<li><p>Integration of Large Language Models (LLMs):</p>
+<ul>
 <li><p>Langchain allows developers to seamlessly connect LLMs such as GPT-4 to external data sources and computation platforms.</p></li>
 <li><p>This integration enables developers to leverage the vast knowledge and capabilities of LLMs in combination with their own data and applications.</p></li>
 </ul>
-</section>
-<section id="addressing-specific-information-needs">
-<h3>2. Addressing Specific Information Needs:<a class="headerlink" href="#addressing-specific-information-needs" title="Permalink to this headline">#</a></h3>
-<ul class="simple">
+</li>
+<li><p>Addressing Specific Information Needs:</p>
+<ul>
 <li><p>While LLMs like GPT-4 possess extensive general knowledge, Langchain addresses the need for specific information from proprietary or domain-specific data sources.</p></li>
 <li><p>Developers can utilize Langchain to connect LLMs to their own datasets, including documents, PDF files, or proprietary databases.</p></li>
 </ul>
-</section>
-<section id="dynamic-data-referencing">
-<h3>3. Dynamic Data Referencing:<a class="headerlink" href="#dynamic-data-referencing" title="Permalink to this headline">#</a></h3>
-<ul class="simple">
-<li><p>Unlike traditional methods that involve pasting snippets of text into chat prompts, Langchain allows for referencing entire databases of proprietary data.</p></li>
+</li>
+<li><p>Dynamic Data Referencing:</p>
+<ul>
+<li><p>Unlike traditional methods that involve pasting snippets of text into chat prompts, Langchain provides comprehensive ways to design prompt templates that interact with the LLMs.</p></li>
 <li><p>Developers can segment their data into smaller chunks and store them in a vector database as embeddings, enabling efficient referencing and retrieval.</p></li>
 </ul>
-</section>
-<section id="pipeline-for-language-model-applications">
-<h3>4. Pipeline for Language Model Applications:<a class="headerlink" href="#pipeline-for-language-model-applications" title="Permalink to this headline">#</a></h3>
-<ul class="simple">
-<li><p>Langchain facilitates the development of language model applications following a structured pipeline.</p></li>
-<li><p>The pipeline typically involves:</p>
+</li>
+<li><p>Key Components of Langchain:</p>
+<ul>
+<li><p><strong>LLM Wrappers:</strong> Facilitate connection to LLMs like GPT-4.</p></li>
+<li><p><strong>Prompt Templates:</strong> Dynamically generate prompts for LLMs based on user input.</p></li>
+<li><p><strong>Indexes:</strong> Extract relevant information from datasets for LLM processing.</p></li>
+<li><p><strong>Chains:</strong> Combine multiple components to build LLM applications following a specific task.</p></li>
+<li><p><strong>Agents:</strong> Enable LLMs to interact with external APIs for additional functionality.</p></li>
+</ul>
+</li>
+<li><p>Pipeline for Language Model Applications:</p>
 <ul>
 <li><p>User input: Initial questions or queries from users.</p></li>
 <li><p>Language model interaction: Sending user input to the LLM for processing.</p></li>
@@ -468,34 +505,8 @@ document.write(`
 </li>
 </ul>
 </section>
-<section id="practical-use-cases">
-<h3>5. Practical Use Cases:<a class="headerlink" href="#practical-use-cases" title="Permalink to this headline">#</a></h3>
-<ul class="simple">
-<li><p>Langchain’s capabilities enable a wide range of practical applications, particularly in personal assistance, education, and data analytics.</p></li>
-<li><p>Examples include booking flights, transferring money, learning new subjects, and analyzing company data for insights.</p></li>
-</ul>
-</section>
-<section id="key-components-of-langchain">
-<h3>6. Key Components of Langchain:<a class="headerlink" href="#key-components-of-langchain" title="Permalink to this headline">#</a></h3>
-<ul class="simple">
-<li><p><strong>LLM Wrappers:</strong> Facilitate connection to LLMs like GPT-4.</p></li>
-<li><p><strong>Prompt Templates:</strong> Dynamically generate prompts for LLMs based on user input.</p></li>
-<li><p><strong>Indexes:</strong> Extract relevant information from datasets for LLM processing.</p></li>
-<li><p><strong>Chains:</strong> Combine multiple components to build LLM applications following a specific task.</p></li>
-<li><p><strong>Agents:</strong> Enable LLMs to interact with external APIs for additional functionality.</p></li>
-</ul>
-</section>
-<section id="continuous-development-and-expansion">
-<h3>7. Continuous Development and Expansion:<a class="headerlink" href="#continuous-development-and-expansion" title="Permalink to this headline">#</a></h3>
-<ul class="simple">
-<li><p>Langchain is continually evolving, with new features and capabilities being added regularly.</p></li>
-<li><p>The framework offers a flexible and scalable solution for developers looking to integrate LLMs into their applications.</p></li>
-</ul>
-<p>In summary, Langchain provides developers with a powerful framework for harnessing the capabilities of LLMs and integrating them with external data sources, enabling the development of sophisticated language model applications across various domains.</p>
-</section>
-</section>
 <section id="install">
-<h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id3">Install</a><a class="headerlink" href="#install" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pip install langchain</span>
@@ -515,10 +526,14 @@ document.write(`
 </div>
 </section>
 <section id="api-setup">
-<h2>API Setup<a class="headerlink" href="#api-setup" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id4">API Setup</a><a class="headerlink" href="#api-setup" title="Permalink to this headline">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please check the official documentation – <a class="reference external" href="https://platform.openai.com/docs/quickstart">Quick Start</a> – about how to get an OPEN AI API.</p>
+</div>
 <p>To save environment variables in a <code class="docutils literal notranslate"><span class="pre">.env</span></code> file and use the <code class="docutils literal notranslate"><span class="pre">dotenv</span></code> library in Python to load them, follow these steps:</p>
 <section id="saving-environment-variables-in-a-env-file">
-<h3>Saving Environment Variables in a <code class="docutils literal notranslate"><span class="pre">.env</span></code> File:<a class="headerlink" href="#saving-environment-variables-in-a-env-file" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id5">Saving Environment Variables in a <code class="docutils literal notranslate"><span class="pre">.env</span></code> File:</a><a class="headerlink" href="#saving-environment-variables-in-a-env-file" title="Permalink to this headline">#</a></h3>
 <ol class="arabic">
 <li><p>Create a new file in your project directory and name it <code class="docutils literal notranslate"><span class="pre">.env</span></code>. This file will store your environment variables.</p></li>
 <li><p>Add your environment variables to the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file in the format <code class="docutils literal notranslate"><span class="pre">VARIABLE_NAME=variable_value</span></code>. For example:</p>
@@ -530,7 +545,7 @@ document.write(`
 </ol>
 </section>
 <section id="using-dotenv-in-python-to-load-environment-variables">
-<h3>Using <code class="docutils literal notranslate"><span class="pre">dotenv</span></code> in Python to Load Environment Variables:<a class="headerlink" href="#using-dotenv-in-python-to-load-environment-variables" title="Permalink to this headline">#</a></h3>
+<h3><a class="toc-backref" href="#id6">Using <code class="docutils literal notranslate"><span class="pre">dotenv</span></code> in Python to Load Environment Variables:</a><a class="headerlink" href="#using-dotenv-in-python-to-load-environment-variables" title="Permalink to this headline">#</a></h3>
 <ol class="arabic" start="3">
 <li><p>Install the <code class="docutils literal notranslate"><span class="pre">dotenv</span></code> library if you haven’t already installed it. You can install it using pip:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">dotenv</span>
@@ -559,9 +574,8 @@ document.write(`
 </div>
 </li>
 </ol>
-</section>
-<section id="notes">
-<h3>Notes:<a class="headerlink" href="#notes" title="Permalink to this headline">#</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <ul>
 <li><p>Make sure to add the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file to your project’s <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> file to prevent sensitive information from being exposed.</p></li>
 <li><p>You can also specify the path to the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file if it’s located in a different directory:</p>
@@ -571,6 +585,7 @@ document.write(`
 </li>
 </ul>
 <p>By following these steps, you can save environment variables in a <code class="docutils literal notranslate"><span class="pre">.env</span></code> file and use the <code class="docutils literal notranslate"><span class="pre">dotenv</span></code> library in Python to load them into your script. This approach helps keep sensitive information separate from your codebase and makes it easier to manage environment variables in your projects.</p>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load environment variables</span>
@@ -602,7 +617,7 @@ document.write(`
 </section>
 </section>
 <section id="basic-query">
-<h2>Basic Query<a class="headerlink" href="#basic-query" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id7">Basic Query</a><a class="headerlink" href="#basic-query" title="Permalink to this headline">#</a></h2>
 <p><img alt="" src="https://python.langchain.com/assets/images/model_io-e6fc0045b7eae0377a4ddeb90dc8cdb8.jpg" />
 <em>This image is from <a class="reference external" href="https://python.langchain.com/docs/modules/model_io/">Langchain official documentation</a>.</em></p>
 <div class="cell docutils container">
@@ -623,14 +638,20 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Large language models are advanced machine learning algorithms designed to understand and generate human-like text by being trained on a vast amount of data.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Large language models are machine learning algorithms trained on vast amounts of text data to understand and generate human-like text.
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="messages">
-<h2>Messages<a class="headerlink" href="#messages" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id8">Messages</a><a class="headerlink" href="#messages" title="Permalink to this headline">#</a></h2>
+<p>In LangChain, <code class="docutils literal notranslate"><span class="pre">SystemMessage</span></code>, <code class="docutils literal notranslate"><span class="pre">HumanMessage</span></code>, and <code class="docutils literal notranslate"><span class="pre">AIMessage</span></code> are classes used to represent different types of messages that can be exchanged during interactions with a language model. These distinctions help structure and contextualize conversations or workflows involving LLMs.</p>
+<ul class="simple">
+<li><p>SystemMessage: This is used to provide context or instructions to the language model. These messages typically set the stage for how the model should behave or what role it should assume.</p></li>
+<li><p>HumanMessage: It represents input or queries from a user. These messages simulate the interaction coming from a human participant in the conversation.</p></li>
+<li><p>AIMessage: This represents the responses generated by the language model. These messages encapsulate the output provided by the AI in response to human or system messages.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import schema for chat messages and ChatOpenAI in order to query chatmodels GPT-3.5-turbo or GPT-4</span>
@@ -646,13 +667,19 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chat</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;gpt-3.5-turbo&quot;</span><span class="p">,</span><span class="n">temperature</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## LLM</span>
+<span class="n">chat</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;gpt-3.5-turbo&quot;</span><span class="p">,</span><span class="n">temperature</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="c1">## Messages</span>
 <span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
     <span class="n">SystemMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">&quot;You are an expert data scientist&quot;</span><span class="p">),</span>
     <span class="n">HumanMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">&quot;Write a Python script that trains a neural network on simulated data &quot;</span><span class="p">)</span>
 <span class="p">]</span>
+
+<span class="c1">## Response</span>
 <span class="n">response</span><span class="o">=</span><span class="n">chat</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
 
+<span class="c1">## Print out</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -693,20 +720,41 @@ Finally, we evaluate the model on the training data and print out the loss and a
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## check `reponse` class type</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;langchain_core.messages.ai.AIMessage&#39;&gt;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="prompt-template">
-<h2>Prompt Template<a class="headerlink" href="#prompt-template" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id9">Prompt Template</a><a class="headerlink" href="#prompt-template" title="Permalink to this headline">#</a></h2>
+<p>In LangChain, a PromptTemplate is a structured way to create and manage prompts that will be sent to a language model. It allows you to define a template with placeholders and then fill in these placeholders with actual values when generating a prompt. This approach is useful for ensuring consistency and reusability in the prompts you use for different tasks or interactions with the language model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import prompt and define PromptTemplate</span>
 
 <span class="kn">from</span> <span class="nn">langchain_core.prompts</span> <span class="kn">import</span> <span class="n">PromptTemplate</span>
-
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Create raw template</span>
 <span class="n">template</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">You are a college professor with an expertise in building deep learning models. </span>
 <span class="s2">Answer the answer of </span><span class="si">{question}</span><span class="s2"> like I am five.</span>
 <span class="s2">&quot;&quot;&quot;</span>
 
+<span class="c1">## Initialize Prompt Tempalte</span>
 <span class="n">prompt</span> <span class="o">=</span> <span class="n">PromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span>
     <span class="n">template</span><span class="o">=</span><span class="n">template</span><span class="p">,</span>
 <span class="p">)</span>
@@ -729,24 +777,35 @@ Finally, we evaluate the model on the training data and print out the loss and a
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Backpropagation is like a teacher helping you learn how to ride a bike by telling you what you did wrong and how to fix it, so you can get better and better at riding without falling off.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Backpropagation is like a teacher helping a student correct their mistakes. Imagine you&#39;re doing a math problem. First, you try to solve it yourself. Then, your teacher checks your work. If you made a mistake, your teacher doesn&#39;t just tell you the answer, but shows you where you went wrong and how to correct it. You then use this feedback to fix your mistake and get the right answer. 
+
+In the world of computers and AI, backpropagation is a similar process. It&#39;s a way for the computer to learn from its mistakes. The computer makes a guess, checks if it&#39;s right or wrong, and then adjusts its guess based on the feedback. This process is repeated many times until the computer gets better at making the right guess.
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="chain">
-<h2>Chain<a class="headerlink" href="#chain" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id10">Chain</a><a class="headerlink" href="#chain" title="Permalink to this headline">#</a></h2>
+<p>In LangChain, a <strong>Chain</strong> is a structured sequence of operations or steps that are executed in order to achieve a specific task. Chains can be thought of as workflows that combine various components, such as prompts, models, and data processing steps, to automate complex tasks or interactions with language models.</p>
+<p>Key Points About Chains:</p>
+<ul class="simple">
+<li><p><strong>Sequential Steps</strong>: Chains consist of a series of steps that are executed one after another. Each step can involve different operations like generating text, processing data, or interacting with other services.</p></li>
+<li><p><strong>Modularity</strong>: Chains allow you to break down complex tasks into smaller, manageable components. Each step in a chain can be a reusable module, making it easier to build and maintain sophisticated workflows.</p></li>
+<li><p><strong>Flexibility</strong>: Chains can be customized to fit specific use cases. You can define the sequence of operations and specify the inputs and outputs for each step.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span> <span class="o">=</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">chat</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## create chain of prompt and chat</span>
+<span class="n">chain</span> <span class="o">=</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">chat</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;What is gradient descent?&quot;</span><span class="p">})</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## interact with chain</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;What is gradient descent?&quot;</span><span class="p">})</span>
 </pre></div>
 </div>
 </div>
@@ -758,7 +817,7 @@ Finally, we evaluate the model on the training data and print out the loss and a
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Imagine you are trying to find the bottom of a hill by taking small steps downhill. Gradient descent is like a magical way to figure out which direction to step in order to get to the bottom of the hill faster. It helps us adjust our steps so we can reach the bottom of the hill (or the best solution) in the quickest way possible.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Imagine you&#39;re playing a game where you&#39;re blindfolded and you&#39;re on top of a hill. Your goal is to reach the bottom of the hill. Now, you don&#39;t know where to go, but you can feel if you&#39;re moving up or down by taking small steps. You decide the best strategy is to always take a step in the direction where the hill is steepest downwards. This is exactly what gradient descent does. It&#39;s a method to find the lowest point in a valley, starting from a random point, by always taking a step in the steepest downhill direction. In the context of machine learning, the &#39;hill&#39; is the error of the model, and &#39;reaching the bottom&#39; means finding the best parameters for the model that make the error as small as possible.
 </pre></div>
 </div>
 </div>
@@ -786,7 +845,7 @@ Finally, we evaluate the model on the training data and print out the loss and a
 </div>
 </section>
 <section id="chaining-a-series-of-prompts">
-<h2>Chaining A Series of Prompts<a class="headerlink" href="#chaining-a-series-of-prompts" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id11">Chaining A Series of Prompts</a><a class="headerlink" href="#chaining-a-series-of-prompts" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import LLMChain and define chain with language model and prompt as arguments.</span>
@@ -795,12 +854,12 @@ Finally, we evaluate the model on the training data and print out the loss and a
 <span class="n">chain</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">chat</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">)</span>
 
 <span class="c1"># Run the chain only specifying the input variable.</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;what is derivative?&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;what is derivative?&quot;</span><span class="p">}))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;question&#39;: &#39;what is derivative?&#39;, &#39;text&#39;: &quot;Imagine you are playing with a toy car on a track that goes up and down hills. The derivative is like looking at how fast the car is going at different points on the track. If the car is going uphill, the derivative tells us how steep the hill is. If the car is going downhill, the derivative tells us how fast it&#39;s speeding up. It helps us understand how things are changing at different moments.&quot;}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;question&#39;: &#39;what is derivative?&#39;, &#39;text&#39;: &quot;A derivative is like a speedometer in a car. When you&#39;re driving, the speedometer tells you how fast you&#39;re going at any given moment. Similarly, in math, a derivative tells you how fast something is changing at any given point. For example, if you&#39;re looking at a graph of a hill, the derivative would tell you how steep the hill is at any point.&quot;}
 </pre></div>
 </div>
 </div>
@@ -813,7 +872,10 @@ Finally, we evaluate the model on the training data and print out the loss and a
     <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;prev_ans&quot;</span><span class="p">],</span>
     <span class="n">template</span><span class="o">=</span><span class="s2">&quot;Translate the answer description of </span><span class="si">{prev_ans}</span><span class="s2"> in traditional Chinese&quot;</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">chain_two</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">chat</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="n">second_prompt</span><span class="p">)</span>
+
+<span class="c1">## Chain</span>
+<span class="n">chain_two</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">chat</span><span class="p">,</span> 
+                     <span class="n">prompt</span><span class="o">=</span><span class="n">second_prompt</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -823,25 +885,41 @@ Finally, we evaluate the model on the training data and print out the loss and a
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a sequential chain using the two chains above: the second chain takes the output of the first chain as input</span>
 
 <span class="kn">from</span> <span class="nn">langchain.chains</span> <span class="kn">import</span> <span class="n">SimpleSequentialChain</span>
+
 <span class="n">overall_chain</span> <span class="o">=</span> <span class="n">SimpleSequentialChain</span><span class="p">(</span><span class="n">chains</span><span class="o">=</span><span class="p">[</span><span class="n">chain</span><span class="p">,</span> <span class="n">chain_two</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># Run the chain specifying only the input variable for the first chain.</span>
-<span class="n">explanation</span> <span class="o">=</span> <span class="n">overall_chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;what is gradient descent?&quot;</span><span class="p">)</span>
+<span class="n">explanation</span> <span class="o">=</span> <span class="n">overall_chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;input&quot;</span><span class="p">:</span><span class="s2">&quot;what is derivative?&quot;</span><span class="p">})</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">&gt; Entering new SimpleSequentialChain chain...</span>
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">Imagine you are trying to find the bottom of a hill by taking small steps downhill. Gradient descent is like taking tiny steps in the direction that will help you reach the bottom of the hill faster. It&#39;s a method used by computers to adjust and improve their predictions in deep learning models.</span>
-<span class=" -Color -Color-Bold -Color-Bold-Yellow">想像一下，你正在尝试通过小步走下坡来找到山脚下。梯度下降就像是在朝着能让你更快到达山脚下的方向迈出微小步伐。这是计算机在深度学习模型中用来调整和改进预测的方法。</span>
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">A derivative is like a speedometer in a car. It tells you how fast you&#39;re going and in what direction. If you&#39;re driving straight, the derivative is just your speed. But if you&#39;re going up a hill or down a hill, the derivative also tells you how steep the hill is. So, in a way, it&#39;s like a super speedometer that tells you more than just your speed, but also how your speed is changing.</span>
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">導數就像汽車上的速度計。它告訴你你正在以多快的速度前進以及前進的方向。如果你正在直行，導數就是你的速度。但如果你正在上坡或下坡，導數還會告訴你山坡有多陡。所以，從某種程度上說，它就像一個超級速度計，不僅告訴你你的速度，還告訴你你的速度是如何變化的。</span>
 
 <span class=" -Color -Color-Bold">&gt; Finished chain.</span>
-{&#39;input&#39;: &#39;what is gradient descent?&#39;, &#39;output&#39;: &#39;想像一下，你正在尝试通过小步走下坡来找到山脚下。梯度下降就像是在朝着能让你更快到达山脚下的方向迈出微小步伐。这是计算机在深度学习模型中用来调整和改进预测的方法。&#39;}
+{&#39;input&#39;: &#39;what is derivative?&#39;, &#39;output&#39;: &#39;導數就像汽車上的速度計。它告訴你你正在以多快的速度前進以及前進的方向。如果你正在直行，導數就是你的速度。但如果你正在上坡或下坡，導數還會告訴你山坡有多陡。所以，從某種程度上說，它就像一個超級速度計，不僅告訴你你的速度，還告訴你你的速度是如何變化的。&#39;}
 </pre></div>
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">explanation</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>導數就像汽車上的速度計。它告訴你你正在以多快的速度前進以及前進的方向。如果你正在直行，導數就是你的速度。但如果你正在上坡或下坡，導數還會告訴你山坡有多陡。所以，從某種程度上說，它就像一個超級速度計，不僅告訴你你的速度，還告訴你你的速度是如何變化的。
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="text-splitting">
+<h2><a class="toc-backref" href="#id12">Text Splitting</a><a class="headerlink" href="#text-splitting" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import utility for splitting up texts and split up the explanation given above into document chunks</span>
@@ -850,10 +928,10 @@ Finally, we evaluate the model on the training data and print out the loss and a
 
 <span class="n">text_splitter</span> <span class="o">=</span> <span class="n">RecursiveCharacterTextSplitter</span><span class="p">(</span>
     <span class="n">chunk_size</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
-    <span class="n">chunk_overlap</span>  <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">chunk_overlap</span>  <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="n">texts</span> <span class="o">=</span> <span class="n">text_splitter</span><span class="o">.</span><span class="n">create_documents</span><span class="p">([</span><span class="n">explanation</span><span class="p">])</span>
+<span class="n">texts</span> <span class="o">=</span> <span class="n">text_splitter</span><span class="o">.</span><span class="n">create_documents</span><span class="p">([</span><span class="n">explanation</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]])</span>
 </pre></div>
 </div>
 </div>
@@ -862,26 +940,53 @@ Finally, we evaluate the model on the training data and print out the loss and a
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Individual text chunks can be accessed with &quot;page_content&quot;</span>
 
-<span class="n">texts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">page_content</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">texts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">page_content</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">texts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">page_content</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">texts</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">page_content</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;想像一下你盲目地试图找到山坡的底部。梯度下降就像是在感觉最陡峭的方向上小步往下走，这样你最终会到达最&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>導數就像汽車上的速度計。它告訴你你正在以多快的速度前進以及前進的方向。如果你正在直行，導數就是你的速
+進的方向。如果你正在直行，導數就是你的速度。但如果你正在上坡或下坡，導數還會告訴你山坡有多陡。所以，
+或下坡，導數還會告訴你山坡有多陡。所以，從某種程度上說，它就像一個超級速度計，不僅告訴你你的速度，還
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="retrieval-augmented-generation">
-<h2>Retrieval-Augmented Generation<a class="headerlink" href="#retrieval-augmented-generation" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id13">Retrieval-Augmented Generation</a><a class="headerlink" href="#retrieval-augmented-generation" title="Permalink to this headline">#</a></h2>
 <p><img alt="" src="https://python.langchain.com/assets/images/data_connection-95ff2033a8faa5f3ba41376c0f6dd32a.jpg" />
 <em>This image is from <a class="reference external" href="https://python.langchain.com/docs/modules/data_connection/">Langchain official documentation</a>.</em></p>
+<p><strong>Retrieval-Augmented Generation (RAG)</strong> is a technique that combines information retrieval with text generation to enhance the capabilities of language models, especially for tasks requiring up-to-date or domain-specific knowledge.</p>
+<ul class="simple">
+<li><p><strong>Retrieval</strong>: The system first retrieves relevant documents or information from a large database or corpus based on a user’s query or input. To gather contextually relevant data that the generation model can use to produce more accurate and informed responses.</p></li>
+<li><p><strong>Augmentation</strong>: The retrieved information is then used to augment the input to the generation model. This ensures that the model has access to external knowledge, which can be particularly useful for questions that require specific or factual information not present in the model’s training data.</p></li>
+<li><p><strong>Generation</strong>: The language model generates a response or output based on the augmented input, which includes the original query and the retrieved documents. The result is a more accurate, contextually relevant, and informative response.</p></li>
+</ul>
+<p>The goal of RAG is to enable LLMs to generate more accurate and contextual responses while minimizing factual inaccuracies, known as <strong>hallucinations</strong>, especially when prompted with queries that require knowledge beyond their pre-trained data.</p>
+<p>Unlike traditional <strong>fine-tuning</strong> methods, which are computationally expensive and less adaptable to evolving information, RAG combines a generative model with a retriever module.</p>
+<p>This approach allows the model to access non-parametric knowledge stored in an external knowledge source, such as a <strong>vector database</strong>, which can be updated more easily.</p>
+<p>In essence, RAG operates similarly to an <strong>open-book exam for humans</strong>, where reference materials can be used to supplement reasoning skills.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain_community.document_loaders</span> <span class="kn">import</span> <span class="n">PyPDFLoader</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ## Load documents from PDF</span>
+<span class="c1"># from langchain_community.document_loaders import PyPDFLoader</span>
 
-<span class="n">loader</span> <span class="o">=</span> <span class="n">PyPDFLoader</span><span class="p">(</span><span class="s2">&quot;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&quot;</span><span class="p">)</span> <span class="c1"># /Users/alvinchen/Library/CloudStorage/GoogleDrive-alvinworks@gmail.com/My Drive/ENC2045_demo_data/ENC2045Syllabus.pdf</span>
+<span class="c1"># loader = PyPDFLoader(&quot;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&quot;)</span>
+<span class="c1"># pages = loader.load()</span>
+<span class="c1"># pages</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## We can load webpages as context documents</span>
+<span class="kn">import</span> <span class="nn">bs4</span>
+<span class="kn">from</span> <span class="nn">langchain_community.document_loaders</span> <span class="kn">import</span> <span class="n">WebBaseLoader</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">WebBaseLoader</span><span class="p">(</span><span class="s2">&quot;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&quot;</span><span class="p">)</span>
 <span class="n">pages</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -894,20 +999,7 @@ Finally, we evaluate the model on the training data and print out the loss and a
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Document(page_content=&#39;ENC2045: Computational Linguistics\nThis site is last-updated on 2024-02-23\n Annoucements\nImportant course information will be posted on this web page and announced in class. You are responsible for all material that appears\nhere and should check this page for updates frequently.\n2024-02-23: The current version of the course website is based on the Spring Semester, 2021. It will be updated for the spring\nof 2024.\n2023-12-24: This course is designed for linguistics majors. If you are NOT a linguistics major, please contact the instructor for\ncourse enrollment.\n2023-12-24: This course has prerequisites. A test on python basics will be conducted at the beginning of the semester. Please\nread the FAQ (FAQ.html) very carefully. This course is NOT OPEN to auditors.\n Course Description\nComputational Linguistics (CL) is now a very active sub-discipline in applied linguistics. Its main focus is on the computational text\nanalytics, which is essentially about leveraging computational tools, techniques, and algorithms to process and understand natural\nlanguage data (in spoken or textual formats). Therefore, this course aims to introduce useful strategies and common work\x00ows that\nhave been widely adopted by data scientists to extract useful insights from natural language data. In this course, we will focus on\ntextual data processing.\nA selective collection of potential topics may include:\nA Pipeline for Natural Language Processing\nText Normalization\nText Tokenization\nParsing and Chunking\nIssues for Chinese Language Processing (Word Segmentation)\nFeature Engineering and Text Vectorization\nTraditional Machine Learning\nClassi\x00cation Models (Naive Bayes, SVM, Logistic Regression)\nCommon Computational Tasks:\nSentiment Analysis\nTex Clustering and Topic Modeling\nDeep Learning and Neural Network\nNeural Language Model\nSequence Models\nRNN\nLSTM/GRU\nSequence-to-sequence Model\nAttention-based Models\nTransfer Learning\nLarge Language Models(LLM) &amp; Retrieval-Augmented Generation (RAG)\nMultimodal Processing\nThis course is extremely hands-on and will guide the students through classic examples of many task-oriented implementations via in-\nclass theme-based tutorial sessions. The main coding language used in this course is Python  (https://www.python.org/). We will\nmake extensive use of the language. It is assumed that you know or will quickly learn how to code in Python. In fact, this course\nassumes that every enrolled student has working knowledge of Python. (If you are not sure if you ful\x00ll the prerequisite, please\ncontact the instructor \x00rst.)&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 0}),
- Document(page_content=&#39;A test on Python Basics will be conducted on the \x00rst week of the class to ensure that every enrolled student ful\x00lls the prerequisite.\n(To be more speci\x00c, you are assumed to have already had working knowledge of all the concepts included in the book, Lean Python:\nLearn Just Enough Python to Build Useful Tools (https://www.amazon.com/Lean-Python-Learn-Enough-Useful/dp/1484223845)).\nThose who fail on the Python basics test are NOT advised to take this course.\nPlease note that this course is designed speci\x00cally for linguistics majors in humanities. For computer science majors, please note that\nthis course will not feature a thorough description of the mathematical operations behind the algorithms. We focus more on the\npractical implementation.\n Course Schedule\n(The schedule is tentative and subject to change. Please pay attention to the announcements made during the class.)\nWeek Date Topic\nWeek 1 2023-02-23 Course Orientation and Computational Linguistics Overview\nWeek 2 2023-03-01 NLP Pipeline\nWeek 3 2023-03-08 Machine Learning Basics: Regression and Classi\x00cation\nWeek 4 2023-03-15 Naïve Bayes, Logistic Regression\nWeek 5 2023-03-22 Feature Engineering and Text Vectorization\nWeek 6 2023-03-29 Common NLP Tasks (Guest Speaker: Robin Lin from Droidtown Linguistic Tech. Co.\xa0Ltd.\xa0)\nWeek 7 2023-04-05 Holiday\nWeek 8 2023-04-12 Midterm Exam\nWeek 9 2023-04-19 Neural Network: A Primer\nWeek 10 2023-04-26 Deep Learning NLP and Word/Doc Embeddings\nWeek 11 2023-05-03 Sequence Model I: RNN and Neural Language Model\nWeek 12 2023-05-10 Sequence Model II: LSTM and GRU\nWeek 13 2023-05-17 Sequence Model III: Sequence-to-Sequence Model &amp; Attention\nWeek 14 2023-05-24 Transformer, BERT, Transfer Learning, and Explainable AI\nWeek 15 2023-05-31 LLM, RAG, and Multimodal Processing\nWeek 16 2023-06-07 Final Exam\n Course Requirement\n&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 1}),
- Document(page_content=&#39; Course Materials\nAll the course materials are available on the course website. Please consult the instructor for the direct link to the course materials.\nThey will be provided as a series of online packets (i.e., handouts, script source codes etc.) on the course website.\n Logistics\nCourse Website: ENC2045 Computational Linguistics (https://alvinntnu.github.io/NTNU_ENC2045/)\nInstructor’s Email Address: alvinchen@ntnu.edu.tw (mailto:alvinchen@ntnu.edu.tw)\nInstructor’s Name: Alvin Chen\nOf\x00ce Hours: By appointment\nIf you have any further questions related to the course, please consult FAQ (FAQ.html) on our course website or write me at any time\nat alvinchen@ntnu.edu.tw (mailto:alvinchen@ntnu.edu.tw).\n Disclaimer &amp; Agreement\nWhile I have made every attempt to ensure that the information contained on the Website is correct, I am not responsible for any\nerrors or omissions, or for the results obtained from the use of this information. All information on the Website is provided “as is”, with\nno guarantee of completeness, accuracy, timeliness or of the results obtained from the use of this information, and without warranty\nof any kind, express or implied.\nYou may print a copy of any part of this website for your personal or non-commercial use. Without the author’s prior written consent,\nyou cannot disclose con\x00dential information of the website (e.g., log-in username and password) to any third party.&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 2})]
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## We can load webpages as context documents</span>
-<span class="c1"># import bs4</span>
-<span class="c1"># from langchain_community.document_loaders import WebBaseLoader</span>
-<span class="c1"># loader = WebBaseLoader(&quot;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&quot;)</span>
-<span class="c1"># pages = loader.load()</span>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Document(page_content=&#39;\n\n\n\n\n\nENC2045 Computational Linguistics — ENC2045 Computational Linguistics\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSkip to main content\n\n\n\n\n\n\n\n\n\n\nCtrl+K\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nINTRODUCTION\n\nNatural Language Processing: A Primer\nNLP Pipeline\n\nPreprocessing\n\nText Preprocessing\nText Normalization\nText Tokenization\nText Enrichment\nChinese Word Segmentation\nGoogle Colab\n\n\n\nText Vectorization\n\nText Vectorization Using Traditional Methods\n\nMachine Learning Basics\n\nMachine Learning: Overview\nMachine Learning: A Simple Example\nClassification Models\n\nMachine-Learning NLP\n\nCommon NLP Tasks\nSentiment Analysis Using Bag-of-Words\nEmsemble Learning\nTopic Modeling: A Naive Example\n\nDeep Learning NLP\n\nNeural Network From Scratch\nDeep Learning: A Simple Example\nDeep Learning: Sentiment Analysis\n\nNeural Language Model and Embeddings\n\nSequence Models Intuition\nNeural Language Model: A Start\nWord Embeddings\n\nSequence Models, Attention, Transformers\n\nAttention and Transformers: Intuitions\nSequence Model with Attention for Addition Learning\n\nLLM\n\nLarge Language Model (Under Construction…)\n\nExercises\n\n1. Assignment I: Python Basics\n2. Assignment II: Preprocessing\n3. Assignment III: Chinese Language Processing\n4. Assignment IV: Text Vectorization\n5. Assignment V: Machine Learning\n6. Assignment VI: Topic Modeling\n7. Assignment VII: Deep Learning\n8. Assignment VIII: Sentiment Analysis Using Deep Learning\n9. Assignment IV: Neural Language Model\n\nExams\n\nMidterm Exam\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nColab\n\n\n\n\n\n\n\n\n\n\n\n\n\n.ipynb\n\n\n\n\n\n\n\n.pdf\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nENC2045 Computational Linguistics\n\n\n\n\n Contents \n\n\n\nCourse Syllabus\nIntroduction\nCourse Objectives\nCourse Website\n\n\nReadings\nMajor Readings\nRecommended Books\nOnline Resources\nYouTube Channels \n\n\nPython Setup\nNotebooks\nConda Environment\nModule Requirements\n\n\nCoding Assignments Reminders\nAnnotated Bibliography\nGoogle Colab\nOther Logistics\nDisclaimer\nReferences\n\n\n\n\n\n\n\n\nENC2045 Computational Linguistics#\n\n\nLast Updated: 2024-02-23\n\n\n\n\n\nAttention\nWe’re updating the course materials as we progress through the Spring 2024 schedule. Typically, the lecture notes for each topic will be finalized and revised during its scheduled week on the syllabus.\n\n\nContributing to the Lecture Notes!\nThis website now supports Hypothe.is, which is an amazing tool for website annotations. If you would like to contribute to the lecture notes (e.g., error corrections), please leave your comments and suggestions as annotations. Corrections of the materials will be made on a regular basis. And your contributions are always greatly appreciated:)\n\n\nContents\n\nENC2045 Computational Linguistics\n\nCourse Syllabus\n\nIntroduction\nCourse Objectives\nCourse Website\n\n\nReadings\n\nMajor Readings\nRecommended Books\nOnline Resources\nYouTube Channels \n\n\nPython Setup\n\nNotebooks\nConda Environment\nModule Requirements\n\n\nCoding Assignments Reminders\nAnnotated Bibliography\nGoogle Colab\nOther Logistics\nDisclaimer\nReferences\n\n\n\n\n\nCourse Syllabus#\n\nIntroduction#\nComputational Linguistics (CL) is now a very active sub-discipline in applied linguistics. Its main focus is on the computational text analytics, which is essentially about leveraging computational tools, techniques, and algorithms to process and understand natural language data (in spoken, textual, or even multimodal formats). Therefore, this course aims to introduce fundamental concepts, useful strategies and common workflows that have been widely adopted by data scientists to extract useful insights from natural language data. In this course, we will mainly focus on textual data.\n\n\nCourse Objectives#\nA selective collection of potential topics may include:\n\n\n\n\n\n\n A Pipeline for Natural Language Processing\n\nText Normalization\nText Tokenization\nParsing and Chunking\n\n\n\n\n\n\n\n\n Chinese Processing\n\nIssues for Chinese Language Processing (Word Segmentation)\nDifferent word segmentation tools/packages\n\n\n\n\n\n\n\n\n Machine Learning Basics\n\nFeature Engineering and Text Vectorization\nTraditional Machine Learning\nClassification Models (Naive Bayes, SVM, Logistic Regression)\n\n\n\n\n\n\n\n\n Common Computational Tasks\n\nSentiment Analysis\nTex Clustering and Topic Modeling\nEmsemble Learning\n\n\n\n\n\n\n\n\n Deep Learning NLP\n\nNeural Language Model\nSequence Models (RNN, LSTM, GRU)\nSequence-to-sequence Model\nAttention-based Models\nExplainable Artificial Intelligence and Computational Linguistics\n\n\n\n\n\n\n\n\n Large Language Models\n\nGenerative AI\nApplications of LLM (e.g., BERT, ChatGPT)\nTransfer Learning and Fine-Tuning\nPrompt Engineering\nRetrieval-Augmentated Generation\nMultimodal Data Processing\n\n\n\n\n\n\nThis course is extremely hands-on and will guide the students through classic examples of many task-oriented implementations via in-class theme-based tutorial sessions. The main coding language used in this course is Python.\nIt is assumed that you know or will quickly learn how to code in Python . In fact, this course assumes that every enrolled student has considerable working knowledge of Python. (If you are not sure whether you fulfill the prerequisite, please contact the instructor first).\nTo be more specific, you are assumed to have already had working knowledge of all the concepts included in the book, Lean Python: Learn Just Enough Python to Build Useful Tools. If the materials covered in the book are all very novel to you, I would strongly advise you not to take this course.\nOn the other hand, please note that this course is designed specifically for linguistics majors in humanities. For computer science majors, this course will not feature a thorough description of the mathematical operations behind the algorithms. Nor will we focus on the most recent developments in the field of deep learning based NLP. We focus more on the fundamentals and their practical implementations.\n\n\nCourse Website#\nAll the course materials will be available on the course website ENC2045. You may need a password to access the course materials/data. If you are an officially enrolled student, please ask the instructor for the passcode.\nWe will also have a Moodle course site for assignment submission.\nPlease read the FAQ of the course website before course registration.\n\n\n\nReadings#\n\nMajor Readings#\nThe course materials are mainly based on the following readings.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nRecommended Books#\nAlso, there are many other useful reference books, which are listed as follows in terms of three categories:\n\nPython Basics [Gerrard, 2016]\nData Analysis with Python [McKinney, 2012, Géron, 2023]\nNatural Language Processing with Python [Sarkar, 2019, Bird et al., 2009, Vajjala et al., 2020, Perkins, 2014, Srinivasa-Desikan, 2018]\nDeep Learning [Francois, 2017]\nThe Oxford Handbook of Computational Linguistics (Second edition) [Mitkov, 2022]\n\n\n\nOnline Resources#\nIn addition to books, there are many wonderful on-line resources, esp.\xa0professional blogs, providing useful tutorials and intuitive understanding of many complex ideas in NLP and AI development. Among them, here is a list of my favorites:\n\nToward Data Science\nLeeMeng\nDipanzan Sarkar’s articles\nPython Graph Libraries\nKGPTalkie NLP\nJason Brownlee’s Blog: Machine Learning Mastery\nJay Alammar’s Blog\nChris McCormich’s Blog\nGLUE: General Language Understanding Evaluation Benchmark\nSuperGLUE\n\n\n\nYouTube Channels #\n\nChris McCormick AI\nCorey Schafer\nEdureka!\nDeeplearning.ai\nFree Code Camp\nGiant Neural Network\nTech with Tim\nPyData\nPython Programmer\nKeith Galli\nData Science Dojo\nCalculus: Single Variable by Professor Robert Ghrist\n\n\n\n\nPython Setup#\n\nNotebooks#\nIn this class, I will use Jupyter Notebook for code demonstrations and tutorials. It’s important for you to set up Python environments similarly.\nPlease note that many alternative IDE applications also support jupyter notebooks files. Another great option for Python developers is Visual Studio Code.\nIn this class, we will mainly use Jupyter notebook files (*.ipyrnb), including all your coding assignments. You can run these files either with the default Jupyter notebook from the terminal or with other third-party IDEs that support notebook files, such as Visual Studio Code. Additionally, running the course materials on Google Colab is recommended.\n\n\nConda Environment#\n\nAttention\nThe following installation codes are terminal codes.\n\n\nWe assume that you have created and set up your python environment as follows:\n\nInstall the python with Anaconda.\nCreate a conda environment named python-notes with python 3.9:\nconda create --name python-notes python=3.9\n\n\n\nActivate the conda environment:\nconda activate python-notes\n\n\n\nInstall Jupyter notebook in the newly created conda environment:\npip install notebook\n\n\n\nInstall ipykernel package in the newly created conda enviornment:\npip install ipykernel\n\n\n\nAdd this new conda environment to IPython kernel list:\npython -m ipykernel install --user --name=python-notes\n\n\n\nRun the notebooks provided in the course materials in this newly created conda environment:\njupyter notebook\n\n\n\n\n\nIn this course, we’ll use jupyter notebook for Python scripting, and all assignments must be submitted in this format. (Refer to the Jupyter Notebook installation documentation if needed).\nYou’re expected to have set up a Conda virtual environment named python-notes for scripting and be able to run notebooks using this environment’s kernel in Jupyter.\nAlternatively, you can run the notebooks directly in Google Colab, or download the .ipynb files to your hard drive or Google Drive for further modifications.\n\n\nTip\nIf you cannot find the conda environment kernal in your Jupyter Notebook. Please install the module ipykernel. For more details on how to use specific conda environments in Jupyter Notebook, please see this article.\n\n\nSet your parameters!!\nWhen you run the installation of the python modules and other packages in the terminal, please remember to change the arguments of the parameters when you follow the instructions provided online.\nFor example, when you create the conda environment:\nconda create --name XXX python=3.9\n\n\nYou need to specify the conda environment name XXX on your own.\nSimilarly, when you add the self-defined conda environment to the notebook kernel list:\npython -m ipykernel install --user --name=XXX\n\n\nYou need to specify the conda environment name XXX.\n\n\nInstallation tips!\nThere are several important things here:\n\nYou need to activate the conda environment (python-notes) in the terminal before installing the necessary modules.\nYou need to add the kernel name with python -m ipykernel install --user --name=XXX within the conda enviroment as well (i.e., actviate the conda environment first).\nIn summary, activate the Conda environment python-notes, install the ipykernel module, and add the python-notes kernel to the IPython kernel list.\nAfter a few trial-and-errors, I think the best environment setting is that you only add the kernel name (conda environment) to ipykernel within the python-notes conda environment. Do not add the conda environment again in your base python environment.\nMake sure to install jupyter in your Conda environment (python-notes) and run your notebook from this python-notes environment.\nRule of thumb: Activate the newly created conda environment first!!\nFor Windows users, it’s strongly advised to install python-related modules in Anaconda Prompt rather than cmd.\n\n\n\nNotes for Windows Users\nBecause some of the Window’s users are suffering from the problem that the notebook cannot find the correct path of your python-notes environment. Could you please try the following?\n\nAttention\nWe assume you run the following steps in Anaconda Powershell Prompt.\n\n\nCreate the new conda environment, python-notes (if you have done this, ignore)\n$ conda create --name python-notes python=3.9\n\n\n\nActivate the newly-created python-notes conda environment\n$ conda activate python-notes\n\n\n\nWithin the python-notes environment, install the module ipykernel\n$ conda install -c conda-forge ipykernel\n\n\n\nWithin the python-notes environment, install Jupyter notebook:\nconda install -c conda-froge notebook\n\n\n\nAdd this new conda environment to IPython kernel list:\npython -m ipykernel install --user --name=python-notes\n\n\n\nDeactivate the conda environment\n$ conda deactivate\n\n\n\nInstall the module nb_conda_kernels in your Anaconda base python (This is crucial to the use of self-defined conda environments in notebook.)\n$ conda install nb_conda_kernels\n\n\n\nThen check if the system detects your python-notes environment\n$ python -m nb_conda_kernels list\n\n\n\n\n\nNote\nIdeally, you should see your python-notes popping up in the results like:\nconda-env-python-notes-py    c:\\users\\alvinchen\\anaconda3\\envs\\python-notes\\share\\jupyter\\kernels\\python3\n\n\n\n\nIf you see the new conda environment name, then it should work. Next, initiate your jupyter notebook\n$ jupyter notebook\n\n\n\nNow you should be able to see you conda environment python-notes in your notebook, but the kernel name would be something like python [conda evn: python-notes].\n\n\n\n\nModule Requirements#\nNot all modules used in this course come with the default installation of the Python environment. Please remember to install these packages in use if you get a module-not-found type of errors.\nThe following is a list of packages we will use (non-exhaustive):\n\nbeautifulsoup4\nckip-transformers\ngensim\njieba\njupyter\njupyter-nbextensions-configurator\nKeras\nmatplotlib\nnltk\nnumpy\npandas\nscikit-learn\nseaborn\nspacy\nscipy\ntensorflow\ntransformers\n\nPlease google these packages for more details on their installation.\n\n\n\nCoding Assignments Reminders#\n\nYou have to submit your assignments via Moodle.\nPlease name your files in the following format: Assignment-X-NAME.ipynb and Assignment-X-NAME.html.\nPlease always submit both the Jupyter notebook file and its HTML version.\nOn the assignment due date, students will present their solutions to the exercises, with each presentation limited to 20-30 minutes.\nThe class will be divided into small groups for these exercise/assignment presentations, with the group size determined by the final enrollment. (Each group is expected to make two presentations throughout the semester.)\n\n\nAttention\nUnless otherwise specified in class, all assignments will be due on the date/time given on Moodle. The due is usually a week after the topic is finished. Late work within 7 calendar days of the original due date will be accepted by the instructor at the instructor’s discretion. After that, no late work will be accepted.\n\n\n\nAnnotated Bibliography#\n\nFind a minimum of five articles published in the section of ArXiv in Computation and Language over the last five years and compile an annotated bibliography.\nFor each source reference in the annotated bibliography, provide a succinct summary and evaluation.\nThe annotations should offer a compact overview of the content, as well as assess the relevance and contributions of the study to a specific topic or field, along with its quality.\nEach annotation should be concise yet critical, comprising no more than 250 words for each source. Your annotations should provide a comprehensive overview of the study’s contributions, enabling readers who haven’t read the paper to grasp its significance. Remember, plagiarism is strictly prohibited.\nIt’s advisable to choose articles related to a specific topic. For inspiration on potential topics, please refer to Part 3 Language Processing Tasks and/or Part 4 NLP Applications in the Oxford Handbook of Computational Linguistics [Mitkov, 2022].\nThe deadline for the annotated bibliography will be announced after the midterm exam.\n\n\n\nGoogle Colab#\n\nThe course materials are being revised so that all the codes can be executed directly on Google Colab. Ideally, it is hoped that students do not have to go through the painful experience of installing python as their start of the NLP !\nRight now, we can check the packages available on Google Colab with the following commands:\n\n\n\n## -------------------- ##\n## Colab Only           ##\n## -------------------- ##\n\n!pip list | wc\n!pip list -v\n\n\n\n\n\nTo execute the code provided in the course materials on Google Colab, you might have to install certain packages not present in the default Colab environment.\nInstalling packages or modules in Google Colab is simple and can be accomplished using the !pip command, enabling you to execute shell commands directly within a Colab notebook.\n\n\n\n## -------------------- ##\n## Colab Only           ##\n## -------------------- ##\n\n! pip install requests_html\n! pip install pytesseract\n\n\n\n\n\nWe expect everyone to create a directory named ENC2045_demo_data at the root of their own Google Drive. All datasets intended for future tutorials should be downloaded and stored in this designated folder. This setup allows easy access to the datasets on Google Colab using the provided code snippet:\n\n\n\n## -------------------- ##\n## Colab Only           ##\n## -------------------- ##\n\nfrom google.colab import drive\ndrive.mount(\&#39;/content/drive\&#39;)\n\n\n\n\n\nOnce you’ve mounted Google Drive on Google Colab, the path to access the course materials will be: /content/drive/MyDrive/ENC2045_demo_data/.\n\n\n\nOther Logistics#\nPlease refer to Course Website ENC2045 for a tentative course schedule and the grading policies.\n\n\nDisclaimer#\nWhile I strive to cover the basics of computational linguistics to the best of my ability, please note that I am not an expert in Python. Therefore, there may be more advanced packages or more efficient algorithms available that can accomplish the tasks discussed in class. However, it is our intention that the fundamentals covered in this course will provide you with a solid foundation to delve into the latest advancements in the field.\n\n\nReferences#\n\n\n1\nPaul Gerrard. Lean Python: Learn Just Enough Python to Build Useful Tools. Apress, 2016.\n\n2\nWes McKinney. Python for data analysis: Data wrangling with Pandas, NumPy, and IPython. &quot; O\&#39;Reilly Media, Inc.&quot;, 2012.\n\n3\nAurélien Géron. Hands-on machine learning with Scikit-Learn, Keras, and TensorFlow: Concepts, tools, and techniques to build intelligent systems. Third Edition. O\&#39;Reilly Media, 2023.\n\n4\nDipanjan Sarkar. Text analytics with Python: a practitioner\&#39;s guide to natural language processing. Apress, 2019.\n\n5\nSteven Bird, Ewan Klein, and Edward Loper. Natural language processing with Python: analyzing text with the natural language toolkit (See https://www.nltk.org/book/). &quot; O\&#39;Reilly Media, Inc.&quot;, 2009.\n\n6\nSowmya Vajjala, Bodhisattwa Majumder, Anuj Gupta, and Harshit Surana. Practical Natural Language Processing: A Comprehensive Guide to Building Real-World NLP Systems. O\&#39;Reilly Media, 2020.\n\n7\nJacob Perkins. Python 3 text processing with NLTK 3 cookbook. Packt Publishing Ltd, 2014.\n\n8\nBhargav Srinivasa-Desikan. Natural Language Processing and Computational Linguistics: A practical guide to text analysis with Python, Gensim, spaCy, and Keras. Packt Publishing Ltd, 2018.\n\n9\nChollet Francois. Deep learning with Python. Manning Publications Company, 2017.\n\n10(1,2)\nRuslan Mitkov. The Oxford handbook of computational linguistics. Second edition. Oxford University Press, 2022.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nnext\nNatural Language Processing: A Primer\n\n\n\n\n\n\n\n\n\n\n Contents\n  \n\n\nCourse Syllabus\nIntroduction\nCourse Objectives\nCourse Website\n\n\nReadings\nMajor Readings\nRecommended Books\nOnline Resources\nYouTube Channels \n\n\nPython Setup\nNotebooks\nConda Environment\nModule Requirements\n\n\nCoding Assignments Reminders\nAnnotated Bibliography\nGoogle Colab\nOther Logistics\nDisclaimer\nReferences\n\n\n\n\n\n\n\n\nBy Alvin Cheng-Hsien Chen\n\n\n\n\n    \n      © Copyright 2023 Alvin Chen.\n      \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;})]
 </pre></div>
 </div>
 </div>
@@ -918,38 +1010,92 @@ Finally, we evaluate the model on the training data and print out the loss and a
 <span class="kn">from</span> <span class="nn">langchain_openai</span> <span class="kn">import</span> <span class="n">OpenAIEmbeddings</span>
 <span class="kn">from</span> <span class="nn">langchain_text_splitters</span> <span class="kn">import</span> <span class="n">RecursiveCharacterTextSplitter</span>
 
+<span class="c1">## Initialize splitter</span>
+<span class="n">text_splitter</span> <span class="o">=</span> <span class="n">RecursiveCharacterTextSplitter</span><span class="p">(</span><span class="n">chunk_size</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> 
+                                               <span class="n">chunk_overlap</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
 
-<span class="n">text_splitter</span> <span class="o">=</span> <span class="n">RecursiveCharacterTextSplitter</span><span class="p">()</span>
+<span class="c1">## Initialize embeddings</span>
 <span class="n">embeddings</span> <span class="o">=</span> <span class="n">OpenAIEmbeddings</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;text-embedding-3-large&quot;</span><span class="p">)</span>
 
-
+<span class="c1">## Split documents</span>
 <span class="n">documents</span> <span class="o">=</span> <span class="n">text_splitter</span><span class="o">.</span><span class="n">split_documents</span><span class="p">(</span><span class="n">pages</span><span class="p">)</span>
-<span class="n">vector</span> <span class="o">=</span> <span class="n">FAISS</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">)</span>
 
-
-<span class="n">docs</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">similarity_search</span><span class="p">(</span><span class="s2">&quot;What is ENC2045?&quot;</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;page&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">doc</span><span class="o">.</span><span class="n">page_content</span><span class="p">[:</span><span class="mi">300</span><span class="p">])</span>
+<span class="c1">## Vectorize documents into vector store</span>
+<span class="n">vector</span> <span class="o">=</span> <span class="n">FAISS</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">,</span>  <span class="c1">## documents</span>
+                              <span class="n">embeddings</span><span class="p">)</span> <span class="c1">## embedding model</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">documents</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0: ENC2045: Computational Linguistics
-This site is last-updated on 2024-02-23
- Annoucements
-Important course information will be posted on this web page and announced in class. You are responsible for all material that appears
-here and should check this page for updates frequently.
-2024-02-23: The curr
-2: Course Materials
-All the course materials are available on the course website. Please consult the instructor for the direct link to the course materials.
-They will be provided as a series of online packets (i.e., handouts, script source codes etc.) on the course website.
- Logistics
-Course Website: E
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Document(page_content=&#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSkip to main content\n\n\n\n\n\n\n\n\n\n\nCtrl+K\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nINTRODUCTION\n\nNatural Language Processing: A Primer\nNLP Pipeline\n\nPreprocessing\n\nText Preprocessing\nText Normalization\nText Tokenization\nText Enrichment\nChinese Word Segmentation\nGoogle Colab\n\n\n\nText Vectorization\n\nText Vectorization Using Traditional Methods\n\nMachine Learning Basics\n\nMachine Learning: Overview\nMachine Learning: A Simple Example\nClassification Models\n\nMachine-Learning NLP\n\nCommon NLP Tasks\nSentiment Analysis Using Bag-of-Words\nEmsemble Learning\nTopic Modeling: A Naive Example\n\nDeep Learning NLP\n\nNeural Network From Scratch\nDeep Learning: A Simple Example\nDeep Learning: Sentiment Analysis\n\nNeural Language Model and Embeddings\n\nSequence Models Intuition\nNeural Language Model: A Start\nWord Embeddings\n\nSequence Models, Attention, Transformers&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;Sequence Models, Attention, Transformers\n\nAttention and Transformers: Intuitions\nSequence Model with Attention for Addition Learning\n\nLLM\n\nLarge Language Model (Under Construction…)\n\nExercises\n\n1. Assignment I: Python Basics\n2. Assignment II: Preprocessing\n3. Assignment III: Chinese Language Processing\n4. Assignment IV: Text Vectorization\n5. Assignment V: Machine Learning\n6. Assignment VI: Topic Modeling\n7. Assignment VII: Deep Learning\n8. Assignment VIII: Sentiment Analysis Using Deep Learning\n9. Assignment IV: Neural Language Model\n\nExams\n\nMidterm Exam\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nColab\n\n\n\n\n\n\n\n\n\n\n\n\n\n.ipynb\n\n\n\n\n\n\n\n.pdf\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nENC2045 Computational Linguistics\n\n\n\n\n Contents \n\n\n\nCourse Syllabus\nIntroduction\nCourse Objectives\nCourse Website\n\n\nReadings\nMajor Readings\nRecommended Books\nOnline Resources\nYouTube Channels \n\n\nPython Setup\nNotebooks\nConda Environment\nModule Requirements&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;Coding Assignments Reminders\nAnnotated Bibliography\nGoogle Colab\nOther Logistics\nDisclaimer\nReferences\n\n\n\n\n\n\n\n\nENC2045 Computational Linguistics#\n\n\nLast Updated: 2024-02-23\n\n\n\n\n\nAttention\nWe’re updating the course materials as we progress through the Spring 2024 schedule. Typically, the lecture notes for each topic will be finalized and revised during its scheduled week on the syllabus.\n\n\nContributing to the Lecture Notes!\nThis website now supports Hypothe.is, which is an amazing tool for website annotations. If you would like to contribute to the lecture notes (e.g., error corrections), please leave your comments and suggestions as annotations. Corrections of the materials will be made on a regular basis. And your contributions are always greatly appreciated:)\n\n\nContents\n\nENC2045 Computational Linguistics\n\nCourse Syllabus\n\nIntroduction\nCourse Objectives\nCourse Website\n\n\nReadings\n\nMajor Readings\nRecommended Books\nOnline Resources\nYouTube Channels \n\n\nPython Setup&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;Python Setup\n\nNotebooks\nConda Environment\nModule Requirements\n\n\nCoding Assignments Reminders\nAnnotated Bibliography\nGoogle Colab\nOther Logistics\nDisclaimer\nReferences\n\n\n\n\n\nCourse Syllabus#\n\nIntroduction#\nComputational Linguistics (CL) is now a very active sub-discipline in applied linguistics. Its main focus is on the computational text analytics, which is essentially about leveraging computational tools, techniques, and algorithms to process and understand natural language data (in spoken, textual, or even multimodal formats). Therefore, this course aims to introduce fundamental concepts, useful strategies and common workflows that have been widely adopted by data scientists to extract useful insights from natural language data. In this course, we will mainly focus on textual data.\n\n\nCourse Objectives#\nA selective collection of potential topics may include:\n\n\n\n\n\n\n A Pipeline for Natural Language Processing\n\nText Normalization\nText Tokenization\nParsing and Chunking&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;Chinese Processing\n\nIssues for Chinese Language Processing (Word Segmentation)\nDifferent word segmentation tools/packages\n\n\n\n\n\n\n\n\n Machine Learning Basics\n\nFeature Engineering and Text Vectorization\nTraditional Machine Learning\nClassification Models (Naive Bayes, SVM, Logistic Regression)\n\n\n\n\n\n\n\n\n Common Computational Tasks\n\nSentiment Analysis\nTex Clustering and Topic Modeling\nEmsemble Learning\n\n\n\n\n\n\n\n\n Deep Learning NLP\n\nNeural Language Model\nSequence Models (RNN, LSTM, GRU)\nSequence-to-sequence Model\nAttention-based Models\nExplainable Artificial Intelligence and Computational Linguistics\n\n\n\n\n\n\n\n\n Large Language Models\n\nGenerative AI\nApplications of LLM (e.g., BERT, ChatGPT)\nTransfer Learning and Fine-Tuning\nPrompt Engineering\nRetrieval-Augmentated Generation\nMultimodal Data Processing&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;This course is extremely hands-on and will guide the students through classic examples of many task-oriented implementations via in-class theme-based tutorial sessions. The main coding language used in this course is Python.\nIt is assumed that you know or will quickly learn how to code in Python . In fact, this course assumes that every enrolled student has considerable working knowledge of Python. (If you are not sure whether you fulfill the prerequisite, please contact the instructor first).\nTo be more specific, you are assumed to have already had working knowledge of all the concepts included in the book, Lean Python: Learn Just Enough Python to Build Useful Tools. If the materials covered in the book are all very novel to you, I would strongly advise you not to take this course.&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;On the other hand, please note that this course is designed specifically for linguistics majors in humanities. For computer science majors, this course will not feature a thorough description of the mathematical operations behind the algorithms. Nor will we focus on the most recent developments in the field of deep learning based NLP. We focus more on the fundamentals and their practical implementations.&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;Course Website#\nAll the course materials will be available on the course website ENC2045. You may need a password to access the course materials/data. If you are an officially enrolled student, please ask the instructor for the passcode.\nWe will also have a Moodle course site for assignment submission.\nPlease read the FAQ of the course website before course registration.\n\n\n\nReadings#\n\nMajor Readings#\nThe course materials are mainly based on the following readings.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nRecommended Books#\nAlso, there are many other useful reference books, which are listed as follows in terms of three categories:\n\nPython Basics [Gerrard, 2016]\nData Analysis with Python [McKinney, 2012, Géron, 2023]\nNatural Language Processing with Python [Sarkar, 2019, Bird et al., 2009, Vajjala et al., 2020, Perkins, 2014, Srinivasa-Desikan, 2018]\nDeep Learning [Francois, 2017]\nThe Oxford Handbook of Computational Linguistics (Second edition) [Mitkov, 2022]&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;Online Resources#\nIn addition to books, there are many wonderful on-line resources, esp.\xa0professional blogs, providing useful tutorials and intuitive understanding of many complex ideas in NLP and AI development. Among them, here is a list of my favorites:\n\nToward Data Science\nLeeMeng\nDipanzan Sarkar’s articles\nPython Graph Libraries\nKGPTalkie NLP\nJason Brownlee’s Blog: Machine Learning Mastery\nJay Alammar’s Blog\nChris McCormich’s Blog\nGLUE: General Language Understanding Evaluation Benchmark\nSuperGLUE\n\n\n\nYouTube Channels #\n\nChris McCormick AI\nCorey Schafer\nEdureka!\nDeeplearning.ai\nFree Code Camp\nGiant Neural Network\nTech with Tim\nPyData\nPython Programmer\nKeith Galli\nData Science Dojo\nCalculus: Single Variable by Professor Robert Ghrist\n\n\n\n\nPython Setup#&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;Python Setup#\n\nNotebooks#\nIn this class, I will use Jupyter Notebook for code demonstrations and tutorials. It’s important for you to set up Python environments similarly.\nPlease note that many alternative IDE applications also support jupyter notebooks files. Another great option for Python developers is Visual Studio Code.\nIn this class, we will mainly use Jupyter notebook files (*.ipyrnb), including all your coding assignments. You can run these files either with the default Jupyter notebook from the terminal or with other third-party IDEs that support notebook files, such as Visual Studio Code. Additionally, running the course materials on Google Colab is recommended.\n\n\nConda Environment#\n\nAttention\nThe following installation codes are terminal codes.\n\n\nWe assume that you have created and set up your python environment as follows:\n\nInstall the python with Anaconda.\nCreate a conda environment named python-notes with python 3.9:\nconda create --name python-notes python=3.9&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;Activate the conda environment:\nconda activate python-notes\n\n\n\nInstall Jupyter notebook in the newly created conda environment:\npip install notebook\n\n\n\nInstall ipykernel package in the newly created conda enviornment:\npip install ipykernel\n\n\n\nAdd this new conda environment to IPython kernel list:\npython -m ipykernel install --user --name=python-notes\n\n\n\nRun the notebooks provided in the course materials in this newly created conda environment:\njupyter notebook\n\n\n\n\n\nIn this course, we’ll use jupyter notebook for Python scripting, and all assignments must be submitted in this format. (Refer to the Jupyter Notebook installation documentation if needed).\nYou’re expected to have set up a Conda virtual environment named python-notes for scripting and be able to run notebooks using this environment’s kernel in Jupyter.\nAlternatively, you can run the notebooks directly in Google Colab, or download the .ipynb files to your hard drive or Google Drive for further modifications.&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;Tip\nIf you cannot find the conda environment kernal in your Jupyter Notebook. Please install the module ipykernel. For more details on how to use specific conda environments in Jupyter Notebook, please see this article.\n\n\nSet your parameters!!\nWhen you run the installation of the python modules and other packages in the terminal, please remember to change the arguments of the parameters when you follow the instructions provided online.\nFor example, when you create the conda environment:\nconda create --name XXX python=3.9\n\n\nYou need to specify the conda environment name XXX on your own.\nSimilarly, when you add the self-defined conda environment to the notebook kernel list:\npython -m ipykernel install --user --name=XXX\n\n\nYou need to specify the conda environment name XXX.\n\n\nInstallation tips!\nThere are several important things here:&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;You need to activate the conda environment (python-notes) in the terminal before installing the necessary modules.\nYou need to add the kernel name with python -m ipykernel install --user --name=XXX within the conda enviroment as well (i.e., actviate the conda environment first).\nIn summary, activate the Conda environment python-notes, install the ipykernel module, and add the python-notes kernel to the IPython kernel list.\nAfter a few trial-and-errors, I think the best environment setting is that you only add the kernel name (conda environment) to ipykernel within the python-notes conda environment. Do not add the conda environment again in your base python environment.\nMake sure to install jupyter in your Conda environment (python-notes) and run your notebook from this python-notes environment.\nRule of thumb: Activate the newly created conda environment first!!\nFor Windows users, it’s strongly advised to install python-related modules in Anaconda Prompt rather than cmd.&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;Notes for Windows Users\nBecause some of the Window’s users are suffering from the problem that the notebook cannot find the correct path of your python-notes environment. Could you please try the following?\n\nAttention\nWe assume you run the following steps in Anaconda Powershell Prompt.\n\n\nCreate the new conda environment, python-notes (if you have done this, ignore)\n$ conda create --name python-notes python=3.9\n\n\n\nActivate the newly-created python-notes conda environment\n$ conda activate python-notes\n\n\n\nWithin the python-notes environment, install the module ipykernel\n$ conda install -c conda-forge ipykernel\n\n\n\nWithin the python-notes environment, install Jupyter notebook:\nconda install -c conda-froge notebook\n\n\n\nAdd this new conda environment to IPython kernel list:\npython -m ipykernel install --user --name=python-notes\n\n\n\nDeactivate the conda environment\n$ conda deactivate&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;Install the module nb_conda_kernels in your Anaconda base python (This is crucial to the use of self-defined conda environments in notebook.)\n$ conda install nb_conda_kernels\n\n\n\nThen check if the system detects your python-notes environment\n$ python -m nb_conda_kernels list\n\n\n\n\n\nNote\nIdeally, you should see your python-notes popping up in the results like:\nconda-env-python-notes-py    c:\\users\\alvinchen\\anaconda3\\envs\\python-notes\\share\\jupyter\\kernels\\python3\n\n\n\n\nIf you see the new conda environment name, then it should work. Next, initiate your jupyter notebook\n$ jupyter notebook\n\n\n\nNow you should be able to see you conda environment python-notes in your notebook, but the kernel name would be something like python [conda evn: python-notes].&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;Module Requirements#\nNot all modules used in this course come with the default installation of the Python environment. Please remember to install these packages in use if you get a module-not-found type of errors.\nThe following is a list of packages we will use (non-exhaustive):\n\nbeautifulsoup4\nckip-transformers\ngensim\njieba\njupyter\njupyter-nbextensions-configurator\nKeras\nmatplotlib\nnltk\nnumpy\npandas\nscikit-learn\nseaborn\nspacy\nscipy\ntensorflow\ntransformers\n\nPlease google these packages for more details on their installation.\n\n\n\nCoding Assignments Reminders#&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;Coding Assignments Reminders#\n\nYou have to submit your assignments via Moodle.\nPlease name your files in the following format: Assignment-X-NAME.ipynb and Assignment-X-NAME.html.\nPlease always submit both the Jupyter notebook file and its HTML version.\nOn the assignment due date, students will present their solutions to the exercises, with each presentation limited to 20-30 minutes.\nThe class will be divided into small groups for these exercise/assignment presentations, with the group size determined by the final enrollment. (Each group is expected to make two presentations throughout the semester.)\n\n\nAttention\nUnless otherwise specified in class, all assignments will be due on the date/time given on Moodle. The due is usually a week after the topic is finished. Late work within 7 calendar days of the original due date will be accepted by the instructor at the instructor’s discretion. After that, no late work will be accepted.\n\n\n\nAnnotated Bibliography#&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;Find a minimum of five articles published in the section of ArXiv in Computation and Language over the last five years and compile an annotated bibliography.\nFor each source reference in the annotated bibliography, provide a succinct summary and evaluation.\nThe annotations should offer a compact overview of the content, as well as assess the relevance and contributions of the study to a specific topic or field, along with its quality.\nEach annotation should be concise yet critical, comprising no more than 250 words for each source. Your annotations should provide a comprehensive overview of the study’s contributions, enabling readers who haven’t read the paper to grasp its significance. Remember, plagiarism is strictly prohibited.\nIt’s advisable to choose articles related to a specific topic. For inspiration on potential topics, please refer to Part 3 Language Processing Tasks and/or Part 4 NLP Applications in the Oxford Handbook of Computational Linguistics [Mitkov, 2022].&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;The deadline for the annotated bibliography will be announced after the midterm exam.&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;Google Colab#\n\nThe course materials are being revised so that all the codes can be executed directly on Google Colab. Ideally, it is hoped that students do not have to go through the painful experience of installing python as their start of the NLP !\nRight now, we can check the packages available on Google Colab with the following commands:\n\n\n\n## -------------------- ##\n## Colab Only           ##\n## -------------------- ##\n\n!pip list | wc\n!pip list -v\n\n\n\n\n\nTo execute the code provided in the course materials on Google Colab, you might have to install certain packages not present in the default Colab environment.\nInstalling packages or modules in Google Colab is simple and can be accomplished using the !pip command, enabling you to execute shell commands directly within a Colab notebook.\n\n\n\n## -------------------- ##\n## Colab Only           ##\n## -------------------- ##\n\n! pip install requests_html\n! pip install pytesseract&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&quot;We expect everyone to create a directory named ENC2045_demo_data at the root of their own Google Drive. All datasets intended for future tutorials should be downloaded and stored in this designated folder. This setup allows easy access to the datasets on Google Colab using the provided code snippet:\n\n\n\n## -------------------- ##\n## Colab Only           ##\n## -------------------- ##\n\nfrom google.colab import drive\ndrive.mount(&#39;/content/drive&#39;)\n\n\n\n\n\nOnce you’ve mounted Google Drive on Google Colab, the path to access the course materials will be: /content/drive/MyDrive/ENC2045_demo_data/.\n\n\n\nOther Logistics#\nPlease refer to Course Website ENC2045 for a tentative course schedule and the grading policies.&quot;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;Disclaimer#\nWhile I strive to cover the basics of computational linguistics to the best of my ability, please note that I am not an expert in Python. Therefore, there may be more advanced packages or more efficient algorithms available that can accomplish the tasks discussed in class. However, it is our intention that the fundamentals covered in this course will provide you with a solid foundation to delve into the latest advancements in the field.\n\n\nReferences#\n\n\n1\nPaul Gerrard. Lean Python: Learn Just Enough Python to Build Useful Tools. Apress, 2016.\n\n2\nWes McKinney. Python for data analysis: Data wrangling with Pandas, NumPy, and IPython. &quot; O\&#39;Reilly Media, Inc.&quot;, 2012.\n\n3\nAurélien Géron. Hands-on machine learning with Scikit-Learn, Keras, and TensorFlow: Concepts, tools, and techniques to build intelligent systems. Third Edition. O\&#39;Reilly Media, 2023.\n\n4\nDipanjan Sarkar. Text analytics with Python: a practitioner\&#39;s guide to natural language processing. Apress, 2019.&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;5\nSteven Bird, Ewan Klein, and Edward Loper. Natural language processing with Python: analyzing text with the natural language toolkit (See https://www.nltk.org/book/). &quot; O\&#39;Reilly Media, Inc.&quot;, 2009.\n\n6\nSowmya Vajjala, Bodhisattwa Majumder, Anuj Gupta, and Harshit Surana. Practical Natural Language Processing: A Comprehensive Guide to Building Real-World NLP Systems. O\&#39;Reilly Media, 2020.\n\n7\nJacob Perkins. Python 3 text processing with NLTK 3 cookbook. Packt Publishing Ltd, 2014.\n\n8\nBhargav Srinivasa-Desikan. Natural Language Processing and Computational Linguistics: A practical guide to text analysis with Python, Gensim, spaCy, and Keras. Packt Publishing Ltd, 2018.\n\n9\nChollet Francois. Deep learning with Python. Manning Publications Company, 2017.\n\n10(1,2)\nRuslan Mitkov. The Oxford handbook of computational linguistics. Second edition. Oxford University Press, 2022.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nnext\nNatural Language Processing: A Primer\n\n\n\n\n\n\n\n\n\n\n Contents&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;Contents\n  \n\n\nCourse Syllabus\nIntroduction\nCourse Objectives\nCourse Website\n\n\nReadings\nMajor Readings\nRecommended Books\nOnline Resources\nYouTube Channels \n\n\nPython Setup\nNotebooks\nConda Environment\nModule Requirements\n\n\nCoding Assignments Reminders\nAnnotated Bibliography\nGoogle Colab\nOther Logistics\nDisclaimer\nReferences\n\n\n\n\n\n\n\n\nBy Alvin Cheng-Hsien Chen\n\n\n\n\n    \n      © Copyright 2023 Alvin Chen.&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;})]
 </pre></div>
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Given a query, find relevant documents from vector store</span>
+<span class="n">docs</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">similarity_search</span><span class="p">(</span><span class="s2">&quot;What are the important reference books?&quot;</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## print out</span>
+<span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">doc</span><span class="o">.</span><span class="n">page_content</span><span class="p">[:</span><span class="mi">500</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ENC2045 Computational Linguistics — ENC2045 Computational Linguistics: 5
+Steven Bird, Ewan Klein, and Edward Loper. Natural language processing with Python: analyzing text with the natural language toolkit (See https://www.nltk.org/book/). &quot; O&#39;Reilly Media, Inc.&quot;, 2009.
+
+6
+Sowmya Vajjala, Bodhisattwa Majumder, Anuj Gupta, and Harshit Surana. Practical Natural Language Processing: A Comprehensive Guide to Building Real-World NLP Systems. O&#39;Reilly Media, 2020.
+
+7
+Jacob Perkins. Python 3 text processing with NLTK 3 cookbook. Packt Publishing Ltd, 2014.
+
+8
+Bhargav Srin
+</pre></div>
+</div>
+</div>
+</div>
+<section id="rag-using-chain">
+<h3><a class="toc-backref" href="#id14">RAG Using Chain</a><a class="headerlink" href="#rag-using-chain" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">create_stuff_documents_chain()</span></code>: This chain takes a list of documents and formats them all into a prompt, then passes that prompt to an LLM. It passes ALL documents, so you should make sure it fits within the context window the LLM you are using.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">create_retrieval_chain()</span></code>: This chain takes in a user inquiry, which is then passed to the retriever to fetch relevant documents. Those documents (and original inputs) (done by the <code class="docutils literal notranslate"><span class="pre">create_stuff_documents_chain()</span></code>) are then passed to an LLM to generate a response</p></li>
@@ -961,9 +1107,13 @@ Course Website: E
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Document(page_content=&#39;ENC2045: Computational Linguistics\nThis site is last-updated on 2024-02-23\n Annoucements\nImportant course information will be posted on this web page and announced in class. You are responsible for all material that appears\nhere and should check this page for updates frequently.\n2024-02-23: The current version of the course website is based on the Spring Semester, 2021. It will be updated for the spring\nof 2024.\n2023-12-24: This course is designed for linguistics majors. If you are NOT a linguistics major, please contact the instructor for\ncourse enrollment.\n2023-12-24: This course has prerequisites. A test on python basics will be conducted at the beginning of the semester. Please\nread the FAQ (FAQ.html) very carefully. This course is NOT OPEN to auditors.\n Course Description\nComputational Linguistics (CL) is now a very active sub-discipline in applied linguistics. Its main focus is on the computational text\nanalytics, which is essentially about leveraging computational tools, techniques, and algorithms to process and understand natural\nlanguage data (in spoken or textual formats). Therefore, this course aims to introduce useful strategies and common work\x00ows that\nhave been widely adopted by data scientists to extract useful insights from natural language data. In this course, we will focus on\ntextual data processing.\nA selective collection of potential topics may include:\nA Pipeline for Natural Language Processing\nText Normalization\nText Tokenization\nParsing and Chunking\nIssues for Chinese Language Processing (Word Segmentation)\nFeature Engineering and Text Vectorization\nTraditional Machine Learning\nClassi\x00cation Models (Naive Bayes, SVM, Logistic Regression)\nCommon Computational Tasks:\nSentiment Analysis\nTex Clustering and Topic Modeling\nDeep Learning and Neural Network\nNeural Language Model\nSequence Models\nRNN\nLSTM/GRU\nSequence-to-sequence Model\nAttention-based Models\nTransfer Learning\nLarge Language Models(LLM) &amp; Retrieval-Augmented Generation (RAG)\nMultimodal Processing\nThis course is extremely hands-on and will guide the students through classic examples of many task-oriented implementations via in-\nclass theme-based tutorial sessions. The main coding language used in this course is Python  (https://www.python.org/). We will\nmake extensive use of the language. It is assumed that you know or will quickly learn how to code in Python. In fact, this course\nassumes that every enrolled student has working knowledge of Python. (If you are not sure if you ful\x00ll the prerequisite, please\ncontact the instructor \x00rst.)&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 0}),
- Document(page_content=&#39;A test on Python Basics will be conducted on the \x00rst week of the class to ensure that every enrolled student ful\x00lls the prerequisite.\n(To be more speci\x00c, you are assumed to have already had working knowledge of all the concepts included in the book, Lean Python:\nLearn Just Enough Python to Build Useful Tools (https://www.amazon.com/Lean-Python-Learn-Enough-Useful/dp/1484223845)).\nThose who fail on the Python basics test are NOT advised to take this course.\nPlease note that this course is designed speci\x00cally for linguistics majors in humanities. For computer science majors, please note that\nthis course will not feature a thorough description of the mathematical operations behind the algorithms. We focus more on the\npractical implementation.\n Course Schedule\n(The schedule is tentative and subject to change. Please pay attention to the announcements made during the class.)\nWeek Date Topic\nWeek 1 2023-02-23 Course Orientation and Computational Linguistics Overview\nWeek 2 2023-03-01 NLP Pipeline\nWeek 3 2023-03-08 Machine Learning Basics: Regression and Classi\x00cation\nWeek 4 2023-03-15 Naïve Bayes, Logistic Regression\nWeek 5 2023-03-22 Feature Engineering and Text Vectorization\nWeek 6 2023-03-29 Common NLP Tasks (Guest Speaker: Robin Lin from Droidtown Linguistic Tech. Co.\xa0Ltd.\xa0)\nWeek 7 2023-04-05 Holiday\nWeek 8 2023-04-12 Midterm Exam\nWeek 9 2023-04-19 Neural Network: A Primer\nWeek 10 2023-04-26 Deep Learning NLP and Word/Doc Embeddings\nWeek 11 2023-05-03 Sequence Model I: RNN and Neural Language Model\nWeek 12 2023-05-10 Sequence Model II: LSTM and GRU\nWeek 13 2023-05-17 Sequence Model III: Sequence-to-Sequence Model &amp; Attention\nWeek 14 2023-05-24 Transformer, BERT, Transfer Learning, and Explainable AI\nWeek 15 2023-05-31 LLM, RAG, and Multimodal Processing\nWeek 16 2023-06-07 Final Exam\n Course Requirement&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 1}),
- Document(page_content=&#39;Course Materials\nAll the course materials are available on the course website. Please consult the instructor for the direct link to the course materials.\nThey will be provided as a series of online packets (i.e., handouts, script source codes etc.) on the course website.\n Logistics\nCourse Website: ENC2045 Computational Linguistics (https://alvinntnu.github.io/NTNU_ENC2045/)\nInstructor’s Email Address: alvinchen@ntnu.edu.tw (mailto:alvinchen@ntnu.edu.tw)\nInstructor’s Name: Alvin Chen\nOf\x00ce Hours: By appointment\nIf you have any further questions related to the course, please consult FAQ (FAQ.html) on our course website or write me at any time\nat alvinchen@ntnu.edu.tw (mailto:alvinchen@ntnu.edu.tw).\n Disclaimer &amp; Agreement\nWhile I have made every attempt to ensure that the information contained on the Website is correct, I am not responsible for any\nerrors or omissions, or for the results obtained from the use of this information. All information on the Website is provided “as is”, with\nno guarantee of completeness, accuracy, timeliness or of the results obtained from the use of this information, and without warranty\nof any kind, express or implied.\nYou may print a copy of any part of this website for your personal or non-commercial use. Without the author’s prior written consent,\nyou cannot disclose con\x00dential information of the website (e.g., log-in username and password) to any third party.&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 2})]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Document(page_content=&#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSkip to main content\n\n\n\n\n\n\n\n\n\n\nCtrl+K\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nINTRODUCTION\n\nNatural Language Processing: A Primer\nNLP Pipeline\n\nPreprocessing\n\nText Preprocessing\nText Normalization\nText Tokenization\nText Enrichment\nChinese Word Segmentation\nGoogle Colab\n\n\n\nText Vectorization\n\nText Vectorization Using Traditional Methods\n\nMachine Learning Basics\n\nMachine Learning: Overview\nMachine Learning: A Simple Example\nClassification Models\n\nMachine-Learning NLP\n\nCommon NLP Tasks\nSentiment Analysis Using Bag-of-Words\nEmsemble Learning\nTopic Modeling: A Naive Example\n\nDeep Learning NLP\n\nNeural Network From Scratch\nDeep Learning: A Simple Example\nDeep Learning: Sentiment Analysis\n\nNeural Language Model and Embeddings\n\nSequence Models Intuition\nNeural Language Model: A Start\nWord Embeddings\n\nSequence Models, Attention, Transformers&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;Sequence Models, Attention, Transformers\n\nAttention and Transformers: Intuitions\nSequence Model with Attention for Addition Learning\n\nLLM\n\nLarge Language Model (Under Construction…)\n\nExercises\n\n1. Assignment I: Python Basics\n2. Assignment II: Preprocessing\n3. Assignment III: Chinese Language Processing\n4. Assignment IV: Text Vectorization\n5. Assignment V: Machine Learning\n6. Assignment VI: Topic Modeling\n7. Assignment VII: Deep Learning\n8. Assignment VIII: Sentiment Analysis Using Deep Learning\n9. Assignment IV: Neural Language Model\n\nExams\n\nMidterm Exam\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nColab\n\n\n\n\n\n\n\n\n\n\n\n\n\n.ipynb\n\n\n\n\n\n\n\n.pdf\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nENC2045 Computational Linguistics\n\n\n\n\n Contents \n\n\n\nCourse Syllabus\nIntroduction\nCourse Objectives\nCourse Website\n\n\nReadings\nMajor Readings\nRecommended Books\nOnline Resources\nYouTube Channels \n\n\nPython Setup\nNotebooks\nConda Environment\nModule Requirements&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;Coding Assignments Reminders\nAnnotated Bibliography\nGoogle Colab\nOther Logistics\nDisclaimer\nReferences\n\n\n\n\n\n\n\n\nENC2045 Computational Linguistics#\n\n\nLast Updated: 2024-02-23\n\n\n\n\n\nAttention\nWe’re updating the course materials as we progress through the Spring 2024 schedule. Typically, the lecture notes for each topic will be finalized and revised during its scheduled week on the syllabus.\n\n\nContributing to the Lecture Notes!\nThis website now supports Hypothe.is, which is an amazing tool for website annotations. If you would like to contribute to the lecture notes (e.g., error corrections), please leave your comments and suggestions as annotations. Corrections of the materials will be made on a regular basis. And your contributions are always greatly appreciated:)\n\n\nContents\n\nENC2045 Computational Linguistics\n\nCourse Syllabus\n\nIntroduction\nCourse Objectives\nCourse Website\n\n\nReadings\n\nMajor Readings\nRecommended Books\nOnline Resources\nYouTube Channels \n\n\nPython Setup&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;Python Setup\n\nNotebooks\nConda Environment\nModule Requirements\n\n\nCoding Assignments Reminders\nAnnotated Bibliography\nGoogle Colab\nOther Logistics\nDisclaimer\nReferences\n\n\n\n\n\nCourse Syllabus#\n\nIntroduction#\nComputational Linguistics (CL) is now a very active sub-discipline in applied linguistics. Its main focus is on the computational text analytics, which is essentially about leveraging computational tools, techniques, and algorithms to process and understand natural language data (in spoken, textual, or even multimodal formats). Therefore, this course aims to introduce fundamental concepts, useful strategies and common workflows that have been widely adopted by data scientists to extract useful insights from natural language data. In this course, we will mainly focus on textual data.\n\n\nCourse Objectives#\nA selective collection of potential topics may include:\n\n\n\n\n\n\n A Pipeline for Natural Language Processing\n\nText Normalization\nText Tokenization\nParsing and Chunking&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;Chinese Processing\n\nIssues for Chinese Language Processing (Word Segmentation)\nDifferent word segmentation tools/packages\n\n\n\n\n\n\n\n\n Machine Learning Basics\n\nFeature Engineering and Text Vectorization\nTraditional Machine Learning\nClassification Models (Naive Bayes, SVM, Logistic Regression)\n\n\n\n\n\n\n\n\n Common Computational Tasks\n\nSentiment Analysis\nTex Clustering and Topic Modeling\nEmsemble Learning\n\n\n\n\n\n\n\n\n Deep Learning NLP\n\nNeural Language Model\nSequence Models (RNN, LSTM, GRU)\nSequence-to-sequence Model\nAttention-based Models\nExplainable Artificial Intelligence and Computational Linguistics\n\n\n\n\n\n\n\n\n Large Language Models\n\nGenerative AI\nApplications of LLM (e.g., BERT, ChatGPT)\nTransfer Learning and Fine-Tuning\nPrompt Engineering\nRetrieval-Augmentated Generation\nMultimodal Data Processing&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;This course is extremely hands-on and will guide the students through classic examples of many task-oriented implementations via in-class theme-based tutorial sessions. The main coding language used in this course is Python.\nIt is assumed that you know or will quickly learn how to code in Python . In fact, this course assumes that every enrolled student has considerable working knowledge of Python. (If you are not sure whether you fulfill the prerequisite, please contact the instructor first).\nTo be more specific, you are assumed to have already had working knowledge of all the concepts included in the book, Lean Python: Learn Just Enough Python to Build Useful Tools. If the materials covered in the book are all very novel to you, I would strongly advise you not to take this course.&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;On the other hand, please note that this course is designed specifically for linguistics majors in humanities. For computer science majors, this course will not feature a thorough description of the mathematical operations behind the algorithms. Nor will we focus on the most recent developments in the field of deep learning based NLP. We focus more on the fundamentals and their practical implementations.&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;})]
 </pre></div>
 </div>
 </div>
@@ -990,14 +1140,14 @@ Course Website: E
 
 
 <span class="n">document_chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span>
-    <span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="s2">&quot;What is ENC2045?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="s2">&quot;What can students learn from the course, ENC2045?&quot;</span><span class="p">,</span>
     <span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="n">documents</span>
 <span class="p">})</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;ENC2045 is a course on Computational Linguistics.&#39;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;The ENC2045 course, Computational Linguistics, focuses on computational text analytics, leveraging computational tools, techniques, and algorithms to process and understand natural language data. The course covers a range of topics including Natural Language Processing, Text Normalization, Text Tokenization, Parsing and Chunking, Chinese Processing, Machine Learning Basics, Feature Engineering and Text Vectorization, Traditional Machine Learning, Classification Models, Sentiment Analysis, Text Clustering and Topic Modeling, Ensemble Learning, Deep Learning NLP, Neural Language Model, Sequence Models, Sequence-to-sequence Model, Attention-based Models, Explainable Artificial Intelligence and Computational Linguistics, Large Language Models, Generative AI, Applications of LLM, Transfer Learning and Fine-Tuning, Prompt Engineering, Retrieval-Augmented Generation, and Multimodal Data Processing. The main coding language used in this course is Python.&#39;
 </pre></div>
 </div>
 </div>
@@ -1020,20 +1170,21 @@ Course Website: E
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">retrieval_chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="s2">&quot;Who is the instructor of the course ENC2045?&quot;</span><span class="p">})</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">retrieval_chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="s2">&quot;What are the topics for the course ENC2045?&quot;</span><span class="p">})</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;answer&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The instructor of the course ENC2045 is Alvin Chen.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The topics for the course ENC2045 include Natural Language Processing, Text Preprocessing, Text Normalization, Text Tokenization, Text Enrichment, Chinese Word Segmentation, Text Vectorization, Machine Learning Basics, Machine-Learning NLP, Deep Learning NLP, Neural Language Model and Embeddings, and Sequence Models, Attention, Transformers. The course also includes a section on Python Setup.
 </pre></div>
 </div>
 </div>
 </div>
 </section>
+</section>
 <section id="chat-history-management">
-<h2>Chat History Management<a class="headerlink" href="#chat-history-management" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id15">Chat History Management</a><a class="headerlink" href="#chat-history-management" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>In addition to retrieving external documents as context information, LLM also needs to consider the conversation history for more precise answers.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">create_history_aware_retriever()</span></code>: This chain takes in conversation history and then uses that to generate a search query which is passed to the underlying retriever.</p></li>
@@ -1070,9 +1221,10 @@ Course Website: E
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Document(page_content=&#39;A test on Python Basics will be conducted on the \x00rst week of the class to ensure that every enrolled student ful\x00lls the prerequisite.\n(To be more speci\x00c, you are assumed to have already had working knowledge of all the concepts included in the book, Lean Python:\nLearn Just Enough Python to Build Useful Tools (https://www.amazon.com/Lean-Python-Learn-Enough-Useful/dp/1484223845)).\nThose who fail on the Python basics test are NOT advised to take this course.\nPlease note that this course is designed speci\x00cally for linguistics majors in humanities. For computer science majors, please note that\nthis course will not feature a thorough description of the mathematical operations behind the algorithms. We focus more on the\npractical implementation.\n Course Schedule\n(The schedule is tentative and subject to change. Please pay attention to the announcements made during the class.)\nWeek Date Topic\nWeek 1 2023-02-23 Course Orientation and Computational Linguistics Overview\nWeek 2 2023-03-01 NLP Pipeline\nWeek 3 2023-03-08 Machine Learning Basics: Regression and Classi\x00cation\nWeek 4 2023-03-15 Naïve Bayes, Logistic Regression\nWeek 5 2023-03-22 Feature Engineering and Text Vectorization\nWeek 6 2023-03-29 Common NLP Tasks (Guest Speaker: Robin Lin from Droidtown Linguistic Tech. Co.\xa0Ltd.\xa0)\nWeek 7 2023-04-05 Holiday\nWeek 8 2023-04-12 Midterm Exam\nWeek 9 2023-04-19 Neural Network: A Primer\nWeek 10 2023-04-26 Deep Learning NLP and Word/Doc Embeddings\nWeek 11 2023-05-03 Sequence Model I: RNN and Neural Language Model\nWeek 12 2023-05-10 Sequence Model II: LSTM and GRU\nWeek 13 2023-05-17 Sequence Model III: Sequence-to-Sequence Model &amp; Attention\nWeek 14 2023-05-24 Transformer, BERT, Transfer Learning, and Explainable AI\nWeek 15 2023-05-31 LLM, RAG, and Multimodal Processing\nWeek 16 2023-06-07 Final Exam\n Course Requirement&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 1}),
- Document(page_content=&#39;ENC2045: Computational Linguistics\nThis site is last-updated on 2024-02-23\n Annoucements\nImportant course information will be posted on this web page and announced in class. You are responsible for all material that appears\nhere and should check this page for updates frequently.\n2024-02-23: The current version of the course website is based on the Spring Semester, 2021. It will be updated for the spring\nof 2024.\n2023-12-24: This course is designed for linguistics majors. If you are NOT a linguistics major, please contact the instructor for\ncourse enrollment.\n2023-12-24: This course has prerequisites. A test on python basics will be conducted at the beginning of the semester. Please\nread the FAQ (FAQ.html) very carefully. This course is NOT OPEN to auditors.\n Course Description\nComputational Linguistics (CL) is now a very active sub-discipline in applied linguistics. Its main focus is on the computational text\nanalytics, which is essentially about leveraging computational tools, techniques, and algorithms to process and understand natural\nlanguage data (in spoken or textual formats). Therefore, this course aims to introduce useful strategies and common work\x00ows that\nhave been widely adopted by data scientists to extract useful insights from natural language data. In this course, we will focus on\ntextual data processing.\nA selective collection of potential topics may include:\nA Pipeline for Natural Language Processing\nText Normalization\nText Tokenization\nParsing and Chunking\nIssues for Chinese Language Processing (Word Segmentation)\nFeature Engineering and Text Vectorization\nTraditional Machine Learning\nClassi\x00cation Models (Naive Bayes, SVM, Logistic Regression)\nCommon Computational Tasks:\nSentiment Analysis\nTex Clustering and Topic Modeling\nDeep Learning and Neural Network\nNeural Language Model\nSequence Models\nRNN\nLSTM/GRU\nSequence-to-sequence Model\nAttention-based Models\nTransfer Learning\nLarge Language Models(LLM) &amp; Retrieval-Augmented Generation (RAG)\nMultimodal Processing\nThis course is extremely hands-on and will guide the students through classic examples of many task-oriented implementations via in-\nclass theme-based tutorial sessions. The main coding language used in this course is Python  (https://www.python.org/). We will\nmake extensive use of the language. It is assumed that you know or will quickly learn how to code in Python. In fact, this course\nassumes that every enrolled student has working knowledge of Python. (If you are not sure if you ful\x00ll the prerequisite, please\ncontact the instructor \x00rst.)&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 0}),
- Document(page_content=&#39;Course Materials\nAll the course materials are available on the course website. Please consult the instructor for the direct link to the course materials.\nThey will be provided as a series of online packets (i.e., handouts, script source codes etc.) on the course website.\n Logistics\nCourse Website: ENC2045 Computational Linguistics (https://alvinntnu.github.io/NTNU_ENC2045/)\nInstructor’s Email Address: alvinchen@ntnu.edu.tw (mailto:alvinchen@ntnu.edu.tw)\nInstructor’s Name: Alvin Chen\nOf\x00ce Hours: By appointment\nIf you have any further questions related to the course, please consult FAQ (FAQ.html) on our course website or write me at any time\nat alvinchen@ntnu.edu.tw (mailto:alvinchen@ntnu.edu.tw).\n Disclaimer &amp; Agreement\nWhile I have made every attempt to ensure that the information contained on the Website is correct, I am not responsible for any\nerrors or omissions, or for the results obtained from the use of this information. All information on the Website is provided “as is”, with\nno guarantee of completeness, accuracy, timeliness or of the results obtained from the use of this information, and without warranty\nof any kind, express or implied.\nYou may print a copy of any part of this website for your personal or non-commercial use. Without the author’s prior written consent,\nyou cannot disclose con\x00dential information of the website (e.g., log-in username and password) to any third party.&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 2})]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Document(page_content=&#39;Coding Assignments Reminders#\n\nYou have to submit your assignments via Moodle.\nPlease name your files in the following format: Assignment-X-NAME.ipynb and Assignment-X-NAME.html.\nPlease always submit both the Jupyter notebook file and its HTML version.\nOn the assignment due date, students will present their solutions to the exercises, with each presentation limited to 20-30 minutes.\nThe class will be divided into small groups for these exercise/assignment presentations, with the group size determined by the final enrollment. (Each group is expected to make two presentations throughout the semester.)\n\n\nAttention\nUnless otherwise specified in class, all assignments will be due on the date/time given on Moodle. The due is usually a week after the topic is finished. Late work within 7 calendar days of the original due date will be accepted by the instructor at the instructor’s discretion. After that, no late work will be accepted.\n\n\n\nAnnotated Bibliography#&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;Module Requirements#\nNot all modules used in this course come with the default installation of the Python environment. Please remember to install these packages in use if you get a module-not-found type of errors.\nThe following is a list of packages we will use (non-exhaustive):\n\nbeautifulsoup4\nckip-transformers\ngensim\njieba\njupyter\njupyter-nbextensions-configurator\nKeras\nmatplotlib\nnltk\nnumpy\npandas\nscikit-learn\nseaborn\nspacy\nscipy\ntensorflow\ntransformers\n\nPlease google these packages for more details on their installation.\n\n\n\nCoding Assignments Reminders#&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&#39;Contents\n  \n\n\nCourse Syllabus\nIntroduction\nCourse Objectives\nCourse Website\n\n\nReadings\nMajor Readings\nRecommended Books\nOnline Resources\nYouTube Channels \n\n\nPython Setup\nNotebooks\nConda Environment\nModule Requirements\n\n\nCoding Assignments Reminders\nAnnotated Bibliography\nGoogle Colab\nOther Logistics\nDisclaimer\nReferences\n\n\n\n\n\n\n\n\nBy Alvin Cheng-Hsien Chen\n\n\n\n\n    \n      © Copyright 2023 Alvin Chen.&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+ Document(page_content=&quot;We expect everyone to create a directory named ENC2045_demo_data at the root of their own Google Drive. All datasets intended for future tutorials should be downloaded and stored in this designated folder. This setup allows easy access to the datasets on Google Colab using the provided code snippet:\n\n\n\n## -------------------- ##\n## Colab Only           ##\n## -------------------- ##\n\nfrom google.colab import drive\ndrive.mount(&#39;/content/drive&#39;)\n\n\n\n\n\nOnce you’ve mounted Google Drive on Google Colab, the path to access the course materials will be: /content/drive/MyDrive/ENC2045_demo_data/.\n\n\n\nOther Logistics#\nPlease refer to Course Website ENC2045 for a tentative course schedule and the grading policies.&quot;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;})]
 </pre></div>
 </div>
 </div>
@@ -1107,10 +1259,11 @@ Course Website: E
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;chat_history&#39;: [HumanMessage(content=&#39;How many assignments do students need to do?&#39;),
   AIMessage(content=&#39;Four.&#39;)],
  &#39;input&#39;: &#39;Are you saying four?&#39;,
- &#39;context&#39;: [Document(page_content=&#39;A test on Python Basics will be conducted on the \x00rst week of the class to ensure that every enrolled student ful\x00lls the prerequisite.\n(To be more speci\x00c, you are assumed to have already had working knowledge of all the concepts included in the book, Lean Python:\nLearn Just Enough Python to Build Useful Tools (https://www.amazon.com/Lean-Python-Learn-Enough-Useful/dp/1484223845)).\nThose who fail on the Python basics test are NOT advised to take this course.\nPlease note that this course is designed speci\x00cally for linguistics majors in humanities. For computer science majors, please note that\nthis course will not feature a thorough description of the mathematical operations behind the algorithms. We focus more on the\npractical implementation.\n Course Schedule\n(The schedule is tentative and subject to change. Please pay attention to the announcements made during the class.)\nWeek Date Topic\nWeek 1 2023-02-23 Course Orientation and Computational Linguistics Overview\nWeek 2 2023-03-01 NLP Pipeline\nWeek 3 2023-03-08 Machine Learning Basics: Regression and Classi\x00cation\nWeek 4 2023-03-15 Naïve Bayes, Logistic Regression\nWeek 5 2023-03-22 Feature Engineering and Text Vectorization\nWeek 6 2023-03-29 Common NLP Tasks (Guest Speaker: Robin Lin from Droidtown Linguistic Tech. Co.\xa0Ltd.\xa0)\nWeek 7 2023-04-05 Holiday\nWeek 8 2023-04-12 Midterm Exam\nWeek 9 2023-04-19 Neural Network: A Primer\nWeek 10 2023-04-26 Deep Learning NLP and Word/Doc Embeddings\nWeek 11 2023-05-03 Sequence Model I: RNN and Neural Language Model\nWeek 12 2023-05-10 Sequence Model II: LSTM and GRU\nWeek 13 2023-05-17 Sequence Model III: Sequence-to-Sequence Model &amp; Attention\nWeek 14 2023-05-24 Transformer, BERT, Transfer Learning, and Explainable AI\nWeek 15 2023-05-31 LLM, RAG, and Multimodal Processing\nWeek 16 2023-06-07 Final Exam\n Course Requirement&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 1}),
-  Document(page_content=&#39;ENC2045: Computational Linguistics\nThis site is last-updated on 2024-02-23\n Annoucements\nImportant course information will be posted on this web page and announced in class. You are responsible for all material that appears\nhere and should check this page for updates frequently.\n2024-02-23: The current version of the course website is based on the Spring Semester, 2021. It will be updated for the spring\nof 2024.\n2023-12-24: This course is designed for linguistics majors. If you are NOT a linguistics major, please contact the instructor for\ncourse enrollment.\n2023-12-24: This course has prerequisites. A test on python basics will be conducted at the beginning of the semester. Please\nread the FAQ (FAQ.html) very carefully. This course is NOT OPEN to auditors.\n Course Description\nComputational Linguistics (CL) is now a very active sub-discipline in applied linguistics. Its main focus is on the computational text\nanalytics, which is essentially about leveraging computational tools, techniques, and algorithms to process and understand natural\nlanguage data (in spoken or textual formats). Therefore, this course aims to introduce useful strategies and common work\x00ows that\nhave been widely adopted by data scientists to extract useful insights from natural language data. In this course, we will focus on\ntextual data processing.\nA selective collection of potential topics may include:\nA Pipeline for Natural Language Processing\nText Normalization\nText Tokenization\nParsing and Chunking\nIssues for Chinese Language Processing (Word Segmentation)\nFeature Engineering and Text Vectorization\nTraditional Machine Learning\nClassi\x00cation Models (Naive Bayes, SVM, Logistic Regression)\nCommon Computational Tasks:\nSentiment Analysis\nTex Clustering and Topic Modeling\nDeep Learning and Neural Network\nNeural Language Model\nSequence Models\nRNN\nLSTM/GRU\nSequence-to-sequence Model\nAttention-based Models\nTransfer Learning\nLarge Language Models(LLM) &amp; Retrieval-Augmented Generation (RAG)\nMultimodal Processing\nThis course is extremely hands-on and will guide the students through classic examples of many task-oriented implementations via in-\nclass theme-based tutorial sessions. The main coding language used in this course is Python  (https://www.python.org/). We will\nmake extensive use of the language. It is assumed that you know or will quickly learn how to code in Python. In fact, this course\nassumes that every enrolled student has working knowledge of Python. (If you are not sure if you ful\x00ll the prerequisite, please\ncontact the instructor \x00rst.)&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 0}),
-  Document(page_content=&#39;Course Materials\nAll the course materials are available on the course website. Please consult the instructor for the direct link to the course materials.\nThey will be provided as a series of online packets (i.e., handouts, script source codes etc.) on the course website.\n Logistics\nCourse Website: ENC2045 Computational Linguistics (https://alvinntnu.github.io/NTNU_ENC2045/)\nInstructor’s Email Address: alvinchen@ntnu.edu.tw (mailto:alvinchen@ntnu.edu.tw)\nInstructor’s Name: Alvin Chen\nOf\x00ce Hours: By appointment\nIf you have any further questions related to the course, please consult FAQ (FAQ.html) on our course website or write me at any time\nat alvinchen@ntnu.edu.tw (mailto:alvinchen@ntnu.edu.tw).\n Disclaimer &amp; Agreement\nWhile I have made every attempt to ensure that the information contained on the Website is correct, I am not responsible for any\nerrors or omissions, or for the results obtained from the use of this information. All information on the Website is provided “as is”, with\nno guarantee of completeness, accuracy, timeliness or of the results obtained from the use of this information, and without warranty\nof any kind, express or implied.\nYou may print a copy of any part of this website for your personal or non-commercial use. Without the author’s prior written consent,\nyou cannot disclose con\x00dential information of the website (e.g., log-in username and password) to any third party.&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 2})],
- &#39;answer&#39;: &#39;The text does not provide information on the number of assignments students need to do in the course.&#39;}
+ &#39;context&#39;: [Document(page_content=&#39;Coding Assignments Reminders#\n\nYou have to submit your assignments via Moodle.\nPlease name your files in the following format: Assignment-X-NAME.ipynb and Assignment-X-NAME.html.\nPlease always submit both the Jupyter notebook file and its HTML version.\nOn the assignment due date, students will present their solutions to the exercises, with each presentation limited to 20-30 minutes.\nThe class will be divided into small groups for these exercise/assignment presentations, with the group size determined by the final enrollment. (Each group is expected to make two presentations throughout the semester.)\n\n\nAttention\nUnless otherwise specified in class, all assignments will be due on the date/time given on Moodle. The due is usually a week after the topic is finished. Late work within 7 calendar days of the original due date will be accepted by the instructor at the instructor’s discretion. After that, no late work will be accepted.\n\n\n\nAnnotated Bibliography#&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+  Document(page_content=&#39;Contents\n  \n\n\nCourse Syllabus\nIntroduction\nCourse Objectives\nCourse Website\n\n\nReadings\nMajor Readings\nRecommended Books\nOnline Resources\nYouTube Channels \n\n\nPython Setup\nNotebooks\nConda Environment\nModule Requirements\n\n\nCoding Assignments Reminders\nAnnotated Bibliography\nGoogle Colab\nOther Logistics\nDisclaimer\nReferences\n\n\n\n\n\n\n\n\nBy Alvin Cheng-Hsien Chen\n\n\n\n\n    \n      © Copyright 2023 Alvin Chen.&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+  Document(page_content=&#39;Module Requirements#\nNot all modules used in this course come with the default installation of the Python environment. Please remember to install these packages in use if you get a module-not-found type of errors.\nThe following is a list of packages we will use (non-exhaustive):\n\nbeautifulsoup4\nckip-transformers\ngensim\njieba\njupyter\njupyter-nbextensions-configurator\nKeras\nmatplotlib\nnltk\nnumpy\npandas\nscikit-learn\nseaborn\nspacy\nscipy\ntensorflow\ntransformers\n\nPlease google these packages for more details on their installation.\n\n\n\nCoding Assignments Reminders#&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+  Document(page_content=&#39;Python Setup\n\nNotebooks\nConda Environment\nModule Requirements\n\n\nCoding Assignments Reminders\nAnnotated Bibliography\nGoogle Colab\nOther Logistics\nDisclaimer\nReferences\n\n\n\n\n\nCourse Syllabus#\n\nIntroduction#\nComputational Linguistics (CL) is now a very active sub-discipline in applied linguistics. Its main focus is on the computational text analytics, which is essentially about leveraging computational tools, techniques, and algorithms to process and understand natural language data (in spoken, textual, or even multimodal formats). Therefore, this course aims to introduce fundamental concepts, useful strategies and common workflows that have been widely adopted by data scientists to extract useful insights from natural language data. In this course, we will mainly focus on textual data.\n\n\nCourse Objectives#\nA selective collection of potential topics may include:\n\n\n\n\n\n\n A Pipeline for Natural Language Processing\n\nText Normalization\nText Tokenization\nParsing and Chunking&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;})],
+ &#39;answer&#39;: &quot;The text doesn&#39;t provide specific information on the number of assignments students need to do.&quot;}
 </pre></div>
 </div>
 </div>
@@ -1140,19 +1293,20 @@ Course Website: E
   HumanMessage(content=&#39;I am telling you that these four assignments include coding, reviewing, testing, and presentation.&#39;),
   AIMessage(content=&#39;Thank you for the information.&#39;)],
  &#39;input&#39;: &#39;Can you repeat the four assignments?&#39;,
- &#39;context&#39;: [Document(page_content=&#39;A test on Python Basics will be conducted on the \x00rst week of the class to ensure that every enrolled student ful\x00lls the prerequisite.\n(To be more speci\x00c, you are assumed to have already had working knowledge of all the concepts included in the book, Lean Python:\nLearn Just Enough Python to Build Useful Tools (https://www.amazon.com/Lean-Python-Learn-Enough-Useful/dp/1484223845)).\nThose who fail on the Python basics test are NOT advised to take this course.\nPlease note that this course is designed speci\x00cally for linguistics majors in humanities. For computer science majors, please note that\nthis course will not feature a thorough description of the mathematical operations behind the algorithms. We focus more on the\npractical implementation.\n Course Schedule\n(The schedule is tentative and subject to change. Please pay attention to the announcements made during the class.)\nWeek Date Topic\nWeek 1 2023-02-23 Course Orientation and Computational Linguistics Overview\nWeek 2 2023-03-01 NLP Pipeline\nWeek 3 2023-03-08 Machine Learning Basics: Regression and Classi\x00cation\nWeek 4 2023-03-15 Naïve Bayes, Logistic Regression\nWeek 5 2023-03-22 Feature Engineering and Text Vectorization\nWeek 6 2023-03-29 Common NLP Tasks (Guest Speaker: Robin Lin from Droidtown Linguistic Tech. Co.\xa0Ltd.\xa0)\nWeek 7 2023-04-05 Holiday\nWeek 8 2023-04-12 Midterm Exam\nWeek 9 2023-04-19 Neural Network: A Primer\nWeek 10 2023-04-26 Deep Learning NLP and Word/Doc Embeddings\nWeek 11 2023-05-03 Sequence Model I: RNN and Neural Language Model\nWeek 12 2023-05-10 Sequence Model II: LSTM and GRU\nWeek 13 2023-05-17 Sequence Model III: Sequence-to-Sequence Model &amp; Attention\nWeek 14 2023-05-24 Transformer, BERT, Transfer Learning, and Explainable AI\nWeek 15 2023-05-31 LLM, RAG, and Multimodal Processing\nWeek 16 2023-06-07 Final Exam\n Course Requirement&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 1}),
-  Document(page_content=&#39;ENC2045: Computational Linguistics\nThis site is last-updated on 2024-02-23\n Annoucements\nImportant course information will be posted on this web page and announced in class. You are responsible for all material that appears\nhere and should check this page for updates frequently.\n2024-02-23: The current version of the course website is based on the Spring Semester, 2021. It will be updated for the spring\nof 2024.\n2023-12-24: This course is designed for linguistics majors. If you are NOT a linguistics major, please contact the instructor for\ncourse enrollment.\n2023-12-24: This course has prerequisites. A test on python basics will be conducted at the beginning of the semester. Please\nread the FAQ (FAQ.html) very carefully. This course is NOT OPEN to auditors.\n Course Description\nComputational Linguistics (CL) is now a very active sub-discipline in applied linguistics. Its main focus is on the computational text\nanalytics, which is essentially about leveraging computational tools, techniques, and algorithms to process and understand natural\nlanguage data (in spoken or textual formats). Therefore, this course aims to introduce useful strategies and common work\x00ows that\nhave been widely adopted by data scientists to extract useful insights from natural language data. In this course, we will focus on\ntextual data processing.\nA selective collection of potential topics may include:\nA Pipeline for Natural Language Processing\nText Normalization\nText Tokenization\nParsing and Chunking\nIssues for Chinese Language Processing (Word Segmentation)\nFeature Engineering and Text Vectorization\nTraditional Machine Learning\nClassi\x00cation Models (Naive Bayes, SVM, Logistic Regression)\nCommon Computational Tasks:\nSentiment Analysis\nTex Clustering and Topic Modeling\nDeep Learning and Neural Network\nNeural Language Model\nSequence Models\nRNN\nLSTM/GRU\nSequence-to-sequence Model\nAttention-based Models\nTransfer Learning\nLarge Language Models(LLM) &amp; Retrieval-Augmented Generation (RAG)\nMultimodal Processing\nThis course is extremely hands-on and will guide the students through classic examples of many task-oriented implementations via in-\nclass theme-based tutorial sessions. The main coding language used in this course is Python  (https://www.python.org/). We will\nmake extensive use of the language. It is assumed that you know or will quickly learn how to code in Python. In fact, this course\nassumes that every enrolled student has working knowledge of Python. (If you are not sure if you ful\x00ll the prerequisite, please\ncontact the instructor \x00rst.)&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 0}),
-  Document(page_content=&#39;Course Materials\nAll the course materials are available on the course website. Please consult the instructor for the direct link to the course materials.\nThey will be provided as a series of online packets (i.e., handouts, script source codes etc.) on the course website.\n Logistics\nCourse Website: ENC2045 Computational Linguistics (https://alvinntnu.github.io/NTNU_ENC2045/)\nInstructor’s Email Address: alvinchen@ntnu.edu.tw (mailto:alvinchen@ntnu.edu.tw)\nInstructor’s Name: Alvin Chen\nOf\x00ce Hours: By appointment\nIf you have any further questions related to the course, please consult FAQ (FAQ.html) on our course website or write me at any time\nat alvinchen@ntnu.edu.tw (mailto:alvinchen@ntnu.edu.tw).\n Disclaimer &amp; Agreement\nWhile I have made every attempt to ensure that the information contained on the Website is correct, I am not responsible for any\nerrors or omissions, or for the results obtained from the use of this information. All information on the Website is provided “as is”, with\nno guarantee of completeness, accuracy, timeliness or of the results obtained from the use of this information, and without warranty\nof any kind, express or implied.\nYou may print a copy of any part of this website for your personal or non-commercial use. Without the author’s prior written consent,\nyou cannot disclose con\x00dential information of the website (e.g., log-in username and password) to any third party.&#39;, metadata={&#39;source&#39;: &#39;../../../../ENC2045_demo_data/ENC2045Syllabus.pdf&#39;, &#39;page&#39;: 2})],
- &#39;answer&#39;: &#39;The four assignments include coding, reviewing, testing, and presentation.&#39;}
+ &#39;context&#39;: [Document(page_content=&#39;Coding Assignments Reminders#\n\nYou have to submit your assignments via Moodle.\nPlease name your files in the following format: Assignment-X-NAME.ipynb and Assignment-X-NAME.html.\nPlease always submit both the Jupyter notebook file and its HTML version.\nOn the assignment due date, students will present their solutions to the exercises, with each presentation limited to 20-30 minutes.\nThe class will be divided into small groups for these exercise/assignment presentations, with the group size determined by the final enrollment. (Each group is expected to make two presentations throughout the semester.)\n\n\nAttention\nUnless otherwise specified in class, all assignments will be due on the date/time given on Moodle. The due is usually a week after the topic is finished. Late work within 7 calendar days of the original due date will be accepted by the instructor at the instructor’s discretion. After that, no late work will be accepted.\n\n\n\nAnnotated Bibliography#&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+  Document(page_content=&#39;Contents\n  \n\n\nCourse Syllabus\nIntroduction\nCourse Objectives\nCourse Website\n\n\nReadings\nMajor Readings\nRecommended Books\nOnline Resources\nYouTube Channels \n\n\nPython Setup\nNotebooks\nConda Environment\nModule Requirements\n\n\nCoding Assignments Reminders\nAnnotated Bibliography\nGoogle Colab\nOther Logistics\nDisclaimer\nReferences\n\n\n\n\n\n\n\n\nBy Alvin Cheng-Hsien Chen\n\n\n\n\n    \n      © Copyright 2023 Alvin Chen.&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+  Document(page_content=&#39;Coding Assignments Reminders\nAnnotated Bibliography\nGoogle Colab\nOther Logistics\nDisclaimer\nReferences\n\n\n\n\n\n\n\n\nENC2045 Computational Linguistics#\n\n\nLast Updated: 2024-02-23\n\n\n\n\n\nAttention\nWe’re updating the course materials as we progress through the Spring 2024 schedule. Typically, the lecture notes for each topic will be finalized and revised during its scheduled week on the syllabus.\n\n\nContributing to the Lecture Notes!\nThis website now supports Hypothe.is, which is an amazing tool for website annotations. If you would like to contribute to the lecture notes (e.g., error corrections), please leave your comments and suggestions as annotations. Corrections of the materials will be made on a regular basis. And your contributions are always greatly appreciated:)\n\n\nContents\n\nENC2045 Computational Linguistics\n\nCourse Syllabus\n\nIntroduction\nCourse Objectives\nCourse Website\n\n\nReadings\n\nMajor Readings\nRecommended Books\nOnline Resources\nYouTube Channels \n\n\nPython Setup&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;}),
+  Document(page_content=&#39;Module Requirements#\nNot all modules used in this course come with the default installation of the Python environment. Please remember to install these packages in use if you get a module-not-found type of errors.\nThe following is a list of packages we will use (non-exhaustive):\n\nbeautifulsoup4\nckip-transformers\ngensim\njieba\njupyter\njupyter-nbextensions-configurator\nKeras\nmatplotlib\nnltk\nnumpy\npandas\nscikit-learn\nseaborn\nspacy\nscipy\ntensorflow\ntransformers\n\nPlease google these packages for more details on their installation.\n\n\n\nCoding Assignments Reminders#&#39;, metadata={&#39;source&#39;: &#39;https://alvinntnu.github.io/NTNU_ENC2045_LECTURES/intro.html&#39;, &#39;title&#39;: &#39;ENC2045 Computational Linguistics — ENC2045 Computational Linguistics&#39;, &#39;language&#39;: &#39;en&#39;})],
+ &#39;answer&#39;: &#39;Sure, the four assignments are coding, reviewing, testing, and presentation.&#39;}
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="memory">
-<h2>Memory<a class="headerlink" href="#memory" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id16">Memory</a><a class="headerlink" href="#memory" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
-<li><p>Right now, the module <code class="docutils literal notranslate"><span class="pre">Memory</span></code> i still under active development.</p></li>
+<li><p>Right now, the module <code class="docutils literal notranslate"><span class="pre">Memory</span></code> is still under active development.</p></li>
 <li><p>To work with Memory, we will use the legacy chain, <code class="docutils literal notranslate"><span class="pre">langchain.chains.LLMChain()</span></code>, which is still under development of its compatibility with the <a class="reference external" href="https://python.langchain.com/docs/expression_language">LCEL</a> framework.</p></li>
 </ul>
 <div class="cell docutils container">
@@ -1207,7 +1361,7 @@ Prompt after formatting:
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;question&#39;: &#39;what is your name?&#39;,
  &#39;chat_history&#39;: &#39;&#39;,
- &#39;text&#39;: &quot;My name is Professor Johnson. It&#39;s nice to meet you.&quot;}
+ &#39;text&#39;: &#39;My name is Professor Johnson. How can I assist you today?&#39;}
 </pre></div>
 </div>
 </div>
@@ -1233,7 +1387,7 @@ Prompt after formatting:
 
 <span class=" -Color -Color-Bold -Color-Bold-Green">Previous conversation:</span>
 <span class=" -Color -Color-Bold -Color-Bold-Green">Human: what is your name?</span>
-<span class=" -Color -Color-Bold -Color-Bold-Green">AI: My name is Professor Johnson. It&#39;s nice to meet you.</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">AI: My name is Professor Johnson. How can I assist you today?</span>
 <span class=" -Color -Color-Bold -Color-Bold-Green">Human: I think your name is Alvin Chen, right?</span>
 <span class=" -Color -Color-Bold -Color-Bold-Green">AI: Yes. My name is Alvin Chen.</span>
 
@@ -1244,8 +1398,8 @@ Prompt after formatting:
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;question&#39;: &#39;So what is your name really?&#39;,
- &#39;chat_history&#39;: &quot;Human: what is your name?\nAI: My name is Professor Johnson. It&#39;s nice to meet you.\nHuman: I think your name is Alvin Chen, right?\nAI: Yes. My name is Alvin Chen.&quot;,
- &#39;text&#39;: &#39;My name is Alvin Chen. I apologize for any confusion earlier.&#39;}
+ &#39;chat_history&#39;: &#39;Human: what is your name?\nAI: My name is Professor Johnson. How can I assist you today?\nHuman: I think your name is Alvin Chen, right?\nAI: Yes. My name is Alvin Chen.&#39;,
+ &#39;text&#39;: &#39;My real name is Alvin Chen.&#39;}
 </pre></div>
 </div>
 </div>
@@ -1258,14 +1412,14 @@ Prompt after formatting:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;chat_history&#39;: &quot;Human: what is your name?\nAI: My name is Professor Johnson. It&#39;s nice to meet you.\nHuman: I think your name is Alvin Chen, right?\nAI: Yes. My name is Alvin Chen.\nHuman: So what is your name really?\nAI: My name is Alvin Chen. I apologize for any confusion earlier.&quot;}
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;chat_history&#39;: &#39;Human: what is your name?\nAI: My name is Professor Johnson. How can I assist you today?\nHuman: I think your name is Alvin Chen, right?\nAI: Yes. My name is Alvin Chen.\nHuman: So what is your name really?\nAI: My real name is Alvin Chen.&#39;}
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id17">References</a><a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://youtu.be/lG7Uxts9SXs?si=07gr6zeB9tDkHjGm">Langchain Crash Course for Beginners</a></p></li>
 <li><p><a class="reference external" href="https://python.langchain.com/docs/get_started/introduction">Langchain Documentation</a></p></li>
@@ -1306,20 +1460,20 @@ Prompt after formatting:
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="dl-fine-tuning-bert.html"
+       href="langchain-llm-intro.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Transfer Learning Using BERT</p>
+        <p class="prev-next-title">Large Language Model (Under Construction…)</p>
       </div>
     </a>
     <a class="right-next"
-       href="langchain-chatbots.html"
+       href="langchain-youtube.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Chatbot Using Langchain</p>
+        <p class="prev-next-title">LangChain Application: YouTube Summary</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1341,21 +1495,11 @@ Prompt after formatting:
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-langchain">What is Langchain?</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#integration-of-large-language-models-llms">1. Integration of Large Language Models (LLMs):</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#addressing-specific-information-needs">2. Addressing Specific Information Needs:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-data-referencing">3. Dynamic Data Referencing:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pipeline-for-language-model-applications">4. Pipeline for Language Model Applications:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-use-cases">5. Practical Use Cases:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-components-of-langchain">6. Key Components of Langchain:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-development-and-expansion">7. Continuous Development and Expansion:</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-langchain">What is Langchain?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install">Install</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-setup">API Setup</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-environment-variables-in-a-env-file">Saving Environment Variables in a <code class="docutils literal notranslate"><span class="pre">.env</span></code> File:</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-dotenv-in-python-to-load-environment-variables">Using <code class="docutils literal notranslate"><span class="pre">dotenv</span></code> in Python to Load Environment Variables:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#notes">Notes:</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-query">Basic Query</a></li>
@@ -1363,7 +1507,11 @@ Prompt after formatting:
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prompt-template">Prompt Template</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chain">Chain</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chaining-a-series-of-prompts">Chaining A Series of Prompts</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#retrieval-augmented-generation">Retrieval-Augmented Generation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#text-splitting">Text Splitting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#retrieval-augmented-generation">Retrieval-Augmented Generation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rag-using-chain">RAG Using Chain</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chat-history-management">Chat History Management</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memory">Memory</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
