@@ -1,0 +1,1108 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Open AI Overview &#8212; ENC2045 Computational Linguistics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mycss.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'nlp/langchain-openai';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="LangChain Application: YouTube Summary" href="langchain-youtube.html" />
+    <link rel="prev" title="Langchain: An Introduction" href="langchain-introduction.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/ntnu-word-2.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/ntnu-word-2.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">INTRODUCTION</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="nlp-primer.html">Natural Language Processing: A Primer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nlp-pipeline.html">NLP Pipeline</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Preprocessing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="text-preprocessing.html">Text Preprocessing</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="text-normalization-eng.html">Text Normalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="text-tokenization.html">Text Tokenization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="text-enrichment.html">Text Enrichment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chinese-word-seg.html">Chinese Word Segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="google-colab.html">Google Colab</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Text Vectorization</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="text-vec-traditional.html">Text Vectorization Using Traditional Methods</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning Basics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ml-overview.html">Machine Learning: Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ml-simple-case.html">Machine Learning: A Simple Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ml-algorithm.html">Classification Models</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine-Learning NLP</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ml-common-nlp-tasks.html">Common NLP Tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ml-sklearn-classification.html">Sentiment Analysis Using Bag-of-Words</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ml-emsemble-learning.html">Emsemble Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topic-modeling-naive.html">Topic Modeling: A Naive Example</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning NLP</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="dl-neural-network-from-scratch.html">Neural Network From Scratch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-simple-case.html">Deep Learning: A Simple Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-sentiment-case.html">Deep Learning: Sentiment Analysis</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Neural Language Model and Embeddings</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="dl-sequence-models-intuition.html">Sequence Models Intuition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-neural-language-model-primer.html">Neural Language Model: A Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="text-vec-embedding.html">Word Embeddings</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sequence Models, Attention, Transformers</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="dl-attention-transformer-intuition.html">Attention and Transformers: Intuitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-seq-to-seq-attention-addition.html">Sequence Model with Attention for Addition Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dl-transformers-keras.html">Sentiment Classification with Transformer (Self-Study)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">LLM</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="langchain-llm-intro.html">Large Language Model (Under Construction…)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="langchain-introduction.html">Langchain: An Introduction</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Open AI Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="langchain-youtube.html">LangChain Application: YouTube Summary</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Exercises</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../exercise/1-python-basics.html">1. Assignment I: Python Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/2-preprocessing.html">2. Assignment II: Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/3-chinese-nlp.html">3. Assignment III: Chinese Language Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/4-text-vectorization.html">4. Assignment IV: Text Vectorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/5-machine-learning.html">5. Assignment V: Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/6-topic-modeling.html">6. Assignment VI: Topic Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/7-dl-chinese-name-gender.html">7. Assignment VII: Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/8-sentiment-analysis-dl.html">8. Assignment VIII: Sentiment Analysis Using Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/9-neural-language-model.html">9. Assignment IV: Neural Language Model</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Exams</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../exercise/midterm-exam-112.html">Midterm Exam</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/alvinntnu/NTNU_ENC2045_LECTURES/blob/main/nlp/langchain-openai.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/nlp/langchain-openai.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Open AI Overview</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#speech-to-text">Speech to Text</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#text-to-speech">Text to Speech</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#image-creation">Image Creation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#image-processing-1">Image Processing 1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#image-processing-2">Image Processing 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#image-processing-3">Image Processing 3</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#video-processing">Video Processing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="open-ai-overview">
+<h1>Open AI Overview<a class="headerlink" href="#open-ai-overview" title="Permalink to this headline">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">load_dotenv</span>
+<span class="kn">from</span> <span class="nn">openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+<span class="kn">import</span> <span class="nn">textwrap</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">load_dotenv</span><span class="p">(</span><span class="s1">&#39;/Users/alvinchen/.env&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<section id="speech-to-text">
+<h2>Speech to Text<a class="headerlink" href="#speech-to-text" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">()</span>
+
+<span class="n">audio_file</span><span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;../../../RepositoryData/data/audio_files_harvard.wav&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+<span class="n">transcript</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">audio</span><span class="o">.</span><span class="n">transcriptions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+  <span class="n">model</span><span class="o">=</span><span class="s2">&quot;whisper-1&quot;</span><span class="p">,</span> 
+  <span class="n">file</span><span class="o">=</span><span class="n">audio_file</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">transcript</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The stale smell of old beer lingers. It takes heat to bring out the odor. A cold dip restores health and zest. A salt pickle tastes fine with ham. Tacos al pastor are my favorite. A zestful food is the hot cross bun.
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Transcribe the audio and use ChatGPT to improve the transcripts.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">transcribe</span><span class="p">(</span><span class="n">audio_file</span><span class="p">):</span>
+    <span class="n">transcript</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">audio</span><span class="o">.</span><span class="n">transcriptions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="s2">&quot;whisper-1&quot;</span><span class="p">,</span> 
+        <span class="n">file</span><span class="o">=</span><span class="n">audio_file</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">transcript</span><span class="o">.</span><span class="n">text</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">system_prompt</span> <span class="o">=</span> <span class="s2">&quot;You are a helpful assistant for a linguistic project. Your task is to correct any spelling discrepancies in the transcribed text. Make sure that the words are spelled correctly. Only add necessary punctuation such as periods, commas, and capitalization, and use only the context provided.&quot;</span>
+
+<span class="k">def</span> <span class="nf">generate_corrected_transcript</span><span class="p">(</span><span class="n">temperature</span><span class="p">,</span> <span class="n">system_prompt</span><span class="p">,</span> <span class="n">audio_file</span><span class="p">):</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4&quot;</span><span class="p">,</span>
+        <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+        <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">system_prompt</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">transcribe</span><span class="p">(</span><span class="n">audio_file</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">response</span> 
+
+<span class="n">corrected_text</span> <span class="o">=</span> <span class="n">generate_corrected_transcript</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">system_prompt</span><span class="p">,</span> <span class="n">audio_file</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">corrected_text</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ChatCompletion(id=&#39;chatcmpl-8PNXRlVrhrlxD6AB436SplBrisLeT&#39;, choices=[Choice(finish_reason=&#39;stop&#39;, index=0, message=ChatCompletionMessage(content=&#39;&quot;The stale smell of old beer lingers. It takes heat to bring out the odor. A cold dip restores health and zest. A salt pickle tastes fine with ham. Tacos al pastor are my favorite. A zestful food is the hot cross bun.&quot;&#39;, role=&#39;assistant&#39;, function_call=None, tool_calls=None))], created=1701059373, model=&#39;gpt-4-0613&#39;, object=&#39;chat.completion&#39;, system_fingerprint=None, usage=CompletionUsage(completion_tokens=52, prompt_tokens=117, total_tokens=169))
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="text-to-speech">
+<h2>Text to Speech<a class="headerlink" href="#text-to-speech" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">()</span>
+
+<span class="n">speech_file_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/alvinchen/Downloads/speech-sample.mp3&quot;</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">audio</span><span class="o">.</span><span class="n">speech</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+  <span class="n">model</span><span class="o">=</span><span class="s2">&quot;tts-1&quot;</span><span class="p">,</span>
+  <span class="n">voice</span><span class="o">=</span><span class="s2">&quot;shimmer&quot;</span><span class="p">,</span> <span class="c1">## `(alloy, echo, fable, onyx, nova, and shimmer)`</span>
+  <span class="c1">#input=&quot;Today is a wonderful day to build something people love!&quot;,</span>
+  <span class="nb">input</span> <span class="o">=</span> <span class="s2">&quot;中央氣象署表示，東北季風持續影響到下周二（14日），明天水氣多，基隆北海岸及東北部要留意局部大雨或豪雨，下周一（13日）清晨到14日清晨是最冷的時候，北台灣低溫下探攝氏18度到19度。至於關島附近的熱帶擾動，預計下周有機會增強為今年第17號颱風鯉魚，緯度偏低，方向偏西，後續還要再觀察。&quot;</span>
+<span class="p">)</span>
+
+<span class="n">response</span><span class="o">.</span><span class="n">stream_to_file</span><span class="p">(</span><span class="n">speech_file_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="image-creation">
+<h2>Image Creation<a class="headerlink" href="#image-creation" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">()</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">images</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
+  <span class="n">model</span><span class="o">=</span><span class="s2">&quot;dall-e-3&quot;</span><span class="p">,</span>
+  <span class="n">prompt</span><span class="o">=</span><span class="s2">&quot;a confident female president of Taiwan&quot;</span><span class="p">,</span>
+  <span class="n">size</span><span class="o">=</span><span class="s2">&quot;1024x1024&quot;</span><span class="p">,</span>
+  <span class="n">quality</span><span class="o">=</span><span class="s2">&quot;standard&quot;</span><span class="p">,</span>
+  <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">image_url</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">url</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image_url</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;https://oaidalleapiprodscus.blob.core.windows.net/private/org-i7tHvzzI06aHfj78xiLVCEXw/user-oirKN7PFErpN7Or1cRiiMwWG/img-hXVTgGtwvtwnlVxWxYpmcYD0.png?st=2023-11-27T03%3A31%3A15Z&amp;se=2023-11-27T05%3A31%3A15Z&amp;sp=r&amp;sv=2021-08-06&amp;sr=b&amp;rscd=inline&amp;rsct=image/png&amp;skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&amp;sktid=a48cca56-e6da-484e-a814-9c849652bcb3&amp;skt=2023-11-27T00%3A18%3A30Z&amp;ske=2023-11-28T00%3A18%3A30Z&amp;sks=b&amp;skv=2021-08-06&amp;sig=4QcLkWyxd/s%2BXvaPOZpCx5h0qqRreXmnwtPVm7Tx7zM%3D&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="image-processing-1">
+<h2>Image Processing 1<a class="headerlink" href="#image-processing-1" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>Process an online image file</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">openai</span> <span class="kn">import</span>  <span class="n">OpenAI</span>
+<span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">load_dotenv</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">load_dotenv</span><span class="p">(</span><span class="s1">&#39;/Users/alvinchen/.env&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<p><img alt="" src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?q=80&amp;w=2848&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">()</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4-vision-preview&quot;</span><span class="p">,</span>
+    <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;What’s in this image?&quot;</span><span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;image_url&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;image_url&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg&quot;</span><span class="p">,</span>
+                    <span class="p">},</span>
+                <span class="p">},</span>
+            <span class="p">],</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="n">max_tokens</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Choice(finish_reason=None, index=0, message=ChatCompletionMessage(content=&#39;The image features a wooden boardwalk extending through a lush green field. The boardwalk leads straight ahead through tall grass, and the landscape opens up to a blue sky with soft, scattered clouds. The environment looks peaceful and natural, with no immediate signs of urban development. It appears to be a perfect spot for a tranquil walk, surrounded by the serenity of nature. The colors are vibrant, suggesting that the photo might have been taken on a sunny day, likely during late spring or summer when vegetation is in full bloom.&#39;, role=&#39;assistant&#39;, function_call=None, tool_calls=None), finish_details={&#39;type&#39;: &#39;stop&#39;, &#39;stop&#39;: &#39;&lt;|fim_suffix|&gt;&#39;})
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">textwrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;The image features a wooden boardwalk extending through a lush green field. The boardwalk leads straight ahead through tall grass, and the landscape opens up to a blue sky with soft, scattered clouds. The environment looks peaceful and natural, with no immediate signs of urban development. It appears to be a perfect spot for a tranquil walk, surrounded by the serenity of nature. The colors are vibrant, suggesting that the photo might have been taken on a sunny day, likely during late spring or summer when vegetation is in full bloom.&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="image-processing-2">
+<h2>Image Processing 2<a class="headerlink" href="#image-processing-2" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>Process an image file on the drive</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+
+<span class="c1"># Function to encode the image</span>
+<span class="k">def</span> <span class="nf">encode_image</span><span class="p">(</span><span class="n">image_path</span><span class="p">):</span>
+  <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">image_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">image_file</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">image_file</span><span class="o">.</span><span class="n">read</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Path to your image</span>
+<span class="n">image_path</span> <span class="o">=</span> <span class="s2">&quot;../../../RepositoryData/data/resturant.jpeg&quot;</span>
+
+<span class="c1"># Getting the base64 string</span>
+<span class="n">base64_image</span> <span class="o">=</span> <span class="n">encode_image</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4-vision-preview&quot;</span><span class="p">,</span>
+    <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;What’s in this image?&quot;</span><span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;image_url&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;image_url&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;data:image/jpeg;base64,</span><span class="si">{</span><span class="n">base64_image</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="p">},</span>
+                <span class="p">},</span>
+            <span class="p">],</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="n">max_tokens</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">textwrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;You have shown me two images, each depicting the interior of a&#39;,
+ &#39;different restaurant.  In the first image, we see a retro-style diner&#39;,
+ &#39;with a vivid color palette that includes red and white as primary&#39;,
+ &#39;colors. This diner has a classic Americana vibe, featuring checkered&#39;,
+ &#39;flooring, neon signage, and chrome accents. You can see vintage&#39;,
+ &#39;decorative elements such as an old car model mounted on the wall,&#39;,
+ &#39;retro-style hanging lights, and framed pictures or posters that&#39;,
+ &#39;contribute to the nostalgic atmosphere.  The second image presents a&#39;,
+ &#39;restaurant with a more contemporary and minimalistic design. The color&#39;,
+ &#39;scheme consists of blue and neutral tones, which create a more modern&#39;,
+ &#39;and relaxed atmosphere. The light fixtures have a basket-weave design,&#39;,
+ &#39;and the space includes a flat-screen TV and potted plants, which&#39;,
+ &#39;contribute to a more casual and up-to-date dining experience.  The&#39;,
+ &#39;differences between these two images are primarily in their style and&#39;,
+ &#39;decor. The first represents a nostalgic diner from a bygone era,&#39;,
+ &#39;whereas the second is a more current, cleaner design that likely&#39;,
+ &#39;appeals to a different aesthetic sensibility. Both spaces are designed&#39;,
+ &#39;to provide a unique dining environment, but each targets a different&#39;,
+ &#39;ambiance and possibly a different clientele.&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="image-processing-3">
+<h2>Image Processing 3<a class="headerlink" href="#image-processing-3" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>Process several image files</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Path to your image</span>
+<span class="n">image_path</span> <span class="o">=</span> <span class="s2">&quot;../../../RepositoryData/data/resturant2.jpeg&quot;</span>
+
+<span class="c1"># Getting the base64 string</span>
+<span class="n">base64_image2</span> <span class="o">=</span> <span class="n">encode_image</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4-vision-preview&quot;</span><span class="p">,</span>
+    <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span> 
+                 <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;What are in these images? Are there any differences between them?&quot;</span><span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;image_url&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;image_url&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;data:image/jpeg;base64,</span><span class="si">{</span><span class="n">base64_image</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="p">},</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;image_url&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;image_url&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;data:image/jpeg;base64,</span><span class="si">{</span><span class="n">base64_image2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="p">},</span>
+                <span class="p">},</span>
+            <span class="p">],</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="n">max_tokens</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">textwrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;You have shown me two images, each depicting the interior of a&#39;,
+ &#39;different restaurant.  In the first image, we see a retro-style diner&#39;,
+ &#39;with a vivid color palette that includes red and white as primary&#39;,
+ &#39;colors. This diner has a classic Americana vibe, featuring checkered&#39;,
+ &#39;flooring, neon signage, and chrome accents. You can see vintage&#39;,
+ &#39;decorative elements such as an old car model mounted on the wall,&#39;,
+ &#39;retro-style hanging lights, and framed pictures or posters that&#39;,
+ &#39;contribute to the nostalgic atmosphere.  The second image presents a&#39;,
+ &#39;restaurant with a more contemporary and minimalistic design. The color&#39;,
+ &#39;scheme consists of blue and neutral tones, which create a more modern&#39;,
+ &#39;and relaxed atmosphere. The light fixtures have a basket-weave design,&#39;,
+ &#39;and the space includes a flat-screen TV and potted plants, which&#39;,
+ &#39;contribute to a more casual and up-to-date dining experience.  The&#39;,
+ &#39;differences between these two images are primarily in their style and&#39;,
+ &#39;decor. The first represents a nostalgic diner from a bygone era,&#39;,
+ &#39;whereas the second is a more current, cleaner design that likely&#39;,
+ &#39;appeals to a different aesthetic sensibility. Both spaces are designed&#39;,
+ &#39;to provide a unique dining environment, but each targets a different&#39;,
+ &#39;ambiance and possibly a different clientele.&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="video-processing">
+<h2>Video Processing<a class="headerlink" href="#video-processing" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">Image</span><span class="p">,</span> <span class="n">Audio</span>
+
+<span class="kn">import</span> <span class="nn">cv2</span>  <span class="c1"># We&#39;re using OpenCV to read video</span>
+<span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">openai</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">video</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="s2">&quot;/Users/alvinchen/Downloads/video-test.mp4&quot;</span><span class="p">)</span>
+
+<span class="n">base64Frames</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">while</span> <span class="n">video</span><span class="o">.</span><span class="n">isOpened</span><span class="p">():</span>
+    <span class="n">success</span><span class="p">,</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">video</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">break</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">buffer</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imencode</span><span class="p">(</span><span class="s2">&quot;.jpg&quot;</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
+    <span class="n">base64Frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+
+<span class="n">video</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">base64Frames</span><span class="p">),</span> <span class="s2">&quot;frames read.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>385 frames read.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display_handle</span> <span class="o">=</span> <span class="n">display</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">display_id</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">base64Frames</span><span class="p">[:</span><span class="mi">10</span><span class="p">]:</span>
+    <span class="n">display_handle</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">Image</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))))</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.025</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/94363337e726888b35d3cdd8412a7c4e5bfb29865058901785082dade6a09723.jpg" src="../_images/94363337e726888b35d3cdd8412a7c4e5bfb29865058901785082dade6a09723.jpg" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">base64Frames</span><span class="p">)</span>
+<span class="n">base64Frames</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">base64Frames</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>385
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4-vision-preview&quot;</span><span class="p">,</span>
+    <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;What are in these images? Is there any difference between them?&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;image_url&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;image_url&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;data:image/jpeg;base64,</span><span class="si">{</span><span class="n">base64Frames</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="p">},</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;image_url&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;image_url&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;data:image/jpeg;base64,</span><span class="si">{</span><span class="n">base64Frames</span><span class="p">[</span><span class="mi">20</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="p">},</span>
+                <span class="p">},</span>
+            <span class="p">],</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="n">max_tokens</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The images depict a serene wooded path with golden autumn leaves on the ground and trees with yellowing foliage, suggesting it is the fall season. There is also a person in a hoodie and shorts walking down the path in both pictures.
+
+There is a slight difference between the two images – in the second image, the person is a bit farther along the path compared to their position in the first image. Additionally, there might be minor differences in the shadows and lighting due to the movement of the person and possibly small changes in the natural lighting. However, without analyzing the pictures on a pixel level or having access to metadata, the main difference visible is the position of the person walking on the path.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;image&quot;</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="s2">&quot;resize&quot;</span><span class="p">:</span> <span class="mi">768</span><span class="p">},</span> <span class="n">base64Frames</span><span class="p">[::</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;map at 0x16c29bbb0&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Not sure if it is working...</span>
+
+<span class="n">PROMPT_MESSAGES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span> 
+             <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;These are frames from a video that I want to upload. Generate a compelling description that I can upload along with the video.&quot;</span><span class="p">,</span>  
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;image_url&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;image_url&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;data:image/jpeg;base64,</span><span class="si">{</span><span class="n">base64Frames</span><span class="p">[</span><span class="mi">20</span><span class="p">:</span><span class="mi">25</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="p">},</span>
+            <span class="p">}</span>
+        <span class="p">],</span>
+    <span class="p">},</span>
+<span class="p">]</span>
+
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="s2">&quot;gpt-4-vision-preview&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;messages&quot;</span><span class="p">:</span> <span class="n">PROMPT_MESSAGES</span><span class="p">,</span>
+    <span class="s2">&quot;max_tokens&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;Embrace the serene beauty of autumn in this peaceful walk through a forest bathed in golden hues. Listen to the rustling leaves and watch as nature prepares for the embrace of winter. Join our journey through this tranquil landscape and let the quietude of this woodland retreat calm the mind and refresh the spirit. Don&#39;t forget to like, share, and subscribe for more soul-soothing scenic adventures!&quot;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://platform.openai.com/docs/guides/vision">OpenAI Vision Processing</a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nlp"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="langchain-introduction.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Langchain: An Introduction</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="langchain-youtube.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">LangChain Application: YouTube Summary</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#speech-to-text">Speech to Text</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#text-to-speech">Text to Speech</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#image-creation">Image Creation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#image-processing-1">Image Processing 1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#image-processing-2">Image Processing 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#image-processing-3">Image Processing 3</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#video-processing">Video Processing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Alvin Cheng-Hsien Chen
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023 Alvin Chen.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
