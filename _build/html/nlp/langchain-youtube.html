@@ -398,7 +398,6 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment">Environment</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import">Import</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-variables-and-openai-api">Environment Variables and OPENAI API</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-youtube">Loading YouTube</a></li>
@@ -420,20 +419,6 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="langchain-application-youtube-summary">
 <h1>LangChain Application: YouTube Summary<a class="headerlink" href="#langchain-application-youtube-summary" title="Permalink to this headline">#</a></h1>
-<section id="environment">
-<h2>Environment<a class="headerlink" href="#environment" title="Permalink to this headline">#</a></h2>
-<ul class="simple">
-<li><p>Create a python environment with the following packages installed:</p></li>
-</ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span><span class="o">-</span><span class="n">dotenv</span>
-<span class="n">langchain</span>
-<span class="n">openai</span>
-<span class="n">youtube</span><span class="o">-</span><span class="n">transcript</span><span class="o">-</span><span class="n">api</span>
-<span class="n">faiss</span><span class="o">-</span><span class="n">cpu</span>
-<span class="n">streamlit</span>
-</pre></div>
-</div>
-</section>
 <section id="import">
 <h2>Import<a class="headerlink" href="#import" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
@@ -446,7 +431,6 @@ document.write(`
 <span class="kn">from</span> <span class="nn">langchain</span> <span class="kn">import</span> <span class="n">PromptTemplate</span>
 <span class="kn">from</span> <span class="nn">langchain.chains</span> <span class="kn">import</span> <span class="n">LLMChain</span>
 <span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">load_dotenv</span>
-
 <span class="kn">import</span> <span class="nn">tiktoken</span>
 <span class="kn">import</span> <span class="nn">os</span>
 </pre></div>
@@ -478,9 +462,13 @@ document.write(`
 <ul class="simple">
 <li><p>LangChain offers many loaders and transforms various inputs into standardized Document format.</p></li>
 </ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Check the official documentation of <a class="reference external" href="https://python.langchain.com/v0.2/docs/integrations/document_loaders/">Document Loaders</a> for more detail.</p>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#loader = YoutubeLoader.from_youtube_url(&quot;https://www.youtube.com/watch?v=SFnMTHhKdkw&quot;)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Specify a youtube link</span>
 <span class="n">loader</span> <span class="o">=</span> <span class="n">YoutubeLoader</span><span class="o">.</span><span class="n">from_youtube_url</span><span class="p">(</span><span class="s1">&#39;https://www.youtube.com/watch?v=_BMAkffp2CA&#39;</span><span class="p">)</span>
 <span class="n">doc</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
 </pre></div>
@@ -614,11 +602,12 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1. The White House and Israel have agreed to 4-hour military pauses in Northern Gaza to allow Palestinians to flee safely to the South.
-2. The White House is hoping to use these pauses to deliver aid into Gaza and potentially facilitate the release of hostages.
-3. President Biden had asked for a longer pause than 3 days to facilitate hostage release, showing frustration with the delay in reaching an agreement.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Key Takeaways:
+1. The White House and Israel have agreed to 4-hour military pauses in Northern Gaza to allow Palestinians to flee safely to the South.
+2. The pauses are also intended to facilitate the delivery of aid into Gaza and potentially help in the release of hostages.
+3. President Biden had asked for a longer pause than 3 days, showing frustration with the delay in reaching an agreement.
 4. The pressure from Washington on Israel&#39;s Prime Minister to agree to longer breaks in the fighting has been increasing as the humanitarian crisis in Gaza worsens.
-5. Talks are active regarding a potential deal for a longer break in the fighting, with the White House and State Department pushing for action to address the dire situation in Gaza.
+5. The focus is on getting aid into Gaza, addressing the dire situation, and potentially securing the release of hostages through diplomatic efforts.
 </pre></div>
 </div>
 </div>
@@ -631,14 +620,14 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>关于白宫同意以色列在北加沙实施每天4小时的军事停火以及开放两个人道主义通道的新消息，美国与以色列达成协议，每天进行4小时的停火，以便让北加沙的巴勒斯坦人安全地向南逃离。白宫希望利用这些停火来向加沙提供更多援助，最终可能用于释放人质。
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>关于白宫同意以色列在北加沙进行4小时的军事停火以及开放两个人道主义通道的新消息，美国与以色列达成协议，每天进行4小时的停火，以便让北加沙的巴勒斯坦人安全地向南逃离。白宫希望利用这些停火来向加沙运送更多援助物资，最终可能还会利用停火来促进人质的释放。
 
-5个关键点：
-1. 美国与以色列达成协议，每天实施4小时的军事停火，以便让北加沙的巴勒斯坦人安全地向南逃离。
-2. 白宫希望通过这些停火来向加沙提供更多援助，每天希望能够送达150辆卡车的援助物资。
-3. 美国一直在向以色列施加压力，希望实现停火，以解决加沙的人道危机，并帮助释放人质。
-4. 美国总统拜登曾要求以色列总理实施为期三天的停火，以便释放人质和提供更多援助。
-5. 白宫和国务院一直在努力争取实现停火，以便向加沙提供援助，并帮助巴勒斯坦平民安全撤离。
+5个要点：
+1. 美国与以色列达成协议，每天进行4小时的军事停火，以便让北加沙的巴勒斯坦人安全地向南逃离。
+2. 白宫希望利用停火来向加沙运送更多援助物资，每天希望能够送达150辆卡车的援助物资。
+3. 总统拜登曾要求以色列总理进行为期三天的停火，以便释放人质和运送更多援助物资。
+4. 美国一直在向以色列施加压力，希望获得更长时间的停火，以解决加沙的人道危机和释放人质。
+5. 白宫和国务院一直在努力争取停火，以便向加沙运送援助物资，并帮助巴勒斯坦平民前往安全地区。
 </pre></div>
 </div>
 </div>
@@ -648,7 +637,8 @@ document.write(`
 <h2>Chat with the YouTube Content<a class="headerlink" href="#chat-with-the-youtube-content" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">OpenAIEmbeddings</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Pretrained embedding models</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">OpenAIEmbeddings</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -656,12 +646,15 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_db_from_youtube_video_url</span><span class="p">(</span><span class="n">video_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FAISS</span><span class="p">:</span>
+    <span class="c1">## document loader</span>
     <span class="n">loader</span> <span class="o">=</span> <span class="n">YoutubeLoader</span><span class="o">.</span><span class="n">from_youtube_url</span><span class="p">(</span><span class="n">video_url</span><span class="p">)</span>
     <span class="n">transcript</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
-
+    
+    <span class="c1">## text splitter</span>
     <span class="n">text_splitter</span> <span class="o">=</span> <span class="n">RecursiveCharacterTextSplitter</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">chunk_overlap</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
     <span class="n">docs</span> <span class="o">=</span> <span class="n">text_splitter</span><span class="o">.</span><span class="n">split_documents</span><span class="p">(</span><span class="n">transcript</span><span class="p">)</span>
-
+    
+    <span class="c1">## vector store</span>
     <span class="n">db</span> <span class="o">=</span> <span class="n">FAISS</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span><span class="n">docs</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">db</span>
 
@@ -672,11 +665,14 @@ document.write(`
 <span class="sd">    the number of tokens to analyze.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="c1">## vector store simlarity check</span>
     <span class="n">docs</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">similarity_search</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
     <span class="n">docs_page_content</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">d</span><span class="o">.</span><span class="n">page_content</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">docs</span><span class="p">])</span>
 
+    <span class="c1">## LLM </span>
     <span class="n">llm</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;gpt-3.5-turbo&quot;</span><span class="p">)</span>
 
+    <span class="c1">## Prompt</span>
     <span class="n">prompt</span> <span class="o">=</span> <span class="n">PromptTemplate</span><span class="p">(</span>
         <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;question&quot;</span><span class="p">,</span> <span class="s2">&quot;docs&quot;</span><span class="p">],</span>
         <span class="n">template</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
@@ -694,11 +690,14 @@ document.write(`
 <span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">chain</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="c1">## Chain</span>
+    <span class="c1"># chain = LLMChain(llm=llm, prompt=prompt)</span>
+    <span class="n">chain</span> <span class="o">=</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">llm</span>
+    <span class="c1">## Invoke</span>
+    <span class="c1"># response = chain.invoke(question=query, docs=docs_page_content)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="n">query</span><span class="p">,</span> <span class="s2">&quot;docs&quot;</span><span class="p">:</span> <span class="n">docs_page_content</span><span class="p">})</span>
 
-    <span class="n">response</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">question</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">docs</span><span class="o">=</span><span class="n">docs_page_content</span><span class="p">)</span>
-    <span class="n">response</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">response</span><span class="p">,</span> <span class="n">docs</span>
+    <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="n">docs</span>
 </pre></div>
 </div>
 </div>
@@ -717,7 +716,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;The talk is about the importance of human connection and relationships in education. The speaker emphasizes that significant learning cannot happen without a significant relationship. They share personal stories of how their mother, an educator, made a difference in the lives of her students by showing care and building connections with them. Through anecdotes and examples, the speaker highlights the impact that educators can have on students by fostering positive relationships and creating a supportive environment for learning. The talk underscores the idea that education goes beyond academics and that caring for students on a personal level can greatly contribute to their success and well-being.&#39;,
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&quot;The talk discusses the speaker&#39;s lifelong involvement in education, highlighting the importance of human connection in learning. They emphasize the impact educators can have on students&#39; lives by building relationships and showing care and support. Personal anecdotes about the speaker&#39;s mother&#39;s dedication to her students further illustrate this point. Through these stories, the speaker emphasizes the transformative power of education and the role educators play in shaping students&#39; lives.&quot;,
  [Document(page_content=&quot;Transcriber: Joseph Geni\nReviewer: Morton Bast I have spent my entire life either at the schoolhouse,\non the way to the schoolhouse, or talking about what happens\nin the schoolhouse. (Laughter) Both my parents were educators, my maternal grandparents were educators, and for the past 40 years,\nI&#39;ve done the same thing. And so, needless to say, over those years I&#39;ve had a chance\nto look at education reform from a lot of perspectives. Some of those reforms have been good. Some of them have been not so good. And we know why kids drop out. We know why kids don&#39;t learn. It&#39;s either poverty, low attendance, negative peer influences... We know why. But one of the things\nthat we never discuss or we rarely discuss is the value and importance\nof human connection. Relationships. James Comer says\nthat no significant learning can occur without\na significant relationship. George Washington Carver says all learning is understanding relationships. Everyone in this room has been affected&quot;, metadata={&#39;source&#39;: &#39;SFnMTHhKdkw&#39;}),
   Document(page_content=&#39;to show the other classes how to do it, so when\nwe walk down the hall, people will notice us,\nso you can\&#39;t make noise. You just have to strut.&quot; (Laughter) And I gave them a saying to say: &quot;I am somebody. I was somebody when I came. I\&#39;ll be a better somebody when I leave. I am powerful, and I am strong. I deserve the education that I get here. I have things to do, people to impress, and places to go.&quot; And they said, &quot;Yeah!&quot; (Laughter) You say it long enough, it starts to be a part of you. (Applause) I gave a quiz, 20 questions. A student missed 18. I put a &quot;+2&quot; on his paper\nand a big smiley face. (Laughter) He said, &quot;Ms. Pierson, is this an F?&quot; I said, &quot;Yes.&quot; (Laughter) He said, &quot;Then why\&#39;d you\nput a smiley face?&quot; I said, &quot;Because you\&#39;re on a roll. You got two right.\nYou didn\&#39;t miss them all.&quot; (Laughter) I said, &quot;And when we review this,\nwon\&#39;t you do better?&quot; He said, &quot;Yes, ma\&#39;am, I can do better.&quot; You see, &quot;-18&quot; sucks&#39;, metadata={&#39;source&#39;: &#39;SFnMTHhKdkw&#39;}),
   Document(page_content=&quot;the best that they can possibly be. Is this job tough? You betcha. Oh God, you betcha. But it is not impossible. We can do this. We&#39;re educators. We&#39;re born to make a difference. Thank you so much. (Applause)&quot;, metadata={&#39;source&#39;: &#39;SFnMTHhKdkw&#39;}),
@@ -733,7 +732,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&quot;Based on the transcript provided, it is evident that the speaker truly values the importance of building relationships with students in order to effectively teach them. The speaker mentions that kids don&#39;t learn from people they don&#39;t like, which shows that they believe in the significance of creating a positive and supportive environment in the classroom. The speaker also mentions Stephen Covey&#39;s idea of seeking first to understand, apologizing when necessary, and other simple gestures that can help in building relationships with students.Furthermore, the speaker&#39;s anecdote about teaching a lesson on ratios and admitting that they are not good at math shows humility and a willingness to be vulnerable in front of their students. This demonstrates a genuine interest in connecting with students on a personal level and being relatable to them.Overall, based on the speaker&#39;s emphasis on the importance of building relationships with students, showing empathy, and being willing to admit their own shortcomings, it can be concluded that the speaker genuinely enjoys teaching and values the connections they make with their students.&quot;,
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&quot;Based on the transcript provided, it is clear that the speaker values building relationships with students and believes that teaching goes beyond just delivering a lesson. The speaker emphasizes the importance of liking the kids they teach, as they mention that kids don&#39;t learn from people they don&#39;t like. This indicates that the speaker values the connection and relationship they have with their students. \n\nFurthermore, the speaker mentions that they taught a lesson on ratios, showing that they are actively engaged in the teaching process and are willing to put effort into creating engaging and effective lessons for their students. This demonstrates a genuine passion for teaching and a desire to see their students succeed.\n\nOverall, based on the transcript, it can be inferred that the speaker highly values teaching and the relationships they build with their students. They believe that liking the kids they teach is crucial for effective learning to take place.&quot;,
  [Document(page_content=&#39;by a teacher or an adult. For years, I have watched people teach. I have looked at the best\nand I\&#39;ve looked at some of the worst. A colleague said to me one time, &quot;They don\&#39;t pay me to like the kids. They pay me to teach a lesson. The kids should learn it. I should teach it, they should learn it, Case closed.&quot; Well, I said to her, &quot;You know, kids don\&#39;t learn\nfrom people they don\&#39;t like.&quot; (Laughter) (Applause) She said, &quot;That\&#39;s just a bunch of hooey.&quot; And I said to her, &quot;Well, your year is going to be\nlong and arduous, dear.&quot; Needless to say, it was. Some people think that you can either\nhave it in you to build a relationship, or you don\&#39;t. I think Stephen Covey had the right idea. He said you ought to just\nthrow in a few simple things, like seeking first to understand, as opposed to being understood. Simple things, like apologizing. You ever thought about that? Tell a kid you\&#39;re sorry, they\&#39;re in shock. (Laughter) I taught a lesson once on ratios. I\&#39;m not real good with math,&#39;, metadata={&#39;source&#39;: &#39;SFnMTHhKdkw&#39;})])
 </pre></div>
 </div>
@@ -746,7 +745,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;In the video transcript, the speaker provides several examples of teaching throughout the speech. One example is when the speaker talks about the importance of building relationships with students. They mention that no significant learning can occur without a significant relationship, emphasizing the value of human connection in education. The speaker also shares a personal anecdote about apologizing to students when they taught a lesson incorrectly, highlighting the importance of humility and acknowledging mistakes in teaching. Additionally, the speaker mentions giving positive reinforcement to a student who struggled on a quiz, showing encouragement and support to help the student improve. The speaker also discusses the idea of instilling self-esteem in students while also focusing on their academic achievement, demonstrating a holistic approach to teaching. Overall, the examples provided by the speaker emphasize the importance of building relationships, showing empathy, and fostering a positive learning environment in teaching.&#39;,
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&quot;The speaker in the video provides several examples of teaching throughout the transcript. Firstly, the speaker mentions watching people teach for years, observing both the best and the worst methods. They also talk about the importance of building relationships with students, mentioning the significance of seeking to understand them and apologizing when necessary. The speaker recounts teaching a lesson on ratios, despite not being confident in their math abilities, demonstrating their dedication to educating their students. Additionally, the speaker describes a moment when a student performed poorly on a quiz, but instead of focusing on the negative grade, the speaker highlighted the two questions the student answered correctly, showing encouragement and positivity. The speaker also reflects on a difficult class they had, expressing their emotional struggle to help the students improve academically and raise their self-esteem simultaneously. Furthermore, the speaker shares a story about a student&#39;s funeral, emphasizing the lasting impact of relationships and connections formed with students. Overall, the examples provided by the speaker showcase their commitment to teaching, building relationships with students, and fostering a positive learning environment.&quot;,
  [Document(page_content=&#39;by a teacher or an adult. For years, I have watched people teach. I have looked at the best\nand I\&#39;ve looked at some of the worst. A colleague said to me one time, &quot;They don\&#39;t pay me to like the kids. They pay me to teach a lesson. The kids should learn it. I should teach it, they should learn it, Case closed.&quot; Well, I said to her, &quot;You know, kids don\&#39;t learn\nfrom people they don\&#39;t like.&quot; (Laughter) (Applause) She said, &quot;That\&#39;s just a bunch of hooey.&quot; And I said to her, &quot;Well, your year is going to be\nlong and arduous, dear.&quot; Needless to say, it was. Some people think that you can either\nhave it in you to build a relationship, or you don\&#39;t. I think Stephen Covey had the right idea. He said you ought to just\nthrow in a few simple things, like seeking first to understand, as opposed to being understood. Simple things, like apologizing. You ever thought about that? Tell a kid you\&#39;re sorry, they\&#39;re in shock. (Laughter) I taught a lesson once on ratios. I\&#39;m not real good with math,&#39;, metadata={&#39;source&#39;: &#39;SFnMTHhKdkw&#39;}),
   Document(page_content=&quot;Transcriber: Joseph Geni\nReviewer: Morton Bast I have spent my entire life either at the schoolhouse,\non the way to the schoolhouse, or talking about what happens\nin the schoolhouse. (Laughter) Both my parents were educators, my maternal grandparents were educators, and for the past 40 years,\nI&#39;ve done the same thing. And so, needless to say, over those years I&#39;ve had a chance\nto look at education reform from a lot of perspectives. Some of those reforms have been good. Some of them have been not so good. And we know why kids drop out. We know why kids don&#39;t learn. It&#39;s either poverty, low attendance, negative peer influences... We know why. But one of the things\nthat we never discuss or we rarely discuss is the value and importance\nof human connection. Relationships. James Comer says\nthat no significant learning can occur without\na significant relationship. George Washington Carver says all learning is understanding relationships. Everyone in this room has been affected&quot;, metadata={&#39;source&#39;: &#39;SFnMTHhKdkw&#39;}),
   Document(page_content=&#39;to show the other classes how to do it, so when\nwe walk down the hall, people will notice us,\nso you can\&#39;t make noise. You just have to strut.&quot; (Laughter) And I gave them a saying to say: &quot;I am somebody. I was somebody when I came. I\&#39;ll be a better somebody when I leave. I am powerful, and I am strong. I deserve the education that I get here. I have things to do, people to impress, and places to go.&quot; And they said, &quot;Yeah!&quot; (Laughter) You say it long enough, it starts to be a part of you. (Applause) I gave a quiz, 20 questions. A student missed 18. I put a &quot;+2&quot; on his paper\nand a big smiley face. (Laughter) He said, &quot;Ms. Pierson, is this an F?&quot; I said, &quot;Yes.&quot; (Laughter) He said, &quot;Then why\&#39;d you\nput a smiley face?&quot; I said, &quot;Because you\&#39;re on a roll. You got two right.\nYou didn\&#39;t miss them all.&quot; (Laughter) I said, &quot;And when we review this,\nwon\&#39;t you do better?&quot; He said, &quot;Yes, ma\&#39;am, I can do better.&quot; You see, &quot;-18&quot; sucks&#39;, metadata={&#39;source&#39;: &#39;SFnMTHhKdkw&#39;}),
@@ -815,7 +814,7 @@ document.write(`
     <span class="n">formatted_prompt</span> <span class="o">=</span> <span class="n">prompt</span><span class="o">.</span><span class="n">format_messages</span><span class="p">(</span><span class="n">transcript</span><span class="o">=</span><span class="n">transcript</span><span class="p">,</span> <span class="n">questions</span><span class="o">=</span><span class="n">questions</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Formatted prompt: &quot;</span><span class="p">,</span> <span class="n">formatted_prompt</span><span class="p">)</span>
     <span class="n">llm</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
-    <span class="n">summary</span> <span class="o">=</span> <span class="n">llm</span><span class="p">(</span><span class="n">formatted_prompt</span><span class="p">)</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">formatted_prompt</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">summary</span>
 </pre></div>
 </div>
@@ -873,7 +872,7 @@ Formatted prompt:  [HumanMessage(content=&quot;Summarize the video with the tran
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>content=&quot;The White House has announced that Israel has agreed to a daily 4-hour pause in military operations in Northern Gaza. This pause is intended to allow Palestinians in the region to safely flee to the south. Israel will provide a three-hour notice before each pause, and Palestinians will be able to use designated safe passage corridors, which have been in operation for several days. The White House hopes to use these pauses to increase the delivery of aid to Gaza, with a goal of up to 150 trucks of aid per day. The pauses may also be used to facilitate the release of hostages. President Biden confirmed that he had asked Israeli Prime Minister Netanyahu for a pause longer than three days, expressing frustration that the process is taking longer than expected. Despite supporting Israel&#39;s stance that a ceasefire could benefit Hamas, the US has been pushing for breaks in the fighting to address the humanitarian crisis in Gaza and to secure the release of hostages.&quot;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>content=&quot;The main idea of the news coverage is the agreement reached by Israel to implement a daily four-hour pause in military operations in Northern Gaza. This agreement, brokered by the United States, is intended to provide safe passage for Palestinians to flee the hostilities. Israel will give a three-hour notice each day when this pause will occur. The U.S. hopes to use these pauses to deliver more aid to Gaza, aiming to send up to 150 trucks daily, and possibly facilitate the release of hostages. The news coverage also mentions that President Biden had previously asked the Israeli Prime Minister for a longer pause, and he expressed frustration that the situation has taken longer than expected. Despite supporting Israel&#39;s stance that a ceasefire would benefit Hamas, the U.S. is pressing for a break in the fighting to address the dire humanitarian crisis in Gaza.&quot;
 </pre></div>
 </div>
 </div>
@@ -954,7 +953,6 @@ Formatted prompt:  [HumanMessage(content=&quot;Summarize the video with the tran
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment">Environment</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import">Import</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-variables-and-openai-api">Environment Variables and OPENAI API</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-youtube">Loading YouTube</a></li>
