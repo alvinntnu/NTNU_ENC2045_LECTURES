@@ -220,7 +220,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Exams</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../exercise/midterm-exam-112.html">Midterm Exam</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise/final-exam-112.html">Final Exam</a></li>
 </ul>
 
     </div>
@@ -650,6 +650,57 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Large language models are machine learning algorithms trained on vast amounts of text data to understand and generate human-like text.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Testing Hugginface Model</span>
+<span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">load_dotenv</span><span class="p">,</span> <span class="n">find_dotenv</span>
+<span class="kn">from</span> <span class="nn">langchain_community.llms</span> <span class="kn">import</span> <span class="n">HuggingFaceEndpoint</span>
+<span class="kn">import</span> <span class="nn">os</span> 
+
+<span class="c1">## loading environment variables</span>
+<span class="n">load_dotenv</span><span class="p">()</span>
+<span class="n">HUGGINGFACEHUB_API_TOKEN</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;HUGGINGFACEHUB_API_TOKEN&#39;</span><span class="p">)</span>
+
+
+<span class="c1">## Hugginface Model ID</span>
+<span class="n">repo_id</span> <span class="o">=</span> <span class="s2">&quot;mistralai/Mistral-7B-Instruct-v0.2&quot;</span>
+
+<span class="c1">## Initalize Hugginface Model</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">HuggingFaceEndpoint</span><span class="p">(</span>
+    <span class="n">repo_id</span><span class="o">=</span><span class="n">repo_id</span><span class="p">,</span>  <span class="n">temperature</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># llm = HuggingFaceHub(repo_id=&#39;tiiuae/falcon-7b-instruct&#39;, huggingfacehub_api_token=huggingfacehub_api_token)</span>
+<span class="c1"># llm = HuggingFaceEndpoint(</span>
+<span class="c1">#     repo_id=&quot;meta-llama/Meta-Llama-3-70B-Instruct&quot;,</span>
+<span class="c1">#     task=&quot;text-generation&quot;,</span>
+<span class="c1">#     max_new_tokens=512,</span>
+<span class="c1">#     do_sample=False,</span>
+<span class="c1">#     repetition_penalty=1.03,</span>
+<span class="c1"># )</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The token has not been saved to the git credentials helper. Pass `add_to_git_credential=True` in this function directly or `--add-to-git-credential` if using via `huggingface-cli` if you want to set the git credential as well.
+Token is valid (permission: read).
+Your token has been saved to /Users/alvinchen/.cache/huggingface/token
+Login successful
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s1">&#39;explain large language models in one sentence&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;\n\nA large language model is a type of artificial intelligence that uses deep learning techniques to analyze vast amounts of text data and generate human-like responses to textual inputs.&#39;
 </pre></div>
 </div>
 </div>
